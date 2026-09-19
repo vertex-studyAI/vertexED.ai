@@ -2,7 +2,7 @@ import { Link, useParams } from 'react-router';
 import { ArrowLeft, ArrowRight, Check, FlaskConical, Lightbulb, TriangleAlert } from 'lucide-react';
 import SEO from '@/components/SEO';
 import MypPracticeWorkspace from '@/components/myp/MypPracticeWorkspace';
-import { findSubject, findTopic, topicSlug } from '@/content/myp5';
+import { findSubject, findTopic, learningFrameFor, topicSlug } from '@/content/myp5';
 import { findMypLesson, sourcesForLesson } from '@/content/myp5Lessons';
 import '@/styles/myp5.css';
 
@@ -19,6 +19,8 @@ export default function MYPSubject() {
   const topicIndex = subject.topics.indexOf(topic);
   const nextTopic = subject.topics[(topicIndex + 1) % subject.topics.length];
   const detailedLesson = findMypLesson(subject.slug, topic);
+  const learningFrame = learningFrameFor(subject);
+  const practiceSection = isScience(subject.group) ? 5 : 4;
 
   return (
     <>
@@ -57,6 +59,17 @@ export default function MYPSubject() {
           <article className="myp-lesson">
             {detailedLesson ? (
               <>
+                <section className="myp-learning-frame">
+                  <p className="myp-kicker">00 / Orient</p>
+                  <h2>Place the idea.</h2>
+                  <p className="myp-framing-question">{learningFrame.framingQuestion}</p>
+                  <div className="myp-frame-grid">
+                    <div><span>Key concepts</span><strong>{learningFrame.keyConcepts.join(' + ')}</strong></div>
+                    <div><span>Suggested global context</span><strong>{learningFrame.globalContext}</strong></div>
+                    <div><span>Approaches to learning</span><strong>{learningFrame.atlFocus.join(' + ')}</strong></div>
+                  </div>
+                  <p className="myp-note">This is a VertexED learning frame, not a replacement for your school&apos;s unit planner or current subject guide.</p>
+                </section>
                 <section>
                   <p className="myp-kicker">01 / Understand</p>
                   <h2>Build the concept</h2>
@@ -116,11 +129,22 @@ export default function MYPSubject() {
                 <MypPracticeWorkspace
                   lesson={detailedLesson}
                   subjectName={subject.name}
-                  sectionNumber={isScience(subject.group) ? 5 : 4}
+                  sectionNumber={practiceSection}
                 />
 
                 <section>
-                  <p className="myp-kicker">{isScience(subject.group) ? '06' : '05'} / Master</p>
+                  <p className="myp-kicker">{String(practiceSection + 1).padStart(2, '0')} / Transfer and return</p>
+                  <h2>Make it survive the page.</h2>
+                  <div className="myp-retrieval-sequence">
+                    <div><span>Now</span><h3>Explain the relationship</h3><p>Close the notes and answer: {learningFrame.framingQuestion}</p></div>
+                    <div><span>In two days</span><h3>Correct the tempting error</h3><p>Explain why this is wrong, then replace it with a better claim: {detailedLesson.misconceptions[0].mistake}</p></div>
+                    <div><span>In one week</span><h3>Attempt unfamiliar transfer</h3><p>{detailedLesson.practice.at(-1)?.prompt}</p></div>
+                  </div>
+                  <p className="myp-note">These intervals are a revision prompt, not a measured prediction of memory or mastery.</p>
+                </section>
+
+                <section>
+                  <p className="myp-kicker">{String(practiceSection + 2).padStart(2, '0')} / Check</p>
                   <h2>Revision checklist</h2>
                   <ul className="myp-checklist">
                     {detailedLesson.checklist.map((item) => <li key={item}><Check aria-hidden /> {item}</li>)}
