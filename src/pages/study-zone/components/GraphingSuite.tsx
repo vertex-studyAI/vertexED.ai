@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
+import { graphingPlotError } from '@/lib/graphingPlotError.mjs';
 import { evaluateExpression } from './calculatorCore.mjs';
 
 type GraphMode = 'calculator' | 'threeD';
@@ -65,7 +66,7 @@ function AccountGraph() {
   const [range, setRange] = useState(10);
   const plot = useMemo(() => {
     try { return { value: plotFunction(expression, range), error: '' }; }
-    catch (error) { return { value: null, error: 'Could not plot this function. Check the expression and try again.' }; }
+    catch (error) { return { value: null, error: graphingPlotError(error) }; }
   }, [expression, range]);
   const threeDSrc = 'https://www.desmos.com/3d?embed';
 
