@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router';
 import { useAuth } from '@/contexts/AuthContext';
+import { authUiError } from '@/lib/authUi.mjs';
 import { fetchChatbotAnswer } from '@/lib/chatbotApi';
 import { cubicLesson, learningPanelPrompt, parseLearningPanels } from '@/lib/learningPanels.mjs';
 import LearningPanels, { type LearningWorkspace } from './LearningPanels';
@@ -43,7 +44,12 @@ function AccountCommands() {
       setWorkspace(parsed); setSample(false);
     } catch (error) {
       if (!controller.signal.aborted) {
-        setStatus(error instanceof Error ? error.message : 'Could not prepare your cards. Try again.');
+        const message = error instanceof Error ? error.message : '';
+        setStatus(
+          message.startsWith('The response could not be organised')
+            ? message
+            : 'Could not prepare your cards. Try again.',
+        );
         setCanRetry(true);
       }
     }
@@ -60,7 +66,7 @@ function AccountCommands() {
     <button type="button" className="apex-sample-button" disabled={busy} onClick={() => { setWorkspace(cubicLesson); setSample(true); }}>Try the cubic factorisation sample ↗</button>
     {status && <p role="status" className="apex-command-status">{status}</p>}
     {canRetry && !busy && <button type="button" className="btn-glass" onClick={() => void submit()}>Retry this request</button>}
-    {google && <button type="button" className="btn-glass" disabled={busy} onClick={async () => { setBusy(true); try { await loginWithGoogle(); } catch (error) { setStatus(error instanceof Error ? error.message : 'Google sign-in could not start.'); } finally { setBusy(false); } }}>Continue with Google</button>}
+    {google && <button type="button" className="btn-glass" disabled={busy} onClick={async () => { setBusy(true); try { await loginWithGoogle(); } catch (error) { setStatus(authUiError(error)); } finally { setBusy(false); } }}>Continue with Google</button>}
     {target && <Link className="btn-glass" to={target.to}>{target.label} ↗</Link>}
     {workspace && <LearningPanels key={JSON.stringify(workspace)} workspace={workspace} example={sample} />}
   </div>;
