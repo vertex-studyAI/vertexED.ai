@@ -22,6 +22,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
+import MarkdownLink from "@/components/markdown/MarkdownLink";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { exportTextPdf, type PdfTextBlock } from '@/lib/pdfTextExport';
 import { formatFriendlyMath } from '@/lib/friendlyMath.mjs';
@@ -151,6 +152,7 @@ const fmtTime = (seconds: number) => {
 };
 
 const markdownComponents = {
+  a: MarkdownLink,
   table: ({ children }: any) => (
     <div className="overflow-auto rounded-2xl border border-border/60 bg-muted/40">
       <table className="min-w-full border-collapse text-sm text-foreground">{children}</table>

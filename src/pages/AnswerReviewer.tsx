@@ -25,6 +25,7 @@ import type { ExamBoard } from "@/types/curriculum";
 import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
+import MarkdownLink from "@/components/markdown/MarkdownLink";
 import { enrichMathInText } from "@/lib/mathText";
 import { Sliders, ArrowRight, FileText, Copy, Download, Image as ImageIcon, X, Sparkles, Shield, MessageSquareQuote, CheckCircle2, ClipboardCheck, Loader2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -1088,6 +1089,7 @@ export default function AIAnswerReview() {
                               )}
                             </div>
                           ) : <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]} components={{
+                            a: MarkdownLink,
                             p: ({ children }) => <p className="leading-relaxed text-muted-foreground">{children}</p>,
                             h1: ({ children }) => <h1 className="text-2xl font-bold text-foreground">{children}</h1>,
                             h2: ({ children }) => <h2 className="text-xl font-semibold text-foreground">{children}</h2>,

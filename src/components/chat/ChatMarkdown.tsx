@@ -2,6 +2,7 @@ import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import "katex/dist/katex.min.css";
+import MarkdownLink from "@/components/markdown/MarkdownLink";
 import { enrichMathInText } from "@/lib/mathText";
 import { sanitizeMarkdown } from "@/lib/sanitize";
 import { cn } from "@/lib/utils";
@@ -23,6 +24,7 @@ export default function ChatMarkdown({ children, className }: Props) {
       <ReactMarkdown
         remarkPlugins={[remarkMath]}
         rehypePlugins={[rehypeKatex]}
+        components={{ a: MarkdownLink }}
       >
         {safe || "…"}
       </ReactMarkdown>

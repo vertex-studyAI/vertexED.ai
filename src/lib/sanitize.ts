@@ -1,4 +1,5 @@
 import DOMPurify, { type Config } from 'dompurify';
+import { safeMarkdownHref } from '@/lib/markdownHref.mjs';
 
 const MARKDOWN_ALLOWED_TAGS = ['p', 'br', 'strong', 'em', 'code', 'pre', 'ul', 'ol', 'li', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'span', 'a'];
 
@@ -11,7 +12,10 @@ const BASE_SANITIZE_CONFIG: Config = {
   IN_PLACE: false,
   RETURN_DOM: false,
   RETURN_DOM_FRAGMENT: false,
+  ALLOWED_URI_REGEXP: /^(?:(?:https?|mailto):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i,
 };
+
+export { safeMarkdownHref };
 
 /**
  * Sanitize user-generated HTML before render.

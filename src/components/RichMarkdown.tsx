@@ -3,6 +3,7 @@ import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import "katex/dist/katex.min.css";
+import MarkdownLink from "@/components/markdown/MarkdownLink";
 import { enrichMathInText } from "@/lib/mathText";
 import { cn } from "@/lib/utils";
 
@@ -27,6 +28,7 @@ export default function RichMarkdown({ children, className, transformMath = true
       <ReactMarkdown
         remarkPlugins={[remarkGfm, remarkMath]}
         rehypePlugins={[rehypeKatex]}
+        components={{ a: MarkdownLink }}
       >
         {markdown || "..."}
       </ReactMarkdown>
