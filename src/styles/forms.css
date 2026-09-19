@@ -24,6 +24,9 @@
     background: hsl(var(--destructive) / 0.1);
     color: hsl(var(--destructive));
   }
+  .dark .alert-error {
+    color: hsl(0 82% 78%);
+  }
   .alert-success {
     @apply rounded-xl border px-4 py-3 text-sm;
     border-color: hsl(142 60% 40% / 0.35);
