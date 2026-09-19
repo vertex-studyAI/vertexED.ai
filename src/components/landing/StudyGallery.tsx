@@ -14,6 +14,7 @@ const examples = [
 
 export default function StudyGallery() {
   const rail = useRef<HTMLDivElement>(null);
+  const workingRef = useRef<HTMLTextAreaElement>(null);
   const [selected, setSelected] = useState<number | null>(null);
   const [working, setWorking] = useState('');
   const [showAnswer, setShowAnswer] = useState(false);
@@ -53,10 +54,11 @@ export default function StudyGallery() {
     }} onClick={() => { setSelected(index); setWorking(''); setShowAnswer(false); }}>
       <span className="study-gallery-card-top">0{index + 1} / {example.kind}</span><span className="study-gallery-symbol" aria-hidden="true">{example.symbol}</span><span className="study-gallery-subject">{example.subject}</span><strong>{example.title}</strong><span className="study-gallery-question">{example.question}</span><span className="study-gallery-open">Try this question <ArrowRight aria-hidden="true" /></span>
     </button>)}</div>
-    {item && <AccessibleModal titleId="study-example-title" onClose={close} overlayClassName="study-example-overlay" className="study-example-dialog">
-      <button type="button" className="study-example-close" aria-label="Close study example" onClick={close}><X /></button>
+    {item && <AccessibleModal titleId="study-example-title" descriptionId="study-example-description" initialFocusRef={workingRef} onClose={close} overlayClassName="study-example-overlay" className="study-example-dialog">
+      <button type="button" className="study-example-close" aria-label="Close study example" onClick={close}><X aria-hidden /></button>
       <p className="study-example-meta">{item.subject} / Original example</p><h2 id="study-example-title">{item.title}</h2><p>{item.question}</p>
-      <label htmlFor="study-example-working">Your reasoning</label><textarea id="study-example-working" rows={4} value={working} maxLength={3000} onChange={event => setWorking(event.target.value)} placeholder="Try the first step before opening the explanation." />
+      <p id="study-example-description" className="sr-only">Original practice example. Your working is temporary and clears when this dialog closes. Press Escape to close.</p>
+      <label htmlFor="study-example-working">Your reasoning</label><textarea ref={workingRef} id="study-example-working" rows={4} value={working} maxLength={3000} onChange={event => setWorking(event.target.value)} placeholder="Try the first step before opening the explanation." />
       <details><summary>Give me a hint</summary><p>{item.hint}</p></details>
       <button className="study-example-action" type="button" onClick={() => setShowAnswer(value => !value)} aria-expanded={showAnswer}>{showAnswer ? 'Hide explanation' : 'Compare with the explanation'}</button>
       {showAnswer && <div className="study-example-answer"><p>{item.answer}</p><h3>Use it somewhere new</h3><p>{item.transfer}</p></div>}

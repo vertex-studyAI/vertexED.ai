@@ -2,6 +2,7 @@ import { useEffect, useState, type FormEvent } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router";
 import PageSection from "@/components/PageSection";
+import { authUiError } from "@/lib/authUi.mjs";
 import {
   clearPasswordRecoveryMarker,
   hasVerifiedPasswordRecovery,
@@ -91,7 +92,11 @@ export default function ResetPassword() {
 
       setSuccess(true);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not update your password. Request a new reset link and try again.");
+      if (err instanceof Error && err.message.startsWith("Password updated, but")) {
+        setError(err.message);
+      } else {
+        setError(authUiError(err, "password-update"));
+      }
     } finally {
       setSaving(false);
     }
