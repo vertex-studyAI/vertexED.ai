@@ -14,6 +14,7 @@ import { buildCurriculumProfileUpsert } from "@/lib/profileRecovery.mjs";
 import { trackProductEvent } from "@/lib/productAnalytics.mjs";
 import { markFirstSessionSyncNotice, markFirstSessionWelcome } from "@/lib/firstSessionHandoff.mjs";
 import { resolveSessionStorage } from "@/lib/browserStorage.mjs";
+import { onboardingError } from "@/lib/onboardingError.mjs";
 import type { CurriculumPreference } from "@/types/curriculum";
 
 const USERNAME_REGEX = /^([a-zA-Z0-9_.-]{3,20})$/;
@@ -24,14 +25,6 @@ const emptyCurriculum: CurriculumPreference = {
   subjects: [],
   examDate: null,
 };
-
-function getErrorMessage(err: unknown) {
-  if (typeof err === "string") return err;
-  if (err && typeof err === "object" && "message" in err && typeof (err as { message: unknown }).message === "string") {
-    return (err as { message: string }).message;
-  }
-  return "Could not save your setup. Try again.";
-}
 
 export default function Onboarding() {
   const { user, session, profile } = useAuth();
@@ -203,7 +196,7 @@ export default function Onboarding() {
       navigate("/main", { replace: true });
     } catch (err) {
       if (!isCurrentSave()) return;
-      setError(getErrorMessage(err));
+      setError(onboardingError(err));
     } finally {
       if (requestId === saveRequestIdRef.current) {
         setLoading(false);

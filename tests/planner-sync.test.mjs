@@ -98,7 +98,7 @@ test('onboarding invalidates stale save ownership on account change and unmount'
     onboardingSource,
     /useEffect\(\(\) => \(\) => \{[\s\S]*?saveRequestIdRef\.current \+= 1;[\s\S]*?\}, \[\]\);/,
   );
-  assert.match(onboardingSource, /if \(!isCurrentSave\(\)\) return;[\s\S]*?setError\(getErrorMessage\(err\)\);/);
+  assert.match(onboardingSource, /if \(!isCurrentSave\(\)\) return;[\s\S]*?setError\(onboardingError\(err\)\);/);
   assert.match(onboardingSource, /markFirstSessionSyncNotice\(handoffStorage, initiatingAccountId\)/);
   assert.match(onboardingSource, /markFirstSessionWelcome\(handoffStorage, initiatingAccountId\)/);
 });
