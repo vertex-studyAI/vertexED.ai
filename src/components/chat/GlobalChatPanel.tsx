@@ -1,6 +1,6 @@
 import { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router";
-import { Bot, Minimize2, Trash2, X } from "lucide-react";
+import { Minimize2, Trash2, X } from "lucide-react";
 
 import { useAuth } from "@/contexts/AuthContext";
 import { getStudyContext } from "@/lib/studyContext";
@@ -10,6 +10,7 @@ import { useApexChat } from "@/hooks/useApexChat";
 import { formatHandoffPrefill } from "@/content/apex";
 import ApexPromptChips from "@/components/chat/ApexPromptChips";
 import ApexChatInput from "@/components/chat/ApexChatInput";
+import ApexAvatar from "@/components/chat/ApexAvatar";
 
 const STORAGE_KEY = "vertex_global_chat_open";
 const ApexMessageList = lazy(() => import("@/components/chat/ApexMessageList"));
@@ -121,7 +122,7 @@ export default function GlobalChatPanel({ openRequest = 0, hideLauncher = false,
         className={`apex-fab ${isStudyGuideRoute ? "apex-fab-round" : ""}`}
         aria-label={isStudyGuideRoute ? "Open study guide AI tutor" : "Open AI tutor"}
       >
-        <Bot className="h-5 w-5" />
+        <ApexAvatar className="apex-avatar-inline" />
         {!isStudyGuideRoute && <span className="hidden sm:inline">AI tutor</span>}
       </button>
     );
@@ -138,9 +139,7 @@ export default function GlobalChatPanel({ openRequest = 0, hideLauncher = false,
     >
       <div className="apex-panel-header">
         <div className="flex items-center gap-2 min-w-0">
-          <span className="apex-avatar apex-avatar-sm">
-            <Bot className="h-4 w-4" aria-hidden />
-          </span>
+          <ApexAvatar className="apex-avatar-sm" />
           <div className="min-w-0">
             <p className="text-sm font-semibold text-foreground truncate">AI tutor</p>
             {!minimized && (
@@ -216,9 +215,7 @@ export default function GlobalChatPanel({ openRequest = 0, hideLauncher = false,
             </>
           ) : (
             <div className="apex-panel-body apex-study-guide-chat-gate">
-              <span className="apex-avatar">
-                <Bot className="h-5 w-5" aria-hidden />
-              </span>
+              <ApexAvatar />
               <div>
                 <p className="font-semibold text-foreground">Ask the study-guide tutor</p>
                 <p className="mt-1 text-sm text-muted-foreground">Sign in to ask questions across the MYP guides.</p>
