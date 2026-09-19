@@ -6,6 +6,7 @@ import LiquidGlass from "@/components/LiquidGlass";
 import PageSection from "@/components/PageSection";
 import RichMarkdown from "@/components/RichMarkdown";
 import SEO from "@/components/SEO";
+import { isPublishableGuide, publicationFilteredManifest } from "@/lib/studyGuidePublication.mjs";
 
 type GuidePage = {
   title: string;
@@ -28,6 +29,8 @@ type GuideManifest = {
 type GuideProvenance = {
   path: string;
   license: string;
+  source: string | null;
+  permittedUse: string;
   editorialStatus: "approved" | "quarantined" | "unreviewed";
   publicationStatus: "published" | "held-from-index";
   factualReviewer: string | null;
@@ -102,8 +105,8 @@ function seoForSubject(subject: GuideSubject): GuideSeo {
   const canonical = `${SITE_URL}/study-guides/myp/${subject.slug}`;
   return {
     title: `${primaryTerm} study guide, notes and revision | VertexED`,
-    description: `${primaryTerm} study guide with topic notes, past eAssessment paper analysis, command terms, question banks, and revision planning resources.`,
-    keywords: `${subjectTerms(subject).join(", ")}, ${primaryTerm} study guide, ${primaryTerm} notes, ${primaryTerm} revision, ${primaryTerm} past papers`,
+    description: `${primaryTerm} study guide with reviewed topic notes, command-term support, original questions, and revision planning resources.`,
+    keywords: `${subjectTerms(subject).join(", ")}, ${primaryTerm} study guide, ${primaryTerm} notes, ${primaryTerm} revision`,
     canonical,
   };
 }
@@ -112,15 +115,15 @@ function seoForPage(subject: GuideSubject, page: GuidePage): GuideSeo {
   const isSession = /^[MN]\d{2}$/i.test(page.title);
   const primaryTerm = subjectTerms(subject)[0];
   const pageName = pageLabel(page);
-  const guideName = isSession ? `${primaryTerm} ${page.title.toUpperCase()} eAssessment paper` : `${primaryTerm} ${pageName} study guide`;
+  const guideName = isSession ? `${primaryTerm} ${page.title.toUpperCase()} session review` : `${primaryTerm} ${pageName} study guide`;
   const canonical = `${SITE_URL}${guideUrl(subject, page)}`;
   return {
     title: `${guideName} | VertexED`,
     description: isSession
-      ? `${primaryTerm} ${page.title.toUpperCase()} eAssessment paper study guide with question analysis, topics tested, mark distribution, and revision notes.`
-      : `${primaryTerm} ${pageName} guide with exam-linked notes, questions, and revision support for MYP students.`,
+      ? `${primaryTerm} ${page.title.toUpperCase()} session review with source-checked topic analysis and independent revision guidance.`
+      : `${primaryTerm} ${pageName} guide with reviewed notes, original questions, and revision support for MYP students.`,
     keywords: isSession
-      ? `${primaryTerm} ${page.title.toUpperCase()} paper, ${primaryTerm} ${page.title.toUpperCase()} eAssessment, ${subjectTerms(subject).join(", ")}, MYP past papers, MYP revision`
+      ? `${primaryTerm} ${page.title.toUpperCase()} review, ${subjectTerms(subject).join(", ")}, MYP revision`
       : `${primaryTerm} ${pageName}, ${subjectTerms(subject).join(", ")}, ${primaryTerm} study guide, MYP revision`,
     canonical,
   };
@@ -138,8 +141,8 @@ function seoForRoute(routePath?: string): GuideSeo {
     const canonical = `${SITE_URL}/study-guides/${segments.map(encodeURIComponent).join("/")}`;
     return {
       title: `${label} study guide | VertexED`,
-      description: `${label} study guide with revision notes, exam questions, and MYP learning resources.`,
-      keywords: `${label}, ${subjectName} MYP study guide, MYP revision, MYP past paper`,
+      description: `${label} study guide with reviewed notes, original questions, and MYP learning resources.`,
+      keywords: `${label}, ${subjectName} MYP study guide, MYP revision`,
       canonical,
     };
   }
@@ -184,6 +187,7 @@ function StudyGuidesLibrary({ routePath }: { routePath?: string }) {
   const [error, setError] = useState<string | null>(null);
   const [routeNotFound, setRouteNotFound] = useState(false);
   const [expandedGroups, setExpandedGroups] = useState<Set<string>>(() => new Set());
+  const [heldGuideCount, setHeldGuideCount] = useState(0);
   const pageCache = useRef(new Map<string, string>());
 
   useEffect(() => {
@@ -195,13 +199,15 @@ function StudyGuidesLibrary({ routePath }: { routePath?: string }) {
       .then(async ([manifestResponse, provenanceResponse]) => {
         if (!manifestResponse.ok) throw new Error("The MYP guide index could not be loaded.");
         if (!provenanceResponse.ok) throw new Error("The guide review ledger could not be loaded.");
-        const nextManifest = await manifestResponse.json() as GuideManifest;
+        const sourceManifest = await manifestResponse.json() as GuideManifest;
         const nextProvenance = await provenanceResponse.json() as GuideProvenanceLedger;
-        return { nextManifest, nextProvenance };
+        const nextManifest = publicationFilteredManifest(sourceManifest, nextProvenance.entries) as GuideManifest;
+        return { nextManifest, nextProvenance, heldGuideCount: nextProvenance.entries.filter((entry) => !isPublishableGuide(entry)).length };
       })
-      .then(({ nextManifest, nextProvenance }) => {
+      .then(({ nextManifest, nextProvenance, heldGuideCount: nextHeldGuideCount }) => {
         setManifest(nextManifest);
         setProvenance(new Map(nextProvenance.entries.map((entry) => [entry.path, entry])));
+        setHeldGuideCount(nextHeldGuideCount);
       })
       .catch((cause: unknown) => {
         if (cause instanceof DOMException && cause.name === "AbortError") return;
@@ -311,6 +317,35 @@ function StudyGuidesLibrary({ routePath }: { routePath?: string }) {
     if (firstPage) openPage(nextSubject, firstPage);
     setExpandedGroups(new Set());
   };
+
+  if (manifest && manifest.subjects.length === 0) {
+    return (
+      <>
+        <SEO
+          title="Reviewed study guides | VertexED"
+          description="VertexED publishes curriculum guides only after source, licence and factual review checks are complete."
+          canonical={`${SITE_URL}/study-guides`}
+        />
+        <PageSection className="max-w-5xl space-y-6">
+          <LiquidGlass as="section" variant="hero" className="study-guides-hero">
+            <div className="study-guides-hero-content">
+              <p className="study-guides-eyebrow"><GraduationCap className="h-4 w-4" /> Curriculum review</p>
+              <h1>Use the original learning modules.</h1>
+              <p>{heldGuideCount} imported guide pages are unavailable to learners because their source, licence, current curriculum alignment and factual review are not complete. A warning label is not enough to make unreviewed material safe to study from.</p>
+              <div className="flex flex-wrap gap-3 pt-2">
+                <Link to="/myp" className="btn-solid inline-flex">Open MYP 5 learning modules</Link>
+                <Link to="/myp/eassessment" className="btn-ghost inline-flex">Practise original questions</Link>
+              </div>
+            </div>
+          </LiquidGlass>
+          <section className="study-guides-review-status" aria-label="Imported guide publication status">
+            <div><strong>No imported guide is currently publishable</strong><span>The application will expose a page automatically only after its ledger records approval, a source, a known licence, permitted use, a factual reviewer and a valid review date.</span></div>
+            <span className="study-guides-review-badge is-quarantined">held</span>
+          </section>
+        </PageSection>
+      </>
+    );
+  }
 
   if (manifest && routeNotFound) {
     return (
