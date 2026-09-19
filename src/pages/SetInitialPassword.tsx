@@ -2,6 +2,7 @@ import { useEffect, useState, type FormEvent } from "react";
 import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router";
 import PageSection from "@/components/PageSection";
+import { authUiError } from "@/lib/authUi.mjs";
 import { isVerifiedInviteSession, validateInitialPassword } from "@/lib/inviteAcceptance.mjs";
 import { supabase } from "@/lib/supabaseClient";
 
@@ -77,7 +78,7 @@ export default function SetInitialPassword() {
 
       navigate("/onboarding", { replace: true });
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not set your password. Open a fresh invite and try again.");
+      setError(authUiError(err, "initial-password"));
     } finally {
       setSaving(false);
     }

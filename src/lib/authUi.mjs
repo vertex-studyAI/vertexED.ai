@@ -42,5 +42,8 @@ export function authUiError(error, action = 'login') {
   if (action === 'password-update') {
     return 'Could not update your password. Request a new reset link and try again.';
   }
+  if (action === 'initial-password') {
+    return 'Could not set your password. Open a fresh invite and try again.';
+  }
   return 'We could not sign you in. Try again, use Google sign-in, or reset your password.';
 }

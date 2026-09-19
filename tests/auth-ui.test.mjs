@@ -22,6 +22,8 @@ test('login errors give a safe, actionable recovery path', () => {
   assert.doesNotMatch(authUiError(new Error('token exchange failed'), 'signup'), /token exchange failed/);
   assert.match(authUiError(new Error('AuthApiError: weak password policy detail'), 'password-update'), /reset link/i);
   assert.doesNotMatch(authUiError(new Error('AuthApiError: weak password policy detail'), 'password-update'), /weak password policy detail/);
+  assert.match(authUiError(new Error('AuthApiError: weak password policy detail'), 'initial-password'), /fresh invite/i);
+  assert.doesNotMatch(authUiError(new Error('AuthApiError: weak password policy detail'), 'initial-password'), /weak password policy detail/);
 });
 
 test('Signup wires authUiError only on post-create login failures', async () => {
@@ -46,4 +48,16 @@ test('ResetPassword wires authUiError for password update failures only', async 
   assert.match(resetSource, /if \(signOutError\)[\s\S]*?throw new Error[\s\S]*?setSuccess\(true\)/);
   assert.match(resetSource, /Password updated, but/);
   assert.doesNotMatch(resetSource, /setError\(err instanceof Error \? err\.message/);
+});
+
+test('SetInitialPassword wires authUiError for password attach failures only', async () => {
+  const { readFile } = await import('node:fs/promises');
+  const { fileURLToPath } = await import('node:url');
+  const { dirname, join } = await import('node:path');
+  const root = join(dirname(fileURLToPath(import.meta.url)), '..');
+  const source = await readFile(join(root, 'src/pages/SetInitialPassword.tsx'), 'utf8');
+  assert.match(source, /import \{ authUiError \} from "@\/lib\/authUi\.mjs"/);
+  assert.match(source, /authUiError\(err, "initial-password"\)/);
+  assert.doesNotMatch(source, /setError\(err instanceof Error \? err\.message/);
+  assert.doesNotMatch(source, /authUiError\([^)]*,\s*"password-update"/);
 });
