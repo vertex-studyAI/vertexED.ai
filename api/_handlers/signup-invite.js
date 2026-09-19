@@ -35,6 +35,17 @@ export default async function handler(req, res) {
       return res.status(200).json({ ok: true });
     }
 
+    // Rate-limit before token validation or shared invite-code checks so
+    // probing cannot bypass protection by taking the validateInvite early path.
+    const ip = getClientIp(req);
+    const rate = await checkDbRateLimit('signup-invite', ip, 20, 60 * 60 * 1000);
+    if (!rate.allowed) {
+      return res.status(429).json({
+        error: 'Too many signup attempts from this network. Wait a few minutes and try again.',
+        retryAfter: rate.retryAfterSec,
+      });
+    }
+
     const inviteToken = typeof waitlistInviteToken === 'string' ? waitlistInviteToken.trim() : '';
 
     if (action === 'validateInvite') {
@@ -56,17 +67,6 @@ export default async function handler(req, res) {
     const normalizedUsername = typeof username === 'string' ? username.trim() : '';
     if (!/^[a-zA-Z0-9_.-]{3,20}$/.test(normalizedUsername)) {
       return res.status(400).json({ error: 'Choose a username with 3-20 letters, numbers, dots, underscores, or hyphens.' });
-    }
-
-    // Rate-limit before validating a shared invite code so invalid-code attempts
-    // cannot bypass protection by returning early.
-    const ip = getClientIp(req);
-    const rate = await checkDbRateLimit('signup-invite', ip, 20, 60 * 60 * 1000);
-    if (!rate.allowed) {
-      return res.status(429).json({
-        error: 'Too many signup attempts from this network. Wait a few minutes and try again.',
-        retryAfter: rate.retryAfterSec,
-      });
     }
 
     let normalizedEmail = '';

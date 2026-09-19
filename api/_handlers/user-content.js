@@ -186,13 +186,18 @@ export default async function handler(req, res) {
         return res.status(400).json({ error: 'Invalid artifact id' });
       }
 
-      const { error } = await supabase
+      const { data, error } = await supabase
         .from('user_study_artifacts')
         .delete()
         .eq('id', id)
-        .eq('user_id', user.id);
+        .eq('user_id', user.id)
+        .select('id')
+        .maybeSingle();
 
       if (error) throw error;
+      if (!data) {
+        return res.status(404).json({ error: 'Artifact not found' });
+      }
       return res.status(200).json({ ok: true });
     }
 
