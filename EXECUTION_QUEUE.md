@@ -1,5 +1,35 @@
 # VertexED Immediate Execution Queue
 
+Updated: 2026-09-19 (6h execution pass). Older cross-portfolio status files are historical unless reconfirmed.
+
+Current exact production shallow revision (live probe): match `origin/main` tip when `/api/health` reports it (recently `049dcfe`).
+
+## Verified 2026-09-19
+
+Agent-doable:
+- PR #917 (`work/heavy-exec`) agents network — CI green, local tests green, **draft**, not in production (`/api/agents` 404)
+- `node scripts/probe-production-gates.mjs` — Gate1a TLS fail; Gate1b `readiness_rpc_missing`
+- Divergent dirty-branch agents copies quarantined under `/Volumes/PRO-BLADE/.codex-tmp/quarantine-vertexed-dirty-agents-20260919`
+
+Still human-blocked:
+- VX-203 custom domain DNS/TLS
+- Gate 1b Supabase migrations + `WAITLIST_RATE_LIMIT_SALT`
+- VX-204 production auth isolation (depends on VX-203)
+
+| ID | Priority | Exact outcome | State |
+|---|---:|---|---|
+| VX-203 | P0 | www TLS/DNS → owning Vercel project | BLOCKED |
+| VX-203b | P0 | readiness RPC + rate-limit salt on prod Supabase/Vercel | BLOCKED |
+| VX-209 | P1 | Merge/deploy authenticated `/api/agents` (#917) or remove UI | VERIFYING |
+| VX-204 | P0 | Production auth + isolation after VX-203 | BLOCKED |
+
+---
+
+
+## Historical queue body (pre-2026-09-19 refresh)
+
+# VertexED Immediate Execution Queue
+
 Updated: 2026-09-18. This is the current product execution control point; older cross-portfolio and pre-September status files are historical unless reconfirmed against current `main`.
 
 Current exact source at reconciliation: `main@049dcfe05a9f5734affdae25e9c0c0bce9d82d72` (includes #909 DNS runbook, #910 strip-types, #912 readiness_rpc_missing mapping).
