@@ -31,3 +31,10 @@ test('PlannerView wires plannerPlanError for week-plan and task failures', async
   assert.doesNotMatch(source, /setAiError\(error instanceof Error \? error\.message/);
   assert.doesNotMatch(source, /setEditError\(error instanceof Error \? error\.message/);
 });
+
+test('plannerPlanError preserves AI unavailable product copy', () => {
+  assert.equal(
+    plannerPlanError(new Error('AI is unavailable in this fixture. Use manual entry.'), 'task'),
+    'AI is unavailable in this fixture. Use manual entry.',
+  );
+});

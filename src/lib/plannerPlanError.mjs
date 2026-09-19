@@ -10,6 +10,7 @@ export function plannerPlanError(error, action = 'week') {
   const message = source.toLowerCase();
 
   // Controlled local validation / race copy from plannerTasks + PlannerView.
+  // Also preserve explicit AI-unavailable product copy (auth-return golden).
   if (
     source.startsWith('Enter a task name')
     || source.startsWith('Choose a ')
@@ -19,6 +20,7 @@ export function plannerPlanError(error, action = 'week') {
     || source.startsWith('No free slot')
     || source.startsWith('The suggested task is invalid')
     || source.startsWith('Your plan changed while')
+    || source.startsWith('AI is unavailable')
   ) {
     return source;
   }
