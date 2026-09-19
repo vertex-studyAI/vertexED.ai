@@ -1,6 +1,7 @@
 import { Link } from 'react-router';
-import { Bot, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import ApexPromptChips from '@/components/chat/ApexPromptChips';
+import ApexAvatar from '@/components/chat/ApexAvatar';
 import { getStudyContext } from '@/lib/studyContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { APEX_TAGLINE } from '@/content/apex';
@@ -16,9 +17,7 @@ export default function ApexQuickAsk() {
       <div className="max-w-6xl mx-auto neu-card p-5 md:p-6 apex-quick-ask">
         <div className="flex flex-wrap items-start justify-between gap-4 mb-4">
           <div className="flex items-start gap-3">
-            <span className="apex-avatar">
-              <Bot className="h-5 w-5" aria-hidden />
-            </span>
+            <ApexAvatar />
             <div>
               <h2 className="text-lg font-semibold text-foreground">Ask Apex</h2>
               <p className="text-sm text-muted-foreground mt-0.5 max-w-xl">{APEX_TAGLINE}</p>

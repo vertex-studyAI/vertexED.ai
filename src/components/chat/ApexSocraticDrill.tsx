@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { Bot, RotateCcw } from 'lucide-react';
+import { RotateCcw } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { getStudyContext } from '@/lib/studyContext';
 import { useApexChat } from '@/hooks/useApexChat';
 import { recordStudySession } from '@/lib/studyStats';
 import ApexMessageList from '@/components/chat/ApexMessageList';
 import ApexChatInput from '@/components/chat/ApexChatInput';
+import ApexAvatar from '@/components/chat/ApexAvatar';
 
 const MAX_ROUNDS = 5;
 
@@ -71,9 +72,7 @@ export default function ApexSocraticDrill() {
   return (
     <div className="apex-drill-panel neu-card p-5 md:p-6">
       <div className="flex items-start gap-3 mb-4">
-        <span className="apex-avatar apex-avatar-sm">
-          <Bot className="h-4 w-4" />
-        </span>
+        <ApexAvatar className="apex-avatar-sm" />
         <div>
           <h2 className="text-lg font-semibold text-foreground">Socratic Drill</h2>
           <p className="text-sm text-muted-foreground">
