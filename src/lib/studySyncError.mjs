@@ -31,6 +31,16 @@ export function studySyncError(error, action = 'sync') {
   ];
   if (known.includes(message)) return source;
 
+  // Preserve short client/cloud validation messages (e.g. invalid snapshots).
+  if (
+    source.length > 0
+    && source.length <= 160
+    && (message.includes('invalid') || message.includes('rejected') || message.includes('malformed'))
+    && !/[{[\]]|stack|postgres|openai|gemini|supabase|jwt|rls/i.test(source)
+  ) {
+    return source;
+  }
+
   // Controlled validation copy from plannerSync / notebookSync recovery paths.
   if (source.startsWith('Invalid cloud snapshot')) {
     return source;
