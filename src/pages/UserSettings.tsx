@@ -219,7 +219,7 @@ export default function UserSettings() {
         else setLoadingMoreArtifacts(false);
       }
     }
-  }, [kindFilter]);
+  }, [kindFilter, user?.id]);
 
   useEffect(() => {
     void loadArtifacts();
