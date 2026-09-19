@@ -210,6 +210,15 @@ test('missing waitlist membership is never treated as approved authorization', (
   assert.doesNotMatch(statusSource, /entry\?\.status \?\? 'approved'/);
 });
 
+test('waitlist-status rate-limits authenticated access checks after verifyAuthUser', () => {
+  const statusSource = fs.readFileSync('api/_handlers/waitlist-status.js', 'utf8');
+  const authIndex = statusSource.indexOf('verifyAuthUser(req, res)');
+  const rateIndex = statusSource.indexOf("rateLimitUserEndpoint(user.id, 'waitlist-status'");
+  assert.ok(authIndex >= 0, 'waitlist-status must verify auth');
+  assert.ok(rateIndex > authIndex, 'rate limit must run after auth and before DB work');
+  assert.match(statusSource, /Cache-Control['"],\s*['"]private, no-store['"]/);
+});
+
 test('migration preserves only historical or provider-invited orphan identities', () => {
   const migration = fs.readFileSync('supabase/migrations/20260906115242_account_deletion_privacy_and_rate_limit_invoker.sql', 'utf8');
   assert.match(migration, /auth_user\.created_at < timestamptz '2026-07-25 00:00:00\+00'/);
