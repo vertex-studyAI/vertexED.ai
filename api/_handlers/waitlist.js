@@ -36,7 +36,14 @@ export default async function handler(req, res) {
   if (!email) return res.status(400).json({ error: 'Please enter a valid email address.' });
   let applicationProfile;
   try { applicationProfile = normalizeWaitlistProfile(body.profile); }
-  catch (error) { return res.status(400).json({ error: error.message }); }
+  catch (error) {
+    const message = error instanceof Error ? error.message : '';
+    return res.status(400).json({
+      error: message.startsWith('Please ') || message.startsWith('The private beta')
+        ? message
+        : 'Please complete your study profile.',
+    });
+  }
   try {
     const rate = await checkDbRateLimit('waitlist', getClientIp(req), RATE_LIMIT_MAX, RATE_LIMIT_WINDOW_MS);
     if (!rate.allowed) {
