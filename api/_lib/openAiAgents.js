@@ -2,7 +2,9 @@ import { ProviderTimeoutError, fetchWithTimeout } from './fetchWithTimeout.js';
 
 const MAX_PROJECT_AGENTS = 500;
 const MAX_PROJECT_AGENT_PAGES = 20;
+const MAX_PROJECT_AGENT_PAGE_SIZE = 100;
 const MAX_PROJECT_AGENT_TOTAL_TIMEOUT_MS = 30_000;
+const MAX_PROJECT_AGENT_RESPONSE_BYTES = 4 * 1024 * 1024;
 const MAX_AGENT_NAME_LENGTH = 120;
 const MAX_AGENT_MODEL_LENGTH = 120;
 const MAX_AGENT_TOOL_TYPES = 32;
@@ -33,6 +35,26 @@ function publicAgent(agent) {
     toolTypes: tools,
     updatedAt: Number.isInteger(agent?.updated_at) && agent.updated_at >= 0 ? agent.updated_at : null,
   };
+}
+
+function declaredContentLength(response) {
+  const value = response?.headers?.get?.('content-length');
+  if (value == null || value === '') return null;
+  const parsed = Number(value);
+  return Number.isSafeInteger(parsed) && parsed >= 0 ? parsed : null;
+}
+
+async function readBoundedProviderBody(response) {
+  const declaredBytes = declaredContentLength(response);
+  if (declaredBytes !== null && declaredBytes > MAX_PROJECT_AGENT_RESPONSE_BYTES) {
+    throw new Error('OpenAI project agents returned an oversized response');
+  }
+
+  const raw = await response.text();
+  if (new TextEncoder().encode(raw).byteLength > MAX_PROJECT_AGENT_RESPONSE_BYTES) {
+    throw new Error('OpenAI project agents returned an oversized response');
+  }
+  return raw;
 }
 
 export function isOpenAiAgentId(value) {
@@ -81,8 +103,9 @@ export async function listOpenAiProjectAgents({
     }
 
     pagesFetched += 1;
+    const requestedLimit = Math.min(MAX_PROJECT_AGENT_PAGE_SIZE, maxAgents - agents.length);
     const url = new URL(`${config.baseUrl}/agents`);
-    url.searchParams.set('limit', String(Math.min(100, maxAgents - agents.length)));
+    url.searchParams.set('limit', String(requestedLimit));
     url.searchParams.set('order', 'asc');
     if (after) url.searchParams.set('after', after);
 
@@ -94,7 +117,14 @@ export async function listOpenAiProjectAgents({
         Authorization: `Bearer ${config.apiKey}`,
       },
     });
-    const raw = await response.text();
+
+    if (!response.ok) {
+      const error = new Error('OpenAI project agents could not be listed');
+      error.status = response.status;
+      throw error;
+    }
+
+    const raw = await readBoundedProviderBody(response);
     let payload = null;
     try {
       payload = raw ? JSON.parse(raw) : null;
@@ -102,16 +132,15 @@ export async function listOpenAiProjectAgents({
       payload = null;
     }
 
-    if (!response.ok) {
-      const error = new Error('OpenAI project agents could not be listed');
-      error.status = response.status;
-      throw error;
-    }
     if (!payload || typeof payload !== 'object' || Array.isArray(payload) || !Array.isArray(payload.data)) {
       throw new Error('OpenAI project agents returned an invalid response');
     }
 
     const rawPage = payload.data;
+    if (rawPage.length > requestedLimit) {
+      throw new Error('OpenAI project agents returned an oversized page');
+    }
+
     for (const rawAgent of rawPage) {
       if (!isOpenAiAgentId(rawAgent?.id)) continue;
       const agent = publicAgent(rawAgent);
