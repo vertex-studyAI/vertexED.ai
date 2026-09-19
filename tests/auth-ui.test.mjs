@@ -28,7 +28,7 @@ test('login errors give a safe, actionable recovery path', () => {
   assert.doesNotMatch(authUiError(new Error('AuthApiError: identity already linked'), 'link-google'), /identity already linked/);
 });
 
-test('Signup wires authUiError only on post-create login failures', async () => {
+test('Signup wires authUiError for invite login, waitlist, and invite signup failures', async () => {
   const { readFile } = await import('node:fs/promises');
   const { fileURLToPath } = await import('node:url');
   const { dirname, join } = await import('node:path');
@@ -36,7 +36,9 @@ test('Signup wires authUiError only on post-create login failures', async () => 
   const signupSource = await readFile(join(root, 'src/pages/Signup.tsx'), 'utf8');
   assert.match(signupSource, /import \{ authUiError \} from "@\/lib\/authUi\.mjs"/);
   assert.match(signupSource, /authUiError\(loginErr, "signup"\)/);
-  assert.doesNotMatch(signupSource, /authUiError\([^)]*,\s*"waitlist"/);
+  assert.match(signupSource, /authUiError\(err, "waitlist"\)/);
+  assert.match(signupSource, /authUiError\(err, "validate-invite"\)/);
+  assert.match(signupSource, /authUiError\(err, "invite-signup"\)/);
 });
 
 test('ResetPassword wires authUiError for password update failures only', async () => {
