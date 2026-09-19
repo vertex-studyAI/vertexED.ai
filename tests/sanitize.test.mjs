@@ -41,6 +41,13 @@ test('sanitizeMarkdown blocks javascript URLs', () => {
   assert.equal(clean.includes('javascript:'), false);
 });
 
+test('DOMPurify alone does not neutralize markdown-form javascript links', () => {
+  // Regression guard: callers must also use safeMarkdownHref / MarkdownLink.
+  const dirty = '[Click](javascript:alert(1))';
+  const clean = sanitizeMarkdown(dirty);
+  assert.equal(clean, dirty);
+});
+
 test('sanitizeMarkdown allows safe links', () => {
   const dirty = '<a href="https://example.com" title="Example">Link</a>';
   const clean = sanitizeMarkdown(dirty);
