@@ -30,6 +30,50 @@ test('service-only waitlist tables expose no client policies', () => {
   assert.doesNotMatch(schema, /create policy[^\n]+on public\.(waitlist|waitlist_rate_limits)/i);
 });
 
+test('service-only directory and telemetry tables expose no client policies', () => {
+  assert.doesNotMatch(schema, /create policy[^\n]+on public\.(schools|observability_events|learner_state_items)/i);
+});
+
+test('product feedback remains insert-only for browsers and is readable by service_role', () => {
+  assert.match(
+    schema,
+    /grant insert \(user_id, category, rating, feedback, page_path\)[\s\S]*?on public\.product_feedback to authenticated/i,
+  );
+  assert.match(
+    schema,
+    /grant select, insert, delete on table public\.product_feedback to service_role/i,
+  );
+  assert.doesNotMatch(
+    schema,
+    /grant\s+(?:select|update|delete)[\s\S]{0,120}?on(?: table)? public\.product_feedback to authenticated/i,
+  );
+});
+
+test('fail-closed tables revoke the PUBLIC role and force RLS', () => {
+  for (const table of [
+    'profiles',
+    'waitlist',
+    'waitlist_rate_limits',
+    'user_study_artifacts',
+    'product_feedback',
+    'learner_state_items',
+    'observability_events',
+    'schools',
+  ]) {
+    assert.match(schema, new RegExp(`alter table public\\.${table} force row level security`, 'i'), table);
+  }
+  assert.match(schema, /revoke all on table public\.product_feedback from public, anon, authenticated/i);
+  assert.match(schema, /revoke all on table public\.schools from public, anon, authenticated/i);
+  assert.match(schema, /revoke all on table public\.waitlist from public, anon, authenticated/i);
+});
+
+test('user_id lookup paths keep covering indexes', () => {
+  assert.match(schema, /create index if not exists user_study_artifacts_user_kind_idx[\s\S]*?\(user_id, kind, updated_at desc\)/i);
+  assert.match(schema, /create index if not exists product_feedback_user_created_at_idx[\s\S]*?\(user_id, created_at desc\)/i);
+  assert.match(schema, /create index learner_state_items_user_updated_idx[\s\S]*?\(user_id, updated_at desc\)/i);
+  assert.match(schema, /create unique index waitlist_auth_user_id_idx[\s\S]*?\(auth_user_id\)/i);
+});
+
 test('security-definer functions pin search_path', () => {
   const definitions = schema.split(/create or replace function/i).slice(1);
   for (const definition of definitions.filter((value) => /security definer/i.test(value))) {

@@ -1,6 +1,6 @@
 begin;
 
-select plan(26);
+select plan(32);
 
 select has_table('public', 'learner_state_items', 'learner state table exists');
 select has_table('public', 'observability_events', 'observability table exists');
@@ -64,6 +64,48 @@ select is(
   (select confdeltype::text from pg_constraint where conname = 'waitlist_auth_user_id_fkey' and conrelid = 'public.waitlist'::regclass),
   'c',
   'account deletion cascades to the waitlist email'
+);
+select ok(
+  has_table_privilege('service_role', 'public.product_feedback', 'select,insert,delete'),
+  'service role can review and moderate product feedback'
+);
+select ok(
+  not has_table_privilege('authenticated', 'public.product_feedback', 'select'),
+  'authenticated browsers cannot read submitted product feedback'
+);
+select ok(
+  has_table_privilege('service_role', 'public.schools', 'select,insert'),
+  'service role can resolve the school directory'
+);
+select is(
+  (
+    select count(*)::bigint
+    from pg_class c
+    join pg_namespace n on n.oid = c.relnamespace
+    where n.nspname = 'public'
+      and c.relkind = 'r'
+      and c.relname in (
+        'profiles',
+        'waitlist',
+        'waitlist_rate_limits',
+        'user_study_artifacts',
+        'product_feedback',
+        'learner_state_items',
+        'observability_events',
+        'schools'
+      )
+      and c.relforcerowsecurity
+  ),
+  8::bigint,
+  'every public base table forces row level security'
+);
+select ok(
+  (select relrowsecurity and relforcerowsecurity from pg_class where oid = 'public.product_feedback'::regclass),
+  'product feedback has RLS enabled and forced'
+);
+select ok(
+  (select relrowsecurity and relforcerowsecurity from pg_class where oid = 'public.schools'::regclass),
+  'schools has RLS enabled and forced'
 );
 
 select * from finish();

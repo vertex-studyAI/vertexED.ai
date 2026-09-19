@@ -69,6 +69,10 @@ test("feedback migration is authenticated insert-only and user-bound", () => {
     "supabase/migrations/20260903121711_product_feedback.sql",
     "utf8",
   );
+  const hardening = fs.readFileSync(
+    "supabase/migrations/20260919055925_feedback_service_grants_and_force_rls.sql",
+    "utf8",
+  );
 
   assert.match(migration, /enable row level security/i);
   assert.match(migration, /revoke all on table public\.product_feedback from anon, authenticated/i);
@@ -78,4 +82,9 @@ test("feedback migration is authenticated insert-only and user-bound", () => {
   );
   assert.match(migration, /with check \(\(select auth\.uid\(\)\) is not null and \(select auth\.uid\(\)\) = user_id\)/i);
   assert.doesNotMatch(migration, /grant\s+select[\s\S]*authenticated/i);
+  assert.match(
+    hardening,
+    /grant select, insert, delete on table public\.product_feedback to service_role/i,
+  );
+  assert.match(hardening, /alter table public\.product_feedback force row level security/i);
 });
