@@ -116,6 +116,7 @@ test('OpenAI chat requests use the Responses API with output token limits', asyn
   assert.equal(captured.payload.max_output_tokens, 1200);
   assert.equal(captured.payload.store, false);
   assert.equal(captured.payload.safety_identifier, 'hashed-user');
+  assert.deepEqual(captured.payload.metadata, { product: 'vertexed', capability: 'chatbot' });
   assert.deepEqual(captured.payload.input, [{ role: 'user', content: 'hello' }]);
   assert.equal(captured.headers['OpenAI-Project'], 'proj_test');
   assert.equal(captured.headers['OpenAI-Organization'], 'org_test');
