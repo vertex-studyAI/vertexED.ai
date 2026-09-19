@@ -188,7 +188,7 @@ const PlannerView: React.FC = () => {
       }, tasks, editTask.id);
       setTasks(prev => prev.map(task => task.id === editTask.id ? { ...task, ...updated } : task));
       setEditOpen(false);
-    } catch (error) { setEditError(error instanceof Error ? error.message : "Could not update this task."); }
+    } catch (error) { setEditError(plannerPlanError(error, 'task')); }
   };
 
   const suggestWeekFromAI = useCallback(async () => {
@@ -249,7 +249,7 @@ const PlannerView: React.FC = () => {
         const [year, month, day] = taskDate.split("-").map(Number);
         setSelectedDate(new Date(year, month - 1, day));
         setAiOpen(false);
-      } catch (error) { setAiError(error instanceof Error ? error.message : "Could not add this task."); }
+      } catch (error) { setAiError(plannerPlanError(error, 'task')); }
       return;
     }
     if (weekPlanBusy) return;
@@ -267,7 +267,7 @@ const PlannerView: React.FC = () => {
       setPlanNotice(`Added ${task["task name"]} on ${task.date} at ${task["start time"]}. Open it to adjust the suggestion.`);
       setAiOpen(false);
     } catch (error) {
-      if (revision === requestRevision.current) setAiError(error instanceof Error ? error.message : "Could not suggest a task. Switch to manual entry.");
+      if (revision === requestRevision.current) setAiError(plannerPlanError(error, 'task'));
     } finally {
       if (revision === requestRevision.current) setAiBusy(false);
     }

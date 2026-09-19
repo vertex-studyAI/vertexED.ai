@@ -25,6 +25,7 @@ import type { ExamBoard } from "@/types/curriculum";
 import AiFeedbackControls from "@/components/AiFeedbackControls";
 import { loadMockExamDraft } from "@/lib/examFlow";
 import { exportTextPdf, type PdfTextBlock } from '@/lib/pdfTextExport';
+import { paperMakerError } from '@/lib/paperMakerError.mjs';
 
 export default function PaperMaker({ priorPapers = [] }) {
   const { user } = useAuth();
@@ -289,7 +290,7 @@ export default function PaperMaker({ priorPapers = [] }) {
       if (!isCurrentRequest()) return;
 
       if (!data.success) {
-        setError(data.error || "Generation failed");
+        setError(paperMakerError(data.error || "Generation failed", "generate"));
         setRaw(data?.raw ?? null);
         return;
       }
@@ -365,7 +366,7 @@ export default function PaperMaker({ priorPapers = [] }) {
     } catch (err) {
       if (!isCurrentRequest()) return;
       console.error("Paper generation failed", err);
-      setError("The paper could not be generated. Check your connection and try again.");
+      setError(paperMakerError(err, "generate"));
     } finally {
       if (isCurrentRequest()) setLoading(false);
     }
@@ -394,7 +395,7 @@ export default function PaperMaker({ priorPapers = [] }) {
         blocks,
       });
     } catch (err) {
-      setError("PDF export failed: " + String(err));
+      setError(paperMakerError(err, "pdf"));
     }
   }
 
@@ -422,7 +423,7 @@ export default function PaperMaker({ priorPapers = [] }) {
       const suffix = includeMarkScheme ? "_mark_scheme" : "_question_paper";
       saveAs(blob, `${(paper?.title || "practice-paper").replace(/\s+/g, "_")}${suffix}.docx`);
     } catch (err) {
-      setError("DOCX export failed: " + String(err));
+      setError(paperMakerError(err, "docx"));
     }
   }
 
