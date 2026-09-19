@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router';
-import { Bot, MessageSquarePlus, RefreshCw, Settings } from 'lucide-react';
+import { MessageSquarePlus, RefreshCw, Settings } from 'lucide-react';
 import { getCommandTermsForBoard } from '@/lib/commandTerms';
 import { getConfidenceRatings, setConfidenceRating } from '@/lib/portalFeatures';
 import type { LearnerProfile } from '@/lib/learnerProfile';
 import { useAuth } from '@/contexts/AuthContext';
+import ApexAvatar from '@/components/chat/ApexAvatar';
 import { storeApexPrefill } from '@/lib/apexPrefillStorage.mjs';
 import { toast } from '@/hooks/use-toast';
 import PortalWidget from '@/components/portal/PortalWidget';
@@ -69,7 +70,7 @@ export default function PortalEngagementRow({ profile }: Props) {
           disabled={!capture.trim()}
           className="btn-solid text-sm mt-3 w-full inline-flex items-center justify-center gap-2 disabled:opacity-50"
         >
-          <Bot className="h-3.5 w-3.5" />
+          <ApexAvatar className="apex-avatar-inline" />
           Send to Apex
         </button>
       </PortalWidget>
