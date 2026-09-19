@@ -1,14 +1,14 @@
 import { useId, useState } from 'react';
 
 /** A real SVG-masked magnifier with an equivalent keyboard/touch control. */
-export default function ConceptLens() {
+export default function ConceptLens({ id = 'concept-lens' }: { id?: string }) {
   const maskId = useId().replace(/:/g, '');
   const [zoom, setZoom] = useState(true);
   const [point, setPoint] = useState({ x: 165, y: 150 });
   const [answer, setAnswer] = useState('');
   const [checked, setChecked] = useState(false);
   const graph = <><path d="M40 25V195H340" fill="none" stroke="currentColor" opacity=".3" /><path d="M50 40C75 125 150 165 330 170" fill="none" stroke="currentColor" strokeWidth="3" /></>;
-  return <section id="concept-lens" className="vh-concept-lens" aria-labelledby="concept-lens-title">
+  return <section id={id} className="vh-concept-lens" aria-labelledby="concept-lens-title">
     <div><p className="vh-kicker">Look closer / Original example</p><h2 id="concept-lens-title">Notice the change.<br /><em>Explain the why.</em></h2><p>A graph is more than a shape to remember. Inspect this cooling curve, describe what changes and connect the pattern to energy transfer.</p><button type="button" className="vh-secondary" aria-pressed={zoom} onClick={() => { setPoint({ x: 165, y: 150 }); setZoom(!zoom); }}>{zoom ? 'Show the whole curve' : 'Inspect the slope'}</button>
       <fieldset className="vh-lens-practice"><legend>Try it: when is cooling fastest?</legend>
         <label htmlFor="cooling-answer">Choose a part of the curve</label>
