@@ -33,7 +33,11 @@ export function authUiError(error, action = 'login') {
   if (message.includes('not configured') || message.includes('auth is disabled')) {
     return 'Login is not configured in this build. Open the deployed VertexED app or add the Supabase public environment settings.';
   }
-  return action === 'reset'
-    ? 'We could not send the reset email. Check your connection and try again.'
-    : 'We could not sign you in. Try again, use Google sign-in, or reset your password.';
+  if (action === 'reset') {
+    return 'We could not send the reset email. Check your connection and try again.';
+  }
+  if (action === 'signup') {
+    return 'Your account was created, but VertexED could not finish signing you in. Try logging in, or use Google sign-in if that is how you usually access VertexED.';
+  }
+  return 'We could not sign you in. Try again, use Google sign-in, or reset your password.';
 }

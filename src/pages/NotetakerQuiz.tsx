@@ -1598,7 +1598,7 @@ export default function NotetakerQuiz(): React.JSX.Element {
                       </AnimatePresence>
                     </>
                   ) : (
-                    <div className="text-sm text-muted-foreground">No flashcards yet - generate notes first and we'll build them for you.</div>
+                    <div className="text-sm text-muted-foreground" role="status">No flashcards yet - generate notes first and we'll build them for you.</div>
                   )}
 
                   <div className="mt-4 flex flex-wrap items-center gap-2">
@@ -1639,12 +1639,15 @@ export default function NotetakerQuiz(): React.JSX.Element {
                   </div>
                 </div>
 
-                <div className="mt-3 flex gap-2 overflow-auto pb-1">
+                <nav className="mt-3 flex gap-2 overflow-auto pb-1" aria-label="Flashcard list">
                   {flashcards.length ? (
                     flashcards.map((f, i) => (
                       <button
                         key={`${i}_${safeText(f.front).slice(0, 10)}`}
+                        type="button"
                         className={`rounded-xl border border-border/60 px-3 py-2 text-sm text-foreground transition hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${i === currentFlashIndex ? "bg-primary/20 border-primary/30" : "bg-foreground/[0.04]"}`}
+                        aria-label={`Go to flashcard ${i + 1}`}
+                        aria-current={i === currentFlashIndex ? "true" : undefined}
                         onClick={() => handleFlashClick(i)}
                       >
                         {i + 1}
@@ -1652,13 +1655,13 @@ export default function NotetakerQuiz(): React.JSX.Element {
                     ))
                   ) : notes.trim() ? (
                     <div className="flex gap-2">
-                      <button className="neu-button px-3 py-2" onClick={() => sendNotesToCards(flashCount)}>
+                      <button type="button" className="neu-button px-3 py-2" onClick={() => sendNotesToCards(flashCount)}>
                         Generate Flashcards
                       </button>
-                      <div className="self-center text-sm text-muted-foreground">Generate notes first - flashcards and quiz use the same source material.</div>
+                      <div className="self-center text-sm text-muted-foreground" role="status">Generate notes first - flashcards and quiz use the same source material.</div>
                     </div>
                   ) : null}
-                </div>
+                </nav>
               </NeumorphicCard>
 
               <NeumorphicCard className="p-4">

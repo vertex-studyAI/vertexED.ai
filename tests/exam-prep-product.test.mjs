@@ -27,6 +27,14 @@ test('generated board guides have a visible and server-side provenance boundary'
   assert.match(boardHandler, /not an examiner or an official representative/);
 });
 
+test('board guide generation routes through shared OpenAI chat provider and safety identifiers', () => {
+  assert.match(boardHandler, /resolveOpenAiConfig/);
+  assert.match(boardHandler, /callChatProvider/);
+  assert.match(boardHandler, /createSafetyIdentifier\(user\.id\)/);
+  assert.match(boardHandler, /capability: 'board-resource'/);
+  assert.doesNotMatch(boardHandler, /VERTEX_AGENTS/);
+});
+
 test('board guide generation is owned by the latest topic, board, and account scope', () => {
   assert.match(resourceLibrary, /const storageScope = user\?\.id \?\? null;/);
   assert.match(resourceLibrary, /const guideRequestIdRef = useRef\(0\)/);

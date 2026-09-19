@@ -1,5 +1,12 @@
 import { verifyAuthUser, readJsonBody, rejectOversizedJsonBody } from '../_lib/auth.js';
 import { rateLimitUserEndpoint } from '../_lib/rateLimit.js';
+import {
+  callChatProvider,
+  createSafetyIdentifier,
+  DEFAULT_OPENAI_PRIMARY_MODEL,
+  extractChatAnswer,
+  resolveOpenAiConfig,
+} from '../_lib/aiProviders.js';
 import { fetchProvider } from '../_lib/providerRequest.js';
 import { routeAiRequest } from '../_lib/aiRouting.js';
 
@@ -18,10 +25,10 @@ export default async function handler(req, res) {
   if (rejectOversizedJsonBody(req, res, 64 * 1024)) return;
   if (!(await rateLimitUserEndpoint(user.id, 'board-resource', res))) return;
 
-  const OPENAI_API_KEY =
-    process.env.OPENAI_API_KEY || process.env.ChatbotKey || process.env.CHATBOT_KEY;
-
-  if (!OPENAI_API_KEY) {
+  let openAiConfig;
+  try {
+    openAiConfig = resolveOpenAiConfig(process.env);
+  } catch {
     return res.status(503).json({ error: 'AI not configured' });
   }
 
@@ -57,39 +64,34 @@ REQUIREMENTS:
 - End with "Quick wins this week" — 5 actionable bullets
 - Tone: direct, student-friendly, exam-focused`;
 
-    const route = routeAiRequest({ capability: 'board-resource', text: description, defaultModel: process.env.BOARD_RESOURCE_MODEL || 'gpt-4o-mini', maxTokens: 4000 });
+    const route = routeAiRequest({
+      capability: 'board-resource',
+      text: description,
+      defaultModel: process.env.BOARD_RESOURCE_MODEL || process.env.OPENAI_MODEL || DEFAULT_OPENAI_PRIMARY_MODEL,
+      maxTokens: 4000,
+    });
     const model = route.model;
-    const response = await fetchProvider({
-      capability: 'board_resource', provider: 'openai', model,
-      url: 'https://api.openai.com/v1/chat/completions',
-      options: {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${OPENAI_API_KEY}`,
-      },
-      body: JSON.stringify({
-        model,
-        messages: [
-          {
-            role: 'system',
-            content: `You draft independent study material. You are not an examiner or an official representative of ${boardLabel}. Separate general study advice from board-specific claims, never invent official requirements, and tell the learner to verify the current specification and mark scheme. Use original wording and do not reproduce copyrighted source material.`,
-          },
-          { role: 'user', content: prompt },
-        ],
-        temperature: 0.45,
-        max_tokens: route.maxTokens,
-      }),
-      },
+    const systemMessage = `You draft independent study material. You are not an examiner or an official representative of ${boardLabel}. Separate general study advice from board-specific claims, never invent official requirements, and tell the learner to verify the current specification and mark scheme. Use original wording and do not reproduce copyrighted source material.`;
+    const result = await callChatProvider({
+      config: openAiConfig,
+      model,
+      messages: [
+        { role: 'system', content: systemMessage },
+        { role: 'user', content: prompt },
+      ],
+      temperature: 0.45,
+      maxTokens: route.maxTokens,
+      safetyIdentifier: createSafetyIdentifier(user.id),
+      capability: 'board-resource',
+      fetchImpl: (url, options) => fetchProvider({ capability: 'board_resource', provider: 'openai', model, url, options }),
     });
 
-    if (!response.ok) {
-      console.error('Board resource generation failed:', response.status);
+    if (!result.response.ok) {
+      console.error('Board resource generation failed:', result.response.status);
       return res.status(502).json({ error: 'Generation failed. Try again shortly.' });
     }
 
-    const data = await response.json();
-    const content = data.choices?.[0]?.message?.content?.trim() ?? '';
+    const content = extractChatAnswer(JSON.parse(result.raw)) ?? '';
 
     if (!content || countWords(content) < 400) {
       return res.status(502).json({ error: 'Guide too short — retry.' });
