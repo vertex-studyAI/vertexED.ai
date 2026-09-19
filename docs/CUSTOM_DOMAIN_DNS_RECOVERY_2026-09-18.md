@@ -71,3 +71,15 @@ Expect `status` not `degraded` and `databaseError` absent once the RPC and salt 
 ## Repository-side note (this pass)
 
 `vercel.json` host redirects must **not** catch-all `/api/*` from preview/apex hosts onto `www.vertexed.app`. Otherwise a healthy Vercel deployment becomes undiagnosable whenever custom-domain TLS is down. HTML canonicalization to `www` may remain.
+
+## Re-probe note — 2026-09-19 (marathon)
+
+| Check | Result |
+|---|---|
+| `www.vertexed.app` | Still TLS fail before HTTP; A=`2.59.170.20`,`104.219.250.37` |
+| `vertex-ed-ai` shallow health | alive; observed revision `60cd8c44…` while `origin/main` tip advanced (deploy lag / Vercel rate-limit) |
+| `/api/agents` on ed-ai | **401** `LIVE_AUTH_REQUIRED` (route deployed) |
+| Gate 1b readiness | still `readiness_rpc_missing`; `durableRateLimiting=false` |
+
+CI browser/smoke now resolve a live app base (`scripts/resolve-live-app-base.mjs`) so www TLS does not drown app certification. Production Health Monitor still targets www for Gate 1a truth.
+
