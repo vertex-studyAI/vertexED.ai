@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ArrowDown, ArrowLeft, ArrowRight, RotateCw } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
+import { readRevisionStackHighScore, saveRevisionStackHighScore } from '@/lib/revisionStackScore.mjs';
 
 const WIDTH = 10;
 const HEIGHT = 16;
@@ -15,6 +17,7 @@ const SHAPES = [
 
 type Cell = readonly [number, number];
 type Piece = { cells: ReadonlyArray<Cell>; x: number; y: number; kind: number };
+type ManualAction = 'left' | 'right' | 'down' | 'turn' | 'drop';
 
 const emptyBoard = () => Array.from({ length: HEIGHT }, () => Array(WIDTH).fill(0) as number[]);
 const nextPiece = (kind: number): Piece => ({ cells: SHAPES[kind % SHAPES.length], x: 3, y: 0, kind });
@@ -35,16 +38,20 @@ function rotated(piece: Piece): Piece {
 }
 
 export default function RevisionStack() {
+  const { user, loading: authLoading } = useAuth();
   const section = useRef<HTMLElement>(null);
   const [inView, setInView] = useState(false);
   const [pageVisible, setPageVisible] = useState(true);
   const [board, setBoard] = useState(emptyBoard);
   const [piece, setPiece] = useState(() => nextPiece(0));
   const [score, setScore] = useState(0);
+  const scoreScope = authLoading ? undefined : user?.id ?? null;
+  const [highScore, setHighScore] = useState(() => readRevisionStackHighScore(window, scoreScope));
   const [running, setRunning] = useState(true);
   const [demo, setDemo] = useState(true);
   const [gameOver, setGameOver] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
+  const [pendingAction, setPendingAction] = useState<ManualAction | null>(null);
 
   useEffect(() => {
     const query = matchMedia('(prefers-reduced-motion: reduce)');
@@ -54,12 +61,23 @@ export default function RevisionStack() {
     return () => query.removeEventListener('change', update);
   }, []);
 
+  useEffect(() => {
+    setHighScore(readRevisionStackHighScore(window, scoreScope));
+  }, [scoreScope]);
+
+  useEffect(() => {
+    if (demo || score <= highScore) return;
+    const result = saveRevisionStackHighScore(window, scoreScope, score);
+    if (result.saved) setHighScore(result.score);
+  }, [demo, highScore, score, scoreScope]);
+
   const reset = useCallback(() => {
     setBoard(emptyBoard());
     setPiece(nextPiece(0));
     setScore(0);
     setRunning(false);
     setGameOver(false);
+    setPendingAction(null);
   }, []);
 
   const settle = useCallback((current: Piece) => {
@@ -96,6 +114,33 @@ export default function RevisionStack() {
     while (!collides(board, { ...candidate, y: candidate.y + 1 })) candidate = { ...candidate, y: candidate.y + 1 };
     settle(candidate);
   }, [board, piece, settle, gameOver]);
+
+  const executeAction = useCallback((action: ManualAction) => {
+    if (action === 'left') move(-1, 0);
+    else if (action === 'right') move(1, 0);
+    else if (action === 'down') move(0, 1);
+    else if (action === 'turn') turn();
+    else drop();
+  }, [drop, move, turn]);
+
+  useEffect(() => {
+    if (!pendingAction || demo) return;
+    const action = pendingAction;
+    setPendingAction(null);
+    executeAction(action);
+  }, [demo, executeAction, pendingAction]);
+
+  const takeManualAction = (action: ManualAction) => {
+    if (demo) {
+      reset();
+      setDemo(false);
+      setRunning(true);
+      setPendingAction(action);
+      return;
+    }
+    setRunning(true);
+    executeAction(action);
+  };
 
   useEffect(() => {
     if (!running || reducedMotion || !inView || !pageVisible) return;
@@ -136,16 +181,14 @@ export default function RevisionStack() {
 
   const onKeyDown = (event: React.KeyboardEvent) => {
     if (event.target !== event.currentTarget || gameOver) return;
-    const actions: Record<string, () => void> = {
-      ArrowLeft: () => move(-1, 0), ArrowRight: () => move(1, 0), ArrowDown: () => move(0, 1),
-      ArrowUp: turn, ' ': drop,
+    const actions: Record<string, ManualAction> = {
+      ArrowLeft: 'left', ArrowRight: 'right', ArrowDown: 'down',
+      ArrowUp: 'turn', ' ': 'drop',
     };
     const action = actions[event.key];
     if (!action) return;
     event.preventDefault();
-    setDemo(false);
-    setRunning(true);
-    action();
+    takeManualAction(action);
   };
 
   return (
@@ -154,7 +197,7 @@ export default function RevisionStack() {
         <p className="vh-kicker"><span className="vh-encrypted" aria-label="Revision signal" /> / 08 / Revision stack</p>
         <h2 id="revision-stack-title">Build the idea.<br /><em>Clear the gap.</em></h2>
         <p>Practise for the paper. Keep the understanding for what comes after. Connect ideas, test an explanation and return to the gaps. When you need a moment, take over the blocks.</p>
-        <div className="vh-stack-status"><span>{demo ? 'Automatic demo' : gameOver ? 'Stack complete. Reset to play again.' : 'Break score'}</span><strong>{demo ? '▶' : score}</strong></div>
+        <div className="vh-stack-status"><span>{demo ? 'Automatic demo' : gameOver ? 'Stack complete. Reset to play again.' : 'Break score'}</span><strong>{demo ? '▶' : score}</strong>{!demo && <small>Best on this {user ? 'account' : 'device'}: {highScore}</small>}</div>
         <div className="vh-stack-actions">
           <button type="button" disabled={gameOver} onClick={() => setRunning(value => !value)}>{running ? 'Pause blocks' : 'Play blocks'}</button>
           <button type="button" onClick={() => { reset(); setDemo(false); setRunning(true); }}>{demo ? 'Take over' : 'Reset'}</button>
@@ -166,12 +209,12 @@ export default function RevisionStack() {
         <div className="vh-stack-board" aria-hidden="true">
           {visible.flatMap((row, y) => row.map((filled, x) => <i className={filled ? 'is-filled' : ''} data-piece={filled || undefined} key={`${x}-${y}`} />))}
         </div>
-        <div className="vh-stack-controls" aria-label="Revision Stack controls" onClick={() => { setDemo(false); setRunning(true); }}>
-          <button type="button" aria-label="Move left" onClick={() => move(-1, 0)}><ArrowLeft aria-hidden /></button>
-          <button type="button" aria-label="Rotate" onClick={turn}><RotateCw aria-hidden /></button>
-          <button type="button" aria-label="Move right" onClick={() => move(1, 0)}><ArrowRight aria-hidden /></button>
-          <button type="button" aria-label="Move down" onClick={() => move(0, 1)}><ArrowDown aria-hidden /></button>
-          <button type="button" aria-label="Place block" onClick={drop}>Place</button>
+        <div className="vh-stack-controls" aria-label="Revision Stack controls">
+          <button type="button" aria-label="Move left" onClick={() => takeManualAction('left')}><ArrowLeft aria-hidden /></button>
+          <button type="button" aria-label="Rotate" onClick={() => takeManualAction('turn')}><RotateCw aria-hidden /></button>
+          <button type="button" aria-label="Move right" onClick={() => takeManualAction('right')}><ArrowRight aria-hidden /></button>
+          <button type="button" aria-label="Move down" onClick={() => takeManualAction('down')}><ArrowDown aria-hidden /></button>
+          <button type="button" aria-label="Place block" onClick={() => takeManualAction('drop')}>Place</button>
         </div>
       </div>
     </section>
