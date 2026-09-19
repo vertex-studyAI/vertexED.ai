@@ -37,9 +37,30 @@ test('parses JSON ledgers from legacy date versions, timestamp versions, and row
         { version: '20260901000000' },
         { migration_version: '20260902000000' },
         { filename: '20260903000000_add_readiness.sql' },
+        { version: '20260904000000', filename: '20260904000000_same_version.sql' },
       ],
     })),
-    ['20260901000000', '20260902000000', '20260903000000'],
+    ['20260901000000', '20260902000000', '20260903000000', '20260904000000'],
+  );
+});
+
+test('JSON ledgers reject ambiguous top-level arrays and conflicting row versions', () => {
+  assert.throws(
+    () => parseLedgerText(JSON.stringify({
+      versions: ['20260901000000'],
+      rows: [{ version: '20260902000000' }],
+    })),
+    (error) => error instanceof MigrationLedgerError && /object is ambiguous/.test(error.message),
+  );
+
+  assert.throws(
+    () => parseLedgerText(JSON.stringify({
+      rows: [{
+        version: '20260901000000',
+        migration_version: '20260902000000',
+      }],
+    })),
+    (error) => error instanceof MigrationLedgerError && /conflicting migration versions/.test(error.message),
   );
 });
 
