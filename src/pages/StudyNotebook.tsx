@@ -54,6 +54,7 @@ import { toast } from '@/hooks/use-toast';
 import { logStudyActivity } from '@/lib/studyActivity';
 import { getUserContentStorageScope } from '@/lib/userContentStorageScope.mjs';
 import { loadNotebookSnapshot, saveNotebookSnapshot } from '@/lib/notebookSync';
+import { studyNotebookError } from '@/lib/studyNotebookError.mjs';
 
 const OUTPUT_ICONS: Partial<Record<NotebookOutputKind, typeof BookOpen>> = {
   'study-guide': BookOpen,
@@ -170,7 +171,7 @@ export default function StudyNotebook() {
   const runNotebookMutation = (operation: () => void) => {
     if (!notebookHydrated || getUserContentStorageScope() !== user?.id) return;
     try { operation(); } catch (error) {
-      toast({ title: 'Notebook change could not be saved', description: error instanceof Error ? error.message : 'Export your work and check browser storage.', variant: 'destructive' });
+      toast({ title: 'Notebook change could not be saved', description: studyNotebookError(error, 'save'), variant: 'destructive' });
     }
   };
 
@@ -190,7 +191,7 @@ export default function StudyNotebook() {
       setNotebookSaving(false);
       toast({
         title: result.cloudSynced ? 'Notebooks synced' : 'Notebooks remain saved locally',
-        description: result.error,
+        description: result.error ? studyNotebookError(result.error, 'save') : undefined,
       });
     });
   };
@@ -288,7 +289,7 @@ export default function StudyNotebook() {
     } catch (e) {
       toast({
         title: 'Generation failed',
-        description: e instanceof Error ? e.message : 'Try again shortly.',
+        description: studyNotebookError(e, 'generate'),
         variant: 'destructive',
       });
     } finally {
