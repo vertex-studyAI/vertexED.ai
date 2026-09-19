@@ -43,6 +43,7 @@ test('ResetPassword wires authUiError for password update failures only', async 
   const resetSource = await readFile(join(root, 'src/pages/ResetPassword.tsx'), 'utf8');
   assert.match(resetSource, /import \{ authUiError \} from "@\/lib\/authUi\.mjs"/);
   assert.match(resetSource, /authUiError\(err, "password-update"\)/);
-  assert.match(resetSource, /Password updated, but VertexED could not verify that this recovery session was signed out/);
+  assert.match(resetSource, /if \(signOutError\)[\s\S]*?throw new Error[\s\S]*?setSuccess\(true\)/);
+  assert.match(resetSource, /Password updated, but/);
   assert.doesNotMatch(resetSource, /setError\(err instanceof Error \? err\.message/);
 });

@@ -85,15 +85,18 @@ export default function ResetPassword() {
 
       const { error: signOutError } = await supabase.auth.signOut();
       if (signOutError) {
-        setError(
+        throw new Error(
           "Password updated, but VertexED could not verify that this recovery session was signed out. Do not continue using this session; return to login after the session is fully cleared.",
         );
-        return;
       }
 
       setSuccess(true);
     } catch (err) {
-      setError(authUiError(err, "password-update"));
+      if (err instanceof Error && err.message.startsWith("Password updated, but")) {
+        setError(err.message);
+      } else {
+        setError(authUiError(err, "password-update"));
+      }
     } finally {
       setSaving(false);
     }
