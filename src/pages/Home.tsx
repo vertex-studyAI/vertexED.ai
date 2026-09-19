@@ -114,7 +114,7 @@ export default function Home() {
       </section>
 
       <section className="vh-final" aria-labelledby="final-title" data-reveal><Sparkles aria-hidden /><p className="vh-kicker">Choose the next subject</p><h2 id="final-title">The next attempt<br /><em>starts with one concept.</em></h2><p>Enter MYP 5 through the subject you are studying now.</p><div className="vh-final-links">{MYP5_SUBJECTS.slice(0, 6).map((subject) => <Link to={`/myp/subjects/${subject.slug}`} data-preview={`${subject.group}. ${subject.topics.length} mapped topics.`} key={subject.slug}>{subject.name}<ArrowRight aria-hidden /></Link>)}</div><Link to="/myp" className="vh-final-all">Explore all MYP 5 subjects <ArrowUpRight aria-hidden /></Link></section>
-      {lensOpen && <AccessibleModal titleId="concept-lens-title" onClose={() => setLensOpen(false)} overlayClassName="vh-lens-overlay" className="vh-lens-dialog"><button type="button" className="vh-lens-close" aria-label="Close concept lens" onClick={() => setLensOpen(false)}><X aria-hidden /></button><ConceptLens id="concept-lens-dialog" /></AccessibleModal>}
+      {lensOpen && <AccessibleModal titleId="concept-lens-title" descriptionId="concept-lens-dialog-description" onClose={() => setLensOpen(false)} overlayClassName="vh-lens-overlay" className="vh-lens-dialog"><button type="button" className="vh-lens-close" aria-label="Close concept lens" onClick={() => setLensOpen(false)}><X aria-hidden /></button><p id="concept-lens-dialog-description" className="sr-only">Interactive graph example for inspecting slope and energy transfer. Press Escape to close and return to the page.</p><ConceptLens id="concept-lens-dialog" /></AccessibleModal>}
     </div>
   </>;
 }
