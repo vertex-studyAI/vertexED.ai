@@ -110,6 +110,7 @@ export default function Login() {
               type="button"
               disabled={authBusy}
               onClick={async () => {
+                if (authBusy) return;
                 try {
                   setLoading(true);
                   setLoginMethod("google");
