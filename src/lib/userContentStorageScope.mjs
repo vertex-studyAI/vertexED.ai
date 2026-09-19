@@ -33,6 +33,7 @@ export function userContentStorageKeys(scope = activeScope) {
     lastStudySession: `${prefix}:last_study_session`,
     srDeck: `${prefix}:sr_deck`,
     mypPracticeDrafts: `${prefix}:myp_practice_drafts`,
+    mypPracticeProgress: `${prefix}:myp_practice_progress`,
     weaknessHeatmap: `${prefix}:weakness_heatmap`,
     retryQueue: `${prefix}:retry_queue`,
     learnerStateOutbox: `${prefix}:learner_state_outbox`,
@@ -48,5 +49,8 @@ export function userContentStorageKeys(scope = activeScope) {
     boardGuides: `${prefix}:board_guides`,
     examPrepSession: `${prefix}:exam_prep_session`,
     examPrepHistory: `${prefix}:exam_prep_history`,
+    examPrepSetup: `${prefix}:exam_prep_setup`,
+    studyZoneLayout: `${prefix}:study_zone_layout`,
+    revisionStackHighScore: `${prefix}:revision_stack_high_score`,
   };
 }
