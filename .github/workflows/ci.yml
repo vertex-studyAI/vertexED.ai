@@ -277,11 +277,36 @@ jobs:
       - name: Install Chromium
         run: npx playwright install --with-deps chromium
 
+      - name: Resolve live app origin for browser certification
+        id: live_app
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p ci-evidence/production-browser
+          node scripts/resolve-live-app-base.mjs --print-json > ci-evidence/production-browser/live-app-base.json
+          base="$(node -e 'const fs=require("fs"); const j=JSON.parse(fs.readFileSync("ci-evidence/production-browser/live-app-base.json","utf8")); if(!j.base) process.exit(2); process.stdout.write(j.base)')"
+          source="$(node -e 'const fs=require("fs"); const j=JSON.parse(fs.readFileSync("ci-evidence/production-browser/live-app-base.json","utf8")); process.stdout.write(j.source||"")')"
+          gate1a="$(node -e 'const fs=require("fs"); const j=JSON.parse(fs.readFileSync("ci-evidence/production-browser/live-app-base.json","utf8")); process.stdout.write(j.gate1a||"")')"
+          echo "base=${base}" >> "$GITHUB_OUTPUT"
+          echo "source=${source}" >> "$GITHUB_OUTPUT"
+          echo "gate1a=${gate1a}" >> "$GITHUB_OUTPUT"
+          {
+            echo "### Live app origin for browser certification"
+            echo
+            echo "- base: \`${base}\`"
+            echo "- source: \`${source}\`"
+            echo "- gate1a: \`${gate1a}\`"
+            if [ "${source}" = "canonical-fallback" ]; then
+              echo
+              echo "Custom domain did not answer application HTTP; certifying the documented canonical Vercel host. Gate 1a DNS/TLS remains a separate human unblock."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
       - name: Run production browser certification
         shell: bash
         env:
-          PLAYWRIGHT_BASE_URL: https://www.vertexed.app
-          PLAYWRIGHT_API_URL: https://www.vertexed.app
+          PLAYWRIGHT_BASE_URL: ${{ steps.live_app.outputs.base }}
+          PLAYWRIGHT_API_URL: ${{ steps.live_app.outputs.base }}
         run: |
           set -o pipefail
           mkdir -p ci-evidence/production-browser
@@ -296,6 +321,8 @@ jobs:
             echo
             echo "- source SHA: \`${SOURCE_SHA}\`"
             echo "- target: \`${PLAYWRIGHT_BASE_URL}\`"
+            echo "- origin source: \`${{ steps.live_app.outputs.source }}\`"
+            echo "- gate1a: \`${{ steps.live_app.outputs.gate1a }}\`"
             echo "- retained log: \`${browser_log}\`"
             echo
             echo '<details><summary>Last 120 log lines</summary>'
@@ -345,9 +372,20 @@ jobs:
         with:
           node-version: '22.22.0'
 
+      - name: Resolve live app origin for production smoke
+        id: live_app_smoke
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p ci-evidence
+          node scripts/resolve-live-app-base.mjs --print-json > ci-evidence/live-app-base.json
+          base="$(node -e 'const fs=require("fs"); const j=JSON.parse(fs.readFileSync("ci-evidence/live-app-base.json","utf8")); if(!j.base) process.exit(2); process.stdout.write(j.base)')"
+          echo "base=${base}" >> "$GITHUB_OUTPUT"
+          echo "[smoke] Using live app base ${base}"
+
       - name: Wait for production deployment and run smoke tests
         env:
-          SMOKE_BASE_URL: https://www.vertexed.app
+          SMOKE_BASE_URL: ${{ steps.live_app_smoke.outputs.base }}
         run: |
           set -euo pipefail
           export EXPECTED_VERTEXED_REVISION="$(node scripts/vercel-ignore-build.mjs --print-latest-runtime-revision)"
