@@ -29,6 +29,11 @@ export function studySyncError(error, action = 'sync') {
   ];
   if (known.includes(message)) return source;
 
+  // Controlled validation copy from plannerSync / notebookSync recovery paths.
+  if (source.startsWith('Invalid cloud snapshot')) {
+    return source;
+  }
+
   if (
     source.length > 0
     && source.length <= 120

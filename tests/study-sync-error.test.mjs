@@ -16,6 +16,10 @@ test('studySyncError never echoes raw provider or database details', () => {
 test('studySyncError preserves known product sync copy', () => {
   assert.equal(studySyncError(new Error('Your session is unavailable.')), 'Your session is unavailable.');
   assert.equal(
+    studySyncError(new Error('Invalid cloud snapshot. Local work was preserved.'), 'local-fallback'),
+    'Invalid cloud snapshot. Local work was preserved.',
+  );
+  assert.equal(
     studySyncError(new Error('Cloud sync timed out; using planner saved on this device')),
     'Cloud sync timed out; using planner saved on this device',
   );
