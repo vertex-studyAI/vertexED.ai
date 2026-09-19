@@ -153,6 +153,8 @@ test('timed mock completion does not manufacture mastery data', async ({ page })
   await expect(page.getByLabel('Subject')).toHaveValue('Biology');
   await page.getByLabel('Topics').fill('photosynthesis');
   await page.getByRole('button', { name: 'Generate practice paper' }).click();
+  await expect(page.getByRole('dialog', { name: 'Before you use AI' })).toBeVisible();
+  await page.getByRole('button', { name: 'Allow AI for my requests', exact: true }).click();
   await expect(page.getByText('Integrity Mock', { exact: true })).toBeVisible();
 
   await page.getByRole('button', { name: /Take timed exam/i }).click();
