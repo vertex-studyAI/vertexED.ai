@@ -130,12 +130,14 @@ function isReadinessRequest(req) {
 }
 
 /** When HEALTH_READINESS_TOKEN is set, detailed checks require matching header.
- * On Vercel production, details are redacted unless the token is configured and presented.
+ * In any production-like environment (VERCEL_ENV or NODE_ENV), details stay
+ * redacted unless the token is configured and presented.
  */
 export function authorizeDeepReadinessDetails(req, env = process.env) {
   const configured = typeof env.HEALTH_READINESS_TOKEN === 'string' ? env.HEALTH_READINESS_TOKEN.trim() : '';
   if (!configured) {
-    return env.VERCEL_ENV !== 'production';
+    const productionLike = env.VERCEL_ENV === 'production' || env.NODE_ENV === 'production';
+    return !productionLike;
   }
   const header = req.headers?.['x-vertexed-readiness-token']
     || req.headers?.['X-VertexED-Readiness-Token'];

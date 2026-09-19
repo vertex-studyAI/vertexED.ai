@@ -42,4 +42,6 @@ test('sanitize config restricts URI schemes beyond default DOMPurify allowlist a
   const source = readFileSync(new URL('../src/lib/sanitize.ts', import.meta.url), 'utf8');
   assert.match(source, /ALLOWED_URI_REGEXP/);
   assert.match(source, /safeMarkdownHref/);
+  assert.match(source, /\(\?:\(\?:https\|mailto\):/);
+  assert.doesNotMatch(source, /https\?\|mailto/);
 });
