@@ -1,30 +1,32 @@
 # VertexED Immediate Execution Queue
 
-Updated: 2026-09-19 (6h execution pass). Older cross-portfolio status files are historical unless reconfirmed.
+Updated: 2026-09-19 (marathon continuation). Older cross-portfolio status files are historical unless reconfirmed.
 
-Current exact production shallow revision (live probe): match `origin/main` tip when `/api/health` reports it (recently `049dcfe`).
+Current exact production shallow revision (live probe): `vertex-ed-ai` served `60cd8c44…` during this session; re-probe before treating as tip.
 
-## Verified 2026-09-19
+## Verified 2026-09-19 (later)
 
-Agent-doable:
-- PR #917 (`work/heavy-exec`) agents network — CI green, local tests green, **draft**, not in production (`/api/agents` 404)
-- `node scripts/probe-production-gates.mjs` — Gate1a TLS fail; Gate1b `readiness_rpc_missing`
-- Divergent dirty-branch agents copies quarantined under `/Volumes/PRO-BLADE/.codex-tmp/quarantine-vertexed-dirty-agents-20260919`
+Agent-doable / shipped:
+- `/api/agents` on `vertex-ed-ai` → **401 LIVE_AUTH_REQUIRED** (PR #917+ deployed; rate-limit + GET-only on main)
+- Live-app base resolver landed (#984); CI wire for browser/smoke fallback open as **#986**
+- Study-UI core refinements already on main; wholesale salvage of `d6eee742` would regress Agent network + lens a11y — do not re-apply
+- Local: typecheck PASS; `test:app` 991/991 on earlier tip; build PASS
 
 Still human-blocked:
-- VX-203 custom domain DNS/TLS
+- VX-203 custom domain DNS/TLS (`www.vertexed.app`)
 - Gate 1b Supabase migrations + `WAITLIST_RATE_LIMIT_SALT`
 - VX-204 production auth isolation (depends on VX-203)
+- Vercel preview build rate-limit (`upgradeToPro=build-rate-limit`)
 
 | ID | Priority | Exact outcome | State |
 |---|---:|---|---|
 | VX-203 | P0 | www TLS/DNS → owning Vercel project | BLOCKED |
 | VX-203b | P0 | readiness RPC + rate-limit salt on prod Supabase/Vercel | BLOCKED |
-| VX-209 | P1 | Merge/deploy authenticated `/api/agents` (#917) or remove UI | VERIFYING |
+| VX-209 | P1 | Authenticated `/api/agents` live in production | DONE (401 unauth; auth path requires session) |
 | VX-204 | P0 | Production auth + isolation after VX-203 | BLOCKED |
+| VX-210 | P1 | Land #986 CI live-app fallback for browser/smoke | VERIFYING |
 
 ---
-
 
 ## Historical queue body (pre-2026-09-19 refresh)
 
