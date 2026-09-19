@@ -12,7 +12,7 @@ test('cloud save degradation stays user-facing, accessible, and fail-safe', asyn
   assert.match(source, /role="status"/);
   assert.match(source, /aria-live="polite"/);
   assert.match(source, /aria-atomic="true"/);
-  assert.match(source, /\.catch\(\(\) => \{/);
+  assert.match(source, /\.catch\(\(error\) => \{/);
   assert.match(source, /Cloud sync status couldn't be verified\./);
   assert.match(source, /Cloud sync will resume when the service is available again\./);
 });
@@ -28,7 +28,8 @@ test('cloud save banner dismissal and status are rebound to the current account'
   assert.match(source, /setDismissedForKey\(dismissKey\)/);
   assert.match(source, /safeStorageRemove\(storage, LEGACY_DISMISS_KEY\)/);
   assert.match(source, /\[dismissKey\]/);
-  assert.match(source, /\[showOnRoute, dismissed, location\.pathname, user\?\.id\]/);
+  assert.match(source, /\[showOnRoute, dismissed, user\?\.id\]/);
+  assert.doesNotMatch(source, /location\.pathname,\s*user\?\.id/);
   assert.doesNotMatch(source, /sessionStorage\.(?:getItem|setItem|removeItem)/);
 });
 

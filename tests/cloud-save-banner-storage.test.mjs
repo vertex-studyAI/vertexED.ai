@@ -22,3 +22,11 @@ test('legacy dismissal cleanup cannot override the account-scoped dismissal read
     /catch\s*\{[\s\S]*setDismissedForKey\(null\)/,
   );
 });
+
+test('cloud save banner probes availability once per account gate, not every pathname', () => {
+  assert.match(source, /new AbortController\(\)/);
+  assert.match(source, /listStudyArtifactsDetailed\(undefined, \{ limit: 1, signal: controller\.signal \}\)/);
+  assert.match(source, /\[showOnRoute, dismissed, user\?\.id\]/);
+  assert.doesNotMatch(source, /\[showOnRoute, dismissed, location\.pathname, user\?\.id\]/);
+  assert.match(source, /controller\.abort\(\)/);
+});
