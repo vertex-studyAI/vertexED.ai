@@ -52,7 +52,7 @@ const CORE_TOOLS: Tool[] = [
   { title: "Answer feedback", description: "Get practical feedback on a written answer or completed practice question.", to: "/answer-reviewer", cta: "Review an answer", icon: FileCheck2 },
   { title: "AI tutor", description: "Talk through a concept, question, or feedback without leaving the study flow.", to: "/chatbot", cta: "Ask a question", icon: MessageCircle },
   { title: "Study from your materials", description: "Bring together your own sources for grounded chat, guides, and revision outputs.", to: "/study-notebook", cta: "Open notebook", icon: BookOpen },
-  { title: "MYP study guides", description: "Browse the complete imported guides for all eight MYP subjects in one reliable reader.", to: "/study-guides", cta: "Open study guides", icon: GraduationCap },
+  { title: "MYP learning modules", description: "Study original, source-referenced lessons with worked reasoning, practice, transfer and retrieval across 17 subject paths.", to: "/myp", cta: "Open MYP modules", icon: GraduationCap },
 ];
 
 export default function Main() {
