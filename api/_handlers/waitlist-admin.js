@@ -68,7 +68,6 @@ export default async function handler(req, res) {
         if (result.error) throw result.error;
       }
 
-      const databaseUrl = new URL(process.env.SUPABASE_URL).origin;
       return res.status(200).json({
         entries: data ?? [],
         pagination: {
@@ -83,7 +82,7 @@ export default async function handler(req, res) {
           approved: approvedResult.count ?? 0,
           rejected: rejectedResult.count ?? 0,
         },
-        database: { url: databaseUrl, schema: 'public', table: 'waitlist' },
+        database: { schema: 'public', table: 'waitlist' },
       });
     }
 

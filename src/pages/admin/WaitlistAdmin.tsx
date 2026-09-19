@@ -145,7 +145,7 @@ export default function WaitlistAdmin() {
             </p>
             {database && (
               <p className="mt-2 text-xs text-muted-foreground">
-                Live source: <code>{database.url}/{database.schema}.{database.table}</code>
+                Live source: <code>{database.schema}.{database.table}</code>
               </p>
             )}
           </div>
