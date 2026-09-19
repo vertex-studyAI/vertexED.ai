@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import PageSection from '@/components/PageSection';
 import SEO from '@/components/SEO';
 import { authFetch } from '@/lib/apiAuth';
+import { waitlistAdminError } from '@/lib/waitlistAdminError.mjs';
 
 type WaitlistEntry = {
   id: string;
@@ -78,7 +79,7 @@ export default function WaitlistAdmin() {
       setPagination(data.pagination ?? { page: 1, pageSize: PAGE_SIZE, total: 0, totalPages: 1 });
     } catch (err) {
       if (requestId !== listRequestIdRef.current) return;
-      setError(err instanceof Error ? err.message : 'Failed to load waitlist');
+      setError(waitlistAdminError(err, 'load'));
       setEntries([]);
     } finally {
       if (requestId === listRequestIdRef.current) {
@@ -122,7 +123,7 @@ export default function WaitlistAdmin() {
       }
       void loadEntries();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to update entry');
+      setError(waitlistAdminError(err, 'update'));
     } finally {
       setUpdatingId(null);
     }
