@@ -16,6 +16,7 @@ import {
   extractChatAnswer,
   resolveOpenAiConfig,
 } from '../_lib/aiProviders.js';
+import { VERTEX_AGENTS } from '../_lib/vertexAgents.js';
 
 export const config = { maxDuration: 60, runtime: 'nodejs' };
 
@@ -48,7 +49,10 @@ async function requestStructuredReview(config: any, prompt: string, userId: stri
     const result = await callChatProvider({
       config,
       model,
-      messages: [{ role: 'user', content: prompt }],
+      messages: [
+        { role: 'system', content: VERTEX_AGENTS.answerReviewer.instructions },
+        { role: 'user', content: prompt },
+      ],
       temperature: 0.2,
       maxTokens: route.maxTokens,
       safetyIdentifier: createSafetyIdentifier(userId),
