@@ -35,7 +35,7 @@ export default function AgentNetworkPanel() {
   }, [attempt]);
 
   return (
-    <div className="agent-network" aria-live="polite">
+    <div className="agent-network" aria-live="polite" aria-busy={!network && !error}>
       <section className="agent-network-intro">
         <div className="agent-network-icon"><BrainCircuit aria-hidden="true" /></div>
         <div>
@@ -45,10 +45,15 @@ export default function AgentNetworkPanel() {
         </div>
       </section>
 
-      {!network && !error && <p className="agent-network-status">Checking the linked project…</p>}
-      {error && <div className="agent-network-status" role="status">
+      {!network && !error && <p className="agent-network-status" role="status">Checking the linked project…</p>}
+      {error && <div className="agent-network-status" role="alert">
         <p>{error} The built-in study roles remain available through their tools.</p>
-        <button type="button" className="neu-button mt-3 inline-flex min-h-11 items-center gap-2 px-4 py-2" onClick={() => setAttempt((value) => value + 1)}>
+        <button
+          type="button"
+          className="neu-button mt-3 inline-flex min-h-11 items-center gap-2 px-4 py-2"
+          onClick={() => setAttempt((value) => value + 1)}
+          aria-label="Retry loading the agent network directory"
+        >
           <RefreshCw aria-hidden="true" /> Try again
         </button>
       </div>}

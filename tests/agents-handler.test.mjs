@@ -29,5 +29,14 @@ test('agents handler exposes a public built-in catalog without instructions', ()
   }
   const source = readFileSync(new URL('../api/_handlers/agents.js', import.meta.url), 'utf8');
   assert.match(source, /verifyAuthUser/);
+  assert.match(source, /rateLimitUserEndpoint\(user\.id, 'agents', res/);
+  assert.match(source, /req\.method !== 'GET'/);
   assert.doesNotMatch(source, /instructions:/);
+});
+
+test('agents rejects non-GET methods before auth', async () => {
+  const { req, res, getStatus, getJson } = createMocks({ method: 'POST' });
+  await agentsHandler(req, res);
+  assert.equal(getStatus(), 405);
+  assert.equal(getJson()?.error, 'Method not allowed');
 });

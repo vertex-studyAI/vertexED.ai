@@ -1,6 +1,7 @@
 import { verifyAuthUser } from '../_lib/auth.js';
 import { resolveChatProvider } from '../_lib/aiProviders.js';
 import { listOpenAiProjectAgents } from '../_lib/openAiAgents.js';
+import { rateLimitUserEndpoint } from '../_lib/rateLimit.js';
 
 /** Public catalog only — never includes system instructions. */
 export const BUILT_IN_STUDY_AGENTS = Object.freeze([
@@ -17,8 +18,17 @@ export const BUILT_IN_STUDY_AGENTS = Object.freeze([
 ]);
 
 export default async function handler(req, res) {
+  if (req.method !== 'GET') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
   const user = await verifyAuthUser(req, res);
   if (!user) return;
+
+  // Bound OpenAI project listing cost; durable limiter when migrations applied.
+  if (!(await rateLimitUserEndpoint(user.id, 'agents', res, { limit: 60, windowMs: 60 * 60 * 1000 }))) {
+    return;
+  }
 
   res.setHeader('Cache-Control', 'private, no-store');
 
