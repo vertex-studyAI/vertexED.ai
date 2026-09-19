@@ -2,6 +2,7 @@ import { useEffect, useState, type FormEvent } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router";
 import PageSection from "@/components/PageSection";
+import { authUiError } from "@/lib/authUi.mjs";
 import {
   clearPasswordRecoveryMarker,
   hasVerifiedPasswordRecovery,
@@ -84,14 +85,15 @@ export default function ResetPassword() {
 
       const { error: signOutError } = await supabase.auth.signOut();
       if (signOutError) {
-        throw new Error(
+        setError(
           "Password updated, but VertexED could not verify that this recovery session was signed out. Do not continue using this session; return to login after the session is fully cleared.",
         );
+        return;
       }
 
       setSuccess(true);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not update your password. Request a new reset link and try again.");
+      setError(authUiError(err, "password-update"));
     } finally {
       setSaving(false);
     }

@@ -39,5 +39,8 @@ export function authUiError(error, action = 'login') {
   if (action === 'signup') {
     return 'Your account was created, but VertexED could not finish signing you in. Try logging in, or use Google sign-in if that is how you usually access VertexED.';
   }
+  if (action === 'password-update') {
+    return 'Could not update your password. Request a new reset link and try again.';
+  }
   return 'We could not sign you in. Try again, use Google sign-in, or reset your password.';
 }
