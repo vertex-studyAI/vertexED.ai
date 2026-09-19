@@ -1,9 +1,10 @@
 import { Link } from 'react-router';
-import { ArrowRight, Bot, Flame, Sparkles, Target } from 'lucide-react';
+import { ArrowRight, Flame, Sparkles, Target } from 'lucide-react';
 import type { EcosystemBrief } from '@/lib/studyEcosystem';
 import type { RetrievalPulse } from '@/lib/retrievalPulse';
 import type { PortalIntelligence } from '@/lib/portalFeatures';
 import ExamReadinessRing from '@/components/dashboard/ExamReadinessRing';
+import ApexAvatar from '@/components/chat/ApexAvatar';
 import ExamCountdown from '@/components/curriculum/ExamCountdown';
 import BoardBadge from '@/components/curriculum/BoardBadge';
 import LiquidGlass from '@/components/LiquidGlass';
@@ -102,7 +103,7 @@ export default function PortalCommandCenter({ brief, pulse, intel }: Props) {
                 className="btn-glass inline-flex items-center gap-2"
                 onClick={askApex}
               >
-                <Bot className="h-4 w-4" />
+                <ApexAvatar className="apex-avatar-inline" />
                 Ask Apex
               </button>
               <Link to="/exam-prep" className="btn-glass text-sm">

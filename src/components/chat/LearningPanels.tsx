@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import AiFeedbackControls from '@/components/AiFeedbackControls';
+import { formatLearningWorkspaceMarkdown } from '@/lib/learningPanels.mjs';
 import ChatMarkdown from './ChatMarkdown';
 
 export type LearningWorkspace = { title: string; cards: { kind: string; title: string; body: string; hint?: string; answer?: string }[] };
@@ -6,11 +8,21 @@ export default function LearningPanels({ workspace, example = false }: { workspa
   const [layout, setLayout] = useState<'sequence' | 'overview'>('sequence');
   const [active, setActive] = useState(0);
   const [working, setWorking] = useState<Record<number, string>>({});
+  const [copyStatus, setCopyStatus] = useState('');
+  const formattedWorkspace = formatLearningWorkspaceMarkdown(workspace, working, example);
   const download = () => {
-    const text = [`# ${workspace.title}`, example ? 'Original sample lesson' : 'AI-generated draft. Check against course materials.', ...workspace.cards.map((card, index) => `## ${card.title}\n\n${card.body}${working[index] ? `\n\n### My working\n${working[index]}` : ''}${card.hint ? `\n\nHint: ${card.hint}` : ''}${card.answer ? `\n\nWorked answer: ${card.answer}` : ''}`)].join('\n\n');
-    const url = URL.createObjectURL(new Blob([text], { type: 'text/markdown;charset=utf-8' }));
+    const url = URL.createObjectURL(new Blob([formattedWorkspace], { type: 'text/markdown;charset=utf-8' }));
     const link = document.createElement('a'); link.href = url; link.download = 'vertexed-study-notes.md'; link.click();
     window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+  };
+  const copy = async () => {
+    try {
+      if (!navigator.clipboard?.writeText) throw new Error('Clipboard unavailable');
+      await navigator.clipboard.writeText(formattedWorkspace);
+      setCopyStatus('Study notes copied.');
+    } catch {
+      setCopyStatus('Copy was blocked by the browser. Download the Markdown file instead.');
+    }
   };
   return <section className="apex-workspace" aria-label="Learning workspace">
     <header><p className="vee-eyebrow">{example ? 'Original sample lesson' : 'AI-generated study draft'}</p><h3>{workspace.title}</h3><p className="text-sm text-muted-foreground">{example ? 'Try the card workflow without sending an AI request.' : 'Check the explanations against your course materials.'} Temporary workspace. Nothing is saved automatically.</p></header>
@@ -22,6 +34,11 @@ export default function LearningPanels({ workspace, example = false }: { workspa
       {card.answer && <details><summary>Check worked answer</summary><ChatMarkdown>{card.answer}</ChatMarkdown></details>}
     </article>)}
     {layout === 'sequence' && <div className="apex-step-controls"><button type="button" disabled={active === 0} onClick={() => setActive(value => value - 1)}>Previous</button><span aria-live="polite">{active + 1} / {workspace.cards.length}</span><button type="button" disabled={active === workspace.cards.length - 1} onClick={() => setActive(value => value + 1)}>Next card</button></div>}
-    <button type="button" className="btn-glass" onClick={download}>Download study notes</button>
+    <div className="flex flex-wrap gap-2">
+      <button type="button" className="btn-glass" onClick={() => void copy()}>Copy study notes</button>
+      <button type="button" className="btn-glass" onClick={download}>Download study notes</button>
+    </div>
+    {copyStatus && <p className="text-sm text-muted-foreground" role="status">{copyStatus}</p>}
+    {!example && <AiFeedbackControls capability="apex_learning_workspace" />}
   </section>;
 }

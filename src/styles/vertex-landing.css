@@ -243,6 +243,7 @@
     linear-gradient(rgb(7 86 216 / 0.05) 1px, transparent 1px),
     linear-gradient(90deg, rgb(7 86 216 / 0.05) 1px, transparent 1px);
   background-size: 42px 42px;
+  -webkit-mask-image: linear-gradient(to bottom, rgb(0 0 0 / 0.85), transparent 92%);
   mask-image: linear-gradient(to bottom, rgb(0 0 0 / 0.85), transparent 92%);
 }
 

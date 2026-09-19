@@ -2,6 +2,7 @@ import { Helmet } from "react-helmet-async";
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/lib/supabaseClient";
+import { authUiError, safeAuthReturnPath } from "@/lib/authUi.mjs";
 import { useNavigate, Link, useLocation } from "react-router";
 import PageSection from "@/components/PageSection";
 
@@ -9,14 +10,16 @@ export default function Login() {
   const { login, loginWithGoogle } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const from = (location.state as { from?: string } | null)?.from || "/main";
+  const from = safeAuthReturnPath((location.state as { from?: string } | null)?.from);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [info, setInfo] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [loginMethod, setLoginMethod] = useState<"email" | "google" | null>(null);
   const [resetLoading, setResetLoading] = useState(false);
+
   const authBusy = loading || resetLoading;
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -36,14 +39,16 @@ export default function Login() {
     }
 
     setLoading(true);
+    setLoginMethod("email");
 
     try {
       await login(normalizedEmail, password);
       navigate(from, { replace: true });
     } catch (err) {
-      setError((err as Error).message);
+      setError(authUiError(err));
     } finally {
       setLoading(false);
+      setLoginMethod(null);
     }
   };
 
@@ -69,7 +74,7 @@ export default function Login() {
       if (resetError) throw resetError;
       setInfo("If an account exists for that email, we sent a password reset link.");
     } catch (err) {
-      setError((err as Error).message);
+      setError(authUiError(err, "reset"));
     } finally {
       setResetLoading(false);
     }
@@ -91,6 +96,7 @@ export default function Login() {
         <form
           className="relative glass-panel w-full max-w-md p-8 md:p-10"
           onSubmit={handleSubmit}
+          aria-busy={authBusy}
         >
           <h1 className="text-3xl font-semibold mb-2 text-center text-foreground">
             Pick up where you left off.
@@ -107,13 +113,18 @@ export default function Login() {
                 if (authBusy) return;
                 try {
                   setLoading(true);
+                  setLoginMethod("google");
                   setError(null);
                   setInfo(null);
                   await loginWithGoogle();
-                  window.setTimeout(() => setLoading(false), 4000);
+                  window.setTimeout(() => {
+                    setLoading(false);
+                    setLoginMethod(null);
+                  }, 4000);
                 } catch (err) {
-                  setError((err as Error).message);
+                  setError(authUiError(err));
                   setLoading(false);
+                  setLoginMethod(null);
                 }
               }}
               className="w-full neu-button py-3 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
@@ -125,7 +136,7 @@ export default function Login() {
                 <path fill="#4CAF50" d="M24 42c5.138 0 9.642-1.977 12.999-5.184l-5.999-4.999C29.86 33.876 27.08 35 24 35c-5.174 0-9.571-3.291-11.15-7.889l-6.57 5.061C9.607 37.556 16.227 42 24 42z"/>
                 <path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303c-1.363 3.18-5.768 6-11.303 6-5.174 0-9.571-3.291-11.15-7.889l-6.57 5.061C9.607 37.556 16.227 42 24 42c8.822 0 16.245-5.987 18.611-14.083.563-1.953.889-4.028.889-6.083 0-1.341-.138-2.651-.389-3.917z"/>
               </svg>
-              <span>Sign in with Google</span>
+              <span>{loginMethod === "google" ? "Opening Google sign-in…" : "Sign in with Google"}</span>
             </button>
             <p className="text-center text-xs text-muted-foreground leading-relaxed">
               Use the Google account connected to your VertexED beta access.
@@ -176,7 +187,7 @@ export default function Login() {
               disabled={authBusy}
               className="w-full neu-button py-3 mt-2 disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              {loading ? (
+              {loginMethod === "email" ? (
                 <span className="inline-flex items-center justify-center gap-2">
                   <span className="h-4 w-4 rounded-full border-2 border-primary-foreground/30 border-t-primary-foreground animate-spin" />
                   Signing in…
@@ -198,6 +209,12 @@ export default function Login() {
               {error}
             </div>
           )}
+
+          <p className="mt-4 text-center text-xs text-muted-foreground" role="status">
+            {supabase
+              ? "This build is connected for secure email and Google sign-in."
+              : "Login is unavailable in this build because its public auth settings are missing."}
+          </p>
 
           <p className="text-center mt-4 text-sm text-muted-foreground">
             Need access?{" "}

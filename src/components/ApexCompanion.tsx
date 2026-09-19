@@ -33,6 +33,8 @@ const reactions = [
   { name: 'blink', label: 'Blink' },
   { name: 'page-turn', label: 'Turn page' },
   { name: 'math', label: 'Math eyes' },
+  { name: 'think', label: 'Think' },
+  { name: 'celebrate', label: 'Celebrate' },
 ] as const;
 type Reaction = 'rest' | 'greeting' | typeof reactions[number]['name'];
 type PixelPosition = { left: number; top: number };
@@ -55,7 +57,7 @@ export default function ApexCompanion({ suspended, onOpenTutor }: ApexCompanionP
   const { settings, update } = useAppPreferences();
   const [open, setOpen] = useState(false);
   const [imageFailed, setImageFailed] = useState(false);
-  const [reaction, setReaction] = useState<{ name: Reaction; take: number }>({ name: 'greeting', take: 0 });
+  const [reaction, setReaction] = useState<{ name: Reaction; take: number }>({ name: 'rest', take: 0 });
   const [pixelPosition, setPixelPosition] = useState<PixelPosition | null>(null);
   const launcherRef = useRef<HTMLButtonElement>(null);
   const dragRef = useRef<{
@@ -69,10 +71,10 @@ export default function ApexCompanion({ suspended, onOpenTutor }: ApexCompanionP
   const suppressClickRef = useRef(false);
   const visible = settings.studyCompanion && !settings.simpleMode;
   const restSpriteSrc = getApexAppearance(settings.apexAppearance).src;
-  const reactionSpriteSrc = settings.apexAppearance === 'paper' && reaction.name === 'blink'
-    ? '/companions/apex-paper-blink-v4.png'
-    : settings.apexAppearance === 'paper' && reaction.name === 'page-turn'
-      ? '/companions/apex-paper-page-turn-v4.png'
+  const reactionSpriteSrc = reaction.name === 'blink'
+    ? `/companions/apex-${settings.apexAppearance}-blink-v4.png`
+    : reaction.name === 'page-turn'
+      ? `/companions/apex-${settings.apexAppearance}-page-turn-v4.png`
       : restSpriteSrc;
 
   const getBounds = () => {
@@ -103,14 +105,33 @@ export default function ApexCompanion({ suspended, onOpenTutor }: ApexCompanionP
   };
 
   useEffect(() => {
-    if (settings.reducedMotion) setReaction(previous => ({ name: 'rest', take: previous.take + 1 }));
-  }, [settings.reducedMotion]);
+    const stopReaction = () => setReaction(previous => previous.name === 'rest'
+      ? previous
+      : { name: 'rest', take: previous.take });
+    if (settings.reducedMotion || suspended || document.visibilityState === 'hidden') stopReaction();
+    const stopReactionWhenHidden = () => {
+      if (document.visibilityState === 'hidden') stopReaction();
+    };
+    document.addEventListener('visibilitychange', stopReactionWhenHidden);
+    return () => document.removeEventListener('visibilitychange', stopReactionWhenHidden);
+  }, [settings.reducedMotion, suspended]);
 
   useEffect(() => {
-    if (reaction.name !== 'blink' && reaction.name !== 'page-turn' && reaction.name !== 'math') return;
+    if (reaction.name === 'rest') return;
+    const duration = {
+      greeting: 460,
+      hop: 700,
+      wiggle: 650,
+      spin: 800,
+      blink: 420,
+      'page-turn': 820,
+      math: 1600,
+      think: 900,
+      celebrate: 1000,
+    }[reaction.name];
     const timer = window.setTimeout(
-      () => setReaction(previous => ({ name: 'rest', take: previous.take + 1 })),
-      reaction.name === 'blink' ? 420 : reaction.name === 'math' ? 1600 : 820,
+      () => setReaction(previous => ({ name: 'rest', take: previous.take })),
+      duration + 1000,
     );
     return () => window.clearTimeout(timer);
   }, [reaction.name, reaction.take]);
@@ -239,7 +260,7 @@ export default function ApexCompanion({ suspended, onOpenTutor }: ApexCompanionP
           }}>
           {!imageFailed && <img className="vee-sprite" src={restSpriteSrc} alt="" width="96" height="96"
             decoding="async" fetchPriority="low" draggable={false} onError={() => setImageFailed(true)} />}
-          <span className="vee-name">Apex <span aria-hidden="true">↗</span></span>
+          <span className="vee-name"><span>Apex<small>Open · change look</small></span><span aria-hidden="true">↗</span></span>
           <span id="vee-drag-instructions" className="vee-sr-only">Drag to move Apex, or use the arrow keys while focused.</span>
         </button>, document.body,
       )}
@@ -251,13 +272,22 @@ export default function ApexCompanion({ suspended, onOpenTutor }: ApexCompanionP
           </button>
           <div className="vee-intro" data-math={reaction.name === 'math' && !settings.reducedMotion}>
             {!imageFailed && <img key={reaction.take} data-reaction={reaction.name} className="vee-reaction-sprite"
-              src={reactionSpriteSrc} alt="" width="112" height="112" draggable={false} />}
+              src={reactionSpriteSrc} alt="" width="112" height="112" draggable={false}
+              onAnimationEnd={(event) => {
+                if (event.currentTarget !== event.target) return;
+                const finished = reaction;
+                window.requestAnimationFrame(() => setReaction(previous => (
+                  previous.name === finished.name && previous.take === finished.take
+                    ? { name: 'rest', take: previous.take }
+                    : previous
+                )));
+              }} />}
             <span className="apex-math-glyphs" aria-hidden="true">× + −</span>
             <div><p className="vee-eyebrow">YOUR STUDY COMPANION</p><h2 id="vee-title">Think it through.</h2></div>
           </div>
           <p id="vee-description">A study guide in your corner. Turn a question into a learning workspace.</p>
           <ApexCommandBar />
-          <details className="apex-character-settings"><summary>Appearance and animations</summary>
+          <details className="apex-character-settings"><summary>Change Apex: appearance and reactions</summary>
           {!imageFailed && <fieldset className="vee-appearance">
             <legend>Appearance</legend>
             <div className="vee-appearance-grid">
@@ -268,7 +298,10 @@ export default function ApexCompanion({ suspended, onOpenTutor }: ApexCompanionP
                     name="apex-appearance"
                     value={appearance.id}
                     checked={settings.apexAppearance === appearance.id}
-                    onChange={() => update({ apexAppearance: appearance.id })}
+                    onChange={() => {
+                      update({ apexAppearance: appearance.id });
+                      play('greeting');
+                    }}
                   />
                   <img src={appearance.src} alt="" width="56" height="56" draggable={false} />
                   <span><strong>{appearance.name}</strong><small>{appearance.description}</small></span>

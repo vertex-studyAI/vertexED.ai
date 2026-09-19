@@ -43,7 +43,9 @@
     "seo:indexnow": "node scripts/indexnow.mjs --host=https://www.vertexed.app --key=07fe36c13a0c4aee8856c99f640ebf98 --fromSitemap=public/sitemap.xml",
     "seo:release": "npm run seo:indexnow && npm run seo:ping",
     "debug": "DEBUG=ai:* vite",
-    "db:ledger:check": "node scripts/check-supabase-migration-ledger.mjs"
+    "db:ledger:check": "node scripts/check-supabase-migration-ledger.mjs",
+    "test:ci-evidence": "node --test tests/ci-evidence-manifest.test.mjs",
+    "test:staging-receipt": "node --test tests/staging-receipt.test.mjs"
   },
   "engines": {
     "node": ">=22.22.0 <23"

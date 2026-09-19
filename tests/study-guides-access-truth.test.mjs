@@ -12,9 +12,12 @@ test('public study guides do not pretend browser-side access control is secure',
   assert.doesNotMatch(styles, /study-guides-(?:paywall|preview-blur|access-form)/);
 });
 
-test('the complete guide reader and navigation remain available', () => {
+test('the guide reader remains available only for publication-eligible pages', () => {
   assert.match(source, /fetch\("\/study-guides\/myp\/manifest\.json"/);
   assert.match(source, /fetch\("\/study-guides\/myp\/provenance-ledger\.json"/);
+  assert.match(source, /publicationFilteredManifest\(sourceManifest, nextProvenance\.entries\)/);
+  assert.match(source, /manifest\.subjects\.length === 0/);
+  assert.match(source, /A warning label is not enough to make unreviewed material safe to study from/);
   assert.match(source, /<RichMarkdown className="study-guides-markdown">\{content\}<\/RichMarkdown>/);
   assert.match(source, /className="study-guides-search"/);
   assert.match(source, /className="study-guides-page-list"/);

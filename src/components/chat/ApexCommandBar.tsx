@@ -16,6 +16,7 @@ function AccountCommands() {
   const [workspace, setWorkspace] = useState<LearningWorkspace | null>(null);
   const [sample, setSample] = useState(false);
   const [status, setStatus] = useState('');
+  const [canRetry, setCanRetry] = useState(false);
   const [busy, setBusy] = useState(false);
   const [google, setGoogle] = useState(false);
   const [target, setTarget] = useState<{ to: string; label: string } | null>(null);
@@ -23,7 +24,7 @@ function AccountCommands() {
   useEffect(() => () => request.current?.abort(), []);
   const submit = async () => {
     if (!prompt.trim() || busy) return;
-    setStatus(''); setGoogle(false); setTarget(null);
+    setStatus(''); setCanRetry(false); setGoogle(false); setTarget(null);
     if (/\b(google|log\s?in|sign\s?in)\b/i.test(prompt)) {
       setGoogle(!user); setStatus(user ? 'You are already signed in. Submit your study request separately.' : 'Continue with Google below. After sign-in, reopen Apex to prepare your notes. No study action has run yet.'); return;
     }
@@ -40,7 +41,12 @@ function AccountCommands() {
       const parsed = parseLearningPanels(result.answer);
       if (!parsed) throw new Error('The response could not be organised into study cards. Your prompt is preserved. Try again or use the full tutor.');
       setWorkspace(parsed); setSample(false);
-    } catch (error) { if (!controller.signal.aborted) setStatus(error instanceof Error ? error.message : 'Could not prepare your cards. Try again.'); }
+    } catch (error) {
+      if (!controller.signal.aborted) {
+        setStatus(error instanceof Error ? error.message : 'Could not prepare your cards. Try again.');
+        setCanRetry(true);
+      }
+    }
     finally { if (!controller.signal.aborted) setBusy(false); }
   };
   return <div className="apex-command">
@@ -53,6 +59,7 @@ function AccountCommands() {
     <p className="apex-command-scope">Prepare learning cards or open your notebook, planner and graphing tools. Account changes always need your confirmation.</p>
     <button type="button" className="apex-sample-button" disabled={busy} onClick={() => { setWorkspace(cubicLesson); setSample(true); }}>Try the cubic factorisation sample ↗</button>
     {status && <p role="status" className="apex-command-status">{status}</p>}
+    {canRetry && !busy && <button type="button" className="btn-glass" onClick={() => void submit()}>Retry this request</button>}
     {google && <button type="button" className="btn-glass" disabled={busy} onClick={async () => { setBusy(true); try { await loginWithGoogle(); } catch (error) { setStatus(error instanceof Error ? error.message : 'Google sign-in could not start.'); } finally { setBusy(false); } }}>Continue with Google</button>}
     {target && <Link className="btn-glass" to={target.to}>{target.label} ↗</Link>}
     {workspace && <LearningPanels key={JSON.stringify(workspace)} workspace={workspace} example={sample} />}
