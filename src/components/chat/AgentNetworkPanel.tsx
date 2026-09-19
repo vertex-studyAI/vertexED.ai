@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Bot, BrainCircuit, Cloud, RefreshCw, ShieldCheck } from 'lucide-react';
-import { fetchAgentNetwork, type AgentNetwork } from '@/lib/agentNetworkApi';
+import {
+  AgentNetworkRequestError,
+  fetchAgentNetwork,
+  type AgentNetwork,
+} from '@/lib/agentNetworkApi';
 import { agentNetworkError } from '@/lib/agentNetworkError.mjs';
 import '@/styles/vee.css';
 
@@ -20,16 +24,19 @@ const CAPABILITY_LABELS: Record<string, string> = {
 export default function AgentNetworkPanel() {
   const [network, setNetwork] = useState<AgentNetwork | null>(null);
   const [error, setError] = useState('');
+  const [rateLimited, setRateLimited] = useState(false);
   const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
     const controller = new AbortController();
     setNetwork(null);
     setError('');
+    setRateLimited(false);
     void fetchAgentNetwork(controller.signal)
       .then((result) => setNetwork(result))
       .catch((reason) => {
         if (controller.signal.aborted) return;
+        setRateLimited(reason instanceof AgentNetworkRequestError && reason.status === 429);
         setError(agentNetworkError(reason));
       });
     return () => controller.abort();
@@ -53,9 +60,9 @@ export default function AgentNetworkPanel() {
           type="button"
           className="neu-button mt-3 inline-flex min-h-11 items-center gap-2 px-4 py-2"
           onClick={() => setAttempt((value) => value + 1)}
-          aria-label="Retry loading the agent network directory"
+          aria-label={rateLimited ? 'Retry loading the agent network directory after rate limit' : 'Retry loading the agent network directory'}
         >
-          <RefreshCw aria-hidden="true" /> Try again
+          <RefreshCw aria-hidden="true" /> {rateLimited ? 'Try again later' : 'Try again'}
         </button>
       </div>}
 
