@@ -65,7 +65,7 @@ function AccountGraph() {
   const [range, setRange] = useState(10);
   const plot = useMemo(() => {
     try { return { value: plotFunction(expression, range), error: '' }; }
-    catch (error) { return { value: null, error: error instanceof Error ? error.message : 'Could not plot this function.' }; }
+    catch (error) { return { value: null, error: 'Could not plot this function. Check the expression and try again.' }; }
   }, [expression, range]);
   const threeDSrc = 'https://www.desmos.com/3d?embed';
 
