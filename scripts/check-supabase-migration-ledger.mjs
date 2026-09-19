@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 const MIGRATION_FILENAME = /^(\d{8}(?:\d{6})?)_(.+)\.sql$/;
 const VERSION = /^(?:\d{8}|\d{14})$/;
 const JSON_LEDGER_ARRAY_KEYS = ['versions', 'migrations', 'rows', 'data'];
-const JSON_LEDGER_VERSION_KEYS = ['version', 'migration_version', 'id'];
+const JSON_LEDGER_VERSION_KEYS = ['version', 'migration_version'];
 const JSON_LEDGER_FILENAME_KEYS = ['name', 'filename'];
 
 export class MigrationLedgerError extends Error {}
@@ -54,6 +54,18 @@ function versionFromJsonRow(row, index) {
     if (typeof row[key] === 'string') {
       const match = row[key].match(/^(\d{8}(?:\d{6})?)(?:_|$)/);
       if (match) candidates.push(normalizeVersion(match[1], `ledger[${index}].${key}`));
+    }
+  }
+
+  // Some exported row formats use a generic numeric `id` alongside a proper
+  // migration-version field. Treat `id` as a version only when it is itself
+  // version-shaped, or as the sole fallback when no stronger field exists.
+  if (row.id != null && row.id !== '') {
+    const idText = String(row.id).trim();
+    if (VERSION.test(idText)) {
+      candidates.push(normalizeVersion(idText, `ledger[${index}].id`));
+    } else if (!candidates.length) {
+      normalizeVersion(idText, `ledger[${index}].id`);
     }
   }
 
