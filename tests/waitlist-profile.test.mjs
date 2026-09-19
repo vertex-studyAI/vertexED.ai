@@ -12,3 +12,12 @@ test('profile rejects missing fields, minors below beta age, invalid ages and ab
     assert.throws(() => normalizeWaitlistProfile(value));
   }
 });
+
+import fs from 'node:fs';
+
+test('waitlist handler only echoes curated profile validation copy', () => {
+  const source = fs.readFileSync('api/_handlers/waitlist.js', 'utf8');
+  assert.match(source, /message\.startsWith\('Please '\)/);
+  assert.match(source, /Please complete your study profile\./);
+  assert.doesNotMatch(source, /catch \(error\) \{ return res\.status\(400\)\.json\(\{ error: error\.message \}\); \}/);
+});
