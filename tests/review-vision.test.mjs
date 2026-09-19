@@ -5,16 +5,17 @@ import {
   describeReviewImages,
   ReviewImageProcessingError,
 } from '../api/_lib/reviewVision.js';
+import { DEFAULT_OPENAI_PRIMARY_MODEL } from '../api/_lib/aiProviders.js';
 
 function mockClient(create) {
-  return { chat: { completions: { create } } };
+  return { responses: { create } };
 }
 
 test('describeReviewImages returns trimmed evidence and forwards every image', async () => {
   let captured;
   const client = mockClient(async (request) => {
     captured = request;
-    return { choices: [{ message: { content: '  Question: solve x. Answer: x = 2.  ' } }] };
+    return { output_text: '  Question: solve x. Answer: x = 2.  ' };
   });
 
   const images = [
@@ -24,10 +25,22 @@ test('describeReviewImages returns trimmed evidence and forwards every image', a
   const result = await describeReviewImages(client, images);
 
   assert.equal(result, 'Question: solve x. Answer: x = 2.');
-  assert.equal(captured.model, 'gpt-4o');
-  assert.equal(captured.messages[0].content.length, 3);
-  assert.equal(captured.messages[0].content[1].image_url.url, images[0]);
-  assert.equal(captured.messages[0].content[2].image_url.url, images[1]);
+  assert.equal(captured.model, DEFAULT_OPENAI_PRIMARY_MODEL);
+  assert.equal(captured.store, false);
+  assert.equal(captured.input[0].content.length, 3);
+  assert.equal(captured.input[0].content[1].image_url, images[0]);
+  assert.equal(captured.input[0].content[2].image_url, images[1]);
+});
+
+test('describeReviewImages forwards a hashed safety identifier when supplied', async () => {
+  let captured;
+  const client = mockClient(async (request) => {
+    captured = request;
+    return { output_text: 'evidence' };
+  });
+
+  await describeReviewImages(client, ['data:image/png;base64,AAAA'], 'question', 'abc123hash');
+  assert.equal(captured.safety_identifier, 'abc123hash');
 });
 
 test('describeReviewImages supports a review-specific vision model override', async () => {
@@ -36,7 +49,7 @@ test('describeReviewImages supports a review-specific vision model override', as
   let captured;
   const client = mockClient(async (request) => {
     captured = request;
-    return { choices: [{ message: { content: 'evidence' } }] };
+    return { output_text: 'evidence' };
   });
 
   try {
@@ -60,7 +73,7 @@ test('describeReviewImages fails closed on provider errors', async () => {
 });
 
 test('describeReviewImages fails closed on empty vision output', async () => {
-  const client = mockClient(async () => ({ choices: [{ message: { content: '   ' } }] }));
+  const client = mockClient(async () => ({ output_text: '   ' }));
 
   await assert.rejects(
     () => describeReviewImages(client, ['data:image/png;base64,AAAA']),
@@ -72,7 +85,7 @@ test('describeReviewImages is a no-op for text-only reviews', async () => {
   let calls = 0;
   const client = mockClient(async () => {
     calls += 1;
-    return { choices: [] };
+    return { output_text: '' };
   });
 
   assert.equal(await describeReviewImages(client, []), '');
