@@ -47,19 +47,21 @@ export default function CloudSaveBanner() {
     !location.pathname.startsWith("/resources");
 
   useEffect(() => {
-    let cancelled = false;
+    const controller = new AbortController();
 
     if (!showOnRoute || dismissed) {
       setMessage(null);
       return () => {
-        cancelled = true;
+        controller.abort();
       };
     }
 
+    // Probe once per account/route-eligibility change — not on every pathname
+    // hop. Banner only needs cloud availability, so keep the list payload tiny.
     setMessage(null);
-    void listStudyArtifactsDetailed()
+    void listStudyArtifactsDetailed(undefined, { limit: 1, signal: controller.signal })
       .then((result) => {
-        if (cancelled) return;
+        if (controller.signal.aborted) return;
         if (result.cloudUnavailable) {
           setMessage(
             result.error ||
@@ -67,17 +69,19 @@ export default function CloudSaveBanner() {
           );
         }
       })
-      .catch(() => {
-        if (cancelled) return;
+      .catch((error) => {
+        if (controller.signal.aborted) return;
+        if (error instanceof DOMException && error.name === "AbortError") return;
+        if (error && typeof error === "object" && "name" in error && error.name === "AbortError") return;
         setMessage(
           "Cloud sync status couldn't be verified. Your notes, papers, and reviews still save on this device.",
         );
       });
 
     return () => {
-      cancelled = true;
+      controller.abort();
     };
-  }, [showOnRoute, dismissed, location.pathname, user?.id]);
+  }, [showOnRoute, dismissed, user?.id]);
 
   if (!showOnRoute || dismissed || !message) return null;
 

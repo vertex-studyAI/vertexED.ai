@@ -520,9 +520,15 @@ export async function listStudyArtifacts(kind?: StudyArtifactKind): Promise<Stud
   return result.items;
 }
 
+function isAbortError(error: unknown): boolean {
+  if (!error || typeof error !== 'object') return false;
+  if (error instanceof DOMException && error.name === 'AbortError') return true;
+  return 'name' in error && (error as { name?: string }).name === 'AbortError';
+}
+
 export async function listStudyArtifactsDetailed(
   kind?: StudyArtifactKind,
-  options: { limit?: number; offset?: number } = {},
+  options: { limit?: number; offset?: number; signal?: AbortSignal } = {},
 ): Promise<StudyArtifactListResult> {
   const scope = getUserContentStorageScope();
   if (!scope) return { ok: false, items: [], cloudUnavailable: true, error: 'Sign in to load study work.' };
@@ -536,13 +542,16 @@ export async function listStudyArtifactsDetailed(
     : [];
 
   try {
+    if (options.signal?.aborted) throw options.signal.reason ?? new DOMException('Aborted', 'AbortError');
     const accessToken = await getAccessToken();
     if (!isCurrentUserContentScope(scope)) return accountChangedListResult();
     if (!accessToken) throw new Error('Your session is unavailable.');
     const search = new URLSearchParams({ limit: String(limit), offset: String(offset) });
     if (kind) search.set('kind', kind);
     const qs = `?${search.toString()}`;
-    const res = await authFetchWithAccessToken(`/api/user-content${qs}`, accessToken);
+    const res = await authFetchWithAccessToken(`/api/user-content${qs}`, accessToken, {
+      signal: options.signal,
+    });
     const data = await res.json().catch(() => null);
     if (!isCurrentUserContentScope(scope)) return accountChangedListResult();
     if (!res.ok) {
@@ -561,6 +570,7 @@ export async function listStudyArtifactsDetailed(
       nextOffset: typeof data?.nextOffset === 'number' ? data.nextOffset : null,
     };
   } catch (err) {
+    if (isAbortError(err) || options.signal?.aborted) throw err;
     if (!isCurrentUserContentScope(scope)) return accountChangedListResult();
     return {
       ok: local.length > 0,
