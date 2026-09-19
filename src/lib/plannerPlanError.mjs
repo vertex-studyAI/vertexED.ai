@@ -18,7 +18,7 @@ export function plannerPlanError(error, action = 'week-plan') {
     message.includes('your plan changed')
     || message.includes('suggestion was loading')
   ) {
-    if (source.length > 0 && source.length <= 200 && !/[{}\[\]\\]|stack|postgres|openai|gemini|fetch failed/i.test(source)) {
+    if (source.length > 0 && source.length <= 200 && !/[{[\]]|stack|postgres|openai|gemini|fetch failed/i.test(source)) {
       return source;
     }
     return PLAN_CHANGED_COPY;
@@ -34,7 +34,7 @@ export function plannerPlanError(error, action = 'week-plan') {
     || message.includes('overlap')
     || message.includes('conflict')
   );
-  const looksLikeProviderLeak = /[{}\[\]\\]|stack|postgres|openai|gemini|fetch failed/i.test(source);
+  const looksLikeProviderLeak = /[{[\]]|stack|postgres|openai|gemini|fetch failed/i.test(source);
   if (
     looksLikeClientValidation
     && source.length > 0
