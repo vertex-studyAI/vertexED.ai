@@ -25,6 +25,7 @@ const HEALTH_ENV_KEYS = [
   'OPENAI_ORGANIZATION_ID',
   'GEMINI_API_KEY',
   'WAITLIST_RATE_LIMIT_SALT',
+  'HEALTH_READINESS_TOKEN',
   'VERCEL_GIT_COMMIT_SHA',
   'GITHUB_SHA',
   'VERCEL_ENV',
@@ -244,6 +245,50 @@ test('readiness returns 200 when all production capabilities are configured', as
     assert.ok(Object.values(getJson().checks).every(Boolean));
     assert.equal(getHeaders()['X-VertexED-Health'], 'ready');
     assert.equal(getHeaders()['X-VertexED-Health-Contract'], HEALTH_CONTRACT_VERSION);
+  });
+});
+
+test('readiness detail requires HEALTH_READINESS_TOKEN when configured', async () => {
+  await withHealthEnv({
+    SUPABASE_URL: 'https://example.supabase.co',
+    SUPABASE_ANON_KEY: 'anon-key',
+    SUPABASE_SERVICE_ROLE_KEY: 'service-role-key',
+    ChatbotKey: 'openai-key',
+    GEMINI_API_KEY: 'gemini-key',
+    WAITLIST_RATE_LIMIT_SALT: 'rate-limit-salt',
+    HEALTH_READINESS_TOKEN: 'operator-secret',
+  }, async () => {
+    const originalFetch = globalThis.fetch;
+    globalThis.fetch = async () => new Response(JSON.stringify({
+      atomicRateLimitRpc: true,
+      learnerStateStorage: true,
+      batchLearnerStateSync: true,
+      examSessionStorage: true,
+      observabilityStorage: true,
+      singletonIntegrity: true,
+    }), { status: 200, headers: { 'content-type': 'application/json' } });
+
+    try {
+      const denied = createMocks({ method: 'GET' });
+      denied.req.query = { readiness: '1' };
+      denied.req.url = '/api/health?readiness=1';
+      await handler(denied.req, denied.res);
+      assert.equal(denied.getStatus(), 200);
+      assert.equal(denied.getJson().status, 'ready');
+      assert.equal(denied.getJson().detail, 'redacted');
+      assert.equal(denied.getJson().checks, undefined);
+
+      const allowed = createMocks({ method: 'GET' });
+      allowed.req.query = { readiness: '1' };
+      allowed.req.url = '/api/health?readiness=1';
+      allowed.req.headers = { 'x-vertexed-readiness-token': 'operator-secret' };
+      await handler(allowed.req, allowed.res);
+      assert.equal(allowed.getStatus(), 200);
+      assert.ok(allowed.getJson().checks);
+      assert.equal(allowed.getJson().detail, undefined);
+    } finally {
+      globalThis.fetch = originalFetch;
+    }
   });
 });
 

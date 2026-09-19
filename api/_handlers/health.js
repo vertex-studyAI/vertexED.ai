@@ -129,6 +129,15 @@ function isReadinessRequest(req) {
   return mode === 'readiness' || ['1', 'true', 'yes'].includes(String(readiness || '').toLowerCase());
 }
 
+/** When HEALTH_READINESS_TOKEN is set, detailed checks require matching header. */
+export function authorizeDeepReadinessDetails(req, env = process.env) {
+  const configured = typeof env.HEALTH_READINESS_TOKEN === 'string' ? env.HEALTH_READINESS_TOKEN.trim() : '';
+  if (!configured) return true;
+  const header = req.headers?.['x-vertexed-readiness-token']
+    || req.headers?.['X-VertexED-Readiness-Token'];
+  return typeof header === 'string' && header.trim() === configured;
+}
+
 export default async function handler(req, res) {
   applyApiSecurityHeaders(res);
 
@@ -180,9 +189,13 @@ export default async function handler(req, res) {
   if (identityMissing) payload.identity = 'missing';
 
   if (readiness) {
-    payload.checks = readiness.checks;
-    payload.ai = readiness.ai;
-    if (readiness.databaseError) payload.databaseError = readiness.databaseError;
+    if (authorizeDeepReadinessDetails(req)) {
+      payload.checks = readiness.checks;
+      payload.ai = readiness.ai;
+      if (readiness.databaseError) payload.databaseError = readiness.databaseError;
+    } else {
+      payload.detail = 'redacted';
+    }
   } else if (!isProduction()) {
     payload.routes = Object.keys(ROUTES).length;
   }

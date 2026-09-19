@@ -27,6 +27,7 @@ import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import MarkdownLink from "@/components/markdown/MarkdownLink";
 import { enrichMathInText } from "@/lib/mathText";
+import { sanitizeMarkdown } from "@/lib/sanitize";
 import { Sliders, ArrowRight, FileText, Copy, Download, Image as ImageIcon, X, Sparkles, Shield, MessageSquareQuote, CheckCircle2, ClipboardCheck, Loader2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import AiFeedbackControls from "@/components/AiFeedbackControls";
@@ -1121,7 +1122,7 @@ export default function AIAnswerReview() {
                               </code>
                             ),
                           }}>
-                            {enrichMathInText(response)}
+                            {sanitizeMarkdown(enrichMathInText(response))}
                           </ReactMarkdown>}
 
                           <div className="flex flex-wrap items-center gap-3 border-t border-border/60 pt-4">

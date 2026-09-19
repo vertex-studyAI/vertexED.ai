@@ -117,7 +117,10 @@ export const fetchChatbotAnswer = async (
 			return data;
 		} catch (error) {
 			lastError = error;
-			console.warn(`Chatbot request to ${endpoint} failed`, error);
+			console.warn(
+				`Chatbot request to ${endpoint} failed`,
+				error instanceof Error ? error.name : 'UnknownError',
+			);
 		}
 	}
 

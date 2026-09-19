@@ -5,6 +5,7 @@ import rehypeKatex from "rehype-katex";
 import "katex/dist/katex.min.css";
 import MarkdownLink from "@/components/markdown/MarkdownLink";
 import { enrichMathInText } from "@/lib/mathText";
+import { sanitizeMarkdown } from "@/lib/sanitize";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -14,9 +15,10 @@ type Props = {
 };
 
 export default function RichMarkdown({ children, className, transformMath = true }: Props) {
-  // react-markdown does not render raw HTML unless rehypeRaw is explicitly added.
-  // Keep the source as Markdown so structures and guide text are not altered before parsing.
-  const markdown = transformMath ? enrichMathInText(children || "") : children || "";
+  // Match ChatMarkdown: sanitize before parse so HTML/plugin drift cannot bypass MarkdownLink.
+  const markdown = sanitizeMarkdown(
+    transformMath ? enrichMathInText(children || "") : children || "",
+  );
 
   return (
     <div
