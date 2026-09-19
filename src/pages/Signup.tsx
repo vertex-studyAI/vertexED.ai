@@ -59,7 +59,7 @@ export default function Signup() {
         if (!cancelled) setEmail(data.email || "");
       })
       .catch((err) => {
-        if (!cancelled) setError((err as Error).message);
+        if (!cancelled) setError(authUiError(err, "validate-invite"));
       })
       .finally(() => {
         if (!cancelled) setLoading(false);
@@ -91,7 +91,7 @@ export default function Signup() {
       setSuccess(true);
       trackProductEvent("Waitlist Joined", { method: "email" });
     } catch (err) {
-      setError((err as Error).message);
+      setError(authUiError(err, "waitlist"));
     } finally {
       setLoading(false);
     }
@@ -181,7 +181,7 @@ export default function Signup() {
       });
       navigate("/connect-google", { replace: true });
     } catch (err) {
-      setError((err as Error).message);
+      setError(authUiError(err, "invite-signup"));
     } finally {
       setLoading(false);
     }

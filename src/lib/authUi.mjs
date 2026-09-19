@@ -63,5 +63,14 @@ export function authUiError(error, action = 'login') {
   if (action === 'export-device') {
     return 'Could not export the device backup. Check browser storage access and try again.';
   }
+  if (action === 'waitlist') {
+    return 'Could not join the waitlist. Check your email and connection, then try again.';
+  }
+  if (action === 'validate-invite') {
+    return 'Could not verify this approval link. Open a fresh invite from your email.';
+  }
+  if (action === 'invite-signup') {
+    return 'Could not create your account from this invite. Check the form and try again.';
+  }
   return 'We could not sign you in. Try again, use Google sign-in, or reset your password.';
 }

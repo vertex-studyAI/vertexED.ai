@@ -96,3 +96,10 @@ test('account settings toasts sanitize logout, Google link, delete, and export f
   assert.match(source, /authUiError\(error, ['"]export-device['"]\)/);
   assert.doesNotMatch(source, /description:\s*(?:error|err) instanceof Error \? (?:error|err)\.message/);
 });
+
+test('authUiError sanitizes waitlist and invite actions', () => {
+  assert.match(authUiError(new Error('upstream 502 detail'), 'waitlist'), /waitlist/i);
+  assert.match(authUiError(new Error('token expired xyz'), 'validate-invite'), /approval link|invite/i);
+  assert.match(authUiError(new Error('duplicate key'), 'invite-signup'), /create your account|invite/i);
+  assert.doesNotMatch(authUiError(new Error('duplicate key secret'), 'invite-signup'), /secret|duplicate key/i);
+});
