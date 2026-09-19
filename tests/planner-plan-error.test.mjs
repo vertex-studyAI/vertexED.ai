@@ -29,6 +29,19 @@ test('plannerPlanError preserves short client validation copy', () => {
   assert.equal(plannerPlanError(new Error('Tasks overlap on this date.'), 'edit-task'), 'Tasks overlap on this date.');
 });
 
+test('plannerPlanError preserves plan-changed stale-response races', () => {
+  const conflict = 'Your plan changed while the suggestion was loading. Try again with the updated plan.';
+  assert.equal(plannerPlanError(new Error(conflict)), conflict);
+  assert.match(
+    plannerPlanError(new Error('Your plan changed while the suggestion was loading. Try again with the updated plan. openai stack')),
+    /Your plan changed while the suggestion was loading/i,
+  );
+  assert.doesNotMatch(
+    plannerPlanError(new Error('Your plan changed while the suggestion was loading. Try again with the updated plan. openai stack')),
+    /openai stack/i,
+  );
+});
+
 test('PlannerView wires plannerPlanError for all planner failure paths', async () => {
   const root = join(dirname(fileURLToPath(import.meta.url)), '..');
   const source = await readFile(join(root, 'src/features/study-calendar/PlannerView.tsx'), 'utf8');

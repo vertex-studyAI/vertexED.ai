@@ -11,6 +11,19 @@ export function plannerPlanError(error, action = 'week-plan') {
       : '';
   const message = source.toLowerCase();
 
+  const PLAN_CHANGED_COPY = 'Your plan changed while the suggestion was loading. Try again with the updated plan.';
+
+  // Stale-response races — keep conflict copy (never provider text).
+  if (
+    message.includes('your plan changed')
+    || message.includes('suggestion was loading')
+  ) {
+    if (source.length > 0 && source.length <= 200 && !/[{}\[\]\\]|stack|postgres|openai|gemini|fetch failed/i.test(source)) {
+      return source;
+    }
+    return PLAN_CHANGED_COPY;
+  }
+
   // Client-side task validation — preserve exact known copy.
   const looksLikeClientValidation = (
     message.includes('duration')
