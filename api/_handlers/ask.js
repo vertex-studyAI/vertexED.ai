@@ -105,8 +105,6 @@ export default async function handler(req, res) {
       ({ response, raw, model: resolvedModel, provider } = await callProvider(FALLBACK_MODEL));
     }
 
-    console.log("AI provider status:", response.status, "provider:", provider, "model:", resolvedModel, "mode:", chatRoute.mode);
-
     if (!response.ok) {
       console.error("❌ AI provider error:", response.status, provider, resolvedModel);
       return respondAiFailure(res);
@@ -134,8 +132,6 @@ export default async function handler(req, res) {
       raw = fallbackCall.raw;
       response = fallbackCall.response;
       provider = fallbackCall.provider;
-
-      console.log("AI provider status:", response.status, "provider:", provider, "model:", resolvedModel, "mode:", chatRoute.mode);
 
       if (!response.ok) {
         console.error("❌ AI provider fallback error:", response.status, provider, resolvedModel);
