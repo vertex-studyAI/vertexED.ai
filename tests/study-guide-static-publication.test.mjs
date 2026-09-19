@@ -64,6 +64,21 @@ test('static build keeps only provenance-approved study-guide markdown', async (
   }
 });
 
+test('missing static guide directory is safe when the ledger approves nothing', async () => {
+  const root = await mkdtemp(join(tmpdir(), 'vertexed-guides-empty-'));
+  try {
+    const distRoot = join(root, 'dist');
+    await mkdir(distRoot, { recursive: true });
+    const ledgerPath = join(root, 'ledger.json');
+    await writeFile(ledgerPath, JSON.stringify({ entries: [] }));
+
+    const result = await pruneUnpublishedStudyGuides({ distRoot, ledgerPath });
+    assert.deepEqual(result, { approved: 0, kept: 0, removed: 0, scanned: 0 });
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
 test('static publication pruning fails closed when an approved file is absent', async () => {
   const root = await mkdtemp(join(tmpdir(), 'vertexed-guides-missing-'));
   try {
