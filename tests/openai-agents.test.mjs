@@ -10,7 +10,7 @@ const config = {
 
 test('agent ids are validated before they reach the browser catalog', () => {
   assert.equal(isOpenAiAgentId('agent_vertexed_1'), true);
-  assert.equal(isOpenAiAgentId('id'), true);
+  assert.equal(isOpenAiAgentId(' id '), true);
   assert.equal(isOpenAiAgentId('../agent_secret'), false);
 });
 
@@ -59,6 +59,37 @@ test('project agent inventory paginates and returns only public metadata', async
     { id: 'agent_notes', name: 'Unnamed agent', model: 'gpt-test-2', toolTypes: [], updatedAt: 456 },
   ]);
   assert.equal('instructions' in agents[0], false);
+});
+
+test('provider metadata is normalized to the browser contract and duplicate ids are removed', async () => {
+  const longName = ` ${'n'.repeat(140)} `;
+  const longModel = ` ${'m'.repeat(140)} `;
+  const longTool = ` ${'t'.repeat(80)} `;
+  const tools = Array.from({ length: 40 }, (_, index) => ({ type: index === 0 ? longTool : `tool_${index}` }));
+
+  const agents = await listOpenAiProjectAgents({
+    config,
+    fetchImpl: async () => ({
+      ok: true,
+      status: 200,
+      text: async () => JSON.stringify({
+        data: [
+          { id: ' agent_same ', name: longName, model: longModel, tools, updated_at: -1 },
+          { id: 'agent_same', name: 'duplicate', model: 'duplicate', tools: [] },
+        ],
+        has_more: false,
+        last_id: 'agent_same',
+      }),
+    }),
+  });
+
+  assert.equal(agents.length, 1);
+  assert.equal(agents[0].id, 'agent_same');
+  assert.equal(agents[0].name.length, 120);
+  assert.equal(agents[0].model.length, 120);
+  assert.equal(agents[0].toolTypes.length, 32);
+  assert.equal(agents[0].toolTypes[0].length, 64);
+  assert.equal(agents[0].updatedAt, null);
 });
 
 test('pagination continues when a page contains only filtered agent ids', async () => {
