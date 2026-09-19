@@ -218,12 +218,71 @@ test('malformed successful provider payloads fail closed instead of appearing as
   }
 });
 
-test('project agent provider failures are bounded', async () => {
+test('successful provider responses are bounded by declared and actual body size', async () => {
+  let declaredBodyReads = 0;
   await assert.rejects(
     listOpenAiProjectAgents({
       config,
-      fetchImpl: async () => ({ ok: false, status: 403, text: async () => '{"error":"private detail"}' }),
+      fetchImpl: async () => ({
+        ok: true,
+        status: 200,
+        headers: { get: (name) => name.toLowerCase() === 'content-length' ? String(4 * 1024 * 1024 + 1) : null },
+        text: async () => {
+          declaredBodyReads += 1;
+          return '{"data":[]}';
+        },
+      }),
+    }),
+    /OpenAI project agents returned an oversized response/,
+  );
+  assert.equal(declaredBodyReads, 0);
+
+  const oversizedBody = 'x'.repeat(4 * 1024 * 1024 + 1);
+  await assert.rejects(
+    listOpenAiProjectAgents({
+      config,
+      fetchImpl: async () => ({ ok: true, status: 200, text: async () => oversizedBody }),
+    }),
+    /OpenAI project agents returned an oversized response/,
+  );
+});
+
+test('provider pages cannot exceed the requested page cardinality', async () => {
+  const data = Array.from({ length: 101 }, (_, index) => ({
+    id: `agent_${index}`,
+    name: `Agent ${index}`,
+    model: 'gpt-test',
+    tools: [],
+  }));
+
+  await assert.rejects(
+    listOpenAiProjectAgents({
+      config,
+      fetchImpl: async () => ({
+        ok: true,
+        status: 200,
+        text: async () => JSON.stringify({ data, has_more: false, last_id: 'agent_100' }),
+      }),
+    }),
+    /OpenAI project agents returned an oversized page/,
+  );
+});
+
+test('project agent provider failures are bounded without reading private error bodies', async () => {
+  let bodyRead = false;
+  await assert.rejects(
+    listOpenAiProjectAgents({
+      config,
+      fetchImpl: async () => ({
+        ok: false,
+        status: 403,
+        text: async () => {
+          bodyRead = true;
+          return '{"error":"private detail"}';
+        },
+      }),
     }),
     (error) => error instanceof Error && error.message === 'OpenAI project agents could not be listed' && error.status === 403,
   );
+  assert.equal(bodyRead, false);
 });
