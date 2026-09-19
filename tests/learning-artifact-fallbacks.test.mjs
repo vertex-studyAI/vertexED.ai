@@ -20,6 +20,7 @@ const TEST_USER_ID = '550e8400-e29b-41d4-a716-446655440000';
 const ENV_KEYS = [
   'SUPABASE_URL', 'SUPABASE_ANON_KEY', 'SUPABASE_SERVICE_ROLE_KEY',
   'OPENAI_API_KEY', 'ChatbotKey', 'CHATBOT_KEY', 'NODE_ENV', 'VERCEL_ENV',
+  'WAITLIST_RATE_LIMIT_SALT',
 ];
 
 async function withEnvironment(values, fn) {
