@@ -5,6 +5,7 @@ import PageSection from "@/components/PageSection";
 
 interface Person {
   name: string;
+  fullName?: string;
   role: string;
   bio?: string;
   linkedin?: string;
