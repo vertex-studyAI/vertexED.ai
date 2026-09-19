@@ -1,13 +1,22 @@
 import { mergeExamSessionHistory, normalizeExamSession, readStoredExamSessionHistory } from './examSessionHistory.mjs';
 import { userContentStorageKeys } from './userContentStorageScope.mjs';
 import { queueLearnerStateWrite } from './learnerStateSync';
+import { studySyncError } from './studySyncError.mjs';
 
 export type ExamSessionRecord = NonNullable<ReturnType<typeof normalizeExamSession>>;
 
 export function readExamSessionHistoryState(): { entries: ExamSessionRecord[]; error: string | null } {
   try {
     return { entries: readStoredExamSessionHistory(localStorage, userContentStorageKeys().examPrepHistory), error: null };
-  } catch (error) { return { entries: [], error: error instanceof Error ? error.message : 'Session history is unavailable on this device.' }; }
+  } catch (error) {
+    return {
+      entries: [],
+      error: studySyncError(
+        (error instanceof Error && error.message) ? error : 'Session history is unavailable on this device.',
+        'load',
+      ),
+    };
+  }
 }
 
 export function saveExamSessionHistory(value: unknown): boolean {

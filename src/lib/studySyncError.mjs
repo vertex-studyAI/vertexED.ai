@@ -28,6 +28,7 @@ export function studySyncError(error, action = 'sync') {
     'delete failed',
     'invalid cloud snapshot',
     'invalid cloud snapshot.',
+    'session history is unavailable on this device.',
   ];
   if (known.includes(message)) return source;
 
