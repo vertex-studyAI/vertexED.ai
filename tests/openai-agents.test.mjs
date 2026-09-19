@@ -204,6 +204,20 @@ test('invalid operational limits fail before any provider request', async () => 
   assert.equal(requestCount, 0);
 });
 
+test('malformed successful provider payloads fail closed instead of appearing as an empty project', async () => {
+  const malformedPayloads = ['not-json', JSON.stringify({}), JSON.stringify({ data: null }), JSON.stringify([])];
+
+  for (const body of malformedPayloads) {
+    await assert.rejects(
+      listOpenAiProjectAgents({
+        config,
+        fetchImpl: async () => ({ ok: true, status: 200, text: async () => body }),
+      }),
+      /OpenAI project agents returned an invalid response/,
+    );
+  }
+});
+
 test('project agent provider failures are bounded', async () => {
   await assert.rejects(
     listOpenAiProjectAgents({
