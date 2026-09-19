@@ -16,10 +16,12 @@ import {
 } from 'lucide-react';
 
 import { useAuth } from '@/contexts/AuthContext';
+import ExamAssessmentSetup from '@/components/ExamAssessmentSetup';
 import ExamEvidence from '@/components/ExamEvidence';
 import ExamPracticeLab from '@/components/ExamPracticeLab';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { boardLabel, daysUntilExam } from '@/lib/curriculum';
+import '@/styles/exam-assessment.css';
 import {
   EXAM_PREP_PHASES,
   buildExamSession,
@@ -336,6 +338,11 @@ export default function ExamPrep() {
                 )}
               </div>
             </section>
+            <ExamAssessmentSetup
+              subject={subject}
+              programme={boardLabel(profile.curriculum.board) ?? ''}
+              grade={String(profile.curriculum.grade ?? '')}
+            />
             <ExamPracticeLab key={`${authLoading ? 'loading' : user?.id ?? 'anonymous'}:${subject}`} subject={subject} board={profile.curriculum.board} />
             <ExamEvidence subject={subject} />
             <section className="exam-prep-panel" aria-labelledby="session-history-title">
