@@ -49,5 +49,5 @@
 .vh-programme-switch{padding:5px;background:var(--wash);border:1px solid var(--line);border-radius:10px;gap:4px}
 .vh-programme-switch button{min-height:44px;padding:10px 20px;border-radius:8px;font-size:14px}
 .vh-programme-switch button[aria-pressed=true]{background:var(--blue);color:var(--paper)}
-@media(prefers-reduced-motion:reduce){.vertex-home *, .vertex-home *::before,.vertex-home *::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.revision-hero-card{transform:none}}
+@media(prefers-reduced-motion:reduce){.vertex-home,.vertex-home::before,.vertex-home::after,.vertex-home *, .vertex-home *::before,.vertex-home *::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.revision-hero-card{transform:none}}
 @media(prefers-reduced-transparency:reduce),(forced-colors:active){.vh-scroll-island{background:var(--paper);backdrop-filter:none;box-shadow:none}}
