@@ -40,7 +40,8 @@
     "seo:ping": "node scripts/ping-sitemaps.mjs https://www.vertexed.app/sitemap.xml",
     "seo:indexnow": "node scripts/indexnow.mjs --host=https://www.vertexed.app --key=07fe36c13a0c4aee8856c99f640ebf98 --fromSitemap=public/sitemap.xml",
     "seo:release": "npm run seo:indexnow && npm run seo:ping",
-    "debug": "DEBUG=ai:* vite"
+    "debug": "DEBUG=ai:* vite",
+    "db:ledger:check": "node scripts/check-supabase-migration-ledger.mjs"
   },
   "engines": {
     "node": ">=22.22.0 <23"
