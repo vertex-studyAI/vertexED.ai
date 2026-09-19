@@ -20,8 +20,11 @@ export default function Login() {
   const [loginMethod, setLoginMethod] = useState<"email" | "google" | null>(null);
   const [resetLoading, setResetLoading] = useState(false);
 
+  const authBusy = loading || resetLoading;
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (authBusy) return;
     setError(null);
     setInfo(null);
 
@@ -50,6 +53,7 @@ export default function Login() {
   };
 
   const handleResetPassword = async () => {
+    if (authBusy) return;
     setError(null);
     setInfo(null);
     const normalizedEmail = email.trim().toLowerCase();
@@ -92,7 +96,7 @@ export default function Login() {
         <form
           className="relative glass-panel w-full max-w-md p-8 md:p-10"
           onSubmit={handleSubmit}
-          aria-busy={loading || resetLoading}
+          aria-busy={authBusy}
         >
           <h1 className="text-3xl font-semibold mb-2 text-center text-foreground">
             Pick up where you left off.
@@ -104,7 +108,7 @@ export default function Login() {
           <div className="space-y-4">
             <button
               type="button"
-              disabled={loading}
+              disabled={authBusy}
               onClick={async () => {
                 try {
                   setLoading(true);
@@ -170,7 +174,7 @@ export default function Login() {
             <div className="flex justify-end">
               <button
                 type="button"
-                disabled={loading || resetLoading}
+                disabled={authBusy}
                 onClick={() => void handleResetPassword()}
                 className="text-xs text-muted-foreground hover:text-primary transition disabled:opacity-60"
               >
@@ -179,7 +183,7 @@ export default function Login() {
             </div>
             <button
               type="submit"
-              disabled={loading}
+              disabled={authBusy}
               className="w-full neu-button py-3 mt-2 disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {loginMethod === "email" ? (
