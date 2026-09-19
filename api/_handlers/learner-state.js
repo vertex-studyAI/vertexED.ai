@@ -3,6 +3,7 @@ import { getQueryParam } from '../_lib/query.js';
 import { rateLimitUserEndpoint } from '../_lib/rateLimit.js';
 import { getSupabaseAdmin } from '../_lib/supabaseAdmin.js';
 import {
+  learnerStateMutationHttpStatus,
   listLearnerStateItems,
   normalizeLearnerStateItem,
   syncLearnerStateItems,
@@ -76,7 +77,14 @@ export default async function handler(req, res) {
         applied: item.applied === true,
         serverUpdatedAt: item.server_updated_at ?? null,
       }));
-      return res.status(200).json({ contractVersion: 'vertexed.learner-state.v1', results });
+      const status = learnerStateMutationHttpStatus(results);
+      return res.status(status).json({
+        contractVersion: 'vertexed.learner-state.v1',
+        results,
+        ...(status === 409
+          ? { error: 'No learner-state writes were applied. Reload account sync and try again.' }
+          : {}),
+      });
     }
 
     res.setHeader('Allow', 'GET, POST');
