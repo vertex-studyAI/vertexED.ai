@@ -110,6 +110,8 @@ create index observability_events_feedback_idx
 alter table public.observability_events enable row level security;
 revoke all on table public.observability_events from public, anon, authenticated;
 grant select, insert, delete on table public.observability_events to service_role;
+-- Production defaults grant sequence access to client roles; override them.
+revoke all on sequence public.observability_events_id_seq from public, anon, authenticated;
 grant usage, select on sequence public.observability_events_id_seq to service_role;
 
 create or replace function public.prune_observability_events(retain_after timestamptz)
