@@ -43,7 +43,15 @@ export async function pruneUnpublishedStudyGuides({
   );
 
   const guideRoot = resolve(distRoot, 'study-guides', 'myp');
-  const markdownFiles = await collectMarkdownFiles(guideRoot);
+  let markdownFiles;
+  try {
+    markdownFiles = await collectMarkdownFiles(guideRoot);
+  } catch (error) {
+    if (error?.code === 'ENOENT' && approved.size === 0) {
+      return { approved: 0, kept: 0, removed: 0, scanned: 0 };
+    }
+    throw error;
+  }
   const observed = new Set(markdownFiles.map((path) => normalizedRelative(distRoot, path)));
 
   const missingApproved = [...approved].filter((path) => !observed.has(path));
