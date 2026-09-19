@@ -345,7 +345,7 @@ export default function SiteLayout() {
         className="immersive-main relative z-10 flex-1 container mx-auto px-4 md:px-6 pt-6 md:pt-8 pb-10"
       >
         <CloudSaveBanner />
-        <RouteErrorBoundary>
+        <RouteErrorBoundary resetKey={`${location.pathname}${location.search}${location.hash}`}>
           <Suspense fallback={<PageLoader label="Opening" />}>
             <Outlet />
           </Suspense>

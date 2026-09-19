@@ -8,20 +8,29 @@ test('account settings saved-work requests are latest-request and account scoped
   assert.match(source, /const artifactRequestIdRef = useRef\(0\)/);
   assert.match(source, /const requestId = \+\+artifactRequestIdRef\.current/);
   assert.match(source, /const requestScope = getUserContentStorageScope\(\)/);
+  assert.match(source, /const currentAccountIdRef = useRef/);
+  assert.match(source, /currentAccountIdRef\.current = user\?\.id \?\? null/);
+  assert.match(source, /const requestAccountId = user\?\.id \?\? null/);
+  assert.match(source, /const isCurrentRequest = \(\) =>/);
   assert.match(
     source,
-    /await listStudyArtifactsDetailed\([\s\S]*?if \(artifactRequestIdRef\.current !== requestId \|\| getUserContentStorageScope\(\) !== requestScope\) return;/,
+    /currentAccountIdRef\.current === requestAccountId/,
+  );
+  assert.match(
+    source,
+    /await listStudyArtifactsDetailed\([\s\S]*?if \(!isCurrentRequest\(\)\) return;/,
   );
   assert.match(source, /\}, \[kindFilter, user\?\.id\]\)/);
 
   const requestId = source.indexOf('const requestId = ++artifactRequestIdRef.current;');
   const requestScope = source.indexOf('const requestScope = getUserContentStorageScope();', requestId);
-  const requestStart = source.indexOf('await listStudyArtifactsDetailed(', requestScope);
-  const staleCheck = source.indexOf('artifactRequestIdRef.current !== requestId || getUserContentStorageScope() !== requestScope', requestStart);
+  const requestAccount = source.indexOf('const requestAccountId = user?.id ?? null;', requestScope);
+  const requestStart = source.indexOf('await listStudyArtifactsDetailed(', requestAccount);
+  const staleCheck = source.indexOf('if (!isCurrentRequest()) return;', requestStart);
   const artifactWrite = source.indexOf('setArtifacts((current) => {', staleCheck);
   assert.ok(requestId >= 0 && requestId < requestScope, 'request identity must be captured before storage scope');
-  assert.ok(requestScope < requestStart && requestStart < staleCheck, 'scope must be captured before discovery and checked afterward');
-  assert.ok(staleCheck < artifactWrite, 'stale results must be rejected before saved-work state is mutated');
+  assert.ok(requestScope < requestAccount && requestAccount < requestStart, 'account identity must be captured before discovery');
+  assert.ok(requestStart < staleCheck && staleCheck < artifactWrite, 'stale results must be rejected before saved-work state is mutated');
 });
 
 test('account settings saved-work loading state cannot strand after thrown failures', () => {
@@ -32,7 +41,7 @@ test('account settings saved-work loading state cannot strand after thrown failu
   );
   assert.match(
     source,
-    /finally \{[\s\S]*?artifactRequestIdRef\.current === requestId[\s\S]*?getUserContentStorageScope\(\) === requestScope[\s\S]*?setLoadingArtifacts\(false\)[\s\S]*?setLoadingMoreArtifacts\(false\)/,
+    /finally \{[\s\S]*?if \(isCurrentRequest\(\)\) \{[\s\S]*?setLoadingArtifacts\(false\)[\s\S]*?setLoadingMoreArtifacts\(false\)/,
   );
 });
 
