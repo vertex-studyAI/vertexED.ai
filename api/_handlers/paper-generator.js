@@ -7,6 +7,7 @@ import {
 } from '../_lib/learningArtifactFallbacks.js';
 import { fetchProvider } from '../_lib/providerRequest.js';
 import { routeAiRequest } from '../_lib/aiRouting.js';
+import { VERTEX_AGENTS } from '../_lib/vertexAgents.js';
 
 const OPENAI_URL = "https://api.openai.com/v1/chat/completions";
 const DEFAULT_MODEL = "gpt-4.1";
@@ -287,7 +288,7 @@ export default async function handler(req, res) {
           temperature: 0.15,
           max_tokens: route.maxTokens,
           messages: [
-            { role: "system", content: buildSystemPrompt() },
+            { role: 'system', content: `${VERTEX_AGENTS.paperDesigner.instructions}\n\n${buildSystemPrompt()}` },
             { role: "user", content: buildUserPrompt(data) },
           ],
           response_format: {
