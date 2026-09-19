@@ -1,4 +1,5 @@
 import { formatSourcesForPrompt, GROUNDED_CHAT_RULES } from './grounding.js';
+import { VERTEX_AGENTS } from './vertexAgents.js';
 
 export function buildAskMessages({ question, history, context, sources }) {
   const trimmedQuestion = typeof question === 'string' ? question.trim() : '';
@@ -13,14 +14,9 @@ export function buildAskMessages({ question, history, context, sources }) {
       : '';
     messages.push({
       role: 'system',
-      content: `You are Apex, VertexED's discussion-first study tutor. The student is on: ${label}. ${hint}
+      content: `${VERTEX_AGENTS.apexTutor.instructions}
 
-Rules:
-- Deliberate step-by-step; ask what they've tried before giving full solutions.
-- Prefer Socratic follow-ups over dumping answers.
-- Use clear structure for math (steps, not just final values).
-- When relevant, reference exam technique, command terms, and mark-scheme thinking.
-- Keep responses focused; if a topic is large, offer a sensible first step and invite follow-up.`,
+The student is on: ${label}. ${hint}`,
     });
   }
 
