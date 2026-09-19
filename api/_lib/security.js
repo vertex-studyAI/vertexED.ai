@@ -14,14 +14,27 @@ export function isProduction() {
 }
 
 export function getClientIp(req) {
-  const forwarded = req.headers['x-forwarded-for'];
-  if (typeof forwarded === 'string' && forwarded.trim()) {
-    return forwarded.split(',')[0].trim();
+  const headers = req.headers || {};
+
+  // Prefer platform-controlled headers that clients cannot freely forge through the edge.
+  const vercelForwarded = headers['x-vercel-forwarded-for'];
+  if (typeof vercelForwarded === 'string' && vercelForwarded.trim()) {
+    return vercelForwarded.split(',')[0].trim();
   }
-  const realIp = req.headers['x-real-ip'];
+  const realIp = headers['x-real-ip'];
   if (typeof realIp === 'string' && realIp.trim()) {
     return realIp.trim();
   }
+
+  // X-Forwarded-For is only trusted when the deployment explicitly opts in
+  // (for example behind a known reverse proxy that sanitizes the chain).
+  if (process.env.TRUST_X_FORWARDED_FOR === '1') {
+    const forwarded = headers['x-forwarded-for'];
+    if (typeof forwarded === 'string' && forwarded.trim()) {
+      return forwarded.split(',')[0].trim();
+    }
+  }
+
   return req.socket?.remoteAddress || 'unknown';
 }
 

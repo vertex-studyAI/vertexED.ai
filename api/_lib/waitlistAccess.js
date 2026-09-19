@@ -2,8 +2,15 @@
  * Waitlist authorization for account creation when no team invite code is provided.
  */
 
-import { normalizeEmail } from './security.js';
+import { normalizeEmail, isProduction } from './security.js';
 import { hashInviteToken } from './inviteToken.js';
+
+function legacyInviteLookupsAllowed(env = process.env) {
+  if (env.ALLOW_LEGACY_INVITE_TOKENS === '1') return true;
+  if (env.ALLOW_LEGACY_INVITE_TOKENS === '0') return false;
+  // Production fail-closed unless explicitly re-enabled for a migration window.
+  return !isProduction();
+}
 
 export async function getWaitlistEntry(supabase, email) {
   const { data, error } = await supabase
@@ -31,6 +38,8 @@ export async function getWaitlistEntryByToken(supabase, token) {
 
   if (hashedError) throw hashedError;
   if (hashed) return { ...hashed, tokenStorage: 'hash', inviteTokenHash: tokenHash };
+
+  if (!legacyInviteLookupsAllowed()) return null;
 
   // Compatibility path for links issued before digest storage was deployed.
   // Fail closed on missing/expired windows: forever-valid plaintext tokens are
@@ -110,7 +119,7 @@ export async function assertWaitlistSignupAllowed(supabase, email, options = {})
     && entry.invite_expires_at
     && Date.parse(entry.invite_expires_at) > Date.now()
     && suppliedHash === entry.invite_token_hash;
-  const activeLegacyToken = Boolean(
+  const activeLegacyToken = legacyInviteLookupsAllowed() && Boolean(
     entry?.invite_token
     && entry.invite_token === inviteToken?.trim()
     && entry.invite_expires_at

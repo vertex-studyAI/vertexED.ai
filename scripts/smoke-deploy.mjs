@@ -8,6 +8,7 @@
 
 const BASE_URL = (process.env.SMOKE_BASE_URL || 'https://www.vertexed.app').replace(/\/$/, '');
 const TIMEOUT_MS = Number(process.env.SMOKE_TIMEOUT_MS || 20_000);
+const READINESS_TOKEN = (process.env.HEALTH_READINESS_TOKEN || '').trim();
 
 function normalizeRevision(value) {
   if (typeof value !== 'string') return null;
@@ -118,7 +119,9 @@ async function main() {
   }
 
   try {
-    const readiness = await request('/api/health?readiness=1', { method: 'GET', headers: {} });
+    const readinessHeaders = {};
+    if (READINESS_TOKEN) readinessHeaders['x-vertexed-readiness-token'] = READINESS_TOKEN;
+    const readiness = await request('/api/health?readiness=1', { method: 'GET', headers: readinessHeaders });
     const checks = readiness.body?.checks;
     const requiredChecks = ['authentication', 'waitlist', 'coreAi', 'plannerAi', 'durableRateLimiting',
       'databaseConnection', 'atomicRateLimitRpc', 'learnerStateStorage', 'batchLearnerStateSync',

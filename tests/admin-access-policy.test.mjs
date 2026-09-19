@@ -8,7 +8,7 @@ test('server admin decision is authoritative', () => {
     true,
   );
   assert.equal(
-    resolveAdminAccess({ apiDecision: false, isDevelopment: true, clientAllowlistMatch: true }),
+    resolveAdminAccess({ apiDecision: false, isDevelopment: true, clientAllowlistMatch: true, allowClientFallback: true }),
     false,
   );
 });
@@ -20,13 +20,27 @@ test('production fails closed when admin-status is unavailable', () => {
   );
 });
 
-test('development may use the client allowlist fallback', () => {
+test('client allowlist fallback requires an explicit local opt-in', () => {
   assert.equal(
     resolveAdminAccess({ apiDecision: null, isDevelopment: true, clientAllowlistMatch: true }),
+    false,
+  );
+  assert.equal(
+    resolveAdminAccess({
+      apiDecision: null,
+      isDevelopment: true,
+      clientAllowlistMatch: true,
+      allowClientFallback: true,
+    }),
     true,
   );
   assert.equal(
-    resolveAdminAccess({ apiDecision: null, isDevelopment: true, clientAllowlistMatch: false }),
+    resolveAdminAccess({
+      apiDecision: null,
+      isDevelopment: true,
+      clientAllowlistMatch: false,
+      allowClientFallback: true,
+    }),
     false,
   );
 });

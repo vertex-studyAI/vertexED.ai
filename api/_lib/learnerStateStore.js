@@ -5,6 +5,11 @@ const STATE_KEY = /^[A-Za-z0-9][A-Za-z0-9._:-]{0,159}$/;
 const REVISION = /^state:[0-9]{13}:[A-Za-z0-9-]{8,64}$/;
 const MAX_PAYLOAD_BYTES = 256 * 1024;
 
+/** Quote PostgREST filter values so `.` / `:` in keys cannot be parsed as operators. */
+function quotePostgrestValue(value) {
+  return `"${String(value).replace(/\\/g, '\\\\').replace(/"/g, '\\"')}"`;
+}
+
 function cleanDate(value) {
   if (typeof value !== 'string' || !Number.isFinite(Date.parse(value))) return null;
   const date = new Date(value);
@@ -67,7 +72,9 @@ export async function listLearnerStateItems(supabase, userId, cursor = null) {
     const [type, ...parts] = cursor.split(':');
     const key = parts.join(':');
     if (!STATE_TYPES.has(type) || !STATE_KEY.test(key)) throw new TypeError('Invalid learner-state cursor');
-    query = query.or(`state_type.gt.${type},and(state_type.eq.${type},state_key.gt.${key})`);
+    query = query.or(
+      `state_type.gt.${quotePostgrestValue(type)},and(state_type.eq.${quotePostgrestValue(type)},state_key.gt.${quotePostgrestValue(key)})`,
+    );
   }
   const { data, error } = await query.limit(501);
   const items = (data || []).slice(0, 500);

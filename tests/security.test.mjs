@@ -65,12 +65,48 @@ test('CORS permits the exact fallback and deployment but rejects sibling and spo
   } finally { if(previous===undefined)delete process.env.VERCEL_URL;else process.env.VERCEL_URL=previous; }
 });
 
-test('getClientIp prefers x-forwarded-for', () => {
-  const ip = getClientIp({
-    headers: { 'x-forwarded-for': '203.0.113.1, 10.0.0.1' },
-    socket: { remoteAddress: '127.0.0.1' },
-  });
-  assert.equal(ip, '203.0.113.1');
+test('getClientIp prefers platform headers over client X-Forwarded-For', () => {
+  assert.equal(
+    getClientIp({
+      headers: {
+        'x-forwarded-for': '198.51.100.1, 10.0.0.1',
+        'x-real-ip': '203.0.113.9',
+      },
+      socket: { remoteAddress: '127.0.0.1' },
+    }),
+    '203.0.113.9',
+  );
+  assert.equal(
+    getClientIp({
+      headers: { 'x-vercel-forwarded-for': '203.0.113.50' },
+      socket: { remoteAddress: '127.0.0.1' },
+    }),
+    '203.0.113.50',
+  );
+});
+
+test('getClientIp ignores untrusted X-Forwarded-For unless opted in', () => {
+  assert.equal(
+    getClientIp({
+      headers: { 'x-forwarded-for': '198.51.100.1' },
+      socket: { remoteAddress: '127.0.0.1' },
+    }),
+    '127.0.0.1',
+  );
+  const previous = process.env.TRUST_X_FORWARDED_FOR;
+  process.env.TRUST_X_FORWARDED_FOR = '1';
+  try {
+    assert.equal(
+      getClientIp({
+        headers: { 'x-forwarded-for': '198.51.100.1, 10.0.0.1' },
+        socket: { remoteAddress: '127.0.0.1' },
+      }),
+      '198.51.100.1',
+    );
+  } finally {
+    if (previous === undefined) delete process.env.TRUST_X_FORWARDED_FOR;
+    else process.env.TRUST_X_FORWARDED_FOR = previous;
+  }
 });
 
 test('isValidUuid accepts RFC4122 ids', () => {

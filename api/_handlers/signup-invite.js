@@ -109,7 +109,9 @@ export default async function handler(req, res) {
           console.error('signup-invite team rollback:', invitation.rollbackError.code || invitation.rollbackError.name || 'AuthError');
         }
         if (invitation.stage === 'invite' && invitation.error.message?.toLowerCase().includes('already')) {
-          return res.status(409).json({ error: 'This email is already registered. Try logging in.' });
+          return res.status(409).json({
+            error: 'If this email can join VertexED, check your inbox or try signing in.',
+          });
         }
         return res.status(invitation.stage === 'finalize' ? 503 : 400).json({
           error: invitation.stage === 'finalize'
@@ -154,7 +156,9 @@ export default async function handler(req, res) {
       if (signup.stage === 'create') {
         console.error('signup-invite createUser:', signup.error.code || signup.error.name || 'AuthError');
         if (signup.error.message?.toLowerCase().includes('already')) {
-          return res.status(409).json({ error: 'This email is already registered. Try logging in.' });
+          return res.status(409).json({
+            error: 'If this email can join VertexED, check your inbox or try signing in.',
+          });
         }
         return res.status(400).json({ error: 'Could not create account. Check your details and try again.' });
       }

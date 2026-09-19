@@ -25,6 +25,7 @@ import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import MarkdownLink from "@/components/markdown/MarkdownLink";
+import { sanitizeMarkdown } from "@/lib/sanitize";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { exportTextPdf, type PdfTextBlock } from '@/lib/pdfTextExport';
 import { formatFriendlyMath } from '@/lib/friendlyMath.mjs';
@@ -1543,7 +1544,7 @@ export default function NotetakerQuiz(): React.JSX.Element {
                         </div>
                         <div className="max-h-[28rem] overflow-auto rounded-2xl border border-border/60 bg-muted/40 p-4 text-foreground">
                           <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]} components={markdownComponents as any}>
-                            {notes || "_No content yet_"}
+                            {sanitizeMarkdown(notes || "_No content yet_")}
                           </ReactMarkdown>
                         </div>
                       </motion.div>
