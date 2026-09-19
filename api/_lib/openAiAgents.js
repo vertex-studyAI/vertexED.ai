@@ -190,6 +190,7 @@ export async function listOpenAiProjectAgents({
     if (after) url.searchParams.set('after', after);
 
     const requestTimeoutMs = Math.min(timeoutMs, remainingMs);
+    const requestStartedAt = now();
     const executeFetch = fetchImpl || ((requestUrl, options) => fetchWithTimeout(requestUrl, options, requestTimeoutMs));
     const response = await executeFetch(url.toString(), {
       method: 'GET',
@@ -204,14 +205,19 @@ export async function listOpenAiProjectAgents({
       throw error;
     }
 
-    const elapsedAfterHeadersMs = Math.max(0, now() - startedAt);
-    const remainingBodyMs = totalTimeoutMs - elapsedAfterHeadersMs;
+    const afterHeadersAt = now();
+    const elapsedAfterHeadersMs = Math.max(0, afterHeadersAt - startedAt);
+    const requestElapsedAfterHeadersMs = Math.max(0, afterHeadersAt - requestStartedAt);
+    const remainingTotalBodyMs = totalTimeoutMs - elapsedAfterHeadersMs;
+    const remainingRequestBodyMs = requestTimeoutMs - requestElapsedAfterHeadersMs;
+    const remainingBodyMs = Math.min(remainingTotalBodyMs, remainingRequestBodyMs);
+    const bodyTimeoutLabelMs = remainingRequestBodyMs <= remainingTotalBodyMs ? requestTimeoutMs : totalTimeoutMs;
     if (remainingBodyMs <= 0) {
       cancelWithoutBlocking(() => response.body?.cancel?.());
-      throw new ProviderTimeoutError(totalTimeoutMs);
+      throw new ProviderTimeoutError(bodyTimeoutLabelMs);
     }
 
-    const raw = await readBoundedProviderBody(response, remainingBodyMs, totalTimeoutMs);
+    const raw = await readBoundedProviderBody(response, remainingBodyMs, bodyTimeoutLabelMs);
     let payload = null;
     try {
       payload = raw ? JSON.parse(raw) : null;
