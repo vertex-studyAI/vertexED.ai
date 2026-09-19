@@ -26,6 +26,8 @@ export function studySyncError(error, action = 'sync') {
     'cloud sync timed out; using planner saved on this device',
     'update failed',
     'delete failed',
+    'invalid cloud snapshot',
+    'invalid cloud snapshot.',
   ];
   if (known.includes(message)) return source;
 
@@ -37,7 +39,7 @@ export function studySyncError(error, action = 'sync') {
   if (
     source.length > 0
     && source.length <= 120
-    && !/[{[\]]|stack|postgres|openai|gemini|supabase|jwt|rls/i.test(source)
+    && !/[[\]{}]|stack|postgres|openai|gemini|supabase|jwt|rls/i.test(source)
     && (
       message.includes('session')
       || message.includes('sign in')
@@ -62,6 +64,10 @@ export function studySyncError(error, action = 'sync') {
   }
   if (message.includes('fetch') || message.includes('network') || message.includes('timeout') || message.includes('abort')) {
     return 'VertexED could not reach cloud sync. Your device copy is preserved where possible.';
+  }
+
+  if (message.includes('invalid cloud snapshot') || message.includes('invalid snapshot')) {
+    return source.length > 0 && source.length <= 160 ? source : 'Invalid cloud snapshot';
   }
 
   if (action === 'update') return 'Could not update this item in the cloud.';
