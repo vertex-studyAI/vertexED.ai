@@ -26,11 +26,14 @@ test('agents handler exposes a public built-in catalog without instructions', ()
     assert.equal(typeof agent.name, 'string');
     assert.equal(typeof agent.capability, 'string');
     assert.equal('instructions' in agent, false);
+    assert.equal('system' in agent, false);
+    assert.equal('prompt' in agent, false);
   }
   const source = readFileSync(new URL('../api/_handlers/agents.js', import.meta.url), 'utf8');
   assert.match(source, /verifyAuthUser/);
   assert.match(source, /rateLimitUserEndpoint\(user\.id, 'agents', res/);
   assert.match(source, /req\.method !== 'GET'/);
+  assert.match(source, /Cache-Control['"],\s*['"]private, no-store['"]/);
   assert.doesNotMatch(source, /instructions:/);
 });
 
