@@ -478,7 +478,7 @@ test('approved learner completes the golden study journey and resumes saved work
 
   await page.getByPlaceholder(/IB Biology - photosynthesis/).fill('IB Biology photosynthesis');
   await page.getByRole('button', { name: 'Build notes' }).click();
-  await expect(page.getByText('Photosynthesis converts light energy')).toBeVisible();
+  await expect(page.getByRole('textbox', { name: 'Editable study notes' })).toContainText('Photosynthesis converts light energy');
   await expect(page.getByText('Notes saved', { exact: true })).toBeVisible();
 
   await page.getByRole('button', { name: 'Create quiz from notes' }).click();

@@ -225,6 +225,9 @@ test('Apex can be dragged, nudged by keyboard, reset and restored inside the vie
   await dialog.getByRole('button', { name: 'Close Apex study shortcuts' }).click();
   await expect(apexDialog(page)).toBeHidden();
   const reset = await launcher.boundingBox();
-  expect(reset!.x).toBeGreaterThan(880);
-  expect(reset!.y).toBeGreaterThan(620);
+  // Default corner is bottom-right with an edge gap; tolerate launcher width/font metrics.
+  expect(reset!.x + reset!.width).toBeGreaterThan(1000);
+  expect(reset!.y + reset!.height).toBeGreaterThan(740);
+  expect(reset!.x).toBeGreaterThan(820);
+  expect(reset!.y).toBeGreaterThan(600);
 });
