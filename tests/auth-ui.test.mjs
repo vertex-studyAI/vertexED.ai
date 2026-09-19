@@ -119,3 +119,25 @@ test('ApexCommandBar sanitizes Google sign-in and card-prep failures', async () 
   assert.doesNotMatch(source, /Google sign-in could not start/);
   assert.doesNotMatch(source, /setStatus\(error instanceof Error \? error\.message/);
 });
+
+test('settings curriculum/profile saves and SiteLayout logout sanitize through authUi', async () => {
+  const examDateHint = 'Choose a valid date for each exam, or remove the unfinished entry.';
+  assert.equal(authUiError(new Error(examDateHint), 'save-curriculum'), examDateHint);
+  assert.match(authUiError(new Error('AuthApiError: JWT expired detail'), 'save-curriculum'), /Could not save your curriculum/i);
+  assert.doesNotMatch(authUiError(new Error('AuthApiError: JWT expired detail'), 'save-curriculum'), /JWT expired/);
+  assert.match(authUiError(new Error('Failed to fetch'), 'save-profile'), /connection/i);
+  assert.doesNotMatch(authUiError(new Error('postgres RLS policy detail'), 'save-profile'), /postgres RLS/);
+
+  const { readFile } = await import('node:fs/promises');
+  const { fileURLToPath } = await import('node:url');
+  const { dirname, join } = await import('node:path');
+  const root = join(dirname(fileURLToPath(import.meta.url)), '..');
+  const settingsSource = await readFile(join(root, 'src/pages/UserSettings.tsx'), 'utf8');
+  const layoutSource = await readFile(join(root, 'src/components/layout/SiteLayout.tsx'), 'utf8');
+  assert.match(settingsSource, /authUiError\(e, ["']save-curriculum["']\)/);
+  assert.match(settingsSource, /authUiError\(e, ["']save-profile["']\)/);
+  assert.doesNotMatch(settingsSource, /description:\s*e instanceof Error \? e\.message/);
+  assert.match(layoutSource, /import \{ authUiError \} from "@\/lib\/authUi\.mjs"/);
+  assert.match(layoutSource, /authUiError\(error, ["']logout["']\)/);
+  assert.doesNotMatch(layoutSource, /description:\s*error instanceof Error \? error\.message/);
+});
