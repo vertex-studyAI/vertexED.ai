@@ -1,4 +1,4 @@
-import { verifyAuthUser } from '../_lib/auth.js';
+import { verifyAuthUserOnly } from '../_lib/auth.js';
 import { getSupabaseAdmin } from '../_lib/supabaseAdmin.js';
 import { rateLimitUserEndpoint } from '../_lib/rateLimit.js';
 import { buildAccountExport, listAllOwnedRows } from '../_lib/accountExport.js';
@@ -11,7 +11,7 @@ const STATE_FIELDS = 'state_type, state_key, payload, client_revision, client_up
 export default async function handler(req, res) {
   if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' });
 
-  const user = await verifyAuthUser(req, res);
+  const user = await verifyAuthUserOnly(req, res);
   if (!user) return;
   if (!(await rateLimitUserEndpoint(user.id, 'account-export', res, { limit: 3, windowMs: 60 * 60 * 1000 }))) return;
 
