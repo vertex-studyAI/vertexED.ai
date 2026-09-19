@@ -24,6 +24,8 @@ test('login errors give a safe, actionable recovery path', () => {
   assert.doesNotMatch(authUiError(new Error('AuthApiError: weak password policy detail'), 'password-update'), /weak password policy detail/);
   assert.match(authUiError(new Error('AuthApiError: weak password policy detail'), 'initial-password'), /fresh invite/i);
   assert.doesNotMatch(authUiError(new Error('AuthApiError: weak password policy detail'), 'initial-password'), /weak password policy detail/);
+  assert.match(authUiError(new Error('AuthApiError: identity already linked'), 'link-google'), /connect Google/i);
+  assert.doesNotMatch(authUiError(new Error('AuthApiError: identity already linked'), 'link-google'), /identity already linked/);
 });
 
 test('Signup wires authUiError only on post-create login failures', async () => {
@@ -60,4 +62,15 @@ test('SetInitialPassword wires authUiError for password attach failures only', a
   assert.match(source, /authUiError\(err, "initial-password"\)/);
   assert.doesNotMatch(source, /setError\(err instanceof Error \? err\.message/);
   assert.doesNotMatch(source, /authUiError\([^)]*,\s*"password-update"/);
+});
+
+test('ConnectGoogle toasts authUiError for linkIdentity failures', async () => {
+  const { readFile } = await import('node:fs/promises');
+  const { fileURLToPath } = await import('node:url');
+  const { dirname, join } = await import('node:path');
+  const root = join(dirname(fileURLToPath(import.meta.url)), '..');
+  const source = await readFile(join(root, 'src/pages/ConnectGoogle.tsx'), 'utf8');
+  assert.match(source, /import \{ authUiError \} from "@\/lib\/authUi\.mjs"/);
+  assert.match(source, /authUiError\(error, ["']link-google["']\)/);
+  assert.doesNotMatch(source, /description:\s*error\.message/);
 });

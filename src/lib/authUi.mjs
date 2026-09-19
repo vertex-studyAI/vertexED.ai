@@ -45,5 +45,8 @@ export function authUiError(error, action = 'login') {
   if (action === 'initial-password') {
     return 'Could not set your password. Open a fresh invite and try again.';
   }
+  if (action === 'link-google') {
+    return 'Could not connect Google to this VertexED account. Try again, or skip and connect later from Account Settings.';
+  }
   return 'We could not sign you in. Try again, use Google sign-in, or reset your password.';
 }
