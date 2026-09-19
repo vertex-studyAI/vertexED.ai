@@ -9,6 +9,7 @@ import {
 import { fetchProvider } from '../_lib/providerRequest.js';
 import { routeAiRequest } from '../_lib/aiRouting.js';
 import { validateNotebookOutput } from '../../contracts/learningOutputs.js';
+import { VERTEX_AGENTS } from '../_lib/vertexAgents.js';
 
 const ALLOWED_MODES = new Set(Object.keys(NOTEBOOK_OUTPUT_MODES));
 
@@ -79,7 +80,7 @@ ${sourceBlock}`;
           {
             role: 'system',
             content:
-              'You are Apex, VertexED\'s study intelligence. Generate high-quality, exam-focused study materials grounded strictly in the provided sources. Never fabricate content outside the sources.',
+              VERTEX_AGENTS.notebookResearcher.instructions,
           },
           { role: 'user', content: userPrompt },
         ],
