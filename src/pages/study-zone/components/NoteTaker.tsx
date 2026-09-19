@@ -1,7 +1,13 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { scrollAreaStyle } from "../styles";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import {
+	MAX_QUICK_NOTE_CONTENT,
+	MAX_QUICK_NOTE_TITLE,
+	MAX_QUICK_NOTES,
+	normalizeQuickNotes,
+} from "@/lib/quickNotesStorage.mjs";
 import { recordStudySession } from "@/lib/studyStats";
 import { sanitizeHtml } from "@/lib/sanitize";
 import { userContentStorageKeys } from "@/lib/userContentStorageScope.mjs";
@@ -29,16 +35,27 @@ const createNoteId = () =>
 const NoteTaker: React.FC<NoteTakerProps> = () => {
 	const { user, loading: authLoading } = useAuth();
 	const notesKey = userContentStorageKeys(authLoading ? undefined : user?.id ?? null).quickNotes;
-	const [notes, setNotes] = useLocalStorage<Note[]>(notesKey, []);
+	const [storedNotes, setStoredNotes] = useLocalStorage<unknown>(notesKey, []);
+	const notes = useMemo(() => normalizeQuickNotes(storedNotes) as Note[], [storedNotes]);
 	const [activeId, setActiveId] = useState<string | null>(null);
 	const [title, setTitle] = useState("");
 	const [content, setContent] = useState("");
+	const [saveHint, setSaveHint] = useState<string | null>(null);
 	const editorRef = useRef<HTMLDivElement | null>(null);
+
+	const updateNotes = useCallback((value: Note[] | ((current: Note[]) => Note[])) => {
+		setStoredNotes((current) => {
+			const previous = normalizeQuickNotes(current) as Note[];
+			const next = typeof value === "function" ? value(previous) : value;
+			return normalizeQuickNotes(next);
+		});
+	}, [setStoredNotes]);
 
 	useEffect(() => {
 		setActiveId(null);
 		setTitle("");
 		setContent("");
+		setSaveHint(null);
 		if (editorRef.current) editorRef.current.innerHTML = "";
 	}, [notesKey]);
 
@@ -60,20 +77,26 @@ const NoteTaker: React.FC<NoteTakerProps> = () => {
 		setActiveId(null);
 		setTitle("");
 		setContent("");
+		setSaveHint(null);
 		if (editorRef.current) {
 			editorRef.current.innerHTML = "";
 		}
 	};
 
 	const handleSave = () => {
-		const trimmedTitle = title.trim();
-		const trimmedContent = sanitizeHtml(content).trim();
+		const trimmedTitle = title.trim().slice(0, MAX_QUICK_NOTE_TITLE);
+		const trimmedContent = sanitizeHtml(content).trim().slice(0, MAX_QUICK_NOTE_CONTENT);
 		if (!trimmedTitle || !trimmedContent) {
+			setSaveHint("Add a title and some note text before saving.");
+			return;
+		}
+		if (!activeId && notes.length >= MAX_QUICK_NOTES) {
+			setSaveHint(`You can keep up to ${MAX_QUICK_NOTES} quick notes on this device.`);
 			return;
 		}
 
 		if (activeId) {
-			setNotes((prev) =>
+			updateNotes((prev) =>
 				prev.map((note) =>
 					note.id === activeId
 						? {
@@ -85,11 +108,12 @@ const NoteTaker: React.FC<NoteTakerProps> = () => {
 						: note,
 				),
 			);
+			setSaveHint("Note updated on this device.");
 			return;
 		}
 
 		const newId = createNoteId();
-		setNotes((prev) => [
+		updateNotes((prev) => [
 			{
 				id: newId,
 				title: trimmedTitle,
@@ -99,11 +123,12 @@ const NoteTaker: React.FC<NoteTakerProps> = () => {
 			...prev,
 		]);
 		setActiveId(newId);
+		setSaveHint("Note saved on this device.");
 		recordStudySession();
 	};
 
 	const handleDelete = (id: string) => {
-		setNotes((prev) => prev.filter((note) => note.id !== id));
+		updateNotes((prev) => prev.filter((note) => note.id !== id));
 		if (activeId === id) {
 			handleNew();
 		}
@@ -113,6 +138,7 @@ const NoteTaker: React.FC<NoteTakerProps> = () => {
 		setActiveId(note.id);
 		setTitle(note.title);
 		setContent(note.content);
+		setSaveHint(null);
 	};
 
 	const sortedNotes = useMemo(
@@ -175,6 +201,7 @@ const NoteTaker: React.FC<NoteTakerProps> = () => {
 						onChange={(event) => setTitle(event.target.value)}
 						placeholder="Exam prep outline"
 						className="form-control"
+						maxLength={MAX_QUICK_NOTE_TITLE}
 					/>
 				</div>
 
@@ -207,7 +234,9 @@ const NoteTaker: React.FC<NoteTakerProps> = () => {
 					</button>
 				</div>
 
+				{saveHint ? <p className="zone-subtle text-[13px] m-0" role="status">{saveHint}</p> : null}
 				<div className="zone-subtle text-[13px]">{activePreview}</div>
+				<p className="zone-subtle text-xs m-0">Quick notes stay on this account on the current device.</p>
 			</div>
 		</div>
 	);
