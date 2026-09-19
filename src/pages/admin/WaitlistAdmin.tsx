@@ -242,7 +242,7 @@ export default function WaitlistAdmin() {
               )}
               {emailSent === true && !lastInviteLink && (
                 <span className="text-xs text-emerald-300 self-center">
-                  Invite link omitted from this response — applicant has email delivery
+                  Invite link omitted from this response - applicant has email delivery
                 </span>
               )}
               {emailSent === false && (
