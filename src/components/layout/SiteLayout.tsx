@@ -13,6 +13,7 @@ import PageLoader from "@/components/PageLoader";
 import GlobalStudySearch from "@/components/GlobalStudySearch";
 import { useStudySessionTracker } from "@/hooks/useStudySessionTracker";
 import { toast } from "@/hooks/use-toast";
+import { authUiError } from "@/lib/authUi.mjs";
 import { logoutWithLocalFallback } from "@/lib/logoutFlow.mjs";
 import { shouldOfferApex } from "@/lib/apexRoute.mjs";
 import '@/styles/navigation.css';
@@ -83,7 +84,7 @@ export default function SiteLayout() {
     } catch (error) {
       toast({
         title: "Could not sign out",
-        description: error instanceof Error ? error.message : "Please try again.",
+        description: authUiError(error, "logout"),
         variant: "destructive",
       });
     }
