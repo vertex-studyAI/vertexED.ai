@@ -20,6 +20,11 @@ test('studySyncError preserves known product sync copy', () => {
     'Invalid cloud snapshot. Local work was preserved.',
   );
   assert.equal(
+    studySyncError('Session history is unavailable on this device.', 'load'),
+    'Session history is unavailable on this device.',
+  );
+
+  assert.equal(
     studySyncError(new Error('Cloud sync timed out; using planner saved on this device')),
     'Cloud sync timed out; using planner saved on this device',
   );
