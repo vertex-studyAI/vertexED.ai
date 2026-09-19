@@ -28,7 +28,7 @@ test('login errors give a safe, actionable recovery path', () => {
   assert.doesNotMatch(authUiError(new Error('AuthApiError: identity already linked'), 'link-google'), /identity already linked/);
 });
 
-test('Signup wires authUiError only on post-create login failures', async () => {
+test('Signup wires authUiError for invite login, waitlist, and invite signup failures', async () => {
   const { readFile } = await import('node:fs/promises');
   const { fileURLToPath } = await import('node:url');
   const { dirname, join } = await import('node:path');
@@ -36,7 +36,9 @@ test('Signup wires authUiError only on post-create login failures', async () => 
   const signupSource = await readFile(join(root, 'src/pages/Signup.tsx'), 'utf8');
   assert.match(signupSource, /import \{ authUiError \} from "@\/lib\/authUi\.mjs"/);
   assert.match(signupSource, /authUiError\(loginErr, "signup"\)/);
-  assert.doesNotMatch(signupSource, /authUiError\([^)]*,\s*"waitlist"/);
+  assert.match(signupSource, /authUiError\(err, "waitlist"\)/);
+  assert.match(signupSource, /authUiError\(err, "validate-invite"\)/);
+  assert.match(signupSource, /authUiError\(err, "invite-signup"\)/);
 });
 
 test('ResetPassword wires authUiError for password update failures only', async () => {
@@ -95,4 +97,11 @@ test('account settings toasts sanitize logout, Google link, delete, and export f
   assert.match(source, /authUiError\(error, ["']export-account["']\)/);
   assert.match(source, /authUiError\(error, ['"]export-device['"]\)/);
   assert.doesNotMatch(source, /description:\s*(?:error|err) instanceof Error \? (?:error|err)\.message/);
+});
+
+test('authUiError sanitizes waitlist and invite actions', () => {
+  assert.match(authUiError(new Error('upstream 502 detail'), 'waitlist'), /waitlist/i);
+  assert.match(authUiError(new Error('token expired xyz'), 'validate-invite'), /approval link|invite/i);
+  assert.match(authUiError(new Error('duplicate key'), 'invite-signup'), /create your account|invite/i);
+  assert.doesNotMatch(authUiError(new Error('duplicate key secret'), 'invite-signup'), /secret|duplicate key/i);
 });
