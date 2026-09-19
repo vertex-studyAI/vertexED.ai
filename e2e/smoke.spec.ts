@@ -18,12 +18,13 @@ test.describe('public launch journey', () => {
 
     await page.goto('/login');
     await expect(page.getByRole('heading', { name: 'Pick up where you left off.', exact: true })).toBeVisible();
-    await expect(page.getByLabel('Email')).toBeVisible();
+    await expect(page.getByLabel('Email address')).toBeVisible();
     await expect(page.getByLabel('Password')).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Log in', exact: true })).toBeVisible();
 
     await page.goto('/signup');
     await expect(page.getByRole('heading', { name: /join the waitlist/i })).toBeVisible();
-    await expect(page.getByLabel('Email')).toBeVisible();
+    await expect(page.getByLabel('Email address')).toBeVisible();
     await expect(page.getByRole('button', { name: /join waitlist/i })).toBeVisible();
   });
 
@@ -32,7 +33,7 @@ test.describe('public launch journey', () => {
     await page.getByRole('button', { name: /have an invite code/i }).click();
 
     await expect(page.getByRole('heading', { name: /create your account/i })).toBeVisible();
-    await expect(page.getByLabel('Email')).toBeVisible();
+    await expect(page.getByLabel('Email address')).toBeVisible();
     await expect(page.getByLabel('Invite code')).toBeVisible();
     await expect(page.getByLabel('Username')).toBeVisible();
     await expect(page.getByLabel('Password')).toHaveCount(0);
