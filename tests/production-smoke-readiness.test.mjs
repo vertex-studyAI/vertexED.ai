@@ -15,6 +15,17 @@ test('production smoke certifies readiness capabilities and immutable identity',
   assert.match(smokeSource, /assertExpectedRevision\(readiness/);
 });
 
+test('production smoke reports failed readiness checks and databaseError without weakening the gate', () => {
+  assert.match(smokeSource, /failedChecks=/);
+  assert.match(smokeSource, /databaseError=/);
+  assert.match(smokeSource, /readiness_rpc_missing/);
+  assert.match(smokeSource, /WAITLIST_RATE_LIMIT_SALT/);
+  assert.match(smokeSource, /public\.vertexed_readiness\(\)/);
+  // Gate remains fail-closed: readinessHealthy still requires status ready + all checks.
+  assert.match(smokeSource, /readinessHealthy/);
+  assert.match(smokeSource, /status === 'ready'/);
+});
+
 test('production smoke certifies HEAD health identity', () => {
   assert.match(smokeSource, /method: 'HEAD'/);
   assert.match(smokeSource, /HEAD \/api\/health/);
