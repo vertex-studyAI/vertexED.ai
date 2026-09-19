@@ -372,9 +372,20 @@ jobs:
         with:
           node-version: '22.22.0'
 
+      - name: Resolve live app origin for production smoke
+        id: live_app_smoke
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p ci-evidence
+          node scripts/resolve-live-app-base.mjs --print-json > ci-evidence/live-app-base.json
+          base="$(node -e 'const fs=require("fs"); const j=JSON.parse(fs.readFileSync("ci-evidence/live-app-base.json","utf8")); if(!j.base) process.exit(2); process.stdout.write(j.base)')"
+          echo "base=${base}" >> "$GITHUB_OUTPUT"
+          echo "[smoke] Using live app base ${base}"
+
       - name: Wait for production deployment and run smoke tests
         env:
-          SMOKE_BASE_URL: https://www.vertexed.app
+          SMOKE_BASE_URL: ${{ steps.live_app_smoke.outputs.base }}
         run: |
           set -euo pipefail
           export EXPECTED_VERTEXED_REVISION="$(node scripts/vercel-ignore-build.mjs --print-latest-runtime-revision)"

@@ -120,6 +120,13 @@ test('browser-production resolves live app base before Playwright', () => {
   );
 });
 
+test('smoke-production resolves live app base before smoke' , () => {
+  const smoke = canonicalCiWorkflow.slice(canonicalCiWorkflow.indexOf('  smoke-production:'));
+  assert.match(smoke, /Resolve live app origin for production smoke/);
+  assert.match(smoke, /SMOKE_BASE_URL:\s*\$\{\{\s*steps\.live_app_smoke\.outputs\.base\s*\}\}/);
+  assert.doesNotMatch(smoke, /SMOKE_BASE_URL:\s*https:\/\/www\.vertexed\.app/);
+});
+
 test('engineering-owned Study Notebook regressions pin Ubuntu 24.04', () => {
   const workflowFiles = [
     'apply-study-notebook-sync-status.yml',
