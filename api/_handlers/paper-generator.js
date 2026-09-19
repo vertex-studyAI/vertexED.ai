@@ -8,6 +8,7 @@ import {
 import { fetchProvider } from '../_lib/providerRequest.js';
 import { routeAiRequest } from '../_lib/aiRouting.js';
 import { VERTEX_AGENTS } from '../_lib/vertexAgents.js';
+import { isBlockedImageHostname } from '../../src/lib/safeImageSrc.mjs';
 
 const OPENAI_URL = "https://api.openai.com/v1/chat/completions";
 const DEFAULT_MODEL = "gpt-4.1";
@@ -101,6 +102,12 @@ export function validateImages(imagesInput = []) {
       }
       if (parsedUrl.protocol !== "https:") {
         throw new InputValidationError("Image URLs must use HTTPS");
+      }
+      if (parsedUrl.username || parsedUrl.password) {
+        throw new InputValidationError("Image URLs must not include credentials");
+      }
+      if (isBlockedImageHostname(parsedUrl.hostname)) {
+        throw new InputValidationError("Image URL host is not allowed");
       }
     }
 

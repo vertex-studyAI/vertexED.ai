@@ -33,6 +33,7 @@ import AiFeedbackControls from "@/components/AiFeedbackControls";
 import { recordWeakness } from "@/lib/weaknessTracker";
 import { MEASURED_WEAKNESS_EVIDENCE } from "@/lib/weaknessEvidenceCore.mjs";
 import { completeRetry } from "@/lib/retryQueue";
+import { safeImageSrc } from '@/lib/safeImageSrc.mjs';
 
 type Attachment = {
   id: string;
@@ -810,9 +811,13 @@ export default function AIAnswerReview() {
                         exit={{ opacity: 0, y: 10 }}
                         className="mt-3 flex flex-wrap gap-3"
                       >
-                        {questionImages.map((img) => (
+                        {questionImages.map((img) => {
+                          const src = safeImageSrc(img.src);
+                          return (
                           <div key={img.id} className="group relative h-24 w-24 overflow-hidden rounded-2xl border border-border/60 bg-muted shadow-lg">
-                            <img src={img.src} alt={img.name || "Question upload"} className="h-full w-full object-cover" />
+                            {src ? (
+                              <img src={src} alt={img.name || "Question upload"} className="h-full w-full object-cover" />
+                            ) : null}
                             <button
                               type="button"
                               onClick={() => removeImage(img.id, "question")}
@@ -822,7 +827,8 @@ export default function AIAnswerReview() {
                               <X size={12} />
                             </button>
                           </div>
-                        ))}
+                          );
+                        })}
                       </motion.div>
                     )}
                   </AnimatePresence>
@@ -863,9 +869,13 @@ export default function AIAnswerReview() {
                         exit={{ opacity: 0, y: 10 }}
                         className="mt-3 flex flex-wrap gap-3"
                       >
-                        {answerImages.map((img) => (
+                        {answerImages.map((img) => {
+                          const src = safeImageSrc(img.src);
+                          return (
                           <div key={img.id} className="group relative h-24 w-24 overflow-hidden rounded-2xl border border-border/60 bg-muted shadow-lg">
-                            <img src={img.src} alt={img.name || "Answer upload"} className="h-full w-full object-cover" />
+                            {src ? (
+                              <img src={src} alt={img.name || "Answer upload"} className="h-full w-full object-cover" />
+                            ) : null}
                             <button
                               type="button"
                               onClick={() => removeImage(img.id, "answer")}
@@ -875,7 +885,8 @@ export default function AIAnswerReview() {
                               <X size={12} />
                             </button>
                           </div>
-                        ))}
+                          );
+                        })}
                       </motion.div>
                     )}
                   </AnimatePresence>

@@ -1,9 +1,27 @@
 import { BUILD_REVISION } from '../_generated/build-revision.js';
 import { API_VERSION, ROUTES } from '../_lib/routes.js';
 import { getQueryParam } from '../_lib/query.js';
-import { applyApiSecurityHeaders, isProduction } from '../_lib/security.js';
+import { applyApiSecurityHeaders, getClientIp, isProduction } from '../_lib/security.js';
 import { getSupabaseAdmin } from '../_lib/supabaseAdmin.js';
 import { hasServerSupabaseConfig } from '../_lib/serverSupabase.js';
+import { createHash } from 'node:crypto';
+
+/** Per-instance probe limiter — must not depend on the DB readiness is checking. */
+const readinessProbeBuckets = new Map();
+
+function allowReadinessProbe(ipHash, limit = 30, windowMs = 60_000) {
+  const now = Date.now();
+  const entry = readinessProbeBuckets.get(ipHash);
+  if (!entry || now >= entry.resetAt) {
+    readinessProbeBuckets.set(ipHash, { count: 1, resetAt: now + windowMs });
+    return { allowed: true };
+  }
+  if (entry.count >= limit) {
+    return { allowed: false, retryAfterSec: Math.ceil((entry.resetAt - now) / 1000) };
+  }
+  entry.count += 1;
+  return { allowed: true };
+}
 
 export const HEALTH_CONTRACT_VERSION = '3';
 
@@ -120,6 +138,16 @@ export default async function handler(req, res) {
   }
 
   const readinessRequested = isReadinessRequest(req);
+  if (readinessRequested) {
+    const ipHash = createHash('sha256').update(getClientIp(req)).digest('hex').slice(0, 24);
+    const rate = allowReadinessProbe(ipHash);
+    if (!rate.allowed) {
+      if (rate.retryAfterSec) res.setHeader('Retry-After', String(rate.retryAfterSec));
+      return res.status(429).json({
+        error: 'Too many readiness probes. Try again shortly.',
+      });
+    }
+  }
   const readiness = readinessRequested ? await getDeepReadinessSnapshot() : null;
   const revision = getDeploymentRevision();
   const identityMissing = isProduction() && !revision;
