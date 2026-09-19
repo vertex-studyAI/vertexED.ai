@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import { Helmet } from "react-helmet-async";
 
 import PageSection from "@/components/PageSection";
+import { authUiError } from "@/lib/authUi.mjs";
 import { supabase } from "@/lib/supabaseClient";
 import { toast } from "@/hooks/use-toast";
 
@@ -19,7 +20,7 @@ export default function ConnectGoogle() {
     });
     if (error) {
       setConnecting(false);
-      toast({ title: "Could not connect Google", description: error.message, variant: "destructive" });
+      toast({ title: "Could not connect Google", description: authUiError(error, "link-google"), variant: "destructive" });
     }
   };
 
