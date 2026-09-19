@@ -361,7 +361,7 @@ export default function SiteLayout() {
       <main
         id="main-content"
         tabIndex={-1}
-        className="immersive-main relative z-10 flex-1 container mx-auto px-4 md:px-6 pt-6 md:pt-8 pb-10"
+        className={`immersive-main relative z-10 flex-1 container mx-auto px-4 md:px-6 pt-6 md:pt-8 pb-10 ${location.pathname === '/about' ? 'reading-main' : ''}`}
       >
         <CloudSaveBanner />
         <RouteErrorBoundary resetKey={`${location.pathname}${location.search}${location.hash}`}>
