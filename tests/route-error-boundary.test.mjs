@@ -14,7 +14,12 @@ test('route failures report only through the privacy-safe monitoring boundary', 
 test('route failures move focus to a useful recovery heading', () => {
   assert.match(boundary, /headingRef = React\.createRef<HTMLHeadingElement>/);
   assert.match(boundary, /headingRef\.current\?\.focus\(\{ preventScroll: true \}\)/);
-  assert.match(boundary, /<h2 ref=\{this\.headingRef\} tabIndex=\{-1\}/);
+  assert.match(boundary, /role="alert"/);
+  assert.match(boundary, /aria-labelledby="route-error-title"/);
+  assert.match(boundary, /aria-describedby="route-error-description"/);
+  assert.match(boundary, /id="route-error-title"/);
+  assert.match(boundary, /id="route-error-description"/);
+  assert.match(boundary, /<h2[\s\S]*ref=\{this\.headingRef\}[\s\S]*tabIndex=\{-1\}/);
   assert.match(boundary, /Your saved work has not been changed/);
 });
 

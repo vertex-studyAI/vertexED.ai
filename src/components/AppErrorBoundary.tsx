@@ -25,7 +25,7 @@ export default class AppErrorBoundary extends Component<
       source: 'react-error-boundary',
       componentStack: info.componentStack ?? 'unavailable',
     });
-    this.headingRef.current?.focus();
+    window.requestAnimationFrame(() => this.headingRef.current?.focus({ preventScroll: true }));
   }
 
   private reloadPage = () => {
