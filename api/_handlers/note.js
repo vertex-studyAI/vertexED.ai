@@ -9,6 +9,7 @@ import {
 } from '../_lib/learningArtifactFallbacks.js';
 import { fetchProvider } from '../_lib/providerRequest.js';
 import { routeAiRequest } from '../_lib/aiRouting.js';
+import { VERTEX_AGENTS } from '../_lib/vertexAgents.js';
 
 const PRIMARY_NOTE_MODEL = process.env.NOTE_MODEL || 'ft:gpt-4o-mini-2024-07-18:verteded:notes:CRuakY3O';
 const FALLBACK_NOTE_MODEL = process.env.NOTE_FALLBACK_MODEL || 'gpt-4o-mini';
@@ -181,7 +182,7 @@ ${String(text).slice(0, 10000)}`;
         },
         body: JSON.stringify({
           model: flashRoute.model,
-          messages: [{ role: "user", content: flashPrompt }],
+          messages: [{ role: 'system', content: VERTEX_AGENTS.quizBuilder.instructions }, { role: "user", content: flashPrompt }],
           temperature: 0.35,
           max_tokens: flashRoute.maxTokens,
           response_format: { type: "json_object" },
@@ -248,7 +249,7 @@ ${String(text).slice(0, 10000)}`;
     const systemMessage = {
       role: "system",
       content:
-        "You are an expert study assistant. " +
+        VERTEX_AGENTS.notesArchitect.instructions + " " +
         "Produce study notes with clear structure: short headings, bullet lists, examples. " +
         "Preserve LaTeX $$...$$. " +
         "Return exactly two blocks:\n\n" +
