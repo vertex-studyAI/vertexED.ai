@@ -20,7 +20,7 @@ test('account settings saved-work requests are latest-request and account scoped
     source,
     /await listStudyArtifactsDetailed\([\s\S]*?if \(!isCurrentRequest\(\)\) return;/,
   );
-  assert.match(source, /\}, \[kindFilter\]\)/);
+  assert.match(source, /\}, \[kindFilter, user\?\.id\]\)/);
   assert.match(
     source,
     /useEffect\(\(\) => \{[\s\S]*?void loadArtifacts\(\);[\s\S]*?\}, \[loadArtifacts, user\?\.id\]\);/,
