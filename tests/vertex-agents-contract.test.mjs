@@ -30,6 +30,7 @@ const HANDLER_WIRING = [
   ['api/_handlers/notebook.js', 'notebookResearcher'],
   ['api/_handlers/study-guide-chat.js', 'guideTutor'],
   ['api/_handlers/transcribe.js', 'transcriptionAssistant'],
+  ['api/_handlers/review-safe.ts', 'answerReviewer'],
 ];
 
 test('VERTEX_AGENTS exposes frozen built-in study agent profiles', () => {
