@@ -45,7 +45,8 @@
     "debug": "DEBUG=ai:* vite",
     "db:ledger:check": "node scripts/check-supabase-migration-ledger.mjs",
     "test:ci-evidence": "node --test tests/ci-evidence-manifest.test.mjs",
-    "test:staging-receipt": "node --test tests/staging-receipt.test.mjs"
+    "test:staging-receipt": "node --test tests/staging-receipt.test.mjs",
+    "resolve:live-app-base": "node scripts/resolve-live-app-base.mjs"
   },
   "engines": {
     "node": ">=22.22.0 <23"
