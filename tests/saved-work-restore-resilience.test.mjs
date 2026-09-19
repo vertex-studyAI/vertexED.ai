@@ -20,3 +20,8 @@ test('restore handoff only navigates after the storage handoff attempt', () => {
   const catchIndex = source.indexOf('} catch {', queueIndex);
   assert.ok(queueIndex >= 0 && navigateIndex > queueIndex && catchIndex > navigateIndex);
 });
+
+test('delete toast uses sanitized savedWorkError copy', () => {
+  assert.match(source, /savedWorkError\(result\.error, ["']delete["']\)/);
+  assert.doesNotMatch(source, /description:\s*result\.error/);
+});

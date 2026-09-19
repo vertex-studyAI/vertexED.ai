@@ -10,6 +10,7 @@ import {
   type StudyArtifactKind,
 } from "@/lib/userContent";
 import { toast } from "@/hooks/use-toast";
+import { savedWorkError } from "@/lib/savedWorkError.mjs";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -54,7 +55,7 @@ export default function SavedWorkList({
     } else {
       toast({
         title: "Could not delete",
-        description: result.error,
+        description: savedWorkError(result.error, "delete"),
         variant: "destructive",
       });
     }
