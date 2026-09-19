@@ -42,8 +42,14 @@ export function authUiError(error, action = 'login') {
   if (action === 'password-update') {
     return 'Could not update your password. Request a new reset link and try again.';
   }
+  if (action === 'recovery-session') {
+    return 'This password reset session has expired. Request a new link.';
+  }
   if (action === 'initial-password') {
     return 'Could not set your password. Open a fresh invite and try again.';
+  }
+  if (action === 'invite-session') {
+    return 'This invitation session has expired. Open a fresh invite from your email.';
   }
   if (action === 'link-google') {
     return 'Could not connect Google to this VertexED account. Try again, or skip and connect later from Account Settings.';

@@ -33,7 +33,11 @@ export default function ResetPassword() {
       if (cancelled) return;
       if (sessionError || !data.session) {
         clearPasswordRecoveryMarker();
-        setError(sessionError?.message || "This password reset session has expired. Request a new link.");
+        setError(
+          sessionError
+            ? authUiError(sessionError, "recovery-session")
+            : "This password reset session has expired. Request a new link.",
+        );
         setChecking(false);
         return;
       }

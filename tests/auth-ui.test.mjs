@@ -41,27 +41,37 @@ test('Signup wires authUiError for invite login, waitlist, and invite signup fai
   assert.match(signupSource, /authUiError\(err, "invite-signup"\)/);
 });
 
-test('ResetPassword wires authUiError for password update failures only', async () => {
+test('ResetPassword wires authUiError for recovery session and password update failures', async () => {
+  assert.match(authUiError(new Error('AuthApiError: session_not_found detail'), 'recovery-session'), /reset session has expired/i);
+  assert.doesNotMatch(authUiError(new Error('AuthApiError: session_not_found detail'), 'recovery-session'), /session_not_found/);
+
   const { readFile } = await import('node:fs/promises');
   const { fileURLToPath } = await import('node:url');
   const { dirname, join } = await import('node:path');
   const root = join(dirname(fileURLToPath(import.meta.url)), '..');
   const resetSource = await readFile(join(root, 'src/pages/ResetPassword.tsx'), 'utf8');
   assert.match(resetSource, /import \{ authUiError \} from "@\/lib\/authUi\.mjs"/);
+  assert.match(resetSource, /authUiError\(sessionError, "recovery-session"\)/);
   assert.match(resetSource, /authUiError\(err, "password-update"\)/);
   assert.match(resetSource, /if \(signOutError\)[\s\S]*?throw new Error[\s\S]*?setSuccess\(true\)/);
   assert.match(resetSource, /Password updated, but/);
+  assert.doesNotMatch(resetSource, /sessionError\?\.message/);
   assert.doesNotMatch(resetSource, /setError\(err instanceof Error \? err\.message/);
 });
 
-test('SetInitialPassword wires authUiError for password attach failures only', async () => {
+test('SetInitialPassword wires authUiError for invite session and password attach failures', async () => {
+  assert.match(authUiError(new Error('AuthApiError: jwt expired secret'), 'invite-session'), /invitation session has expired/i);
+  assert.doesNotMatch(authUiError(new Error('AuthApiError: jwt expired secret'), 'invite-session'), /jwt expired|secret/);
+
   const { readFile } = await import('node:fs/promises');
   const { fileURLToPath } = await import('node:url');
   const { dirname, join } = await import('node:path');
   const root = join(dirname(fileURLToPath(import.meta.url)), '..');
   const source = await readFile(join(root, 'src/pages/SetInitialPassword.tsx'), 'utf8');
   assert.match(source, /import \{ authUiError \} from "@\/lib\/authUi\.mjs"/);
+  assert.match(source, /authUiError\(sessionError, "invite-session"\)/);
   assert.match(source, /authUiError\(err, "initial-password"\)/);
+  assert.doesNotMatch(source, /sessionError\?\.message/);
   assert.doesNotMatch(source, /setError\(err instanceof Error \? err\.message/);
   assert.doesNotMatch(source, /authUiError\([^)]*,\s*"password-update"/);
 });
