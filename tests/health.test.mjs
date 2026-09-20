@@ -227,7 +227,7 @@ test('readiness returns 200 when all production capabilities are configured', as
       batchLearnerStateSync: true,
       examSessionStorage: true,
       observabilityStorage: true,
-      singletonIntegrity: true,
+      singletonIntegrity: true, expiringHashedInvites: true, automaticTimestamps: true,
     }), { status: 200, headers: { 'content-type': 'application/json' } });
     const { req, res, getStatus, getJson, getHeaders } = createMocks({ method: 'GET' });
     req.query = { mode: 'readiness' };
@@ -266,7 +266,7 @@ test('readiness detail requires HEALTH_READINESS_TOKEN when configured', async (
       batchLearnerStateSync: true,
       examSessionStorage: true,
       observabilityStorage: true,
-      singletonIntegrity: true,
+      singletonIntegrity: true, expiringHashedInvites: true, automaticTimestamps: true,
     }), { status: 200, headers: { 'content-type': 'application/json' } });
 
     try {
@@ -310,7 +310,7 @@ test('Vercel production redacts readiness detail when HEALTH_READINESS_TOKEN is 
       batchLearnerStateSync: true,
       examSessionStorage: true,
       observabilityStorage: true,
-      singletonIntegrity: true,
+      singletonIntegrity: true, expiringHashedInvites: true, automaticTimestamps: true,
     }), { status: 200, headers: { 'content-type': 'application/json' } });
     try {
       const { req, res, getJson } = createMocks({ method: 'GET' });
@@ -342,7 +342,7 @@ test('NODE_ENV production redacts readiness detail when HEALTH_READINESS_TOKEN i
       batchLearnerStateSync: true,
       examSessionStorage: true,
       observabilityStorage: true,
-      singletonIntegrity: true,
+      singletonIntegrity: true, expiringHashedInvites: true, automaticTimestamps: true,
     }), { status: 200, headers: { 'content-type': 'application/json' } });
     try {
       const { req, res, getJson } = createMocks({ method: 'GET' });
@@ -363,7 +363,7 @@ test('a legacy database readiness response cannot certify exam-session support',
     SUPABASE_SERVICE_ROLE_KEY: 'fixture', OPENAI_API_KEY: 'fixture', GEMINI_API_KEY: 'fixture', WAITLIST_RATE_LIMIT_SALT: 'fixture',
   }, async () => {
     const originalFetch = globalThis.fetch;
-    globalThis.fetch = async () => new Response(JSON.stringify({ atomicRateLimitRpc: true, learnerStateStorage: true, batchLearnerStateSync: true, observabilityStorage: true, singletonIntegrity: true }), { headers: { 'content-type': 'application/json' } });
+    globalThis.fetch = async () => new Response(JSON.stringify({ atomicRateLimitRpc: true, learnerStateStorage: true, batchLearnerStateSync: true, observabilityStorage: true, singletonIntegrity: true, expiringHashedInvites: true, automaticTimestamps: true }), { headers: { 'content-type': 'application/json' } });
     try {
       const result = await getDeepReadinessSnapshot();
       assert.equal(result.ready, false);
@@ -383,7 +383,7 @@ test('deep readiness uses the documented secret-key and browser-URL aliases in t
       calls += 1;
       assert.equal(String(input), 'https://alias-fixture.supabase.co/rest/v1/rpc/vertexed_readiness');
       assert.equal(new Headers(init.headers).get('apikey'), 'secret-fixture');
-      return new Response(JSON.stringify({ atomicRateLimitRpc: true, learnerStateStorage: true, batchLearnerStateSync: true, examSessionStorage: true, observabilityStorage: true, singletonIntegrity: true }), { headers: { 'content-type': 'application/json' } });
+      return new Response(JSON.stringify({ atomicRateLimitRpc: true, learnerStateStorage: true, batchLearnerStateSync: true, examSessionStorage: true, observabilityStorage: true, singletonIntegrity: true, expiringHashedInvites: true, automaticTimestamps: true }), { headers: { 'content-type': 'application/json' } });
     };
     try {
       const result = await getDeepReadinessSnapshot();
