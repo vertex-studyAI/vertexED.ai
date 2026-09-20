@@ -49,6 +49,25 @@ test('trial manifest validates frozen assignment, duration, headroom and IDs', (
   assert.equal(result.required_minutes, 60);
 });
 
+test('trial manifest rejects malformed allowed-condition configuration', () => {
+  const rows = [{
+    participant_id: 'p1', assignment_token: 'r001', condition: 'vertexed', planned_condition: 'vertexed',
+    duration_minutes: 60, topic_id: 'topic-a', assessment_form_id: 'form-a', pre_percent: 50,
+  }];
+  assert.throws(
+    () => validateTrialManifest(rows, { allowedConditions: ['vertexed', 'vertexed'] }),
+    /allowedConditions must be unique/,
+  );
+  assert.throws(
+    () => validateTrialManifest(rows, { allowedConditions: ['vertexed', '   '] }),
+    /allowed_condition must be a non-empty bounded string/,
+  );
+  assert.throws(
+    () => validateTrialManifest(rows, { allowedConditions: ['vertexed', 42] }),
+    /allowed_condition must be a non-empty bounded string/,
+  );
+});
+
 test('trial manifest rejects assignment drift', () => {
   assert.throws(() => validateTrialManifest([
     {
