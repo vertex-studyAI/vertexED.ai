@@ -67,6 +67,10 @@ export function validateTrialManifest(rows, {
   if (!Array.isArray(rows) || rows.length === 0) throw new TypeError('trial manifest must be non-empty');
   if (!Number.isFinite(requiredMinutes) || requiredMinutes <= 0) throw new RangeError('requiredMinutes must be positive');
   if (!Array.isArray(allowedConditions) || allowedConditions.length < 2) throw new TypeError('allowedConditions must contain at least two arms');
+  const normalizedAllowedConditions = allowedConditions.map(condition => assertId(condition, 'allowed_condition'));
+  if (new Set(normalizedAllowedConditions).size !== normalizedAllowedConditions.length) {
+    throw new Error('allowedConditions must be unique');
+  }
   if (maxHeadroomPrePercent !== null && (
     typeof maxHeadroomPrePercent !== 'number'
     || !Number.isFinite(maxHeadroomPrePercent)
@@ -74,7 +78,7 @@ export function validateTrialManifest(rows, {
     || maxHeadroomPrePercent >= 100
   )) throw new RangeError('maxHeadroomPrePercent must be null or a percentage in (0, 100)');
 
-  const conditions = new Set(allowedConditions);
+  const conditions = new Set(normalizedAllowedConditions);
   const participants = new Set();
   const assignmentTokens = new Set();
   const normalized = rows.map((row, index) => {
@@ -112,7 +116,7 @@ export function validateTrialManifest(rows, {
     };
   });
 
-  const armCounts = Object.fromEntries(allowedConditions.map(condition => [
+  const armCounts = Object.fromEntries(normalizedAllowedConditions.map(condition => [
     condition,
     normalized.filter(row => row.condition === condition).length,
   ]));
