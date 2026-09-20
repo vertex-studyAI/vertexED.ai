@@ -135,7 +135,7 @@ export default function ExamBaselinePractice({ subject, programme }: { subject: 
         return <li key={drill.id} className="rounded-xl border border-border bg-background p-5">
           <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-muted-foreground">
             <span>Question {index + 1} of {drills.length} · {drill.topic}</span>
-            <span>Original editorial practice · about {drill.minutes} min</span>
+            <span>Original editorial practice · {drill.difficulty} · about {drill.minutes} min</span>
           </div>
           <h3 className="mt-2 text-lg font-semibold">{drill.focus}</h3>
           <p className="mt-3 leading-relaxed">{drill.prompt}</p>
