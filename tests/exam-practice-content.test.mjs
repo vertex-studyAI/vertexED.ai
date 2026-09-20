@@ -22,3 +22,10 @@ test('practice draft is keyed to both account and subject, and cannot write mast
   const panel = fs.readFileSync('src/components/ExamPracticeLab.tsx', 'utf8');
   assert.doesNotMatch(panel, /recordWeakness|localStorage|fetch\(/);
 });
+test('practice lab never silently substitutes the first drill for an unsupported subject', () => {
+  const panel = fs.readFileSync('src/components/ExamPracticeLab.tsx', 'utf8');
+  assert.doesNotMatch(panel, /\|\|\s*drills\[0\]/);
+  assert.match(panel, /const drill = selectedDrill \|\| subjectDrill \|\| null;/);
+  assert.match(panel, /No subject-matched drill is available yet\./);
+  assert.match(panel, /VertexED will not silently substitute another subject\./);
+});
