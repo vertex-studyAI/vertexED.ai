@@ -31,9 +31,9 @@ export function selectBaselineDrills({ drills, programme = '', subject = '', top
   const boundedLimit = Number.isInteger(limit) ? Math.min(5, Math.max(3, limit)) : 3;
   const canonical = canonicalSubject(subject);
   const normalizedProgramme = normalizeText(programme);
-  const normalizedTopics = Array.isArray(topics)
+  const normalizedTopics = [...new Set(Array.isArray(topics)
     ? topics.map(normalizeText).filter(Boolean)
-    : parseBaselineTopics(topics);
+    : parseBaselineTopics(topics))];
 
   const candidates = drills
     .filter((drill) => normalizeText(drill.programme) === normalizedProgramme)
@@ -45,11 +45,31 @@ export function selectBaselineDrills({ drills, programme = '', subject = '', top
 
   const selected = [];
   const seenFocus = new Set();
-  for (const candidate of candidates) {
+  const selectCandidate = (candidate) => {
     const focusKey = normalizeText(candidate.drill.focus).split(':')[0] || normalizeText(candidate.drill.focus);
-    if (seenFocus.has(focusKey)) continue;
+    if (seenFocus.has(focusKey) || selected.some((item) => item.id === candidate.drill.id)) return false;
     selected.push(candidate.drill);
     seenFocus.add(focusKey);
+    return true;
+  };
+
+  // Preserve topic coverage before filling the remaining bounded slots. Without
+  // this pass, several drills from one requested topic can tie on score and
+  // crowd a later requested topic out solely because they appear earlier in
+  // the editorial bank.
+  for (const topic of normalizedTopics) {
+    const candidate = candidates.find(({ drill }) => {
+      const haystack = `${normalizeText(drill.topic)} ${normalizeText(drill.focus)}`;
+      return haystack.includes(topic)
+        && !selected.some((item) => item.id === drill.id)
+        && !seenFocus.has(normalizeText(drill.focus).split(':')[0] || normalizeText(drill.focus));
+    });
+    if (candidate) selectCandidate(candidate);
+    if (selected.length === boundedLimit) return selected;
+  }
+
+  for (const candidate of candidates) {
+    selectCandidate(candidate);
     if (selected.length === boundedLimit) return selected;
   }
   for (const candidate of candidates) {
