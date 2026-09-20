@@ -154,6 +154,9 @@ export default function Onboarding() {
         initiatingAccessToken,
       );
       if (!isCurrentSave() || !(await stillOwnsAuthSession())) return;
+      if (!planResult.ok) {
+        throw new Error(planResult.error || "Could not save your starter plan.");
+      }
 
       const metadata = buildCurriculumMetadata(curriculum, {
         ...(user?.user_metadata ?? {}),
