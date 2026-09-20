@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import test from 'node:test';
 
 import { EXAM_DRILLS } from '../src/content/examPractice.ts';
@@ -11,7 +12,16 @@ import {
   summarizeBaselineAttempt,
 } from '../src/lib/examBaselineCore.mjs';
 
-test('baseline selection is fixed-size, subject/programme scoped, and topic-aware', () => {
+test('diagnostic mission is routed to the bounded baseline instead of generic Paper Maker', () => {
+  const source = readFileSync(new URL('../src/pages/ExamPrep.tsx', import.meta.url), 'utf8');
+  const diagnosticBranch = source.indexOf("mission.kind === 'diagnostic'");
+  const paperFallback = source.indexOf('return `/paper-maker?');
+  assert.ok(diagnosticBranch >= 0);
+  assert.ok(paperFallback > diagnosticBranch);
+  assert.match(source.slice(diagnosticBranch, paperFallback), /#exam-baseline/);
+});
+
+test('baseline selection is fixed-size, subject/programme scoped, topic-aware, and retains provenance', () => {
   const drills = selectBaselineDrills({
     drills: EXAM_DRILLS,
     programme: 'IB MYP',
@@ -22,6 +32,21 @@ test('baseline selection is fixed-size, subject/programme scoped, and topic-awar
   assert.ok(drills.every((drill) => drill.programme === 'IB MYP' && drill.subject === 'Chemistry'));
   assert.equal(new Set(drills.map((drill) => drill.id)).size, 3);
   assert.ok(drills.some((drill) => drill.topic === 'Environmental chemistry'));
+  assert.ok(drills.every((drill) => ['foundation', 'application', 'extended'].includes(drill.difficulty)));
+  assert.ok(drills.every((drill) => /^https:\/\//.test(drill.source)));
+});
+
+test('IB DP Math AA canonicalizes to the bounded Mathematics editorial bank', () => {
+  const drills = selectBaselineDrills({
+    drills: EXAM_DRILLS,
+    programme: 'IB DP',
+    subject: 'Math AA',
+    topics: parseBaselineTopics('Differentiation, Probability'),
+  });
+  assert.equal(drills.length, 3);
+  assert.ok(drills.every((drill) => drill.programme === 'IB DP' && drill.subject === 'Mathematics'));
+  assert.ok(drills.some((drill) => drill.topic === 'Differentiation'));
+  assert.ok(drills.some((drill) => drill.topic === 'Probability'));
 });
 
 test('unsupported subject does not silently fall through to unrelated baseline content', () => {
