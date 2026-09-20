@@ -2,6 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import ts from 'typescript';
+import { practiceSubjectMatches } from '../src/lib/examPracticeSubject.mjs';
+
 const code = ts.transpileModule(fs.readFileSync('src/content/examPractice.ts', 'utf8'), { compilerOptions: { module: ts.ModuleKind.ES2022, target: ts.ScriptTarget.ES2022 } }).outputText;
 const { EXAM_DRILLS } = await import(`data:text/javascript;base64,${Buffer.from(code).toString('base64')}`);
 test('original practice pack has unique IDs, worked reasoning, transfer and source references', () => {
@@ -28,4 +30,14 @@ test('practice lab never silently substitutes the first drill for an unsupported
   assert.match(panel, /const drill = selectedDrill \|\| subjectDrill \|\| null;/);
   assert.match(panel, /No subject-matched drill is available yet\./);
   assert.match(panel, /VertexED will not silently substitute another subject\./);
+});
+test('practice subject matching recognizes supported curriculum aliases without broad cross-subject fallback', () => {
+  assert.equal(practiceSubjectMatches('Math AA', 'Mathematics'), true);
+  assert.equal(practiceSubjectMatches('Math AI', 'Mathematics'), true);
+  assert.equal(practiceSubjectMatches('Math Standard', 'Mathematics'), true);
+  assert.equal(practiceSubjectMatches('Calculus AB', 'Mathematics'), true);
+  assert.equal(practiceSubjectMatches('Calculus BC', 'Mathematics'), true);
+  assert.equal(practiceSubjectMatches('Chemistry', 'Chemistry'), true);
+  assert.equal(practiceSubjectMatches('History', 'Mathematics'), false);
+  assert.equal(practiceSubjectMatches('Statistics', 'Mathematics'), false);
 });

@@ -2,13 +2,14 @@ import { useState } from 'react';
 import { EXAM_DRILLS } from '@/content/examPractice';
 import { getMeasuredEntries } from '@/lib/weaknessTracker';
 import { diagnoseExamEvidence } from '@/lib/examDiagnosis.mjs';
+import { practiceSubjectMatches } from '@/lib/examPracticeSubject.mjs';
 
 export default function ExamPracticeLab({ subject, board }: { subject: string; board: string }) {
   const [programme, setProgramme] = useState('IB MYP');
   const [selected, setSelected] = useState('');
   const drills = EXAM_DRILLS.filter(item => item.programme === programme);
   const selectedDrill = drills.find(item => item.id === selected);
-  const subjectDrill = drills.find(item => subject.toLowerCase().includes(item.subject.toLowerCase()));
+  const subjectDrill = drills.find(item => practiceSubjectMatches(subject, item.subject));
   const drill = selectedDrill || subjectDrill || null;
   const evidence = diagnoseExamEvidence(getMeasuredEntries(), subject, board);
   return <section className="exam-prep-panel" aria-labelledby="practice-lab-title">
