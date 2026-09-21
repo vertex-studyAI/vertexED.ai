@@ -125,7 +125,8 @@ async function main() {
     const checks = readiness.body?.checks;
     const requiredChecks = ['authentication', 'waitlist', 'coreAi', 'plannerAi', 'durableRateLimiting',
       'databaseConnection', 'atomicRateLimitRpc', 'learnerStateStorage', 'batchLearnerStateSync',
-      'examSessionStorage', 'observabilityStorage', 'singletonIntegrity'];
+      'examSessionStorage', 'observabilityStorage', 'singletonIntegrity', 'expiringHashedInvites',
+      'automaticTimestamps'];
     const missingChecks = requiredChecks.filter((key) => checks?.[key] !== true);
     const databaseError = typeof readiness.body?.databaseError === 'string'
       ? readiness.body.databaseError.trim()
@@ -157,7 +158,7 @@ async function main() {
       }
       fail(`/api/health?readiness=1 not ready (${details.join('; ')})`);
     } else {
-      pass('/api/health?readiness=1 reports all required capabilities, including exam-session storage');
+      pass('/api/health?readiness=1 reports the complete current database contract, including expiring hashed invites and automatic timestamps');
     }
 
     assertExpectedRevision(readiness, '/api/health?readiness=1');

@@ -23,7 +23,7 @@ function allowReadinessProbe(ipHash, limit = 30, windowMs = 60_000) {
   return { allowed: true };
 }
 
-export const HEALTH_CONTRACT_VERSION = '3';
+export const HEALTH_CONTRACT_VERSION = '4';
 
 function hasValue(value) {
   return typeof value === 'string' && value.trim().length > 0;
@@ -93,6 +93,8 @@ export async function getDeepReadinessSnapshot(env = process.env) {
     examSessionStorage: false,
     observabilityStorage: false,
     singletonIntegrity: false,
+    expiringHashedInvites: false,
+    automaticTimestamps: false,
   };
   let databaseError = null;
 
@@ -109,6 +111,8 @@ export async function getDeepReadinessSnapshot(env = process.env) {
       databaseChecks.examSessionStorage = snapshot?.examSessionStorage === true;
       databaseChecks.observabilityStorage = snapshot?.observabilityStorage === true;
       databaseChecks.singletonIntegrity = snapshot?.singletonIntegrity === true;
+      databaseChecks.expiringHashedInvites = snapshot?.expiringHashedInvites === true;
+      databaseChecks.automaticTimestamps = snapshot?.automaticTimestamps === true;
     } catch (error) {
       databaseError = classifyDatabaseReadinessError(error);
     }
