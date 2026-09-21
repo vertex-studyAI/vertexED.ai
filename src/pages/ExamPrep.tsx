@@ -20,6 +20,7 @@ import {
 
 import { useAuth } from '@/contexts/AuthContext';
 import ExamAssessmentSetup from '@/components/ExamAssessmentSetup';
+import ExamBaselinePractice from '@/components/ExamBaselinePractice';
 import ExamEvidence from '@/components/ExamEvidence';
 import ExamPracticeLab from '@/components/ExamPracticeLab';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
@@ -84,6 +85,7 @@ function countdownCopy(days: number | null) {
 }
 
 function missionRoute(mission: Mission, subject: string) {
+  if (mission.kind === 'diagnostic') return '#exam-baseline';
   if (mission.kind === 'review-mock') return '/answer-reviewer';
   if (mission.kind === 'finish-mock') return '/paper-maker';
   if (mission.kind === 'retry' && mission.retryId) {
@@ -332,6 +334,12 @@ export default function ExamPrep() {
                 Based on your saved work. This is a study suggestion, not a predicted grade.
               </p>
             </section>
+
+            {mission.kind === 'diagnostic' && <ExamBaselinePractice
+              key={`${authLoading ? 'loading' : user?.id ?? 'anonymous'}:${subject}:${boardLabel(profile.curriculum.board) ?? ''}`}
+              subject={subject}
+              programme={boardLabel(profile.curriculum.board) ?? ''}
+            />}
 
             <section className="exam-prep-panel" aria-labelledby="session-title">
               <div className="exam-prep-section-head">
