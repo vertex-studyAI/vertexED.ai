@@ -42,6 +42,14 @@ test('protected routes distinguish pending, rejected, and unavailable access tru
   assert.doesNotMatch(source, /\.catch\(\(\) => active && setAccess\("pending"\)\)/);
 });
 
+test('landing redirect sends incomplete authenticated learners straight to onboarding', async () => {
+  const source = await readSource('src/components/AuthLandingRedirect.tsx');
+
+  assert.match(source, /isOnboardingComplete/);
+  assert.match(source, /const \{ isAuthenticated, loading, user \} = useAuth\(\)/);
+  assert.match(source, /user && !isOnboardingComplete\(user\) \? "\/onboarding" : "\/main"/);
+});
+
 test('resolved auth state cancels delayed loading fallback', async () => {
   const source = await readSource('src/contexts/AuthContext.tsx');
 
