@@ -8,11 +8,11 @@ Canonical repository source is `main@2ca208c8ffd10c83005f3afe65057bc847277d5f`, 
 
 The newest scheduled production evidence on that exact source is:
 
-- Production Health Monitor `35713535850`: **FAILURE**;
-- Production Transport Diagnostics `35713624049`: **SUCCESS** as evidence collection;
-- retained transport artifact `10689090301`, digest `sha256:9bdee68fb33ccab613a3c8b42ff9625bf6248b0fd4605336d1ea16419703337f`.
+- Production Health Monitor `35743913380`: **FAILURE**;
+- Production Transport Diagnostics `35744000696`: **SUCCESS** as evidence collection;
+- retained transport artifact `10702885142`, digest `sha256:6523d74dcc00eceee5a0ba7ed44a02f2ae05450d550b6f85c49efd8532398d4c`.
 
-The retained transport artifact at `2026-09-22T10:01:09.592Z` localizes the current custom-domain failure after DNS and TCP but before application HTTP semantics:
+The retained transport artifact at `2026-09-22T14:58:14.731Z` localizes the current custom-domain failure after DNS and TCP but before application HTTP semantics:
 
 - DNS succeeds for `www.vertexed.app`;
 - there is no CNAME chain and the name terminates at IPv4 `104.219.250.37` and `2.59.170.20`;
