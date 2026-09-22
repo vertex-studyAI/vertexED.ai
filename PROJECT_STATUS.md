@@ -1,6 +1,6 @@
 # VertexED — verified engineering status
 
-Snapshot date: **2026-09-22**.
+Snapshot date: **2026-09-23**.
 
 This file is an engineering status snapshot, not deployment authorization. For the scheduled production incident use issue #652; for the canonical-domain release boundary use issue #44.
 
@@ -9,12 +9,12 @@ This file is an engineering status snapshot, not deployment authorization. For t
 | Surface | Status | Evidence |
 |---|---|---|
 | `main` | **SOURCE CURRENT** | `2ca208c8ffd10c83005f3afe65057bc847277d5f` (merged #1057) |
-| `https://www.vertexed.app` | **FAILED BEFORE TLS** | Production Health `35770517386`; Transport Diagnostics `35770591345` |
+| `https://www.vertexed.app` | **FAILED BEFORE TLS** | Production Health `35791069935`; Transport Diagnostics `35791141464` |
 | DNS | **PASS** | `2.59.170.20`, `104.219.250.37`; no CNAME chain in latest retained transport artifact |
 | TCP/443 | **PASS** | both observed IPv4 targets accept TCP |
 | TLS / HTTPS | **FAIL** | `ECONNRESET` before secure TLS establishment on both observed IPv4 targets |
 
-Latest retained transport artifact: `10713628257`, digest `sha256:0742620938e322f804fd42def7d509d6a79910e4a95f7a8bf15f425c83f68ba1`, bound to exact `main@2ca208c8ffd10c83005f3afe65057bc847277d5f` and captured at `2026-09-22T18:57:30.090Z`.
+Latest retained transport artifact: `10721827923`, digest `sha256:9478bd77d789c864281beeab889f779cdc6c4cd6e17f7e10a348330b2b5acf0a`, bound to exact `main@2ca208c8ffd10c83005f3afe65057bc847277d5f` and captured at `2026-09-22T22:13:15.824Z`.
 
 The production failure is a serving/routing boundary. It is not evidence that current application source should be rolled back, that smoke/readiness checks should be weakened, or that a DNS/certificate/backend target should be guessed.
 
