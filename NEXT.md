@@ -2,17 +2,17 @@
 
 ## Current engineering release boundary
 
-Snapshot date: **2026-09-22**.
+Snapshot date: **2026-09-23**.
 
 Canonical repository source is `main@2ca208c8ffd10c83005f3afe65057bc847277d5f`, the verified merge of PR #1057. Do not infer deployment state from repository source alone.
 
 The newest scheduled production evidence on that exact source is:
 
-- Production Health Monitor `35770517386`: **FAILURE**;
-- Production Transport Diagnostics `35770591345`: **SUCCESS** as evidence collection;
-- retained transport artifact `10713628257`, digest `sha256:0742620938e322f804fd42def7d509d6a79910e4a95f7a8bf15f425c83f68ba1`.
+- Production Health Monitor `35791069935`: **FAILURE**;
+- Production Transport Diagnostics `35791141464`: **SUCCESS** as evidence collection;
+- retained transport artifact `10721827923`, digest `sha256:9478bd77d789c864281beeab889f779cdc6c4cd6e17f7e10a348330b2b5acf0a`.
 
-The retained transport artifact at `2026-09-22T18:57:30.090Z` localizes the current custom-domain failure after DNS and TCP but before application HTTP semantics:
+The retained transport artifact at `2026-09-22T22:13:15.824Z` localizes the current custom-domain failure after DNS and TCP but before application HTTP semantics:
 
 - DNS succeeds for `www.vertexed.app`;
 - there is no CNAME chain and the name terminates at IPv4 `2.59.170.20` and `104.219.250.37`;
