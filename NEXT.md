@@ -8,14 +8,14 @@ Canonical repository source is `main@2ca208c8ffd10c83005f3afe65057bc847277d5f`, 
 
 The newest scheduled production evidence on that exact source is:
 
-- Production Health Monitor `35743913380`: **FAILURE**;
-- Production Transport Diagnostics `35744000696`: **SUCCESS** as evidence collection;
-- retained transport artifact `10702885142`, digest `sha256:6523d74dcc00eceee5a0ba7ed44a02f2ae05450d550b6f85c49efd8532398d4c`.
+- Production Health Monitor `35770517386`: **FAILURE**;
+- Production Transport Diagnostics `35770591345`: **SUCCESS** as evidence collection;
+- retained transport artifact `10713628257`, digest `sha256:0742620938e322f804fd42def7d509d6a79910e4a95f7a8bf15f425c83f68ba1`.
 
-The retained transport artifact at `2026-09-22T14:58:14.731Z` localizes the current custom-domain failure after DNS and TCP but before application HTTP semantics:
+The retained transport artifact at `2026-09-22T18:57:30.090Z` localizes the current custom-domain failure after DNS and TCP but before application HTTP semantics:
 
 - DNS succeeds for `www.vertexed.app`;
-- there is no CNAME chain and the name terminates at IPv4 `104.219.250.37` and `2.59.170.20`;
+- there is no CNAME chain and the name terminates at IPv4 `2.59.170.20` and `104.219.250.37`;
 - TCP/443 succeeds;
 - TLS fails with `ECONNRESET` before secure establishment;
 - HTTPS fails at the same pre-handshake boundary;
