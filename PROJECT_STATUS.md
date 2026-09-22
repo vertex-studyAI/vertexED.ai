@@ -9,12 +9,12 @@ This file is an engineering status snapshot, not deployment authorization. For t
 | Surface | Status | Evidence |
 |---|---|---|
 | `main` | **SOURCE CURRENT** | `2ca208c8ffd10c83005f3afe65057bc847277d5f` (merged #1057) |
-| `https://www.vertexed.app` | **FAILED BEFORE TLS** | Production Health `35689034599`; Transport Diagnostics `35689086498` |
+| `https://www.vertexed.app` | **FAILED BEFORE TLS** | Production Health `35713535850`; Transport Diagnostics `35713624049` |
 | DNS | **PASS** | `104.219.250.37`, `2.59.170.20`; no CNAME chain in latest retained transport artifact |
 | TCP/443 | **PASS** | both observed IPv4 targets accept TCP |
 | TLS / HTTPS | **FAIL** | `ECONNRESET` before secure TLS establishment on both observed IPv4 targets |
 
-Latest retained transport artifact: `10677597138`, digest `sha256:a36bd177a95a424a35989bde087fb4518bfa96213ad6944a09e52aac2a632c1d`, bound to exact `main@2ca208c8ffd10c83005f3afe65057bc847277d5f`.
+Latest retained transport artifact: `10689090301`, digest `sha256:9bdee68fb33ccab613a3c8b42ff9625bf6248b0fd4605336d1ea16419703337f`, bound to exact `main@2ca208c8ffd10c83005f3afe65057bc847277d5f`.
 
 The production failure is a serving/routing boundary. It is not evidence that current application source should be rolled back, that smoke/readiness checks should be weakened, or that a DNS/certificate/backend target should be guessed.
 
