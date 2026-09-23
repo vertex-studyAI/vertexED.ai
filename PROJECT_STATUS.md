@@ -9,14 +9,15 @@ This file is an engineering status snapshot, not deployment authorization. For t
 | Surface | Status | Evidence |
 |---|---|---|
 | `main` | **SOURCE CURRENT** | `2ca208c8ffd10c83005f3afe65057bc847277d5f` (merged #1057) |
-| `https://www.vertexed.app` | **FAILED BEFORE TLS** | Production Health `35791069935`; Transport Diagnostics `35791141464` |
-| DNS | **PASS** | `2.59.170.20`, `104.219.250.37`; no CNAME chain in latest retained transport artifact |
-| TCP/443 | **PASS** | both observed IPv4 targets accept TCP |
-| TLS / HTTPS | **FAIL** | `ECONNRESET` before secure TLS establishment on both observed IPv4 targets |
+| `https://www.vertexed.app` | **PRODUCTION HEALTH FAILED** | Production Health `35802848100`; Transport Diagnostics `35802904562` |
+| Health evidence | **RETAINED** | artifact `10725859261`, digest `sha256:a56a9e94a5c326b136a47927036c86ab39416cd2ffb79a53276ba0e411843d72` |
+| Transport evidence | **RETAINED** | artifact `10726427923`, digest `sha256:070893b1e6a424dddbb569f6981dec2b2cd6532a86ae9b50844ab6191a5e7218` |
 
-Latest retained transport artifact: `10721827923`, digest `sha256:9478bd77d789c864281beeab889f779cdc6c4cd6e17f7e10a348330b2b5acf0a`, bound to exact `main@2ca208c8ffd10c83005f3afe65057bc847277d5f` and captured at `2026-09-22T22:13:15.824Z`.
+Both retained artifacts are bound to exact `main@2ca208c8ffd10c83005f3afe65057bc847277d5f`. The health artifact was created at `2026-09-23T00:37:53Z`; the transport artifact was created at `2026-09-23T00:38:17Z`.
 
-The production failure is a serving/routing boundary. It is not evidence that current application source should be rolled back, that smoke/readiness checks should be weakened, or that a DNS/certificate/backend target should be guessed.
+The health workflow itself verified exact source binding and production-health contracts, collected canonical public evidence, retained the artifact, and updated the incident before the final health gate failed. The paired transport diagnostic completed successfully as evidence collection on the same immutable main SHA.
+
+The production failure remains a serving/routing boundary. It is not evidence that current application source should be rolled back, that smoke/readiness checks should be weakened, or that a DNS/certificate/backend target should be guessed.
 
 ## Reviewable engineering PRs
 
