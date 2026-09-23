@@ -9,13 +9,13 @@ This file is an engineering status snapshot, not deployment authorization. For t
 | Surface | Status | Evidence |
 |---|---|---|
 | `main` | **SOURCE CURRENT** | `2ca208c8ffd10c83005f3afe65057bc847277d5f` (merged #1057) |
-| `https://www.vertexed.app` | **PRODUCTION HEALTH FAILED** | Production Health `35802848100`; Transport Diagnostics `35802904562` |
-| Health evidence | **RETAINED** | artifact `10725859261`, digest `sha256:a56a9e94a5c326b136a47927036c86ab39416cd2ffb79a53276ba0e411843d72` |
-| Transport evidence | **RETAINED** | artifact `10726427923`, digest `sha256:070893b1e6a424dddbb569f6981dec2b2cd6532a86ae9b50844ab6191a5e7218` |
+| `https://www.vertexed.app` | **PRODUCTION HEALTH FAILED** | Production Health `35824818620`; Transport Diagnostics `35824877967` |
+| Health evidence | **RETAINED** | artifact `10734722999`, digest `sha256:57da9cb72dcb5cb5257942fa593d2cbf7ea0e68a0092a5d30f925c4f0ed0d489` |
+| Transport evidence | **RETAINED** | artifact `10734513262`, digest `sha256:9c42548422355f3f5134f5ced28a559eb0362bc673d7f2bfd722bfaad4292d6c` |
 
-Both retained artifacts are bound to exact `main@2ca208c8ffd10c83005f3afe65057bc847277d5f`. The health artifact was created at `2026-09-23T00:37:53Z`; the transport artifact was created at `2026-09-23T00:38:17Z`.
+Both retained artifacts are bound to exact `main@2ca208c8ffd10c83005f3afe65057bc847277d5f`. The health artifact was created at `2026-09-23T06:01:32Z`; the transport artifact was created at `2026-09-23T06:01:57Z`.
 
-The health workflow itself verified exact source binding and production-health contracts, collected canonical public evidence, retained the artifact, and updated the incident before the final health gate failed. The paired transport diagnostic completed successfully as evidence collection on the same immutable main SHA.
+The health workflow itself verified exact source binding and production-health contracts, collected canonical public evidence, retained the artifact, and updated the incident before the final `Enforce production health gate` step failed. The paired transport diagnostic completed successfully as evidence collection on the same immutable main SHA.
 
 The production failure remains a serving/routing boundary. It is not evidence that current application source should be rolled back, that smoke/readiness checks should be weakened, or that a DNS/certificate/backend target should be guessed.
 
