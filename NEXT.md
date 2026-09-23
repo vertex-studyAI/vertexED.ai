@@ -8,18 +8,14 @@ Canonical repository source is `main@2ca208c8ffd10c83005f3afe65057bc847277d5f`, 
 
 The newest scheduled production evidence on that exact source is:
 
-- Production Health Monitor `35791069935`: **FAILURE**;
-- Production Transport Diagnostics `35791141464`: **SUCCESS** as evidence collection;
-- retained transport artifact `10721827923`, digest `sha256:9478bd77d789c864281beeab889f779cdc6c4cd6e17f7e10a348330b2b5acf0a`.
+- Production Health Monitor `35802848100`: **FAILURE**;
+- Production Transport Diagnostics `35802904562`: **SUCCESS** as evidence collection;
+- retained health artifact `10725859261`, digest `sha256:a56a9e94a5c326b136a47927036c86ab39416cd2ffb79a53276ba0e411843d72`;
+- retained transport artifact `10726427923`, digest `sha256:070893b1e6a424dddbb569f6981dec2b2cd6532a86ae9b50844ab6191a5e7218`.
 
-The retained transport artifact at `2026-09-22T22:13:15.824Z` localizes the current custom-domain failure after DNS and TCP but before application HTTP semantics:
+Both artifacts are bound to exact `main@2ca208c8ffd10c83005f3afe65057bc847277d5f`; the health artifact was created at `2026-09-23T00:37:53Z` and the transport artifact at `2026-09-23T00:38:17Z`.
 
-- DNS succeeds for `www.vertexed.app`;
-- there is no CNAME chain and the name terminates at IPv4 `2.59.170.20` and `104.219.250.37`;
-- TCP/443 succeeds;
-- TLS fails with `ECONNRESET` before secure establishment;
-- HTTPS fails at the same pre-handshake boundary;
-- both observed IPv4 addresses reproduce TCP success followed by TLS/HTTPS reset.
+The scheduled health job verified its source binding and production-health contracts, collected public evidence, uploaded the probe artifact, and updated the production incident before the final health gate failed. The paired transport workflow completed successfully as evidence collection on the same immutable source.
 
 Treat this as a demonstrated serving/routing failure, not proof of which provider project owns the domain or of the DNS/certificate/backend value that should replace the current route. Issue #44 owns authoritative serving-project identity and provider-side correction; issue #652 is the auto-updated scheduled health incident.
 
