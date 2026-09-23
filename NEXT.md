@@ -8,14 +8,14 @@ Canonical repository source is `main@2ca208c8ffd10c83005f3afe65057bc847277d5f`, 
 
 The newest scheduled production evidence on that exact source is:
 
-- Production Health Monitor `35802848100`: **FAILURE**;
-- Production Transport Diagnostics `35802904562`: **SUCCESS** as evidence collection;
-- retained health artifact `10725859261`, digest `sha256:a56a9e94a5c326b136a47927036c86ab39416cd2ffb79a53276ba0e411843d72`;
-- retained transport artifact `10726427923`, digest `sha256:070893b1e6a424dddbb569f6981dec2b2cd6532a86ae9b50844ab6191a5e7218`.
+- Production Health Monitor `35824818620`: **FAILURE**;
+- Production Transport Diagnostics `35824877967`: **SUCCESS** as evidence collection;
+- retained health artifact `10734722999`, digest `sha256:57da9cb72dcb5cb5257942fa593d2cbf7ea0e68a0092a5d30f925c4f0ed0d489`;
+- retained transport artifact `10734513262`, digest `sha256:9c42548422355f3f5134f5ced28a559eb0362bc673d7f2bfd722bfaad4292d6c`.
 
-Both artifacts are bound to exact `main@2ca208c8ffd10c83005f3afe65057bc847277d5f`; the health artifact was created at `2026-09-23T00:37:53Z` and the transport artifact at `2026-09-23T00:38:17Z`.
+Both artifacts are bound to exact `main@2ca208c8ffd10c83005f3afe65057bc847277d5f`; the health artifact was created at `2026-09-23T06:01:32Z` and the transport artifact at `2026-09-23T06:01:57Z`.
 
-The scheduled health job verified its source binding and production-health contracts, collected public evidence, uploaded the probe artifact, and updated the production incident before the final health gate failed. The paired transport workflow completed successfully as evidence collection on the same immutable source.
+The scheduled health job verified its source binding and production-health contracts, collected public evidence, uploaded the probe artifact, and updated the production incident before the final `Enforce production health gate` step failed. The paired transport workflow completed successfully as evidence collection on the same immutable source.
 
 Treat this as a demonstrated serving/routing failure, not proof of which provider project owns the domain or of the DNS/certificate/backend value that should replace the current route. Issue #44 owns authoritative serving-project identity and provider-side correction; issue #652 is the auto-updated scheduled health incident.
 
