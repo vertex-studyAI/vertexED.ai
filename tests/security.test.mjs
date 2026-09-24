@@ -50,6 +50,21 @@ test('enforceSameOriginCors blocks untrusted origins', () => {
   assert.match(getJson().error, /cross-origin/i);
 });
 
+test('CORS permits the exact fallback and deployment but rejects sibling and spoofed hosts', () => {
+  const previous = process.env.VERCEL_URL;
+  try {
+    process.env.VERCEL_URL = 'vertexed-test-abc.vercel.app';
+    for (const origin of ['https://vertex-ed-ai.vercel.app', 'https://vertexed-test-abc.vercel.app']) {
+      const {req,res}=createMocks({headers:{origin}});
+      assert.equal(enforceSameOriginCors(req,res),true);
+    }
+    for (const origin of ['https://other.vercel.app','https://vertexed-test-abc.vercel.app.evil.test','null']) {
+      const {req,res}=createMocks({headers:{origin,host:'vertexed-test-abc.vercel.app'}});
+      assert.equal(enforceSameOriginCors(req,res),false);
+    }
+  } finally { if(previous===undefined)delete process.env.VERCEL_URL;else process.env.VERCEL_URL=previous; }
+});
+
 test('getClientIp prefers platform headers over client X-Forwarded-For', () => {
   assert.equal(
     getClientIp({

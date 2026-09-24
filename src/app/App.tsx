@@ -60,6 +60,9 @@ const PrivacyPolicy = lazy(() => import("@/pages/PrivacyPolicy"));
 const TermsOfService = lazy(() => import("@/pages/TermsOfService"));
 const ExamPrep = lazy(() => import("@/pages/ExamPrep"));
 const MYPHub = lazy(() => import("@/pages/MYPHub"));
+const WorkingTrace = lazy(() => import("@/pages/WorkingTrace"));
+const LearningEvidence = lazy(() => import("@/pages/LearningEvidence"));
+const Learn = lazy(() => import("@/pages/Learn"));
 const MYPSubject = lazy(() => import("@/pages/MYPSubject"));
 const MYPEAssessment = lazy(() => import("@/pages/MYPEAssessment"));
 import { AuthProvider } from "@/contexts/AuthContext";
@@ -144,6 +147,9 @@ return (
 <Route path="/" element={<SiteLayout />}>
 <Route index element={<AuthLandingRedirect />} />
 <Route path="home" element={<AuthLandingRedirect />} />
+<Route path="working-trace" element={<WorkingTrace />} />
+<Route path="learn" element={<Learn />} />
+<Route path="learning-evidence" element={<ProtectedRoute><LearningEvidence /></ProtectedRoute>} />
 						<Route path="resources" element={<ResourcesIndex />} />
 						<Route path="resources/ai-study-planner" element={<AIStudyPlannerArticle />} />
 						<Route path="resources/ib-igcse-paper-maker" element={<PaperMakerGuide />} />

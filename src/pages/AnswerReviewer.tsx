@@ -672,6 +672,7 @@ export default function AIAnswerReview() {
                 <div>
                   <div className="flex flex-wrap items-center gap-2">
                     <h1 className="text-2xl font-semibold tracking-tight text-foreground md:text-3xl">Answer Reviewer</h1>
+                    <a href="/working-trace" className="text-sm text-primary underline">Check algebra step by step</a>
                     <Badge><Sparkles size={12} /> AI-assisted</Badge>
                     <Badge><Shield size={12} /> Not an official grade</Badge>
                   </div>

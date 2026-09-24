@@ -6,6 +6,7 @@ const BASE64_RE = /^[A-Za-z0-9+/]+={0,2}$/;
 const DEFAULT_ALLOWED_ORIGINS = [
   'https://www.vertexed.app',
   'https://vertexed.app',
+  'https://vertex-ed-ai.vercel.app',
 ];
 
 export function isProduction() {
@@ -50,7 +51,12 @@ function getAllowedOrigins() {
     .split(',')
     .map((value) => value.trim())
     .filter(Boolean);
-  const origins = [...DEFAULT_ALLOWED_ORIGINS, ...extra];
+  // Deployment hostnames come from Vercel's trusted environment, never request headers.
+  // This permits this deployment's own browser requests without trusting *.vercel.app.
+  const deploymentOrigins = [process.env.VERCEL_URL, process.env.VERCEL_BRANCH_URL]
+    .filter((host) => typeof host === 'string' && /^[a-z0-9-]+\.vercel\.app$/i.test(host))
+    .map((host) => `https://${host}`);
+  const origins = [...DEFAULT_ALLOWED_ORIGINS, ...extra, ...deploymentOrigins];
   if (!isProduction()) {
     origins.push('http://localhost:8080', 'http://127.0.0.1:8080', 'http://localhost:5173', 'http://127.0.0.1:5173');
   }

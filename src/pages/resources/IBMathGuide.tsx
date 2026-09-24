@@ -65,7 +65,7 @@ export default function IBMathGuide() {
 
         <h2>Strategy 2: Internal Assessment (IA)</h2>
         <p>
-          The IA is 20% of your grade. It often separates a 6 from a 7.
+          Plan an exploration you can explain clearly and support with appropriate mathematics. Confirm the current assessment weighting and criteria with your teacher and course guide.
         </p>
         <h3>Step 1: The idea</h3>
         <p>

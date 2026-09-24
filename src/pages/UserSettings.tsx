@@ -7,6 +7,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router";
 import { User, LogOut, Settings, RefreshCw, AlertTriangle, Save, Trash2 } from "lucide-react";
 import PageSection from "@/components/PageSection";
+import AiPrivacySettings from '@/components/AiPrivacySettings';
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
   getLearnerProfile,
@@ -375,6 +376,7 @@ export default function UserSettings() {
         </h1>
 
         <div className="space-y-6">
+          <AiPrivacySettings key={user?.id} />
           <NeumorphicCard className="p-8" title="Profile Information">
             <div className="flex items-center gap-4 mb-6">
               <div className="neu-surface p-4 rounded-full">

@@ -10,6 +10,8 @@ import {
 } from '@/lib/apiRequestRecovery.mjs';
 import { supabase } from '@/lib/supabaseClient';
 import { reportAiRun } from '@/lib/monitoring';
+import { requestAiConsent, AiConsentDeclinedError } from '@/lib/aiConsent';
+import { toast } from '@/hooks/use-toast';
 
 let currentAccessToken: string | null = null;
 
@@ -131,6 +133,10 @@ export async function authFetch(input: RequestInfo | URL, init?: RequestInit): P
   const accountScope = getUserContentStorageScope();
   const method = requestMethod(input, init);
   const shouldTrackAiRequest = method === 'POST' && Boolean(getAiFeatureForRequest(input));
+  if (shouldTrackAiRequest && !(await requestAiConsent(init?.signal))) {
+    throw new AiConsentDeclinedError();
+  }
+  assertAccountScope(accountScope);
   const shouldTrackAccountDeletion = isAccountDeletionRequest(input, method);
   const deadline = shouldTrackAiRequest ? createRequestDeadline(init?.signal) : null;
   const startedAt = Date.now();
@@ -170,14 +176,14 @@ export async function authFetch(input: RequestInfo | URL, init?: RequestInit): P
 
     if (shouldTrackAiRequest) {
       const durationMs = Date.now() - startedAt;
-      trackAiRequestOutcome(input, {
-        status: response.status,
-        durationMs,
-      });
       const resultBody = response.ok ? await response.clone().json().catch(() => null) : null;
       assertAccountScope(accountScope);
+      const degraded = resultBody?.degraded === true || resultBody?.generation?.degraded === true;
+      window.dispatchEvent(new CustomEvent('vertexed:ai-result', { detail: { degraded } }));
+      trackAiRequestOutcome(input, { status: response.status, durationMs, degraded });
+      if (degraded) toast({ title: 'AI output unavailable', description: 'This result uses a basic fallback. It is not a successful AI response or a verified grade.', duration: 15000 });
       reportAiRun({
-        degraded: resultBody?.degraded === true || resultBody?.generation?.degraded === true,
+        degraded,
         invalidOutput: response.ok && !resultBody,
         capability: getAiFeatureForRequest(input) || 'unknown',
         status: response.status,
