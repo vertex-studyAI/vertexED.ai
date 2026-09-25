@@ -102,3 +102,11 @@ test('today-plan completion does not expose an unpersisted optimistic state', ()
   assert.match(source, /if \(!writeDone\(all\)\) return previous;/);
   assert.match(source, /return next;/);
 });
+
+
+test('dashboard primary action follows the highest-priority truthful today-plan item', () => {
+  const source = readFileSync(new URL('../src/pages/Main.tsx', import.meta.url), 'utf8');
+  assert.match(source, /const primaryTodayItem = todayItems\[0\] \?\? null;/);
+  assert.match(source, /to=\{primaryTodayItem\?\.href \?\? "\/exam-prep"\}/);
+  assert.match(source, /primaryTodayItem \? "Start next step" : "Open today’s exam plan"/);
+});
