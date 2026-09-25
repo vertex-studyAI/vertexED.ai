@@ -45,9 +45,9 @@ export function selectBaselineDrills({ drills, programme = '', subject = '', top
 
   const selected = [];
   const seenFocus = new Set();
-  const selectCandidate = (candidate) => {
+  const selectCandidate = (candidate, { allowFocusRepeat = false } = {}) => {
     const focusKey = normalizeText(candidate.drill.focus).split(':')[0] || normalizeText(candidate.drill.focus);
-    if (seenFocus.has(focusKey) || selected.some((item) => item.id === candidate.drill.id)) return false;
+    if ((!allowFocusRepeat && seenFocus.has(focusKey)) || selected.some((item) => item.id === candidate.drill.id)) return false;
     selected.push(candidate.drill);
     seenFocus.add(focusKey);
     return true;
@@ -61,10 +61,9 @@ export function selectBaselineDrills({ drills, programme = '', subject = '', top
     const candidate = candidates.find(({ drill }) => {
       const haystack = `${normalizeText(drill.topic)} ${normalizeText(drill.focus)}`;
       return haystack.includes(topic)
-        && !selected.some((item) => item.id === drill.id)
-        && !seenFocus.has(normalizeText(drill.focus).split(':')[0] || normalizeText(drill.focus));
+        && !selected.some((item) => item.id === drill.id);
     });
-    if (candidate) selectCandidate(candidate);
+    if (candidate) selectCandidate(candidate, { allowFocusRepeat: true });
     if (selected.length === boundedLimit) return selected;
   }
 
