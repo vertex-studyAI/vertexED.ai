@@ -66,3 +66,21 @@ The CSV contains only the bounded pseudonymous session schema. It does not inclu
 ## Production use
 
 This module does not itself collect or consent participants and does not bypass RLS. A production pilot still needs an appropriate opt-in/consent process and an account-isolated source query/export path. Preserve the exact source revision and export inputs used for any public quantitative claim.
+
+
+## Staff-safe aggregate-only report
+
+For ordinary pilot operations or a teacher/staff summary, prefer the aggregate-only mode:
+
+```bash
+node scripts/export-pilot-analytics.mjs \
+  --input pilot-sessions.json \
+  --json pilot-aggregate.json \
+  --aggregate-only true \
+  --generated-at 2026-09-25T00:00:00.000Z \
+  --source-revision <full-immutable-git-sha>
+```
+
+This output contains **no participant or session rows**. It includes the existing descriptive aggregate plus subject-level coverage: participant count, session count, completed-session count/rate, topic count/list, and mean usefulness when ratings exist. Topic names are curricular labels, not learner answers.
+
+Use aggregate-only output for routine staff reporting whenever row-level research data is unnecessary. Pseudonymous row exports remain a narrower research/withdrawal workflow and must stay access-controlled.
