@@ -23,3 +23,18 @@ These are intentionally conservative product metrics. A learner can return to Ve
 Use the aggregate report to establish a real activation cohort before widening the beta. Pair it with the existing privacy-safe funnel events to locate the largest drop-off, then address that observed break before adding a new feature family.
 
 Do not expose the per-account CTEs as a browser/API response. Run this only from an authorized admin/server analytics context and publish aggregate counts/rates.
+
+
+## Durable database funnel
+
+`docs/PRODUCT_FUNNEL.sql` complements the browser analytics funnel with aggregate persistence evidence:
+
+1. approved waitlist record;
+2. approved record linked to an Auth account;
+3. curriculum profile configured (board present and at least one subject);
+4. starter planner persisted;
+5. at least one non-planner core study artifact persisted.
+
+The profile stage is explicitly a **database proxy**, not a replacement for the browser-side `Onboarding Completed` event. Likewise, a durable core artifact is narrower than `First Core Action Completed`, because some valid core workflows may not persist a study artifact.
+
+The report intentionally keeps those distinctions instead of forcing all product activity into one metric. Use browser events to understand the journey and durable aggregate SQL to cross-check persistence-backed stages.
