@@ -93,3 +93,30 @@ test('bounded summary never emits a grade or mastery prediction', () => {
   assert.equal(summary.label, 'Some evidence');
   assert.doesNotMatch(JSON.stringify(summary), /grade|mastery|predicted/i);
 });
+
+
+test('IB DP Physics baseline has three subject-matched original drills', () => {
+  const drills = selectBaselineDrills({
+    drills: EXAM_DRILLS,
+    programme: 'IB DP',
+    subject: 'Physics HL',
+    topics: parseBaselineTopics('Forces, Circular motion, Energy'),
+  });
+  assert.equal(drills.length, 3);
+  assert.ok(drills.every((drill) => drill.subject === 'Physics'));
+  assert.deepEqual(new Set(drills.map((drill) => drill.topic)), new Set(['Forces', 'Circular motion', 'Energy']));
+  assert.ok(drills.every((drill) => /^https:\/\//.test(drill.source)));
+});
+
+test('IB DP Computer Science baseline has three subject-matched original drills', () => {
+  const drills = selectBaselineDrills({
+    drills: EXAM_DRILLS,
+    programme: 'IB DP',
+    subject: 'Computer Science HL',
+    topics: parseBaselineTopics('Binary and bitwise logic, Algorithms, Boolean logic'),
+  });
+  assert.equal(drills.length, 3);
+  assert.ok(drills.every((drill) => drill.subject === 'Computer Science'));
+  assert.deepEqual(new Set(drills.map((drill) => drill.topic)), new Set(['Binary and bitwise logic', 'Algorithms', 'Boolean logic']));
+  assert.ok(drills.every((drill) => ['foundation', 'application', 'extended'].includes(drill.difficulty)));
+});
