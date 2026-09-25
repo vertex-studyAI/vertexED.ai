@@ -193,6 +193,58 @@ const summarizeNormalizedPilotSessions = (sessions) => {
 export function summarizePilotSessions(records) {
   return summarizeNormalizedPilotSessions(normalizePilotRecords(records).sessions);
 }
+export function summarizePilotCoverage(records) {
+  const { sessions } = normalizePilotRecords(records);
+  const buckets = new Map();
+
+  for (const session of sessions) {
+    const key = JSON.stringify([session.curriculum, session.subject]);
+    const current = buckets.get(key) ?? {
+      curriculum: session.curriculum,
+      subject: session.subject,
+      participantIds: new Set(),
+      sessionCount: 0,
+      completedSessionCount: 0,
+      topics: new Set(),
+      usefulnessRatings: [],
+    };
+    current.participantIds.add(session.participant_id);
+    current.sessionCount += 1;
+    if (session.completion_flag) current.completedSessionCount += 1;
+    current.topics.add(session.topic);
+    if (session.usefulness_rating !== null) current.usefulnessRatings.push(session.usefulness_rating);
+    buckets.set(key, current);
+  }
+
+  return [...buckets.values()]
+    .map((bucket) => ({
+      curriculum: bucket.curriculum,
+      subject: bucket.subject,
+      participant_count: bucket.participantIds.size,
+      session_count: bucket.sessionCount,
+      completed_session_count: bucket.completedSessionCount,
+      completion_rate: bucket.sessionCount ? round(bucket.completedSessionCount / bucket.sessionCount) : null,
+      topic_count: bucket.topics.size,
+      topics: [...bucket.topics].sort((a, b) => a.localeCompare(b)),
+      usefulness_mean: bucket.usefulnessRatings.length ? round(mean(bucket.usefulnessRatings)) : null,
+    }))
+    .sort((a, b) => a.curriculum.localeCompare(b.curriculum) || a.subject.localeCompare(b.subject));
+}
+
+export function buildPilotAggregateExport(records, metadata) {
+  const full = buildPilotExport(records, metadata);
+  return {
+    schema: `${PILOT_EXPORT_SCHEMA}-aggregate`,
+    metadata: {
+      ...full.metadata,
+      participant_rows_included: false,
+      session_rows_included: false,
+    },
+    aggregate: full.aggregate,
+    coverage: summarizePilotCoverage(records),
+  };
+}
+
 
 export function buildPilotExport(records, metadata) {
   if (!metadata || typeof metadata !== 'object') throw new TypeError('metadata is required');
@@ -222,6 +274,24 @@ export function buildPilotExport(records, metadata) {
     aggregate: summarizeNormalizedPilotSessions(sessions),
     sessions,
   };
+}
+
+export function removePilotParticipant(records, participantId) {
+  if (!Array.isArray(records)) throw new TypeError('records must be an array');
+  if (!isPseudonymousParticipantId(participantId)) {
+    throw new TypeError('participantId must be a pseudonymous identifier');
+  }
+
+  const retained = [];
+  let removedRecordCount = 0;
+  for (const record of records) {
+    if (record && typeof record === 'object' && record.participant_id === participantId) {
+      removedRecordCount += 1;
+      continue;
+    }
+    retained.push(record);
+  }
+  return { records: retained, removed_record_count: removedRecordCount };
 }
 
 export function buildParticipantPilotExport(records, participantId, metadata) {
