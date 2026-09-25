@@ -12,7 +12,7 @@ export default function ExamPracticeLab({ subject, board }: { subject: string; b
   const subjectDrill = drills.find(item => practiceSubjectMatches(subject, item.subject));
   const drill = selectedDrill || subjectDrill || null;
   const evidence = diagnoseExamEvidence(getMeasuredEntries(), subject, board);
-  return <section className="exam-prep-panel" aria-labelledby="practice-lab-title">
+  return <section id="exam-practice-lab" className="exam-prep-panel scroll-mt-24" aria-labelledby="practice-lab-title">
     <p className="exam-prep-kicker">Focused practice</p>
     <h2 id="practice-lab-title">Fix a step. Test the transfer.</h2>
     <p className="exam-prep-supporting-copy">Original editorial practice, with MYP sciences at the centre. These short checks are not official criteria scores, past papers or a complete syllabus.</p>
