@@ -95,6 +95,7 @@ export default function Main() {
   }, [user]);
 
   const todayItems = brief ? buildTodayPlanItems(brief.todayTasks, brief.adaptivePlan.recommendations) : [];
+  const primaryTodayItem = todayItems[0] ?? null;
   const dueFlashcards = brief?.dueFlashcards ?? 0;
   const dueRetries = getDueRetries().length;
   const firstName = user?.user_metadata?.full_name?.split(" ")[0] || user?.email?.split("@")[0];
@@ -113,10 +114,10 @@ export default function Main() {
           <div className="dashboard-hero-copy">
             <p className="dashboard-kicker">{firstName ? `Welcome back, ${firstName}` : "Welcome back"}</p>
             <h1>Your study desk</h1>
-            <p className="dashboard-hero-text">Start with today&apos;s plan, or pick up a piece of saved work.</p>
+            <p className="dashboard-hero-text">{primaryTodayItem ? `Next: ${primaryTodayItem.label}` : "Start with today’s exam plan, or pick up a piece of saved work."}</p>
             <div className="dashboard-hero-actions">
-              <Link to="/exam-prep" className="dashboard-primary-action">
-                Open today&apos;s exam plan <ArrowRight className="h-4 w-4" aria-hidden />
+              <Link to={primaryTodayItem?.href ?? "/exam-prep"} className="dashboard-primary-action">
+                {primaryTodayItem ? "Start next step" : "Open today’s exam plan"} <ArrowRight className="h-4 w-4" aria-hidden />
               </Link>
               <Link to="/planner" className="dashboard-secondary-action">Open planner</Link>
             </div>
