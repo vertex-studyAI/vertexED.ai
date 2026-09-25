@@ -3,9 +3,11 @@ import test from 'node:test';
 
 import {
   buildParticipantPilotExport,
+  buildPilotAggregateExport,
   buildPilotExport,
   isPseudonymousParticipantId,
   pilotSessionsToCsv,
+  summarizePilotCoverage,
   summarizePilotSessions,
 } from '../src/lib/pilotAnalyticsCore.mjs';
 
@@ -199,4 +201,60 @@ test('CSV neutralizes spreadsheet formula prefixes in user-controlled text', () 
   assert.match(csv, /'\+SUM\(A1:A2\)/);
   assert.match(csv, /'=1\+1/);
   assert.match(csv, /'-2\+3/);
+});
+
+
+test('aggregate-only staff export excludes participant and session rows', () => {
+  const records = [
+    session(),
+    session({
+      participant_id: 'pilot_B002',
+      session_id: 'session-002',
+      subject: 'Mathematics',
+      topic: 'Functions',
+      usefulness_rating: 5,
+    }),
+  ];
+  const exported = buildPilotAggregateExport(records, metadata);
+  assert.equal(exported.schema, 'vertexed-pilot-analytics-v1-aggregate');
+  assert.equal(exported.metadata.participant_rows_included, false);
+  assert.equal(exported.metadata.session_rows_included, false);
+  assert.equal('sessions' in exported, false);
+  assert.equal(JSON.stringify(exported).includes('pilot_A001'), false);
+  assert.equal(JSON.stringify(exported).includes('pilot_B002'), false);
+});
+
+test('staff coverage is subject-scoped, aggregate, and completion-aware', () => {
+  const records = [
+    session(),
+    session({
+      participant_id: 'pilot_B002',
+      session_id: 'session-002',
+      topic: 'Dynamics',
+      usefulness_rating: 2,
+    }),
+    session({
+      participant_id: 'pilot_C003',
+      session_id: 'session-003',
+      subject: 'Mathematics',
+      topic: 'Functions',
+      post_assessment: null,
+      completed_at: null,
+      completion_flag: false,
+      usefulness_rating: null,
+    }),
+  ];
+
+  const coverage = summarizePilotCoverage(records);
+  const physics = coverage.find((row) => row.subject === 'Physics');
+  const maths = coverage.find((row) => row.subject === 'Mathematics');
+  assert.deepEqual(physics.topics, ['Dynamics', 'Kinematics']);
+  assert.equal(physics.participant_count, 2);
+  assert.equal(physics.session_count, 2);
+  assert.equal(physics.completed_session_count, 2);
+  assert.equal(physics.completion_rate, 1);
+  assert.equal(physics.usefulness_mean, 3);
+  assert.equal(maths.participant_count, 1);
+  assert.equal(maths.completion_rate, 0);
+  assert.equal(JSON.stringify(coverage).includes('participant_id'), false);
 });
