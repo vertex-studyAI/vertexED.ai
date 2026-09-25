@@ -276,6 +276,24 @@ export function buildPilotExport(records, metadata) {
   };
 }
 
+export function removePilotParticipant(records, participantId) {
+  if (!Array.isArray(records)) throw new TypeError('records must be an array');
+  if (!isPseudonymousParticipantId(participantId)) {
+    throw new TypeError('participantId must be a pseudonymous identifier');
+  }
+
+  const retained = [];
+  let removedRecordCount = 0;
+  for (const record of records) {
+    if (record && typeof record === 'object' && record.participant_id === participantId) {
+      removedRecordCount += 1;
+      continue;
+    }
+    retained.push(record);
+  }
+  return { records: retained, removed_record_count: removedRecordCount };
+}
+
 export function buildParticipantPilotExport(records, participantId, metadata) {
   if (!isPseudonymousParticipantId(participantId)) {
     throw new TypeError('participantId must be a pseudonymous identifier');
