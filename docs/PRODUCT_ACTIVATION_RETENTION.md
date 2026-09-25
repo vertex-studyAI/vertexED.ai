@@ -4,19 +4,19 @@ VertexED already emits privacy-bounded product events, but the release gate also
 
 ## Canonical activation
 
-For this report, **activation** means the first successful persisted row in `public.user_study_artifacts`. This matches the product boundary that a learner has completed a useful workflow and actually saved study work.
+For this report, **durable core-artifact activation** means the first successful persisted **non-planner** row in `public.user_study_artifacts`. Planner rows are excluded because onboarding automatically creates a starter planner; counting that row would collapse onboarding and activation into the same event. A non-planner artifact is a narrower durable signal that the learner completed a study workflow which saved work.
 
-The report in `docs/PRODUCT_ACTIVATION_RETENTION.sql` reads only `user_id` and `created_at` internally. It never selects artifact titles, payloads, prompts, answers, email addresses, tokens, or learner content, and its final result is aggregate-only.
+The report in `docs/PRODUCT_ACTIVATION_RETENTION.sql` reads only `user_id`, `kind`, and `created_at` internally. It never selects artifact titles, payloads, prompts, answers, email addresses, tokens, or learner content, and its final result is aggregate-only.
 
 ## Return definitions
 
-- **D1 saved-artifact return:** another persisted artifact between 24 and 48 hours after activation.
-- **D7 saved-artifact return:** another persisted artifact between 7 and 8 days after activation.
-- **Artifact-active users (7d):** distinct accounts that persisted at least one study artifact in the trailing seven days.
+- **D1 core-artifact return:** another persisted artifact between 24 and 48 hours after activation.
+- **D7 core-artifact return:** another persisted artifact between 7 and 8 days after activation.
+- **Core-artifact-active users (7d):** distinct accounts that persisted at least one study artifact in the trailing seven days.
 
 The D1/D7 denominators include only accounts old enough to have completed the full observation window. Recent activations are excluded until their window matures.
 
-These are intentionally conservative product metrics. A learner can return to VertexED without creating a new artifact, so these numbers must be described as **saved-artifact return**, not universal app retention.
+These are intentionally conservative product metrics. A learner can return to VertexED without creating another non-planner artifact, so these numbers must be described as **core-artifact return**, not universal app retention. The separate privacy-safe browser event `First Core Action Completed` remains the broader funnel signal when its delivery can be trusted.
 
 ## Release use
 
