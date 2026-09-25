@@ -2,12 +2,15 @@ import { useState } from 'react';
 import { EXAM_DRILLS } from '@/content/examPractice';
 import { getMeasuredEntries } from '@/lib/weaknessTracker';
 import { diagnoseExamEvidence } from '@/lib/examDiagnosis.mjs';
+import { practiceSubjectMatches } from '@/lib/examPracticeSubject.mjs';
 
 export default function ExamPracticeLab({ subject, board }: { subject: string; board: string }) {
   const [programme, setProgramme] = useState('IB MYP');
   const [selected, setSelected] = useState('');
   const drills = EXAM_DRILLS.filter(item => item.programme === programme);
-  const drill = drills.find(item => item.id === selected) || drills.find(item => subject.toLowerCase().includes(item.subject.toLowerCase())) || drills[0];
+  const selectedDrill = drills.find(item => item.id === selected);
+  const subjectDrill = drills.find(item => practiceSubjectMatches(subject, item.subject));
+  const drill = selectedDrill || subjectDrill || null;
   const evidence = diagnoseExamEvidence(getMeasuredEntries(), subject, board);
   return <section className="exam-prep-panel" aria-labelledby="practice-lab-title">
     <p className="exam-prep-kicker">Focused practice</p>
@@ -15,9 +18,9 @@ export default function ExamPracticeLab({ subject, board }: { subject: string; b
     <p className="exam-prep-supporting-copy">Original editorial practice, with MYP sciences at the centre. These short checks are not official criteria scores, past papers or a complete syllabus.</p>
     <div className="grid gap-4 sm:grid-cols-2 my-5">
       <div><label htmlFor="exam-practice-programme" className="text-sm font-medium">Programme</label><select id="exam-practice-programme" className="block w-full rounded-lg border border-border bg-background p-3 mt-2" value={programme} onChange={event => { setProgramme(event.target.value); setSelected(''); }}><option>IB MYP</option><option>IB DP</option><option>AP</option></select></div>
-      <div><label htmlFor="exam-practice-target" className="text-sm font-medium">Target</label><select id="exam-practice-target" className="block w-full rounded-lg border border-border bg-background p-3 mt-2" value={drill.id} onChange={event => setSelected(event.target.value)}>{drills.map(item => <option key={item.id} value={item.id}>{item.subject}: {item.focus}</option>)}</select></div>
+      <div><label htmlFor="exam-practice-target" className="text-sm font-medium">Target</label><select id="exam-practice-target" className="block w-full rounded-lg border border-border bg-background p-3 mt-2" value={drill?.id ?? ''} onChange={event => setSelected(event.target.value)}>{!drill && <option value="">Choose a practice target</option>}{drills.map(item => <option key={item.id} value={item.id}>{item.subject}: {item.focus}</option>)}</select></div>
     </div>
-    <PracticeAttempt key={drill.id} drill={drill} />
+    {drill ? <PracticeAttempt key={drill.id} drill={drill} /> : <div className="rounded-xl border border-border bg-muted/30 p-5" role="status"><strong>No subject-matched drill is available yet.</strong><p className="text-sm text-muted-foreground mt-2">The current {programme} editorial pack does not contain a {subject} drill. Choose a different target above if you intentionally want cross-subject practice; VertexED will not silently substitute another subject.</p></div>}
     <div className="mt-6 border-t border-border pt-5">
       <h3 className="font-semibold">What your recorded work suggests</h3>
       <p className="text-sm text-muted-foreground mt-2">{subject} · {board.replace(/_/g, ' ')}. Records from other programmes, or without a programme, are excluded.</p>
