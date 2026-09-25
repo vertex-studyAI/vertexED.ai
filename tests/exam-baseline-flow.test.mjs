@@ -120,3 +120,29 @@ test('IB DP Computer Science baseline has three subject-matched original drills'
   assert.deepEqual(new Set(drills.map((drill) => drill.topic)), new Set(['Binary and bitwise logic', 'Algorithms', 'Boolean logic']));
   assert.ok(drills.every((drill) => ['foundation', 'application', 'extended'].includes(drill.difficulty)));
 });
+
+
+test('IB45 bank has at least six bounded drills for each initial HL subject family', () => {
+  const bySubject = (subject) => EXAM_DRILLS.filter((drill) => drill.programme === 'IB DP' && drill.subject === subject);
+  assert.ok(bySubject('Mathematics').length >= 6);
+  assert.ok(bySubject('Physics').length >= 6);
+  assert.ok(bySubject('Computer Science').length >= 6);
+});
+
+test('topic-aware selection can target deeper AA HL, Physics and CS topics without cross-subject substitution', () => {
+  const cases = [
+    ['Math AA HL', ['Complex numbers', 'Proof by induction', 'Binomial theorem']],
+    ['Physics HL', ['Projectile motion', 'Momentum', 'Electric circuits']],
+    ['Computer Science HL', ['Number representation', 'Boolean simplification', 'Data structures']],
+  ];
+  for (const [subject, topics] of cases) {
+    const selected = selectBaselineDrills({
+      drills: EXAM_DRILLS,
+      programme: 'IB DP',
+      subject,
+      topics,
+    });
+    assert.equal(selected.length, 3);
+    assert.deepEqual(new Set(selected.map((drill) => drill.topic)), new Set(topics));
+  }
+});
