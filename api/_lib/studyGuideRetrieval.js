@@ -1,11 +1,31 @@
 import { readFile } from 'node:fs/promises';
-import { join } from 'node:path';
+import { join, normalize, resolve, sep } from 'node:path';
 
 const STOP_WORDS = new Set(['the', 'and', 'for', 'with', 'that', 'this', 'what', 'when', 'where', 'which', 'from', 'into', 'about', 'have', 'does', 'should', 'would', 'could', 'your', 'you', 'are', 'how', 'why', 'can', 'all', 'any', 'use', 'using']);
 let guideDocumentsPromise;
 
 function tokens(text) {
   return Array.from(new Set(String(text).toLowerCase().match(/[a-z0-9]{2,}/g)?.filter((token) => !STOP_WORDS.has(token)) ?? []));
+}
+
+/** Resolve a guide path under public/ and reject traversal outside that root. */
+export function resolvePublicGuidePath(root, relativePath) {
+  const cleaned = String(relativePath || '').replace(/^\/+/, '');
+  if (!cleaned || cleaned.includes('\0')) {
+    throw new Error('Invalid study guide path');
+  }
+  const resolvedRoot = resolve(root);
+  const candidate = resolve(resolvedRoot, cleaned);
+  const prefix = resolvedRoot.endsWith(sep) ? resolvedRoot : `${resolvedRoot}${sep}`;
+  if (candidate !== resolvedRoot && !candidate.startsWith(prefix)) {
+    throw new Error('Invalid study guide path');
+  }
+  // Only markdown guides under study-guides/ are loadable.
+  const normalized = normalize(cleaned).replace(/\\/g, '/');
+  if (!normalized.startsWith('study-guides/') || !normalized.endsWith('.md')) {
+    throw new Error('Invalid study guide path');
+  }
+  return candidate;
 }
 
 async function loadGuideDocuments() {
@@ -18,7 +38,7 @@ async function loadGuideDocuments() {
     title: page.title,
     relativePath: page.relativePath,
     sourcePath: page.path,
-    content: await readFile(join(root, page.path.replace(/^\//, '')), 'utf8'),
+    content: await readFile(resolvePublicGuidePath(root, page.path), 'utf8'),
   }))));
   return pages;
 }

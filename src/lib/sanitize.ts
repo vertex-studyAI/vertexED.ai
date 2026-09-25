@@ -12,7 +12,8 @@ const BASE_SANITIZE_CONFIG: Config = {
   IN_PLACE: false,
   RETURN_DOM: false,
   RETURN_DOM_FRAGMENT: false,
-  ALLOWED_URI_REGEXP: /^(?:(?:https?|mailto):|[^a-z]|[a-z+.-]+(?:[^a-z+.-:]|$))/i,
+  // Align with safeMarkdownHref: https/mailto only (no cleartext http:).
+  ALLOWED_URI_REGEXP: /^(?:(?:https|mailto):|[^a-z]|[a-z+.-]+(?:[^a-z+.-:]|$))/i,
 };
 
 export { safeMarkdownHref };

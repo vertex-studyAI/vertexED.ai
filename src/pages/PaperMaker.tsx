@@ -26,6 +26,7 @@ import AiFeedbackControls from "@/components/AiFeedbackControls";
 import { loadMockExamDraft } from "@/lib/examFlow";
 import { exportTextPdf, type PdfTextBlock } from '@/lib/pdfTextExport';
 import { paperMakerError } from '@/lib/paperMakerError.mjs';
+import { safeDataImageSrc, safeImageSrc } from '@/lib/safeImageSrc.mjs';
 
 export default function PaperMaker({ priorPapers = [] }) {
   const { user } = useAuth();
@@ -564,7 +565,7 @@ export default function PaperMaker({ priorPapers = [] }) {
                 </label>
                 <div className="mt-2 grid grid-cols-3 gap-2">
                   {files.map((f, fileIndex) => {
-                    const src = f.b64 ? `data:${f.mime};base64,${f.b64}` : null;
+                    const src = safeDataImageSrc(f.mime, f.b64);
                     return (
                       <div key={`${f.name}-${fileIndex}`} className="relative flex flex-col items-center rounded-lg border border-border/60 bg-muted/40 p-2 text-xs">
                         <button
@@ -646,7 +647,12 @@ export default function PaperMaker({ priorPapers = [] }) {
                                   {q.imageRefs.map((n) => {
                                     const img = (paper.images || []).find(i => i.name === n);
                                     if (!img) return <span key={n} className="text-xs text-muted-foreground">[missing image: {n}]</span>;
-                                    const src = img.b64 ? `data:${img.mime};base64,${img.b64}` : img.url;
+                                    const src = img.b64
+                                      ? safeDataImageSrc(img.mime, img.b64)
+                                      : safeImageSrc(img.url);
+                                    if (!src) {
+                                      return <span key={n} className="text-xs text-muted-foreground">[unavailable image: {n}]</span>;
+                                    }
                                     return <img key={n} src={src} alt={img.caption || n} style={{ maxWidth: 320, display: "block", marginTop: 8 }} />;
                                   })}
                                 </div>

@@ -1,4 +1,10 @@
-export function resolveAdminAccess({ apiDecision, isDevelopment, clientAllowlistMatch }) {
+export function resolveAdminAccess({
+  apiDecision,
+  isDevelopment,
+  clientAllowlistMatch,
+  allowClientFallback = false,
+}) {
   if (typeof apiDecision === 'boolean') return apiDecision;
-  return Boolean(isDevelopment && clientAllowlistMatch);
+  // Never trust a client-bundled email allowlist unless explicitly opted in for local work.
+  return Boolean(isDevelopment && allowClientFallback && clientAllowlistMatch);
 }

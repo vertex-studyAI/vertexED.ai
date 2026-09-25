@@ -40,6 +40,7 @@ env:
   SOURCE_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
   SMOKE_BASE_URL: https://www.vertexed.app
   SMOKE_TIMEOUT_MS: '20000'
+  HEALTH_READINESS_TOKEN: ${{ secrets.HEALTH_READINESS_TOKEN }}
   INCIDENT_TITLE: Production health monitor failure
 
 jobs:

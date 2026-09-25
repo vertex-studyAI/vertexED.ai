@@ -114,8 +114,13 @@ export default function WaitlistAdmin() {
       setEntries((prev) =>
         prev.map((entry) => (entry.id === id ? { ...entry, ...data.entry } : entry)),
       );
-      if (status === 'approved' && data.inviteLink) {
-        setLastInviteLink(data.inviteLink);
+      if (status === 'approved' && (data.inviteLink || data.tokenIssued || data.emailSent)) {
+        if (data.inviteLink) {
+          setLastInviteLink(data.inviteLink);
+          setInviteLinks((prev) => ({ ...prev, [id]: data.inviteLink as string }));
+        } else if (data.emailSent) {
+          setLastInviteLink('');
+        }
         setEmailSent(typeof data.emailSent === 'boolean' ? data.emailSent : null);
       }
       if (data.inviteLink) {
@@ -145,7 +150,7 @@ export default function WaitlistAdmin() {
             </p>
             {database && (
               <p className="mt-2 text-xs text-muted-foreground">
-                Live source: <code>{database.url}/{database.schema}.{database.table}</code>
+                Live source: <code>{database.schema}.{database.table}</code>
               </p>
             )}
           </div>
@@ -212,20 +217,33 @@ export default function WaitlistAdmin() {
           </div>
         )}
 
-        {lastInviteLink && (
+        {(lastInviteLink || emailSent === true) && (
           <div className="mb-4 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm">
-            <p className="font-medium text-emerald-200">Approval invite link</p>
-            <p className="mt-1 break-all font-mono text-xs text-emerald-100/90">{lastInviteLink}</p>
+            {lastInviteLink ? (
+              <>
+                <p className="font-medium text-emerald-200">Approval invite link</p>
+                <p className="mt-1 break-all font-mono text-xs text-emerald-100/90">{lastInviteLink}</p>
+              </>
+            ) : (
+              <p className="font-medium text-emerald-200">Approval email sent</p>
+            )}
             <div className="mt-2 flex flex-wrap gap-2">
-              <button
-                type="button"
-                className="px-2.5 py-1 rounded-md text-xs border border-emerald-400/40 text-emerald-200 hover:bg-emerald-500/10"
-                onClick={() => void navigator.clipboard.writeText(lastInviteLink)}
-              >
-                Copy link
-              </button>
-              {emailSent === true && (
+              {lastInviteLink && (
+                <button
+                  type="button"
+                  className="px-2.5 py-1 rounded-md text-xs border border-emerald-400/40 text-emerald-200 hover:bg-emerald-500/10"
+                  onClick={() => void navigator.clipboard.writeText(lastInviteLink)}
+                >
+                  Copy link
+                </button>
+              )}
+              {emailSent === true && lastInviteLink && (
                 <span className="text-xs text-emerald-300 self-center">Approval email sent</span>
+              )}
+              {emailSent === true && !lastInviteLink && (
+                <span className="text-xs text-emerald-300 self-center">
+                  Invite link omitted from this response - applicant has email delivery
+                </span>
               )}
               {emailSent === false && (
                 <span className="text-xs text-amber-300 self-center">

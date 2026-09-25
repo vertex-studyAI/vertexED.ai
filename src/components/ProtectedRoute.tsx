@@ -84,9 +84,8 @@ export default function ProtectedRoute({ children }: { children: React.JSX.Eleme
       return;
     }
     setAccess("checking");
-    // The waitlist backend is intentionally not required during local development,
-    // so the product can be tested before Supabase access is available.
-    if (import.meta.env.DEV) {
+    // Local waitlist bypass is opt-in only — never automatic for any DEV bundle.
+    if (import.meta.env.DEV && import.meta.env.VITE_SKIP_WAITLIST_GATE === '1') {
       setAccess("approved");
       setAccessUserId(user.id);
       return;

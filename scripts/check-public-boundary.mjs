@@ -35,7 +35,17 @@ async function digA(name) {
 
 async function probe(url) {
   try {
-    const response = await fetch(url, { method: 'GET', redirect: 'manual', signal: AbortSignal.timeout(20000) });
+    const headers = {};
+    const token = (process.env.HEALTH_READINESS_TOKEN || '').trim();
+    if (token && url.includes('readiness')) {
+      headers['x-vertexed-readiness-token'] = token;
+    }
+    const response = await fetch(url, {
+      method: 'GET',
+      redirect: 'manual',
+      signal: AbortSignal.timeout(20000),
+      headers,
+    });
     const text = await response.text();
     let body = null;
     try {

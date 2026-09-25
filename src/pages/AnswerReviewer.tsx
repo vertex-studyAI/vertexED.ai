@@ -28,6 +28,7 @@ import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import MarkdownLink from "@/components/markdown/MarkdownLink";
 import { enrichMathInText } from "@/lib/mathText";
+import { sanitizeMarkdown } from "@/lib/sanitize";
 import { Sliders, ArrowRight, FileText, Copy, Download, Image as ImageIcon, X, Sparkles, Shield, MessageSquareQuote, CheckCircle2, ClipboardCheck, Loader2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import AiFeedbackControls from "@/components/AiFeedbackControls";
@@ -37,6 +38,7 @@ import { completeRetry } from "@/lib/retryQueue";
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
 import { normalizeReviewDraft } from '@/lib/reviewDraft.mjs';
+import { safeImageSrc } from '@/lib/safeImageSrc.mjs';
 
 type Attachment = {
   id: string;
@@ -875,9 +877,13 @@ export default function AIAnswerReview() {
                         exit={{ opacity: 0, y: 10 }}
                         className="mt-3 flex flex-wrap gap-3"
                       >
-                        {questionImages.map((img) => (
+                        {questionImages.map((img) => {
+                          const src = safeImageSrc(img.src);
+                          return (
                           <div key={img.id} className="group relative h-24 w-24 overflow-hidden rounded-2xl border border-border/60 bg-muted shadow-lg">
-                            <img src={img.src} alt={img.name || "Question upload"} className="h-full w-full object-cover" />
+                            {src ? (
+                              <img src={src} alt={img.name || "Question upload"} className="h-full w-full object-cover" />
+                            ) : null}
                             <button
                               type="button"
                               onClick={() => removeImage(img.id, "question")}
@@ -887,7 +893,8 @@ export default function AIAnswerReview() {
                               <X size={12} />
                             </button>
                           </div>
-                        ))}
+                          );
+                        })}
                       </motion.div>
                     )}
                   </AnimatePresence>
@@ -928,9 +935,13 @@ export default function AIAnswerReview() {
                         exit={{ opacity: 0, y: 10 }}
                         className="mt-3 flex flex-wrap gap-3"
                       >
-                        {answerImages.map((img) => (
+                        {answerImages.map((img) => {
+                          const src = safeImageSrc(img.src);
+                          return (
                           <div key={img.id} className="group relative h-24 w-24 overflow-hidden rounded-2xl border border-border/60 bg-muted shadow-lg">
-                            <img src={img.src} alt={img.name || "Answer upload"} className="h-full w-full object-cover" />
+                            {src ? (
+                              <img src={src} alt={img.name || "Answer upload"} className="h-full w-full object-cover" />
+                            ) : null}
                             <button
                               type="button"
                               onClick={() => removeImage(img.id, "answer")}
@@ -940,7 +951,8 @@ export default function AIAnswerReview() {
                               <X size={12} />
                             </button>
                           </div>
-                        ))}
+                          );
+                        })}
                       </motion.div>
                     )}
                   </AnimatePresence>
@@ -1175,7 +1187,7 @@ export default function AIAnswerReview() {
                               </code>
                             ),
                           }}>
-                            {enrichMathInText(response)}
+                            {sanitizeMarkdown(enrichMathInText(response))}
                           </ReactMarkdown>}
 
                           <div className="flex flex-wrap items-center gap-3 border-t border-border/60 pt-4">

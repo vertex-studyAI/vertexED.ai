@@ -60,11 +60,15 @@ export default async function handler(req, res) {
     if (lookupError) throw lookupError;
 
     if (existing) {
-      return res.status(409).json({ error: 'This email is already on the waitlist. Check your inbox or sign in.' });
+      return res.status(409).json({
+        error: 'If this email can join VertexED, check your inbox or try signing in.',
+      });
     }
 
     if (await authAccountExists(supabase, email)) {
-      return res.status(409).json({ error: 'This email is already registered. Try logging in or check your inbox.' });
+      return res.status(409).json({
+        error: 'If this email can join VertexED, check your inbox or try signing in.',
+      });
     }
 
     const schoolId = await resolveSchool(supabase, applicationProfile);

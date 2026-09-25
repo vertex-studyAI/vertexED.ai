@@ -54,7 +54,7 @@ test('listing never returns prior-account recovery items after a scope transitio
   assert.ok(tokenIndex > recoveredScopeCheck && tokenScopeCheck > tokenIndex);
   assert.match(
     body,
-    /catch \(err\) \{\s*if \(!isCurrentUserContentScope\(scope\)\) return accountChangedListResult\(\);/,
+    /catch \(err\) \{\s*if \(isAbortError\(err\) \|\| options\.signal\?\.aborted\) throw err;\s*if \(!isCurrentUserContentScope\(scope\)\) return accountChangedListResult\(\);/,
   );
 });
 

@@ -21,3 +21,10 @@ test('waitlist handler only echoes curated profile validation copy', () => {
   assert.match(source, /Please complete your study profile\./);
   assert.doesNotMatch(source, /catch \(error\) \{ return res\.status\(400\)\.json\(\{ error: error\.message \}\); \}/);
 });
+
+test('waitlist conflict responses do not enumerate account vs waitlist state', () => {
+  const source = fs.readFileSync('api/_handlers/waitlist.js', 'utf8');
+  assert.match(source, /If this email can join VertexED/);
+  assert.doesNotMatch(source, /already on the waitlist/);
+  assert.doesNotMatch(source, /already registered/);
+});

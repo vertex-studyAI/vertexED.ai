@@ -1,0 +1,9 @@
+@media (prefers-reduced-motion: reduce) {
+  .vertex-home,
+  .vertex-home::before,
+  .vertex-home::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

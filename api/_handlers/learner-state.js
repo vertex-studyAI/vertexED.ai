@@ -32,7 +32,17 @@ export default async function handler(req, res) {
     if (req.method === 'GET') {
       let page;
       try { page = await listLearnerStateItems(supabase, user.id, getQueryParam(req, 'cursor')); }
-      catch (error) { if (error instanceof TypeError) return res.status(400).json({ error: error.message }); throw error; }
+      catch (error) {
+        if (error instanceof TypeError) {
+          const message = error.message || '';
+          return res.status(400).json({
+            error: message === 'Invalid learner-state cursor'
+              ? message
+              : 'Invalid learner-state request.',
+          });
+        }
+        throw error;
+      }
       const { data, error, nextCursor } = page;
       if (error) {
         if (migrationUnavailable(error)) return res.status(503).json({ error: 'Learner-state migration is not applied.' });

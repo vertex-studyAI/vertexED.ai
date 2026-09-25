@@ -8,6 +8,7 @@ import {
 import { fetchProvider } from '../_lib/providerRequest.js';
 import { routeAiRequest } from '../_lib/aiRouting.js';
 import { VERTEX_AGENTS } from '../_lib/vertexAgents.js';
+import { isBlockedImageHostname } from '../../src/lib/safeImageSrc.mjs';
 
 const OPENAI_URL = "https://api.openai.com/v1/chat/completions";
 const DEFAULT_MODEL = "gpt-4.1";
@@ -80,16 +81,16 @@ export function validateImages(imagesInput = []) {
         throw new InputValidationError("Uploaded images require a file name");
       }
       if (!ALLOWED_IMAGE_MIME_TYPES.has(mime)) {
-        throw new InputValidationError(`Unsupported image type for ${name}`);
+        throw new InputValidationError("Unsupported image type");
       }
       if (b64.startsWith("data:") || b64.length % 4 !== 0 || !BASE64_RE.test(b64)) {
-        throw new InputValidationError(`Image ${name} contains malformed base64 data`);
+        throw new InputValidationError("Image contains malformed base64 data");
       }
       if (decodedBase64Bytes(b64) > MAX_BASE64_BYTES) {
-        throw new InputValidationError(`Image ${name} exceeds size limit`);
+        throw new InputValidationError("Image exceeds size limit");
       }
     } else if (mime && !ALLOWED_IMAGE_MIME_TYPES.has(mime)) {
-      throw new InputValidationError(`Unsupported image type for ${name || "image"}`);
+      throw new InputValidationError("Unsupported image type");
     }
 
     if (url) {
@@ -101,6 +102,12 @@ export function validateImages(imagesInput = []) {
       }
       if (parsedUrl.protocol !== "https:") {
         throw new InputValidationError("Image URLs must use HTTPS");
+      }
+      if (parsedUrl.username || parsedUrl.password) {
+        throw new InputValidationError("Image URLs must not include credentials");
+      }
+      if (isBlockedImageHostname(parsedUrl.hostname)) {
+        throw new InputValidationError("Image URL host is not allowed");
       }
     }
 
