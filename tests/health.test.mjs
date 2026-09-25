@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import handler, {
+import {
+  createHealthHandler,
   HEALTH_CONTRACT_VERSION,
   classifyDatabaseReadinessError,
   getDeploymentRevision,
@@ -8,6 +9,9 @@ import handler, {
   getDeepReadinessSnapshot,
 } from '../api/_handlers/health.js';
 import { createMocks } from './helpers/mock-http.mjs';
+
+// Inject absence of a build stamp so tests are independent of a prior local build.
+const handler = createHealthHandler(null);
 
 const HEALTH_ENV_KEYS = [
   'SUPABASE_URL',

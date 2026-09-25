@@ -4,7 +4,8 @@ import { ChevronDown, ChevronRight, Layers } from 'lucide-react';
 import ChatMarkdown from '@/components/chat/ChatMarkdown';
 import NotebookTtsPlayer from '@/components/notebook/NotebookTtsPlayer';
 import ConceptMap from '@/components/notebook/ConceptMap';
-import type { NotebookOutput, NotebookOutputKind } from '@/lib/notebook';
+import NotebookQuizResponseEditor from '@/components/notebook/NotebookQuizResponseEditor';
+import type { NotebookOutput, NotebookOutputKind, NotebookQuizResponse, NotebookSource } from '@/lib/notebook';
 import { NOTEBOOK_OUTPUT_META } from '@/lib/notebook';
 import { mergeFlashcardsIntoDeck } from '@/lib/srDeck';
 import { toast } from '@/hooks/use-toast';
@@ -13,6 +14,10 @@ type Props = {
   output: NotebookOutput;
   notebookTitle: string;
   onAskQuestion?: (q: string) => void;
+  sources?: NotebookSource[];
+  onPreviewSource?: (sourceId: string, opener: HTMLButtonElement) => void;
+  onQuizResponseChange?: (index: number, patch: Partial<Pick<NotebookQuizResponse, 'answer' | 'confidence' | 'revealedAt' | 'reflection'>>) => void;
+  onReviewResponse?: (index: number) => void;
 };
 
 type QuizDisclosureState = {
@@ -20,7 +25,8 @@ type QuizDisclosureState = {
   revealed: Set<number>;
 };
 
-export default function NotebookOutputPanel({ output, notebookTitle, onAskQuestion }: Props) {
+export default function NotebookOutputPanel({ output, notebookTitle, onAskQuestion, sources = [], onPreviewSource, onQuizResponseChange, onReviewResponse }: Props) {
+  const [failedSaves, setFailedSaves] = useState<Set<number>>(new Set());
   const [quizDisclosure, setQuizDisclosure] = useState<QuizDisclosureState>(() => ({
     outputId: output.id,
     revealed: new Set(),
@@ -29,6 +35,13 @@ export default function NotebookOutputPanel({ output, notebookTitle, onAskQuesti
   const generatedRegionLabel = `Generated ${outputKindLabel(output.kind)}`;
 
   const toggleQuiz = (index: number) => {
+    if (!revealedQuiz.has(index) && onQuizResponseChange) {
+      try { onQuizResponseChange(index, { revealedAt: new Date().toISOString() }); }
+      catch {
+        toast({ title: 'Answer could not be saved', description: 'Keep this page open and try again. Your original work is still visible.', variant: 'destructive' });
+        return;
+      }
+    }
     setQuizDisclosure((prev) => {
       const next = prev.outputId === output.id ? new Set(prev.revealed) : new Set<number>();
       if (next.has(index)) next.delete(index);
@@ -58,6 +71,13 @@ export default function NotebookOutputPanel({ output, notebookTitle, onAskQuesti
   if (output.kind === 'quiz' && output.quiz?.length) {
     return (
       <section className="space-y-4" aria-label={generatedRegionLabel}>
+        {onQuizResponseChange && (
+          <div className="border-b border-border pb-4 space-y-2">
+            <p className="text-sm">Try each question before revealing the answer. Your responses stay connected to this notebook.</p>
+            <p className="text-xs text-muted-foreground">AI answers may be wrong. Self-checks and confidence do not update measured mastery. Use Review my working to compare with a teacher or trusted mark scheme.</p>
+            <p className="text-xs font-medium" role="status">{output.quizResponses?.filter(response => response.answer.trim()).length ?? 0} of {output.quiz.length} questions answered</p>
+          </div>
+        )}
         {output.quiz.map((q, i) => {
           // Model-generated question ids are useful data, but they are not a safe
           // DOM identity boundary: duplicate ids would couple two disclosures and
@@ -67,6 +87,8 @@ export default function NotebookOutputPanel({ output, notebookTitle, onAskQuesti
           const show = revealedQuiz.has(i);
           const questionId = `notebook-quiz-${output.id}-question-${i}`;
           const answerId = `notebook-quiz-${output.id}-answer-${i}`;
+          const response = output.quizResponses?.find(item => item.questionIndex === i);
+          const referencedSources = sources.filter(source => (q.sourceIds ?? output.sourceIds ?? []).includes(source.id));
           return (
             <article
               key={`${q.id}-${i}`}
@@ -88,10 +110,26 @@ export default function NotebookOutputPanel({ output, notebookTitle, onAskQuesti
                   ))}
                 </ul>
               )}
+              {referencedSources.length > 0 && onPreviewSource && (
+                <div className="flex flex-wrap gap-2 text-xs" aria-label={`Sources for question ${i + 1}`}>
+                  {referencedSources.map(source => <button key={source.id} type="button" className="text-primary underline underline-offset-4 min-h-11 text-left" onClick={event => onPreviewSource(source.id, event.currentTarget)}>Source: {source.title}</button>)}
+                </div>
+              )}
+              {onQuizResponseChange && (
+                <NotebookQuizResponseEditor
+                  key={`${output.id}-${i}`}
+                  questionIndex={i}
+                  outputId={output.id}
+                  response={response}
+                  onSave={patch => onQuizResponseChange(i, patch)}
+                  onSaveState={failed => setFailedSaves(previous => { const next = new Set(previous); if (failed) next.add(i); else next.delete(i); return next; })}
+                />
+              )}
               <button
                 type="button"
                 onClick={() => toggleQuiz(i)}
-                className="text-xs text-primary hover:underline inline-flex items-center gap-1"
+                className="text-xs text-primary hover:underline inline-flex items-center gap-1 min-h-11 disabled:opacity-50"
+                disabled={failedSaves.has(i)}
                 aria-expanded={show}
                 aria-controls={answerId}
               >
@@ -110,8 +148,23 @@ export default function NotebookOutputPanel({ output, notebookTitle, onAskQuesti
                   {q.explanation && (
                     <p className="text-muted-foreground mt-2 text-xs leading-relaxed">{q.explanation}</p>
                   )}
+                  {onQuizResponseChange && (
+                    <div className="mt-4 text-sm">
+                      <label htmlFor={`${answerId}-reflection`}>Self-check for question {i + 1}</label>
+                      <select id={`${answerId}-reflection`} className="form-control-select w-full mt-2 min-h-11 text-base sm:text-sm" value={response?.reflection ?? ''} onChange={event => {
+                        try { onQuizResponseChange(i, { reflection: event.target.value as NotebookQuizResponse['reflection'] || undefined }); }
+                        catch { toast({ title: 'Self-check could not be saved', description: 'Your answer is still saved. Try again.', variant: 'destructive' }); }
+                      }}>
+                        <option value="">Choose after comparing</option>
+                        <option value="understood">I can explain this</option>
+                        <option value="unsure">I am still unsure</option>
+                        <option value="needs-review">I need to review this</option>
+                      </select>
+                    </div>
+                  )}
                 </div>
               )}
+              {response?.answer.trim() && onReviewResponse && <button type="button" className="btn-glass min-h-11 text-xs ml-2" disabled={failedSaves.has(i)} onClick={() => onReviewResponse(i)}>Review my working</button>}
             </article>
           );
         })}

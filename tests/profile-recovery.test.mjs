@@ -45,8 +45,20 @@ test('onboarding profile persistence includes curriculum identity and removes du
     grade: 5,
     subjects: ['Biology', 'Chemistry'],
     exam_date: '2026-11-01',
+    school_name: null,
     updated_at: NOW,
   });
+});
+
+test('onboarding school is trimmed and stored as optional profile text', () => {
+  const user = { id: 'user-6', email: 'student@example.com', user_metadata: {} };
+  const payload = buildCurriculumProfileUpsert(
+    user,
+    { board: 'IB_DP', grade: 11, subjects: ['Physics'], examDate: null },
+    { school: '  Example School  ' },
+    NOW,
+  );
+  assert.equal(payload.school_name, 'Example School');
 });
 
 test('missing profile recovery supplies the database-required full_name fallback', () => {

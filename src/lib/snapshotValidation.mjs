@@ -16,6 +16,15 @@ function validSource(value) {
 
 function validOutput(value) {
   return record(value) && id(value.id) && outputKinds.has(value.kind) && text(value.title) && text(value.content) && time(value.generatedAt)
+    && (value.sourceIds === undefined || texts(value.sourceIds))
+    && (value.quizResponses === undefined || value.kind === 'quiz' && Array.isArray(value.quiz) && Array.isArray(value.quizResponses)
+      && new Set(value.quizResponses.map(response => response?.questionIndex)).size === value.quizResponses.length
+      && value.quizResponses.every(response => record(response) && Number.isInteger(response.questionIndex)
+        && response.questionIndex >= 0 && response.questionIndex < value.quiz.length
+        && text(response.answer) && response.answer.length <= 12000 && time(response.updatedAt)
+        && (response.confidence === undefined || [20, 40, 60, 80, 100].includes(response.confidence))
+        && (response.revealedAt === undefined || time(response.revealedAt))
+        && (response.reflection === undefined || Boolean(response.revealedAt) && ['understood', 'unsure', 'needs-review'].includes(response.reflection))))
     && (value.suggestedQuestions === undefined || texts(value.suggestedQuestions))
     && (value.isAudioScript === undefined || typeof value.isAudioScript === 'boolean')
     && (value.flashcards === undefined || Array.isArray(value.flashcards) && value.flashcards.every(card => record(card) && text(card.front) && text(card.back)

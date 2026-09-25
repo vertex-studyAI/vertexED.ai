@@ -68,6 +68,7 @@ async function installExternalServiceHarness(page: Page) {
     answerReviewSaved: false,
     adaptiveNoteRequested: false,
     learnerStateSaved: false,
+    schoolName: null as string | null,
     authHeaders: 0,
   };
 
@@ -106,13 +107,17 @@ async function installExternalServiceHarness(page: Page) {
     }
 
     if (url.pathname === '/rest/v1/profiles') {
-      if (request.method() === 'PATCH') return json(route, { id: learnerId });
-      if (request.method() === 'POST') return json(route, null, 201);
+      if (request.method() === 'PATCH' || request.method() === 'POST') {
+        const body = request.postDataJSON() as { school_name?: string | null };
+        if ('school_name' in body) observed.schoolName = body.school_name ?? null;
+        return request.method() === 'PATCH' ? json(route, { id: learnerId }) : json(route, null, 201);
+      }
       return json(route, {
         id: learnerId,
         email: learnerEmail,
         full_name: 'E2E Learner',
         avatar_url: null,
+        school_name: observed.schoolName,
         board: learner.user_metadata.board ?? null,
         grade: learner.user_metadata.grade ?? null,
         subjects: learner.user_metadata.subjects ?? [],
@@ -402,6 +407,7 @@ async function installExternalServiceHarness(page: Page) {
 }
 
 test('approved learner completes the golden study journey and resumes saved work', async ({ page }) => {
+  test.setTimeout(90_000);
   const harness = await installExternalServiceHarness(page);
   const browserErrors: string[] = [];
   page.on('pageerror', (error) => browserErrors.push(`pageerror: ${error.message}`));
@@ -424,6 +430,7 @@ test('approved learner completes the golden study journey and resumes saved work
   await page.locator('#curriculum-board').selectOption('IB_MYP');
   await page.locator('#curriculum-grade').selectOption('10');
   await page.getByRole('button', { name: 'Biology', exact: true }).click();
+  await page.getByLabel('School (optional)').fill('Example International School');
   await page.getByRole('button', { name: 'Create my study plan' }).click();
 
   await expect(page).toHaveURL(/\/main$/);
@@ -630,7 +637,23 @@ test('approved learner completes the golden study journey and resumes saved work
   await expect(page.getByText('Recorded verification: official mark scheme')).toBeVisible();
   for (const width of [1440, 1024, 390]) {
     await page.setViewportSize({ width, height: 900 });
-    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width + 1);
+    const layout = await page.evaluate((viewportWidth) => ({
+      scrollWidth: document.documentElement.scrollWidth,
+      offenders: [...document.querySelectorAll<HTMLElement>('body *')]
+        .map((element) => {
+          const rect = element.getBoundingClientRect();
+          return {
+            tag: element.tagName.toLowerCase(),
+            className: element.className,
+            width: Math.round(rect.width),
+            left: Math.round(rect.left),
+            right: Math.round(rect.right),
+          };
+        })
+        .filter(({ left, right, width: elementWidth }) => elementWidth > 0 && (left < -1 || right > viewportWidth + 1))
+        .slice(0, 12),
+    }), width);
+    expect(layout.scrollWidth, JSON.stringify(layout.offenders)).toBeLessThanOrEqual(width + 1);
     await page.screenshot({ path: `test-results/exam-prep-${width}.png`, fullPage: true });
   }
 
@@ -661,6 +684,7 @@ test('approved learner completes the golden study journey and resumes saved work
     answerReviewSaved: true,
     learnerStateSaved: true,
     adaptiveNoteRequested: false,
+    schoolName: 'Example International School',
   });
   expect(harness.observed.authHeaders).toBeGreaterThanOrEqual(5);
   expect(harness.artifacts.map((item) => item.kind)).toEqual(

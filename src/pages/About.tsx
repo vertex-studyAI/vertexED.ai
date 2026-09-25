@@ -1,10 +1,13 @@
 import React from "react";
 import SEO from "@/components/SEO";
-import { Linkedin } from "lucide-react";
+import { ArrowRight, BookOpenCheck, Linkedin, ShieldCheck, Target } from "lucide-react";
 import PageSection from "@/components/PageSection";
+import { Link } from "react-router";
+import '@/styles/about.css';
 
 interface Person {
   name: string;
+  fullName?: string;
   role: string;
   bio?: string;
   linkedin?: string;
@@ -18,7 +21,9 @@ export default function About(): React.JSX.Element {
     },
     {
       name: "Ryan",
+      fullName: "Ryan Gomez",
       role: "Co-founder",
+      bio: "Ryan Gomez is a 16 year old who likes to larp being a polymath. He's founded the BU1LD; a machine learning institution which has raised over $50 million in computational credits, assets, grants and valuation of projects with researchers at Stanford, MIT, Nvidia (you get the idea). He runs Finance4all across 20 countries in every continent (except Antarctica for now), Obscured Records: A news agency with over 5 millions reads, and has interned at YC backed companies and VC firms. He also plays football having once travelled to Spain for it, and leads the Model UN Club at his school having won Outstanding Delegate at Harvard MUN, alongside quite a few events and roles as well. He loves Math and has qualified for the AIME with distinction He has a life outside this as well; he likes making pizza, playing mariokart and playing the guitar to name a few.",
       linkedin: "https://www.linkedin.com/in/ryan-gomez-03701b363/?originalSubdomain=in",
     },
     {
@@ -47,37 +52,37 @@ export default function About(): React.JSX.Element {
             foundingDate: "2025",
             founders: team.map((p) => ({
               "@type": "Person",
-              name: p.name,
+              name: p.fullName ?? p.name,
               jobTitle: p.role,
-              description: p.bio,
               sameAs: p.linkedin ? [p.linkedin] : [],
             })),
           },
         ]}
       />
 
-      <PageSection className="relative px-6 md:px-12">
-        <h1 className="text-4xl md:text-5xl font-semibold mb-6 tracking-tight brand-text-gradient">
-          About VertexED
-        </h1>
+      <PageSection className="about-page relative px-6 md:px-12">
+        <section className="about-hero" aria-labelledby="about-title">
+          <div><p className="about-kicker">The work between exams</p><h1 id="about-title">Build the method.<br /><em>Keep the reason.</em></h1></div>
+          <div><p>VertexED brings curriculum-led practice, thoughtful feedback and revision into one learning space. The aim is better preparation for the next paper and understanding that remains useful after it.</p><div className="about-actions"><Link to="/features">See the study loop <ArrowRight aria-hidden /></Link><Link to="/signup">Join the private beta</Link></div></div>
+        </section>
 
-        <p className="text-lg md:text-xl max-w-3xl leading-relaxed text-muted-foreground">
-          Better preparation for the next exam. Deeper understanding for what comes after it.
-          VertexED brings curriculum-led practice, thoughtful feedback and revision into one learning space.
-          Our purpose is to help students strengthen their exam performance while building knowledge
-          they can retain, connect and use in everyday life.
-        </p>
-        <p className="mt-5 text-lg md:text-xl max-w-3xl leading-relaxed text-foreground/90">
-          We are building study infrastructure, not a teacher replacement. The useful work is practical: keeping materials together,
-          making feedback specific, and ensuring saved work is still there when a provider or network connection fails.
-        </p>
+        <section className="about-principles" aria-labelledby="about-principles-title">
+          <header><p className="about-kicker">Product principles</p><h2 id="about-principles-title">A serious workspace<br />for serious study.</h2></header>
+          <div>
+            <article><Target aria-hidden /><h3>Attempts before applause</h3><p>Show the question, preserve the working and name the first gap. Generic encouragement cannot replace specific feedback.</p></article>
+            <article><BookOpenCheck aria-hidden /><h3>Evidence before mastery</h3><p>AI feedback stays provisional. Only marks confirmed against an accepted source can enter measured weak-topic and retry records.</p></article>
+            <article><ShieldCheck aria-hidden /><h3>Learner control</h3><p>Keep saved work recoverable, make AI actions visible and let learners choose what becomes part of their account history.</p></article>
+          </div>
+        </section>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-20">
+        <section className="about-team" aria-labelledby="about-team-title">
+          <header><p className="about-kicker">Founding team</p><h2 id="about-team-title">Four people,<br />one study problem.</h2><p>VertexED is an independent product. The team cards identify the founders without implying school, board or institutional endorsement.</p></header>
+        <div className="about-team-grid">
           {team.map((person) => (
-            <article key={person.name} className="rounded-3xl p-8 glass-tile">
+            <article key={person.name} className="about-person">
+              <span aria-hidden>{String(team.indexOf(person) + 1).padStart(2, '0')}</span>
               <h3 className="text-xl font-semibold text-foreground mb-2">{person.name}</h3>
               <p className="text-sm text-primary/90 mb-4">{person.role}</p>
-              {person.bio && <p className="text-sm leading-relaxed text-muted-foreground mb-6">{person.bio}</p>}
 
               {person.linkedin && (
                 <a
@@ -93,6 +98,14 @@ export default function About(): React.JSX.Element {
             </article>
           ))}
         </div>
+        </section>
+
+        {team.filter((person) => person.bio).map((person) => (
+          <section key={person.name} className="about-founder-note" aria-labelledby={`founder-${person.name}`}>
+            <div><p className="about-kicker">Founder profile</p><h2 id={`founder-${person.name}`}>{person.fullName ?? person.name}</h2><p className="about-profile-source">Founder-supplied profile preserved from the VertexED repository history. The biographical claims below have not been independently verified by VertexED.</p></div>
+            <p>{person.bio}</p>
+          </section>
+        ))}
       </PageSection>
     </>
   );

@@ -59,6 +59,18 @@ export type NotebookOutput = {
   quiz?: QuizQuestion[];
   suggestedQuestions?: string[];
   isAudioScript?: boolean;
+  sourceIds?: string[];
+  quizResponses?: NotebookQuizResponse[];
+};
+
+/** Learner observations remain separate from verified marks and measured mastery. */
+export type NotebookQuizResponse = {
+  questionIndex: number;
+  answer: string;
+  confidence?: 20 | 40 | 60 | 80 | 100;
+  revealedAt?: string;
+  reflection?: 'understood' | 'unsure' | 'needs-review';
+  updatedAt: string;
 };
 
 export type StudyNotebook = {
@@ -360,7 +372,9 @@ export function saveOutput(
   if (idx < 0) return null;
 
   const entry: NotebookOutput = { ...output, id: newId('out') };
-  const existing = notebooks[idx].outputs.filter((o) => o.kind !== output.kind);
+  // Regeneration must not erase a learner's saved attempt. The studio can reopen
+  // attempted versions; untouched generated previews can still be replaced.
+  const existing = notebooks[idx].outputs.filter((o) => o.kind !== output.kind || o.quizResponses?.length);
   const patch: StudyNotebook = {
     ...notebooks[idx],
     outputs: [entry, ...existing],
@@ -372,6 +386,39 @@ export function saveOutput(
   notebooks[idx] = patch;
   writeAll(notebooks);
   return notebooks[idx];
+}
+
+export function saveNotebookQuizResponse(
+  notebookId: string,
+  outputId: string,
+  questionIndex: number,
+  patch: Partial<Pick<NotebookQuizResponse, 'answer' | 'confidence' | 'revealedAt' | 'reflection'>>,
+): StudyNotebook {
+  const notebooks = readAll();
+  const notebook = notebooks.find(item => item.id === notebookId);
+  const output = notebook?.outputs.find(item => item.id === outputId);
+  if (!notebook || output?.kind !== 'quiz' || !Number.isInteger(questionIndex) || !output.quiz?.[questionIndex]) {
+    throw new Error('This quiz is no longer available. Reload your notebook before trying again.');
+  }
+  const previous = output.quizResponses?.find(item => item.questionIndex === questionIndex);
+  if (previous?.revealedAt && (
+    patch.answer !== undefined && patch.answer !== previous.answer ||
+    'confidence' in patch && patch.confidence !== previous.confidence
+  )) throw new Error('The original response is kept after revealing the answer. Review your working to make another attempt.');
+  const now = new Date().toISOString();
+  const response: NotebookQuizResponse = {
+    questionIndex,
+    answer: '',
+    ...previous,
+    ...patch,
+    // The first exposure time is retained even if the disclosure is reopened.
+    ...(previous?.revealedAt ? { revealedAt: previous.revealedAt } : {}),
+    updatedAt: now,
+  };
+  output.quizResponses = [...(output.quizResponses ?? []).filter(item => item.questionIndex !== questionIndex), response];
+  notebook.updatedAt = now;
+  writeAll(notebooks);
+  return notebook;
 }
 
 export function exportNotebookJson(notebook: StudyNotebook): void {

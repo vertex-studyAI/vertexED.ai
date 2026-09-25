@@ -33,7 +33,9 @@ export default function SavedWorkList({
 
   const openItem = (item: StudyArtifact) => {
     try {
-      queueArtifactRestore(item);
+      // Planner and notebook are revision-checked workspace snapshots. Their
+      // pages hydrate them directly; never leave an unconsumed restore handoff.
+      if (item.kind !== 'planner' && item.kind !== 'notebook') queueArtifactRestore(item);
       navigate(artifactTargetRoute(item.kind));
     } catch {
       toast({
@@ -62,11 +64,7 @@ export default function SavedWorkList({
   };
 
   if (!visible.length) {
-    return (
-      <p className="text-sm text-muted-foreground">
-        Generate notes, papers, or reviews - they&apos;ll appear here automatically.
-      </p>
-    );
+    return null;
   }
 
   return (
@@ -87,13 +85,13 @@ export default function SavedWorkList({
               <span className="capitalize">{item.kind}</span>
               {" · "}
               {formatArtifactDate(item.updated_at)}
-              {item.localOnly && " · device"}
+              {item.localOnly ? " · Saved on this device" : " · Saved to your account"}
             </p>
           </div>
           <button
             type="button"
             onClick={() => openItem(item)}
-            className="neu-button px-2.5 py-1.5 text-xs inline-flex items-center gap-1 shrink-0"
+            className="neu-button min-h-11 px-2.5 py-1.5 text-sm inline-flex items-center gap-1 shrink-0"
             title="Open in tool"
           >
             <ExternalLink className="h-3.5 w-3.5" />
@@ -102,7 +100,7 @@ export default function SavedWorkList({
           <button
             type="button"
             onClick={() => void removeItem(item)}
-            className="rounded-lg p-1.5 transition shrink-0 text-muted-foreground hover:text-destructive hover:bg-destructive/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="rounded-lg min-h-11 min-w-11 p-1.5 transition shrink-0 text-muted-foreground hover:text-destructive hover:bg-destructive/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             aria-label={`Delete ${item.title || item.kind}`}
           >
             <Trash2 className="h-3.5 w-3.5" />

@@ -53,6 +53,17 @@ body::before, body::after { display: none; }
   box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none;
 }
 .liquid-glass-dispersive::before, .liquid-glass-dispersive::after { display: none; }
+/* Layout owns flow, decoration owns clipping, overlays portal to the body.
+   Do not use overflow:hidden on the application shell: it creates a separate
+   scroll container, breaks sticky navigation and scrolls unexpectedly on focus. */
+.site-shell { overflow-x: clip; overflow-y: visible; }
+.study-surface, .site-workspace :is(.neu-card, .neu-hero, .glass-panel, .glass-card) { min-width:0; overflow:visible; }
+.site-workspace :is(.neu-card, .neu-hero)::before,
+.site-workspace :is(.neu-card, .neu-hero)::after { display:none; }
+.site-workspace .neu-card.hover-scale:hover { transform:none; }
+.study-surface-decoration { position:absolute; inset:0; overflow:clip; border-radius:inherit; pointer-events:none; }
+#today-plan { scroll-margin-top:170px; }
+.notebook-file-import[data-dragging=true] { outline:2px solid hsl(var(--ring)); outline-offset:3px; background:hsl(var(--accent)); }
 .section-kicker, .dashboard-kicker, .exam-prep-kicker { font-size: .75rem; letter-spacing: .08em; }
 .workbook-hero { display: grid; grid-template-columns: 1.05fr 1fr; gap: 48px; min-height: 0; padding: 48px 0 64px; }
 .workbook-hero h1 { font-size: clamp(2.25rem, 4.5vw, 3.75rem); line-height: 1.07; letter-spacing: -.045em; max-width: 16ch; }
@@ -218,6 +229,7 @@ body::before, body::after { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+  .portal-rise { animation: none !important; opacity: 1 !important; transform: none !important; }
 }
 
 /* Shared atmosphere keeps every route inside the same blue revision world. */
@@ -235,7 +247,7 @@ body::before, body::after { display: none; }
 }
 @media (max-width: 640px) {
   .site-workspace .immersive-main::before { inset-inline: 4px; border-radius: 20px; }
-  .site-workspace .immersive-main::after { top: 30px; right: 20px; font-size: .52rem; }
+  .site-workspace .immersive-main::after { display: none; }
   .site-atmosphere i:nth-child(3) { display: none; }
 }
 @media (prefers-reduced-transparency: reduce), (forced-colors: active) {

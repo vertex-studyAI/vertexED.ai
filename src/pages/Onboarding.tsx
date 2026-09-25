@@ -35,6 +35,7 @@ export default function Onboarding() {
   const hasSavedUsername = USERNAME_REGEX.test(savedUsername);
   const [step, setStep] = useState(() => hasSavedUsername ? 2 : 1);
   const [username, setUsername] = useState(savedUsername);
+  const [schoolName, setSchoolName] = useState(() => typeof profile?.school_name === 'string' ? profile.school_name : '');
   const [curriculum, setCurriculum] = useState<CurriculumPreference>(emptyCurriculum);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -59,6 +60,7 @@ export default function Onboarding() {
       const match = typeof application.grade === 'string' ? application.grade.match(/^(?:(?:MYP|DP|Grade|Year)\s*)?(\d{1,2})$/i) : null;
       const candidate = match ? Number(match[1]) : null;
       if (board) setCurriculum({ ...emptyCurriculum, board, grade: candidate !== null && getGradesForBoard(board).includes(candidate) ? candidate : null });
+      if (typeof application.school === 'string' && application.school.trim()) setSchoolName(application.school.trim().slice(0, 160));
       setApplicationNotice(board ? 'We brought your curriculum across from your application. Check your year and choose your subjects below.' : 'Your requested curriculum is recorded. Choose an available programme only if it matches your course.');
     }).catch(() => { /* Application prefill is optional. Manual setup remains available. */ });
     return () => controller.abort();
@@ -158,6 +160,7 @@ export default function Onboarding() {
       const metadata = buildCurriculumMetadata(curriculum, {
         ...(user?.user_metadata ?? {}),
         username: trimmedUsername,
+        school: schoolName.trim() || null,
       });
       const profilePayload = buildCurriculumProfileUpsert(
         user,
@@ -257,6 +260,23 @@ export default function Onboarding() {
                 <form className="space-y-6" aria-busy={loading} onSubmit={(event) => { event.preventDefault(); void save(); }}>
                   {applicationNotice && <p className="text-sm text-muted-foreground" role="status">{applicationNotice}</p>}
                   <CurriculumSelector value={curriculum} onChange={value => { curriculumEdited.current = true; setCurriculum(value); }} showExamDate showSubjects />
+                  <label className="block" htmlFor="school-name">
+                    <span className="mb-2 block text-sm font-medium text-foreground/90">School <span className="font-normal text-muted-foreground">(optional)</span></span>
+                    <input
+                      id="school-name"
+                      className="neu-input-el w-full"
+                      value={schoolName}
+                      onChange={(event) => setSchoolName(event.target.value.slice(0, 160))}
+                      placeholder="Type your school name"
+                      autoComplete="organization"
+                      maxLength={160}
+                      list="school-name-suggestions"
+                    />
+                    <datalist id="school-name-suggestions">
+                      {profile?.school_name && <option value={profile.school_name} />}
+                    </datalist>
+                    <span className="mt-2 block text-xs leading-relaxed text-muted-foreground">Use the name your school uses publicly, or leave this blank. This does not verify an affiliation.</span>
+                  </label>
                   <p className="text-sm text-muted-foreground">Select at least one subject. The available subjects update for the curriculum and grade you choose.</p>
                   {error && <div className="alert-error" role="alert">{error}</div>}
                   <div className="flex flex-col gap-3 sm:flex-row">

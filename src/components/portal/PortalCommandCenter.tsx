@@ -121,15 +121,15 @@ export default function PortalCommandCenter({ brief, pulse, intel }: Props) {
               <div
                 className="portal-daily-ring mx-auto"
                 style={{
-                  background: `conic-gradient(hsl(var(--primary)) ${brief.dailyProgress}%, hsl(var(--foreground) / 0.08) ${brief.dailyProgress}%)`,
+                  background: `conic-gradient(hsl(var(--primary)) ${brief.dailyProgress ?? 0}%, hsl(var(--foreground) / 0.08) ${brief.dailyProgress ?? 0}%)`,
                 }}
               >
                 <div className="portal-daily-ring-inner">
-                  <span className="text-2xl font-bold tabular-nums">{brief.dailyProgress}%</span>
+                  <span className="text-2xl font-bold tabular-nums">{brief.dailyProgress === null ? 'No plan' : `${brief.dailyProgress}%`}</span>
                   <span className="text-[10px] text-muted-foreground uppercase tracking-wider">today</span>
                 </div>
               </div>
-              <p className="text-xs text-muted-foreground mt-2 text-center">Daily loop</p>
+              <p className="text-xs text-muted-foreground mt-2 text-center">Today's tasks and habits{brief.dailyProgress === null ? ': none scheduled' : ''}</p>
             </div>
             <ExamCountdown
               examDate={brief.profile.curriculum.examDate}

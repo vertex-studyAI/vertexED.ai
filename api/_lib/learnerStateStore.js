@@ -1,6 +1,8 @@
 import { normalizeExamSession } from '../../src/lib/examSessionHistory.mjs';
 
-const STATE_TYPES = new Set(['weakness', 'retry', 'mock_draft', 'exam_session']);
+import { normalisePracticeAttempt, normaliseMistake } from '../../src/lib/learningModel.mjs';
+
+const STATE_TYPES = new Set(['weakness', 'retry', 'mock_draft', 'exam_session', 'practice_attempt', 'practice_mistake']);
 const STATE_KEY = /^[A-Za-z0-9][A-Za-z0-9._:-]{0,159}$/;
 const REVISION = /^state:[0-9]{13}:[A-Za-z0-9-]{8,64}$/;
 const MAX_PAYLOAD_BYTES = 256 * 1024;
@@ -18,11 +20,15 @@ export function normalizeLearnerStateItem(value) {
   const stateKey = typeof value.stateKey === 'string' ? value.stateKey : '';
   const clientRevision = typeof value.clientRevision === 'string' ? value.clientRevision : '';
   const clientUpdatedAt = cleanDate(value.clientUpdatedAt);
-  const payload = value.payload;
+  let payload = value.payload;
   if (!STATE_TYPES.has(stateType) || !STATE_KEY.test(stateKey) || !REVISION.test(clientRevision)) return null;
   if (!payload || typeof payload !== 'object' || Array.isArray(payload) || !clientUpdatedAt) return null;
   if (Buffer.byteLength(JSON.stringify(payload), 'utf8') > MAX_PAYLOAD_BYTES) return null;
   if (stateType === 'exam_session' && (!normalizeExamSession(payload) || payload.id !== stateKey)) return null;
+  if (stateType === 'practice_attempt' || stateType === 'practice_mistake') {
+    payload = stateType === 'practice_attempt' ? normalisePracticeAttempt(payload) : normaliseMistake(payload);
+    if (!payload || payload.id !== stateKey) return null;
+  }
   return { stateType, stateKey, payload, clientRevision, clientUpdatedAt };
 }
 

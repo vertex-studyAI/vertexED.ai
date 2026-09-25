@@ -37,7 +37,7 @@ export default async function handler(req, res) {
   try {
     const body = readJsonBody(req);
 
-    const { question, history, context, sources, mode } = body ?? {};
+    const { question, history, context, sources, mode, learningMode } = body ?? {};
 
     if (typeof question !== "string" || !question.trim()) {
       return res.status(400).json({ error: "No question provided" });
@@ -49,7 +49,7 @@ export default async function handler(req, res) {
 
     const trimmedQuestion = question.trim();
     const chatRoute = resolveChatRoute({ mode, providerConfig, env: process.env });
-    const chatMessages = buildAskMessages({ question: trimmedQuestion, history, context, sources });
+    const chatMessages = buildAskMessages({ question: trimmedQuestion, history, context, sources, learningMode });
     const route = routeAiRequest({
       capability: 'chatbot',
       text: trimmedQuestion,

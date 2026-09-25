@@ -8,6 +8,7 @@ const Login = lazy(() => import("@/pages/Login"));
 const Signup = lazy(() => import("@/pages/Signup"));
 const WaitlistPending = lazy(() => import("@/pages/WaitlistPending"));
 const ConnectGoogle = lazy(() => import("@/pages/ConnectGoogle"));
+const LearningWorkspace = lazy(() => import("@/pages/LearningWorkspace"));
 const Main = lazy(() => import("@/pages/Main"));
 const AuthCallback = lazy(() => import("@/pages/AuthCallback"));
 const NotetakerQuiz = lazy(() => import("@/pages/NotetakerQuiz"));
@@ -54,6 +55,7 @@ const CurriculumToolsIndex = lazy(() => import("@/pages/CurriculumToolsIndex"));
 const Onboarding = lazy(() => import("@/pages/Onboarding"));
 const StudyNotebook = lazy(() => import("@/pages/StudyNotebook"));
 const ResourceLibrary = lazy(() => import("@/pages/ResourceLibrary"));
+const SavedWork = lazy(() => import("@/pages/SavedWork"));
 const StudyGuides = lazy(() => import("@/pages/StudyGuides"));
 const WaitlistAdmin = lazy(() => import("@/pages/admin/WaitlistAdmin"));
 const PrivacyPolicy = lazy(() => import("@/pages/PrivacyPolicy"));
@@ -180,12 +182,15 @@ return (
 <Route path="connect-google" element={<ProtectedRoute><ConnectGoogle /></ProtectedRoute>} />
 <Route path="auth/callback" element={<AuthCallback />} />
 <Route path="onboarding" element={<ProtectedRoute><Onboarding /></ProtectedRoute>} />
+<Route path="today" element={<Navigate to="/main" replace />} />
+<Route path="learn" element={<ProtectedRoute><LearningWorkspace /></ProtectedRoute>} />
 <Route path="main" element={<ProtectedRoute><Main /></ProtectedRoute>} />
 <Route path="exam-prep" element={<ProtectedRoute><ExamPrep /></ProtectedRoute>} />
 <Route path="learning-hub" element={<Navigate to="/main" replace />} />
 <Route path="notetaker" element={<ProtectedRoute><NotetakerAccessibilityBoundary><NotetakerQuiz /></NotetakerAccessibilityBoundary></ProtectedRoute>} />
 <Route path="study-notebook" element={<ProtectedRoute><StudyNotebook /></ProtectedRoute>} />
 <Route path="resource-library" element={<ProtectedRoute><ResourceLibrary /></ProtectedRoute>} />
+<Route path="saved-work" element={<ProtectedRoute><SavedWork /></ProtectedRoute>} />
 <Route path="study-guides/*" element={<StudyGuides />} />
 <Route path="world-model" element={<Navigate to="/study-notebook" replace />} />
 <Route path="study-zone" element={<ProtectedRoute><StudyZone /></ProtectedRoute>} />

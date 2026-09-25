@@ -3,7 +3,7 @@ import {
   type KeyboardEvent,
   type PropsWithChildren,
   type RefObject,
-  useEffect,
+  useLayoutEffect,
   useRef,
 } from "react";
 import { createPortal } from "react-dom";
@@ -18,6 +18,7 @@ type AccessibleModalProps = PropsWithChildren<{
   descriptionId?: string;
   onClose: () => void;
   initialFocusRef?: RefObject<HTMLElement | null>;
+  openerRef?: RefObject<HTMLElement | null>;
   overlayClassName?: string;
   className?: string;
   style?: CSSProperties;
@@ -29,6 +30,7 @@ export default function AccessibleModal({
   descriptionId,
   onClose,
   initialFocusRef,
+  openerRef,
   overlayClassName = "blur-background",
   className,
   style,
@@ -39,36 +41,40 @@ export default function AccessibleModal({
   const overlayRef = useRef<HTMLDivElement>(null);
   const returnFocusRef = useRef<HTMLElement | null>(null);
 
-  useEffect(() => {
-    returnFocusRef.current = document.activeElement instanceof HTMLElement
+  useLayoutEffect(() => {
+    // Safari does not always focus a button on pointer activation. Callers can
+    // identify the actual opener instead of relying on the previously focused field.
+    returnFocusRef.current = openerRef?.current ?? (document.activeElement instanceof HTMLElement
       ? document.activeElement
-      : null;
+      : null);
     const hiddenSiblings: Array<{ element: HTMLElement; inert: boolean; ariaHidden: string | null }> = [];
-    const frame = window.requestAnimationFrame(() => {
-      focusInitialModalElement(dialogRef.current, initialFocusRef?.current ?? null);
-      for (const sibling of Array.from(document.body.children)) {
-        if (!(sibling instanceof HTMLElement) || sibling === overlayRef.current) continue;
-        hiddenSiblings.push({
-          element: sibling,
-          inert: sibling.inert,
-          ariaHidden: sibling.getAttribute('aria-hidden'),
-        });
-        sibling.inert = true;
-        sibling.setAttribute('aria-hidden', 'true');
-      }
-    });
+    const dialog = dialogRef.current;
+    // A visible dialog must already own keyboard focus. Waiting for another
+    // animation frame lets an immediate Escape go to the background in WebKit.
+    focusInitialModalElement(dialog, initialFocusRef?.current ?? null);
+    for (const sibling of Array.from(document.body.children)) {
+      if (!(sibling instanceof HTMLElement) || sibling === overlayRef.current) continue;
+      hiddenSiblings.push({
+        element: sibling,
+        inert: sibling.inert,
+        ariaHidden: sibling.getAttribute('aria-hidden'),
+      });
+      sibling.inert = true;
+      sibling.setAttribute('aria-hidden', 'true');
+    }
 
     return () => {
-      window.cancelAnimationFrame(frame);
       for (const { element, inert, ariaHidden } of hiddenSiblings) {
         element.inert = inert;
         if (ariaHidden === null) element.removeAttribute('aria-hidden');
         else element.setAttribute('aria-hidden', ariaHidden);
       }
       const returnTarget = returnFocusRef.current;
-      window.queueMicrotask(() => restoreModalFocus(returnTarget));
+      window.queueMicrotask(() => {
+        if (!dialog?.isConnected) restoreModalFocus(returnTarget);
+      });
     };
-  }, [initialFocusRef]);
+  }, [initialFocusRef, openerRef]);
 
   const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
     if (event.key === "Escape") {

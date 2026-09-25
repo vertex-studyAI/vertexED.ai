@@ -23,6 +23,7 @@ export interface ChatbotRequest {
   context?: StudyPageContext;
   sources?: GroundedSourcePayload[];
   mode?: ChatbotMode;
+  learningMode?: string;
   signal?: AbortSignal;
 }
 
@@ -80,6 +81,7 @@ export const fetchChatbotAnswer = async (
     context: request.context,
     sources: request.sources?.slice(0, 20),
     mode: request.mode,
+    learningMode: request.learningMode,
   });
 
 	const endpoints = isStudyGuideChat ? [STUDY_GUIDE_ENDPOINT] : buildEndpoints();

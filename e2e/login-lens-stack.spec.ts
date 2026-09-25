@@ -17,7 +17,7 @@ test('existing short passwords reach authentication, not signup validation', asy
   await page.getByLabel('Password', { exact: true }).fill('sixsix');
   await page.getByRole('button', { name: 'Log in', exact: true }).click();
   await expect.poll(() => attempted).toBe(true);
-  await expect(page.getByRole('alert')).toContainText('Invalid login credentials');
+  await expect(page.getByRole('alert')).toContainText('That email and password do not match a VertexED account');
 });
 
 for (const width of [1440, 1024, 390]) {
@@ -25,6 +25,7 @@ for (const width of [1440, 1024, 390]) {
     await page.setViewportSize({ width, height: 900 });
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.goto('/');
+    await page.getByRole('button', { name: 'Open concept lens' }).click();
     await expect(page.getByRole('button', { name: 'Show the whole curve' })).toHaveAttribute('aria-pressed', 'true');
     const slider = page.getByRole('slider', { name: 'Explore from start to finish' });
     await slider.focus();
@@ -40,6 +41,8 @@ for (const width of [1440, 1024, 390]) {
       await page.evaluate(value => { document.documentElement.classList.remove('dark', 'light'); document.documentElement.classList.add(value); }, theme);
       await page.locator('.vh-concept-lens').screenshot({ path: info.outputPath(`lens-${width}-${theme}.png`) });
     }
+    await page.keyboard.press('Escape');
+    await expect(page.getByRole('button', { name: 'Open concept lens' })).toBeFocused();
     await page.locator('.vh-stack').scrollIntoViewIfNeeded();
     const board = page.locator('.vh-stack-board');
     const before = await board.innerHTML();

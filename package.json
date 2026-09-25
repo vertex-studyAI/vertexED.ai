@@ -51,7 +51,7 @@
   "engines": {
     "node": ">=22.22.0 <23"
   },
-  "packageManager": "npm@10.9.8",
+  "packageManager": "npm@10.9.4",
   "dependencies": {
     "@radix-ui/react-tabs": "^1.1.17",
     "@radix-ui/react-toast": "^1.2.19",

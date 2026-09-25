@@ -20,6 +20,11 @@ export function userContentStorageKeys(scope = activeScope) {
   const normalized = normalizeUserContentStorageScope(scope);
   const prefix = `vertex_content:${normalized}`;
   return {
+    practiceAttempts: `${prefix}:practice_attempts`,
+    practiceMistakes: `${prefix}:practice_mistakes`,
+    practiceSession: `${prefix}:practice_session`,
+    practiceRecent: `${prefix}:practice_recent`,
+    learningAvailability: `${prefix}:learning_availability`,
     artifacts: `${prefix}:artifacts`,
     restore: `${prefix}:restore`,
     chatHandoff: `${prefix}:chat_handoff`,
@@ -27,6 +32,8 @@ export function userContentStorageKeys(scope = activeScope) {
     mockReviewHandoff: `${prefix}:mock_review_handoff`,
     mockExamAnswers: `${prefix}:mock_exam_answers`,
     mockExamDraft: `${prefix}:mock_exam_draft`,
+    answerReviewDraft: `${prefix}:answer_review_draft`,
+    answerReviewSource: `${prefix}:answer_review_source`,
     sketchPad: `${prefix}:sketch_pad`,
     activity: `${prefix}:study_activity`,
     quickNotes: `${prefix}:quick_notes`,

@@ -4,7 +4,7 @@ export type GlobalSearchEntry = {
   title: string;
   description: string;
   to: string;
-  area: 'Page' | 'Study tool' | 'Course' | 'Subject' | 'Topic' | 'Guide';
+  area: 'Page' | 'Study tool' | 'Course' | 'Subject' | 'Topic' | 'Guide' | 'Command' | 'Saved work';
   keywords?: string;
   account?: boolean;
 };
@@ -32,7 +32,8 @@ const tools: GlobalSearchEntry[] = [
   { title: 'AI Notes and Quiz', description: 'Turn your notes into flashcards and retrieval questions.', to: '/notetaker', area: 'Study tool', keywords: 'flashcards upload quiz notes', account: true },
   { title: 'AI tutor', description: 'Ask Apex to explain a concept or work through a method.', to: '/chatbot', area: 'Study tool', keywords: 'chat ask explain agent', account: true },
   { title: 'Study notebook', description: 'Keep source-bound notes and research together.', to: '/study-notebook', area: 'Study tool', keywords: 'research sources world model', account: true },
-  { title: 'Resource library', description: 'Open your saved study resources.', to: '/resource-library', area: 'Study tool', keywords: 'documents files saved', account: true },
+  { title: 'Resource library', description: 'Open independent board and topic study guides.', to: '/resource-library', area: 'Study tool', keywords: 'board guides', account: true },
+  { title: 'Saved work', description: 'Reopen your saved notes, papers and answer reviews.', to: '/saved-work', area: 'Study tool', keywords: 'documents files saved history', account: true },
   { title: 'Account settings', description: 'Change appearance, accessibility and companion settings.', to: '/user-settings', area: 'Study tool', keywords: 'theme apex mascot preferences profile', account: true },
 ];
 
@@ -92,33 +93,64 @@ const guides: GlobalSearchEntry[] = [
   ['College essays with AI', 'Use AI for research and structure while keeping the story yours.', '/resources/college-essays-with-ai', 'admissions writing'],
 ].map(([title, description, to, keywords]) => ({ title, description, to, keywords, area: 'Guide' as const }));
 
-export const GLOBAL_SEARCH_INDEX: GlobalSearchEntry[] = [...pages, ...tools, ...courseEntries, ...subjectEntries, ...guides];
+export const STUDY_COMMANDS: GlobalSearchEntry[] = [
+  { title: 'Open Today Plan', description: 'See due reviews and your next study actions.', to: '/main#today-plan', area: 'Command', keywords: 'today next review weaknesses', account: true },
+  { title: 'Create a quiz', description: 'Open Notes and Quiz to practise from a topic or source.', to: '/notetaker', area: 'Command', keywords: 'questions recall practice', account: true },
+  { title: 'Add study material', description: 'Add text, Markdown or a saved source to your notebook.', to: '/study-notebook', area: 'Command', keywords: 'import upload study pack notes', account: true },
+  { title: 'Create a practice paper', description: 'Choose your topics, then create and sit a timed paper.', to: '/paper-maker', area: 'Command', keywords: 'start exam test', account: true },
+  { title: 'Ask Apex', description: 'Work through a concept with the AI tutor.', to: '/chatbot', area: 'Command', keywords: 'percy help explain tutor', account: true },
+  { title: 'Start a focus session', description: 'Open the study timer and your focus tools.', to: '/study-zone?focus=timer', area: 'Command', keywords: 'pomodoro concentrate', account: true },
+];
 
-const normalise = (value: string) => value.toLocaleLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+export const GLOBAL_SEARCH_INDEX: GlobalSearchEntry[] = [...pages, ...tools, ...STUDY_COMMANDS, ...courseEntries, ...subjectEntries, ...guides];
+
+const normalise = (value: string) => value.normalize('NFKD').replace(/\p{M}/gu, '').toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
+
+// One edit (including a transposition) for words of 4+ characters. Short queries
+// remain exact/prefix matches so typos do not swamp useful subject results.
+function nearWord(a: string, b: string): boolean {
+  if (a.length < 4 || Math.abs(a.length - b.length) > 1) return false;
+  let i = 0;
+  while (i < a.length && a[i] === b[i]) i++;
+  if (i === a.length) return b.length <= a.length + 1;
+  if (a.length < b.length) return a.slice(i) === b.slice(i + 1);
+  if (a.length > b.length) return a.slice(i + 1) === b.slice(i);
+  return a.slice(i + 1) === b.slice(i + 1)
+    || (a[i] === b[i + 1] && a[i + 1] === b[i] && a.slice(i + 2) === b.slice(i + 2));
+}
 
 export type SearchVertexOptions = {
   limit?: number;
   /** When false, account-scoped study tools are omitted (signed-out search). Default true. */
   includeAccount?: boolean;
+  entries?: GlobalSearchEntry[];
 };
 
 export function searchVertex(query: string, options: number | SearchVertexOptions = 8) {
   const limit = typeof options === 'number' ? options : (options.limit ?? 8);
   const includeAccount = typeof options === 'number' ? true : options.includeAccount !== false;
-  const phrase = normalise(query);
+  const entries = typeof options === 'number' ? [] : options.entries ?? [];
+  const phrase = normalise(query.slice(0, 160));
   if (!phrase) return [];
   const tokens = phrase.split(' ');
 
-  return GLOBAL_SEARCH_INDEX.map((entry, order) => {
+  return [...entries, ...GLOBAL_SEARCH_INDEX].map((entry, order) => {
     if (!includeAccount && entry.account) return null;
     const title = normalise(entry.title);
     const haystack = normalise(`${entry.title} ${entry.description} ${entry.keywords ?? ''} ${entry.area}`);
-    if (!tokens.every((token) => haystack.includes(token))) return null;
+    const words = haystack.split(' ');
+    let typos = 0;
+    if (!tokens.every((token) => {
+      if (haystack.includes(token)) return true;
+      if (words.some((word) => nearWord(token, word))) { typos++; return true; }
+      return false;
+    })) return null;
     let score = 0;
     if (title === phrase) score += 120;
     if (title.startsWith(phrase)) score += 70;
     if (title.includes(phrase)) score += 45;
     score += tokens.reduce((total, token) => total + (title.includes(token) ? 12 : 3), 0);
+    score -= typos * 10;
     return { entry, score, order };
   }).filter((result): result is { entry: GlobalSearchEntry; score: number; order: number } => Boolean(result))
     .sort((a, b) => b.score - a.score || a.order - b.order)

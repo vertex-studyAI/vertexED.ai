@@ -53,11 +53,13 @@ export function buildCurriculumProfileUpsert(
   metadata = {},
   updatedAt = new Date().toISOString(),
 ) {
+  const schoolName = firstNonEmptyString(metadata?.school_name, metadata?.school);
   return {
     ...buildMissingProfileInsert(user, metadata, updatedAt),
     board: curriculum?.board ?? null,
     grade: curriculum?.grade ?? null,
     subjects: Array.isArray(curriculum?.subjects) ? [...new Set(curriculum.subjects)] : [],
     exam_date: curriculum?.examDate ?? null,
+    school_name: schoolName,
   };
 }

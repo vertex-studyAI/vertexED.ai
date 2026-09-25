@@ -14,7 +14,7 @@ test('cloud save degradation stays user-facing, accessible, and fail-safe', asyn
   assert.match(source, /aria-atomic="true"/);
   assert.match(source, /\.catch\(\(\) => \{/);
   assert.match(source, /Cloud sync status couldn't be verified\./);
-  assert.match(source, /Cloud sync will resume when the service is available again\./);
+  assert.match(source, /Use Retry saving in the tool when the connection returns\./);
 });
 
 test('cloud save banner dismissal and status are rebound to the current account', async () => {

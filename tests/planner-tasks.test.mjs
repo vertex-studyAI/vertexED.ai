@@ -53,3 +53,54 @@ test('malformed suggestions and invalid or duplicated saved records fail explici
   const legacy = { id: 'legacy', taskName: 'Recall', startTime: '8:00 am', taskDuration: '30', date: '9/10/2026' };
   assert.equal(normalizePlannerTasks([legacy])[0]['task name'], 'Recall');
 });
+
+const { createWeeklyCommitments, rebalanceMissedTasks, plannerWorkload } = await import('../src/lib/plannerRebalance.mjs');
+const flexible = (change = {}) => ({ ...make(), reschedule: { from: '10:00', to: '13:00', dailyMinutes: 120 }, ...change });
+
+test('weekly commitments are atomic, preserve weekday across DST, and reject any occurrence conflict', () => {
+  const series = createWeeklyCommitments({ ...input, date: '2026-10-25' }, [], 4);
+  assert.deepEqual(series.map(task => task.date), ['10/25/2026', '11/01/2026', '11/08/2026', '11/15/2026']);
+  assert.equal(new Set(series.map(task => task.id)).size, 4);
+  assert.ok(series.every(task => task.taskKind === 'commitment' && task['start time'] === '10:00 AM'));
+  assert.throws(() => createWeeklyCommitments({ ...input, date: '2026-10-25' }, [series[2]], 4), /overlaps/);
+  assert.throws(() => createWeeklyCommitments(input, [], 100), /2 to 12/);
+});
+
+test('rebalance respects fixed commitments, deadlines, daily limits and priorities without double-booking', () => {
+  const fixed = { ...make({ id: 'school', date: '2026-09-11' }), taskKind: 'commitment' };
+  const low = flexible({ id: 'low', priority: 1 });
+  const urgent = flexible({ id: 'urgent', priority: 3, dueDate: '2026-09-11' });
+  const third = flexible({ id: 'third' });
+  const result = rebalanceMissedTasks([fixed, low, urgent, third], new Date(2026, 8, 11, 9));
+  assert.equal(result.moved, 3);
+  const byId = Object.fromEntries(result.tasks.map(task => [task.id, task]));
+  assert.deepEqual(byId.school, fixed);
+  assert.equal(byId.urgent['start time'], '11:00 AM');
+  assert.equal(byId.third['start time'], '12:00 PM');
+  assert.equal(byId.low.date, '09/12/2026');
+  assert.equal(byId.low.rescheduledFrom, '09/10/2026 10:00 AM');
+  assert.equal(rebalanceMissedTasks(result.tasks, new Date(2026, 8, 11, 9)).moved, 0);
+});
+
+test('unplaceable deadlines stay in backlog and completed/fixed tasks never move', () => {
+  const late = flexible({ dueDate: '2026-09-10' });
+  const completed = flexible({ id: 'done', completed: true, completedAt: '2026-09-10T12:00:00Z' });
+  const fixed = make({ id: 'fixed' });
+  const result = rebalanceMissedTasks([late, completed, fixed], new Date(2026, 8, 11, 9));
+  assert.equal(result.moved, 0);
+  assert.deepEqual(result.backlog, ['task-one']);
+  assert.deepEqual(result.tasks, [late, completed, fixed]);
+  assert.equal(plannerWorkload(result.tasks, new Date(2026, 8, 11, 9)).completed, 60);
+});
+
+test('rescheduling rejects broken availability rather than replacing stored work', () => {
+  for (const reschedule of [{ from: '23:00', to: '02:00', dailyMinutes: 120 }, { from: '10:00', to: '10:30', dailyMinutes: 120 }, { from: '10:00', to: '12:00', dailyMinutes: 15 }]) assert.throws(() => normalizePlannerTasks([flexible({ reschedule })]));
+  assert.throws(() => normalizePlannerTasks([flexible({ priority: 99 })]));
+});
+
+test('already completed tasks free their slots and study budgets include completed duration', () => {
+  const done = { ...make({ id: 'done', date: '2026-09-11' }), completed: true, completedAt: '2026-09-11T09:00:00Z' };
+  assert.doesNotThrow(() => createPlannerTask({ ...input, date: '2026-09-11' }, [done]));
+  const result = rebalanceMissedTasks([done, flexible({ reschedule: { from: '10:00', to: '13:00', dailyMinutes: 60 } })], new Date(2026, 8, 11, 9));
+  assert.equal(result.tasks[1].date, '09/12/2026');
+});

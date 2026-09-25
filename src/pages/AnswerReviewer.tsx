@@ -1,10 +1,11 @@
 import { resolveConfirmedCriteria } from '@/lib/confirmedReview.mjs';
 import { Helmet } from "react-helmet-async";
 import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import StudySaveStatus, { type StudySaveState } from '@/components/StudySaveStatus';
 import PageSection from "@/components/PageSection";
 import NeumorphicCard from "@/components/NeumorphicCard";
 import { authFetch } from "@/lib/apiAuth";
-import { setChatHandoff, saveStudyArtifact, consumeArtifactRestore, localSaveMessage } from "@/lib/userContent";
+import { setChatHandoff, saveStudyArtifact, createArtifactIdempotencyKey, consumeArtifactRestore, localSaveMessage } from "@/lib/userContent";
 import { toast } from "@/hooks/use-toast";
 import { recordStudySession } from "@/lib/studyStats";
 import { recordLoopStep } from "@/lib/studyLoopTracker";
@@ -33,6 +34,9 @@ import AiFeedbackControls from "@/components/AiFeedbackControls";
 import { recordWeakness } from "@/lib/weaknessTracker";
 import { MEASURED_WEAKNESS_EVIDENCE } from "@/lib/weaknessEvidenceCore.mjs";
 import { completeRetry } from "@/lib/retryQueue";
+import { useLocalStorage } from '@/hooks/useLocalStorage';
+import { userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
+import { normalizeReviewDraft } from '@/lib/reviewDraft.mjs';
 
 type Attachment = {
   id: string;
@@ -49,6 +53,9 @@ type FormState = {
   answer: string;
   additional: string;
   strictness: string;
+  originNotebookId: string;
+  originOutputId: string;
+  originQuestionIndex: string;
 };
 
 type ApiResponseLike = Record<string, any> | string | null;
@@ -88,6 +95,9 @@ const initialFormState: FormState = {
   answer: "",
   additional: "",
   strictness: "5",
+  originNotebookId: "",
+  originOutputId: "",
+  originQuestionIndex: "",
 };
 
 const safeText = (value: unknown) => {
@@ -125,7 +135,14 @@ export default function AIAnswerReview() {
   const { user } = useAuth();
   const [searchParams] = useSearchParams();
   const [board, setBoard] = useState<ExamBoard | "">("");
-  const [formData, setFormData] = useState<FormState>(initialFormState);
+  const draftKeys = userContentStorageKeys(user?.id);
+  const draftContext = ['retry', 'subject', 'topic'].map(key => (searchParams.get(key) ?? '').slice(0, 300));
+  const draftSuffix = draftContext.some(Boolean) ? `:${encodeURIComponent(JSON.stringify(draftContext))}` : '';
+  const [storedForm, setStoredForm] = useLocalStorage<unknown>(draftKeys.answerReviewDraft + draftSuffix, initialFormState);
+  const formData = normalizeReviewDraft(storedForm, initialFormState) as FormState;
+  const setFormData = useCallback((update: React.SetStateAction<FormState>) => {
+    setStoredForm(previous => typeof update === 'function' ? update(normalizeReviewDraft(previous, initialFormState) as FormState) : update);
+  }, [setStoredForm]);
   const [questionImages, setQuestionImages] = useState<Attachment[]>([]);
   const [answerImages, setAnswerImages] = useState<Attachment[]>([]);
   const [loading, setLoading] = useState(false);
@@ -135,11 +152,15 @@ export default function AIAnswerReview() {
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const [savedPost, setSavedPost] = useState(false);
+  const [saveState, setSaveState] = useState<StudySaveState>('saving');
+  const [savedReviewId, setSavedReviewId] = useState<string | null>(null);
+  const [previousAttempt, setPreviousAttempt] = useState<{ id: string; answer: string; feedback: string } | null>(null);
+  const retrySaveRef = useRef<(() => Promise<void>) | null>(null);
   const [showImages, setShowImages] = useState(true);
   const [lastSubmittedAt, setLastSubmittedAt] = useState<string | null>(null);
   const [submitCount, setSubmitCount] = useState(0);
   const [examImportNote, setExamImportNote] = useState<string | null>(null);
-  const [reviewSource, setReviewSource] = useState<"review" | "mock">("review");
+  const [reviewSource, setReviewSource] = useLocalStorage<"review" | "quiz" | "mock">(draftKeys.answerReviewSource + draftSuffix, "review");
   const [confirmedMarks, setConfirmedMarks] = useState<Record<string, string>>({});
   const [confirmationReference, setConfirmationReference] = useState("");
   const [confirmationMethod, setConfirmationMethod] = useState<"" | "teacher-confirmed" | "official-mark-scheme">("");
@@ -170,6 +191,9 @@ export default function AIAnswerReview() {
     if (currentReviewAccountIdRef.current !== nextAccountId) {
       currentReviewAccountIdRef.current = nextAccountId;
       invalidateReviewRequest();
+      setSavedReviewId(null);
+      setPreviousAttempt(null);
+      retrySaveRef.current = null;
     }
   }, [user?.id, invalidateReviewRequest]);
 
@@ -178,21 +202,24 @@ export default function AIAnswerReview() {
   }, []);
 
   useEffect(() => {
+    setBoard(boardFromApiLabel(formData.curriculum) ?? '');
+  }, [formData.curriculum]);
+
+  useEffect(() => {
     const pref = user?.user_metadata;
     if (!pref) return;
     const rawBoard = pref.board ?? (pref.preferences as Record<string, unknown> | undefined)?.board;
     if (typeof rawBoard === "string" && EXAM_BOARDS.includes(rawBoard as ExamBoard)) {
       const b = rawBoard as ExamBoard;
-      setBoard(b);
-      setFormData((prev) => ({ ...prev, curriculum: boardToApiLabel(b) }));
+      setFormData((prev) => ({ ...prev, curriculum: prev.curriculum || boardToApiLabel(b) }));
     }
     const rawGrade = pref.grade ?? (pref.preferences as Record<string, unknown> | undefined)?.grade;
-    if (rawGrade) setFormData((prev) => ({ ...prev, grade: String(rawGrade) }));
+    if (rawGrade) setFormData((prev) => ({ ...prev, grade: prev.grade || String(rawGrade) }));
     const rawSubjects = pref.subjects ?? (pref.preferences as Record<string, unknown> | undefined)?.subjects;
     if (Array.isArray(rawSubjects) && rawSubjects[0]) {
-      setFormData((prev) => ({ ...prev, subject: String(rawSubjects[0]) }));
+      setFormData((prev) => ({ ...prev, subject: prev.subject || String(rawSubjects[0]) }));
     }
-  }, [user]);
+  }, [user, setFormData]);
 
   useEffect(() => {
     const subjectParam = searchParams.get("subject");
@@ -208,7 +235,7 @@ export default function AIAnswerReview() {
         ? prev.additional || `Adaptive focus topic: ${topicParam}`
         : prev.additional,
     }));
-  }, [searchParams]);
+  }, [searchParams, setFormData]);
 
   useEffect(() => {
     if (responseRef.current) {
@@ -232,17 +259,30 @@ export default function AIAnswerReview() {
     const restored = consumeArtifactRestore();
     if (restored?.kind === "review") {
       const payload = restored.payload;
+      const origin = payload.source && typeof payload.source === 'object' ? payload.source as Record<string, unknown> : null;
+      const notebookResponse = payload.contractVersion === "vertexed.notebook.practice.v1" || origin?.kind === 'notebook-quiz';
       const reviewText = typeof payload.review === "string" ? payload.review : "";
       const metadata = (payload.metadata ?? {}) as Record<string, string>;
-      if (reviewText) setResponse(reviewText);
+      if (reviewText) {
+        setResponse(reviewText);
+        setSavedReviewId(restored.id);
+        setSaveState(restored.localOnly ? 'device' : 'cloud');
+      }
       setFormData((prev) => ({
         ...prev,
         curriculum: metadata.curriculum || prev.curriculum,
         subject: metadata.subject || prev.subject,
-        question: metadata.question || prev.question,
-        answer: metadata.answer || prev.answer,
+        question: metadata.question || '',
+        answer: metadata.answer || '',
+        additional: metadata.additional || '',
+        originNotebookId: notebookResponse ? String(payload.notebookId ?? origin?.notebookId ?? '') : '',
+        originOutputId: notebookResponse ? String(payload.outputId ?? origin?.outputId ?? '') : '',
+        originQuestionIndex: notebookResponse ? String(payload.questionIndex ?? origin?.questionIndex ?? '') : '',
       }));
-      setExamImportNote("Saved review restored - you can re-run or discuss in chat.");
+      setReviewSource(notebookResponse ? "quiz" : "review");
+      setExamImportNote(notebookResponse
+        ? "Notebook response loaded with source context. Your original answer is saved in your notebook; AI feedback remains provisional."
+        : "Saved review restored - you can re-run or discuss in chat.");
       return;
     }
 
@@ -272,6 +312,9 @@ export default function AIAnswerReview() {
         grade: examAnswers.grade ? String(examAnswers.grade) : prev.grade,
         question: `Mock exam: ${examAnswers.paperTitle || "Practice paper"}\n\n${questionText}`,
         answer: answerText,
+        originNotebookId: '',
+        originOutputId: '',
+        originQuestionIndex: '',
         additional: [
           "Imported from timed mock exam in Paper Maker.",
           examAnswers.rubricNotes?.length
@@ -295,12 +338,16 @@ export default function AIAnswerReview() {
         subject: handoff.subject || prev.subject,
         grade: handoff.grade ? String(handoff.grade) : prev.grade,
         question: `Mock exam: ${handoff.paperTitle || "Practice paper"}\n\n${questionText}`,
+        answer: '',
+        originNotebookId: '',
+        originOutputId: '',
+        originQuestionIndex: '',
         additional: "Imported from Paper Maker mock exam.",
       }));
       if (handoff.board) setBoard(handoff.board);
       setExamImportNote("Mock paper imported - add your answers and submit for rubric feedback.");
     }
-  }, []);
+  }, [setFormData, setReviewSource]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -407,6 +454,7 @@ export default function AIAnswerReview() {
   const resetAll = () => {
     invalidateReviewRequest();
     setFormData(initialFormState);
+    setReviewSource('review');
     setQuestionImages([]);
     setAnswerImages([]);
     setResponse("");
@@ -426,6 +474,9 @@ export default function AIAnswerReview() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSavedReviewId(null);
+    setSaveState('saving');
+    retrySaveRef.current = null;
     const requestId = reviewRequestIdRef.current + 1;
     reviewRequestIdRef.current = requestId;
     const requestAccountId = currentReviewAccountIdRef.current;
@@ -514,10 +565,16 @@ export default function AIAnswerReview() {
       try {
         if (typeof out === "string" && out.trim()) {
           const title = `${formData.curriculum || "Review"} ${formData.subject || ""}`.trim() || "Answer review";
-          const saved = await saveStudyArtifact("review", title, {
+          const payload = {
             review: out,
             structuredReview: audit,
             contractVersion: data && typeof data === "object" ? data.contractVersion : undefined,
+            source: formData.originNotebookId && formData.originOutputId ? {
+              kind: 'notebook-quiz',
+              notebookId: formData.originNotebookId,
+              outputId: formData.originOutputId,
+              questionIndex: formData.originQuestionIndex,
+            } : undefined,
             metadata: {
               curriculum: formData.curriculum,
               subject: formData.subject,
@@ -526,30 +583,36 @@ export default function AIAnswerReview() {
               strictness: formData.strictness,
               question: formData.question,
               answer: formData.answer,
+              additional: formData.additional,
             },
-          });
-          if (!isCurrentRequest()) return;
-          if (saved.ok) {
-            setSavedPost(true);
-            recordStudySession();
-            recordLoopStep("review");
-            logStudyActivity(`Reviewed ${formData.subject || "answer"} with AI feedback`);
-            const localMsg = localSaveMessage(saved);
-            if (localMsg) {
-              toast({
-                title: "Saved on this device",
-                description: localMsg,
-              });
-            } else {
-              toast({
-                title: "Review saved",
-                description: "Your feedback is stored in your account.",
-              });
+          };
+          const idempotencyKey = createArtifactIdempotencyKey();
+          const persist = async () => {
+            if (!isCurrentRequest()) return;
+            setSaveState('saving');
+            try {
+              const saved = await saveStudyArtifact('review', title, payload, { idempotencyKey });
+              if (!isCurrentRequest()) return;
+              setSaveState(saved.ok ? saved.localOnly ? 'device' : 'cloud' : 'failed');
+              setSavedReviewId(saved.ok ? saved.id ?? null : null);
+              if (saved.ok) {
+                setSavedPost(true);
+                const localMsg = localSaveMessage(saved);
+                toast({ title: saved.localOnly ? 'Saved on this device' : 'Review saved', description: localMsg || 'Your feedback is stored in your account.' });
+              }
+            } catch {
+              if (isCurrentRequest()) setSaveState('failed');
             }
-          }
+          };
+          retrySaveRef.current = persist;
+          await persist();
+          if (!isCurrentRequest()) return;
+          recordStudySession();
+          recordLoopStep('review');
+
         }
       } catch (err) {
-        if (isCurrentRequest()) console.warn("Failed to save review:", err);
+        if (isCurrentRequest()) { setSaveState('failed'); console.warn("Failed to save review:", err); }
       }
     } catch (err) {
       if (!isCurrentRequest()) return;
@@ -694,6 +757,8 @@ export default function AIAnswerReview() {
               </div>
             </div>
 
+            <p className="text-xs text-muted-foreground mb-4">Text drafts save on this device. Reattach images after refreshing.</p>
+            {previousAttempt && <details className="surface-tile p-4 mb-4"><summary className="cursor-pointer min-h-11">Previous attempt and feedback</summary><p className="whitespace-pre-wrap mt-3">{previousAttempt.answer}</p><p className="whitespace-pre-wrap mt-3 text-sm text-muted-foreground">{previousAttempt.feedback}</p><Link className="text-link" to={`/saved-work?item=${encodeURIComponent(previousAttempt.id)}`}>Open saved original</Link></details>}
             {examImportNote && (
               <div className="alert-success mb-4 flex items-center gap-2">
                 <CheckCircle2 className="h-4 w-4 shrink-0" />
@@ -1136,7 +1201,20 @@ export default function AIAnswerReview() {
                             >
                               <MessageSquareQuote size={14} /> Discuss with Apex
                             </button>
-                            <div className="ml-auto text-sm text-muted-foreground">Successful reviews are saved to your account or this device.</div>
+                            <StudySaveStatus state={saveState} onRetry={retrySaveRef.current ? () => void retrySaveRef.current?.() : undefined} />
+                            {savedReviewId && <>
+                              <Link className="btn-solid min-h-11 inline-flex items-center px-4" to={`/planner?review=${encodeURIComponent(savedReviewId)}`}>Schedule a retry</Link>
+                              <button type="button" className="btn-glass min-h-11" onClick={() => {
+                                setPreviousAttempt({ id: savedReviewId, answer: formData.answer, feedback: response });
+                                setFormData(previous => ({ ...previous, answer: '' }));
+                                setAnswerImages([]);
+                                setResponse('');
+                                setStructuredReview(null);
+                                setMasteryConfirmed(false);
+                                setSavedReviewId(null);
+                                requestAnimationFrame(() => document.getElementById('review-answer')?.focus());
+                              }}>Try this question again</button>
+                            </>}
                           </div>
                           <AiFeedbackControls capability="answer_review" />
                         </motion.div>

@@ -128,7 +128,7 @@ export default function SiteLayout() {
 
   const navLinks = isAuthenticated
     ? [
-        { to: "/main", label: "Dashboard" },
+        { to: "/main", label: "Today" },
         { to: "/exam-prep", label: "Exam prep" },
         { to: "/planner", label: "Plan" },
         { to: "/study-zone", label: "Focus" },
@@ -144,7 +144,7 @@ export default function SiteLayout() {
       ];
 
   return (
-    <div className={`site-shell relative min-h-screen flex flex-col text-foreground ${['/', '/home'].includes(location.pathname) ? 'site-landing' : 'site-workspace bg-transparent overflow-x-hidden'}`}>
+    <div className={`site-shell relative min-h-screen flex flex-col text-foreground ${['/', '/home'].includes(location.pathname) ? 'site-landing' : 'site-workspace bg-transparent'}`}>
       <div className="site-atmosphere" aria-hidden="true"><i /><i /><i /></div>
       <a
         href="#main-content"
@@ -172,8 +172,6 @@ export default function SiteLayout() {
           <Link to={isAuthenticated ? "/main" : "/"} className="flex items-center gap-2.5 shrink-0 group">
             <img
               src="/logo.png"
-              srcSet="/favicon-32x32.png 32w, /favicon-48x48.png 48w, /apple-touch-icon.png 180w, /logo.png 500w"
-              sizes="36px"
               alt="VertexED logo"
               className="w-9 h-9 rounded-full object-cover select-none ring-1 ring-border/60 group-hover:ring-primary/40 transition-shadow duration-200"
               draggable={false}
@@ -381,7 +379,7 @@ export default function SiteLayout() {
           <nav className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
             {isAuthenticated ? (
               <>
-                <Link to="/main" className="hover:text-foreground transition">Dashboard</Link>
+                <Link to="/main" className="hover:text-foreground transition">Today</Link>
                 <Link to="/planner" className="hover:text-foreground transition">Planner</Link>
                 <Link to="/user-settings" className="hover:text-foreground transition">Account</Link>
                 <Link to="/privacy" className="hover:text-foreground transition">Privacy</Link>
