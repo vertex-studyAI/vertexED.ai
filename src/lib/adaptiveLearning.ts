@@ -27,6 +27,7 @@ export type SubjectMastery = {
   subject: string;
   mastery: number;
   attempts: number;
+  topics: number;
   trend: 'improving' | 'stable' | 'declining' | 'unknown';
 };
 
