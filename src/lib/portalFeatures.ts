@@ -163,12 +163,12 @@ export function buildPortalIntelligence(
   const velocityTrend = velocity.trend;
   const velocityLabel =
     delta === null
-      ? 'No measured mastery trend yet. Complete at least two answer reviews.'
+      ? 'No comparable verified-score trend yet. Record repeated evidence on the same topic.'
       : velocityTrend === 'up'
-        ? `+${delta}% mastery this week`
+        ? `+${delta}% verified-score average this week`
         : velocityTrend === 'down'
           ? `${delta}% dip. Schedule a review block.`
-          : 'Measured mastery is steady this week';
+          : 'Comparable verified scores are steady this week';
 
   const marksGaps: MarksGap[] = adaptivePlan.masteryBySubject
     .map((m) => ({
@@ -353,7 +353,7 @@ export function exportLearnerSnapshot(profile: LearnerProfile, stats: StudyStats
 }
 
 export function masteryLabel(m: SubjectMastery): string {
-  if (m.mastery >= 80) return 'On target (80%+)';
-  if (m.mastery >= 65) return 'Building';
-  return 'Below target - drill this';
+  if (m.mastery >= 80) return 'Verified average at/above 80%';
+  if (m.mastery >= 65) return 'Verified average 65–79%';
+  return 'Verified average below 65%';
 }
