@@ -7,6 +7,8 @@ import {
   canonicalDomainGatePasses,
   classifyAgentsDeployment,
   classifyCanonicalDomain,
+  classifyProviderCandidate,
+  providerCandidatePasses,
 } from "../scripts/probe-production-gates-core.mjs";
 
 const source = readFileSync(new URL("../scripts/probe-production-gates.mjs", import.meta.url), "utf8");
@@ -18,6 +20,8 @@ test("production gate probe covers custom-domain revision, readiness, and agents
   assert.match(source, /readiness_rpc_missing/);
   assert.match(source, /\/api\/agents/);
   assert.match(source, /WAITLIST_RATE_LIMIT_SALT/);
+  assert.match(source, /digCname/);
+  assert.match(source, /provider_candidates/);
   assert.match(source, /mkdtempSync/);
   assert.doesNotMatch(source, /\/tmp\/vertexed-gate-probe-body\.txt/);
   assert.match(source, /if \(follow\) args\.push\('-L'\)/);
@@ -85,4 +89,29 @@ test("custom domain passes only when its health endpoint serves the canonical re
     }),
     "BLOCKED_TLS_FAIL_BEFORE_HTTP",
   );
+});
+
+
+test("provider candidate requires immutable revision and full deep readiness", () => {
+  const ready = classifyProviderCandidate({
+    shallowProbe: { curlExit: 0, httpCode: "200", json: { ok: true, revision: "a".repeat(40) } },
+    readinessProbe: { curlExit: 0, httpCode: "200", json: { ok: true, status: "ready", checks: { database: true, auth: true } } },
+  });
+  assert.equal(ready, "READY_PROVIDER_CANDIDATE");
+  assert.equal(providerCandidatePasses(ready), true);
+
+  assert.equal(classifyProviderCandidate({
+    shallowProbe: { curlExit: 0, httpCode: "200", json: { ok: true, revision: "short" } },
+    readinessProbe: { curlExit: 0, httpCode: "200", json: { ok: true, status: "ready", checks: { database: true } } },
+  }), "BLOCKED_PROVIDER_REVISION_UNCONFIRMED");
+
+  assert.equal(classifyProviderCandidate({
+    shallowProbe: { curlExit: 0, httpCode: "200", json: { ok: true, revision: "b".repeat(40) } },
+    readinessProbe: { curlExit: 0, httpCode: "503", json: { ok: false, status: "degraded", checks: { database: false } } },
+  }), "BLOCKED_PROVIDER_DEGRADED");
+
+  assert.equal(classifyProviderCandidate({
+    shallowProbe: { curlExit: 35, httpCode: "000", json: null },
+    readinessProbe: { curlExit: 35, httpCode: "000", json: null },
+  }), "BLOCKED_PROVIDER_UNREACHABLE");
 });
