@@ -7,6 +7,7 @@ import {
   buildPilotExport,
   isPseudonymousParticipantId,
   pilotSessionsToCsv,
+  removePilotParticipant,
   summarizePilotCoverage,
   summarizePilotSessions,
 } from '../src/lib/pilotAnalyticsCore.mjs';
@@ -257,4 +258,26 @@ test('staff coverage is subject-scoped, aggregate, and completion-aware', () => 
   assert.equal(maths.participant_count, 1);
   assert.equal(maths.completion_rate, 0);
   assert.equal(JSON.stringify(coverage).includes('participant_id'), false);
+});
+
+
+test('withdrawal removes every raw row for the pseudonymous participant, including invalid rows', () => {
+  const records = [
+    session(),
+    session({ participant_id: 'pilot_A001', session_id: 'invalid-consent', consent_opt_in: false }),
+    { participant_id: 'pilot_A001', session_id: 'malformed-only' },
+    session({ participant_id: 'pilot_B002', session_id: 'session-002' }),
+    { unrelated: true },
+  ];
+
+  const removed = removePilotParticipant(records, 'pilot_A001');
+  assert.equal(removed.removed_record_count, 3);
+  assert.equal(removed.records.length, 2);
+  assert.equal(removed.records.some((row) => row?.participant_id === 'pilot_A001'), false);
+  assert.equal(removed.records.some((row) => row?.participant_id === 'pilot_B002'), true);
+});
+
+test('withdrawal rejects email-like or malformed identifiers rather than broad-matching records', () => {
+  assert.throws(() => removePilotParticipant([session()], 'student@example.com'), /pseudonymous identifier/);
+  assert.throws(() => removePilotParticipant([session()], 'x'), /pseudonymous identifier/);
 });
