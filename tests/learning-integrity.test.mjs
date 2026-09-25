@@ -37,11 +37,24 @@ test('weekly activity counts unique attempts in the actual window', () => {
 
 test('simultaneous different topics cannot imply decline and strong topics count', () => {
   const rows = [20, 30, 40, 90].map((score, i) => measurement(String(i), `Topic ${i}`, score, '2026-09-07T12:00:00Z'));
-  assert.deepEqual(summarizeMeasuredSubjects(rows), [{ subject: 'Biology', mastery: 45, attempts: 4, trend: 'unknown' }]);
+  assert.deepEqual(summarizeMeasuredSubjects(rows), [{ subject: 'Biology', mastery: 45, attempts: 4, topics: 4, trend: 'unknown' }]);
 });
 
 test('subject trend uses repeated comparable topics at different times', () => {
   const rows = [measurement('1', 'Cells', 30, '2026-09-01T00:00:00Z'), measurement('2', 'Cells', 70, '2026-09-07T00:00:00Z')];
   assert.equal(summarizeMeasuredSubjects(rows)[0].trend, 'improving');
   assert.equal(summarizeMeasuredSubjects([...rows].reverse())[0].trend, 'improving');
+});
+
+
+test('subject evidence summary reports topic coverage separately from attempt count', () => {
+  const rows = [
+    measurement('1', 'Cells', 40, '2026-09-01T00:00:00Z'),
+    measurement('2', 'Cells', 60, '2026-09-02T00:00:00Z'),
+    measurement('3', 'Genetics', 80, '2026-09-03T00:00:00Z'),
+  ];
+  const summary = summarizeMeasuredSubjects(rows)[0];
+  assert.equal(summary.attempts, 3);
+  assert.equal(summary.topics, 2);
+  assert.equal(summary.mastery, 60);
 });
