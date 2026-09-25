@@ -125,6 +125,24 @@ export default function Home() {
         <div className="vh-marquee" tabIndex={0} aria-label="Fictional sample testimonials. Focus to pause scrolling."><div>{[...betaQuestions, ...betaQuestions].map(([label, question], index) => <article key={`${label}-${index}`} aria-hidden={index >= betaQuestions.length}><span>{label}</span><p>{question}</p></article>)}</div></div>
       </section>
 
+      <section className="vh-eassessment" id="opportunities" data-reveal>
+        <div>
+          <p className="vh-kicker">08 / Work with VertexED</p>
+          <h2>Use it. Test it.<br />Help build it.</h2>
+          <p>One intake now covers private-beta interest, student testing, school and classroom pilots, education research, engineering, AI/ML, curriculum, product, design, ambassadors, contributor cohorts, mentors, events, and institutional partnerships.</p>
+          <a href="https://tally.so/r/2E0o9p?utm_source=website&utm_medium=opportunity_section&utm_campaign=vertexed_opportunities" target="_blank" rel="noreferrer" className="vh-primary">Explore VertexED opportunities <ArrowUpRight aria-hidden /></a>
+        </div>
+        <div className="vh-question-preview" aria-label="VertexED opportunity routes">
+          <span>ONE FORM · MULTIPLE ROUTES</span>
+          <h3>Students, educators, builders and partners.</h3>
+          <div>
+            <span>01</span><p>Beta access, curricula and student testing</p>
+            <span>02</span><p>School pilots, research and educator collaboration</p>
+            <span>03</span><p>Engineering, product, curriculum and partnership roles</p>
+          </div>
+        </div>
+      </section>
+
       <section className="vh-final" aria-labelledby="final-title" data-reveal><Sparkles aria-hidden /><p className="vh-kicker">Choose the next subject</p><h2 id="final-title">The next attempt<br /><em>starts with one concept.</em></h2><p>Enter MYP 5 through the subject you are studying now.</p><div className="vh-final-links">{MYP5_SUBJECTS.slice(0, 6).map((subject) => <Link to={`/myp/subjects/${subject.slug}`} data-preview={`${subject.group}. ${subject.topics.length} mapped topics.`} key={subject.slug}>{subject.name}<ArrowRight aria-hidden /></Link>)}</div><Link to="/myp" className="vh-final-all">Explore all MYP 5 subjects <ArrowUpRight aria-hidden /></Link></section>
       {lensOpen && <AccessibleModal titleId="concept-lens-title" descriptionId="concept-lens-dialog-description" onClose={() => setLensOpen(false)} overlayClassName="vh-lens-overlay" className="vh-lens-dialog"><button type="button" className="vh-lens-close" aria-label="Close concept lens" onClick={() => setLensOpen(false)}><X aria-hidden /></button><p id="concept-lens-dialog-description" className="sr-only">Interactive graph example for inspecting slope and energy transfer. Press Escape to close and return to the page.</p><ConceptLens id="concept-lens-dialog" /></AccessibleModal>}
     </div>
