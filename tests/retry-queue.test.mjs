@@ -7,6 +7,7 @@ import {
   dueRetryItems,
   retryDelayDays,
   scheduleMeasuredRetry,
+  summarizeRetryFollowThrough,
 } from '../src/lib/retryQueueCore.mjs';
 import { MEASURED_WEAKNESS_EVIDENCE } from '../src/lib/weaknessEvidenceCore.mjs';
 
@@ -32,6 +33,7 @@ test('measured attempts schedule and then replace the same topic retry', () => {
   const first = scheduleMeasuredRetry([], measured, now);
   assert.equal(first.length, 1);
   assert.equal(first[0].dueAt, '2026-09-07T00:00:00.000Z');
+  assert.equal(first[0].history[0].dueAt, first[0].dueAt);
 
   const second = scheduleMeasuredRetry(first, { ...measured, score: 6 }, now);
   assert.equal(second.length, 1);
@@ -59,4 +61,44 @@ test('retry lifecycle preserves completed and dismissed history without returnin
   assert.equal(dismissed[0].status, 'dismissed');
   assert.equal(dismissed[0].dismissedAt, '2026-09-08T00:00:00.000Z');
   assert.equal(dueRetryItems(dismissed, new Date('2026-09-20T00:00:00.000Z')).length, 0);
+});
+
+
+test('delayed-retry follow-through uses only cycles with retained due-date evidence', () => {
+  const start = new Date('2026-09-01T00:00:00.000Z');
+  const [scheduled] = scheduleMeasuredRetry([], measured, start);
+  const completedAfterDue = completeRetryItem(
+    [scheduled],
+    scheduled.id,
+    new Date('2026-09-03T00:00:00.000Z'),
+    70,
+  )[0];
+
+  const summary = summarizeRetryFollowThrough([completedAfterDue], new Date('2026-09-04T00:00:00.000Z'));
+  assert.equal(summary.maturedCycles, 1);
+  assert.equal(summary.completedAfterDue, 1);
+  assert.equal(summary.dismissedAfterDue, 0);
+  assert.equal(summary.overdueOpen, 0);
+  assert.equal(summary.completionRate, 1);
+});
+
+test('legacy retry history without dueAt is excluded rather than backfilled or guessed', () => {
+  const [scheduled] = scheduleMeasuredRetry([], measured, new Date('2026-09-01T00:00:00.000Z'));
+  scheduled.history = [{ status: 'scheduled', at: '2026-09-01T00:00:00.000Z', scorePercent: 20 }];
+  const summary = summarizeRetryFollowThrough([scheduled], new Date('2026-09-20T00:00:00.000Z'));
+  assert.deepEqual(summary, {
+    maturedCycles: 0,
+    completedAfterDue: 0,
+    dismissedAfterDue: 0,
+    overdueOpen: 0,
+    completionRate: null,
+  });
+});
+
+test('open matured retry cycles are counted as overdue follow-through opportunities', () => {
+  const [scheduled] = scheduleMeasuredRetry([], measured, new Date('2026-09-01T00:00:00.000Z'));
+  const summary = summarizeRetryFollowThrough([scheduled], new Date('2026-09-03T00:00:00.000Z'));
+  assert.equal(summary.maturedCycles, 1);
+  assert.equal(summary.overdueOpen, 1);
+  assert.equal(summary.completedAfterDue, 0);
 });
