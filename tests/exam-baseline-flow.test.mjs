@@ -53,7 +53,7 @@ test('unsupported subject does not silently fall through to unrelated baseline c
   assert.deepEqual(selectBaselineDrills({
     drills: EXAM_DRILLS,
     programme: 'IB DP',
-    subject: 'Physics',
+    subject: 'History',
     topics: [],
   }), []);
 });
