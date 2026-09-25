@@ -4,7 +4,7 @@
 -- answer, token, or other learner content.
 --
 -- Product definitions used here:
---   activation = the account's first persisted study artifact
+--   durable core-artifact activation = the account's first persisted NON-PLANNER study artifact
 --   D1 saved-artifact return = another persisted artifact 24-48h after activation
 --   D7 saved-artifact return = another persisted artifact 7-8d after activation
 --
@@ -20,6 +20,7 @@ with artifact_events as (
     created_at
   from public.user_study_artifacts
   where created_at is not null
+    and kind <> 'planner'
 ),
 activation as (
   select
@@ -53,7 +54,7 @@ cohort_flags as (
 )
 select
   cohort_week_utc,
-  count(*)::int as activated_users,
+  count(*)::int as durable_core_artifact_activated_users,
   count(*) filter (where d1_eligible)::int as d1_eligible_users,
   count(*) filter (where d1_eligible and d1_returned_and_saved)::int as d1_returned_and_saved_users,
   round(
@@ -72,14 +73,15 @@ from cohort_flags
 group by cohort_week_utc
 order by cohort_week_utc desc;
 
--- Aggregate product activity from the same trustworthy-save boundary.
--- This is "artifact-active", not generic WAU.
+-- Aggregate product activity from the same trustworthy non-planner save boundary.
+-- This is "core-artifact-active", not generic WAU.
 select
-  count(distinct user_id)::int as artifact_active_users_7d,
-  count(*)::int as artifacts_saved_7d,
+  count(distinct user_id)::int as core_artifact_active_users_7d,
+  count(*)::int as core_artifacts_saved_7d,
   round(
     count(*)::numeric / nullif(count(distinct user_id), 0),
     2
-  ) as artifacts_per_artifact_active_user_7d
+  ) as core_artifacts_per_active_user_7d
 from public.user_study_artifacts
-where created_at >= now() - interval '7 days';
+where created_at >= now() - interval '7 days'
+  and kind <> 'planner';
