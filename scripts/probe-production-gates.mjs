@@ -17,6 +17,8 @@ import {
   canonicalDomainGatePasses,
   classifyAgentsDeployment,
   classifyCanonicalDomain,
+  classifyProviderCandidate,
+  providerCandidatePasses,
 } from './probe-production-gates-core.mjs';
 
 const HOSTS = {
@@ -79,13 +81,16 @@ function curlMeta(url, { follow = false, query = '' } = {}) {
   };
 }
 
-function digA(host) {
-  const result = spawnSync('dig', ['+short', host, 'A'], { encoding: 'utf8' });
+function digRecords(host, type) {
+  const result = spawnSync('dig', ['+short', host, type], { encoding: 'utf8' });
   return (result.stdout || '')
     .split('\n')
     .map((line) => line.trim())
     .filter(Boolean);
 }
+
+function digA(host) { return digRecords(host, 'A'); }
+function digCname(host) { return digRecords(host, 'CNAME'); }
 
 function classifyWww(probe) {
   if (probe.curlExit !== 0 || probe.httpCode === '000') {
@@ -120,10 +125,10 @@ function summarizeHealth(probe, label) {
 const asJson = process.argv.includes('--json');
 
 const dig = {
-  'www.vertexed.app': digA('www.vertexed.app'),
-  'vertexed.app': digA('vertexed.app'),
-  'www.vertexed.ai': digA('www.vertexed.ai'),
-  'vertexed.ai': digA('vertexed.ai'),
+  'www.vertexed.app': { a: digA('www.vertexed.app'), cname: digCname('www.vertexed.app') },
+  'vertexed.app': { a: digA('vertexed.app'), cname: digCname('vertexed.app') },
+  'www.vertexed.ai': { a: digA('www.vertexed.ai'), cname: digCname('www.vertexed.ai') },
+  'vertexed.ai': { a: digA('vertexed.ai'), cname: digCname('vertexed.ai') },
 };
 
 const wwwApp = curlMeta(HOSTS.wwwApp);
@@ -139,10 +144,18 @@ const rhoReady = curlMeta(`${HOSTS.rho}/api/health`, { query: '?readiness=1' });
 const edAgents = curlMeta(`${HOSTS.edAi}/api/agents`);
 
 const wwwAppClass = classifyWww(wwwApp);
+const edProviderVerdict = classifyProviderCandidate({ shallowProbe: edShallow, readinessProbe: edReady });
+const rhoProviderVerdict = classifyProviderCandidate({ shallowProbe: rhoShallow, readinessProbe: rhoReady });
+const readyProviderCount = [edProviderVerdict, rhoProviderVerdict].filter(providerCandidatePasses).length;
+const providerReferenceRevision = providerCandidatePasses(edProviderVerdict)
+  ? edShallow.json?.revision ?? null
+  : providerCandidatePasses(rhoProviderVerdict)
+    ? rhoShallow.json?.revision ?? null
+    : edShallow.json?.revision ?? null;
 const gate1aVerdict = classifyCanonicalDomain({
   rootClass: wwwAppClass,
   healthProbe: wwwAppHealth,
-  canonicalRevision: edShallow.json?.revision ?? null,
+  canonicalRevision: providerReferenceRevision,
 });
 
 const report = {
@@ -150,25 +163,37 @@ const report = {
   gate1a_custom_domain: {
     www_vertexed_app: {
       class: wwwAppClass,
-      aRecords: dig['www.vertexed.app'],
+      aRecords: dig['www.vertexed.app'].a,
+      cnameRecords: dig['www.vertexed.app'].cname,
       probe: { httpCode: wwwApp.httpCode, errormsg: wwwApp.errormsg || null },
       health: summarizeHealth(wwwAppHealth, 'www-vertexed-app-health'),
     },
     apex_vertexed_app: {
       class: classifyWww(apexApp),
-      aRecords: dig['vertexed.app'],
+      aRecords: dig['vertexed.app'].a,
+      cnameRecords: dig['vertexed.app'].cname,
       probe: { httpCode: apexApp.httpCode, errormsg: apexApp.errormsg || null },
     },
     www_vertexed_ai: {
       class: classifyWww(wwwAi),
-      aRecords: dig['www.vertexed.ai'],
+      aRecords: dig['www.vertexed.ai'].a,
+      cnameRecords: dig['www.vertexed.ai'].cname,
       probe: { httpCode: wwwAi.httpCode, errormsg: wwwAi.errormsg || null },
     },
     apex_vertexed_ai: {
       class: classifyWww(apexAi),
-      aRecords: dig['vertexed.ai'],
+      aRecords: dig['vertexed.ai'].a,
+      cnameRecords: dig['vertexed.ai'].cname,
       probe: { httpCode: apexAi.httpCode, errormsg: apexAi.errormsg || null },
     },
+  },
+  provider_candidates: {
+    ed_ai: { verdict: edProviderVerdict, shallow: summarizeHealth(edShallow, 'ed-ai-shallow'), readiness: summarizeHealth(edReady, 'ed-ai-readiness') },
+    rho: { verdict: rhoProviderVerdict, shallow: summarizeHealth(rhoShallow, 'rho-shallow'), readiness: summarizeHealth(rhoReady, 'rho-readiness') },
+    ready_provider_count: readyProviderCount,
+    ownership_note: readyProviderCount === 1
+      ? 'One provider host is technically ready; domain ownership still requires authoritative Vercel domain evidence.'
+      : 'Do not infer canonical domain ownership from provider-host health alone.',
   },
   gate1b_readiness: {
     ed_ai_shallow: summarizeHealth(edShallow, 'ed-ai-shallow'),
@@ -221,8 +246,10 @@ if (asJson) {
 } else {
   process.stdout.write(`VertexED production gate probe @ ${report.probedAt}\n`);
   process.stdout.write(`Gate1a verdict: ${report.verdict.gate1a}\n`);
-  process.stdout.write(`  www.vertexed.app: ${report.gate1a_custom_domain.www_vertexed_app.class} A=${report.gate1a_custom_domain.www_vertexed_app.aRecords.join(',') || '(none)'} healthRevision=${report.gate1a_custom_domain.www_vertexed_app.health.revision || '(none)'}\n`);
+  process.stdout.write(`  www.vertexed.app: ${report.gate1a_custom_domain.www_vertexed_app.class} A=${report.gate1a_custom_domain.www_vertexed_app.aRecords.join(',') || '(none)'} CNAME=${report.gate1a_custom_domain.www_vertexed_app.cnameRecords.join(',') || '(none)'} healthRevision=${report.gate1a_custom_domain.www_vertexed_app.health.revision || '(none)'}\n`);
   process.stdout.write(`  www.vertexed.ai:  ${report.gate1a_custom_domain.www_vertexed_ai.class} A=${report.gate1a_custom_domain.www_vertexed_ai.aRecords.join(',') || '(none)'}\n`);
+  process.stdout.write(`Provider candidates: ed-ai=${report.provider_candidates.ed_ai.verdict} rho=${report.provider_candidates.rho.verdict}\n`);
+  process.stdout.write(`  ownership: ${report.provider_candidates.ownership_note}\n`);
   process.stdout.write(`Gate1b verdict: ${report.verdict.gate1b}\n`);
   process.stdout.write(`  ed-ai readiness: http=${report.gate1b_readiness.ed_ai_readiness.httpCode} status=${report.gate1b_readiness.ed_ai_readiness.status} dbErr=${report.gate1b_readiness.ed_ai_readiness.databaseError}\n`);
   process.stdout.write(`  ed-ai revision:  ${report.gate1b_readiness.ed_ai_shallow.revision}\n`);
