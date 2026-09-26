@@ -27,6 +27,19 @@ function metadataValue(metadata, flatKey, nestedKey) {
     : undefined;
 }
 
+// Validate the calendar day instead of accepting an ISO-looking string. Invalid
+// optional metadata must not make an otherwise valid curriculum update fail.
+function calendarDateOrNull(value) {
+  if (typeof value !== 'string') return null;
+  const date = value.trim();
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return null;
+  const [year, month, day] = date.split('-').map(Number);
+  if (year < 1 || month < 1 || month > 12 || day < 1) return null;
+  const leapYear = year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0);
+  const daysInMonth = [31, leapYear ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+  return day <= daysInMonth[month - 1] ? date : null;
+}
+
 function recoverableCurriculum(user) {
   const metadata = user?.user_metadata ?? {};
   const board = metadataValue(metadata, 'board', 'board');
@@ -48,9 +61,7 @@ function recoverableCurriculum(user) {
   }
 
   const rawExamDate = metadataValue(metadata, 'exam_date', 'examDate');
-  const examDate = typeof rawExamDate === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(rawExamDate.trim())
-    ? rawExamDate.trim()
-    : null;
+  const examDate = calendarDateOrNull(rawExamDate);
 
   return { board, grade, subjects, exam_date: examDate };
 }
