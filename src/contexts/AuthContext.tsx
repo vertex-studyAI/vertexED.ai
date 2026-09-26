@@ -4,6 +4,7 @@ import { trackLogout } from "@/lib/accountLifecycleAnalytics.mjs";
 import { setAuthAccessToken } from "@/lib/apiAuth";
 import { setPlannerStorageScope } from "@/lib/plannerStorageScope.mjs";
 import { buildMissingCurriculumRecovery, buildMissingProfileInsert, buildProfileUpdate } from "@/lib/profileRecovery.mjs";
+import { withCurriculumRecoverySnapshot } from "@/lib/profileRecoverySnapshot.mjs";
 import { isOnboardingComplete } from "@/lib/onboardingStatus.js";
 import { supabase } from "@/lib/supabaseClient";
 import { setUserContentStorageScope } from "@/lib/userContentStorageScope.mjs";
@@ -307,10 +308,16 @@ export function AuthProvider({ children }: PropsWithChildren) {
     if (updated) {
       const curriculumRecovery = buildMissingCurriculumRecovery(updated, u);
       if (Object.keys(curriculumRecovery).length > 0) {
-        const { error: curriculumError } = await supabase
-          .from("profiles")
-          .update({ ...curriculumRecovery, updated_at: updatedAt })
-          .eq("id", u.id);
+        // A learner may edit curriculum after the snapshot above. Compare all
+        // observed curriculum fields atomically and refresh on a no-match rather
+        // than retrying an obsolete patch over the learner's newer choices.
+        const { error: curriculumError } = await withCurriculumRecoverySnapshot(
+          supabase
+            .from("profiles")
+            .update({ ...curriculumRecovery, updated_at: updatedAt })
+            .eq("id", u.id),
+          updated,
+        );
         if (curriculumError) {
           console.error("profiles curriculum recovery error:", curriculumError);
           return;
