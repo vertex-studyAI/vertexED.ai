@@ -2,6 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import {
+  buildMissingCurriculumRecovery,
   buildMissingProfileInsert,
   buildCurriculumProfileUpsert,
   buildProfileUpdate,
@@ -62,10 +63,67 @@ test('missing profile recovery supplies the database-required full_name fallback
   });
 });
 
+test('curriculum recovery fills only missing durable fields from complete Auth metadata', () => {
+  const user = {
+    id: 'user-6',
+    user_metadata: {
+      board: 'IB_DP',
+      grade: 11,
+      subjects: ['Math AA HL', 'Physics HL', 'Math AA HL'],
+      exam_date: '2027-05-01',
+    },
+  };
+
+  assert.deepEqual(
+    buildMissingCurriculumRecovery(
+      { board: null, grade: null, subjects: [], exam_date: null },
+      user,
+    ),
+    {
+      board: 'IB_DP',
+      grade: 11,
+      subjects: ['Math AA HL', 'Physics HL'],
+      exam_date: '2027-05-01',
+    },
+  );
+
+  assert.deepEqual(
+    buildMissingCurriculumRecovery(
+      {
+        board: 'AP',
+        grade: 12,
+        subjects: ['Calculus BC'],
+        exam_date: '2027-05-10',
+      },
+      user,
+    ),
+    {},
+  );
+});
+
+test('curriculum recovery refuses partial or malformed Auth curriculum', () => {
+  assert.deepEqual(
+    buildMissingCurriculumRecovery(
+      { board: null, grade: null, subjects: [], exam_date: null },
+      { id: 'user-7', user_metadata: { board: 'IB_DP', grade: 11, subjects: [] } },
+    ),
+    {},
+  );
+  assert.deepEqual(
+    buildMissingCurriculumRecovery(
+      { board: null, grade: null, subjects: [], exam_date: null },
+      { id: 'user-8', user_metadata: { board: 'UNKNOWN', grade: 11, subjects: ['Physics'] } },
+    ),
+    {},
+  );
+});
+
 test('successful authentication does not wait for best-effort profile recovery', async () => {
   const source = await readFile(new URL('../src/contexts/AuthContext.tsx', import.meta.url), 'utf8');
 
   assert.match(source, /void postAuthUpsertProfile\(data\.user\)\.catch/);
+  assert.match(source, /isOnboardingComplete\(nextUser\)[\s\S]{0,160}postAuthUpsertProfile\(nextUser\)/);
+  assert.match(source, /event === "SIGNED_IN" && isOnboardingComplete\(nextUser\)/);
   assert.doesNotMatch(source, /if \(data\.user\) await postAuthUpsertProfile\(data\.user\)/);
 });
 
