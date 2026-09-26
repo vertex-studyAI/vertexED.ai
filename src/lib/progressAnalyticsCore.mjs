@@ -47,6 +47,7 @@ export function summarizeMeasuredSubjects(entries) {
       subject,
       mastery: Math.round(rows.reduce((sum, row) => sum + row.score / row.maxScore * 100, 0) / rows.length),
       attempts: new Set(rows.map(row => row.attemptId || row.id || JSON.stringify(row))).size,
+      topics: topics.size,
       trend: !changes.length ? 'unknown' : change > 5 ? 'improving' : change < -5 ? 'declining' : 'stable',
     };
   });
