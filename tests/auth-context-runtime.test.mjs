@@ -25,8 +25,10 @@ async function withProvider(verify) {
     export const setUserContentStorageScope = value => globalThis.__vertexAuthTest.writes.push(['scope', value]);
     export const setPlannerStorageScope = () => {};
     export const trackLogout = () => {};
+    export const buildMissingCurriculumRecovery = () => ({});
     export const buildMissingProfileInsert = () => ({});
     export const buildProfileUpdate = () => ({});
+    export const isOnboardingComplete = () => false;
     export const initializeLearnerStateSync = async () => {};
     export const syncLocalStudyArtifacts = async () => {};
     // ${++harnessId}`);
