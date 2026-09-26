@@ -1,0 +1,4 @@
+Contact: https://tally.so/r/A7ZbOe?utm_source=security_txt
+Expires: 2027-09-26T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://www.vertexed.app/.well-known/security.txt
