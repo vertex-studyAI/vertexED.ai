@@ -34,8 +34,8 @@ export default function SubjectMasteryCard({ mastery, focusSubject, className }:
       <div className="p-5">
         <div className="flex items-center justify-between gap-3 mb-4">
           <div>
-            <p className="text-xs uppercase tracking-widest text-muted-foreground">Subject mastery</p>
-            <h2 className="text-sm font-semibold text-foreground">Where your marks are landing</h2>
+            <p className="text-xs uppercase tracking-widest text-muted-foreground">Verified subject evidence</p>
+            <h2 className="text-sm font-semibold text-foreground">Average of confirmed practice marks</h2>
           </div>
           <Link to="/answer-reviewer" className="text-xs text-primary hover:underline inline-flex items-center gap-1">
             Log a review
@@ -71,7 +71,7 @@ export default function SubjectMasteryCard({ mastery, focusSubject, className }:
                   </div>
                   <TrendIcon className={cn('h-3.5 w-3.5 shrink-0', TREND_STYLE[row.trend])} aria-hidden />
                   {row.attempts > 0 && (
-                    <span className="text-[10px] text-muted-foreground shrink-0">{row.attempts} reviews</span>
+                    <span className="text-[10px] text-muted-foreground shrink-0">{row.attempts} verified attempt{row.attempts === 1 ? '' : 's'} · {row.topics} topic{row.topics === 1 ? '' : 's'}</span>
                   )}
                 </div>
               </div>
@@ -81,7 +81,7 @@ export default function SubjectMasteryCard({ mastery, focusSubject, className }:
 
         {mastery.some((m) => m.attempts === 0) && (
           <p className="text-xs text-muted-foreground mt-4">
-            Subjects without reviews use a baseline - submit an answer review or mock to sharpen these scores.
+            Only verified attempts appear here. Add a teacher-confirmed, official-mark-scheme, or validated-answer-key result to expand the evidence.
           </p>
         )}
       </div>
