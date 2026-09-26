@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "project": "T2424-0025",
+  "source_repository": "vertex-studyAI/vertexED.ai",
+  "archive_commit": "016e1bdc1f6e38f80d7bbe8b596bcb5349fa0c0a",
+  "freeze_commit": "0d2a14e559b0caa9b5b1cbeef0995013594ecf15",
+  "original_path": "portfolio/project2424/projects/T2424-0025",
+  "recovered_path": "projects/T2424-0025",
+  "original_git_subtree": "f7793ccc3a32c37f1d09490f747b62b44892c516",
+  "source_blobs": {
+    "README.md": "59aa5fdbc7946dc418db3b20ecc2bbeb1dd19af6",
+    "REPRODUCE.md": "8a0f485e7f03f06e0bdc5967ff3aba005b01d433",
+    "RESULTS.md": "26a1e670fc1e30d62a89000ad4564d34bf47c636",
+    "RESULTS_ABLATION_20260812.md": "c6f536faa7a448df02b102e32cd2737fe239c686",
+    "STATUS.md": "8defec41afb6ece42bc88822e8b9a65ad83ff49d",
+    "experiment/ablation.mjs": "ed0e5b600425f67ae3e60e9809d8b9c8378bcaae",
+    "experiment/run.mjs": "e5987fb6021fa0ed550166c8c45c8f4acce6fc1e",
+    "experiment_metadata.json": "ea2c3e2f17ce32364a4dddf801121a4fd738a798",
+    "raw_metrics/repro-wave-20260812.json": "363c22a11abbe8fbb7f0b261054f4e46f9723e24",
+    "src/core.mjs": "7826f9ba4577b471250ef13faa8e2c854aae4a73",
+    "src/robust_readouts.mjs": "badbc9529d04bc851b7782a9848e81d2d3aaf39a"
+  },
+  "source_blob_count": 11,
+  "implementation_and_experiment_blobs_verified_identical_at_archive_and_freeze_commits": true,
+  "output_digest_reference": "https://github.com/vertex-studyAI/vertexED.ai/pull/567",
+  "expected_stdout_sha256": {
+    "run.json": "7b26bfcf82444b1de868092c8391a3772bd4e6acc5d64468839f9af6290a3db1",
+    "ablation.json": "f61dd31562ce2f5638535a90ab2d700aed494790e9aca515797595158ee9ee4e"
+  },
+  "numeric_reference": "projects/T2424-0025/raw_metrics/repro-wave-20260812.json",
+  "new_seeds": 0,
+  "new_protocols": 0,
+  "historical_files_modified": false,
+  "publication_ready": false,
+  "vertexed_main_modified": false
+}

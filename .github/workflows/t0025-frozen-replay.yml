@@ -1,0 +1,62 @@
+name: T2424-0025 frozen source recovery and replay
+
+on:
+  push:
+    branches:
+      - research/project2424-t0025-recovery-20260926
+
+permissions:
+  contents: read
+
+concurrency:
+  group: t0025-frozen-replay-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  frozen-replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout isolated research branch
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Set exact documented repository-conformant Node version
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: '22.22.0'
+      - name: Validate replay checker and all recovered source blobs
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p evidence/replay
+          printf '%s\n' "$GITHUB_SHA" > evidence/execution-commit.txt
+          node --version | tee evidence/node-version.txt
+          python3 --version | tee evidence/python-version.txt
+          python3 -m unittest discover -s reproduction -p 'test_*.py' -v 2>&1 | tee evidence/replay-guard-tests.txt
+          python3 reproduction/verify_replay.py source | tee evidence/source-verification.json
+      - name: Replay the unchanged documented commands with bounded runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd projects/T2424-0025
+          /usr/bin/time -p timeout 60s node experiment/run.mjs > ../../evidence/replay/run.json 2> ../../evidence/replay/run.time
+          /usr/bin/time -p timeout 60s node experiment/ablation.mjs > ../../evidence/replay/ablation.json 2> ../../evidence/replay/ablation.time
+      - name: Require retained stdout digests and all retained numeric results
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 reproduction/verify_replay.py results | tee evidence/replay-verification.json
+      - name: Retain unchanged source, stdout, environment and verification receipts
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: t2424-0025-frozen-replay
+          path: |
+            projects/T2424-0025/
+            reproduction/*.py
+            evidence/
+            README.md
+            SOURCE_PROVENANCE.json
+          if-no-files-found: error
+          retention-days: 30
