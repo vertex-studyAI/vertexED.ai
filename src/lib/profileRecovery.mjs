@@ -7,6 +7,72 @@ function firstNonEmptyString(...values) {
   return null;
 }
 
+const VALID_BOARDS = new Set([
+  'IB_MYP',
+  'IB_DP',
+  'IGCSE',
+  'GCSE',
+  'A_LEVELS',
+  'AP',
+  'CBSE',
+  'ICSE',
+]);
+
+function metadataValue(metadata, flatKey, nestedKey) {
+  if (!metadata || typeof metadata !== 'object') return undefined;
+  if (metadata[flatKey] !== undefined) return metadata[flatKey];
+  const preferences = metadata.preferences;
+  return preferences && typeof preferences === 'object'
+    ? preferences[nestedKey]
+    : undefined;
+}
+
+function recoverableCurriculum(user) {
+  const metadata = user?.user_metadata ?? {};
+  const board = metadataValue(metadata, 'board', 'board');
+  const rawGrade = metadataValue(metadata, 'grade', 'grade');
+  const grade = typeof rawGrade === 'number' && Number.isInteger(rawGrade)
+    ? rawGrade
+    : typeof rawGrade === 'string' && /^\d{1,2}$/.test(rawGrade.trim())
+      ? Number.parseInt(rawGrade.trim(), 10)
+      : null;
+  const rawSubjects = metadataValue(metadata, 'subjects', 'subjects');
+  const subjects = Array.isArray(rawSubjects)
+    ? [...new Set(rawSubjects.flatMap(subject => (
+        typeof subject === 'string' && subject.trim() ? [subject.trim()] : []
+      )))]
+    : [];
+
+  if (typeof board !== 'string' || !VALID_BOARDS.has(board) || grade === null || subjects.length === 0) {
+    return null;
+  }
+
+  const rawExamDate = metadataValue(metadata, 'exam_date', 'examDate');
+  const examDate = typeof rawExamDate === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(rawExamDate.trim())
+    ? rawExamDate.trim()
+    : null;
+
+  return { board, grade, subjects, exam_date: examDate };
+}
+
+/**
+ * Recover only missing durable curriculum fields from already-complete Auth
+ * metadata. Never overwrite learner-edited profile curriculum with Auth data.
+ */
+export function buildMissingCurriculumRecovery(profile, user) {
+  const curriculum = recoverableCurriculum(user);
+  if (!curriculum) return {};
+
+  const recovery = {};
+  if (typeof profile?.board !== 'string' || !profile.board.trim()) recovery.board = curriculum.board;
+  if (!Number.isInteger(profile?.grade)) recovery.grade = curriculum.grade;
+  if (!Array.isArray(profile?.subjects) || profile.subjects.length === 0) recovery.subjects = curriculum.subjects;
+  if ((!profile?.exam_date || typeof profile.exam_date !== 'string') && curriculum.exam_date) {
+    recovery.exam_date = curriculum.exam_date;
+  }
+  return recovery;
+}
+
 export function getProfileIdentityFields(user, metadata = {}) {
   return {
     email: typeof user?.email === 'string' && user.email.trim() ? user.email.trim() : null,
