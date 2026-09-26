@@ -114,7 +114,7 @@ export function buildProfileUpdate(user, metadata = {}, updatedAt = new Date().t
 }
 
 export function buildMissingProfileInsert(user, metadata = {}, updatedAt = new Date().toISOString()) {
-  const fields = getProfileIdentityFields(user, metadata, updatedAt);
+  const fields = getProfileIdentityFields(user, metadata);
   return {
     id: user.id,
     email: fields.email,
