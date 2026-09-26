@@ -1,205 +1,80 @@
-VertexED.ai is an all‑in‑one study hub aiming to make the process of education better for all.
+# Project2424: immutable baseline recovery and integrity
 
-## Overview
+**Research-only archive branch. Do not merge this branch into VertexED `main`.**
 
-This project brings together AI assisted study utilities (notes, quiz, paper generator, answer reviewer, chatbot, study planner) in a single modern, accessible web app built with:
+This package recovers the exact committed 2026-08-30 registry snapshot and hardens
+its validator. It does not restore portfolio code to the VertexED application,
+change a research protocol, execute an experiment, or grant publication readiness.
 
-- React + TypeScript (Vite)
-- Tailwind CSS with a small layer of custom design tokens (HSL variables) for dark/light theming
-- Supabase (auth + data)
-- Serverless / edge functions (API route scripts)
+## Source and scope
 
-## Key Features (current focus)
+The original source is `vertex-studyAI/vertexED.ai` at commit
+`016e1bdc1f6e38f80d7bbe8b596bcb5349fa0c0a`, previously retained by closed,
+unmerged PR #601. The registry archive and summary are reused as the **original
+Git blobs**, not regenerated or transcribed. See `SOURCE_PROVENANCE.json`.
 
-- AI Note Taking & Quiz Generation
-- Paper / Mock Exam Generator
-- Study Planner (calendar + schedule + AI task suggestions)
-- Answer Reviewer & Chatbot assistant
-
-## Design Tokens & Theming
-
-The UI relies on CSS custom properties defined globally (see `index.css`). Core tokens include:
+The independent uncompressed CSV SHA-256 anchor is:
 
 ```
---background
---foreground
---card
---primary
---accent
---border
+84066ec134c0f9c216e23f18e9765efa439bee7f6be46dd5d6d29e9178f926d7
 ```
 
-Planner-specific styling now consumes ONLY these tokens (no hard‑coded hex colors) to ensure visual consistency with the rest of the app. Any additional color nuance (e.g. subtle gradients or glass effects) is derived using transparency (`background: hsl(var(--card) / 0.7)`) or layered shadows rather than introducing new brand colors.
+The snapshot records 2,424 T identities, 24 historically source-backed entries,
+5 historically evidence-audited entries, 19 awaiting full evidence audit, 2,400
+source-unrecovered entries, and zero submission-ready entries. These are **dated
+registry assertions**, not a fresh audit of the underlying experiments or proof
+that the 24 source packages are included here. They are not included here.
 
-## Study Planner Styling Guide
+## Run
 
-Files of interest:
+Python 3.10 or newer; standard library only. No model, GPU, training dependency,
+network request, or paid API is used by either command.
 
-- `src/pages/StudyPlanner.tsx` (page wrapper)
-- `src/app/.../PlannerView.tsx` (main orchestrator – calendar, schedule, widgets, AI modal)
-- `src/app/.../Calendar.tsx`
-- `src/app/.../Schedule.tsx`
-- `src/app/.../TimeLeftWidget.tsx`
-- `planner.css` (theme-aligned custom rules – font, layout refinements, glass surfaces, focus rings)
-
-### Fonts
-The entire planner enforces the project primary font `"Sen", sans-serif`. If you add new interactive elements, rely on inheritance; only explicitly set the font where browser default widgets might override it.
-
-### Layout Principles
-
-- Responsive flex / grid wrappers (avoid fixed heights where possible)
-- Intrinsic sizing for modals (AI Add Task popup auto-sizes to content)
-- Consistent spacing scale (Tailwind `gap-*`, `p-*` utilities)
-- Avoid magic numbers for vertical alignment; prefer flexbox centering
-
-### Tasks & Time Slots
-
-- Tasks are rendered as accessible interactive elements (`role="button"`, keyboard activation with Enter/Space)
-- Font weight & contrast validated against dark background using token values
-- Completed state handled via styling class (check `Schedule.tsx` for logic)
-
-### Calendar
-
-- Days are keyboard navigable (`tabIndex=0`)
-- `aria-current="date"` applied to the selected day
-- Focus ring uses `--primary` for consistent theming
-
-### AI Add Task Modal
-
-- Semantic dialog attributes: `role="dialog"`, `aria-modal="true"`
-- Vertically centered via flex container on the viewport wrapper
-- Advanced options appear in an auto-fit responsive grid
-
-### Extending Styles
-
-Keep additions token-driven:
-
-```
-/* Example: subtle elevated surface */
-.planner-surface {
-	background: hsl(var(--card) / 0.75);
-	backdrop-filter: blur(12px) saturate(140%);
-	box-shadow: 0 4px 10px -2px hsl(var(--background) / 0.6), 0 0 0 1px hsl(var(--border) / 0.4);
-}
+```bash
+python3 -m unittest discover -s baseline -p 'test_*.py' -v
+python3 baseline/validate_project2424_baseline.py
 ```
 
-## Accessibility Enhancements
+The CLI is read-only, prints JSON, and exits 1 for rejected input. The `--root`
+argument selects a directory containing the archive and summary. There is **no
+CLI override** for the pinned trust anchor. This verifies only the immutable
+August snapshot; a later snapshot needs a separately reviewed provenance record.
 
-- Calendar & tasks fully keyboard operable
-- Focus-visible outlines with sufficient contrast
-- ARIA roles/labels for interactive and dialog elements
-- Reduced motion friendly (animation kept subtle / removable)
+## What changed
 
-When adding new components, ensure:
+The archived checker compared the CSV only with a checksum in its mutable sibling
+summary. The replacement additionally checks an independently pinned digest,
+the exact ordered 31-column schema, complete unique ordered identities, nonblank
+fields, namespace/crosswalk restrictions, historical dates, per-identity source
+classifications, all five frozen verdicts, and typed row-derived summary totals
+and histograms. It rejects duplicate JSON keys, non-finite JSON values, malformed
+CSV/gzip, missing inputs, symlink inputs, and oversized inputs. Diagnostics are
+bounded rather than growing without limit or crashing on a missing protected ID.
 
-1. Keyboard navigation (Enter/Space activation, Escape to dismiss modals)
-2. Meaningful `aria-label` or visible text
-3. Focus trapping inside modals (if multiple new focusable elements introduced)
+The local test suite uses explicitly labeled synthetic **software test fixtures**,
+not research results. Test-only mock trust anchors are confined to the Python
+unit-test process. The separate CI snapshot step uses the unmodified production
+anchor and the original archived CSV and summary. A unit-test pass must never be
+substituted for that integration check.
 
-## Development
+## Unchanged scientific boundaries
 
-Install & run (Node 22.x recommended — see `engines` in `package.json`):
+- T2424-0025 remains mechanism-non-unique; it is not a unique NGMT result.
+- T2424-0027 v3 retains its failed real-encoder gate and is not reverted to pending.
+- T2424-0037 retains the validation-dominant, typed-mechanism-falsified boundary.
+- T2424-0050 remains HOLD / no auto-merge or deploy.
+- T2424-1863 retains its frozen negative gate.
 
-```
-npm install
-cp .env.example .env.local   # then fill in your keys
-npm run dev
-```
+No P-to-T suffix matching, new experiments, rescue tuning, score updates, or
+current source-presence assertions are introduced. A snapshot-integrity pass is
+not independent experimental reproduction, novelty evidence, or scientific
+completion. Later evidence must be reconciled separately without rewriting this
+historical archive.
 
-Build:
+## Repository isolation
 
-```
-npm run build
-```
-
-## Environment Variables
-
-Copy `.env.example` to `.env.local` for local development. The same variables must be set in **Vercel → Project → Settings → Environment Variables** for production.
-
-| Variable | Where | Purpose |
-|----------|-------|---------|
-| `VITE_SUPABASE_URL` | Client | Supabase project URL |
-| `VITE_SUPABASE_ANON_KEY` | Client | Supabase anon key (auth) |
-| `SUPABASE_URL` | Server | Same URL, for `/api/waitlist` and JWT verification |
-| `SUPABASE_SERVICE_ROLE_KEY` | Server | Service role key (waitlist only — never expose) |
-| `SUPABASE_ANON_KEY` | Server | Anon key for verifying user JWTs on AI API routes |
-| `ADMIN_EMAILS` | Server | Comma-separated emails allowed to use `/admin/waitlist` |
-| `OPENAI_API_KEY` / `ChatbotKey` | Server | AI features (chatbot, notes, quiz, review, papers) |
-| `GEMINI_API_KEY` | Server | Study Planner AI (`/api/planner`) — do not use `VITE_` prefix |
-
-See `.env.example` for the full list and optional overrides.
-
-## Supabase Setup
-
-1. Create a project at [supabase.com](https://supabase.com).
-2. Run `supabase/schema.sql` in **SQL Editor** (creates `profiles`, `waitlist`, rate-limit table, and RPCs).
-   - If you already ran an older schema, also run `supabase/migrations/20260708_phase3_waitlist_auth.sql`.
-   - For planner cloud sync: run `supabase/migrations/20260711_planner_artifact_kind.sql`.
-3. Enable **Email** auth under Authentication → Providers.
-4. Enable **Google** OAuth if using Google login; set redirect URL to:
-   - Local: `http://localhost:8080/auth/callback`
-   - Production: `https://www.vertexed.app/auth/callback`
-5. Copy **Project URL**, **anon key**, and **service role key** into your env file.
-6. Waitlist signups (`/signup`) write to the `waitlist` table via `/api/waitlist` using the service role key.
-7. Manage waitlist at **`/admin/waitlist`** (set `ADMIN_EMAILS` in Vercel to your login email) or via Supabase Table Editor.
-
-### Waitlist behavior
-- Emails are normalized to lowercase before storage.
-- Duplicate emails and existing auth accounts are rejected with clear errors.
-- Rate limited to **5 submissions per IP per minute** (stored in `waitlist_rate_limits`).
-- Optional env: `WAITLIST_RATE_LIMIT_SALT` to salt IP hashes.
-- **Account creation** (`/api/signup-invite`): requires either a valid team invite code **or** `waitlist.status = approved` for that email. Pending/rejected waitlist emails cannot create accounts without a code.
-
-### Security (AI routes)
-- All AI API routes (`/api/ask`, `/api/note`, `/api/quiz`, `/api/transcribe`, `/api/paper-generator`, `/api/review`, `/api/planner`) require a valid Supabase session token (`Authorization: Bearer <jwt>`).
-- `/api/waitlist` remains public (no auth).
-- `/api/waitlist-admin` requires auth + email in `ADMIN_EMAILS`.
-- `GET /api/health` is public (deploy monitoring).
-- Set `SUPABASE_ANON_KEY` on the server (same value as `VITE_SUPABASE_ANON_KEY`) for JWT verification.
-- `GEMINI_API_KEY` is server-only; never expose Gemini keys with a `VITE_` prefix.
-
-## Deployment (Vercel)
-
-- Framework preset: Vite (or leave as Other; `vercel.json` configures the build).
-- Build command: `ROLLUP_SKIP_NODEJS_NATIVE=true npm run build` (set in `vercel.json`).
-- Install uses `npm ci` for reproducible builds from `package-lock.json`.
-- SPA rewrites and API routes are configured in `vercel.json`.
-
-## CI & Testing
-
-GitHub Actions runs on push/PR to `main`:
-
-| Command | Purpose |
-|---------|---------|
-| `npm test` | Unit + handler smoke tests (auth, waitlist validation, `/api/ask` 401) |
-| `npm run build:ci` | Production build without SEO ping side effects |
-| `npm run lint:ci` | Lint `api/lib` and `tests` only |
-| `npm run ci` | Full local CI: lint + test + build |
-| `npm run test:smoke` | Live checks against `https://www.vertexed.app` (or `SMOKE_BASE_URL`) |
-
-Pre-deploy QA: see [`docs/QA_CHECKLIST.md`](docs/QA_CHECKLIST.md).
-
-**Launch gate:** [`docs/PRODUCTION_LAUNCH.md`](docs/PRODUCTION_LAUNCH.md)
-
-## Contributing Notes
-
-Styling Consistency Checklist:
-
-- Use design tokens – never raw hex unless adding a new global variable
-- Reuse shared utility classes or create a small, purposeful class (avoid deep nesting)
-- Maintain font: `Sen` for all textual UI
-- Provide focus styles (rely on `:focus-visible` + outline)
-- Test dark mode contrast (use a contrast checker if introducing new combinations)
-
-## Future Improvements (Ideas)
-
-- Mobile-specific condensed planner layout
-- Task categories / color coding via token hue shifts
-- Animation preference toggle (reduced motion)
-- Drag & drop task rescheduling
-
----
-
-This document will evolve as new features/components are added. Feel free to extend sections with implementation details or architectural decisions.
-
-✨✨😊😁
+VertexED's current `VERTEXED_REPO_ISOLATION.md` records the owner-approved
+September 9 removal of cross-project material. This standalone archive branch
+preserves that separation. Its tree contains only this baseline package and a
+bounded Python verification workflow, not VertexED runtime code or old research
+workflows. Neither `main` nor the original archived commit is changed.

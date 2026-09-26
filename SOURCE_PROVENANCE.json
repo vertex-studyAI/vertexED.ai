@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "operation": "RECOVER_IMMUTABLE_BASELINE_AND_HARDEN_VALIDATION",
+  "source_repository": "vertex-studyAI/vertexED.ai",
+  "source_commit": "016e1bdc1f6e38f80d7bbe8b596bcb5349fa0c0a",
+  "source_pull_request": 601,
+  "source_pull_request_state_at_inspection": "CLOSED_UNMERGED",
+  "snapshot_date": "2026-08-30",
+  "recovery_date": "2026-09-26",
+  "original_blobs": {
+    "baseline/PROJECT2424_MINIMUM_BASELINE_20260830.csv.gz": {
+      "original_path": "portfolio/project2424/baseline/PROJECT2424_MINIMUM_BASELINE_20260830.csv.gz",
+      "git_blob_sha1": "2d1a95fd71f1779e24f54965489db86a4d753d85",
+      "uncompressed_csv_sha256": "84066ec134c0f9c216e23f18e9765efa439bee7f6be46dd5d6d29e9178f926d7"
+    },
+    "baseline/PROJECT2424_MINIMUM_BASELINE_SUMMARY_20260830.json": {
+      "original_path": "portfolio/project2424/baseline/PROJECT2424_MINIMUM_BASELINE_SUMMARY_20260830.json",
+      "git_blob_sha1": "2ab0f751293bbc94dab3024fcdc91ec43c0e8094"
+    }
+  },
+  "replaced_validator_original_git_blob_sha1": "c0b4fa6ff19396de4a0f6b7161041c2923272ff1",
+  "data_regenerated": false,
+  "current_source_presence_verified": false,
+  "source_packages_recovered_by_this_package": 0,
+  "new_scientific_experiments": 0,
+  "scientific_promotion_authorized": false,
+  "vertexed_main_modified": false,
+  "merge_into_vertexed_main_permitted": false
+}

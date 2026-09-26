@@ -1,0 +1,50 @@
+name: Project2424 baseline archive integrity
+
+on:
+  push:
+    branches:
+      - research/project2424-baseline-integrity-20260926
+
+permissions:
+  contents: read
+
+concurrency:
+  group: project2424-baseline-integrity-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify-immutable-snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout isolated research branch
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Run adversarial software tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p evidence
+          python3 --version | tee evidence/python-version.txt
+          printf '%s\n' "$GITHUB_SHA" > evidence/execution-commit.txt
+          python3 -m unittest discover -s baseline -p 'test_*.py' -v 2>&1 | tee evidence/unit-tests.txt
+      - name: Verify original archived registry against independent trust anchor
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 baseline/validate_project2424_baseline.py | tee evidence/snapshot-validation.json
+      - name: Retain exact code, original snapshot and verification receipts
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: project2424-baseline-integrity
+          path: |
+            baseline/*.py
+            baseline/*.gz
+            baseline/*.json
+            evidence/
+            README.md
+            SOURCE_PROVENANCE.json
+          if-no-files-found: error
+          retention-days: 30

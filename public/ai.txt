@@ -1,9 +1,0 @@
-# ai.txt — Pointer for AI crawlers
-# Some bots look for /ai.txt; others for /llms.txt. Keep both.
-
-# Primary metadata file
-llms: https://www.vertexed.app/llms.txt
-
-# Fallbacks
-sitemap: https://www.vertexed.app/sitemap.xml
-policy: allow
