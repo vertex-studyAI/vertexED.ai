@@ -26,6 +26,7 @@ async function withProvider(verify) {
     export const setPlannerStorageScope = () => {};
     export const trackLogout = () => {};
     export const buildMissingCurriculumRecovery = () => ({});
+    export const withCurriculumRecoverySnapshot = query => query;
     export const buildMissingProfileInsert = () => ({});
     export const buildProfileUpdate = () => ({});
     export const isOnboardingComplete = () => false;
