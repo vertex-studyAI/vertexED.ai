@@ -55,10 +55,11 @@ type Options = {
   sources?: import('@/lib/notebook').GroundedSourcePayload[];
   /** Semantic model role. Provider/model selection stays server-side. */
   mode?: ChatbotMode;
+  learningMode?: string;
   onSessionRecord?: () => void;
 };
 
-export function useApexChat({ context, threadKey, sources, mode, onSessionRecord }: Options) {
+export function useApexChat({ context, threadKey, sources, mode, learningMode, onSessionRecord }: Options) {
   const { user, loading: authLoading } = useAuth();
   const accountScope = authLoading ? undefined : user?.id ?? null;
   const storageKey = apexChatStorageKey(context.page, threadKey, accountScope);
@@ -173,6 +174,7 @@ export function useApexChat({ context, threadKey, sources, mode, onSessionRecord
           context,
           sources,
           mode,
+          learningMode,
           signal: requestController.signal,
         });
         if (requestRef.current !== requestId || storageKeyRef.current !== requestStorageKey) return false;
@@ -229,7 +231,7 @@ export function useApexChat({ context, threadKey, sources, mode, onSessionRecord
         }
       }
     },
-    [authLoading, context, sources, mode, input, loading, messages, onSessionRecord, storageKey],
+    [authLoading, context, sources, mode, learningMode, input, loading, messages, onSessionRecord, storageKey],
   );
 
   return {

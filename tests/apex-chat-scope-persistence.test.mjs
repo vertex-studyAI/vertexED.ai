@@ -27,6 +27,6 @@ test('Apex chat result ownership is bound to the initiating account and thread s
   );
   assert.match(
     apexSource,
-    /\[authLoading, context, sources, mode, input, loading, messages, onSessionRecord, storageKey\]/,
+    /\[authLoading, context, sources, mode, learningMode, input, loading, messages, onSessionRecord, storageKey\]/,
   );
 });

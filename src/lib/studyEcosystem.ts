@@ -38,7 +38,7 @@ export type EcosystemBrief = {
   todayTasks: PlannerTaskPreview[];
   recentActivity: ActivityEntry[];
   learningPath: LearningPathStep[];
-  dailyProgress: number;
+  dailyProgress: number | null;
   suggestions: string[];
   weekFocus: string[];
   examDaysLeft: number | null;
@@ -76,7 +76,7 @@ export function getTodayPlannerTasks(): PlannerTaskPreview[] {
   const today = todayUsDate();
   return readStoredArray(plannerStorageKeys().tasks)
     .filter(isRecord)
-    .filter((task) => task.date === today && typeof task.id === 'string' && task.id.trim())
+    .filter((task) => !task.completed && task.taskKind !== 'commitment' && task.date === today && typeof task.id === 'string' && task.id.trim())
     .map((task) => ({
       id: task.id as string,
       name: typeof task['task name'] === 'string'
@@ -105,14 +105,11 @@ export function buildEcosystemBrief(
   const recentActivity = getRecentActivity(4);
   const learningPath = getGoalLearningPath(profile.studyGoal);
 
-  const habitProgress =
-    stats.habitCount > 0 ? stats.habitsDoneToday / stats.habitCount : 0;
-  const flashProgress = dueFlashcards === 0 ? 1 : 0;
-  const plannerProgress = todayTasks.length === 0 ? 0.5 : 0;
-  const streakSignal = stats.studyStreak > 0 ? 1 : 0;
-  const dailyProgress = Math.round(
-    ((habitProgress + flashProgress + plannerProgress + streakSignal) / 4) * 100,
-  );
+  const scheduledToday = readStoredArray(plannerStorageKeys().tasks).filter(isRecord)
+    .filter(task => task.date === todayUsDate() && task.taskKind !== 'commitment');
+  const totalActions = scheduledToday.length + stats.habitCount;
+  const completedActions = scheduledToday.filter(task => task.completed === true).length + Math.min(stats.habitCount, stats.habitsDoneToday);
+  const dailyProgress = totalActions ? Math.round(100 * completedActions / totalActions) : null;
 
   const suggestions: string[] = [];
   if (dueFlashcards > 0) {

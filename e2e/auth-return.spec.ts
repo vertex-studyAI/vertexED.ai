@@ -15,7 +15,7 @@ function fragment(type = '') {
   return `#${new URLSearchParams({ access_token: token(), refresh_token: 'fixture-refresh', expires_in: '3600', token_type: 'bearer', ...(type ? { type } : {}) })}`;
 }
 async function harness(page: Page, rejectToken = false) {
-  await page.route('https://vertexed-e2e.supabase.co/**', route => {
+  await page.route(/^https:\/\/[^/]+\.supabase\.co\//, route => {
     const path = new URL(route.request().url()).pathname;
     if (path === '/auth/v1/user') return route.fulfill({ status: rejectToken ? 401 : 200, json: rejectToken ? { code: 'bad_jwt', message: 'fixture rejected' } : user });
     if (path === '/rest/v1/profiles') return route.fulfill({ json: { ...user, full_name: 'Test learner' } });
@@ -75,7 +75,7 @@ test('manual planner works without AI, preserves midnight, rejects clashes and s
       const bounds = await dialog.boundingBox();
       expect(bounds!.x).toBeGreaterThanOrEqual(0);
       expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(width + 1);
-      for (const input of await dialog.locator('input').all()) {
+      for (const input of await dialog.locator('input:not([type=checkbox])').all()) {
         const field = await input.boundingBox();
         expect(field!.width).toBeGreaterThan(120);
         expect(field!.x + field!.width).toBeLessThanOrEqual(bounds!.x + bounds!.width);
@@ -132,7 +132,8 @@ test('manual planner works without AI, preserves midnight, rejects clashes and s
   await complete.focus();
   await page.keyboard.press('Enter');
   await expect(page.getByRole('dialog')).toHaveCount(0);
-  await expect.poll(() => page.evaluate(id => JSON.parse(localStorage.getItem(`vertex_planner:${id}:tasks`) || '[]').length, id)).toBe(1);
+  await expect.poll(() => page.evaluate(id => JSON.parse(localStorage.getItem(`vertex_planner:${id}:tasks`) || '[]').filter((task: { completed?: boolean }) => !task.completed).length, id)).toBe(1);
+  await expect(page.getByText('Recent completed tasks', { exact: true })).toBeVisible();
   expect(aiRequests).toBe(1);
   expect(errors).toEqual([]);
 });

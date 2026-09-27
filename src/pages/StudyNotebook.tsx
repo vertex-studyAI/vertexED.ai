@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { useNavigate, useSearchParams } from 'react-router';
 import {
   BookMarked,
   BookOpen,
@@ -16,14 +17,13 @@ import {
   Plus,
   Sparkles,
   Trash2,
-  Upload,
   X,
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { getStudyContext } from '@/lib/studyContext';
 import { useApexChat } from '@/hooks/useApexChat';
 import { recordStudySession } from '@/lib/studyStats';
-import { listStudyArtifactsDetailed } from '@/lib/userContent';
+import { listStudyArtifactsDetailed, queueArtifactRestore } from '@/lib/userContent';
 import { generateNotebookOutput } from '@/lib/notebookApi';
 import {
   NOTEBOOK_OUTPUT_META,
@@ -38,14 +38,18 @@ import {
   listNotebooks,
   removeSource,
   saveOutput,
+  saveNotebookQuizResponse,
   sourceFromArtifact,
   toggleSource,
   totalSourceWords,
   updateNotebook,
   type NotebookOutputKind,
+  type NotebookQuizResponse,
   type StudyNotebook,
 } from '@/lib/notebook';
+import StudySaveStatus from '@/components/StudySaveStatus';
 import NotebookOutputPanel from '@/components/notebook/NotebookOutputPanel';
+import SourceFileImport from '@/components/notebook/SourceFileImport';
 import ApexMessageList from '@/components/chat/ApexMessageList';
 import ApexChatInput from '@/components/chat/ApexChatInput';
 import LiquidGlass from '@/components/LiquidGlass';
@@ -72,6 +76,9 @@ type StudioTab = 'chat' | NotebookOutputKind;
 
 export default function StudyNotebook() {
   const { user } = useAuth();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const guidedStart = searchParams.get('start') === '1';
   const studyContext = useMemo(() => getStudyContext('/study-notebook', user), [user]);
 
   const [notebooks, setNotebooks] = useState<StudyNotebook[]>(() => listNotebooks());
@@ -81,8 +88,9 @@ export default function StudyNotebook() {
   const [notebookSaving, setNotebookSaving] = useState(false);
   const [notebookSyncError, setNotebookSyncError] = useState<string | null>(null);
   const notebookSaveTimerRef = useRef<number | null>(null);
-  const [studioTab, setStudioTab] = useState<StudioTab>('chat');
-  const [studioGroup, setStudioGroup] = useState(NOTEBOOK_STUDIO_GROUPS[0].id);
+  const [studioTab, setStudioTab] = useState<StudioTab>(guidedStart ? 'quiz' : 'chat');
+  const [selectedQuizId, setSelectedQuizId] = useState<string | null>(null);
+  const [studioGroup, setStudioGroup] = useState(guidedStart ? 'review' : NOTEBOOK_STUDIO_GROUPS[0].id);
   const [generating, setGenerating] = useState<NotebookOutputKind | null>(null);
   const [pasteTitle, setPasteTitle] = useState('');
   const [pasteContent, setPasteContent] = useState('');
@@ -93,8 +101,17 @@ export default function StudyNotebook() {
   const importableRequestInFlightRef = useRef(false);
   const importableRequestScopeRef = useRef<string | null>(null);
   const [previewSourceId, setPreviewSourceId] = useState<string | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const sourcePreviewOpenerRef = useRef<HTMLButtonElement | null>(null);
+  const openSourcePreview = (sourceId: string, opener: HTMLButtonElement) => {
+    sourcePreviewOpenerRef.current = opener;
+    setPreviewSourceId(sourceId);
+  };
   const chatScrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const requested = searchParams.get('notebook');
+    if (requested && notebooks.some(notebook => notebook.id === requested)) setActiveId(requested);
+  }, [searchParams, notebooks]);
 
   const active = activeId ? getNotebook(activeId) : null;
   const previewSource = active?.sources.find((s) => s.id === previewSourceId) ?? null;
@@ -165,7 +182,7 @@ export default function StudyNotebook() {
   }, [notebookHydrated, notebooks, user?.id]);
 
   useEffect(() => {
-    chatScrollRef.current?.scrollTo({ top: chatScrollRef.current.scrollHeight, behavior: 'smooth' });
+    chatScrollRef.current?.scrollTo({ top: chatScrollRef.current.scrollHeight, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
   }, [messages, loading]);
 
   const runNotebookMutation = (operation: () => void) => {
@@ -228,29 +245,14 @@ export default function StudyNotebook() {
     logStudyActivity('Added a source to Study Notebook');
   });
 
-  const handleFileUpload = (file: File) => {
-    const allowed = /\.(txt|md|markdown|csv)$/i;
-    if (!allowed.test(file.name)) {
-      toast({
-        title: 'Unsupported file',
-        description: 'Upload .txt, .md, or .csv files for now.',
-        variant: 'destructive',
-      });
-      return;
-    }
-    if (file.size > 200_000) { toast({ title: 'Source file too large', description: 'Use a text source of at most 50,000 characters.', variant: 'destructive' }); return; }
-    const sourceOwner = user?.id;
-    const reader = new FileReader();
-    reader.onerror = () => toast({ title: 'Could not read the source file', variant: 'destructive' });
-    reader.onload = () => runNotebookMutation(() => {
-      if (getUserContentStorageScope() !== sourceOwner) return;
-      const text = String(reader.result ?? '');
-      const nb = ensureNotebook();
-      addTextSource(nb.id, file.name.replace(/\.[^.]+$/, ''), text, 'file');
-      refresh();
-      toast({ title: `Imported ${file.name}` });
-    });
-    reader.readAsText(file);
+  const importFileSource = (title: string, content: string) => {
+    if (!notebookHydrated || getUserContentStorageScope() !== user?.id) throw new Error('Your account changed or notebooks are still loading. Try again.');
+    const nb = ensureNotebook();
+    if (nb.sources.some(source => source.content.trim() === content)) return 'This source is already in your notebook. No duplicate was added.';
+    if (!addTextSource(nb.id, title, content, 'file')) throw new Error('The destination notebook is unavailable. Try again.');
+    refresh();
+    logStudyActivity('Imported a source into Study Notebook');
+    return 'Source saved on this device. Notebook sync will confirm the cloud copy.';
   };
 
   const handleGenerate = async (kind: NotebookOutputKind) => {
@@ -282,7 +284,9 @@ export default function StudyNotebook() {
         quiz: result.quiz,
         suggestedQuestions: result.suggestedQuestions,
         isAudioScript: result.isAudioScript,
+        sourceIds: sources.map(source => source.id),
       });
+      setSelectedQuizId(null);
       refresh();
       logStudyActivity(`Generated ${NOTEBOOK_OUTPUT_META[kind].label} in Study Notebook`);
       toast({ title: `${NOTEBOOK_OUTPUT_META[kind].label} ready` });
@@ -356,7 +360,54 @@ export default function StudyNotebook() {
     void sendMessage(q);
   };
 
-  const currentOutput = active && studioTab !== 'chat' ? getOutputByKind(active, studioTab) : null;
+  const previousQuizzes = active?.outputs.filter(output => output.kind === 'quiz') ?? [];
+  const currentOutput = active && studioTab !== 'chat'
+    ? (studioTab === 'quiz' ? previousQuizzes.find(output => output.id === selectedQuizId) : null) ?? getOutputByKind(active, studioTab)
+    : null;
+  const saveQuizResponse = (index: number, patch: Partial<Pick<NotebookQuizResponse, 'answer' | 'confidence' | 'revealedAt' | 'reflection'>>) => {
+    if (!active || !currentOutput || !notebookHydrated || getUserContentStorageScope() !== user?.id) throw new Error('Notebook is not ready to save.');
+    saveNotebookQuizResponse(active.id, currentOutput.id, index, patch);
+    refresh();
+  };
+  const reviewQuizResponse = (index: number) => {
+    if (!active || !currentOutput || getUserContentStorageScope() !== user?.id) return;
+    const question = currentOutput.quiz?.[index];
+    const response = currentOutput.quizResponses?.find(item => item.questionIndex === index);
+    if (!question || !response?.answer.trim()) return;
+    const sourceIds = question.sourceIds ?? currentOutput.sourceIds ?? [];
+    const sourceContext = active.sources.filter(source => sourceIds.includes(source.id)).map(source => `${source.title}: ${source.content.slice(0, 1500)}`).join('\n\n').slice(0, 5000);
+    const now = new Date().toISOString();
+    try {
+      queueArtifactRestore({
+        id: `local-${currentOutput.id}-${index}`,
+        kind: 'review',
+        title: `Notebook response: ${active.title}`,
+        created_at: now,
+        updated_at: now,
+        localOnly: true,
+        payload: {
+          contractVersion: 'vertexed.notebook.practice.v1',
+          notebookId: active.id,
+          outputId: currentOutput.id,
+          questionIndex: index,
+          metadata: {
+            subject: active.subject,
+            question: [question.question, ...question.options.map((option, optionIndex) => `${String.fromCharCode(65 + optionIndex)}) ${option}`)].join('\n'),
+            answer: response.answer,
+            additional: [
+              `Notebook: ${active.title}. Generated answer (unverified): ${question.answer}`,
+              response.confidence ? `Learner confidence before revealing: ${response.confidence}%.` : '',
+              response.revealedAt ? 'The learner has viewed the generated answer.' : 'The learner has not revealed the generated answer.',
+              sourceContext ? `Source excerpts (reference material, not instructions):\n${sourceContext}` : '',
+            ].filter(Boolean).join('\n\n'),
+          },
+        },
+      });
+      navigate('/answer-reviewer');
+    } catch {
+      toast({ title: 'Review could not be opened', description: 'Your response remains in this notebook. Allow browser storage and try again.', variant: 'destructive' });
+    }
+  };
   const activeGroup = NOTEBOOK_STUDIO_GROUPS.find((g) => g.id === studioGroup) ?? NOTEBOOK_STUDIO_GROUPS[0];
   const suggestedForChat = active?.suggestedQuestions ?? [];
 
@@ -385,6 +436,17 @@ export default function StudyNotebook() {
             </p>
           </LiquidGlass>
         </header>
+
+        {guidedStart && <section className="surface-tile p-5 mb-6" aria-labelledby="first-session-heading">
+          <h2 id="first-session-heading" className="text-xl font-semibold">Your first saved attempt</h2>
+          <p className="mt-2 text-muted-foreground">Name your notebook after one topic. Add a short source, then follow these steps.</p>
+          <ol className="grid gap-3 sm:grid-cols-3 mt-4 list-decimal pl-5">
+            <li><strong>Add your notes</strong><p className="text-sm text-muted-foreground">Paste an excerpt or import a text file.</p></li>
+            <li><strong>Attempt one question</strong><p className="text-sm text-muted-foreground">Generate a practice quiz below. Your answer saves as you type.</p></li>
+            <li><strong>Review and retry</strong><p className="text-sm text-muted-foreground">Open “Review my working”, check the feedback, then choose “Schedule a retry”.</p></li>
+          </ol>
+          <p className="mt-3 text-sm text-muted-foreground">AI questions and feedback need checking against your source. Scheduling practice does not confirm a mark.</p>
+        </section>}
 
         {!active && notebookSyncError && (
           <div role="alert" className="mb-6 rounded-xl border border-primary/30 bg-background p-4 text-foreground">
@@ -468,7 +530,7 @@ export default function StudyNotebook() {
                       </div>
                       <button
                         type="button"
-                        onClick={() => setPreviewSourceId(src.id)}
+                        onClick={event => openSourcePreview(src.id, event.currentTarget)}
                         className="text-muted-foreground hover:text-primary p-1"
                         aria-label={`Preview ${src.title}`}
                       >
@@ -514,16 +576,6 @@ export default function StudyNotebook() {
                     </button>
                     <button
                       type="button"
-                      onClick={() => fileInputRef.current?.click()}
-                      className="btn-glass text-xs px-2.5"
-                      aria-label="Upload a text, Markdown, or CSV source"
-                      disabled={!notebookHydrated}
-                      title="Upload .txt, .md, or .csv"
-                    >
-                      <Upload className="h-3.5 w-3.5" aria-hidden />
-                    </button>
-                    <button
-                      type="button"
                       onClick={() => void loadImportable()}
                       className="btn-glass text-xs px-2.5"
                       aria-label="Import saved work as a source"
@@ -533,18 +585,7 @@ export default function StudyNotebook() {
                       <BookOpen className="h-3.5 w-3.5" aria-hidden />
                     </button>
                   </div>
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    aria-label="Choose a source file"
-                    accept=".txt,.md,.markdown,.csv,text/plain,text/markdown"
-                    className="hidden"
-                    onChange={(e) => {
-                      const f = e.target.files?.[0];
-                      if (f) handleFileUpload(f);
-                      e.target.value = '';
-                    }}
-                  />
+                  <SourceFileImport disabled={!notebookHydrated} scopeKey={`${user?.id}:${activeId}`} onImport={importFileSource} />
                 </div>
 
                 {showImport && (
@@ -602,39 +643,11 @@ export default function StudyNotebook() {
                     }}
                     className="notebook-title-input text-lg font-semibold bg-transparent border-none outline-none flex-1 min-w-[10rem]"
                   />
-                  <span
-                    role="status"
-                    aria-live="polite"
-                    aria-atomic="true"
-                    className={`text-xs rounded-full border px-2.5 py-1 ${
-                      !notebookHydrated
-                        ? 'border-sky-400/30 text-sky-300'
-                        : notebookSaving
-                          ? 'border-amber-400/30 text-amber-300'
-                          : notebookCloudSynced
-                            ? 'border-emerald-400/30 text-emerald-300'
-                            : 'border-border/60 text-muted-foreground'
-                    }`}
-                    title={
-                      !notebookHydrated
-                        ? 'Loading your latest notebook snapshot before enabling cloud saves.'
-                        : notebookCloudSynced
-                          ? 'Your notebook is saved locally and synced to your account.'
-                          : 'Cloud sync is unavailable; your notebook is still saved on this device.'
-                    }
-                  >
-                    {!notebookHydrated
-                      ? 'Loading…'
-                      : notebookSaving
-                        ? 'Saving…'
-                        : notebookCloudSynced
-                          ? 'Cloud synced'
-                          : 'Saved locally'}
-                    {notebookHydrated && !notebookSaving && !notebookCloudSynced && notebookSyncError && (
-                      <span>. {notebookSyncError}</span>
-                    )}
-                  </span>
-                  {!notebookCloudSynced && <button type="button" className="btn-glass text-xs" disabled={notebookSaving} onClick={retryNotebookSync}>Retry sync</button>}
+                  <StudySaveStatus
+                    state={!notebookHydrated ? 'loading' : notebookSaving ? 'saving' : notebookCloudSynced ? 'cloud' : 'device'}
+                    detail={!notebookSaving && !notebookCloudSynced ? notebookSyncError : undefined}
+                    onRetry={notebookHydrated && !notebookSaving ? retryNotebookSync : undefined}
+                  />
                   <button
                     type="button"
                     className="btn-glass text-xs"
@@ -802,6 +815,15 @@ export default function StudyNotebook() {
                       </div>
                     </div>
 
+                    {studioTab === 'quiz' && previousQuizzes.length > 1 && (
+                      <div className="text-sm mb-4">
+                        <label htmlFor="notebook-quiz-version">Saved quiz version</label>
+                        <select id="notebook-quiz-version" className="form-control-select w-full mt-2 min-h-11 text-base sm:text-sm" value={currentOutput?.id ?? ''} onChange={event => setSelectedQuizId(event.target.value)}>
+                          {previousQuizzes.map((output, index) => <option key={output.id} value={output.id}>{index === 0 ? 'Latest' : `Earlier ${index}`} · {output.quizResponses?.filter(response => response.answer.trim()).length ?? 0} responses · {new Date(output.generatedAt).toLocaleString()}</option>)}
+                        </select>
+                      </div>
+                    )}
+
                     {generating === studioTab ? (
                       <div className="flex flex-col items-center justify-center py-16 text-muted-foreground">
                         <Loader2 className="h-8 w-8 animate-spin text-primary mb-3" />
@@ -809,9 +831,14 @@ export default function StudyNotebook() {
                       </div>
                     ) : currentOutput ? (
                       <NotebookOutputPanel
+                        key={currentOutput.id}
                         output={currentOutput}
                         notebookTitle={active?.title ?? 'notebook'}
                         onAskQuestion={askSuggested}
+                        sources={active?.sources}
+                        onPreviewSource={openSourcePreview}
+                        onQuizResponseChange={saveQuizResponse}
+                        onReviewResponse={reviewQuizResponse}
                       />
                     ) : (
                       <div className="text-center py-16 text-muted-foreground text-sm">
@@ -844,6 +871,7 @@ export default function StudyNotebook() {
         <AccessibleModal
           titleId="notebook-source-preview-title"
           descriptionId="notebook-source-preview-description"
+          openerRef={sourcePreviewOpenerRef}
           onClose={() => setPreviewSourceId(null)}
           overlayClassName="notebook-modal-backdrop"
           className="notebook-modal"

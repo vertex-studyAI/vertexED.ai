@@ -1,5 +1,12 @@
 # VertexED finish checklist
 
+> 25 September export pass: this document retains its earlier checkpoint evidence.
+> Use the [final release report](FINAL_RELEASE_REPORT.md) for fresh candidate checks and export status.
+
+## Current master checklist, 24 September 2026
+
+Use [the complete-product publication checklist](docs/PUBLISHABLE_COMPLETION_CHECKLIST.md) for the full Learning OS brief and final release acceptance. It supersedes the completion rules and remaining-work scope below. Earlier checked items and counts remain historical evidence, not current production certification.
+
 ## Follow-up, 9 September 2026
 
 The current feature classification, exact fixes, tests and remaining gates are in [the executed feature checklist](docs/FEATURE_CHECKLIST_2026-09-09.md). This supersedes the validation counts below, which describe the 8 September run.

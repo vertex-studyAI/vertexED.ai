@@ -528,7 +528,7 @@ function isAbortError(error: unknown): boolean {
 
 export async function listStudyArtifactsDetailed(
   kind?: StudyArtifactKind,
-  options: { limit?: number; offset?: number; signal?: AbortSignal } = {},
+  options: { limit?: number; offset?: number; id?: string; signal?: AbortSignal } = {},
 ): Promise<StudyArtifactListResult> {
   const scope = getUserContentStorageScope();
   if (!scope) return { ok: false, items: [], cloudUnavailable: true, error: 'Sign in to load study work.' };
@@ -537,9 +537,11 @@ export async function listStudyArtifactsDetailed(
   const recovered = await readRecoveryArtifacts(scope);
   if (!isCurrentUserContentScope(scope)) return accountChangedListResult();
   const local = offset === 0
-    ? (kind ? recovered.filter((item) => item.kind === kind) : recovered)
+    ? recovered.filter((item) => (!kind || item.kind === kind) && (!options.id || item.id === options.id))
       .map((item) => ({ ...item, localOnly: true }))
     : [];
+
+  if (options.id?.startsWith('local-')) return { ok: true, items: local, nextOffset: null };
 
   try {
     if (options.signal?.aborted) throw options.signal.reason ?? new DOMException('Aborted', 'AbortError');
@@ -548,6 +550,7 @@ export async function listStudyArtifactsDetailed(
     if (!accessToken) throw new Error('Your session is unavailable.');
     const search = new URLSearchParams({ limit: String(limit), offset: String(offset) });
     if (kind) search.set('kind', kind);
+    if (options.id) search.set('id', options.id);
     const qs = `?${search.toString()}`;
     const res = await authFetchWithAccessToken(`/api/user-content${qs}`, accessToken, {
       signal: options.signal,

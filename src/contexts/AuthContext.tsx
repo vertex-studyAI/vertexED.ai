@@ -266,7 +266,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
     profileRequestRef.current = requestId;
     const { data, error } = await supabase
       .from("profiles")
-      .select("id, email, full_name, avatar_url, board, grade, subjects, exam_date, created_at, updated_at")
+      .select("id, email, full_name, avatar_url, school_name, board, grade, subjects, exam_date, created_at, updated_at")
       .eq("id", userId)
       .maybeSingle();
     // A profile response belongs only to the auth identity and request epoch that

@@ -35,6 +35,8 @@ export default async function handler(req, res) {
   try {
     if (req.method === 'GET') {
       const kind = getQueryParam(req, 'kind');
+      const id = getQueryParam(req, 'id');
+      if (id && !isValidUuid(id)) return res.status(400).json({ error: 'Invalid artifact id.' });
       const limit = getQueryNumber(req, 'limit', 20, 50);
       const offset = Math.floor(getQueryNumber(req, 'offset', 0, 100_000));
       if (kind && !ALLOWED_KINDS.has(kind)) {
@@ -51,6 +53,7 @@ export default async function handler(req, res) {
       if (kind && ALLOWED_KINDS.has(kind)) {
         query = query.eq('kind', kind);
       }
+      if (id) query = query.eq('id', id);
 
       const { data, error, count } = await query;
       if (error) {

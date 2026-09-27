@@ -19,6 +19,8 @@ import ApexSocraticDrill from "@/components/chat/ApexSocraticDrill";
 import ApexAvatar from "@/components/chat/ApexAvatar";
 import AgentNetworkPanel from "@/components/chat/AgentNetworkPanel";
 
+import { TUTOR_MODES } from '@/lib/tutorModes.mjs';
+
 const APEX_MODES: Array<{ value: ChatbotMode; label: string; description: string }> = [
   { value: 'quick', label: 'Quick', description: 'Fast, concise help' },
   { value: 'tutor', label: 'Tutor', description: 'Step-by-step teaching' },
@@ -30,17 +32,19 @@ export default function AIChatbot() {
   const studyContext = getStudyContext("/chatbot", user);
   const chatPanelRef = useRef<HTMLDivElement | null>(null);
   const handoffHandled = useRef(false);
+  const [learningMode, setLearningMode] = useState('teach');
   const [mode, setMode] = useState<ChatbotMode>('tutor');
 
   const { messages, input, setInput, loading, streamingMessageId, sendMessage, cancelMessage, clearChat } = useApexChat({
     context: studyContext,
     threadKey: 'apex-main',
     mode,
+    learningMode,
     onSessionRecord: recordStudySession,
   });
 
   useEffect(() => {
-    chatPanelRef.current?.scrollTo({ top: chatPanelRef.current.scrollHeight, behavior: "smooth" });
+    chatPanelRef.current?.scrollTo({ top: chatPanelRef.current.scrollHeight, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
   }, [messages, loading]);
 
   useEffect(() => {
@@ -81,6 +85,8 @@ export default function AIChatbot() {
                 <p className="text-xs text-primary/80 mt-2">
                   Discussion-first · step-by-step · board-aware when you mention yours
                 </p>
+                <label htmlFor="apex-learning-mode" className="mt-3 block text-sm font-medium">Learning mode</label>
+                  <select id="apex-learning-mode" className="ml-2 rounded-lg border border-border bg-background p-2 text-base" value={learningMode} disabled={loading} onChange={event => setLearningMode(event.target.value)}>{TUTOR_MODES.map(item => <option key={item.id} value={item.id}>{item.label}</option>)}</select>
                 <div className="mt-3 flex flex-wrap items-center gap-2" role="group" aria-label="AI response mode">
                   {APEX_MODES.map((option) => (
                     <button

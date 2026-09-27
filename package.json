@@ -27,7 +27,7 @@
     "test:research-evidence": "node --test tests/research-evidence-analysis.test.mjs",
     "test:provider-evidence": "node --test tests/provider-evidence.test.mjs tests/provider-telemetry.test.mjs",
     "eval:provider:compare": "node evals/scripts/compare-provider-benchmarks.mjs",
-    "db:test": "supabase db reset && supabase test db && supabase db lint --local --level warning --fail-on error",
+    "db:test": "node scripts/test-database-replay.mjs",
     "test:e2e": "playwright test e2e/smoke.spec.ts",
     "test:e2e:local-accessibility": "playwright test e2e/local-accessibility.spec.ts",
     "test:e2e:authenticated-golden": "playwright test --config=playwright.golden.config.ts",
@@ -46,12 +46,13 @@
     "db:ledger:check": "node scripts/check-supabase-migration-ledger.mjs",
     "test:ci-evidence": "node --test tests/ci-evidence-manifest.test.mjs",
     "test:staging-receipt": "node --test tests/staging-receipt.test.mjs",
-    "resolve:live-app-base": "node scripts/resolve-live-app-base.mjs"
+    "resolve:live-app-base": "node scripts/resolve-live-app-base.mjs",
+    "db:prepare": "node scripts/prepare-database-replay.mjs"
   },
   "engines": {
     "node": ">=22.22.0 <23"
   },
-  "packageManager": "npm@10.9.8",
+  "packageManager": "npm@10.9.4",
   "dependencies": {
     "@radix-ui/react-tabs": "^1.1.17",
     "@radix-ui/react-toast": "^1.2.19",

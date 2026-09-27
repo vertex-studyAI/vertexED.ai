@@ -103,7 +103,7 @@ When adding new components, ensure:
 
 ## Development
 
-Install & run (Node 22.x required — see `engines` in `package.json`):
+Install & run (Node 22.22.0 and npm 10.9.4; see `.nvmrc` and `package.json`):
 
 ```
 npm ci
@@ -138,7 +138,7 @@ See `.env.example` for the full list and optional overrides.
 
 1. Create a project at [supabase.com](https://supabase.com).
 2. Link the Supabase CLI to the target project and run `npx supabase db push`. The ordered files in `supabase/migrations/` are the only schema source of truth.
-   - For local verification, run `npx supabase start` and then `npm run db:test`; this rebuilds a blank database, runs pgTAP contracts, and lints the result.
+   - For local verification, follow [Disposable database verification](docs/DATABASE_REPLAY.md). The guarded runner requires a newly prepared local target; it rebuilds that target, lints the schema and runs pgTAP contracts.
    - Never paste an individual migration or a stale schema snapshot into SQL Editor as a substitute for the migration ledger.
 3. Enable **Email** auth under Authentication → Providers.
    - Keep direct email and general account signup disabled for private beta; accounts are created only by the server after waitlist approval or a verified team invitation.
@@ -212,3 +212,35 @@ Styling Consistency Checklist:
 ## Release truth
 
 A green local build is necessary but does not prove production readiness. Apply the current database migrations, deploy the same tested revision, and complete the live smoke and authenticated journey gates in `docs/PRODUCTION_LAUNCH.md` before calling the app ready.
+
+
+## Repository structure
+
+- `src/`: browser application, local recovery and learner workflows.
+- `api/`: same-origin Vercel route registry, authenticated handlers and provider adapters.
+- `contracts/`: shared study artefact contracts.
+- `supabase/`: ordered migrations and database contract tests.
+- `tests/`, `e2e/`, `evals/`: application tests, browser journeys and bounded offline evaluation tools.
+- `brand/`, `docs/`: product identity, deployment and verification procedures.
+
+## Release candidate limitations
+
+See [FINAL_RELEASE_REPORT.md](FINAL_RELEASE_REPORT.md) and
+[GITHUB_EXPORT_MASTER_REPORT.md](GITHUB_EXPORT_MASTER_REPORT.md) for this export.
+The review branch preserves workspace changes and upstream fixes; it does not
+certify the production domain. Local browser fixtures do not establish live
+account access, cloud persistence or provider quality. The adaptive practice bank
+has bounded authored coverage, not complete syllabus coverage. Study guides
+remain subject to the existing editorial publication gate. Pilot protocols and
+offline evaluations do not establish learning gains.
+
+Before deploying this candidate, replay and review the optional school and
+learning-practice migrations in the ordered migration ledger, then complete the
+live gates in `docs/PRODUCTION_LAUNCH.md`. Vite's development/preview server serves
+the frontend; successful frontend startup alone does not verify the Vercel API.
+
+## License
+
+No project-wide licence grant is recorded in this repository. Do not infer an
+open-source licence from public GitHub visibility. An owner-selected licence and
+review of imported content rights are required before any licensed distribution.

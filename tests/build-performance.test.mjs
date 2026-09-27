@@ -43,14 +43,17 @@ test('build performance measurement fails closed when a frozen gzip budget is ex
 
 test('landing and tutor renderers retain lazy dependency boundaries', async () => {
   const { readFile } = await import('node:fs/promises');
-  const [app, layout, chat, viteConfig] = await Promise.all([
+  const [app, authLanding, layout, chat, viteConfig] = await Promise.all([
     readFile(new URL('../src/app/App.tsx', import.meta.url), 'utf8'),
+    readFile(new URL('../src/components/AuthLandingRedirect.tsx', import.meta.url), 'utf8'),
     readFile(new URL('../src/components/layout/SiteLayout.tsx', import.meta.url), 'utf8'),
     readFile(new URL('../src/components/chat/GlobalChatPanel.tsx', import.meta.url), 'utf8'),
     readFile(new URL('../vite.config.ts', import.meta.url), 'utf8'),
   ]);
   assert.match(app, /const Features = lazy\(\(\) => import\("@\/pages\/Features"\)\)/);
   assert.doesNotMatch(app, /import Features from/);
+  assert.match(authLanding, /const Home = lazy\(\(\) => import\("@\/pages\/Home"\)\)/);
+  assert.doesNotMatch(authLanding, /import Home from/);
   assert.match(layout, /const GlobalChatPanel = lazy\(\(\) => import\("@\/components\/chat\/GlobalChatPanel"\)\)/);
   assert.match(layout, /shouldLoadGlobalChat &&/);
   assert.match(chat, /const ApexMessageList = lazy\(\(\) => import\("@\/components\/chat\/ApexMessageList"\)\)/);

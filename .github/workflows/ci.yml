@@ -75,8 +75,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Install Chromium
-        run: npx playwright install --with-deps chromium
+      - name: Install browser engines
+        run: npx playwright install --with-deps chromium firefox webkit
 
       - name: Build current branch
         run: npm run build:ci
@@ -106,6 +106,9 @@ jobs:
           done
 
           npm run test:e2e:local-accessibility
+
+      - name: Verify learner and study desk journeys across browsers
+        run: npx playwright test --config=playwright.astra.config.ts --workers=1 --output=test-results/learner-matrix
 
       - name: Upload local accessibility evidence
         if: always()
@@ -150,57 +153,18 @@ jobs:
         run: |
           set -euo pipefail
           workdir="${RUNNER_TEMP}/vertexed-supabase-ci"
-          mkdir -p "$workdir"
-          cp -R supabase "$workdir/supabase"
-          migration_dir="$workdir/supabase/migrations"
-
-          while IFS= read -r day; do
-            mapfile -t files < <(find "$migration_dir" -maxdepth 1 -type f -name "${day}_*.sql" -printf '%f\n' | sort)
-            for index in "${!files[@]}"; do
-              source_name="${files[$index]}"
-              suffix="$(printf '%06d' "$index")"
-              target_name="${day}${suffix}_${source_name#*_}"
-              if [[ -e "$migration_dir/$target_name" ]]; then
-                echo "Migration normalization collision: $target_name" >&2
-                exit 1
-              fi
-              mv "$migration_dir/$source_name" "$migration_dir/$target_name"
-            done
-          done < <(
-            find "$migration_dir" -maxdepth 1 -type f -printf '%f\n' \
-              | sed -nE 's/^([0-9]{8})_.*/\1/p' \
-              | sort -u
-          )
-
-          if find "$migration_dir" -maxdepth 1 -type f -printf '%f\n' | grep -Eq '^[0-9]{8}_'; then
-            echo 'Unnormalized legacy migration filename remains' >&2
-            exit 1
-          fi
-
-          duplicate_versions="$(
-            find "$migration_dir" -maxdepth 1 -type f -printf '%f\n' \
-              | sed -nE 's/^([0-9]{14})_.*/\1/p' \
-              | sort \
-              | uniq -d
-          )"
-          if [[ -n "$duplicate_versions" ]]; then
-            echo "Duplicate migration versions remain:" >&2
-            printf '%s\n' "$duplicate_versions" >&2
-            exit 1
-          fi
-
-          git diff --exit-code -- supabase/migrations
-          echo "SUPABASE_WORKDIR=$workdir" >> "$GITHUB_ENV"
+          npm run db:prepare -- "$workdir" "vertexed-test-ci-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          echo "VERTEXED_TEST_DB_WORKDIR=$workdir" >> "$GITHUB_ENV"
 
       - name: Start local Supabase
-        run: npx supabase start -x gotrue,realtime,storage-api,imgproxy,kong,mailpit,postgrest,postgres-meta,studio,edge-runtime,logflare,vector,supavisor
+        run: npx supabase start --workdir "$VERTEXED_TEST_DB_WORKDIR" -x gotrue,realtime,storage-api,imgproxy,kong,mailpit,postgrest,postgres-meta,studio,edge-runtime,logflare,vector,supavisor
 
       - name: Rebuild and test database contracts
         run: npm run db:test
 
       - name: Stop local Supabase
         if: always()
-        run: npx supabase stop
+        run: npx supabase stop --workdir "$VERTEXED_TEST_DB_WORKDIR"
 
   browser-authenticated-golden:
     runs-on: ubuntu-24.04

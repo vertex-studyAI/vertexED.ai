@@ -3,6 +3,7 @@ import { expect, test, type Page } from '@playwright/test';
 const launchViewports = [
   { width: 375, height: 812 },
   { width: 390, height: 844 },
+  { width: 430, height: 932 },
   { width: 768, height: 1024 },
   { width: 1024, height: 768 },
   { width: 1440, height: 900 },
@@ -159,6 +160,11 @@ test.describe('local keyboard accessibility', () => {
 
   for (const viewport of launchViewports) {
     test(`public auth surfaces keep visible keyboard focus and fit at ${viewport.width}px`, async ({ page }, testInfo) => {
+      // A full 18k-pixel mobile landing capture can take over 40 seconds in
+      // software-rendered Chromium even after the page assertions have passed.
+      // Keep the interaction/assertion timeouts unchanged and budget only this
+      // visual-evidence case for the three-route pass.
+      test.setTimeout(90_000);
       await page.setViewportSize(viewport);
 
       for (const path of ['/', '/login', '/signup']) {

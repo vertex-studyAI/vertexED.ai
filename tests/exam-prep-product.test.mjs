@@ -4,7 +4,7 @@ import test from 'node:test';
 
 const app = fs.readFileSync('src/app/App.tsx', 'utf8');
 const layout = fs.readFileSync('src/components/layout/SiteLayout.tsx', 'utf8');
-const dashboard = fs.readFileSync('src/pages/Main.tsx', 'utf8');
+const dashboard = fs.readFileSync('src/pages/Main.tsx', 'utf8') + fs.readFileSync('src/components/dashboard/StudyToolbox.tsx', 'utf8');
 const studyZone = fs.readFileSync('src/pages/study-zone/StudyZonePage.tsx', 'utf8');
 const resourceLibrary = fs.readFileSync('src/pages/ResourceLibrary.tsx', 'utf8');
 const boardResources = fs.readFileSync('src/lib/boardResources.ts', 'utf8');
@@ -13,7 +13,7 @@ const boardHandler = fs.readFileSync('api/_handlers/board-resource.js', 'utf8');
 test('exam prep is protected, navigable, and available from the dashboard', () => {
   assert.match(app, /path="exam-prep" element={<ProtectedRoute><ExamPrep \/><\/ProtectedRoute>}/);
   assert.match(layout, /to: "\/exam-prep", label: "Exam prep"/);
-  assert.match(dashboard, /to: "\/exam-prep"/);
+  assert.match(dashboard, /to: ['"]\/exam-prep['"]/);
 });
 
 test('advertised daily habits have a real Study Zone widget', () => {

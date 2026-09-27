@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { lazy, Suspense, useEffect, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link, useSearchParams } from "react-router";
 import { ArrowDown, ArrowLeft, ArrowUp, CalendarDays, GripVertical, RotateCcw } from "lucide-react";
@@ -12,6 +12,9 @@ import GraphingSuite from "./components/GraphingSuite";
 import HabitTracker from "./components/HabitTracker";
 import SketchPad from "@/components/sketch/SketchPad";
 import { useLocalStorage } from '@/hooks/useLocalStorage';
+
+import '@/styles/learning-workspace.css';
+const StudyBreakGames = lazy(() => import('@/components/StudyBreakGames'));
 
 type WidgetKey =
   | "timer"
@@ -35,6 +38,7 @@ interface WidgetMeta {
 const DEFAULT_WIDGET_ORDER: WidgetKey[] = ['timer', 'activity', 'habits', 'calculator', 'graphing', 'meditation', 'sketch', 'notes'];
 
 const StudyZonePage: React.FC = () => {
+  const [showBreak, setShowBreak] = React.useState(false);
   const [searchParams] = useSearchParams();
   const focusMode = searchParams.get("focus") === "timer";
   const [savedWidgetOrder, setSavedWidgetOrder] = useLocalStorage<WidgetKey[]>('studyzone_widget_order_v1', DEFAULT_WIDGET_ORDER);
@@ -45,7 +49,7 @@ const StudyZonePage: React.FC = () => {
     if (focus !== "timer" && focus !== "sketch") return;
     const targetId = focus === "sketch" ? "study-zone-sketch" : "study-zone-timer";
     const id = window.setTimeout(() => {
-      document.getElementById(targetId)?.scrollIntoView({ behavior: "smooth", block: "start" });
+      document.getElementById(targetId)?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
     }, 300);
     return () => window.clearTimeout(id);
   }, [searchParams]);
@@ -262,6 +266,7 @@ const StudyZonePage: React.FC = () => {
           </section>
         ))}
       </div>
+<details className="mx-auto my-8 max-w-5xl" onToggle={event => setShowBreak(event.currentTarget.open)}><summary className="cursor-pointer p-4">Optional study break games</summary>{showBreak && <Suspense fallback={<p role="status">Loading games…</p>}><StudyBreakGames /></Suspense>}</details>
     </div>
   );
 };

@@ -1,5 +1,14 @@
 # VertexED: the revision trace
 
+## Application mark, 21 September 2026
+
+The product rebuild explicitly requests a clearer favicon and installed-app mark.
+`public/app-mark.svg` simplifies the existing circular network into a cobalt tile
+with white, joined geometry. `public/logo.png` remains the full brand logo and is
+still used in navigation. Small application icons must not be used as alternate
+resolution sources for that distinct full logo. `scripts/generate-icons.mjs`
+owns all PNG, ICO and maskable derivatives; do not hand-resize inconsistent copies.
+
 The BU1LD-inspired structural pass adds a numbered editorial introduction before the revision desk. Oversized study-specific type pairs with a short explanatory column, then the real interactive example. Thin blue chapter rules connect the sections. This extends the folio direction without replacing the logo, palette or study objects. Mobile uses a single reading column.
 
 ## Folio opening, 9 September 2026
@@ -98,3 +107,19 @@ The current navbar is one floating, blue-glass surface with side margins, not a 
 The lens starts magnified immediately after the revision hero and has explicit navigation links. The original study-example carousel opens algebra, osmosis and source-analysis questions in accessible dialogs with temporary working, hints, explanations and transfer prompts. Close clears the draft. No generated result or account data is implied.
 
 The gallery heading owns the bounded image and line trails and a small neural-style software field. Existing Apex imagery also supplies the image-clipped statement heading. These effects never cover form input. The complete local adaptation map is `docs/INC_UI_AUDIT.md`; do not describe this as installing the Inspira Vue components.
+
+
+## First-session and navigation refinement, 21 September 2026
+
+The improvement checklist keeps the hero, original logo, curriculum explorer,
+interactive examples and revision stages. Repeated statement, subject-card and
+mastery-example sections are consolidated. Revision Stack is an explicit native
+disclosure; its code loads only when opened. Concept Lens loads on request and
+returns focus to its opener. This supersedes the earlier always-visible game
+placement without removing the study break.
+
+The dashboard prioritises an unfinished mock, a due retry, then recent work.
+New learners get one notebook entry point with a source, attempt, review and
+scheduled-retry guide. Saved-work filters cover the loaded collection and say
+when more pages remain. Shared save labels distinguish account, device, saving
+and failed states. A scheduled practice task does not establish measured mastery.
