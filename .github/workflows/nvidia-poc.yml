@@ -1,6 +1,15 @@
 name: NVIDIA POC Benchmark
 
 on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - .github/workflows/nvidia-poc.yml
+      - evals/ask/nvidia-poc.jsonl
+      - evals/scripts/run-ask-provider-benchmark.mjs
+      - evals/scripts/generate-nvidia-poc-report.mjs
+      - docs/NVIDIA_POC_REPORT.md
   workflow_dispatch:
     inputs:
       nvidia_model:
@@ -17,12 +26,13 @@ permissions:
 
 jobs:
   provider-benchmark:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.head_ref == 'nvidia-poc-evidence-2026-09-27' }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     env:
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
-      NVIDIA_CHATBOT_MODEL: ${{ inputs.nvidia_model }}
+      NVIDIA_CHATBOT_MODEL: ${{ inputs.nvidia_model || 'nvidia/nemotron-3-ultra-550b-a55b' }}
       OPENAI_INPUT_COST_PER_1M: ${{ vars.OPENAI_INPUT_COST_PER_1M }}
       OPENAI_OUTPUT_COST_PER_1M: ${{ vars.OPENAI_OUTPUT_COST_PER_1M }}
       NVIDIA_INPUT_COST_PER_1M: ${{ vars.NVIDIA_INPUT_COST_PER_1M }}
@@ -61,8 +71,8 @@ jobs:
         run: |
           set -euo pipefail
           LIMIT_ARG=()
-          if [[ "${{ inputs.limit }}" != "0" ]]; then
-            LIMIT_ARG=(--limit "${{ inputs.limit }}")
+          if [[ "${{ inputs.limit || '0' }}" != "0" ]]; then
+            LIMIT_ARG=(--limit "${{ inputs.limit || '0' }}")
           fi
           node evals/scripts/run-ask-provider-benchmark.mjs             --provider both             --prompts evals/ask/golden.jsonl             "${LIMIT_ARG[@]}"             --source-revision "${{ steps.revision.outputs.sha }}"             --out artifacts/nvidia-poc/golden.json
 
@@ -71,8 +81,8 @@ jobs:
         run: |
           set -euo pipefail
           LIMIT_ARG=()
-          if [[ "${{ inputs.limit }}" != "0" ]]; then
-            LIMIT_ARG=(--limit "${{ inputs.limit }}")
+          if [[ "${{ inputs.limit || '0' }}" != "0" ]]; then
+            LIMIT_ARG=(--limit "${{ inputs.limit || '0' }}")
           fi
           node evals/scripts/run-ask-provider-benchmark.mjs             --provider both             --prompts evals/ask/nvidia-poc.jsonl             "${LIMIT_ARG[@]}"             --source-revision "${{ steps.revision.outputs.sha }}"             --out artifacts/nvidia-poc/poc.json
 
