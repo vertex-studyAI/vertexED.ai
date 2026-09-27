@@ -1,27 +1,32 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-09-27T07:07:15.105167+00:00",
+  "updatedAt": "2026-09-27T07:32:26.276778+00:00",
   "checklist": "PUBLISHABLE_COMPLETION_CHECKLIST.md",
   "decision": "NO-GO",
   "scope": "Execution register. PASS requires the complete gate acceptance; local partial receipts do not close live or full-product gates.",
-  "sourceManifestCheck": {
-    "manifest": "ci-evidence/learning-os-20260921/source-manifest.json",
-    "filesChecked": 50,
-    "changedFiles": []
-  },
   "counts": {
     "total": 112,
-    "open": 111,
-    "pass": 1
+    "open": 109,
+    "pass": 3
   },
   "gates": [
     {
       "id": "SRC-01",
       "section": "1. Establish one release candidate \u2014 engineering/release owner",
       "ownerRole": "engineering/release owner",
-      "status": "OPEN",
+      "status": "PASS",
       "acceptance": "Reconcile the current canonical checkout, upstream and outstanding WIP; preserve unrelated changes and recoverable copies before selecting what to port.",
-      "receipts": []
+      "receipts": [
+        {
+          "result": "PASS_LOCAL",
+          "candidateCommit": "df0d8cf0a628b3790f8a64af480b34fd8ab5c642",
+          "environment": "isolated local review candidate",
+          "timestamp": "2026-09-27T07:32:26.276778+00:00",
+          "verifier": "Codex local execution",
+          "evidence": "evidence/checklist-execution-20260927.json",
+          "summary": "Upstream and preserved WIP histories reconciled without overwriting the original checkout."
+        }
+      ]
     },
     {
       "id": "SRC-02",
@@ -43,9 +48,19 @@
       "id": "SRC-04",
       "section": "1. Establish one release candidate \u2014 engineering/release owner",
       "ownerRole": "engineering/release owner",
-      "status": "OPEN",
+      "status": "PASS",
       "acceptance": "Pin the supported Node 22 runtime and declared npm version, perform a clean install, preserve lockfile reproducibility and record the exact versions in CI.",
-      "receipts": []
+      "receipts": [
+        {
+          "result": "PASS_LOCAL",
+          "candidateCommit": "df0d8cf0a628b3790f8a64af480b34fd8ab5c642",
+          "environment": "isolated local review candidate",
+          "timestamp": "2026-09-27T07:32:26.276778+00:00",
+          "verifier": "Codex local execution",
+          "evidence": "evidence/checklist-execution-20260927.json",
+          "summary": "Node 22.22.0/npm 10.9.4 clean install and full local CI passed; CI versions pinned."
+        }
+      ]
     },
     {
       "id": "SRC-05",
@@ -443,7 +458,10 @@
           "environment": "disposable vertexed-test-checklist-20260927",
           "evidence": "ci-evidence/checklist-exec-20260927/database-verified.log",
           "summary": "29 migrations; schema lint has no errors; 59 SQL assertions passed. Source manifest supplied by execution report.",
-          "timestamp": "2026-09-27T07:07:15.105167+00:00"
+          "timestamp": "2026-09-27T07:07:15.105167+00:00",
+          "candidateCommit": "47783141cf97a19bfbdf453c3ea2bfde095789f5",
+          "verifier": "Codex local execution",
+          "migrationLedger": "ci-evidence/checklist-exec-20260927/db-replay-v3/replay-manifest.json"
         }
       ]
     },
@@ -489,7 +507,14 @@
       "ownerRole": "database owner",
       "status": "OPEN",
       "acceptance": "Rehearse backup restoration and forward-compatible migration/application rollback, then apply the reviewed migration sequence to staging and production with environment-specific receipts.",
-      "receipts": []
+      "receipts": [
+        {
+          "result": "PARTIAL_LOCAL",
+          "candidateCommit": "47783141cf97a19bfbdf453c3ea2bfde095789f5",
+          "evidence": "ci-evidence/checklist-exec-20260927/restore-summary.json",
+          "remaining": "Only a labelled synthetic local restore passed. Production-shaped backup, application rollback and environment-specific acceptance remain open."
+        }
+      ]
     },
     {
       "id": "SEC-01",
@@ -705,7 +730,14 @@
       "ownerRole": "release/operations owner",
       "status": "OPEN",
       "acceptance": "Define and verify provider spend/usage limits, capacity limits, backup retention, recovery objectives and degraded-service messaging. Record a tested backup restore and rollback to a known healthy release.",
-      "receipts": []
+      "receipts": [
+        {
+          "result": "PARTIAL_LOCAL",
+          "candidateCommit": "47783141cf97a19bfbdf453c3ea2bfde095789f5",
+          "evidence": "ci-evidence/checklist-exec-20260927/restore-summary.json",
+          "remaining": "Only a labelled synthetic local restore passed. Production-shaped backup, application rollback and environment-specific acceptance remain open."
+        }
+      ]
     },
     {
       "id": "OPS-07",
@@ -931,5 +963,17 @@
       "acceptance": "Add per-candidate route/chunk size deltas and alerts (VX-403) alongside existing frozen budgets; a smaller total bundle must not conceal a critical-route regression.",
       "receipts": []
     }
-  ]
+  ],
+  "historicalSourceManifestCheck": {
+    "manifest": "ci-evidence/learning-os-20260921/source-manifest.json",
+    "filesChecked": 50,
+    "changedFiles": []
+  },
+  "executionReport": "CHECKLIST_EXECUTION_2026-09-27.md",
+  "executionEvidenceIndex": "evidence/checklist-execution-20260927.json",
+  "sourceManifestCheck": {
+    "manifest": "evidence/checklist-execution-20260927.json",
+    "scope": "Runtime, test, migration, evaluation and build inputs; generated revision placeholder excluded as documented.",
+    "fileCount": 1150
+  }
 }

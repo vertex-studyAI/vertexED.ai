@@ -4,6 +4,10 @@
 
 This is the prioritised execution view of the [complete-product checklist](PUBLISHABLE_COMPLETION_CHECKLIST.md), not a replacement for its acceptance criteria or [gate register](COMPLETION_GATE_REGISTER.json). Every existing gate is mapped below. An unchecked item can mean missing implementation, missing live verification or missing human approval; it does not mean nothing has been built.
 
+## Current execution
+
+See [the 27 September execution report](CHECKLIST_EXECUTION_2026-09-27.md). Upstream/WIP reconciliation, a supported clean install and the guarded local database runner are complete. Local CI, 54 learner browser cases and a synthetic restore passed. Full-product and production acceptance remain incomplete. The starting snapshot below is retained for provenance.
+
 ## Starting evidence
 
 - Local candidate: `490ea8d873e38b6710555ee03e1efe28d5d9b547`, with remaining uncommitted work and the noncanonical WIP warning still in force.
@@ -15,10 +19,10 @@ This is the prioritised execution view of the [complete-product checklist](PUBLI
 
 Owner role: engineering/release. Master gates: SRC-01–SRC-05.
 
-- [ ] Reconcile the canonical checkout, upstream, candidate branch and remaining WIP; preserve unrelated changes and previous evidence.
+- [x] Reconcile the canonical checkout, upstream, candidate branch and remaining WIP; preserve unrelated changes and previous evidence.
 - [ ] Review and integrate the intended product changes into one clean, committed candidate.
 - [ ] Map every original-brief requirement to its screen, storage, failure behaviour and acceptance test. Identify implementation gaps explicitly.
-- [ ] Perform a clean install with Node 22.22.0/npm 10.9.4; retain the reproducible lockfile and record CI versions.
+- [x] Perform a clean install with Node 22.22.0/npm 10.9.4; retain the reproducible lockfile and record CI versions.
 - [ ] Create the release manifest linking source revision, build, migrations, content and evidence. Assign named owners for external gates.
 
 ## 2. Recover domain and service readiness — investigate alongside source work
@@ -127,4 +131,4 @@ Owner role: accountable release owner. Master gates: REL-01–REL-05.
 
 For every checked item, retain the master gate IDs, result, candidate revision, environment/deployment, UTC timestamp, verifier and evidence path. Database receipts identify the migration ledger; content approvals identify the content version. Local fixture checks do not close real-account/provider gates, and source export does not close production release gates.
 
-The checklist itself introduces no deployment, database change, content approval or new pass claim. Domain ownership, credentials, real test accounts and editorial/privacy decisions remain explicit external dependencies until supplied and verified.
+Checked items are limited to the execution receipts above; this does not imply deployment or content approval. Domain ownership, credentials, real test accounts and editorial/privacy decisions remain explicit external dependencies until supplied and verified.

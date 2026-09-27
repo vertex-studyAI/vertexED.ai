@@ -1,5 +1,7 @@
 # GitHub Export Master Report
 
+> Updated 27 September: this is the retained 25 September checkpoint. Current integration, verification and incomplete release status are recorded in [the checklist execution report](docs/CHECKLIST_EXECUTION_2026-09-27.md) and its evidence index. Historical pending statements below are not the current test result. Production remains NO-GO.
+
 Date: 2026-09-25. Workspace: `/Volumes/PRO-BLADE/GitHub-Every-Repo/VertexED`.
 One legitimate project was discovered recursively. Dependency/cache/build
 surfaces and unrelated sibling portfolio repositories are outside the project

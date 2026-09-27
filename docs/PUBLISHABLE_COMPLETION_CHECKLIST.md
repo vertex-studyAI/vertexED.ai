@@ -16,6 +16,8 @@ Check a box only with a receipt containing: gate ID, result, candidate commit, e
 
 On 24 September, all 50 files in the 21 September implementation manifest still matched their recorded SHA-256 values. The working tree remains dirty and is marked as WIP, not the canonical release source. This check did not revalidate other files or external services.
 
+The original primary checkout remains preserved WIP. The isolated 27 September candidate reconciles upstream and that history; see [the execution report](CHECKLIST_EXECUTION_2026-09-27.md) for source identities, fresh results and unfinished work. SRC-01, SRC-04 and DB-01 have local closure receipts; all other gates remain open.
+
 The **21 September** receipts below are historical. The 27 September checklist execution establishes a working isolated database runner, unchanged replay of 29 migrations, schema lint and 59 pgTAP assertions. See [database verification](DATABASE_REPLAY.md); live database and production-shaped restore gates remain open.
 
 The **21 September** receipts report 1,115 application tests, 25 evaluation tests, 13 tutor fixtures, 31 browser scenarios and three additional planner checks passing; build/lint/typecheck/copy/bundle gates passed. Initial JavaScript was 237,138 bytes gzip. The content audit reported 245 guide files, zero approved and 53 flagged. Domain TLS failures, degraded fallback readiness and failed local database initialization were recorded then. **Live status and full tests were not refreshed on 24 September.**
@@ -24,10 +26,10 @@ Implemented foundations include Today, persistent original-bank practice, concep
 
 ## 1. Establish one release candidate — engineering/release owner
 
-- [ ] **SRC-01** Reconcile the current canonical checkout, upstream and outstanding WIP; preserve unrelated changes and recoverable copies before selecting what to port.
+- [x] **SRC-01** Reconcile the current canonical checkout, upstream and outstanding WIP; preserve unrelated changes and recoverable copies before selecting what to port.
 - [ ] **SRC-02** Review and integrate the entire intended product change set into a clean candidate, including earlier auth, notebook, icon and recovery changes outside the 50-file manifest. Resolve conflicts without dropping working flows.
 - [ ] **SRC-03** Create a traceability matrix from every original-brief requirement to its route/control, data store, error behavior and acceptance test. No mandatory requirement is unmapped or deferred.
-- [ ] **SRC-04** Pin the supported Node 22 runtime and declared npm version, perform a clean install, preserve lockfile reproducibility and record the exact versions in CI.
+- [x] **SRC-04** Pin the supported Node 22 runtime and declared npm version, perform a clean install, preserve lockfile reproducibility and record the exact versions in CI.
 - [ ] **SRC-05** Produce a reviewed, committed candidate and release manifest. CI, deployed assets, health revision and migration/content versions must identify that candidate; exclude unrelated research and private/raw test evidence from the published bundle.
 
 ## 2. Complete curriculum and reviewed content — curriculum/editorial owner
