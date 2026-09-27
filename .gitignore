@@ -48,3 +48,6 @@ lerna-debug.log*
 *.njsproj
 *.sl
 *.sw?
+
+# Local ASTRA verification receipts and preserved user diff
+/ci-evidence/astra-20260927/

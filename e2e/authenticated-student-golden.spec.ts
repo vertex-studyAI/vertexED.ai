@@ -480,7 +480,7 @@ test('approved learner completes the golden study journey and resumes saved work
   await page.keyboard.press('Escape');
   await expect(feedbackDialog).not.toBeVisible();
   await expect(feedbackLauncher).toBeFocused();
-  await page.locator('a[href="/notetaker"]').filter({ hasText: 'Notes, flashcards & quizzes' }).click();
+  await page.locator('a[href="/notetaker"]').filter({ hasText: 'Notes & flashcards' }).click();
   await expect(page).toHaveURL(/\/notetaker$/);
 
   await page.getByPlaceholder(/IB Biology - photosynthesis/).fill('IB Biology photosynthesis');
@@ -498,10 +498,15 @@ test('approved learner completes the golden study journey and resumes saved work
   await expect(page.getByText(/Next practice: Practise interpreting a limiting-factor graph/)).toBeVisible();
   await expect.poll(() => harness.observed.reviewSaved).toBe(true);
 
-  await page.getByRole('banner').getByRole('link', { name: 'Dashboard', exact: true }).click();
+  await page.getByRole('banner').getByRole('link', { name: 'Today', exact: true }).click();
   await expect(page).toHaveURL(/\/main$/);
   await expect(page.getByRole('link', { name: /^Build adaptive notes:/ })).toHaveCount(0);
-  await expect(page.getByText('Confirm a review or complete a validated assessment before a retry appears here.', { exact: true })).toBeVisible();
+  await expect(page.locator('article').filter({ hasText: 'Retry queue' })).toHaveCount(0);
+  // The compact desk omits the empty retry card. Prove that provisional quiz
+  // feedback still creates neither a measured score nor a scheduled retry.
+  expect(await page.evaluate(() => Object.keys(localStorage)
+    .filter(key => /:weakness_heatmap$|:retry_queue$/.test(key))
+    .flatMap(key => JSON.parse(localStorage.getItem(key) || '[]')))).toEqual([]);
 
   // A forged adaptive URL cannot manufacture a target without matching measured evidence.
   await page.goto('/notetaker?adaptive=1&subject=Biology&topic=FORGED_TOPIC');
@@ -515,7 +520,7 @@ test('approved learner completes the golden study journey and resumes saved work
   await page.getByRole('button', { name: 'Log in', exact: true }).click();
 
   await expect(page).toHaveURL(/\/notetaker$/);
-  await page.getByRole('banner').getByRole('link', { name: 'Dashboard', exact: true }).click();
+  await page.getByRole('banner').getByRole('link', { name: 'Today', exact: true }).click();
   await expect(page).toHaveURL(/\/main$/);
   await expect(page.getByRole('heading', { name: 'Continue studying' })).toBeVisible();
   await expect(page.getByText('IB Biology photosynthesis', { exact: true })).toBeVisible();

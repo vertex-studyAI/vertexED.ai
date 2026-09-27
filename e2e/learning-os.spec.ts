@@ -1,4 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
+import { CONCEPT_GRAPH } from '../src/lib/learningModel.mjs';
 const learnerId = 'f40db66b-1b55-4ab8-88d0-14a9ba476c16';
 const artifactId = '25734997-775e-473f-b415-897751b08497';
 
@@ -86,11 +87,17 @@ for (const width of [1440, 1024, 390]) {
     await expect(page.getByRole('heading', { name: 'The next useful step' })).toBeVisible();
     await page.goto('/learn?subject=Physics&question=physics-forces-01');
     await page.getByRole('button', { name: 'Start practice', exact: true }).click();
+    await expect(page.locator('#active-question')).toBeFocused();
     await page.getByLabel('Your answer', { exact: true }).fill('-1234');
     await page.getByLabel('Confidence before feedback').selectOption('5');
     await page.reload();
     await expect(page.getByLabel('Your answer', { exact: true })).toHaveValue('-1234');
-    await page.getByRole('button', { name: 'Check answer', exact: true }).click();
+    for (const theme of ['light', 'dark']) {
+      await page.evaluate(t => { document.documentElement.classList.remove('light', 'dark'); document.documentElement.classList.add(t); }, theme);
+      await page.screenshot({ path: info.outputPath(`practice-${width}-${theme}.png`), fullPage: true });
+    }
+    const checkAnswer = page.getByRole('button', { name: 'Check answer', exact: true });
+    await checkAnswer.focus(); await page.keyboard.press('Enter');
     await expect(page.getByRole('heading', { name: 'Review this attempt' })).toBeVisible();
     await page.getByText('Save or update this mistake', { exact: true }).click();
     await page.getByLabel('Why I got it wrong').fill('I forgot to account for net force.');
@@ -123,6 +130,70 @@ for (const width of [1440, 1024, 390]) {
     expect(errors).toEqual([]);
   });
 }
+
+test('another tab pauses practice without overwriting saved work', async ({ page }) => {
+  await installAccountHarness(page, true);
+  await page.goto('/learn?subject=Physics&question=physics-forces-01');
+  await page.getByRole('button', { name: 'Start practice', exact: true }).click();
+  await page.getByLabel('Your answer', { exact: true }).fill('13');
+  await expect(page.getByText('Session saved on this device', { exact: false })).toBeVisible();
+  const changed = await page.evaluate(id => {
+    const key = `vertex_content:${id}:practice_session`;
+    const oldValue = localStorage.getItem(key)!;
+    const value = JSON.parse(oldValue);
+    value.responses[value.ids[0]].answer = '27';
+    const newValue = JSON.stringify(value);
+    localStorage.setItem(key, newValue);
+    window.dispatchEvent(new StorageEvent('storage', { key, oldValue, newValue, storageArea: localStorage }));
+    return newValue;
+  }, learnerId);
+  await expect(page.getByRole('alert').filter({ hasText: 'another tab' })).toBeVisible();
+  await expect(page.getByLabel('Your answer', { exact: true })).toBeDisabled();
+  await expect(page.getByRole('button', { name: 'Finish session', exact: true })).toBeDisabled();
+  expect(await page.evaluate(id => localStorage.getItem(`vertex_content:${id}:practice_session`), learnerId)).toBe(changed);
+  await page.reload();
+  await expect(page.getByLabel('Your answer', { exact: true })).toHaveValue('27');
+});
+
+test('session storage failure offers copyable recovery and never claims a save', async ({ page }) => {
+  await installAccountHarness(page, true);
+  await page.goto('/learn?subject=Physics&question=physics-forces-01');
+  await page.getByRole('button', { name: 'Start practice', exact: true }).click();
+  await page.evaluate(() => {
+    const original = Storage.prototype.setItem;
+    Storage.prototype.setItem = function(key, value) {
+      if (key.endsWith(':practice_session')) throw new DOMException('Full', 'QuotaExceededError');
+      original.call(this, key, value);
+    };
+  });
+  await page.getByLabel('Your answer', { exact: true }).fill('123');
+  await expect(page.getByRole('alert').filter({ hasText: 'could not be saved' })).toBeVisible();
+  await expect(page.getByLabel('Answers in this tab', { exact: true })).toHaveValue(/123/);
+  await expect(page.getByText('Session changes are not saved', { exact: false })).toBeVisible();
+});
+
+test('stale practice deep links do not silently start a different question', async ({ page }) => {
+  await installAccountHarness(page, true);
+  await page.goto('/learn?question=removed-question');
+  await expect(page.getByRole('alert').filter({ hasText: 'no longer available' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Start practice', exact: true })).toBeDisabled();
+  await page.getByRole('link', { name: 'Choose a new practice scope' }).click();
+  await expect(page.getByRole('button', { name: 'Start practice', exact: true })).toBeEnabled();
+  const unrelated = CONCEPT_GRAPH.find(concept => concept.subject === 'Mathematics')!;
+  await page.goto(`/learn?question=physics-forces-01&concept=${encodeURIComponent(unrelated.id)}`);
+  await expect(page.getByRole('alert').filter({ hasText: 'does not match' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Start practice', exact: true })).toBeDisabled();
+});
+
+test('invalid session references preserve bytes and stop practice', async ({ page }) => {
+  await installAccountHarness(page, true);
+  const broken = JSON.stringify({ id: 'broken-session', ids: ['unknown-question'] });
+  await page.evaluate(({ id, broken }) => localStorage.setItem(`vertex_content:${id}:practice_session`, broken), { id: learnerId, broken });
+  await page.goto('/learn');
+  await expect(page.getByRole('alert').filter({ hasText: 'original data is preserved' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Start practice', exact: true })).toBeDisabled();
+  expect(await page.evaluate(id => localStorage.getItem(`vertex_content:${id}:practice_session`), learnerId)).toBe(broken);
+});
 
 test('exam defers feedback, persists flags, locks when timed out and records once', async ({ page }) => {
   await installAccountHarness(page, true);

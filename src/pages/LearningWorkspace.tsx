@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useSearchParams } from 'react-router';
 import { Helmet } from 'react-helmet-async';
 import { useAuth } from '@/contexts/AuthContext';
@@ -6,7 +6,8 @@ import RichMarkdown from '@/components/RichMarkdown';
 import { LEARNING_QUESTIONS, CONCEPT_GRAPH, CURRICULUM_CATALOG, PRACTICE_MODES, MISTAKE_CAUSES, buildKnowledgeModel, selectLearningQuestion } from '@/lib/learningModel.mjs';
 import { answerLabel, classifyPracticeAnswer } from '@/lib/adaptivePractice.mjs';
 import { readLearningState, saveLearningRecord, type PracticeAttempt, type PracticeMistake } from '@/lib/learningStore';
-import { userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
+import { parsePracticeSession, advancePracticeSession, writePracticeSession } from '@/lib/practiceSession.mjs';
+import { userContentStorageKeys, getUserContentStorageScope } from '@/lib/userContentStorageScope.mjs';
 import { getPendingLearnerStateCount, initializeLearnerStateSync } from '@/lib/learnerStateSync';
 import { storeApexPrefill } from '@/lib/apexPrefillStorage.mjs';
 import '@/styles/learning-workspace.css';
@@ -16,20 +17,6 @@ type Response = { answer: string; confidence: number; hinted: boolean; seconds: 
 type Session = { id: string; ids: string[]; index: number; mode: string; startedAt: number; deadline: number | null; finished: boolean; responses: Record<string, Response>; subject: string; topic: string; concept: string; curriculum: string };
 const modeNames: Record<string, string> = { diagnostic: 'Diagnostic', targeted: 'Targeted weakness', mixed: 'Mixed review', exam: 'Exam simulation', rapid: 'Rapid recall', prerequisites: 'Prerequisite repair', challenge: 'Challenge' };
 const emptyResponse = (): Response => ({ answer: '', confidence: 3, hinted: false, seconds: 0, flagged: false });
-function readSession(): Session | null {
-  const raw = localStorage.getItem(userContentStorageKeys().practiceSession);
-  if (!raw) return null;
-  const value = JSON.parse(raw);
-  if (!value || typeof value.id !== 'string' || !Array.isArray(value.ids) || !value.ids.length || value.ids.length > 25
-    || value.ids.some((id: string) => !LEARNING_QUESTIONS.some(q => q.id === id)) || !PRACTICE_MODES.includes(value.mode)
-    || !Number.isInteger(value.index) || value.index < 0 || value.index >= value.ids.length
-    || typeof value.finished !== 'boolean' || !Number.isFinite(value.startedAt)
-    || (value.deadline !== null && !Number.isFinite(value.deadline)) || !value.responses || typeof value.responses !== 'object'
-    || Object.values(value.responses).some((r: Response) => !r || typeof r.answer !== 'string' || r.answer.length > 200 || ![1,2,3,4,5].includes(r.confidence) || !Number.isFinite(r.seconds) || typeof r.hinted !== 'boolean' || typeof r.flagged !== 'boolean')) {
-    throw new Error('Your saved session could not be read. Its original data is preserved. Export account data in Settings before recovery.');
-  }
-  return value;
-}
 export default function LearningWorkspace() {
   const { user } = useAuth();
   const [params] = useSearchParams();
@@ -39,16 +26,24 @@ function Workspace() {
   const { user } = useAuth();
   const [params] = useSearchParams();
   const selectedConcept = CONCEPT_GRAPH.find(n => n.id === params.get('concept'));
-  const [subject, setSubject] = useState(selectedConcept?.subject || params.get('subject') || 'Mathematics');
+  const selectedQuestion = LEARNING_QUESTIONS.find(q => q.id === params.get('question'));
+  const invalidLink = Boolean((params.get('concept') && !selectedConcept) || (params.get('question') && !selectedQuestion)
+    || (selectedConcept && selectedQuestion && !selectedQuestion.conceptIds.includes(selectedConcept.id)));
+  const [subject, setSubject] = useState(selectedConcept?.subject || selectedQuestion?.subject || params.get('subject') || 'Mathematics');
   const [topic, setTopic] = useState('');
   const [concept, setConcept] = useState(selectedConcept?.id || '');
   const [curriculum, setCurriculum] = useState('');
   const [mode, setMode] = useState(PRACTICE_MODES.includes(params.get('mode') || '') ? params.get('mode')! : 'diagnostic');
   const [count, setCount] = useState(5);
-  const [tab, setTab] = useState(params.get('tab') || 'practice');
+  const [tab, setTab] = useState(['practice', 'knowledge', 'mistakes', 'progress'].includes(params.get('tab') || '') ? params.get('tab')! : 'practice');
   const [attempts, setAttempts] = useState<PracticeAttempt[]>([]);
   const [mistakes, setMistakes] = useState<PracticeMistake[]>([]);
   const [session, setSession] = useState<Session | null>(null);
+  const sessionKey = userContentStorageKeys(user?.id || null).practiceSession;
+  const savedSessionRaw = useRef<string | null>(null);
+  const activeQuestionRef = useRef<HTMLHeadingElement>(null);
+  const focusNewSession = useRef(false);
+  const [sessionSaved, setSessionSaved] = useState(false);
   const [ready, setReady] = useState(false);
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
@@ -58,16 +53,34 @@ function Workspace() {
   const [correction, setCorrection] = useState('');
   const refresh = () => { const state = readLearningState(); setAttempts(state.attempts); setMistakes(state.mistakes); };
   useEffect(() => {
-    try { refresh(); setSession(readSession()); setReady(true); } catch (e) { setError((e as Error).message); }
+    try {
+      refresh();
+      savedSessionRaw.current = localStorage.getItem(sessionKey);
+      setSession(parsePracticeSession(savedSessionRaw.current));
+      setSessionSaved(true); setReady(true);
+    } catch (e) { setError((e as Error).message); }
     const onChange = () => { try { refresh(); } catch (e) { setError((e as Error).message); } };
     window.addEventListener('vertexed:learner-state-changed', onChange);
-    window.addEventListener('storage', onChange);
-    return () => { window.removeEventListener('vertexed:learner-state-changed', onChange); window.removeEventListener('storage', onChange); };
-  }, []);
+    const onStorage = (event: StorageEvent) => {
+      if ((event.key === sessionKey || event.key === null) && localStorage.getItem(sessionKey) !== savedSessionRaw.current) {
+        setReady(false); setSessionSaved(false);
+        setError('This practice session changed in another tab. Your work here is paused so it cannot overwrite that copy. Copy any unsaved answer before reloading.');
+      }
+      onChange();
+    };
+    window.addEventListener('storage', onStorage);
+    return () => { window.removeEventListener('vertexed:learner-state-changed', onChange); window.removeEventListener('storage', onStorage); };
+  }, [sessionKey]);
   const sessionId = session?.id;
   const sessionFinished = session?.finished;
   useEffect(() => {
-    if (!sessionId || sessionFinished) return;
+    if (focusNewSession.current && activeQuestionRef.current) {
+      activeQuestionRef.current.focus();
+      focusNewSession.current = false;
+    }
+  }, [sessionId]);
+  useEffect(() => {
+    if (!ready || !sessionId || sessionFinished) return;
     const timer = window.setInterval(() => {
       setNow(Date.now());
       if (document.visibilityState === 'visible') setSession(s => {
@@ -79,12 +92,18 @@ function Workspace() {
       });
     }, 1000);
     return () => clearInterval(timer);
-  }, [sessionId, sessionFinished]);
+  }, [ready, sessionId, sessionFinished]);
   useEffect(() => {
     if (!ready || !session) return;
-    try { localStorage.setItem(userContentStorageKeys().practiceSession, JSON.stringify(session)); }
-    catch { setError('This session could not be saved on your device. Keep this page open and free browser storage before leaving.'); }
-  }, [session, ready]);
+    try {
+      if (getUserContentStorageScope() !== user?.id) return;
+      savedSessionRaw.current = writePracticeSession(localStorage, sessionKey, savedSessionRaw.current, session);
+      setSessionSaved(true);
+    } catch (e) {
+      setSessionSaved(false); setReady(false);
+      setError(e instanceof Error && e.message.includes('another tab') ? e.message : 'This session could not be saved on your device. Keep this page open and copy your answer before reloading.');
+    }
+  }, [session, ready, sessionKey, user?.id]);
   const model = useMemo(() => buildKnowledgeModel(attempts), [attempts]);
   const q = LEARNING_QUESTIONS.find(q => q.id === session?.ids[session.index]);
   const response = q && session ? session.responses[q.id] || emptyResponse() : emptyResponse();
@@ -92,7 +111,7 @@ function Workspace() {
   const expired = Boolean(session?.deadline && now >= session.deadline);
   const updateResponse = (patch: Partial<Response>) => setSession(s => !s || !q ? s : ({ ...s, responses: { ...s.responses, [q.id]: { ...(s.responses[q.id] || emptyResponse()), ...patch } } }));
   const start = (targetId = '', nextMode = mode) => {
-    if (!ready) return;
+    if (!ready || invalidLink || getUserContentStorageScope() !== user?.id) return;
     const target = LEARNING_QUESTIONS.find(q => q.id === targetId);
     const filters = target ? { subject: target.subject, topic: '', concept: '', curriculum: '' } : { subject, topic, concept, curriculum };
     const ids: string[] = [];
@@ -101,8 +120,9 @@ function Workspace() {
       if (next) ids.push(next.id);
     }
     if (!ids.length) { setNotice('No original question matches this scope. Choose another scope or use your course materials in Study notebook.'); return; }
+    focusNewSession.current = true;
     setSession({ id: crypto.randomUUID(), ids, index: 0, mode: nextMode, startedAt: Date.now(), deadline: nextMode === 'exam' ? Date.now() + ids.reduce((sum, id) => sum + LEARNING_QUESTIONS.find(q => q.id === id)!.estimatedSeconds * 1000, 0) : null, responses: {}, finished: false, ...filters });
-    setTab('practice'); setNotice('Session saved on this device. Each submitted answer joins your practice history.'); setError('');
+    setTab('practice'); setNotice('Each submitted answer joins your practice history.'); setError('');
   };
   const submitOne = (question: Question, value: Response, current: Session) => {
     if (!value.answer.trim() || value.submitted) return value;
@@ -111,12 +131,12 @@ function Workspace() {
     return { ...value, submitted: id };
   };
   const check = () => {
-    if (!q || !session) return;
+    if (!ready || !q || !session || getUserContentStorageScope() !== user?.id) return;
     try { updateResponse(submitOne(q, response, session)); refresh(); setNotice('Answer saved on this device. Account sync queued.'); }
     catch (e) { setError((e as Error).message); }
   };
   const finish = () => {
-    if (!session) return;
+    if (!ready || !session || getUserContentStorageScope() !== user?.id) return;
     try {
       const responses = { ...session.responses };
       for (const id of session.ids) responses[id] = submitOne(LEARNING_QUESTIONS.find(q => q.id === id)!, responses[id] || emptyResponse(), session);
@@ -124,16 +144,11 @@ function Workspace() {
     } catch (e) { setError((e as Error).message); }
   };
   const next = () => {
-    if (!session) return;
-    let ids = session.ids;
-    if (session.mode === 'diagnostic' && session.index < ids.length - 1) {
-      const nextQuestion = selectLearningQuestion({ ...session, attempts, exclude: ids.slice(0, session.index + 1) });
-      if (nextQuestion) ids = [...ids.slice(0, session.index + 1), nextQuestion.id, ...ids.slice(session.index + 1).filter(id => id !== nextQuestion.id)].slice(0, ids.length);
-    }
-    setSession({ ...session, ids, index: Math.min(ids.length - 1, session.index + 1) }); setReflection(''); setCorrection(''); setCause('unclassified');
+    if (!ready || !session || getUserContentStorageScope() !== user?.id) return;
+    setSession(advancePracticeSession(session, attempts)); setReflection(''); setCorrection(''); setCause('unclassified');
   };
   const saveMistake = () => {
-    if (!q) return;
+    if (!ready || !q || getUserContentStorageScope() !== user?.id) return;
     try {
       const existing = mistakes.find(m => m.questionId === q.id);
       saveLearningRecord('practice_mistake', { id: existing?.id || `mistake:${crypto.randomUUID()}`, questionId: q.id, cause, reflection, correction, updatedAt: new Date().toISOString() });
@@ -147,11 +162,13 @@ function Workspace() {
     <Helmet><title>Learn and practise | VertexED</title><meta name="robots" content="noindex" /></Helmet>
     <header className="learning-heading"><div><p className="dashboard-kicker">Attempt → feedback → return</p><h1>Your learning record</h1><p>Original questions, visible evidence, and a next step you can explain.</p></div><Link to="/main">Back to Today</Link></header>
     <nav className="learning-tabs" aria-label="Learning views">{['practice', 'knowledge', 'mistakes', 'progress'].map(name => <button key={name} aria-pressed={tab === name} onClick={() => setTab(name)}>{name === 'practice' ? 'Practise' : name[0].toUpperCase() + name.slice(1)}</button>)}</nav>
-    {error && <p role="alert" className="learning-notice">{error}</p>}
+    {invalidLink && <p role="alert" className="learning-notice">This practice link refers to a question or concept that is no longer available or does not match. <Link to="/learn">Choose a new practice scope</Link>.</p>}
+    {error && <p role="alert" className="learning-notice">{error} {!ready && <Link to="/user-settings">Account data and recovery</Link>}</p>}
+    {!ready && session && <section className="learning-paper" aria-label="Paused practice recovery"><h2>Keep your answer before reloading</h2><p>The saved copy has not been replaced. Copy any answers you need from this tab, then reload to continue from the saved session.</p><label htmlFor="paused-practice-answers">Answers in this tab</label><textarea id="paused-practice-answers" readOnly value={session.ids.map((id, index) => `${index + 1}. ${session.responses[id]?.answer || '(No answer)'}`).join('\n')} /><button onClick={() => window.location.reload()}>Reload saved session</button></section>}
     {notice && <p role="status" className="learning-notice">{notice}</p>}
     <p className="learning-meta">{getPendingLearnerStateCount() ? `${getPendingLearnerStateCount()} account updates pending. Device copies retained.` : 'Practice records are stored under your account on this device.'} <button onClick={() => void initializeLearnerStateSync().then(() => { refresh(); setNotice('Account sync checked. Pending items remain saved on this device.'); }).catch(() => setError('Account sync is unavailable. Device records are preserved.'))}>Retry account sync</button></p>
     {tab === 'practice' && <>
-      <section className="learning-paper" aria-labelledby="practice-setup"><h2 id="practice-setup">Choose your next attempt</h2>
+      <details className="learning-paper learning-setup" open={!session || session.finished}><summary>Practice setup</summary><h2 id="practice-setup">Choose your next attempt</h2>
         <div className="learning-fields">
           <label>Curriculum scope<select value={curriculum} onChange={e => setCurriculum(e.target.value)}><option value="">General original bank</option>{CURRICULUM_CATALOG.map(c => <option key={c.id} value={c.bankLabel}>{c.label}</option>)}</select></label>
           <label>Subject<select value={subject} onChange={e => { setSubject(e.target.value); setTopic(''); setConcept(''); }}>{subjects.map(s => <option key={s}>{s}</option>)}</select></label>
@@ -160,11 +177,13 @@ function Workspace() {
           <label>Practice mode<select value={mode} onChange={e => setMode(e.target.value)}>{PRACTICE_MODES.map(m => <option key={m} value={m}>{modeNames[m]}</option>)}</select></label>
           <label>Questions<select value={count} onChange={e => setCount(Number(e.target.value))}>{[3,5,10,20].map(n => <option key={n}>{n}</option>)}</select></label>
         </div><p>Limited original bank: {LEARNING_QUESTIONS.length} questions. This is not a complete syllabus, official paper or predicted grade. Fewer questions appear when your scope is narrow.</p>
-        <button className="learning-primary" disabled={!ready || Boolean(session && !session.finished)} onClick={() => start(params.get('question') || '')}>Start practice</button>
+        <button className="learning-primary" disabled={!ready || invalidLink || Boolean(session && !session.finished)} onClick={() => start(selectedQuestion && selectedQuestion.subject === subject && (!topic || selectedQuestion.topic === topic) && (!concept || selectedQuestion.conceptIds.includes(concept)) && (!curriculum || selectedQuestion.curriculum.includes(curriculum)) ? selectedQuestion.id : '')}>Start practice</button>
         {session && !session.finished && <p>Resume the saved session below or finish it before starting another.</p>}
-      </section>
-      {session && <section className="learning-paper" aria-labelledby="active-question">
-        <div className="learning-heading"><h2 id="active-question">{session.finished ? 'Session review' : modeNames[session.mode]} · {session.index + 1} / {session.ids.length}</h2>
+      </details>
+      {session && <section className="learning-paper learning-session" aria-labelledby="active-question">
+        <div className="learning-session-context"><p className="dashboard-kicker">{session.subject} · {session.curriculum || 'Original question bank'}</p><p className="learning-meta">{sessionSaved ? 'Session saved on this device' : 'Session changes are not saved'} · {session.ids.filter(id => session.responses[id]?.submitted).length} / {session.ids.length} answers recorded</p></div>
+        <fieldset disabled={!ready} className="learning-session-controls"><legend className="sr-only">Current practice session</legend>
+        <div className="learning-heading"><h2 id="active-question" ref={activeQuestionRef} tabIndex={-1}>{session.finished ? 'Session review' : modeNames[session.mode]} · {session.index + 1} / {session.ids.length}</h2>
           {session.deadline && <p role="timer" aria-label="Exam time remaining">{Math.max(0, Math.ceil((session.deadline - now) / 60000))} min remaining</p>}</div>
         {session.finished && <p role="status">{score} / {session.ids.length} marks. Unanswered questions receive zero. Hints and repeats remain visible in your evidence.</p>}
         {session.finished && <details><summary>Marks, timing and revision by topic</summary><div className="learning-table"><table><thead><tr><th>Topic</th><th>Marks</th><th>Time</th><th>Lost mark / next step</th></tr></thead><tbody>{session.ids.map(id => {
@@ -176,7 +195,7 @@ function Workspace() {
         })}</tbody></table></div></details>}
 
         {expired && !session.finished && <p role="status">Time is up. Answers are locked; finish to see your review.</p>}
-        <nav className="learning-tabs" aria-label="Question navigation">{session.ids.map((id, i) => <button key={id} aria-current={session.index === i ? 'step' : undefined} disabled={session.mode !== 'exam' && !session.finished && i > session.index} onClick={() => setSession({ ...session, index: i })}>{i + 1}{session.responses[id]?.flagged ? ' ⚑' : ''}{session.responses[id]?.submitted ? ' ✓' : ''}</button>)}</nav>
+        <nav className="learning-tabs" aria-label="Question navigation">{session.ids.map((id, i) => <button key={id} aria-current={session.index === i ? 'step' : undefined} disabled={session.mode !== 'exam' && !session.finished && i > session.index} onClick={() => { setSession({ ...session, index: i }); setReflection(''); setCorrection(''); setCause('unclassified'); }}>{i + 1}{session.responses[id]?.flagged ? ' ⚑' : ''}{session.responses[id]?.submitted ? ' ✓' : ''}</button>)}</nav>
         {q && <>
           <p className="learning-meta">{q.subject} · {q.topic} · {q.difficulty} · {q.marks} mark · Calculator {q.calculator} · {Math.ceil(q.estimatedSeconds / 60)} min suggested</p>
           <RichMarkdown>{q.prompt}</RichMarkdown>
@@ -199,6 +218,7 @@ function Workspace() {
           </div>}
           {session.finished && <div className="learning-actions"><button onClick={() => start('', session.mode)}>Start another session</button><button onClick={() => setTab('knowledge')}>See concept evidence</button><Link to="/main">See today's recommendations</Link></div>}
         </>}
+        </fieldset>
       </section>}
     </>}
     {tab === 'knowledge' && <section className="learning-paper"><h2>Concepts and prerequisites</h2><p>Mastered means at least three recent correct, unassisted attempts across two questions and two days, with the latest correct. Weak means at least two recent errors making up half or more of recent attempts. These are practice rules, not validated learning measurements. Sparse bank coverage can prevent a mastered classification.</p>
