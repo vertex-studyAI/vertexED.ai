@@ -89,3 +89,27 @@ more than 15% of prompts fail.
 - Latency and token-cost tracking
 - A/B comparison runs between two model versions
 - Per-prompt tolerance bands (currently hard-coded 15%)
+
+## NVIDIA provider proof-of-value
+
+The provider POC is intentionally separate from the normal CI regression suite.
+
+```bash
+# Compare OpenAI and NVIDIA on the existing 13 golden prompts.
+node evals/scripts/run-ask-provider-benchmark.mjs \
+  --provider both \
+  --prompts evals/ask/golden.jsonl \
+  --source-revision "$(git rev-parse HEAD)" \
+  --out artifacts/nvidia-poc/golden.json
+
+# Run the dedicated grounding / safety / reasoning stress set.
+node evals/scripts/run-ask-provider-benchmark.mjs \
+  --provider both \
+  --prompts evals/ask/nvidia-poc.jsonl \
+  --source-revision "$(git rev-parse HEAD)" \
+  --out artifacts/nvidia-poc/poc.json
+```
+
+Required secrets are `OPENAI_API_KEY` and `NVIDIA_API_KEY`; set `NVIDIA_CHATBOT_MODEL` explicitly. Optional `OPENAI_INPUT_COST_PER_1M`, `OPENAI_OUTPUT_COST_PER_1M`, `NVIDIA_INPUT_COST_PER_1M`, and `NVIDIA_OUTPUT_COST_PER_1M` values enable request-cost estimates. Missing pricing is reported as unavailable, never as zero.
+
+For the repeatable GitHub Actions path, use **NVIDIA POC Benchmark** in Actions. It is manual by design so live provider calls are never triggered by ordinary CI.
