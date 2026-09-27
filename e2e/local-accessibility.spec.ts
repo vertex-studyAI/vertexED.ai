@@ -134,6 +134,9 @@ test.describe('local keyboard accessibility', () => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.goto('/');
     await expect(page.locator('.vertex-home')).toBeVisible();
+    await expect(page.locator('.motion-hero')).toHaveAttribute('data-motion', 'off');
+    await page.getByText('Take a study break with Revision Stack', { exact: true }).click();
+    await expect(page.locator('.vh-stack-game')).toBeVisible();
 
     const motion = await page.evaluate(() => ({
       rootAnimations: (document.querySelector('.vertex-home') as HTMLElement)
@@ -147,10 +150,10 @@ test.describe('local keyboard accessibility', () => {
     expect(motion.stackTransform).toBe('none');
   });
 
-  test('mobile mastery content stays inside the viewport', async ({ page }) => {
+  test('mobile revision example stays inside the viewport', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto('/');
-    const dimensions = await page.locator('.vh-mastery-copy').evaluate((element) => {
+    const dimensions = await page.locator('.revision-hero-card').evaluate((element) => {
       const rect = element.getBoundingClientRect();
       return { left: rect.left, right: rect.right, viewport: window.innerWidth };
     });
@@ -175,7 +178,7 @@ test.describe('local keyboard accessibility', () => {
         if (path === '/' && visualEvidenceWidths.has(viewport.width)) {
           await expect(page.locator('.landing-hero')).toBeVisible();
           await expect(page.locator('.vh-learning')).toBeVisible();
-          await expect(page.locator('.vh-subjects')).toBeVisible();
+          await expect(page.locator('.vh-curriculum')).toBeVisible();
           await page.screenshot({
             path: testInfo.outputPath(`landing-${viewport.width}x${viewport.height}.png`),
             fullPage: true,

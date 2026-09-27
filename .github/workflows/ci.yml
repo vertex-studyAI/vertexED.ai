@@ -163,7 +163,7 @@ jobs:
         run: npm run db:test
 
       - name: Stop local Supabase
-        if: always()
+        if: ${{ always() && env.VERTEXED_TEST_DB_WORKDIR != '' }}
         run: npx supabase stop --workdir "$VERTEXED_TEST_DB_WORKDIR"
 
   browser-authenticated-golden:

@@ -59,3 +59,18 @@ test('landing and tutor renderers retain lazy dependency boundaries', async () =
   assert.match(chat, /const ApexMessageList = lazy\(\(\) => import\("@\/components\/chat\/ApexMessageList"\)\)/);
   assert.doesNotMatch(viteConfig, /return 'chat-markdown'/);
 });
+
+test('module workers count toward frozen JavaScript budgets', async () => {
+  const distDir = await mkdtemp(join(tmpdir(), 'vertexed-worker-budget-'));
+  await mkdir(join(distDir, 'assets'));
+  await writeFile(join(distDir, 'assets', 'worker.mjs'), 'export default "worker";');
+  const result = await measureBuild({
+    distDir,
+    html: '<script type="module" src="/assets/worker.mjs"></script>',
+    budgets: { totalJavaScriptGzipBytes: 1 },
+  });
+  assert.ok(result.metrics.initialJavaScriptGzipBytes > 1);
+  assert.equal(result.metrics.totalJavaScriptGzipBytes, result.metrics.initialJavaScriptGzipBytes);
+  assert.equal(result.metrics.largestJavaScriptGzipBytes, result.metrics.totalJavaScriptGzipBytes);
+  assert.equal(result.violations[0].name, 'totalJavaScriptGzipBytes');
+});
