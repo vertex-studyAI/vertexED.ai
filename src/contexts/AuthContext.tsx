@@ -306,6 +306,13 @@ export function AuthProvider({ children }: PropsWithChildren) {
     }
 
     if (updated) {
+      const completeCurriculumSnapshot = ['board', 'grade', 'subjects', 'exam_date'].every(
+        (field) => Object.prototype.hasOwnProperty.call(updated, field),
+      );
+      if (!completeCurriculumSnapshot) {
+        await refreshProfile(u.id, u.email);
+        return;
+      }
       const curriculumRecovery = buildMissingCurriculumRecovery(updated, u);
       if (Object.keys(curriculumRecovery).length > 0) {
         // A learner may edit curriculum after the snapshot above. Compare all
