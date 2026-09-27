@@ -1,0 +1,89 @@
+name: NVIDIA POC Benchmark
+
+on:
+  workflow_dispatch:
+    inputs:
+      nvidia_model:
+        description: NVIDIA model id
+        required: true
+        default: nvidia/nemotron-3-ultra-550b-a55b
+      limit:
+        description: Optional prompt limit per set (0 = all)
+        required: false
+        default: "0"
+
+permissions:
+  contents: read
+
+jobs:
+  provider-benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
+      NVIDIA_CHATBOT_MODEL: ${{ inputs.nvidia_model }}
+      OPENAI_INPUT_COST_PER_1M: ${{ vars.OPENAI_INPUT_COST_PER_1M }}
+      OPENAI_OUTPUT_COST_PER_1M: ${{ vars.OPENAI_OUTPUT_COST_PER_1M }}
+      NVIDIA_INPUT_COST_PER_1M: ${{ vars.NVIDIA_INPUT_COST_PER_1M }}
+      NVIDIA_OUTPUT_COST_PER_1M: ${{ vars.NVIDIA_OUTPUT_COST_PER_1M }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+
+      - name: Verify required provider secrets
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -z "${OPENAI_API_KEY:-}" ]]; then
+            echo "::error::OPENAI_API_KEY repository secret is missing"
+            exit 1
+          fi
+          if [[ -z "${NVIDIA_API_KEY:-}" ]]; then
+            echo "::error::NVIDIA_API_KEY repository secret is missing"
+            exit 1
+          fi
+
+      - name: Provider contract tests
+        run: node --test tests/chat-provider-contract.test.mjs tests/provider-evidence.test.mjs tests/provider-telemetry.test.mjs
+
+      - name: Resolve benchmark source revision
+        id: revision
+        shell: bash
+        run: echo "sha=${GITHUB_SHA}" >> "$GITHUB_OUTPUT"
+
+      - name: Run 13-prompt regression continuity benchmark
+        shell: bash
+        run: |
+          set -euo pipefail
+          LIMIT_ARG=()
+          if [[ "${{ inputs.limit }}" != "0" ]]; then
+            LIMIT_ARG=(--limit "${{ inputs.limit }}")
+          fi
+          node evals/scripts/run-ask-provider-benchmark.mjs             --provider both             --prompts evals/ask/golden.jsonl             "${LIMIT_ARG[@]}"             --source-revision "${{ steps.revision.outputs.sha }}"             --out artifacts/nvidia-poc/golden.json
+
+      - name: Run dedicated NVIDIA POC stress benchmark
+        shell: bash
+        run: |
+          set -euo pipefail
+          LIMIT_ARG=()
+          if [[ "${{ inputs.limit }}" != "0" ]]; then
+            LIMIT_ARG=(--limit "${{ inputs.limit }}")
+          fi
+          node evals/scripts/run-ask-provider-benchmark.mjs             --provider both             --prompts evals/ask/nvidia-poc.jsonl             "${LIMIT_ARG[@]}"             --source-revision "${{ steps.revision.outputs.sha }}"             --out artifacts/nvidia-poc/poc.json
+
+      - name: Generate human-readable NVIDIA POC report
+        run: |
+          node evals/scripts/generate-nvidia-poc-report.mjs             artifacts/nvidia-poc/golden.json             artifacts/nvidia-poc/poc.json             artifacts/nvidia-poc/NVIDIA_POC_REPORT.md
+
+      - name: Upload source-bound benchmark evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: nvidia-poc-${{ steps.revision.outputs.sha }}
+          path: artifacts/nvidia-poc/
+          if-no-files-found: error
+          retention-days: 30
