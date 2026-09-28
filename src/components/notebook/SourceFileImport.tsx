@@ -69,6 +69,7 @@ export default function SourceFileImport({ disabled, scopeKey, onImport }: Props
     reader.readAsArrayBuffer(file);
   };
 
+  const discardText = () => { setTextPreview(null); fileRef.current = null; setError(false); setMessage('Import cancelled. No source was added.'); };
   const discard = () => { setPreview(null); fileRef.current = null; setError(false); setMessage('Preview discarded. No source was added.'); };
 
   return <div className="notebook-file-import mt-3" data-dragging={dragging}
@@ -104,18 +105,19 @@ export default function SourceFileImport({ disabled, scopeKey, onImport }: Props
     </AccessibleModal>}
     {message && !preview && <p className="mt-2 text-sm" role={error ? 'alert' : 'status'}>{message}</p>}
     {error && fileRef.current && !preview && <button type="button" disabled={disabled} className="text-link min-h-11" onClick={() => fileRef.current && read(fileRef.current)}>Retry import</button>}
-    {textPreview && textPreview.scope === scopeKey && <section className="mt-3 grid gap-3 rounded-lg border border-border bg-background p-3" aria-label="Review imported source">
-      <h3 className="font-semibold">Review before adding</h3>
+    {textPreview && textPreview.scope === scopeKey && <AccessibleModal titleId="text-review-title" onClose={discardText} openerRef={openerRef} initialFocusRef={textRef} overlayClassName="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50" className="w-full max-w-2xl max-h-[90dvh] overflow-y-auto rounded-xl border border-border bg-background text-foreground p-5 sm:p-7 shadow-xl"><section className="grid gap-3" aria-label="Review imported source">
+      <h2 id="text-review-title" className="text-xl font-semibold">Review before adding</h2>
       <p className="text-sm">Read {textPreview.content.length.toLocaleString()} characters. Edit the title and included text below. No study materials have been generated.</p>
       {textPreview.content.split(/\r?\n/).some(line => /^#{1,6}\s+/.test(line)) && <details><summary className="min-h-11 cursor-pointer">Detected Markdown headings</summary><ul className="list-disc pl-5">{textPreview.content.split(/\r?\n/).filter(line => /^#{1,6}\s+/.test(line)).slice(0, 20).map((line, i) => <li key={i}>{line.replace(/^#{1,6}\s+/, '')}</li>)}</ul><p className="text-sm">Up to 20 headings shown. These are document headings, not verified syllabus topics.</p></details>}
-      <label htmlFor="import-source-title" className="grid gap-1">Source title</label><input id="import-source-title" className="neu-input-el min-h-11" value={textPreview.title} maxLength={160} onChange={e => setTextPreview({ ...textPreview, title: e.target.value })} />
-      <label htmlFor="import-source-text" className="grid gap-1">Included source text</label><textarea id="import-source-text" className="neu-input-el min-h-40" value={textPreview.content} maxLength={50000} onChange={e => setTextPreview({ ...textPreview, content: e.target.value })} />
-      <p className="text-sm text-muted-foreground">Keep the passages you want to study. Once added, select a study guide, quiz, flashcards or topic map in the notebook. Source links refer to this excerpt; no PDF page numbers are inferred.</p>
-      <div className="flex flex-wrap gap-2"><button className="btn-solid min-h-11" disabled={disabled || !textPreview.title.trim() || !textPreview.content.trim()} onClick={() => {
+      <label htmlFor="import-source-title" className="grid gap-1">Source title</label><input id="import-source-title" className="w-full min-h-11 p-3 rounded border border-border bg-background text-foreground text-base" value={textPreview.title} maxLength={160} onChange={e => setTextPreview({ ...textPreview, title: e.target.value })} />
+      <label htmlFor="import-source-text" className="grid gap-1">Included source text</label><textarea id="import-source-text" ref={textRef} rows={8} className="w-full min-h-40 p-3 rounded border border-border bg-background text-foreground text-base" value={textPreview.content} maxLength={50000} onChange={e => setTextPreview({ ...textPreview, content: e.target.value })} />
+      <p className="text-sm text-muted-foreground">Keep the passages you want to study. Source links refer to this excerpt; no PDF page numbers are inferred.</p>
+      <div className="flex flex-wrap gap-2"><button type="button" className="min-h-11 px-3 rounded-lg bg-primary text-primary-foreground" disabled={disabled || !textPreview.title.trim() || !textPreview.content.trim()} onClick={() => {
         if (textPreview.scope !== scopeRef.current) return;
         try { const result = onImport(textPreview.title.trim(), textPreview.content.trim()); setTextPreview(null); fileRef.current = null; setError(false); setMessage(result); }
         catch (failure) { setError(true); setMessage(failure instanceof Error ? failure.message : 'Source could not be saved. Your preview is preserved.'); }
-      }}>Add reviewed source</button><button className="text-link min-h-11" onClick={() => { setTextPreview(null); setMessage('Import cancelled. No source was added.'); }}>Discard preview</button></div>
-    </section>}
+      }}>Add reviewed source</button><button type="button" className="min-h-11 px-3 rounded-lg border border-border" onClick={discardText}>Discard preview</button></div>
+      {error && message && <p role="alert" className="text-sm">{message}</p>}
+    </section></AccessibleModal>}
   </div>;
 }

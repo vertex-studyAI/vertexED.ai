@@ -168,19 +168,24 @@ test('notebook imports, persists practice, keeps previous attempts and opens con
   const choose = page.getByLabel('Choose a source file');
   await expect(choose).toBeEnabled();
   const file = { name: 'Mechanics.txt', mimeType: 'text/plain', buffer: Buffer.from('Impulse equals the change in momentum. Momentum is mass times velocity.') };
-  await choose.setInputFiles(file);
-  const reviewSource = page.getByRole('region', { name: 'Review imported source' });
-  await expect(reviewSource).toBeVisible();
-  await expect(page.getByRole('button', { name: 'Preview Mechanics', exact: true })).toHaveCount(0);
-  await page.getByLabel('Included source text', { exact: true }).fill(file.buffer.toString() + '\n# Momentum review');
-  await expect(reviewSource.getByText('Detected Markdown headings', { exact: true })).toBeVisible();
+  const reviewedText = file.buffer.toString() + '\n# Momentum review';
   for (const width of [1440, 1024, 390]) {
     await page.setViewportSize({ width, height: 900 });
     for (const theme of ['light', 'dark'] as const) {
       await selectTheme(page, theme);
-      await reviewSource.scrollIntoViewIfNeeded();
+      await choose.setInputFiles(file);
+      const reviewSource = page.getByRole('region', { name: 'Review imported source' });
+      await expect(reviewSource).toBeVisible();
+      await expect(page.getByRole('button', { name: 'Preview Mechanics', exact: true })).toHaveCount(0);
+      await expect(page.getByLabel('Included source text', { exact: true })).toBeFocused();
+      await page.getByLabel('Included source text', { exact: true }).fill(reviewedText);
+      await expect(reviewSource.getByText('Detected Markdown headings', { exact: true })).toBeVisible();
       await page.screenshot({ path: info.outputPath(`text-review-${width}-${theme}.png`) });
       expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width + 1);
+      if (width !== 390 || theme !== 'dark') {
+        await page.keyboard.press('Escape');
+        await expect(page.getByRole('button', { name: /^Import a source file/ })).toBeFocused();
+      }
     }
   }
   await page.getByRole('button', { name: 'Add reviewed source', exact: true }).click();
