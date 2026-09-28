@@ -82,8 +82,6 @@ export default function Main() {
 
   const todayItems = brief ? buildTodayPlanItems(brief.todayTasks, brief.adaptivePlan.recommendations) : [];
   const primaryTodayItem = todayItems[0] ?? null;
-  const dueFlashcards = brief?.dueFlashcards ?? 0;
-  const dueRetries = getDueRetries().length;
   const nextRetry = getDueRetries()[0];
   const nextAction = dashboardNextAction({
     todayItem: primaryTodayItem,
@@ -103,27 +101,14 @@ export default function Main() {
       </Helmet>
 
       <div className="dashboard-shell study-desk mx-auto w-full max-w-7xl space-y-7 pb-6">
-        <section className="desk-header">
-          <div className="desk-header-layout">
-          <div className="dashboard-hero-copy">
-            <p className="dashboard-kicker">{firstName ? `Welcome back, ${firstName}` : "Welcome back"}</p>
-            <h1>Your study desk<span className="desk-title-dot" aria-hidden>.</span></h1>
-            <p className="dashboard-hero-text">{primaryTodayItem ? `Next: ${primaryTodayItem.label}` : 'A little focus. A useful attempt. Pick up where you left off.'}</p>
-            <div className="dashboard-hero-actions">
-              <Link to={nextAction.to} className="dashboard-primary-action">
-                {nextAction.label} <ArrowRight className="h-4 w-4" aria-hidden />
-              </Link>
-              <Link to="/planner" className="dashboard-secondary-action">Open planner</Link>
-            </div>
+        <header className="learning-heading desk-today-header">
+          <div><p className="dashboard-kicker">{firstName ? `Welcome back, ${firstName}` : "Welcome back"}</p><h1>Today</h1><p>Make an attempt. Find the gap. Come back to it.</p></div>
+          <div className="learning-actions">
+            <Link to={nextAction.to}>{nextAction.label}</Link>
+            <Link to="/planner">Open planner</Link>
+
           </div>
-          <aside className="desk-review-note" aria-label="Your revision queue">
-            <span className="dashboard-kicker">Keep the thread</span>
-            <p>Come back to<br /><em>what you missed.</em></p>
-            <Link to="/learn?tab=mistakes">Open your mistake notebook <ArrowRight size={16} aria-hidden /></Link>
-            <div className="desk-queue-counts"><span><strong>{todayItems.length}</strong> next steps</span><Link to="/notetaker"><strong>{dueFlashcards}</strong> cards due</Link><Link to="/exam-prep"><strong>{dueRetries}</strong> retries due</Link></div>
-          </aside>
-          </div>
-        </section>
+        </header>
 
         <LearningToday key={user?.id} />
 
@@ -185,7 +170,7 @@ export default function Main() {
           </section>
         )}
 
-        <StudyToolbox key={user?.id || "signed-out"} accountId={user?.id} />
+        <details className="learning-paper"><summary>Study tools and resources</summary><StudyToolbox key={user?.id || "signed-out"} accountId={user?.id} /></details>
 
         <section className="dashboard-support-grid" aria-label="Additional study resources">
           <LiquidGlass as="article" variant="card" className="dashboard-support-card">

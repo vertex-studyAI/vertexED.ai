@@ -1,4 +1,5 @@
 import ConversationStatus from '@/components/chat/ConversationStatus';
+import '@/styles/learning-workspace.css';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate, useSearchParams } from 'react-router';
@@ -875,17 +876,17 @@ export default function StudyNotebook() {
           descriptionId="notebook-source-preview-description"
           openerRef={sourcePreviewOpenerRef}
           onClose={() => setPreviewSourceId(null)}
-          overlayClassName="notebook-modal-backdrop"
-          className="notebook-modal"
+          overlayClassName="learning-rail-overlay"
+          className="learning-workspace learning-paper learning-rail"
         >
-          <div className="flex items-center justify-between gap-3 mb-4">
+          <div className="learning-heading">
             <h3 id="notebook-source-preview-title" className="font-semibold truncate">
               {previewSource.title}
             </h3>
             <button
               type="button"
               onClick={() => setPreviewSourceId(null)}
-              className="p-1 text-muted-foreground hover:text-foreground"
+              className="min-h-11 min-w-11 p-2 text-muted-foreground hover:text-foreground"
               aria-label={`Close preview for ${previewSource.title}`}
             >
               <X className="h-5 w-5" aria-hidden />
@@ -895,7 +896,7 @@ export default function StudyNotebook() {
             Source preview content. Press Escape to close and return to the preview button.
           </p>
           <pre
-            className="text-xs text-foreground/85 whitespace-pre-wrap max-h-[60vh] overflow-y-auto leading-relaxed"
+            className="text-base text-foreground whitespace-pre-wrap break-words font-sans leading-relaxed"
             tabIndex={0}
           >
             {previewSource.content}

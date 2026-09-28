@@ -35,6 +35,8 @@ export default function SiteLayout() {
   const mobileNavRef = useRef<HTMLElement | null>(null);
   const headerRef = useRef<HTMLElement | null>(null);
   const isActive = (to: string) => {
+    if (to.includes("?")) return location.pathname + location.search === to;
+    if (to === "/learn") return location.pathname === "/learn" && !location.search.includes("tab=");
     const [pathname, hash] = to.split('#');
     if (hash) return location.pathname === pathname && location.hash === `#${hash}`;
     return location.pathname === pathname || (pathname !== "/" && location.pathname.startsWith(`${pathname}/`));
@@ -42,13 +44,13 @@ export default function SiteLayout() {
   const isStudyGuideRoute = location.pathname.startsWith("/study-guides");
   const chatEligibleRoute =
     shouldOfferApex(location.pathname) &&
-    location.pathname !== "/chatbot" &&
+    location.pathname !== "/chatbot" && location.pathname !== "/learn" &&
     !["/login", "/signup", "/auth/callback", "/onboarding", "/", "/home", "/about", "/features"].includes(
       location.pathname,
     ) &&
     !location.pathname.startsWith("/resources");
   const shouldLoadGlobalChat = chatEligibleRoute && (isAuthenticated || isStudyGuideRoute);
-  const companionEligible = shouldOfferApex(location.pathname);
+  const companionEligible = shouldOfferApex(location.pathname) && location.pathname !== "/learn";
   const companionVisible = companionEligible && settings.studyCompanion && !settings.simpleMode;
 
   useEffect(() => {
@@ -129,11 +131,11 @@ export default function SiteLayout() {
   const navLinks = isAuthenticated
     ? [
         { to: "/main", label: "Today" },
+        { to: "/learn?tab=knowledge", label: "Courses" },
+        { to: "/learn", label: "Practise" },
+        { to: "/learn?tab=mistakes", label: "Mistakes" },
+        { to: "/planner", label: "Study plan" },
         { to: "/exam-prep", label: "Exam prep" },
-        { to: "/planner", label: "Plan" },
-        { to: "/study-zone", label: "Focus" },
-        { to: "/paper-maker", label: "Practice" },
-        { to: "/chatbot", label: "AI tutor" },
       ]
     : [
         { to: "/", label: "Home" },
@@ -152,6 +154,9 @@ export default function SiteLayout() {
       >
         Skip to content
       </a>
+      {isAuthenticated && <nav className="learning-bottom-nav" aria-label="Mobile learning navigation">{[
+        { to: '/main', label: 'Today' }, { to: '/learn?tab=knowledge', label: 'Learn' }, { to: '/learn', label: 'Practise' }, { to: '/learn?tab=mistakes', label: 'Mistakes' }, { to: '/user-settings', label: 'Profile' }
+      ].map(item => <Link key={item.to} to={item.to} aria-current={isActive(item.to) ? 'page' : undefined}>{item.label}</Link>)}</nav>}
       <Helmet>
         <title>VertexED: Revision planning and exam practice</title>
         <meta

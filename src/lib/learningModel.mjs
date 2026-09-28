@@ -9,6 +9,7 @@ const slug = text => String(text).toLowerCase().replace(/[^a-z0-9]+/g, '-').repl
 export const conceptId = (subject, concept) => `${slug(subject)}:${slug(concept)}`;
 const prerequisites = {
   'inverse functions': ['domain'], 'Bayes theorem': ['conditional probability'],
+  'polar form': ['modulus', 'argument'], 'roots of unity': ['De Moivre theorem'],
   'De Moivre theorem': ['polar form'], 'projection': ['dot product'],
   'tangent slope': ['limits'], 'separable equations': ['definite integrals'],
   'friction': ['free-body diagrams', 'Newton second law'],
@@ -136,6 +137,7 @@ export function selectLearningQuestion({ attempts = [], subject = '', topic = ''
 
 export function buildLearningPlan({ attempts = [], tasks = [], exams = [], subjects = [], minutes = 25, dueCards = 0, now = Date.now() } = {}) {
   const model = buildKnowledgeModel(attempts, now);
+  const budget = Math.max(5, Math.min(480, Number(minutes) || 25));
   const candidates = [];
   for (const task of tasks) {
     if (task.completed || !task.date || !Number.isFinite(Date.parse(task.date))) continue;
@@ -154,17 +156,29 @@ export function buildLearningPlan({ attempts = [], tasks = [], exams = [], subje
     const reason = [node.status === 'weak' ? `${node.repeatedErrors} of your last ${Math.min(5, node.attempts)} attempts were incorrect.` : node.explanation,
       node.reviewDue ? `Your ${node.intervalDays}-day review interval has elapsed.` : '',
       gap ? `Review prerequisite: ${gap.label}.` : '', days !== null ? `${node.subject} assessment in ${days} day${days === 1 ? '' : 's'}.` : ''].filter(Boolean).join(' ');
-    candidates.push({ id: node.id, title: gap ? `Repair ${gap.label}` : `Practise ${node.label}`, minutes: 10, reason,
+    const actionNode = gap || node;
+    const minimum = Math.min(...LEARNING_QUESTIONS.filter(q => q.conceptIds.includes(actionNode.id)).map(q => Math.ceil((q.estimatedSeconds + 60) / 60)));
+    const actionMinutes = Math.max(Math.min(10, budget), minimum);
+    candidates.push({ id: node.id, title: gap ? `Repair ${gap.label}` : `Practise ${node.label}`, minutes: actionMinutes, reason,
       score: (node.status === 'weak' ? 65 : 20) + (node.reviewDue ? 20 : 0) + (gap ? 15 : 0) + (days !== null ? Math.max(0, 35 - days * 3) : 0),
-      to: `/learn?concept=${encodeURIComponent((gap || node).id)}&mode=${gap ? 'prerequisites' : 'targeted'}`, kind: 'concept' });
+      to: `/learn?concept=${encodeURIComponent((gap || node).id)}&mode=targeted&minutes=${actionMinutes}`, kind: 'concept' });
   }
   if (dueCards) candidates.push({ id: 'cards', title: `Review ${dueCards} due flashcards`, minutes: Math.min(15, Math.max(5, dueCards)), reason: 'These cards are due under your saved review schedule.', score: 70, to: '/notetaker?mode=study', kind: 'cards' });
-  if (!candidates.length) candidates.push({ id: 'diagnostic', title: 'Find your starting point', minutes: 10, reason: 'No assessed concept needs review yet. Try an original question to start collecting evidence.', score: 0, to: '/learn?mode=diagnostic', kind: 'diagnostic' });
-  const sorted = candidates.sort((a, b) => b.score - a.score || a.id.localeCompare(b.id));
+  if (!candidates.length && subjects.length && !LEARNING_QUESTIONS.some(q => subjects.includes(q.subject))) {
+    candidates.push({ id: 'source-start', title: 'Start with your course materials', minutes: Math.min(10, budget), reason: 'The original bank does not cover your selected subjects yet. Add a short source and choose what to study from it.', score: 0, to: '/study-notebook?start=1', kind: 'source' });
+  }
+  if (!candidates.length) candidates.push({ id: 'diagnostic', title: 'Find your starting point', minutes: Math.min(10, budget), reason: 'No assessed concept needs review yet. Try an original question to start collecting evidence.', score: 0, to: '/learn?mode=diagnostic&minutes=' + Math.min(10, budget) + (subjects.length ? '&subject=' + encodeURIComponent(subjects[0]) : ''), kind: 'diagnostic' });
+  const unique = new Map();
+  for (const item of candidates) { const key = item.kind === 'concept' ? item.to : item.id; if (!unique.has(key) || unique.get(key).score < item.score) unique.set(key, item); }
+  const sorted = [...unique.values()].sort((a, b) => b.score - a.score || a.id.localeCompare(b.id));
   let remaining = Math.max(5, Math.min(480, Number(minutes) || 25));
   const planned = [], backlog = [];
   for (const item of sorted) {
-    if (item.minutes <= remaining) { planned.push(item); remaining -= item.minutes; } else backlog.push(item);
+    if (item.minutes <= remaining && planned.length < 5) { planned.push(item); remaining -= item.minutes; } else backlog.push(item);
+  }
+  if (!planned.length) {
+    const question = LEARNING_QUESTIONS.find(q => (!subjects.length || subjects.includes(q.subject)) && q.estimatedSeconds + 60 <= budget * 60);
+    if (question) planned.push({ id: 'quick-diagnostic', title: 'One short practice attempt', minutes: Math.min(5, budget), reason: 'Your other tasks need more time. Use this window for an original question and feedback.', to: '/learn?mode=diagnostic&minutes=5&subject=' + encodeURIComponent(question.subject), kind: 'diagnostic', score: 0 });
   }
   return { planned, backlog, plannedMinutes: planned.reduce((n, item) => n + item.minutes, 0), model };
 }

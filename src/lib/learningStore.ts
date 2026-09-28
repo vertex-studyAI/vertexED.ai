@@ -19,4 +19,5 @@ export function saveLearningRecord(type: 'practice_attempt' | 'practice_mistake'
   localStorage.setItem(key, JSON.stringify(merged));
   queueLearnerStateWrite(type, record.id, record as unknown as Record<string, unknown>);
   window.dispatchEvent(new CustomEvent('vertexed:practice-changed'));
+  window.dispatchEvent(new CustomEvent('vertexed:learner-state-changed'));
 }

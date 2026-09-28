@@ -168,8 +168,12 @@ test('notebook imports, persists practice, keeps previous attempts and opens con
   await expect(choose).toBeEnabled();
   const file = { name: 'Mechanics.txt', mimeType: 'text/plain', buffer: Buffer.from('Impulse equals the change in momentum. Momentum is mass times velocity.') };
   await choose.setInputFiles(file);
+  await expect(page.getByRole('region', { name: 'Review imported source' })).toBeVisible();
+  await page.getByRole('button', { name: 'Add reviewed source', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Preview Mechanics', exact: true })).toBeVisible();
   await choose.setInputFiles(file);
+  await expect(page.getByRole('region', { name: 'Review imported source' })).toBeVisible();
+  await page.getByRole('button', { name: 'Add reviewed source', exact: true }).click();
   await expect(page.getByText(/No duplicate was added/)).toBeVisible();
   await expect(page.getByRole('button', { name: 'Preview Mechanics', exact: true })).toHaveCount(1);
   await choose.setInputFiles({ name: 'binary.txt', mimeType: 'text/plain', buffer: Buffer.from([0, 1, 2, 3]) });

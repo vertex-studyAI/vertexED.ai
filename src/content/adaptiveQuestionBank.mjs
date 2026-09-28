@@ -6,7 +6,10 @@
  * unavailable. The bank deliberately mixes direct, multi-step and synthesis
  * work instead of treating difficulty as a display label.
  */
+import { COMPLEX_NUMBERS_PRACTICE } from './complexNumbersPractice.mjs';
+
 export const ADAPTIVE_QUESTION_BANK = [
+  ...COMPLEX_NUMBERS_PRACTICE,
   {
     id: 'math-functions-composite-01', subject: 'Mathematics', topic: 'Functions', difficulty: 'foundation', type: 'numeric',
     curriculum: ['IB DP', 'AP', 'A Level'], concepts: ['composite functions'],

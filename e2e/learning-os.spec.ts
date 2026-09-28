@@ -6,12 +6,12 @@ import { CONCEPT_GRAPH } from '../src/lib/learningModel.mjs';
 const learnerId = 'f40db66b-1b55-4ab8-88d0-14a9ba476c16';
 const artifactId = '25734997-775e-473f-b415-897751b08497';
 
-async function installAccountHarness(page: Page, empty = false) {
-  const user = { id: learnerId, aud: 'authenticated', role: 'authenticated', email: 'learner@example.test', app_metadata: { provider: 'email' }, user_metadata: { username: 'searchlearner', board: 'IB_MYP', grade: 10, subjects: ['Physics'] }, created_at: '2026-09-21T00:00:00Z', identities: [] };
+async function installAccountHarness(page: Page, empty = false, examDate: string | null = null) {
+  const user = { id: learnerId, aud: 'authenticated', role: 'authenticated', email: 'learner@example.test', app_metadata: { provider: 'email' }, user_metadata: { exam_date: examDate, username: 'searchlearner', board: 'IB_MYP', grade: 10, subjects: ['Physics'] }, created_at: '2026-09-21T00:00:00Z', identities: [] };
   const encode = (value: unknown) => Buffer.from(JSON.stringify(value)).toString('base64url');
   const token = `${encode({ alg: 'HS256', typ: 'JWT' })}.${encode({ sub: learnerId, exp: 2103836400, role: 'authenticated' })}.test-only`;
   const artifact = { id: artifactId, kind: 'note', title: 'Mechanics revision source', payload: { notes: 'Momentum is mass multiplied by velocity. Impulse is the change in momentum.' }, created_at: '2026-09-21T00:00:00Z', updated_at: '2026-09-21T00:00:00Z' };
-  const state = { holdReads: null as Promise<void> | null, planner: null as Record<string, unknown> | null, reviewItem: null as Record<string, unknown> | null, fail: false, delay: 0, savedReads: 0, notebook: null as Record<string, unknown> | null, quizSources: [] as Array<{ id: string; excerpt: string }>, review: null as Record<string, unknown> | null, reviewRequest: null as Record<string, unknown> | null, learnerWrites: [] as Array<Record<string, unknown>> };
+  const state = { conversation: null as Record<string, unknown> | null, holdReads: null as Promise<void> | null, planner: null as Record<string, unknown> | null, reviewItem: null as Record<string, unknown> | null, fail: false, delay: 0, savedReads: 0, notebook: null as Record<string, unknown> | null, quizSources: [] as Array<{ id: string; excerpt: string }>, review: null as Record<string, unknown> | null, reviewRequest: null as Record<string, unknown> | null, learnerWrites: [] as Array<Record<string, unknown>> };
   await page.route(/^https:\/\/[^/]+\.supabase\.co\//, async route => {
     const path = new URL(route.request().url()).pathname;
     let body: unknown = {};
@@ -42,7 +42,10 @@ async function installAccountHarness(page: Page, empty = false) {
       const requested = url.searchParams.get('id');
       if (route.request().method() === 'POST' && !state.fail) {
         const write = route.request().postDataJSON();
-        if (write.kind === 'notebook') {
+        if (write.kind === 'conversation') {
+          state.conversation = { id: 'c29f1c89-9a84-4906-b59d-b6a405b99e0e', kind: 'conversation', payload: write.payload, updated_at: new Date(Date.now() + state.savedReads).toISOString() };
+          body = { item: state.conversation };
+        } else if (write.kind === 'notebook') {
           state.notebook = { id: '707d3f91-00e7-4fba-bd1e-24de546233d8', kind: 'notebook', title: 'Study Notebook', payload: write.payload, updated_at: new Date().toISOString() };
           body = { item: state.notebook };
         } else if (write.kind === 'planner') {
@@ -53,7 +56,7 @@ async function installAccountHarness(page: Page, empty = false) {
           state.reviewItem = { ...artifact, kind: 'review', payload: write.payload, updated_at: new Date().toISOString() };
           body = { item: state.reviewItem };
         } else body = { item: artifact };
-      } else body = state.fail ? { error: 'Test database unavailable' } : { items: url.searchParams.get('kind') === 'planner' ? state.planner ? [state.planner] : [] : url.searchParams.get('kind') === 'review' ? state.reviewItem ? [state.reviewItem] : [] : url.searchParams.get('kind') === 'notebook' ? state.notebook ? [state.notebook] : [] : requested && requested !== artifactId ? [] : state.reviewItem ? [state.reviewItem] : empty ? [] : [artifact], nextOffset: null };
+      } else body = state.fail ? { error: 'Test database unavailable' } : { items: url.searchParams.get('kind') === 'conversation' ? state.conversation ? [state.conversation] : [] : url.searchParams.get('kind') === 'planner' ? state.planner ? [state.planner] : [] : url.searchParams.get('kind') === 'review' ? state.reviewItem ? [state.reviewItem] : [] : url.searchParams.get('kind') === 'notebook' ? state.notebook ? [state.notebook] : [] : requested && requested !== artifactId ? [] : state.reviewItem ? [state.reviewItem] : empty ? [] : [artifact], nextOffset: null };
     } else if (url.pathname === '/api/review') {
       state.reviewRequest = route.request().postDataJSON();
       body = { contractVersion: 'vertexed.answer-review.v2', degraded: false, safe_text: 'Explain how momentum differs from velocity.', review: {
@@ -81,6 +84,73 @@ async function installAccountHarness(page: Page, empty = false) {
 }
 
 for (const width of [1440, 1024, 390]) {
+  test(`learning loop improvements at ${width}`, async ({ page }, info) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await installAccountHarness(page, true, '2090-12-31');
+    await expect(page.getByRole('region', { name: 'Upcoming assessments' })).toContainText('Physics');
+    await page.getByRole('button', { name: '5 min', exact: true }).click();
+    await expect(page.getByRole('link', { name: 'Start next step · 5 min' })).toBeVisible();
+    await page.getByRole('link', { name: 'Start next step · 5 min' }).click();
+    await expect(page.getByRole('combobox', { name: 'Time budget', exact: true })).toHaveValue('5');
+    await page.getByRole('button', { name: 'Start practice', exact: true }).click();
+    await expect(page.getByLabel('Confidence before feedback')).toHaveValue('');
+    await page.getByRole('button', { name: 'Show a hint', exact: true }).click();
+    await page.getByRole('button', { name: 'Show the first step', exact: true }).click();
+    await page.reload();
+    await expect(page.getByRole('button', { name: 'Show complete solution', exact: true })).toBeVisible();
+    await page.goto('/main');
+    await page.getByRole('link', { name: 'Continue saved practice', exact: true }).click();
+    await page.getByLabel('Your answer', { exact: true }).fill('-1234');
+    await page.getByRole('button', { name: 'Check answer', exact: true }).click();
+    await page.getByText('Try again with this feedback', { exact: true }).click();
+    await page.getByLabel('Corrected answer', { exact: true }).fill('3');
+    await page.getByRole('button', { name: 'Check correction', exact: true }).click();
+    await expect(page.getByText('You corrected the answer with feedback. Return later without help to check retention.', { exact: true })).toBeVisible();
+    await expect.poll(() => page.evaluate(id => JSON.parse(localStorage.getItem('vertex_content:' + id + ':practice_attempts') || '[]').length, learnerId)).toBe(2);
+    await page.getByRole('button', { name: 'Finish session', exact: true }).click();
+    await page.getByRole('button', { name: 'Mistakes', exact: true }).click();
+    await expect(page.getByRole('heading', { name: 'Mistake notebook', exact: true })).toBeVisible();
+    const inspect = page.getByRole('button', { name: /Inspect mistake/ }).first();
+    await inspect.click();
+    const dialog = page.getByRole('dialog');
+    await expect(dialog).toContainText('-1234');
+    await dialog.getByLabel('Error cause (your reflection)').selectOption('conceptual');
+    await dialog.getByLabel('Why I got it wrong').fill('I need to identify the resultant force.');
+    await dialog.getByRole('button', { name: 'Save reflection' }).click();
+    await page.keyboard.press('Escape');
+    await expect(inspect).toBeFocused();
+    await page.getByLabel('Filter by your error category').selectOption('conceptual');
+    await expect(page.getByText('I need to identify the resultant force.', { exact: true })).toBeVisible();
+    await page.getByRole('button', { name: 'Knowledge', exact: true }).click();
+    await page.getByRole('combobox', { name: 'Show subject', exact: true }).selectOption('Mathematics');
+    await page.getByLabel('Find a skill').fill('modulus');
+    await page.getByRole('button', { name: 'Graph', exact: true }).click();
+    await page.getByRole('button', { name: 'Zoom in', exact: true }).click();
+    await page.getByRole('button', { name: /modulus.*Not started/i }).click();
+    await expect(page.getByRole('dialog')).toContainText('No recorded attempt.');
+    await page.screenshot({ path: info.outputPath('inspector-top-' + width + '.png') });
+    const slider = page.getByLabel(/Real part:/);
+    await slider.focus(); await page.keyboard.press('ArrowRight');
+    await expect(slider).toHaveValue('3.1');
+    await page.screenshot({ path: info.outputPath('inspector-' + width + '.png') });
+    await page.keyboard.press('Escape');
+    await page.getByRole('button', { name: 'Reviews', exact: true }).click();
+    await expect(page.getByRole('heading', { name: 'Due today', exact: true })).toBeVisible();
+    await page.goto('/main');
+    for (const theme of ['light', 'dark'] as const) {
+      await selectTheme(page, theme);
+      await page.screenshot({ path: info.outputPath(`today-improved-${width}-${theme}.png`), fullPage: true });
+    }
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width + 1);
+    if (width === 390) await expect(page.getByRole('navigation', { name: 'Mobile learning navigation' })).toBeVisible();
+    if (width === 1440) {
+      await page.evaluate(() => { document.documentElement.style.fontSize = '200%'; });
+      expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width + 1);
+      await page.screenshot({ path: info.outputPath('today-text-200-percent.png'), fullPage: true });
+    }
+  });
+
   test(`diagnostic, mistake, knowledge, Today and refresh at ${width}`, async ({ page }, info) => {
     await page.setViewportSize({ width, height: 900 });
     await page.emulateMedia({ reducedMotion: 'reduce' });
@@ -133,6 +203,29 @@ for (const width of [1440, 1024, 390]) {
     expect(errors).toEqual([]);
   });
 }
+
+test('contextual tutor receives the current attempt and closes back to the question', async ({ page }) => {
+  await installAccountHarness(page, true);
+  let request: Record<string, unknown> | null = null;
+  await page.route('**/api/ask', async route => {
+    request = route.request().postDataJSON();
+    await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ answer: 'Which force acts against the motion?' }) });
+  });
+  await page.goto('/learn?subject=Physics&question=physics-forces-01');
+  await page.getByRole('button', { name: 'Start practice', exact: true }).click();
+  await page.getByLabel('Your answer', { exact: true }).fill('7');
+  const opener = page.getByRole('button', { name: 'Ask Apex about this question' });
+  await opener.click();
+  await page.getByRole('button', { name: 'Give me a hint', exact: true }).click();
+  await page.getByRole('button', { name: 'Send', exact: true }).click();
+  await expect.poll(() => request?.learningMode).toBe('solve-with-me');
+  expect(JSON.stringify(request?.context)).toContain('studentAnswer');
+  expect(JSON.stringify(request?.context)).toContain('Physics');
+  await page.keyboard.press('Escape');
+  await expect(opener).toBeFocused();
+  await expect(page.getByText('Progressive help · Assisted attempt', { exact: true })).toBeVisible();
+  expect(new URL(page.url()).pathname).toBe('/learn');
+});
 
 test('another tab pauses practice without overwriting saved work', async ({ page }) => {
   await installAccountHarness(page, true);

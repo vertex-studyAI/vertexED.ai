@@ -56,3 +56,12 @@
 @media(prefers-reduced-motion:reduce) { .vertex-navigation *,.vertex-navigation *::after { transition:none!important; animation:none!important; } }
 @media(prefers-reduced-transparency:reduce),(forced-colors:active) { .vertex-navigation,.vertex-navigation nav[aria-label="Main navigation"],.vertex-search-popover { background:hsl(var(--background)); backdrop-filter:none; } }
 @media(prefers-reduced-transparency:reduce),(forced-colors:active) { .site-shell>.vertex-navigation { background:#fff; backdrop-filter:none; }.dark .site-shell>.vertex-navigation { background:#07142e; } }
+
+.learning-bottom-nav{display:none}
+@media(max-width:700px){
+  .learning-bottom-nav{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));position:fixed;inset:auto 0 0;z-index:60;padding:6px 8px max(6px,env(safe-area-inset-bottom));border-top:1px solid hsl(var(--border));background:hsl(var(--background));gap:4px}
+  .learning-bottom-nav a{display:flex;align-items:center;justify-content:center;min-height:48px;font-size:12px;font-weight:650;border-radius:8px;color:hsl(var(--foreground));overflow-wrap:anywhere}
+  .learning-bottom-nav a[aria-current=page]{background:hsl(var(--primary));color:hsl(var(--primary-foreground))}
+  .learning-bottom-nav a:focus-visible{outline:3px solid hsl(var(--primary));outline-offset:1px}
+  .site-shell:has(.learning-bottom-nav){padding-bottom:76px}
+}

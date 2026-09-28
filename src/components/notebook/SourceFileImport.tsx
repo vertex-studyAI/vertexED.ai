@@ -25,16 +25,17 @@ export default function SourceFileImport({ disabled, scopeKey, onImport }: Props
   const [message, setMessage] = useState('');
   const [error, setError] = useState(false);
   const [dragging, setDragging] = useState(false);
+  const [textPreview, setTextPreview] = useState<{ title: string; content: string; scope: string } | null>(null);
 
   useEffect(() => {
-    setMessage(''); setError(false); setProgress(null); setPreview(null); setExtracting(false); fileRef.current = null;
+    setMessage(''); setError(false); setProgress(null); setPreview(null); setTextPreview(null); setExtracting(false); fileRef.current = null;
     return () => { const reader = readerRef.current; readerRef.current = null; reader?.abort(); controllerRef.current?.abort(); controllerRef.current = null; };
   }, [scopeKey]);
 
   const read = (file: File) => {
-    if (disabled || progress !== null || preview) return;
+    if (disabled || progress !== null || preview || textPreview) return;
     fileRef.current = file;
-    setError(false); setMessage('');
+    setError(false); setMessage(''); setPreview(null);
     try { validateSourceFile(file); }
     catch (failure) { setError(true); setMessage((failure as Error).message); return; }
     const reader = new FileReader();
@@ -61,8 +62,8 @@ export default function SourceFileImport({ disabled, scopeKey, onImport }: Props
           return;
         }
         const content = decodeSourceFile(reader.result as ArrayBuffer);
-        const result = onImport(file.name.replace(/\.[^.]+$/, ''), content);
-        readerRef.current = null; controllerRef.current = null; setProgress(null); setMessage(result);
+        setTextPreview({ title: file.name.replace(/\.[^.]+$/, ''), content, scope: scopeKey });
+        readerRef.current = null; controllerRef.current = null; setProgress(null); setMessage('File read. Review the source before adding it.');
       } catch (failure) { fail(failure instanceof Error ? failure.message : 'This source could not be saved. Your existing sources are safe.'); }
     };
     reader.readAsArrayBuffer(file);
@@ -78,11 +79,11 @@ export default function SourceFileImport({ disabled, scopeKey, onImport }: Props
       if (event.dataTransfer.files.length !== 1) { setError(true); setMessage('Choose one source at a time.'); return; }
       read(event.dataTransfer.files[0]);
     }}>
-    <button ref={openerRef} type="button" disabled={disabled || progress !== null} onClick={() => inputRef.current?.click()} className="w-full flex items-center gap-3 text-left p-4 border border-dashed border-primary/40 bg-primary/5 rounded-lg disabled:opacity-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
+    <button ref={openerRef} type="button" disabled={disabled || progress !== null || !!textPreview} onClick={() => inputRef.current?.click()} className="w-full flex items-center gap-3 text-left p-4 border border-dashed border-primary/40 bg-primary/5 rounded-lg disabled:opacity-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
       <Upload className="h-5 w-5 shrink-0 text-primary" aria-hidden /><span><strong className="block text-sm">Import a source file</strong><span className="text-xs text-muted-foreground">PDF up to 1 MB and 25 pages. Text, Markdown or CSV up to 200 KB.</span></span>
     </button>
     <p className="mt-2 text-xs text-muted-foreground">PDFs are sent to VertexED for text extraction; the original file is discarded. Review the text before adding it. Images and handwriting are not extracted.</p>
-    <input ref={inputRef} type="file" className="sr-only" tabIndex={-1} accept={SOURCE_FILE_ACCEPT} aria-label="Choose a source file" disabled={disabled || progress !== null || !!preview}
+    <input ref={inputRef} type="file" className="sr-only" tabIndex={-1} accept={SOURCE_FILE_ACCEPT} aria-label="Choose a source file" disabled={disabled || progress !== null || !!preview || !!textPreview}
       onChange={event => { const file = event.target.files?.[0]; if (file) read(file); event.target.value = ''; }} />
     {progress !== null && <div className="mt-2" role="status"><label className="text-sm">{extracting ? 'Extracting selectable text' : 'Reading source'} <progress className="w-full" max={100} value={extracting ? undefined : progress} /></label><button type="button" className="text-link min-h-11" onClick={() => {
       const reader = readerRef.current; readerRef.current = null; reader?.abort(); controllerRef.current?.abort(); controllerRef.current = null; setExtracting(false); setProgress(null); setMessage('Import cancelled. No source was added.');
@@ -103,5 +104,18 @@ export default function SourceFileImport({ disabled, scopeKey, onImport }: Props
     </AccessibleModal>}
     {message && !preview && <p className="mt-2 text-sm" role={error ? 'alert' : 'status'}>{message}</p>}
     {error && fileRef.current && !preview && <button type="button" disabled={disabled} className="text-link min-h-11" onClick={() => fileRef.current && read(fileRef.current)}>Retry import</button>}
+    {textPreview && textPreview.scope === scopeKey && <section className="mt-3 grid gap-3 rounded-lg border border-border bg-background p-3" aria-label="Review imported source">
+      <h3 className="font-semibold">Review before adding</h3>
+      <p className="text-sm">Read {textPreview.content.length.toLocaleString()} characters. Edit the title and included text below. No study materials have been generated.</p>
+      {textPreview.content.split(/\r?\n/).some(line => /^#{1,6}\s+/.test(line)) && <details><summary className="min-h-11 cursor-pointer">Detected Markdown headings</summary><ul className="list-disc pl-5">{textPreview.content.split(/\r?\n/).filter(line => /^#{1,6}\s+/.test(line)).slice(0, 20).map((line, i) => <li key={i}>{line.replace(/^#{1,6}\s+/, '')}</li>)}</ul><p className="text-sm">Up to 20 headings shown. These are document headings, not verified syllabus topics.</p></details>}
+      <label htmlFor="import-source-title" className="grid gap-1">Source title</label><input id="import-source-title" className="neu-input-el min-h-11" value={textPreview.title} maxLength={160} onChange={e => setTextPreview({ ...textPreview, title: e.target.value })} />
+      <label htmlFor="import-source-text" className="grid gap-1">Included source text</label><textarea id="import-source-text" className="neu-input-el min-h-40" value={textPreview.content} maxLength={50000} onChange={e => setTextPreview({ ...textPreview, content: e.target.value })} />
+      <p className="text-sm text-muted-foreground">Keep the passages you want to study. Once added, select a study guide, quiz, flashcards or topic map in the notebook. Source links refer to this excerpt; no PDF page numbers are inferred.</p>
+      <div className="flex flex-wrap gap-2"><button className="btn-solid min-h-11" disabled={disabled || !textPreview.title.trim() || !textPreview.content.trim()} onClick={() => {
+        if (textPreview.scope !== scopeRef.current) return;
+        try { const result = onImport(textPreview.title.trim(), textPreview.content.trim()); setTextPreview(null); fileRef.current = null; setError(false); setMessage(result); }
+        catch (failure) { setError(true); setMessage(failure instanceof Error ? failure.message : 'Source could not be saved. Your preview is preserved.'); }
+      }}>Add reviewed source</button><button className="text-link min-h-11" onClick={() => { setTextPreview(null); setMessage('Import cancelled. No source was added.'); }}>Discard preview</button></div>
+    </section>}
   </div>;
 }
