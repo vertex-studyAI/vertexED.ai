@@ -56,6 +56,46 @@ from pg_policies
 where schemaname = 'public'
 order by tablename, policyname;
 
+-- 3b) Prove the intentional service-only boundary for tables that correctly have
+-- RLS enabled with zero client policies. A production certification should show
+-- no CRUD grants for anon/authenticated and explicit service_role privileges.
+with roles(role_name) as (
+  values ('anon'), ('authenticated'), ('service_role'), ('postgres')
+),
+service_only_tables(table_name) as (
+  values ('learner_state_items'), ('observability_events'), ('schools')
+)
+select
+  r.role_name,
+  t.table_name,
+  has_table_privilege(r.role_name, format('public.%I', t.table_name), 'SELECT') as can_select,
+  has_table_privilege(r.role_name, format('public.%I', t.table_name), 'INSERT') as can_insert,
+  has_table_privilege(r.role_name, format('public.%I', t.table_name), 'UPDATE') as can_update,
+  has_table_privilege(r.role_name, format('public.%I', t.table_name), 'DELETE') as can_delete,
+  pr.rolbypassrls
+from roles r
+cross join service_only_tables t
+join pg_roles pr on pr.rolname = r.role_name
+order by t.table_name, r.role_name;
+
+-- 3c) The service-only tables must remain FORCE RLS and policy-free for client
+-- roles. Adding broad client policies merely to silence an informational linter
+-- would weaken this design.
+select
+  c.relname as table_name,
+  c.relrowsecurity as rls_enabled,
+  c.relforcerowsecurity as force_rls,
+  count(p.policyname) as policy_count
+from pg_class c
+join pg_namespace n on n.oid = c.relnamespace
+left join pg_policies p
+  on p.schemaname = n.nspname
+ and p.tablename = c.relname
+where n.nspname = 'public'
+  and c.relname in ('learner_state_items', 'observability_events', 'schools')
+group by c.relname, c.relrowsecurity, c.relforcerowsecurity
+order by c.relname;
+
 -- 4) SECURITY DEFINER functions are privileged boundaries. Verify explicit search_path and public-role EXECUTE grants.
 select
   n.nspname as schema_name,
