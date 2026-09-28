@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-09-27T07:32:26.276778+00:00",
+  "updatedAt": "2026-09-28T05:11:47.950390+00:00",
   "checklist": "PUBLISHABLE_COMPLETION_CHECKLIST.md",
   "decision": "NO-GO",
   "scope": "Execution register. PASS requires the complete gate acceptance; local partial receipts do not close live or full-product gates.",
@@ -108,7 +108,17 @@
       "ownerRole": "curriculum/editorial owner",
       "status": "OPEN",
       "acceptance": "Expand the 25-question bank sufficiently to populate that matrix, including distinct transfer questions and non-identical retries. Validate every answer key, mark value, explanation, misconception, calculator policy, estimated time and provenance entry.",
-      "receipts": []
+      "receipts": [
+        {
+          "result": "PARTIAL_LOCAL",
+          "candidateCommit": "b9a8c5a7bb78b0f53a3dd44b581f783ea2582b38",
+          "environment": "local original question bank and mathematical answer checks",
+          "timestamp": "2026-09-28T05:11:47.950390+00:00",
+          "verifier": "Codex local integration",
+          "evidence": "evidence/feature-delivery-20260928.json",
+          "summary": "Ten original complex-number questions bring the bank from 25 to 35, with authored hints and direct answer checks. Full curriculum coverage and independent editorial acceptance remain open."
+        }
+      ]
     },
     {
       "id": "CUR-06",
@@ -308,7 +318,17 @@
       "ownerRole": "AI systems/assessment owner",
       "status": "OPEN",
       "acceptance": "Implement durable conversation history, with resume/search/delete/export across sessions and devices. Define retention, bounded history/context limits, conflict handling and account isolation; browser-session storage alone does not close this item.",
-      "receipts": []
+      "receipts": [
+        {
+          "result": "PARTIAL_LOCAL",
+          "candidateCommit": "617d20fc79d307d5940e23ee958ae382828356d8",
+          "environment": "local controlled account/provider fixtures, real PDF parser and disposable SQL database",
+          "timestamp": "2026-09-28T04:57:52.301232+00:00",
+          "verifier": "Codex local execution",
+          "evidence": "evidence/feature-delivery-20260928.json",
+          "summary": "Private bounded conversation snapshots implemented with search, export, clearing, two-device fixture resume/conflicts and account isolation. Live account/provider acceptance remains open."
+        }
+      ]
     },
     {
       "id": "AI-05",
@@ -372,7 +392,17 @@
       "ownerRole": "product/data owner",
       "status": "OPEN",
       "acceptance": "Implement bounded PDF/worksheet import: allowlisted formats, size/page/text limits, safe parsing, private storage and deletion. Test malformed, encrypted, scanned and oversized files with honest fallback/error states; do not claim OCR unless implemented.",
-      "receipts": []
+      "receipts": [
+        {
+          "result": "PARTIAL_LOCAL",
+          "candidateCommit": "617d20fc79d307d5940e23ee958ae382828356d8",
+          "environment": "local controlled account/provider fixtures, real PDF parser and disposable SQL database",
+          "timestamp": "2026-09-28T04:57:52.301232+00:00",
+          "verifier": "Codex local execution",
+          "evidence": "evidence/feature-delivery-20260928.json",
+          "summary": "Bounded PDF text import implemented with real parser and local malformed/image-only/oversized fixture tests, review, cancellation and browser notebook switching. Full encrypted/hostile corpus, live deployment and privacy acceptance remain open."
+        }
+      ]
     },
     {
       "id": "NTS-03",
@@ -388,7 +418,17 @@
       "ownerRole": "product/data owner",
       "status": "OPEN",
       "acceptance": "Verify immediate search and Cmd/Ctrl+K across concepts, lessons, questions, notes, documents, cards and durable conversations. Include autocomplete, recents, subject context, keyboard navigation, direct navigation and accurate result counts.",
-      "receipts": []
+      "receipts": [
+        {
+          "result": "PARTIAL_LOCAL",
+          "candidateCommit": "617d20fc79d307d5940e23ee958ae382828356d8",
+          "environment": "local controlled account/provider fixtures, real PDF parser and disposable SQL database",
+          "timestamp": "2026-09-28T04:57:52.301232+00:00",
+          "verifier": "Codex local execution",
+          "evidence": "evidence/feature-delivery-20260928.json",
+          "summary": "Conversation messages are indexed by the existing saved-work search and directly navigable; this does not certify every required content type or full search acceptance."
+        }
+      ]
     },
     {
       "id": "NTS-05",
@@ -428,7 +468,17 @@
       "ownerRole": "storage/frontend owner",
       "status": "OPEN",
       "acceptance": "Verify cloud acknowledgements, durable retry/outbox behavior, idempotency and two-device conflicts for every saved collection. Never show \u201csaved to account\u201d solely because a local write succeeded.",
-      "receipts": []
+      "receipts": [
+        {
+          "result": "PARTIAL_LOCAL",
+          "candidateCommit": "617d20fc79d307d5940e23ee958ae382828356d8",
+          "environment": "local controlled account/provider fixtures, real PDF parser and disposable SQL database",
+          "timestamp": "2026-09-28T04:57:52.301232+00:00",
+          "verifier": "Codex local execution",
+          "evidence": "evidence/feature-delivery-20260928.json",
+          "summary": "Conversation store tests cover acknowledgement validation, serialized writes and stale-device conflicts. Every-collection live acceptance remains open."
+        }
+      ]
     },
     {
       "id": "DAT-04",
@@ -436,7 +486,17 @@
       "ownerRole": "storage/frontend owner",
       "status": "OPEN",
       "acceptance": "Inject lost connectivity, aborted writes, quota exhaustion, corrupted records, stale tabs, account switches and expired sessions. Original work survives, unsynced work stays exportable and recovery never silently overwrites newer content.",
-      "receipts": []
+      "receipts": [
+        {
+          "result": "PARTIAL_LOCAL",
+          "candidateCommit": "617d20fc79d307d5940e23ee958ae382828356d8",
+          "environment": "local controlled account/provider fixtures, real PDF parser and disposable SQL database",
+          "timestamp": "2026-09-28T04:57:52.301232+00:00",
+          "verifier": "Codex local execution",
+          "evidence": "evidence/feature-delivery-20260928.json",
+          "summary": "Conversation failure tests cover corrupt storage, quota errors, account changes and late responses while preserving exports. Full-product live fault injection remains open."
+        }
+      ]
     },
     {
       "id": "DAT-05",
@@ -444,7 +504,17 @@
       "ownerRole": "storage/frontend owner",
       "status": "OPEN",
       "acceptance": "Verify deletion and account export cover new attempts, mistakes, conversations, notes, files, exams, planner history and queued/offline data. Deleted data must not reappear from an old cache or retry queue.",
-      "receipts": []
+      "receipts": [
+        {
+          "result": "PARTIAL_LOCAL",
+          "candidateCommit": "617d20fc79d307d5940e23ee958ae382828356d8",
+          "environment": "local controlled account/provider fixtures, real PDF parser and disposable SQL database",
+          "timestamp": "2026-09-28T04:57:52.301232+00:00",
+          "verifier": "Codex local execution",
+          "evidence": "evidence/feature-delivery-20260928.json",
+          "summary": "Conversation snapshots use existing account export and deletion paths; SQL verifies account-deletion cascade. Retained device conflict and legacy copies are documented; deployed erasure evidence remains open."
+        }
+      ]
     },
     {
       "id": "DB-01",
@@ -610,7 +680,17 @@
       "ownerRole": "frontend/QA owner",
       "status": "OPEN",
       "acceptance": "Capture and inspect all core routes at 1440, 1024 and 390 pixels, in both themes; correct overflow, masking, dropdown/modal stacking, sticky elements, long content, mobile keyboard and touch problems.",
-      "receipts": []
+      "receipts": [
+        {
+          "result": "PARTIAL_LOCAL",
+          "candidateCommit": "617d20fc79d307d5940e23ee958ae382828356d8",
+          "environment": "local controlled account/provider fixtures, real PDF parser and disposable SQL database",
+          "timestamp": "2026-09-28T04:57:52.301232+00:00",
+          "verifier": "Codex local execution",
+          "evidence": "evidence/feature-delivery-20260928.json",
+          "summary": "Tutor and PDF import reviewed at 1440, 1024 and 390 pixels in both themes; search, mobile controls and PDF label corrected. Not all core routes or physical-device cases are certified."
+        }
+      ]
     },
     {
       "id": "UX-04",
@@ -618,7 +698,17 @@
       "ownerRole": "frontend/QA owner",
       "status": "OPEN",
       "acceptance": "Verify keyboard-only operation, focus return/trapping, visible focus, semantic labels, screen-reader status, zoom/text resizing, contrast and reduced motion. No concealed or offscreen control may remain in the focus order.",
-      "receipts": []
+      "receipts": [
+        {
+          "result": "PARTIAL_LOCAL",
+          "candidateCommit": "617d20fc79d307d5940e23ee958ae382828356d8",
+          "environment": "local controlled account/provider fixtures, real PDF parser and disposable SQL database",
+          "timestamp": "2026-09-28T04:57:52.301232+00:00",
+          "verifier": "Codex local execution",
+          "evidence": "evidence/feature-delivery-20260928.json",
+          "summary": "Feature browser journeys exercise keyboard save, modal focus return and reduced motion. Full assistive-technology, zoom and contrast acceptance remains open."
+        }
+      ]
     },
     {
       "id": "UX-05",
@@ -626,7 +716,17 @@
       "ownerRole": "frontend/QA owner",
       "status": "OPEN",
       "acceptance": "Run representative desktop Chromium, Firefox and WebKit plus real mobile Safari/Chrome journeys. Test rotation, back navigation and reload; do not infer cross-browser compatibility from Chromium alone.",
-      "receipts": []
+      "receipts": [
+        {
+          "result": "PARTIAL_LOCAL",
+          "candidateCommit": "617d20fc79d307d5940e23ee958ae382828356d8",
+          "environment": "local controlled account/provider fixtures, real PDF parser and disposable SQL database",
+          "timestamp": "2026-09-28T04:57:52.301232+00:00",
+          "verifier": "Codex local execution",
+          "evidence": "evidence/feature-delivery-20260928.json",
+          "summary": "Conversation and PDF scenarios exercised in Chromium, Firefox and WebKit. Failures and isolated reruns retained separately. Real mobile Safari/Chrome acceptance remains open."
+        }
+      ]
     },
     {
       "id": "UX-06",

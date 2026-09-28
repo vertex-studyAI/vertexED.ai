@@ -6,6 +6,8 @@ This is the prioritised execution view of the [complete-product checklist](PUBLI
 
 ## Current execution
 
+The [28 September feature delivery](FEATURE_COMPLETION_2026-09-28.md) integrates the Learning OS UI and practice improvements, expands the original question bank to 35, and adds private conversation persistence and bounded PDF text import with recovery interfaces. Local feature tests do not close the real-account, production or full-product gates below. The earlier execution remains historical evidence.
+
 See [the 27 September execution report](CHECKLIST_EXECUTION_2026-09-27.md). Upstream/WIP reconciliation, a supported clean install and the guarded local database runner are complete. Local CI, 54 learner browser cases and a synthetic restore passed. Full-product and production acceptance remain incomplete. The starting snapshot below is retained for provenance.
 
 ## Starting evidence
