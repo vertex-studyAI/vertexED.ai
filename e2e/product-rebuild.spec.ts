@@ -162,7 +162,7 @@ test('notebook imports, persists practice, keeps previous attempts and opens con
   page.setDefaultTimeout(15000);
   const state = await installAccountHarness(page, true);
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.getByRole('link', { name: 'Start your first study session', exact: true }).click();
+  await page.getByRole('link', { name: 'Start with your notes', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Your first saved attempt' })).toBeVisible();
   const choose = page.getByLabel('Choose a source file');
   await expect(choose).toBeEnabled();

@@ -480,6 +480,7 @@ test('approved learner completes the golden study journey and resumes saved work
   await page.keyboard.press('Escape');
   await expect(feedbackDialog).not.toBeVisible();
   await expect(feedbackLauncher).toBeFocused();
+  await page.getByText('Study tools and resources', { exact: true }).click();
   await page.locator('a[href="/notetaker"]').filter({ hasText: 'Notes & flashcards' }).click();
   await expect(page).toHaveURL(/\/notetaker$/);
 
