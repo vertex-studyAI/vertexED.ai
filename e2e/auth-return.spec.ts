@@ -222,7 +222,7 @@ test('valid implicit return at Site URL restores the learner session', async ({ 
   await harness(page);
   await page.goto(`/${fragment()}`);
   await expect(page).toHaveURL(/\/main$/);
-  await expect(page.getByRole('heading', { name: 'Your study desk' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Today', exact: true })).toBeVisible();
 });
 
 test('recovery event survives delayed callback code loading', async ({ page }) => {

@@ -28,7 +28,8 @@ async function signIn(page: Page, id = 'f40db66b-1b55-4ab8-88d0-14a9ba476c16') {
   await page.getByLabel('Password', { exact: true }).fill('test-password');
   await page.getByRole('button', { name: 'Log in', exact: true }).click();
   await expect(page).toHaveURL(/\/main$/);
-  await expect(page.getByRole('heading', { name: 'Your study desk' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Today', exact: true })).toBeVisible();
+  await page.getByText('Study tools and resources', { exact: true }).click();
 }
 
 for (const width of [1440, 1024, 390]) {
@@ -55,6 +56,7 @@ for (const width of [1440, 1024, 390]) {
     await expect(toolbox.getByRole('button', { name: 'Unpin Mistake notebook', exact: true })).toBeFocused();
     await expect(page.getByRole('navigation', { name: 'Pinned study tools' })).toContainText('Mistake notebook');
     await page.reload();
+    await page.getByText('Study tools and resources', { exact: true }).click();
     await expect(page.getByLabel('Time available today')).toHaveValue('10');
     await expect(page.getByRole('navigation', { name: 'Pinned study tools' })).toContainText('Mistake notebook');
     await toolbox.getByRole('button', { name: 'Pinned only', exact: true }).click();
@@ -75,6 +77,7 @@ for (const width of [1440, 1024, 390]) {
     await expect(page).toHaveURL(/\/learn\?tab=mistakes$/);
     await expect(page.getByRole('heading', { name: /mistake/i }).first()).toBeVisible();
     await page.goto('/main');
+    await page.getByText('Study tools and resources', { exact: true }).click();
     await toolbox.getByRole('button', { name: 'Pinned only', exact: true }).click();
     const unpin = toolbox.getByRole('button', { name: 'Unpin Mistake notebook', exact: true });
     await unpin.focus(); await page.keyboard.press('Enter');
@@ -97,6 +100,7 @@ test('pin storage failure stays usable and does not claim a save', async ({ page
   await expect(page.getByText('Your shortcuts changed for this visit, but could not be saved on this device.', { exact: false })).toBeVisible();
   await expect(page.getByRole('navigation', { name: 'Pinned study tools' })).toContainText('Adaptive practice');
   await page.reload();
+    await page.getByText('Study tools and resources', { exact: true }).click();
   await expect(page.getByRole('navigation', { name: 'Pinned study tools' })).toHaveCount(0);
 });
 

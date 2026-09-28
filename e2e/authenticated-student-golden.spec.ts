@@ -434,11 +434,11 @@ test('approved learner completes the golden study journey and resumes saved work
   await page.getByRole('button', { name: 'Create my study plan' }).click();
 
   await expect(page).toHaveURL(/\/main$/);
-  await expect(page.getByRole('heading', { name: 'Your study desk' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Today', exact: true })).toBeVisible();
   for (const width of [390, 1024, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     await page.goto('/main');
-    await expect(page.getByRole('heading', { name: 'Your study desk' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Today', exact: true })).toBeVisible();
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width + 1);
     await page.screenshot({ path: `test-results/dashboard-${width}.png`, fullPage: true });
     await page.goto('/exam-prep');
