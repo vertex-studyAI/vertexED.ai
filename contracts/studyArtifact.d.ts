@@ -4,6 +4,7 @@ export const STUDY_ARTIFACT_KINDS: readonly [
   'paper',
   'planner',
   'notebook',
+  'conversation',
 ];
 
 export type StudyArtifactKind = (typeof STUDY_ARTIFACT_KINDS)[number];

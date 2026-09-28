@@ -7,7 +7,8 @@ test('supported source formats preserve real UTF-8 text and reject other formats
     assert.doesNotThrow(() => validateSourceFile({ name, size: 100 }));
   }
   assert.equal(decodeSourceFile(new TextEncoder().encode('  Δp = FΔt\nCafé  ')), 'Δp = FΔt\nCafé');
-  assert.throws(() => validateSourceFile({ name: 'packet.pdf', size: 100 }), /text, Markdown or CSV/);
+  assert.doesNotThrow(() => validateSourceFile({ name: 'packet.pdf', size: 100 }));
+  assert.throws(() => validateSourceFile({ name: 'packet.pdf', size: 1_000_001 }), /1 MB/);
   assert.throws(() => validateSourceFile({ name: 'empty.txt', size: 0 }), /empty/);
   assert.throws(() => validateSourceFile({ name: 'large.txt', size: 200001 }), /200 KB/);
 });

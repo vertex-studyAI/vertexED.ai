@@ -1,3 +1,4 @@
+import ConversationStatus from '@/components/chat/ConversationStatus';
 import { useState } from 'react';
 import { RotateCcw } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
@@ -22,7 +23,7 @@ export default function ApexSocraticDrill() {
     hint: `${context.hint} SOCRATIC DRILL MODE: Ask ONE probing question per turn. Never give the full answer. After the student responds, ask a follow-up that exposes gaps. Round ${round} of ${MAX_ROUNDS}.`,
   };
 
-  const { messages, input, setInput, loading, streamingMessageId, sendMessage, clearChat } = useApexChat({
+  const { messages, input, setInput, loading, streamingMessageId, sendMessage, clearChat, persistence, store, recoveryText, historyDisabled } = useApexChat({
     context: drillContext,
     threadKey: 'socratic-drill',
     mode: 'deep',
@@ -34,7 +35,7 @@ export default function ApexSocraticDrill() {
   const startDrill = async () => {
     const t = topic.trim();
     if (!t || loading) return;
-    clearChat();
+    if (!clearChat()) return;
     setActive(true);
     setRound(1);
     await sendMessage(
@@ -90,7 +91,7 @@ export default function ApexSocraticDrill() {
             onChange={(e) => setTopic(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && void startDrill()}
           />
-          <button type="button" className="btn-solid text-sm shrink-0" onClick={() => void startDrill()} disabled={!topic.trim()}>
+          <button type="button" className="btn-solid text-sm shrink-0" onClick={() => void startDrill()} disabled={!topic.trim() || historyDisabled}>
             Start drill
           </button>
         </div>
@@ -124,7 +125,8 @@ export default function ApexSocraticDrill() {
 
       {(active || messages.length > 0) && (
         <>
-          <ApexChatInput
+          <ConversationStatus store={store} persistence={persistence} recoveryText={recoveryText} />
+                <ApexChatInput disabled={historyDisabled}
             value={input}
             onChange={setInput}
             onSend={() => void handleSend()}

@@ -1,3 +1,5 @@
+import { fixturePdf } from '../tests/fixtures/pdf.mjs';
+import { extractPdf, decodePdfRequest } from '../api/_lib/pdfImport.js';
 import { selectTheme } from './theme-controls';
 import { expect, test, type Page } from '@playwright/test';
 import { CONCEPT_GRAPH } from '../src/lib/learningModel.mjs';
@@ -303,3 +305,73 @@ for (const width of [1440, 1024, 390]) {
     await expect(page.getByRole('button', { name: 'Mark Flexible forces revision complete', exact: true })).toBeVisible();
   });
 }
+
+
+for (const width of [1440, 1024, 390]) {
+  test(`PDF import review, keyboard save and refresh at ${width}`, async ({ page }, info) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    const state = await installAccountHarness(page, true);
+    await page.route('**/api/import-source', async route => {
+      const result = await extractPdf(decodePdfRequest(route.request().postDataJSON()));
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(result) });
+    });
+    await page.goto('/study-notebook');
+    await page.getByRole('button', { name: 'New notebook', exact: true }).click();
+    for (const theme of ['light', 'dark'] as const) {
+      await selectTheme(page, theme);
+      await page.getByLabel('Choose a source file').setInputFiles({ name: 'Synthetic mechanics.pdf', mimeType: 'application/pdf', buffer: fixturePdf(undefined, 2) });
+      await expect(page.getByRole('dialog', { name: 'Review PDF text' })).toBeVisible();
+      await expect(page.getByLabel('Include Synthetic mechanics', { exact: true })).toHaveCount(0);
+      await expect(page.getByLabel('Extracted text', { exact: true })).toHaveValue(/\[Page 2\]/);
+      await expect(page.getByLabel('Extracted text', { exact: true })).toBeFocused();
+      await page.screenshot({ path: info.outputPath(`pdf-review-${width}-${theme}.png`) });
+      if (theme === 'light') {
+        await page.keyboard.press('Escape');
+        await expect(page.getByRole('button', { name: /^Import a source file/ })).toBeFocused();
+      }
+    }
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width + 1);
+    const save = page.getByRole('button', { name: 'Add PDF source', exact: true });
+    await save.focus(); await page.keyboard.press('Enter');
+    await expect(page.getByLabel('Include Synthetic mechanics', { exact: true })).toBeVisible();
+    await expect.poll(() => JSON.stringify(state.notebook)).toContain('[Page 2]');
+    await page.reload();
+    await expect(page.getByLabel('Include Synthetic mechanics', { exact: true })).toBeVisible();
+  });
+}
+
+test('PDF import failures, cancellation and notebook switching preserve sources', async ({ page }) => {
+  await installAccountHarness(page, true);
+  let release: (() => void) | undefined;
+  let delayed = false;
+  await page.route('**/api/import-source', async route => {
+    if (delayed) await new Promise<void>(resolve => { release = resolve; });
+    try {
+      const result = await extractPdf(decodePdfRequest(route.request().postDataJSON()));
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(result) });
+    } catch (error) {
+      await route.fulfill({ status: 422, contentType: 'application/json', body: JSON.stringify({ error: (error as Error).message }) });
+    }
+  });
+  await page.goto('/study-notebook');
+  await page.getByRole('button', { name: 'New notebook', exact: true }).click();
+  const choose = page.getByLabel('Choose a source file');
+  await choose.setInputFiles({ name: 'broken.pdf', mimeType: 'application/pdf', buffer: Buffer.from('%PDF-1.4 broken') });
+  await expect(page.getByRole('alert').filter({ hasText: /malformed/ })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Retry import' })).toBeEnabled();
+  delayed = true;
+  await choose.setInputFiles({ name: 'cancelled.pdf', mimeType: 'application/pdf', buffer: fixturePdf() });
+  await expect.poll(() => !!release).toBeTruthy();
+  await page.getByRole('button', { name: 'Cancel import', exact: true }).click();
+  release?.(); release = undefined;
+  await expect(page.getByText('Import cancelled. No source was added.', { exact: true })).toBeVisible();
+  await expect(page.getByRole('dialog', { name: 'Review PDF text' })).toHaveCount(0);
+  await choose.setInputFiles({ name: 'old-notebook.pdf', mimeType: 'application/pdf', buffer: fixturePdf() });
+  await expect.poll(() => !!release).toBeTruthy();
+  await page.getByRole('button', { name: 'New notebook', exact: true }).click();
+  release?.();
+  await expect(choose).toBeEnabled();
+  await expect(page.getByLabel('Include old-notebook', { exact: true })).toHaveCount(0);
+  await expect(page.getByRole('dialog', { name: 'Review PDF text' })).toHaveCount(0);
+});

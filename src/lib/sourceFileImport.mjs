@@ -1,7 +1,12 @@
-export const SOURCE_FILE_ACCEPT = '.txt,.md,.markdown,.csv,text/plain,text/markdown,text/csv';
+export const SOURCE_FILE_ACCEPT = '.pdf,.txt,.md,.markdown,.csv,application/pdf,text/plain,text/markdown,text/csv';
 
 export function validateSourceFile(file) {
-  if (!/\.(txt|md|markdown|csv)$/i.test(file.name)) throw new Error('Choose a text, Markdown or CSV file. For a PDF or slide deck, paste the relevant text excerpt.');
+  if (/\.pdf$/i.test(file.name)) {
+    if (!file.size) throw new Error('This file is empty. Choose a PDF containing text.');
+    if (file.size > 1_000_000) throw new Error('PDFs can be up to 1 MB. Split this document into smaller sources.');
+    return;
+  }
+  if (!/\.(txt|md|markdown|csv)$/i.test(file.name)) throw new Error('Choose a PDF, text, Markdown or CSV file.');
   if (file.size > 200_000) throw new Error('This file is larger than 200 KB. Split it into smaller sources.');
   if (!file.size) throw new Error('This file is empty. Choose a source containing text.');
 }

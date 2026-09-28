@@ -1,3 +1,4 @@
+import ConversationStatus from '@/components/chat/ConversationStatus';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate, useSearchParams } from 'react-router';
@@ -121,7 +122,7 @@ export default function StudyNotebook() {
     [active],
   );
 
-  const { messages, input, setInput, loading, streamingMessageId, sendMessage } = useApexChat({
+  const { messages, input, setInput, loading, streamingMessageId, sendMessage, persistence, store, recoveryText, historyDisabled } = useApexChat({
     context: studyContext,
     sources: groundingSources.length > 0 ? groundingSources : undefined,
     onSessionRecord: recordStudySession,
@@ -431,7 +432,7 @@ export default function StudyNotebook() {
             </p>
             <h1 className="portal-hero-title text-3xl md:text-4xl">Study Notebook</h1>
             <p className="portal-hero-brief mt-3 text-sm md:text-base max-w-3xl leading-relaxed">
-              Add lecture notes, PDF excerpts, or saved mocks as sources. Chat with citations, then generate study guides,
+              Add PDFs, lecture notes or saved practice as sources. Chat with citations, then generate study guides,
               flashcards, quizzes, concept maps, glossaries, comparisons, and audio overviews - grounded in what you uploaded, not the open web.
             </p>
           </LiquidGlass>
@@ -441,7 +442,7 @@ export default function StudyNotebook() {
           <h2 id="first-session-heading" className="text-xl font-semibold">Your first saved attempt</h2>
           <p className="mt-2 text-muted-foreground">Name your notebook after one topic. Add a short source, then follow these steps.</p>
           <ol className="grid gap-3 sm:grid-cols-3 mt-4 list-decimal pl-5">
-            <li><strong>Add your notes</strong><p className="text-sm text-muted-foreground">Paste an excerpt or import a text file.</p></li>
+            <li><strong>Add your notes</strong><p className="text-sm text-muted-foreground">Paste an excerpt or import a PDF or text file.</p></li>
             <li><strong>Attempt one question</strong><p className="text-sm text-muted-foreground">Generate a practice quiz below. Your answer saves as you type.</p></li>
             <li><strong>Review and retry</strong><p className="text-sm text-muted-foreground">Open “Review my working”, check the feedback, then choose “Schedule a retry”.</p></li>
           </ol>
@@ -767,12 +768,13 @@ export default function StudyNotebook() {
                       )}
                     </div>
                     <div className="p-4 border-t border-border/40">
-                      <ApexChatInput
+                      <ConversationStatus store={store} persistence={persistence} recoveryText={recoveryText} />
+                <ApexChatInput
                         value={input}
                         onChange={setInput}
                         onSend={() => void sendMessage()}
                         loading={loading}
-                        disabled={groundingSources.length === 0}
+                        disabled={historyDisabled || groundingSources.length === 0}
                         placeholder={
                           groundingSources.length > 0 ? 'Ask about your sources…' : 'Add sources to enable chat'
                         }

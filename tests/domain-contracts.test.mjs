@@ -18,7 +18,7 @@ const handler = await readFile(new URL('../api/_handlers/user-content.js', impor
 const client = await readFile(new URL('../src/lib/userContent.ts', import.meta.url), 'utf8');
 
 test('artifact kinds are canonical across runtime, SQL, API, and client routing', () => {
-  assert.deepEqual(STUDY_ARTIFACT_KINDS, ['note', 'review', 'paper', 'planner', 'notebook']);
+  assert.deepEqual(STUDY_ARTIFACT_KINDS, ['note', 'review', 'paper', 'planner', 'notebook', 'conversation']);
   for (const kind of STUDY_ARTIFACT_KINDS) {
     assert.match(schema, new RegExp(`'${kind}'`));
     assert.match(client, new RegExp(`case '${kind}'`));

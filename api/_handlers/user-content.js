@@ -10,6 +10,8 @@ import {
   parseStudyArtifactCreate,
 } from '../../contracts/studyArtifact.js';
 
+import { validateConversations } from '../../contracts/apexConversation.js';
+
 const ALLOWED_KINDS = new Set(STUDY_ARTIFACT_KINDS);
 const MAX_PAYLOAD_BYTES = 256 * 1024;
 
@@ -76,19 +78,23 @@ export default async function handler(req, res) {
       const parsed = parseStudyArtifactCreate(body);
       if (!parsed.ok) return res.status(400).json({ error: parsed.error });
       const { kind, title, payload: payloadValue, idempotencyKey } = parsed.value;
+      if (kind === 'conversation') {
+        if (body.replace !== true) return res.status(400).json({ error: 'Conversation writes require revision-checked replacement.' });
+        try { validateConversations(payloadValue); } catch { return res.status(400).json({ error: 'Invalid conversation history or storage limit exceeded.' }); }
+      }
       const payloadSize = Buffer.byteLength(JSON.stringify(payloadValue), 'utf8');
       if (payloadSize > MAX_PAYLOAD_BYTES) {
         return res.status(413).json({ error: 'Artifact payload is too large.' });
       }
 
-      if ((kind === 'planner' || kind === 'notebook') && body?.replace === true) {
+      if ((['planner', 'notebook', 'conversation'].includes(kind)) && body?.replace === true) {
         if (!Object.hasOwn(body, 'expectedUpdatedAt')) return res.status(428).json({ error: 'Reload this page before saving; a snapshot revision is required.' });
         if (body.expectedUpdatedAt !== null && (typeof body.expectedUpdatedAt !== 'string' || !Number.isFinite(Date.parse(body.expectedUpdatedAt)))) {
           return res.status(400).json({ error: 'Invalid snapshot revision.' });
         }
       }
       const updatedAt = new Date().toISOString();
-      const writeResult = (kind === 'planner' || kind === 'notebook') && body?.replace === true
+      const writeResult = (['planner', 'notebook', 'conversation'].includes(kind)) && body?.replace === true
         ? await replaceSingletonArtifact(supabase, {
             userId: user.id,
             kind,
@@ -164,7 +170,7 @@ export default async function handler(req, res) {
         .eq('id', id)
         .eq('user_id', user.id)
         // Singleton snapshots must use the revision-checked replacement route.
-        .not('kind', 'in', '(planner,notebook)')
+        .not('kind', 'in', '(planner,notebook,conversation)')
         .select('id, kind, title, created_at, updated_at')
         .maybeSingle();
 
@@ -192,6 +198,7 @@ export default async function handler(req, res) {
       const { data, error } = await supabase
         .from('user_study_artifacts')
         .delete()
+        .neq('kind', 'conversation')
         .eq('id', id)
         .eq('user_id', user.id)
         .select('id')

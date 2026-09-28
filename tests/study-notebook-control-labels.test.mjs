@@ -20,7 +20,7 @@ test("Study Notebook icon controls have explicit contextual names", () => {
   assert.match(source, /aria-label={`Remove \${src\.title}`}/);
   assert.match(importer, /Import a source file<\/strong>/);
   assert.match(source, /aria-label="Import saved work as a source"/);
-  assert.match(importer, /<Upload className="h-5 w-5 shrink-0" aria-hidden \/>/);
+  assert.match(importer, /<Upload\b[^>]*\baria-hidden\s*\/>/);
   assert.match(source, /<BookOpen className="h-3\.5 w-3\.5" aria-hidden \/>/);
 });
 

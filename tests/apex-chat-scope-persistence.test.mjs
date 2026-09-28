@@ -4,15 +4,10 @@ import test from 'node:test';
 
 const apexSource = fs.readFileSync('src/hooks/useApexChat.ts', 'utf8');
 
-test('Apex chat does not persist prior-scope messages during a storage-key-only render', () => {
-  assert.match(apexSource, /const storageKeyRef = useRef\(storageKey\)/);
-  assert.match(apexSource, /storageKeyRef\.current = storageKey/);
-  assert.match(apexSource, /saveMessages\(storageKeyRef\.current, messages\)/);
-  assert.doesNotMatch(apexSource, /saveMessages\(storageKey, messages\)/);
-  assert.match(
-    apexSource,
-    /saveMessages\(storageKeyRef\.current, messages\);\s*\}, \[messages\]\);/s,
-  );
+test('Apex subscribes to an account store instead of persisting a prior render into a new scope', () => {
+  assert.match(apexSource, /getConversationStore\(accountScope\)/);
+  assert.match(apexSource, /useSyncExternalStore/);
+  assert.doesNotMatch(apexSource, /saveMessages\(storageKey/);
 });
 
 test('Apex chat result ownership is bound to the initiating account and thread scope', () => {
@@ -25,8 +20,5 @@ test('Apex chat result ownership is bound to the initiating account and thread s
     apexSource,
     /requestRef\.current === requestId && storageKeyRef\.current === requestStorageKey/,
   );
-  assert.match(
-    apexSource,
-    /\[authLoading, context, sources, mode, learningMode, input, loading, messages, onSessionRecord, storageKey\]/,
-  );
+
 });

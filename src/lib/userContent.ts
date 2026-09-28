@@ -48,7 +48,7 @@ export type SaveArtifactResult = {
 };
 
 const ACCOUNT_CHANGED_ERROR = 'Account changed while study work was being processed. Try again in the current account.';
-const STORED_ARTIFACT_KINDS = new Set<StudyArtifactKind>(['note', 'review', 'paper', 'planner', 'notebook']);
+const STORED_ARTIFACT_KINDS = new Set<StudyArtifactKind>(['note', 'review', 'paper', 'planner', 'notebook', 'conversation']);
 const CHAT_HANDOFF_LIMITS = {
   source: 100,
   subject: 200,
@@ -225,6 +225,8 @@ export function artifactTargetRoute(kind: StudyArtifactKind): string {
       return '/planner';
     case 'notebook':
       return '/study-notebook';
+    case 'conversation':
+      return '/chatbot';
   }
 }
 

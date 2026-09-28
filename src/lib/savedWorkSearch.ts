@@ -1,8 +1,14 @@
 import type { GlobalSearchEntry } from './globalSearchIndex';
 import type { StudyArtifact } from './userContent';
+import { conversationSearchEntries } from '../../contracts/apexConversation.js';
 
 export function savedWorkSearchEntries(items: StudyArtifact[]): GlobalSearchEntry[] {
-  return items.map(item => ({
+  return items.flatMap(item => {
+    if (item.kind === 'conversation') {
+      try { return conversationSearchEntries(item.payload) as GlobalSearchEntry[]; }
+      catch { return []; }
+    }
+    return [{
     title: item.title || `Saved ${item.kind}`,
     description: `${item.kind === 'notebook' || item.kind === 'planner' ? 'Workspace snapshot' : item.kind} · ${item.localOnly ? 'Saved on this device' : 'Saved to your account'}`,
     to: `/saved-work?item=${encodeURIComponent(item.id)}`,
@@ -11,5 +17,6 @@ export function savedWorkSearchEntries(items: StudyArtifact[]): GlobalSearchEntr
     // Source text is searched locally, never sent to analytics or a model.
     keywords: [item.payload.topic, item.payload.subject, item.payload.notes, item.payload.question]
       .filter((value): value is string => typeof value === 'string').map(value => value.slice(0, 8000)).join(' '),
-  }));
+    }];
+  });
 }
