@@ -1,14 +1,15 @@
 # VertexED limitations
 
-The current checkout is WIP and explicitly noncanonical. No production deployment or unattended merge was made. Local tests, generated assets and browser fixtures are engineering evidence only.
+The original checkout remains WIP and noncanonical. The isolated integrated candidate is pushed for review; no production promotion or main merge is claimed. Local tests and browser service fixtures are engineering evidence.
 
-- The practice session is saved on this device. Submitted attempt/mistake cloud sync needs a working authenticated database; current-session cross-device resume is not implemented by the new guard.
-- A stale-tab check compares the last observed storage value and handles storage events. It is not an atomic distributed lock. Paused tabs expose a copyable answer recovery panel.
-- Original-bank question coverage is limited to 25 questions. Practice status rules do not establish measured learning gains or transferable mastery.
-- Imported study guides remain unapproved. Full curriculum coverage, content rights, subject review and appropriate privacy/safeguarding approval remain open.
-- The local environment file has no provider API key or operator readiness token. No real AI canary or live end-to-end provider acceptance was possible in this pass.
-- The local Colima Docker socket is absent. Clean migration replay, pgTAP, SQL lint and real two-account/two-device acceptance remain unverified.
-- Canonical hosts fail TLS and fallback deployments return readiness 503. Their deployed revisions differ from this source candidate.
-- Real mobile hardware, sustained two-hour study, monitoring delivery, backup restore, rollback and live export/deletion have not been certified.
+- The question bank has 35 questions, including ten original complex-number questions. It does not cover a full curriculum or establish measured learning gains.
+- All 245 imported guides remain without editorial approval; 53 content flags remain. Rights, subject review and appropriate privacy/safeguarding approval are open.
+- Tutor history has revision-checked account persistence, search, export and conflict recovery. It is bounded to 24 threads, 200 messages per thread and 240 KiB overall. The deployed migration and actual multi-device acceptance still need verification.
+- PDF import extracts selectable text within 1 MB, 25 pages and 50,000 characters. It does not provide OCR or guarantee formula/layout interpretation. Editable text imports require review before saving.
+- Calendar export creates a local .ics copy in the device time zone. It omits completed tasks and private task names by default. Importing, notification permissions and delivery belong to the receiving calendar. Changes and deletions do not sync; remove old copies before replacing them. Clock-change gaps reject; repeated local times use their first occurrence. No background rescheduling or provider OAuth connection is implemented.
+- Offline application startup and versioned, account-isolated material caches remain open. Existing device recovery is not a complete offline product.
+- Thirty migrations and 69 SQL assertions passed locally. Live migration-ledger reconciliation, restore/rollback and real-account permissions remain unverified.
+- The connected Vercel account cannot access the VertexED projects. Custom hosts fail TLS; fallback readiness returns 503. Their production revision differs from this candidate. No protected readiness/provider credentials or controlled real test accounts were available for this execution.
+- Real-device certification, sustained two-hour study, monitoring delivery, backup restoration and full live export/deletion remain open.
 
-The larger [complete-product checklist](docs/PUBLISHABLE_COMPLETION_CHECKLIST.md) retains mandatory work beyond this hardening pass. These limitations are not waivers or a declaration that the full product is finished.
+See [feature delivery](docs/FEATURE_COMPLETION_2026-09-28.md), [site closeout](docs/SITE_CLOSEOUT_2026-09-28.md) and the [complete-product checklist](docs/PUBLISHABLE_COMPLETION_CHECKLIST.md). These limitations are not waivers or a claim that the full product is finished.

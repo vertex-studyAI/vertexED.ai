@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-09-28T05:11:47.950390+00:00",
+  "updatedAt": "2026-09-28T06:37:23.481904+00:00",
   "checklist": "PUBLISHABLE_COMPLETION_CHECKLIST.md",
   "decision": "NO-GO",
   "scope": "Execution register. PASS requires the complete gate acceptance; local partial receipts do not close live or full-product gates.",
@@ -286,7 +286,16 @@
       "ownerRole": "product/frontend owner",
       "status": "OPEN",
       "acceptance": "Close the recorded calendar integration and background scheduling gap: define provider permissions, import/export direction, duplicate/conflict handling, timezone changes, disconnect/revocation and idempotent scheduled jobs. Verify missed work is handled when the app is closed without moving fixed appointments. Until implemented, retain the explicit foreground-only limitation.",
-      "receipts": []
+      "receipts": [
+        {
+          "result": "PARTIAL_LOCAL",
+          "environment": "controlled browser account fixtures with real calendar-file downloads",
+          "timestamp": "2026-09-28T06:37:23.481904+00:00",
+          "verifier": "Codex local execution",
+          "evidence": "evidence/calendar-delivery-20260928.json",
+          "summary": "One-way calendar export with private titles, optional reminders, bounded ranges and time-zone handling is implemented. Background rescheduling, provider synchronisation and actual notification delivery remain unverified; gate remains OPEN."
+        }
+      ]
     },
     {
       "id": "AI-01",

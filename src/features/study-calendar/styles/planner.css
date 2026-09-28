@@ -126,19 +126,19 @@
 .planner-entry-modes button[aria-pressed="true"] { background: hsl(var(--primary)); color: hsl(var(--primary-foreground)); border-color: hsl(var(--primary)); }
 .planner-task-form { display: flex; flex-direction: column; gap: 8px; }
 .planner-task-form label { display: flex; flex-direction: column; gap: 8px; font-size: 14px; font-weight: 550; min-width: 0; }
-.planner-task-form input { box-sizing: border-box; width: 100%; min-width: 0; min-height: 44px; padding: 10px 12px; border: 1px solid hsl(var(--border)); border-radius: 8px; background: hsl(var(--background)); color: hsl(var(--foreground)); font-size: 16px; }
+.planner-task-form input, .planner-task-form select { box-sizing: border-box; width: 100%; min-width: 0; min-height: 44px; padding: 10px 12px; border: 1px solid hsl(var(--border)); border-radius: 8px; background: hsl(var(--background)); color: hsl(var(--foreground)); font-size: 16px; }
 .planner-task-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; }
 .planner-task-form .planner-form-hint { font-size: 14px; color: hsl(var(--muted-foreground)); }
 .planner-dialog-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; margin-top: 8px; }
 .planner-form-error { border-left: 3px solid hsl(var(--destructive)); padding-left: 12px; }
 .planner-message { margin: 16px; padding: 12px 16px; border-left: 3px solid hsl(var(--primary)); font-size: 16px; }
-.planner-task-dialog :is(input, button):focus-visible { outline: 2px solid hsl(var(--primary)); outline-offset: 3px; }
-.popup.planner-task-dialog, .planner-task-dialog input, .planner-task-dialog button { font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
+.planner-task-dialog :is(input, select, button):focus-visible { outline: 2px solid hsl(var(--primary)); outline-offset: 3px; }
+.popup.planner-task-dialog, .planner-task-dialog input, .planner-task-dialog select, .planner-task-dialog button { font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
 .planner-task-dialog button { min-height: 44px; font-size: 14px; border-radius: 8px; }
 .planner-task-dialog .planner-new { background: hsl(var(--primary)); color: hsl(var(--primary-foreground)); }
 .planner-task-dialog button:disabled { opacity: .55; cursor: not-allowed; }
-.dark .planner-task-dialog input { color-scheme: dark; }
-.light .planner-task-dialog input { color-scheme: light; }
+.dark .planner-task-dialog :is(input, select) { color-scheme: dark; }
+.light .planner-task-dialog :is(input, select) { color-scheme: light; }
 .planner-jump-now { margin: 0 16px 12px; }
 @media (max-width: 480px) {
   .popup.planner-task-dialog { padding: 20px; }

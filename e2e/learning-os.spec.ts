@@ -1,3 +1,4 @@
+import { readFile } from 'node:fs/promises';
 import { fixturePdf } from '../tests/fixtures/pdf.mjs';
 import { extractPdf, decodePdfRequest } from '../api/_lib/pdfImport.js';
 import { selectTheme } from './theme-controls';
@@ -467,4 +468,90 @@ test('PDF import failures, cancellation and notebook switching preserve sources'
   await expect(choose).toBeEnabled();
   await expect(page.getByLabel('Include old-notebook', { exact: true })).toHaveCount(0);
   await expect(page.getByRole('dialog', { name: 'Review PDF text' })).toHaveCount(0);
+});
+
+
+for (const width of [1440, 1024, 390]) {
+  test(`planner calendar export with privacy, reminders and keyboard at ${width}`, async ({ page }, info) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    const state = await installAccountHarness(page, true);
+    await page.goto('/planner');
+    const open = page.getByRole('button', { name: 'Export calendar', exact: true });
+    await expect(open).toBeVisible();
+    await page.getByRole('button', { name: 'New Task', exact: true }).click();
+    const add = page.getByRole('dialog', { name: 'Add a study task' });
+    await add.getByLabel('Task name', { exact: true }).fill('Private mechanics revision');
+    await add.getByLabel('Date', { exact: true }).fill('2090-09-28');
+    await add.getByLabel('Start time', { exact: true }).fill('17:00');
+    await add.getByRole('button', { name: 'Add task', exact: true }).click();
+    await expect.poll(() => JSON.stringify(state.planner)).toContain('Private mechanics revision');
+    await open.click();
+    const dialog = page.getByRole('dialog', { name: 'Take your plan with you' });
+    await expect(dialog.getByLabel('From date')).toBeFocused();
+    await expect(dialog).toContainText('1 unfinished task selected');
+    for (const theme of ['light', 'dark'] as const) {
+      await dialog.getByRole('button', { name: 'Close', exact: true }).click();
+      await selectTheme(page, theme);
+      await open.click();
+      await expect(dialog.getByLabel('Calendar reminder')).toHaveCSS('min-height', '44px');
+      await page.screenshot({ path: info.outputPath(`calendar-${width}-${theme}.png`), animations: 'disabled' });
+    }
+    expect(await dialog.evaluate(element => element.scrollWidth <= element.clientWidth + 1)).toBe(true);
+    await dialog.getByRole('button', { name: 'Download calendar' }).focus();
+    await page.keyboard.press('Tab');
+    await expect(dialog.getByRole('button', { name: 'Close', exact: true })).toBeFocused();
+    const firstDownload = page.waitForEvent('download');
+    await dialog.getByRole('button', { name: 'Download calendar' }).click();
+    const first = await firstDownload;
+    expect(first.suggestedFilename()).toBe('vertexed-plan-2090-09-28-to-2090-10-04.ics');
+    const privateCopy = await readFile((await first.path())!, 'utf8');
+    expect(privateCopy).toContain('SUMMARY:Study block');
+    expect(privateCopy).not.toContain('Private mechanics');
+    expect(privateCopy).not.toContain('VALARM');
+    await expect(dialog.getByRole('status')).toContainText('1 task');
+    await dialog.getByLabel('Include task names').check();
+    await dialog.getByLabel('Calendar reminder').selectOption('15');
+    const secondDownload = page.waitForEvent('download');
+    await dialog.getByRole('button', { name: 'Download calendar' }).click();
+    const second = await secondDownload;
+    const namedCopy = await readFile((await second.path())!, 'utf8');
+    expect(namedCopy).toContain('SUMMARY:Private mechanics revision');
+    expect(namedCopy).toContain('TRIGGER:-PT15M');
+    expect(namedCopy.match(/UID:(.*)/)?.[1]).toBe(privateCopy.match(/UID:(.*)/)?.[1]);
+    await dialog.getByLabel('From date').fill('2090-10-01');
+    await dialog.getByRole('button', { name: 'Download calendar' }).click();
+    await expect(dialog.getByRole('alert')).toContainText('no unfinished tasks');
+    await page.keyboard.press('Escape');
+    await expect(dialog).toHaveCount(0);
+    await expect(open).toBeFocused();
+  });
+}
+
+test('planner calendar cancellation discards an in-flight file', async ({ page }) => {
+  await installAccountHarness(page, true);
+  await page.goto('/planner');
+  await page.getByRole('button', { name: 'New Task', exact: true }).click();
+  const add = page.getByRole('dialog', { name: 'Add a study task' });
+  await add.getByLabel('Task name', { exact: true }).fill('Cancelled export');
+  await add.getByRole('button', { name: 'Add task', exact: true }).click();
+  await page.evaluate(() => {
+    const real = crypto.subtle.digest.bind(crypto.subtle);
+    (window as any).calendarGate = {};
+    const gate = new Promise<void>(resolve => { (window as any).calendarGate.release = resolve; });
+    crypto.subtle.digest = async (...args) => { (window as any).calendarGate.started = true; await gate; const result = await real(...args); (window as any).calendarGate.finished = true; return result; };
+  });
+  let downloads = 0;
+  page.on('download', () => downloads++);
+  await page.getByRole('button', { name: 'Export calendar' }).click();
+  await page.getByRole('button', { name: 'Download calendar' }).click();
+  await expect.poll(() => page.evaluate(() => (window as any).calendarGate.started)).toBe(true);
+  await page.keyboard.press('Escape');
+  await page.evaluate(() => (window as any).calendarGate.release());
+  await expect.poll(() => page.evaluate(() => (window as any).calendarGate.finished)).toBe(true);
+  await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+  await page.getByRole('button', { name: 'Export calendar' }).click();
+  await expect(page.getByRole('dialog')).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Download calendar' })).toBeEnabled();
+  expect(downloads).toBe(0);
 });

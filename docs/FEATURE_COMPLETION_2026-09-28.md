@@ -1,5 +1,7 @@
 # VertexED integrated learning workspace and feature delivery
 
+Follow-up: [calendar export and current site closeout](SITE_CLOSEOUT_2026-09-28.md) adds a one-way calendar handoff and refreshes hosting evidence. The verification below remains bound to its recorded revision.
+
 28 September 2026. Final runtime: `0d561adeea82aa11e9abf654b1dd98468f2e783e`. Learning OS integration: `b9a8c5a7bb78b0f53a3dd44b581f783ea2582b38`. Conversation/PDF foundation: `617d20fc79d307d5940e23ee958ae382828356d8`. Browser test follow-ups through `0027530a` (no runtime change).
 
 **Local feature delivery is implemented. Full-product completion and production release remain NO-GO.** The code is pushed to the existing draft [review #1098](https://github.com/vertex-studyAI/vertexED.ai/pull/1098), and to `codex/conversation-persistence-20260927`. Main has not been merged by this execution.

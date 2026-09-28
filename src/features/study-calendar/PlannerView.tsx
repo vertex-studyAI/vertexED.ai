@@ -2,6 +2,7 @@ import { getUserContentStorageScope } from '@/lib/userContentStorageScope.mjs';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import AccessibleModal from "@/components/AccessibleModal";
 import Calendar from "./components/Calendar";
+import CalendarExport from "./components/CalendarExport";
 import Schedule, { TaskItem } from "./components/Schedule";
 import TimeLeftWidget from "./components/TimeLeftWidget";
 import "./styles/planner.css";
@@ -390,6 +391,7 @@ const PlannerView: React.FC = () => {
         </div>
 	<div className="planner-actions">
           <button className="planner-new" disabled={!plannerReady} onClick={openNewTask}>New Task</button>
+          {plannerReady && currentUserId && <CalendarExport key={currentUserId} tasks={tasks} accountId={currentUserId} selectedDate={selectedDate} />}
           <button className="planner-today" disabled={!plannerReady || weekPlanBusy || aiBusy} onClick={() => void suggestWeekFromAI()}>
             {weekPlanBusy ? "Planning…" : "AI week plan"}
           </button>

@@ -1,5 +1,11 @@
 # ASTRA final report: VertexED
 
+## Current closeout: 28 September 2026
+
+The original report below is retained as historical evidence. It is superseded for current feature counts, local database availability and GitHub publication by [integrated feature delivery](docs/FEATURE_COMPLETION_2026-09-28.md), [calendar and site closeout](docs/SITE_CLOSEOUT_2026-09-28.md), [STATUS.md](STATUS.md) and [LIMITATIONS.md](LIMITATIONS.md). The integrated candidate includes 35 questions, private tutor persistence and reviewed PDF/text imports; 30 migrations and 69 SQL assertions passed locally. The code is on draft PR #1098. Production remains NO-GO because hosting, service configuration and live acceptance are still unresolved. No positive production result has been fabricated.
+
+## Historical hardening report: 27 September 2026
+
 27 September 2026. **Production NO-GO.** This pass applies megaprompt 13 to VertexED. Local hardening is implemented; the complete product and production launch still have open gates. This is not a paper project, and no research results were created.
 
 ## Starting state and preservation
