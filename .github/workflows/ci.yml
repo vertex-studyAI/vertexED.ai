@@ -3,8 +3,8 @@ name: CI
 on:
   push:
     branches: [main, master]
+  # Validate every PR base, including stacked fixes; production jobs stay push-only.
   pull_request:
-    branches: [main, master]
 
 permissions:
   contents: read
