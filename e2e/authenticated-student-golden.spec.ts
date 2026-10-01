@@ -668,3 +668,55 @@ test('approved learner completes the golden study journey and resumes saved work
   );
   expect(browserErrors).toEqual([]);
 });
+
+test('baseline answer edits invalidate old self-checks across reloads and viewport sizes', async ({ page }) => {
+  await installExternalServiceHarness(page);
+  await page.goto('/signup?invite=vertexed-e2e-approved');
+  await page.getByLabel('Username').fill('e2elearner');
+  await page.getByLabel('Password').fill(learnerPassword);
+  await page.getByRole('button', { name: 'Create account' }).click();
+  await expect(page).toHaveURL(/\/connect-google$/);
+  await page.getByRole('button', { name: 'Skip for now' }).click();
+  await expect(page).toHaveURL(/\/onboarding$/);
+  await page.locator('#curriculum-board').selectOption('IB_MYP');
+  await page.locator('#curriculum-grade').selectOption('10');
+  await page.getByRole('button', { name: 'Chemistry', exact: true }).click();
+  await page.getByRole('button', { name: 'Create my study plan' }).click();
+  await expect(page).toHaveURL(/\/main$/);
+  await page.goto('/exam-prep');
+  await page.getByLabel('Session choice').selectOption('diagnostic');
+  const baseline = page.locator('#exam-baseline');
+  await expect(baseline.getByRole('heading', { name: 'Three original questions, then a bounded next step' })).toBeVisible();
+  const completion = () => page.evaluate(() => {
+    const key = Object.keys(localStorage).find((name) => name.includes('exam_baseline') && name.endsWith(':Chemistry'));
+    if (!key) throw new Error('Missing account-scoped baseline record');
+    return JSON.parse(localStorage.getItem(key) || 'null').completedAt;
+  });
+  for (const width of [1440, 1024, 390]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.emulateMedia({ reducedMotion: width === 390 ? 'reduce' : 'no-preference' });
+    await baseline.getByRole('button', { name: 'Restart baseline' }).click();
+    const items = baseline.locator('ol > li');
+    await expect(items).toHaveCount(3);
+    for (let i = 0; i < 3; i += 1) {
+      await items.nth(i).getByLabel('Your original response').fill(`Initial explanation ${i}`);
+      await items.nth(i).getByRole('button', { name: 'Compare with worked reasoning' }).click();
+      await items.nth(i).getByRole('radio', { name: 'Demonstrated here', exact: true }).check();
+    }
+    await expect.poll(completion).not.toBeNull();
+    await items.first().getByLabel('Your original response').fill(`Edited explanation ${width}`);
+    await expect(items.first().getByRole('radio', { name: 'Demonstrated here', exact: true })).not.toBeChecked();
+    await expect(baseline).toContainText('record a fresh self-check');
+    await expect.poll(completion).toBeNull();
+    await page.reload();
+    await expect(baseline.locator('ol > li').first().getByLabel('Your original response')).toHaveValue(`Edited explanation ${width}`);
+    await expect(baseline).toContainText('record a fresh self-check');
+    await expect.poll(completion).toBeNull();
+    await baseline.locator('ol > li').first().getByLabel('Your original response').focus();
+    await page.keyboard.press('Tab');
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width + 1);
+    await baseline.screenshot({ path: `test-results/baseline-response-review-${width}.png` });
+    await baseline.locator('ol > li').first().getByRole('radio', { name: 'Needs review', exact: true }).check();
+    await expect.poll(completion).not.toBeNull();
+  }
+});

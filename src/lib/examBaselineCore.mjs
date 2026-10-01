@@ -129,18 +129,36 @@ export function normalizeBaselineAttempt(value, expected = {}) {
   };
 }
 
+// A self-check describes one response version, not every later edit to it.
+export function patchBaselineAttemptResponse(attempt, id, patch, completedAt = new Date().toISOString()) {
+  const current = attempt?.responses?.[id];
+  if (!current || !attempt.drillIds.includes(id)) return attempt;
+  const nextResponse = { ...current, ...patch };
+  if (nextResponse.answer !== current.answer || nextResponse.attemptState !== 'attempted') {
+    nextResponse.selfCheck = null;
+  }
+  const responses = { ...attempt.responses, [id]: nextResponse };
+  const complete = attempt.drillIds.every((drillId) => {
+    const response = responses[drillId];
+    return ['attempted', 'unsure', 'skipped'].includes(response?.attemptState)
+      && (response.attemptState !== 'attempted' || SUPPORTED_OUTCOMES.has(response.selfCheck));
+  });
+  return { ...attempt, responses, completedAt: complete ? completedAt : null };
+}
+
 export function summarizeBaselineAttempt(attempt) {
   const normalized = normalizeBaselineAttempt(attempt, {
     subject: attempt?.subject,
     programme: attempt?.programme,
   });
-  if (!normalized) return { label: 'No evidence yet', attempted: 0, unsure: 0, skipped: 0, notAttempted: 0, counts: {} };
+  if (!normalized) return { label: 'No evidence yet', attempted: 0, unsure: 0, skipped: 0, notAttempted: 0, unreviewed: 0, counts: {} };
 
   const values = Object.values(normalized.responses);
   const attempted = values.filter((item) => item.attemptState === 'attempted').length;
   const unsure = values.filter((item) => item.attemptState === 'unsure').length;
   const skipped = values.filter((item) => item.attemptState === 'skipped').length;
   const notAttempted = values.filter((item) => item.attemptState === 'not-attempted').length;
+  const unreviewed = values.filter((item) => item.attemptState === 'attempted' && item.selfCheck === null).length;
   const counts = {
     'needs-review': values.filter((item) => item.selfCheck === 'needs-review').length,
     'some-evidence': values.filter((item) => item.selfCheck === 'some-evidence').length,
@@ -151,12 +169,13 @@ export function summarizeBaselineAttempt(attempt) {
   if (attempted > 0) {
     label = counts['needs-review'] > 0 ? 'Needs review' : 'Some evidence';
   }
-  return { label, attempted, unsure, skipped, notAttempted, counts };
+  return { label, attempted, unsure, skipped, notAttempted, unreviewed, counts };
 }
 
 export function baselineNextAction(attempt) {
   const summary = summarizeBaselineAttempt(attempt);
   if (summary.attempted === 0) return 'Attempt one question before deciding what to review.';
+  if (summary.unreviewed > 0) return 'Compare your attempted responses with the worked reasoning and record a fresh self-check.';
   if (summary.counts['needs-review'] > 0) return 'Open focused practice and repair the question you marked needs review.';
   if (summary.unsure > 0 || summary.skipped > 0 || summary.notAttempted > 0) return 'Finish or revisit the unsure and skipped questions before widening the conclusion.';
   return 'Use focused practice on the same topic, then compare a fresh transfer question.';

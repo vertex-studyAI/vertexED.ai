@@ -9,6 +9,7 @@ import {
   createBaselineAttempt,
   normalizeBaselineAttempt,
   parseBaselineTopics,
+  patchBaselineAttemptResponse,
   selectBaselineDrills,
   summarizeBaselineAttempt,
 } from '@/lib/examBaselineCore.mjs';
@@ -91,17 +92,7 @@ export default function ExamBaselinePractice({ subject, programme }: { subject: 
 
   const persist = (next: BaselineAttempt) => setRawAttempt(next);
   const updateResponse = (id: string, patch: Partial<BaselineResponse>) => {
-    const current = attempt.responses[id];
-    if (!current) return;
-    const nextResponse = { ...current, ...patch };
-    if (nextResponse.attemptState !== 'attempted') nextResponse.selfCheck = null;
-    const responses = { ...attempt.responses, [id]: nextResponse };
-    const complete = attempt.drillIds.every((drillId) => {
-      const response = responses[drillId];
-      return response?.attemptState !== 'not-attempted'
-        && (response?.attemptState !== 'attempted' || Boolean(response.selfCheck));
-    });
-    persist({ ...attempt, responses, completedAt: complete ? new Date().toISOString() : null });
+    persist(patchBaselineAttemptResponse(attempt, id, patch) as BaselineAttempt);
   };
 
   if (drills.length < 3) {
