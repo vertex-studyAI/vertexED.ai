@@ -1,4 +1,4 @@
-import { verifyAuthUser } from '../_lib/auth.js';
+import { verifyAuthUserOnly } from '../_lib/auth.js';
 import { isAdminUser } from '../_lib/admin.js';
 import { rateLimitUserEndpoint } from '../_lib/rateLimit.js';
 
@@ -8,7 +8,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const user = await verifyAuthUser(req, res);
+  const user = await verifyAuthUserOnly(req, res);
   if (!user) return;
 
   if (!(await rateLimitUserEndpoint(user.id, 'admin-status', res, { limit: 120, windowMs: 60 * 60 * 1000 }))) {
