@@ -4,6 +4,8 @@ import { spawnSync } from 'node:child_process';
 import { writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
+import { pruneUnpublishedStudyGuides } from './prune-unpublished-study-guides.mjs';
+
 const viteCli = resolve('node_modules/vite/bin/vite.js');
 const buildRevisionModule = resolve('api/_generated/build-revision.js');
 const neutralBuildRevision = [
@@ -29,4 +31,11 @@ try {
 }
 
 if (result.error) throw result.error;
-process.exitCode = result.status ?? 1;
+
+const status = result.status ?? 1;
+if (status !== 0) {
+  process.exitCode = status;
+} else {
+  await pruneUnpublishedStudyGuides();
+  process.exitCode = 0;
+}
