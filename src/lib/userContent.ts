@@ -567,7 +567,11 @@ export async function listStudyArtifactsDetailed(
         error: data?.error || 'Cloud sync unavailable - showing device saves',
       };
     }
-    const cloud = Array.isArray(data?.items) ? (data.items as StudyArtifact[]) : [];
+    const cloud = Array.isArray(data?.items)
+      ? data.items
+        .map(normalizeStoredArtifact)
+        .filter((item): item is StudyArtifact => item !== null)
+      : [];
     return {
       ok: true,
       items: mergeArtifacts(cloud, local),
