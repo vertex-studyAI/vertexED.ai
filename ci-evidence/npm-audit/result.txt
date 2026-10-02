@@ -1,3 +1,3 @@
-failure
-attempt=3
-missing metadata.vulnerabilities
+success
+attempt=1
+no high or critical production vulnerabilities

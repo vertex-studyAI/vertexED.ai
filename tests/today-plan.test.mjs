@@ -104,9 +104,15 @@ test('today-plan completion does not expose an unpersisted optimistic state', ()
 });
 
 
-test('dashboard primary action follows the highest-priority truthful today-plan item', () => {
-  const source = readFileSync(new URL('../src/pages/Main.tsx', import.meta.url), 'utf8');
-  assert.match(source, /const primaryTodayItem = todayItems\[0\] \?\? null;/);
-  assert.match(source, /to=\{primaryTodayItem\?\.href \?\? "\/exam-prep"\}/);
-  assert.match(source, /primaryTodayItem \? "Start next step" : "Open today’s exam plan"/);
+test('dashboard primary action keeps Today priority and saved-work recovery', async () => {
+  const { dashboardNextAction } = await import('../src/lib/dashboardNextAction.mjs');
+  const pendingMock = { status: 'in_progress' };
+  const retry = { href: '/learn?concept=algebra', topic: 'Algebra' };
+  assert.deepEqual(dashboardNextAction({ todayItem: { href: '/planner' }, pendingMock, retry, recentId: 'a' }), { to: '/planner', label: 'Start next step' });
+  assert.equal(dashboardNextAction({ pendingMock, retry }).to, '/paper-maker?resumeMock=1');
+  assert.equal(dashboardNextAction({ pendingMock: { status: 'submitted' } }).to, '/answer-reviewer');
+  assert.equal(dashboardNextAction({ retry }).to, retry.href);
+  assert.equal(dashboardNextAction({ loading: true, recentId: 'stale' }).to, '/study-notebook');
+  assert.equal(dashboardNextAction({ recentId: 'a/b' }).to, '/saved-work?item=a%2Fb');
+  assert.equal(dashboardNextAction({}).to, '/study-notebook?start=1');
 });

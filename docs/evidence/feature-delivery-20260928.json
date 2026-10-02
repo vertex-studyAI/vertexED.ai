@@ -1,0 +1,1377 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-09-28T05:25:03.685336+00:00",
+  "baseCommit": "8f6b2f7d46f484e1950b6a70bea28d3b695f58ae",
+  "sourceAndTestCommit": "7be48d3c407ab3da3e6774de969809b12e25fd22",
+  "integratedRuntimeCommit": "0d561adeea82aa11e9abf654b1dd98468f2e783e",
+  "learningWorkspaceIntegrationCommit": "b9a8c5a7bb78b0f53a3dd44b581f783ea2582b38",
+  "conversationPdfFoundation": "617d20fc79d307d5940e23ee958ae382828356d8",
+  "decision": "LOCAL_FEATURE_VERIFICATION_PASS; FULL_PRODUCT_AND_PRODUCTION_NO_GO",
+  "checks": {
+    "applicationTests": 1273,
+    "evaluationTests": 25,
+    "offlineTutorFixtures": 13,
+    "copyLintFiles": 371,
+    "copyLintFindings": 0,
+    "legacyHookWarnings": 2,
+    "sqlAssertions": 69,
+    "migrations": 30,
+    "learnerBrowserCases": 78,
+    "accountBrowserCases": 18,
+    "conversationBrowserCases": 12,
+    "textImportBrowserCases": 3,
+    "unchangedAssetBudgets": "PASS"
+  },
+  "boundaries": [
+    "Application CI ran on the same integrated runtime source before its commit; source hashes bind the result. The final source-review modal correction also passed full CI and focused text/PDF browser checks; other runtime files are unchanged from the 78/18/12 browser matrices.",
+    "SQL replay used a disposable local target; schema has not changed since the conversation/PDF foundation.",
+    "Browser account/provider services are controlled fixtures; PDF parsing is real.",
+    "Original worktrees and raw failures are preserved; screenshot existence does not imply every capture was visually inspected.",
+    "No production merge or promotion by this execution. Custom-domain TLS and fallback readiness remain blocked.",
+    "Offline application loading, background calendar integration, full curriculum coverage, live accounts/providers and independent reviews remain open."
+  ],
+  "checklistCounts": {
+    "total": 112,
+    "pass": 3,
+    "open": 109
+  },
+  "originalQuestionBankCount": 35,
+  "guideReview": {
+    "total": 245,
+    "approved": 0,
+    "flagged": 53
+  },
+  "sourceHashes": [
+    {
+      "path": ".github/workflows/ci.yml",
+      "sha256": "a3db656f0c0c9a464a0198b98defdff12f7488c67ddaa9e195f2f853a42bd97f"
+    },
+    {
+      "path": ".gitignore",
+      "sha256": "1f3511dce8be0c9c5c8e6dc410380439c8baa579c118fdea1382d4c93455c16f"
+    },
+    {
+      "path": "api/_handlers/import-source.js",
+      "sha256": "82c942528d8eb9edff7a9ce429b2dac11ae04d0df33408676ceda7d4cdb35610"
+    },
+    {
+      "path": "api/_handlers/user-content.js",
+      "sha256": "7906c9031e2c7e0c7ba0f2c9077c44b5053a7a9dfcbd71ff82fe8b961b06a206"
+    },
+    {
+      "path": "api/_lib/pdfImport.js",
+      "sha256": "7835908871c8247f9da924533cf3eabb0ef4d0d351758086cce6556c21527442"
+    },
+    {
+      "path": "api/_lib/routes.js",
+      "sha256": "5d47ff7c57834bf35f577ce38d8ad8110a1369d3a9aca073f9bdd978d26501bc"
+    },
+    {
+      "path": "api/_lib/userContentStore.js",
+      "sha256": "c76a7567bbe72fc0fac78f252072d1fb11164fcd861688843c65120b47b9a03a"
+    },
+    {
+      "path": "api/_workers/pdfImportWorker.js",
+      "sha256": "aaf8cdc064871c27a0989a6c8c881f20051aac7de9f3ad76173e6152d7795a7b"
+    },
+    {
+      "path": "contracts/apexConversation.js",
+      "sha256": "6beab54d4af0be85cc3317125377ef3f25663be18f5935a4af5cb706a49863db"
+    },
+    {
+      "path": "contracts/studyArtifact.d.ts",
+      "sha256": "09568ff674e38d075a1cd6f327df152c1267bddb5f9d6e2e88ee71f12fb1880a"
+    },
+    {
+      "path": "contracts/studyArtifact.js",
+      "sha256": "85e333f248e4df4af62e4f8b87f3770d3b7c0754b3efc080a61758cfc3754c25"
+    },
+    {
+      "path": "e2e/auth-return.spec.ts",
+      "sha256": "26726b0ad6a6dc0bbfd827eb708735f91547d7bcbda7661a8b049a6054c515d3"
+    },
+    {
+      "path": "e2e/authenticated-student-golden.spec.ts",
+      "sha256": "303da9087d7736eb4931e3c1e9314972300b024cfb7a8f144441e21b6717dbd0"
+    },
+    {
+      "path": "e2e/conversations.spec.ts",
+      "sha256": "42bb9ee15101a0e87b9013910ead9647ab2c58e07095044b3a0ddf493d539dc0"
+    },
+    {
+      "path": "e2e/learning-os.spec.ts",
+      "sha256": "694112dc8d03f294f4870d47f81417306acd71743cae93641bd75498c3153a58"
+    },
+    {
+      "path": "e2e/product-rebuild.spec.ts",
+      "sha256": "764d0eca98963e82ab34f9948e4135511d017547a61441439e8ecca9d70f0dbb"
+    },
+    {
+      "path": "e2e/study-desk.spec.ts",
+      "sha256": "a2266d0766fb149ed9489a1a1308c7c207e97d1ad3ced393b80336a77e1d84a7"
+    },
+    {
+      "path": "e2e/theme-controls.ts",
+      "sha256": "e516617e7f162274ad093543ed51fa27253f59cf285f23ead478a8b5d508f6ae"
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "d3754e74e1040d9bb211501c587fbb4c8376ccdc98988c8b271b13ddc85af1ff"
+    },
+    {
+      "path": "package.json",
+      "sha256": "83aca1ab4fb2523fd12675c69b7893009d43dd1b4e8e41bac5306058a7ac1507"
+    },
+    {
+      "path": "playwright.conversations.config.ts",
+      "sha256": "0e644813f12586e5839348aacd592555105dd34f0b23bccfe5229a8df1e95fe7"
+    },
+    {
+      "path": "playwright.learning-loop.config.ts",
+      "sha256": "c069668711ddf705fba034fd1ebd2f28d1e075cb6697726e7d01ddb8aa56ef83"
+    },
+    {
+      "path": "src/components/SavedWorkList.tsx",
+      "sha256": "1f956e43ef6c6d76882ee911152d2d9da9c440029d9485839aaf3ce41a3fd14d"
+    },
+    {
+      "path": "src/components/chat/ApexSocraticDrill.tsx",
+      "sha256": "d7da29edd45ff65f6b003d89ed24603da36e9f95690ac2948d89af03684f31d2"
+    },
+    {
+      "path": "src/components/chat/ConversationStatus.tsx",
+      "sha256": "b4bd7154c94c12072ff933a7a9bfba9df913f76acab33a76fe9155fc15b4c0bb"
+    },
+    {
+      "path": "src/components/chat/GlobalChatPanel.tsx",
+      "sha256": "446b3d603c3c8fa70b06e4687569cf5ebc2968d1f6bdcb1d71de6a300476722d"
+    },
+    {
+      "path": "src/components/dashboard/LearningToday.tsx",
+      "sha256": "293ee5837001b61677865790033bbc7a815dc8076c765ead115a41a4eedd3e83"
+    },
+    {
+      "path": "src/components/layout/SiteLayout.tsx",
+      "sha256": "e26cda0ade08e45886663fb30acc340d05dc7d11bd2146fff6af3e47c42ffdcb"
+    },
+    {
+      "path": "src/components/learning/ComplexPlane.tsx",
+      "sha256": "7e8c0634be8842d0b9e3f7d729a157f8e9f0e3627f3812294800ab01fd86b8f6"
+    },
+    {
+      "path": "src/components/learning/CorrectiveRetry.tsx",
+      "sha256": "e1752c85b114072ddf97c72cab0491e2a5c8baad7c849b78f3604a1bdbce4c23"
+    },
+    {
+      "path": "src/components/learning/KnowledgeExplorer.tsx",
+      "sha256": "e39ff09a1a79e4a1169dec79b69c969b6c99b4555316c347fa803ea0dcdf1003"
+    },
+    {
+      "path": "src/components/learning/MistakeNotebook.tsx",
+      "sha256": "e389e03d2826c1de3f4982261ea49b3dbcc439ee4a839a30a52e5343bb160101"
+    },
+    {
+      "path": "src/components/learning/PracticeTutor.tsx",
+      "sha256": "cd6055ead27f33043d19c6400e1bb6ac0eb664bc7f604714d8540226ec930db6"
+    },
+    {
+      "path": "src/components/notebook/SourceFileImport.tsx",
+      "sha256": "64486017ea8b79cef1edd492120c84a6ae11e08cf2633916e866fee3cdf45642"
+    },
+    {
+      "path": "src/content/adaptiveQuestionBank.mjs",
+      "sha256": "5034e846167d7b687b0dda5d62bc3c846b0e083a1dc79715a90037fd8a22f747"
+    },
+    {
+      "path": "src/content/complexNumbersPractice.mjs",
+      "sha256": "84c28559f4ed5d4d8fa24e7319ee0ebf2f9bf8b604f1d29d803f02d3d8adf8d3"
+    },
+    {
+      "path": "src/hooks/useApexChat.ts",
+      "sha256": "bcf82f40c601f2ea13f4127f9c68a4129cddb8b08a4bcb47c3ebd377757739f6"
+    },
+    {
+      "path": "src/lib/apexRoute.mjs",
+      "sha256": "c14a1d7a0ca8cd7b38f9049c6763ee7747dca88ebe1441ea5b762cf9bc058973"
+    },
+    {
+      "path": "src/lib/conversationStore.mjs",
+      "sha256": "1464811b1bbc701945db89dec309385d32d677893ca3d8e96bdb73303c692734"
+    },
+    {
+      "path": "src/lib/conversations.ts",
+      "sha256": "39e25f20bf9cb07232abc9ab11511d127ba67b11b94de41e01847d7aea270821"
+    },
+    {
+      "path": "src/lib/learningJourney.mjs",
+      "sha256": "532b870257878620a1c4c0fb6ca7a01d27a82d311e474608b7db84f83fe8ce51"
+    },
+    {
+      "path": "src/lib/learningModel.mjs",
+      "sha256": "db29460f19edda4bb63773a64d7dcad1ee8e02bbb7b60d8f5e41d660b1aac00a"
+    },
+    {
+      "path": "src/lib/learningSearch.ts",
+      "sha256": "eaa1cdfd2aeb4ac8ed3f853d32921b162810c4af6db82482ede33fef54e8ff76"
+    },
+    {
+      "path": "src/lib/learningStore.ts",
+      "sha256": "d946fdfe663d9848a970d761105b8f0e8fd6f296b1edeb63b62ec1d6fab9a834"
+    },
+    {
+      "path": "src/lib/pdfImport.ts",
+      "sha256": "39ccbdc8d61f3c8d8613150bbee1243ebcfd7176464dd7847ea3bbd4ddaebf1a"
+    },
+    {
+      "path": "src/lib/practiceSession.mjs",
+      "sha256": "fded64e6fd0e0fb2e95ec7c4d20a788022b7a7362edd82871455fc182b972ec5"
+    },
+    {
+      "path": "src/lib/savedWorkSearch.ts",
+      "sha256": "a252ac3384d230edf48abd55e04507b8d1dea0fa706e23975cb5d1471948487d"
+    },
+    {
+      "path": "src/lib/sourceFileImport.mjs",
+      "sha256": "7ada5e78e55f46d6dac538f2cc26359cbee20473e278c47ac59d6693247c9514"
+    },
+    {
+      "path": "src/lib/userContent.ts",
+      "sha256": "ac058c603d2bf1d55d3ebec09157254022bcd8f540c6eeb857369ba831f896c6"
+    },
+    {
+      "path": "src/pages/AIChatbot.tsx",
+      "sha256": "364fc05b2526404f1b6111f2c61c7c2d455bacd9967ab047d67b280725af856e"
+    },
+    {
+      "path": "src/pages/LearningWorkspace.tsx",
+      "sha256": "d2ab562d0ebeb534403038a3d69027833aea21c29ce530adf0232d60507e0cb2"
+    },
+    {
+      "path": "src/pages/Main.tsx",
+      "sha256": "58d5b006776250d49c174bef7d2c5a78b43a45912d06861b2df44c11fb02da9d"
+    },
+    {
+      "path": "src/pages/StudyNotebook.tsx",
+      "sha256": "f53d4b28f5a3b2f938a49fa3e6412293cb944124c4e5735889a40247c14bf07e"
+    },
+    {
+      "path": "src/styles/learning-workspace.css",
+      "sha256": "7bc777318197f36ee6525b2649dc07d286f56fa773dbaa3ad786b09b5f15c23d"
+    },
+    {
+      "path": "src/styles/navigation.css",
+      "sha256": "d3476179b27b0c1b97e72703e6b39fa109e1b280403abfbc6f11490ab935ab3f"
+    },
+    {
+      "path": "supabase/migrations/20260927083605_apex_conversation_snapshot.sql",
+      "sha256": "0b5e1949ea05977e51d2fcbeefae6c1e18f86d7c4c0b4d826520d0eb84fe9df4"
+    },
+    {
+      "path": "supabase/tests/database/conversations.test.sql",
+      "sha256": "29e6cf19fa37b1d546c67d416ab74c84a55966dcee52904c72da3ba1c5078cff"
+    },
+    {
+      "path": "tests/apex-chat-scope-persistence.test.mjs",
+      "sha256": "62201ffb44bd4d0fed65078673329b6247cfefd200a0561b40ba5bf679edd402"
+    },
+    {
+      "path": "tests/apex-chat-storage.test.mjs",
+      "sha256": "649508157467703778d7e49456827f29e4ca3e02f0ee1f5c15decd273562895f"
+    },
+    {
+      "path": "tests/apex-history-contract.test.mjs",
+      "sha256": "65b0c645bb70c48b9eb2a187ec1f6d0cbc006ccffe3fd794fe4e281cfa7add77"
+    },
+    {
+      "path": "tests/apex-route.test.mjs",
+      "sha256": "1ed6fba6e2411e0d65815603ce7487779d16ffb601301a3e5272c064432658b9"
+    },
+    {
+      "path": "tests/conversation-store.test.mjs",
+      "sha256": "568147968b52f93f26b7bddf126577c54fd3269158816c1a1180c59c6a3958f3"
+    },
+    {
+      "path": "tests/domain-contracts.test.mjs",
+      "sha256": "f4782a8239a87f85606fb129cb9be979393fa540ea6fb93eb2fc9e445ca13a0e"
+    },
+    {
+      "path": "tests/fixtures/pdf.mjs",
+      "sha256": "7ee020402db71049bb6829a00d244febb0638dd6f4b5913431235dab9660a29d"
+    },
+    {
+      "path": "tests/learning-journey.test.mjs",
+      "sha256": "5e1ac859ebc670f5b650252e0960945dda815378b34d76faa51005b12bed0ae4"
+    },
+    {
+      "path": "tests/pdf-import.test.mjs",
+      "sha256": "979396c416a2114af053d60ae7f0de67ee7449e78ca5796b9d18a35e6b01193e"
+    },
+    {
+      "path": "tests/planner-replace-integrity.test.mjs",
+      "sha256": "1f8a08da8166857153ea88dbc037b80881e87f60ccb053a1862f7b7d8212b1c5"
+    },
+    {
+      "path": "tests/source-file-import.test.mjs",
+      "sha256": "da0811e38a00a5795cd993e0ace2afa524e800a7db8a7db82cf10a2a00b4ee53"
+    },
+    {
+      "path": "tests/study-notebook-control-labels.test.mjs",
+      "sha256": "55ab9f580d033761277f39536321cb7f50e07e7514ac641d4d3d981fa5fe032c"
+    },
+    {
+      "path": "tests/study-notebook-source-preview-accessibility.test.mjs",
+      "sha256": "72cdd26c2213f112236524f133a705270b9297dd293d54878ac0080d5e8594cd"
+    },
+    {
+      "path": "tests/user-content-account-storage.test.mjs",
+      "sha256": "a525a2a9ddc49d104a9b53ddc3b17a9c361354af67696276d3413bc6d95ed40a"
+    },
+    {
+      "path": "tests/user-content-isolation.test.mjs",
+      "sha256": "2463a053c976f602a3a2b585ab4404edaed9e8553ef47d660b3a5da03e7c997f"
+    },
+    {
+      "path": "tests/vercelRevisionPackaging.test.mjs",
+      "sha256": "ccfe6fe08eba3a5cffd1230557edbbf0ffe1bcf74dffc16cf777cba5973c6e52"
+    },
+    {
+      "path": "vercel.json",
+      "sha256": "a318aaaa7a60a2e18925b578dfa78765760d3b8319b799eaed46979cc20b6aaa"
+    }
+  ],
+  "receiptHashes": [
+    {
+      "path": "ci-evidence/conversations-20260927/clean-install.log",
+      "sha256": "836cc548bf6a5abd5e710f1d39f8e37e4c99ef8e4817c1a917b9ea5d92751e6c",
+      "bytes": 629
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/ci-committed.log",
+      "sha256": "22c3d530a4d2769c5cc077498f9d5deced6b93f42836271d0246d4d3f9e3ee0a",
+      "bytes": 319670
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/ci-learning-integrated.log",
+      "sha256": "91cdef1496e92f07d3de516bf1dfc70e09a8947e1264c533711ddbebed0dcb17",
+      "bytes": 322554
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/ci-preview-corrected.log",
+      "sha256": "233e3352a357598c991ec50f3496b4b0b9f2f5993c90f691c5e5417bdb6cc356",
+      "bytes": 322521
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/pdf-corrected.log",
+      "sha256": "0b7ed7f1f070a481e3a0c4307d104aa56d2a58a2b2dd4220fc04cc1f04f048d2",
+      "bytes": 3151
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/github-integrated-checks.json",
+      "sha256": "23ee914605922b715500d241fc5ccc503c1af290dd22ed701f36ff8d7f65bf13",
+      "bytes": 3902
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/database.log",
+      "sha256": "7a4e70c0c0790417594a105cff77e969bb49dd159318fe58777623f85f78c1d4",
+      "bytes": 3549
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/db/replay-manifest.json",
+      "sha256": "4874cdd65958ee2786a1e36e73bf0dfb5e1640060240a70ab00ddfb7c0e250a7",
+      "bytes": 7908
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/database-stop.log",
+      "sha256": "2af9cc32fb5a8d7fb78188d6fb86a4b0407d08afeafff75b7d093aaf775c37a6",
+      "bytes": 212
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final.log",
+      "sha256": "d04ca453fd86c169fac152b869182f9f1f639c8620cae09e9af3aa0280f519f6",
+      "bytes": 11409
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/golden-final.log",
+      "sha256": "e6fdb04b7fafcc0fee1eea15e13c75fbf6647e18be06d763b750796efdf1114c",
+      "bytes": 3656
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/conversation-integrated.log",
+      "sha256": "a3409fbf37fd5b4a84697bf2d9df03c8274e260fd594e97c98ba16da0a840c24",
+      "bytes": 3382
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/text-import-corrected.log",
+      "sha256": "df781bc4cfa6f6c44146d188cbf7ebde416c0d0cc0e8e24de35a50572f397dd8",
+      "bytes": 2146
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/production-probe.json",
+      "sha256": "3b5e95faca117b2b4d27d802f656497275c36c499ba92e74450427d1e599072e",
+      "bytes": 4447
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/gitleaks-integrated.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "bytes": 3
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/gitleaks-final-runtime.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "bytes": 3
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/dependency-audit-corrected.json",
+      "sha256": "bba681ef0fcce3295b0badd526837cc26049b54e1da182631cd72d12d042011b",
+      "bytes": 366
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/github-runtime-checks.json",
+      "sha256": "475738936829d8e37f47a955c39973845fda3b20fe21b8f62f0af5d2693c93b7",
+      "bytes": 4254
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-os-source-manifest.json",
+      "sha256": "9451a5a5fd2c90df0845ca6ea5e3e1e25c7c1c64eaa715e9c6b357b9498ca77f",
+      "bytes": 1866
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-os-integration.patch",
+      "sha256": "fe296fa31863a5021933b12252babbd6bf3a8756ff57a935723de821c6b85e33",
+      "bytes": 85459
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/pdf-source-manifest.json",
+      "sha256": "725134c4aaf6dc4b0a4790bf9aa6069a6b84fb9256cc4e1c598a46b89a2c1334",
+      "bytes": 1570
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/pdf-integration.patch",
+      "sha256": "d54ee20deaf06844b497e9c99e6e1b5cd16c493592d87d1796088ed7ee81a0f1",
+      "bytes": 31694
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/dependency-audit-integrated.json",
+      "sha256": "bba681ef0fcce3295b0badd526837cc26049b54e1da182631cd72d12d042011b",
+      "bytes": 366
+    }
+  ],
+  "retainedInitialFailures": [
+    {
+      "path": "ci-evidence/conversations-20260927/app-initial.log",
+      "sha256": "a4c8748508340d5c498077c9e2bb746be89bc3b8225aff3a2748e0682c8e711e",
+      "bytes": 391193
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/lint-initial.log",
+      "sha256": "0bb7a02b2a8840954659e23214a69b5964fe77206964f4516d680a6572b4e088",
+      "bytes": 1536
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/ci-combined.log",
+      "sha256": "ea936a181bcefad92638cd4a63016d0374c30bfe02db52960df7664f54fef199",
+      "bytes": 314514
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/browser.log",
+      "sha256": "270684c2d04ad41f64d887ca5612714d6f5a42edec2dd5bc7644f99e7f3c18d8",
+      "bytes": 16381
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/conversation-committed.log",
+      "sha256": "d07b72a8e8f2f752954f57dd2f17d8f6aa287592ef361ff30e5109d436d410dc",
+      "bytes": 6574
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/golden-browser.log",
+      "sha256": "340220e629abad5841f2377a6c09c1998774f58cd3f7da09a213a52adbfd2c28",
+      "bytes": 7385
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/pdf-committed.log",
+      "sha256": "57951515fbf05965d5ebee374523d9dd5207a39b337fb358cb625d5ca3c748a7",
+      "bytes": 6667
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-integrated.log",
+      "sha256": "d1c5138d89ba19e9556667a1bb1dd866cd653f0b9828cf4a8a4084c72a89d646",
+      "bytes": 5141
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-verified.log",
+      "sha256": "62c32d9f9e2ad2b1d0c0e6cb7d85235d72c6d45edfaa170b85587ceaaa13efe9",
+      "bytes": 151
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/golden-integrated.log",
+      "sha256": "de4a262503402629173b76acc5aea21a61e2c42d75027dc79c1e05ddb2ccace7",
+      "bytes": 7808
+    }
+  ],
+  "captureHashes": [
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-PDF-import-rev-05800-rd-save-and-refresh-at-1440-chromium/pdf-review-1440-dark.png",
+      "sha256": "47fc9acd184d72ffc6cfab24d78abb1783600542998412d389b2a59da2e8771e"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-PDF-import-rev-05800-rd-save-and-refresh-at-1440-chromium/pdf-review-1440-light.png",
+      "sha256": "845b5e8dce0cc8c518c00fa3beb49c85d64c464d8e873fb7d75dc980f0b74a8a"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-PDF-import-rev-05800-rd-save-and-refresh-at-1440-firefox/pdf-review-1440-dark.png",
+      "sha256": "6fc9badc8ec90bcd0adb0c9daa4915a77d3c5934d3e2175fd6dac0cfaceacbef"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-PDF-import-rev-05800-rd-save-and-refresh-at-1440-firefox/pdf-review-1440-light.png",
+      "sha256": "4b91cff5a1b5008ff84fc153b628ae62c9217a8dd2e788b7ff2bf79f72dfdac6"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-PDF-import-rev-05800-rd-save-and-refresh-at-1440-webkit/pdf-review-1440-dark.png",
+      "sha256": "76793de18272b4d554b1e2ac497e370d1c5f7464f2b6deec6cb5003cf80414f9"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-PDF-import-rev-05800-rd-save-and-refresh-at-1440-webkit/pdf-review-1440-light.png",
+      "sha256": "479922417e2ed79d7ecbee1407cef9f762e60bb9975a6490509fe02502055969"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-PDF-import-rev-8cb58-rd-save-and-refresh-at-1024-chromium/pdf-review-1024-dark.png",
+      "sha256": "bfa5a852b4531461035015fec02a052097167dd61bf96d6280ece47644fde4fd"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-PDF-import-rev-8cb58-rd-save-and-refresh-at-1024-chromium/pdf-review-1024-light.png",
+      "sha256": "5b8c06375278677feeb1140152aa58ca918b492aa981ed7c352299220d1237e4"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-PDF-import-rev-8cb58-rd-save-and-refresh-at-1024-firefox/pdf-review-1024-dark.png",
+      "sha256": "e2f6eb0482e7c57b5dd595983fe4ff7d4d7a3e002411ff22a0fba3c848eccb66"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-PDF-import-rev-8cb58-rd-save-and-refresh-at-1024-firefox/pdf-review-1024-light.png",
+      "sha256": "db209e5b31b5c7f0edf849f0d77a9e592f1e348c807d5a66f8a53f229debbeda"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-PDF-import-rev-8cb58-rd-save-and-refresh-at-1024-webkit/pdf-review-1024-dark.png",
+      "sha256": "4202c2e48f1304de264823320493f8271faeee39c2ac56aba1e9b5837d10c1fd"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-PDF-import-rev-8cb58-rd-save-and-refresh-at-1024-webkit/pdf-review-1024-light.png",
+      "sha256": "ca0205b3c42bcab2398d1bd53d81d85d8ee84d3026f36ba2bfc28dc37a0ab1ea"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-PDF-import-rev-a2f87-ard-save-and-refresh-at-390-chromium/pdf-review-390-dark.png",
+      "sha256": "649ecc518fcc6f23548b49ddbd01580238e025f4e9d0f4564e84f1eae9a513f8"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-PDF-import-rev-a2f87-ard-save-and-refresh-at-390-chromium/pdf-review-390-light.png",
+      "sha256": "61d49bcaa76eba08977dabdf75ab34f3877a494cb2b89a8dd034575c7c122bbf"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-PDF-import-rev-a2f87-ard-save-and-refresh-at-390-firefox/pdf-review-390-dark.png",
+      "sha256": "6e5dffd6443f18ff28337d89d6c66828b9d61bfafe200b22ebee8087745a9776"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-PDF-import-rev-a2f87-ard-save-and-refresh-at-390-firefox/pdf-review-390-light.png",
+      "sha256": "55311f61405f4a24addcee68edd8734c6a494b1374a50713e9ba654e19728697"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-PDF-import-rev-a2f87-ard-save-and-refresh-at-390-webkit/pdf-review-390-dark.png",
+      "sha256": "c6bc79c275961067dbd61d16ab2ad7ead67c2e1767d9603aa73a0027d3e1c7e6"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-PDF-import-rev-a2f87-ard-save-and-refresh-at-390-webkit/pdf-review-390-light.png",
+      "sha256": "3b569b8105276bb0841068fb6cfb953911e92c7e1b24d799122ab4967b9c9125"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-diagnostic-mis-81569-e-Today-and-refresh-at-1440-chromium/knowledge-1440-dark.png",
+      "sha256": "aabfa76abb0a851476e877eedd4a7210708790be387591628ec485ab834da9cb"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-diagnostic-mis-81569-e-Today-and-refresh-at-1440-chromium/knowledge-1440-light.png",
+      "sha256": "8a4ac0925e43ed9f523cc2f2c1b1eb7220e1c4d5f36ba99134c733f0c1d0d9fd"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-diagnostic-mis-81569-e-Today-and-refresh-at-1440-chromium/practice-1440-dark.png",
+      "sha256": "a8f465f42a4b07ba89bebf3bdfa7f3ebf2c54c6cfaf257820a2c3234975dfd78"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-diagnostic-mis-81569-e-Today-and-refresh-at-1440-chromium/practice-1440-light.png",
+      "sha256": "e599cf4eeace5dfb9dac87820d19f1cbf96f11c81ade344db9b2274cac5ce075"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-diagnostic-mis-81569-e-Today-and-refresh-at-1440-chromium/today-1440.png",
+      "sha256": "7b1903bcf9178b97351ea06bfdcc618e7d45e90844ec916727ad1fbb8fd70e0c"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-diagnostic-mis-81569-e-Today-and-refresh-at-1440-firefox/knowledge-1440-dark.png",
+      "sha256": "c1fb0774961adf4687a313514ceecfcabe3e39465ce92377f7d2c074e09dcd26"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-diagnostic-mis-81569-e-Today-and-refresh-at-1440-firefox/knowledge-1440-light.png",
+      "sha256": "edbabb0a879710eee9bcc257ba64e51bf2508c0724f415e438d0cc9667088381"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-diagnostic-mis-81569-e-Today-and-refresh-at-1440-firefox/practice-1440-dark.png",
+      "sha256": "28aa51e7b24f8a110a525b1fe5a4b50c1c541c64798bf041e622bdd24d27c3eb"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-diagnostic-mis-81569-e-Today-and-refresh-at-1440-firefox/practice-1440-light.png",
+      "sha256": "1c2a1f19f3b6a50603f2ade9c43990188aa62d657051fd9b5ef6bfe8602d4e2d"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-diagnostic-mis-81569-e-Today-and-refresh-at-1440-firefox/today-1440.png",
+      "sha256": "8ed92b16c9809f01291d29f24cae59cfd1e0cfad0f027ec3339bb7b409ddf3a9"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-diagnostic-mis-81569-e-Today-and-refresh-at-1440-webkit/knowledge-1440-dark.png",
+      "sha256": "4b4e13e934b18a1f4e1c2deed01239f91c7fe716ea66e3fe01528d01bc18626c"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-diagnostic-mis-81569-e-Today-and-refresh-at-1440-webkit/knowledge-1440-light.png",
+      "sha256": "ce62424b99532366c2be02d3d1df1ff2a0cd569aae2c15027627d8841453dcef"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-diagnostic-mis-81569-e-Today-and-refresh-at-1440-webkit/practice-1440-dark.png",
+      "sha256": "3df45ac3999d878f9944873c5165461be8e3fe3599b1a8126cb17372a7d46cb1"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-diagnostic-mis-81569-e-Today-and-refresh-at-1440-webkit/practice-1440-light.png",
+      "sha256": "78ac2656f03633711ba372edf272e336697d5bc7fc393e87dabef2499a27300b"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-diagnostic-mis-81569-e-Today-and-refresh-at-1440-webkit/today-1440.png",
+      "sha256": "0562d5d2485fcd518bee3af40b446193a20ec689ee393a645e493e1c043805e1"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-diagnostic-mis-a7cfe-e-Today-and-refresh-at-1024-chromium/knowledge-1024-dark.png",
+      "sha256": "8d2c783b08f3aef1fd08fd3c6fdcab60049d82eb5c6e40c44f80d85ec77c4514"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-diagnostic-mis-a7cfe-e-Today-and-refresh-at-1024-chromium/knowledge-1024-light.png",
+      "sha256": "91c6e65a4a12db8281325134ff280ecf7c03f2b5a46aab7aaedf4ede07f418f5"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-diagnostic-mis-a7cfe-e-Today-and-refresh-at-1024-chromium/practice-1024-dark.png",
+      "sha256": "683d725c5dadee42a77e9ebdd497fef01cbd456043fca8acc9fd65e9f1e40cfb"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-diagnostic-mis-a7cfe-e-Today-and-refresh-at-1024-chromium/practice-1024-light.png",
+      "sha256": "18fab19cf0ee302efe1699622ec741a0a92e3447f891f0e751b717c5cbc658c6"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-diagnostic-mis-a7cfe-e-Today-and-refresh-at-1024-chromium/today-1024.png",
+      "sha256": "e6e87dc1f9ce6cba3745316e2cbe51b1b783cf324716ef34ab01079a586e2615"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-diagnostic-mis-a7cfe-e-Today-and-refresh-at-1024-firefox/knowledge-1024-dark.png",
+      "sha256": "22073ce9478d3d25c6dad34d20bdbd17c6bc087deb9b4e72016d2d2ea743b330"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-diagnostic-mis-a7cfe-e-Today-and-refresh-at-1024-firefox/knowledge-1024-light.png",
+      "sha256": "62059ea7736236f890eaf2fe159d615359ae76185778dd1aadb880ceed477bc8"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-diagnostic-mis-a7cfe-e-Today-and-refresh-at-1024-firefox/practice-1024-dark.png",
+      "sha256": "e59b17d7eae7d1a0f146d3050ea17036652464d2704e0aed9975b2464da54775"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-diagnostic-mis-a7cfe-e-Today-and-refresh-at-1024-firefox/practice-1024-light.png",
+      "sha256": "a398cc55c2a97ae156bac0f74849eb61ec1e6e992addea039d0a3c71e1941898"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-diagnostic-mis-a7cfe-e-Today-and-refresh-at-1024-firefox/today-1024.png",
+      "sha256": "73411abf2eed34f0d91393846ab639e89978a529f703b96b241f2de49c929647"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-diagnostic-mis-a7cfe-e-Today-and-refresh-at-1024-webkit/knowledge-1024-dark.png",
+      "sha256": "d62b460a8ed898b24225b9ede06155ebe5266575b5c8988587e4e6ee88f3d60d"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-diagnostic-mis-a7cfe-e-Today-and-refresh-at-1024-webkit/knowledge-1024-light.png",
+      "sha256": "a09e89d2f726323a73ed78f886077d4b8ee59fdbabe0650a4f522689ef24d848"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-diagnostic-mis-a7cfe-e-Today-and-refresh-at-1024-webkit/practice-1024-dark.png",
+      "sha256": "35773d8c66f735ae351763bf3867a8336cce66e9e1cb0ea56e1fb7e81ae97adb"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-diagnostic-mis-a7cfe-e-Today-and-refresh-at-1024-webkit/practice-1024-light.png",
+      "sha256": "aadfa0816e85fa287443b71fab4dcc9490ae2f203d8552a00badbbcb43e90783"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-diagnostic-mis-a7cfe-e-Today-and-refresh-at-1024-webkit/today-1024.png",
+      "sha256": "33e45aec0a35476f7e610ea3a3728569a554f435e82d13b217ebedf63f07b9ed"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-diagnostic-mis-adfad-ge-Today-and-refresh-at-390-chromium/knowledge-390-dark.png",
+      "sha256": "e2ecb1000bb108c8ffbc18f279974ee28a9ffcfb6caf33439b5b75dd19d12b7d"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-diagnostic-mis-adfad-ge-Today-and-refresh-at-390-chromium/knowledge-390-light.png",
+      "sha256": "3bf3faf019eca5e275407d1a75082adc58ec02f43762ddcfd36f2443561bc311"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-diagnostic-mis-adfad-ge-Today-and-refresh-at-390-chromium/practice-390-dark.png",
+      "sha256": "ffb464d03abcf5b2c99d624a69d29da0bedc5195f5fcdd06ed5789dc55f078c6"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-diagnostic-mis-adfad-ge-Today-and-refresh-at-390-chromium/practice-390-light.png",
+      "sha256": "d62dafbc04a8019c36de90587fef11b72667a86e57fc350096c80915e2668a67"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-diagnostic-mis-adfad-ge-Today-and-refresh-at-390-chromium/today-390.png",
+      "sha256": "fa1f86ef4ad94e56d47d0ded72e3d145b289107ae98e3c8101bc3d627c95fb13"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-diagnostic-mis-adfad-ge-Today-and-refresh-at-390-firefox/knowledge-390-dark.png",
+      "sha256": "2a1f1d05238277a9182d0eb93db811ce06870a01b261e4b6e04792732d170603"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-diagnostic-mis-adfad-ge-Today-and-refresh-at-390-firefox/knowledge-390-light.png",
+      "sha256": "a0f80d04c248a697fa397ec1178ec3dc4c5ad588545bde99cf104bb71045c23f"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-diagnostic-mis-adfad-ge-Today-and-refresh-at-390-firefox/practice-390-dark.png",
+      "sha256": "b9772dc7cc42f0d6bf3c3c4d3d849d3133a829c42f0f53dcb4cf4149a967b127"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-diagnostic-mis-adfad-ge-Today-and-refresh-at-390-firefox/practice-390-light.png",
+      "sha256": "be255b073e862c3199089899ed0f7d5e01093c0436897b0967aeef7049706d3e"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-diagnostic-mis-adfad-ge-Today-and-refresh-at-390-firefox/today-390.png",
+      "sha256": "6a6534b02a5bef7529328b4419e16801506f5d43d0bf194bede3a8bf7471ea24"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-diagnostic-mis-adfad-ge-Today-and-refresh-at-390-webkit/knowledge-390-dark.png",
+      "sha256": "aa38f4425aa1bed5a3852ad2762a087fc39ca45dce07ca6808c0325ed0c88a84"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-diagnostic-mis-adfad-ge-Today-and-refresh-at-390-webkit/knowledge-390-light.png",
+      "sha256": "43b251256f385edd2e50733745213b1842f67567179d1eeec79365640612926d"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-diagnostic-mis-adfad-ge-Today-and-refresh-at-390-webkit/practice-390-dark.png",
+      "sha256": "122038f14e2abcb30bd531e06620d6bda49441a0ba047a205074f4fd295dd568"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-diagnostic-mis-adfad-ge-Today-and-refresh-at-390-webkit/practice-390-light.png",
+      "sha256": "55afe1312f6f2b98428a874af1293ace0faaf5a9bbd616753670d7b4e1870a99"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-diagnostic-mis-adfad-ge-Today-and-refresh-at-390-webkit/today-390.png",
+      "sha256": "57f74816719db84ce9af0fc8fbe8ece713319486544a3ff5408778fc31b6d3d3"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-learning-loop-improvements-at-1024-chromium/inspector-1024.png",
+      "sha256": "fd11665753b45f6c494b09d262e174deadb676c5a6a7ced5c97ebdf6cf7e89ff"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-learning-loop-improvements-at-1024-chromium/inspector-top-1024.png",
+      "sha256": "cc07be41d779672a52e23ab1259949fed8c4b54d68778a156e86f96ae197dcd7"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-learning-loop-improvements-at-1024-chromium/today-improved-1024-dark.png",
+      "sha256": "a662d828a3573cf16885276a6a58758579a67d5f55cff34e1f8c9aecc0e10820"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-learning-loop-improvements-at-1024-chromium/today-improved-1024-light.png",
+      "sha256": "ae1d303ef5aa40bb215ed96987efe9dfef4c1edf128d545fdea8a20fddd8cbb0"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-learning-loop-improvements-at-1024-firefox/inspector-1024.png",
+      "sha256": "ff21d2e2246838b514434018610a36802ec20f6c0ba11df909201357d83a56d2"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-learning-loop-improvements-at-1024-firefox/inspector-top-1024.png",
+      "sha256": "c581b3fa8a0161e961c4bf20d9ada4f5623a83384e0543e8acf18c47a32a87c9"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-learning-loop-improvements-at-1024-firefox/today-improved-1024-dark.png",
+      "sha256": "0bcf6427eecf0d307e135caca274592cb4e72dd76682d340e74da0d38cff84e3"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-learning-loop-improvements-at-1024-firefox/today-improved-1024-light.png",
+      "sha256": "a0d92779225aaada48d9ab7535d4dca4318a9ef5adf4cc9642115975cd6e5c1a"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-learning-loop-improvements-at-1024-webkit/inspector-1024.png",
+      "sha256": "1a1d0a3e5c45927c7c88c188d759c6f3ce4ddaf3ede4967f252af36729fc659f"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-learning-loop-improvements-at-1024-webkit/inspector-top-1024.png",
+      "sha256": "625f4230103f5f4393f0a960e0a151d4282d97c13b8e229ecbafa319421bfad1"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-learning-loop-improvements-at-1024-webkit/today-improved-1024-dark.png",
+      "sha256": "7d65f5963e6e3fa7adda6b28197e4d79c606c2b57bffb1a6e9fec80379788d37"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-learning-loop-improvements-at-1024-webkit/today-improved-1024-light.png",
+      "sha256": "add248ee6d1a246021fa0a4ac8b43248c92b3991e3716875963f6d6dbdb8876a"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-learning-loop-improvements-at-1440-chromium/inspector-1440.png",
+      "sha256": "5025f729fd45b5376314465e389fef5dc56f078d1041b401f904e4b1b613b092"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-learning-loop-improvements-at-1440-chromium/inspector-top-1440.png",
+      "sha256": "19078224fa18e6ef9dce1484cbce37e3f9cd5c290196f3a1c618dbc6b84ac2dc"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-learning-loop-improvements-at-1440-chromium/today-improved-1440-dark.png",
+      "sha256": "454c97ca8b09d005727ae16be1e7c8f4c8910f7227a65b8cb49b2d6bee12c0c5"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-learning-loop-improvements-at-1440-chromium/today-improved-1440-light.png",
+      "sha256": "313fb13ee00906ca3e4f2f195eb064cfa4224c5b79ffb790a3f3f2cd93193efd"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-learning-loop-improvements-at-1440-chromium/today-text-200-percent.png",
+      "sha256": "6beadcdb3225cf1f0b6bc591eba5acdd7670d9ed6b402699048860d0e08a38df"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-learning-loop-improvements-at-1440-firefox/inspector-1440.png",
+      "sha256": "e817a1f2505396cf5c28df75ebc808a2162bcedc16bbb8ca95752e2ea338de0d"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-learning-loop-improvements-at-1440-firefox/inspector-top-1440.png",
+      "sha256": "f30ce3130f405bcd178269fc0ebc4b3c14666e4f7f0064b406b1fa39140fb165"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-learning-loop-improvements-at-1440-firefox/today-improved-1440-dark.png",
+      "sha256": "4f16f99f15f317c18db7233b3bf133f721286733c8ddf76fff3cd07f2759382a"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-learning-loop-improvements-at-1440-firefox/today-improved-1440-light.png",
+      "sha256": "0cf0012287d643eb414bd333d11af374787a2e7f22a37f59278b1f32e4b6a4e2"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-learning-loop-improvements-at-1440-firefox/today-text-200-percent.png",
+      "sha256": "b23d84b0659be198903a428b8839533de39b1db549408d7f41830b11254c04d6"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-learning-loop-improvements-at-1440-webkit/inspector-1440.png",
+      "sha256": "fbc1f11c1b62f726b0d0f8c98c6f13ee96ce110514d2f74033d6da7a7f09d323"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-learning-loop-improvements-at-1440-webkit/inspector-top-1440.png",
+      "sha256": "92379e2390fd2a5d2d99792037184e6b5f0592f85ce1f705d31967495ad1c5df"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-learning-loop-improvements-at-1440-webkit/today-improved-1440-dark.png",
+      "sha256": "98bb6a761a9aa467f21fc7a58e4cc8e402da2f7587686ecc3ae2d817b0ef32e0"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-learning-loop-improvements-at-1440-webkit/today-improved-1440-light.png",
+      "sha256": "8344c236ca7a170bbe039822a9f6525a50423a16175120f1e080218ed874a4be"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-learning-loop-improvements-at-1440-webkit/today-text-200-percent.png",
+      "sha256": "0af9b7490ea41d21db8d935e28de8dc1adc322990df2848c321b69c82cf4b5c4"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-learning-loop-improvements-at-390-chromium/inspector-390.png",
+      "sha256": "29790da7cc9aa9668d166ec6acebc9dd9bd76ac61bad0d4d4460103fb9c1e895"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-learning-loop-improvements-at-390-chromium/inspector-top-390.png",
+      "sha256": "61980e2a57328de2e06d9da3d34a768b14cb5fbb276555eb60e0e4ccee1898aa"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-learning-loop-improvements-at-390-chromium/today-improved-390-dark.png",
+      "sha256": "213220f2579fa337c9f499b68e76cff57c978856237aeca55d7e8f698825e25d"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-learning-loop-improvements-at-390-chromium/today-improved-390-light.png",
+      "sha256": "cc574000a893849a4f953ddbf02c7f05304194eab0c457e5c00245f4ffb9383d"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-learning-loop-improvements-at-390-firefox/inspector-390.png",
+      "sha256": "8bc4fd3259859d3d1dd5687fdda2e0b8602afdfdba248a13f58a6f7bd5b14def"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-learning-loop-improvements-at-390-firefox/inspector-top-390.png",
+      "sha256": "3498adb88a614dbc50f751e25e850f1fbaa05d830ed4a779e8e7ceb191539568"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-learning-loop-improvements-at-390-firefox/today-improved-390-dark.png",
+      "sha256": "6d3cb60068bf09b558ec4108c0f65b7c29d7495e07deec81f9079696b5b635c1"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-learning-loop-improvements-at-390-firefox/today-improved-390-light.png",
+      "sha256": "fec92ada8f1bc076564629e7bb9ce0e31e84a7977a17ef9163e4c62b39370ef7"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-learning-loop-improvements-at-390-webkit/inspector-390.png",
+      "sha256": "2ce51f4ee92c0251ac95a4166a02b0ef564fba32947803af82ae41e859726138"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-learning-loop-improvements-at-390-webkit/inspector-top-390.png",
+      "sha256": "e58603721f987fab333d693804fd22e2f42528ba8ac301b08e35847bf84f7ad2"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-learning-loop-improvements-at-390-webkit/today-improved-390-dark.png",
+      "sha256": "148a09e52712b797ff62385dbe15c9383d1fc6fbb266cd58249b96aaf8b53d80"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-learning-loop-improvements-at-390-webkit/today-improved-390-light.png",
+      "sha256": "95cbf5307d7d099a8182a85fce8d754e33b6469df6511b6c7b7ec3c7df723e1a"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-planner-commit-4a70f-d-completion-history-at-390-chromium/planner-completed-390.png",
+      "sha256": "4c4973f84440cd050173a588c83758d33e6cbd94eded339221a0dd9d5609469d"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-planner-commit-4a70f-d-completion-history-at-390-chromium/planner-form-390.png",
+      "sha256": "cda6ad3e5c42e7db002a66ec4fc60e86bc3aa437ce3879ad132bd9527a267d0a"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-planner-commit-4a70f-d-completion-history-at-390-firefox/planner-completed-390.png",
+      "sha256": "c1eb43f881bd88c49205462806d072971ea81d0acbd6b13c262850461106de89"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-planner-commit-4a70f-d-completion-history-at-390-firefox/planner-form-390.png",
+      "sha256": "7431fd2931a29f7062795207350464490781b895bdb8dbc31d564a2c0ed3ec8c"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-planner-commit-4a70f-d-completion-history-at-390-webkit/planner-completed-390.png",
+      "sha256": "7f67932028877f90431ae96c7b256681e34f190c93f6d7e460b034c57e59e09d"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-planner-commit-4a70f-d-completion-history-at-390-webkit/planner-form-390.png",
+      "sha256": "7cc6daa05b6c3dbb9c58f131fe0b0bd656add34b86884dc5841de34191ce8eea"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-planner-commit-89b5f--completion-history-at-1440-chromium/planner-completed-1440.png",
+      "sha256": "afd1b8bc8d8cc972a06c3c29fbd027114d7d5c74ebc2e46219ec4996a71f9820"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-planner-commit-89b5f--completion-history-at-1440-chromium/planner-form-1440.png",
+      "sha256": "4881b495d7d890380081f3dd696395f71918c1fa0aafe889988d39a8a41da6b6"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-planner-commit-89b5f--completion-history-at-1440-firefox/planner-completed-1440.png",
+      "sha256": "603e305f55054a3629dbdf73fecf4a7e3a60a1c051886f6c15a2fdd5d255add0"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-planner-commit-89b5f--completion-history-at-1440-firefox/planner-form-1440.png",
+      "sha256": "62fdd09830a8313d3c38b8b1d51d0dc627469833419ba10fbe7e9d1ae916261e"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-planner-commit-89b5f--completion-history-at-1440-webkit/planner-completed-1440.png",
+      "sha256": "76a8a465e806cb64ef68061abb9c26c2d5658a18cb4549629657a0b48f17c155"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-planner-commit-89b5f--completion-history-at-1440-webkit/planner-form-1440.png",
+      "sha256": "a221262b3bafb17f873175bcbcdc403bbc2ad3e17aa7a3c25f691732277711fb"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-planner-commit-fc846--completion-history-at-1024-chromium/planner-completed-1024.png",
+      "sha256": "37408124872c6a907d16cb92a5f29353c4e73cab387165579f495f1eb723fa90"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-planner-commit-fc846--completion-history-at-1024-chromium/planner-form-1024.png",
+      "sha256": "ad0ef4bb285383749e12a793409badeacb48f260d2e9bf20f8f79b8ab2699a54"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-planner-commit-fc846--completion-history-at-1024-firefox/planner-completed-1024.png",
+      "sha256": "da34df0176a006228a6e5cddd851da7b2b9a47d1ab7b8ba50ab5d58bd55a6085"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-planner-commit-fc846--completion-history-at-1024-firefox/planner-form-1024.png",
+      "sha256": "4644f11e91fca484c3c60025da55e5ab1791a05fdbef0c2477044e62162e6753"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-planner-commit-fc846--completion-history-at-1024-webkit/planner-completed-1024.png",
+      "sha256": "6ac9a40ba5b7701e08b9e154aa91f6a322f0f5006d9a3a5a05e0945a75b5345f"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/learning-os-planner-commit-fc846--completion-history-at-1024-webkit/planner-form-1024.png",
+      "sha256": "4c83ada9183a103a8ed9a1ea2ec60410a95a20a2b8b1b7469049186b6f024c59"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/study-desk-study-desk-sear-e3565-keyboard-and-themes-at-1440-chromium/desk-1440-dark.png",
+      "sha256": "4352d4fdbd5b7952c8cdda98a56ab7d237f5adfc6295e22a5358bf69e44cd20b"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/study-desk-study-desk-sear-e3565-keyboard-and-themes-at-1440-chromium/desk-1440-light.png",
+      "sha256": "f506f10572c896a20a8247248e1227ac53aa419dd82bf00e604610fe571605f6"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/study-desk-study-desk-sear-e3565-keyboard-and-themes-at-1440-chromium/desk-top-1440-dark.png",
+      "sha256": "b7a549b1606e729b08273c38606db17ab9bb3e8c37cb37a1c48678391f2f9c9b"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/study-desk-study-desk-sear-e3565-keyboard-and-themes-at-1440-chromium/desk-top-1440-light.png",
+      "sha256": "e0764ef0da7038a84e4a930e7a343f44e671a2e04fb0661a4998ee2d63a0b506"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/study-desk-study-desk-sear-e3565-keyboard-and-themes-at-1440-firefox/desk-1440-dark.png",
+      "sha256": "9a7965da2291cea5fb29a3634090a8b6a7b18c6d1c1c8a23b3761d9547a812e9"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/study-desk-study-desk-sear-e3565-keyboard-and-themes-at-1440-firefox/desk-1440-light.png",
+      "sha256": "93fba2b3eecccb1038a464c5a1709ef9df2204c11240c386a485761564db3e21"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/study-desk-study-desk-sear-e3565-keyboard-and-themes-at-1440-firefox/desk-top-1440-dark.png",
+      "sha256": "3415345f5230979c20dabd7c1f967aa93551794cf8ca1d6280dc62a8c4e1bca5"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/study-desk-study-desk-sear-e3565-keyboard-and-themes-at-1440-firefox/desk-top-1440-light.png",
+      "sha256": "7bde011b22f690e211299de8da7d4c4653596a15623a7d1564fc17ad4bee99bd"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/study-desk-study-desk-sear-e3565-keyboard-and-themes-at-1440-webkit/desk-1440-dark.png",
+      "sha256": "17bf6588b45b1e7fed2e58b362ba609a891b21c587177cdab41a2c0e89c08885"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/study-desk-study-desk-sear-e3565-keyboard-and-themes-at-1440-webkit/desk-1440-light.png",
+      "sha256": "67345cfd58e32ff744d93ecc2000659b472d83089867a2dc855460c7fba18dea"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/study-desk-study-desk-sear-e3565-keyboard-and-themes-at-1440-webkit/desk-top-1440-dark.png",
+      "sha256": "c687dbba49770bcd7e494f34f198add1de53a618b80869dfbb01180ef5ce4f5f"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/study-desk-study-desk-sear-e3565-keyboard-and-themes-at-1440-webkit/desk-top-1440-light.png",
+      "sha256": "4c622317b9b5948d7d2eeb626fb0fbb10f06445931ed14744f7a78cae07a72d5"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/study-desk-study-desk-sear-f281f-keyboard-and-themes-at-1024-chromium/desk-1024-dark.png",
+      "sha256": "a5e40bd25f65597e192f11aaa8ffec3951445269e0dd50d1625354c811e78ff1"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/study-desk-study-desk-sear-f281f-keyboard-and-themes-at-1024-chromium/desk-1024-light.png",
+      "sha256": "bc56538abc131ae27d4297a1234f2de3bce8586248e7519f49a8e31c5cf5bbf1"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/study-desk-study-desk-sear-f281f-keyboard-and-themes-at-1024-chromium/desk-top-1024-dark.png",
+      "sha256": "50881ab08caade403a6416401123caffb28ec20ce5469009af71a8d19317a35e"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/study-desk-study-desk-sear-f281f-keyboard-and-themes-at-1024-chromium/desk-top-1024-light.png",
+      "sha256": "023aef4225bc8d0af89b630774464e41880f9128b3e476b341e2ec595689a724"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/study-desk-study-desk-sear-f281f-keyboard-and-themes-at-1024-firefox/desk-1024-dark.png",
+      "sha256": "6898d302708bbf4b090551dbd4d0a03621bfba7ea4573143dfc68ac9c990f47c"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/study-desk-study-desk-sear-f281f-keyboard-and-themes-at-1024-firefox/desk-1024-light.png",
+      "sha256": "6689e71adc8363df779025994bbbc0617add25c683797a3389492e7fd97379fd"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/study-desk-study-desk-sear-f281f-keyboard-and-themes-at-1024-firefox/desk-top-1024-dark.png",
+      "sha256": "53a15f6a1c131fe2e3fb7c26234c31fe5a9c50567f8c1d818c4b34048ceaa4bf"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/study-desk-study-desk-sear-f281f-keyboard-and-themes-at-1024-firefox/desk-top-1024-light.png",
+      "sha256": "6ab51e99ab7a5c2dfff4217d8fa9e765616cfbdbebde3f980e046779497f1051"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/study-desk-study-desk-sear-f281f-keyboard-and-themes-at-1024-webkit/desk-1024-dark.png",
+      "sha256": "d8be0ccdb73701e17b662c28b9e40d8addad4626b2d2a9b0e1d82eae2d38a66a"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/study-desk-study-desk-sear-f281f-keyboard-and-themes-at-1024-webkit/desk-1024-light.png",
+      "sha256": "4e3cae0b5baea7a00d7d1bfe8ae4b069f4aadd41485604e224e154bf8b8b3d48"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/study-desk-study-desk-sear-f281f-keyboard-and-themes-at-1024-webkit/desk-top-1024-dark.png",
+      "sha256": "95727e5b0d70146c5a4bb5df8f9478293ff58e47772b2ec177a679d540ba001a"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/study-desk-study-desk-sear-f281f-keyboard-and-themes-at-1024-webkit/desk-top-1024-light.png",
+      "sha256": "07e6dbbfdb925618d15da35ebbe8961dabbf2b25bd32c1ea5161676bb27fd975"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/study-desk-study-desk-search-pins-keyboard-and-themes-at-390-chromium/desk-390-dark.png",
+      "sha256": "dcebfaa4219eac6c31331c8c34cec15d591fcb9b713b6048661e75aece9f21eb"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/study-desk-study-desk-search-pins-keyboard-and-themes-at-390-chromium/desk-390-light.png",
+      "sha256": "3f32cd2ec840da9c8fb6ca1f8c3608eb12eaed40e14ccb57ab46f7da45353131"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/study-desk-study-desk-search-pins-keyboard-and-themes-at-390-chromium/desk-top-390-dark.png",
+      "sha256": "30e3fb4f6c431c91525d027ec178d12549a300ef8adbcee62c97c1ef9fc063de"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/study-desk-study-desk-search-pins-keyboard-and-themes-at-390-chromium/desk-top-390-light.png",
+      "sha256": "ea09d162eaf7ee5323595e69e864bac9e78da01757b63eefc81cf31ebc32a6c8"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/study-desk-study-desk-search-pins-keyboard-and-themes-at-390-firefox/desk-390-dark.png",
+      "sha256": "989179acf71cb9bdcc742f84a8b950b768efaba371569c0881b4800b623305e3"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/study-desk-study-desk-search-pins-keyboard-and-themes-at-390-firefox/desk-390-light.png",
+      "sha256": "83c3ce5880fc7bcdd590a5e11ea1a0d185a85ab8b391fe755d43bc8a724109b2"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/study-desk-study-desk-search-pins-keyboard-and-themes-at-390-firefox/desk-top-390-dark.png",
+      "sha256": "3f38f73d0471ea71ae7731a3ff538a5a0ad94fe73cb14cf9f3c202f75f3873c6"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/study-desk-study-desk-search-pins-keyboard-and-themes-at-390-firefox/desk-top-390-light.png",
+      "sha256": "76c1361fb43240a2cd9dc78bb985557604704ebe2cda4b74dd5fcf07a9c11101"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/study-desk-study-desk-search-pins-keyboard-and-themes-at-390-webkit/desk-390-dark.png",
+      "sha256": "96826b5521c4c8a61b8c4d2f49cff5c08c796a6722eac64c097aedaae8fe548e"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/study-desk-study-desk-search-pins-keyboard-and-themes-at-390-webkit/desk-390-light.png",
+      "sha256": "a6ac4c4a313cd286921b1e8019571f0c2a04c96eadeaad57d8c293d0ed02f599"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/study-desk-study-desk-search-pins-keyboard-and-themes-at-390-webkit/desk-top-390-dark.png",
+      "sha256": "8d7562e2e2289d0be08592410a05abeba6b118b70af7e26e72675d41f57c6263"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/learning-final/study-desk-study-desk-search-pins-keyboard-and-themes-at-390-webkit/desk-top-390-light.png",
+      "sha256": "875eb165f577ee62e44044611ab255de7b5f38712869db07250fa5dc296ca897"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/conversation-integrated/conversations-conversation-faf45-in-sources-export-and-clear-chromium/tutor-dark-1024.png",
+      "sha256": "b3c9ddf834d7bc8d42eab1e77b0c8905feb72b96c08f6519db6c190215b8dc77"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/conversation-integrated/conversations-conversation-faf45-in-sources-export-and-clear-chromium/tutor-dark-1440.png",
+      "sha256": "fa1a22d9c8f43bc3113915793c1929dbd0437f435b9515a6eaa1acc291dc2198"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/conversation-integrated/conversations-conversation-faf45-in-sources-export-and-clear-chromium/tutor-dark-390.png",
+      "sha256": "2b8370f389cda99a1f0d55a30e422566e81b68aef5d9073fe39d75769c7aecff"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/conversation-integrated/conversations-conversation-faf45-in-sources-export-and-clear-chromium/tutor-light-1024.png",
+      "sha256": "bcf161a84153a25cb3179267166ee3adcac790d19a4595aaf43acad69436bde4"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/conversation-integrated/conversations-conversation-faf45-in-sources-export-and-clear-chromium/tutor-light-1440.png",
+      "sha256": "c651bf35be94b1fa2f39ff7f03d7b7f0477c55eeb65a59a2c7a4053596332fa1"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/conversation-integrated/conversations-conversation-faf45-in-sources-export-and-clear-chromium/tutor-light-390.png",
+      "sha256": "1e2facabd21a2de42ec0039a5caf59edff7e3d2070ab27fb96bee6647a3b1630"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/conversation-integrated/conversations-conversation-faf45-in-sources-export-and-clear-firefox/tutor-dark-1024.png",
+      "sha256": "fd235f69a24b7254ed51a0ea46b23eade846eb58f8c12f18f9abd921ac5bd9ee"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/conversation-integrated/conversations-conversation-faf45-in-sources-export-and-clear-firefox/tutor-dark-1440.png",
+      "sha256": "207e03fe706e6991979d530124e0d777cb28bc6aca0c8cc98f871886d2a0fc85"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/conversation-integrated/conversations-conversation-faf45-in-sources-export-and-clear-firefox/tutor-dark-390.png",
+      "sha256": "f324ff7b43f7c198e20fbb85b3b196542a723306a52c8c272e26c87229b3ca41"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/conversation-integrated/conversations-conversation-faf45-in-sources-export-and-clear-firefox/tutor-light-1024.png",
+      "sha256": "30160d85b471407b032bb14bd2ae6eb44f0ac49a00fee3ebef2e3d7ce37fe74f"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/conversation-integrated/conversations-conversation-faf45-in-sources-export-and-clear-firefox/tutor-light-1440.png",
+      "sha256": "27f0d6dedf77cb70def6e998f8d8d53cf89c490fa9c5d3fb985b4a63413e7a63"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/conversation-integrated/conversations-conversation-faf45-in-sources-export-and-clear-firefox/tutor-light-390.png",
+      "sha256": "64ac1df4161a00373d320e3dc33ef41807a0adb8d30c4dda7a6a88dcbd80683b"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/conversation-integrated/conversations-conversation-faf45-in-sources-export-and-clear-webkit/tutor-dark-1024.png",
+      "sha256": "69d8a85a22d953830fc4e33209e946394ae945993a4a1fa233c476fd201a9fc9"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/conversation-integrated/conversations-conversation-faf45-in-sources-export-and-clear-webkit/tutor-dark-1440.png",
+      "sha256": "56e58cc4537e0af23e0e09844ab9805c675eb9b58fa58200ca4e337ecd9c2ef6"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/conversation-integrated/conversations-conversation-faf45-in-sources-export-and-clear-webkit/tutor-dark-390.png",
+      "sha256": "1ea1c1f120357b82e8e81ab4f256a46812bde7c76c3ab5b8b61e15baafef242e"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/conversation-integrated/conversations-conversation-faf45-in-sources-export-and-clear-webkit/tutor-light-1024.png",
+      "sha256": "59d7acf40fabcde6618f30f26a1f4caa617f5127f3bce086e810f3e45088000d"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/conversation-integrated/conversations-conversation-faf45-in-sources-export-and-clear-webkit/tutor-light-1440.png",
+      "sha256": "e2752da72ffbd4d2e1494bf572ddf888fdb689c4a31a4f73b15e61176d7cc38c"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/conversation-integrated/conversations-conversation-faf45-in-sources-export-and-clear-webkit/tutor-light-390.png",
+      "sha256": "64ceb4744bd100ccd7105ebbd655e12cb60351d99f6a4186015c2d7c21ae1155"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/text-import-corrected/product-rebuild-notebook-i-ceea8-and-opens-contextual-review-chromium/scheduled-retry-mobile.png",
+      "sha256": "1552daa0da9f4b607d62d1ff2e3fa7b3014299a7de33e6f9744d2e912ad29fb7"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/text-import-corrected/product-rebuild-notebook-i-ceea8-and-opens-contextual-review-chromium/source-quiz-mobile.png",
+      "sha256": "f3c87e7330d92bd1bfddb77355f3ab33ad462c08865e3f20a85452e59e84236c"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/text-import-corrected/product-rebuild-notebook-i-ceea8-and-opens-contextual-review-chromium/text-review-1024-dark.png",
+      "sha256": "2884927eb8109c8776c9c6f110bb660a67291585c0722b93853550580a457c30"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/text-import-corrected/product-rebuild-notebook-i-ceea8-and-opens-contextual-review-chromium/text-review-1024-light.png",
+      "sha256": "a147c178b1355317c03a90f5175e338c2f9737e57c2cd1b81322ed78712300b9"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/text-import-corrected/product-rebuild-notebook-i-ceea8-and-opens-contextual-review-chromium/text-review-1440-dark.png",
+      "sha256": "06376d72a6c6810d137d60523ad77d39558c4be03cefaa7917116a522de9d46e"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/text-import-corrected/product-rebuild-notebook-i-ceea8-and-opens-contextual-review-chromium/text-review-1440-light.png",
+      "sha256": "2f768941ab91056e285528a059231fca32d6ca8e9c3d9ddd82a0e736001c98bf"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/text-import-corrected/product-rebuild-notebook-i-ceea8-and-opens-contextual-review-chromium/text-review-390-dark.png",
+      "sha256": "9d3101002b749e72c7402b3832d634bbf4b3600375f2b6f55904484b76641055"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/text-import-corrected/product-rebuild-notebook-i-ceea8-and-opens-contextual-review-chromium/text-review-390-light.png",
+      "sha256": "1b961e87da80b3b01b31eb8cda8cf0f64d0c9e48be4bc34b77d2ff968fab59ba"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/text-import-corrected/product-rebuild-notebook-i-ceea8-and-opens-contextual-review-firefox/scheduled-retry-mobile.png",
+      "sha256": "5bd557ea65120a7af80951394f57da5e2f1be4dba2eedbb29d48edda8dcf66ae"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/text-import-corrected/product-rebuild-notebook-i-ceea8-and-opens-contextual-review-firefox/source-quiz-mobile.png",
+      "sha256": "0c08f8c585f68e0c80db755886732e5c3f6007deee66437abc14bbfafded810e"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/text-import-corrected/product-rebuild-notebook-i-ceea8-and-opens-contextual-review-firefox/text-review-1024-dark.png",
+      "sha256": "0546577e9557d53e8c50ad7d6f3f3944ef768ec0315648355777abc6225c6b3d"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/text-import-corrected/product-rebuild-notebook-i-ceea8-and-opens-contextual-review-firefox/text-review-1024-light.png",
+      "sha256": "eb84246a73fc0e4f5fc6519ca4f203467b627cd53620c91b3ba56fd4b82fdb35"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/text-import-corrected/product-rebuild-notebook-i-ceea8-and-opens-contextual-review-firefox/text-review-1440-dark.png",
+      "sha256": "bc911380f03c7b376589306e08e546a8c9ad9a80fdf90f3bc9716028183a16b1"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/text-import-corrected/product-rebuild-notebook-i-ceea8-and-opens-contextual-review-firefox/text-review-1440-light.png",
+      "sha256": "1b0657a6ed7257a63fe22de163aa3c2dcf57e51665f05df4e70f71c2259a6533"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/text-import-corrected/product-rebuild-notebook-i-ceea8-and-opens-contextual-review-firefox/text-review-390-dark.png",
+      "sha256": "9036aa1dc54adabad3b57fb096e6c86f0ca6037bb337d0c8ab0d70c634c0e3b7"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/text-import-corrected/product-rebuild-notebook-i-ceea8-and-opens-contextual-review-firefox/text-review-390-light.png",
+      "sha256": "6c5a274b7974a10bb36ac8a34fa9874e34c60d2869a896fcda6c49837ce30230"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/text-import-corrected/product-rebuild-notebook-i-ceea8-and-opens-contextual-review-webkit/scheduled-retry-mobile.png",
+      "sha256": "a138139688afb8a07d44ab4803ac76589eb0f056ff76137bf25ce6962b8357e8"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/text-import-corrected/product-rebuild-notebook-i-ceea8-and-opens-contextual-review-webkit/source-quiz-mobile.png",
+      "sha256": "09a5adac539b58f05d39b66f5076222d4f9ff870b191c179b9ad6c68eb005232"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/text-import-corrected/product-rebuild-notebook-i-ceea8-and-opens-contextual-review-webkit/text-review-1024-dark.png",
+      "sha256": "f706a140927edbc58920b42dc321c2905d7b927e17f4a84abb2b445bbc2b54f1"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/text-import-corrected/product-rebuild-notebook-i-ceea8-and-opens-contextual-review-webkit/text-review-1024-light.png",
+      "sha256": "f88f41ff0483a7c7577979a5255a05124940a9d3869ff20c2131ef152608347a"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/text-import-corrected/product-rebuild-notebook-i-ceea8-and-opens-contextual-review-webkit/text-review-1440-dark.png",
+      "sha256": "7bba0d28120988b82c6542746f09fb048f5ad8c24e1c43b5e854cefbec825eb1"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/text-import-corrected/product-rebuild-notebook-i-ceea8-and-opens-contextual-review-webkit/text-review-1440-light.png",
+      "sha256": "a54475274cc74c74854678d81d3a046be4b19c2ad7456a8c1e381b93502d9aa0"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/text-import-corrected/product-rebuild-notebook-i-ceea8-and-opens-contextual-review-webkit/text-review-390-dark.png",
+      "sha256": "ab6996e694b3b6a7df0b2a06e62255695cb0f67a1e56b259317db642613499fe"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/text-import-corrected/product-rebuild-notebook-i-ceea8-and-opens-contextual-review-webkit/text-review-390-light.png",
+      "sha256": "f6312ecd8508f5d88be8d64821acae9b15282f36982fe85dd640d05a0c874342"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/pdf-corrected/learning-os-PDF-import-rev-05800-rd-save-and-refresh-at-1440-chromium/pdf-review-1440-dark.png",
+      "sha256": "47fc9acd184d72ffc6cfab24d78abb1783600542998412d389b2a59da2e8771e"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/pdf-corrected/learning-os-PDF-import-rev-05800-rd-save-and-refresh-at-1440-chromium/pdf-review-1440-light.png",
+      "sha256": "0129bc64b93d88f7cebdeee491ab1c9fbc930feadfbab5f02250e966ea987548"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/pdf-corrected/learning-os-PDF-import-rev-05800-rd-save-and-refresh-at-1440-firefox/pdf-review-1440-dark.png",
+      "sha256": "6fc9badc8ec90bcd0adb0c9daa4915a77d3c5934d3e2175fd6dac0cfaceacbef"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/pdf-corrected/learning-os-PDF-import-rev-05800-rd-save-and-refresh-at-1440-firefox/pdf-review-1440-light.png",
+      "sha256": "4b91cff5a1b5008ff84fc153b628ae62c9217a8dd2e788b7ff2bf79f72dfdac6"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/pdf-corrected/learning-os-PDF-import-rev-05800-rd-save-and-refresh-at-1440-webkit/pdf-review-1440-dark.png",
+      "sha256": "f53b1de10ded0300b1b34bd54ecccc104e5ce527f8017cde095bbaa806f89825"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/pdf-corrected/learning-os-PDF-import-rev-05800-rd-save-and-refresh-at-1440-webkit/pdf-review-1440-light.png",
+      "sha256": "479922417e2ed79d7ecbee1407cef9f762e60bb9975a6490509fe02502055969"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/pdf-corrected/learning-os-PDF-import-rev-8cb58-rd-save-and-refresh-at-1024-chromium/pdf-review-1024-dark.png",
+      "sha256": "19e33d88e92689d66da638e81de6c264a29395448d7eca721d402f8c8bbc447e"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/pdf-corrected/learning-os-PDF-import-rev-8cb58-rd-save-and-refresh-at-1024-chromium/pdf-review-1024-light.png",
+      "sha256": "df8ccb8e6f1f40544b2cd3ff1d0d67659a2907307063825817b5a15696c83dde"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/pdf-corrected/learning-os-PDF-import-rev-8cb58-rd-save-and-refresh-at-1024-firefox/pdf-review-1024-dark.png",
+      "sha256": "ddf4e615bf119f77c914385ef1724e8a44ceafbf7f041350b9606ad4c5aac78d"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/pdf-corrected/learning-os-PDF-import-rev-8cb58-rd-save-and-refresh-at-1024-firefox/pdf-review-1024-light.png",
+      "sha256": "7b053f7e0854fb212f1a998c4f98687ccfabbd0ea690ecbe7c2dfc9a802426af"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/pdf-corrected/learning-os-PDF-import-rev-8cb58-rd-save-and-refresh-at-1024-webkit/pdf-review-1024-dark.png",
+      "sha256": "be65c8e49d0dcff185392c2d6542c11ef50ace7760d76a566341ad0f25338b7b"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/pdf-corrected/learning-os-PDF-import-rev-8cb58-rd-save-and-refresh-at-1024-webkit/pdf-review-1024-light.png",
+      "sha256": "2a46bbe34a10273d86179b667fc2d77cee590bda96e6d27c79e300f2da8e9774"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/pdf-corrected/learning-os-PDF-import-rev-a2f87-ard-save-and-refresh-at-390-chromium/pdf-review-390-dark.png",
+      "sha256": "c42bc42c92b61895f7ee359c8d58fbe61cb0356e61fa3814b5e2e2a947cfcf6b"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/pdf-corrected/learning-os-PDF-import-rev-a2f87-ard-save-and-refresh-at-390-chromium/pdf-review-390-light.png",
+      "sha256": "61d49bcaa76eba08977dabdf75ab34f3877a494cb2b89a8dd034575c7c122bbf"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/pdf-corrected/learning-os-PDF-import-rev-a2f87-ard-save-and-refresh-at-390-firefox/pdf-review-390-dark.png",
+      "sha256": "6e5dffd6443f18ff28337d89d6c66828b9d61bfafe200b22ebee8087745a9776"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/pdf-corrected/learning-os-PDF-import-rev-a2f87-ard-save-and-refresh-at-390-firefox/pdf-review-390-light.png",
+      "sha256": "55311f61405f4a24addcee68edd8734c6a494b1374a50713e9ba654e19728697"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/pdf-corrected/learning-os-PDF-import-rev-a2f87-ard-save-and-refresh-at-390-webkit/pdf-review-390-dark.png",
+      "sha256": "1f1614691003ad1e9f778022b14ab5e3fca4b82dadb10376592d8e417f0c7ddf"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/pdf-corrected/learning-os-PDF-import-rev-a2f87-ard-save-and-refresh-at-390-webkit/pdf-review-390-light.png",
+      "sha256": "3b569b8105276bb0841068fb6cfb953911e92c7e1b24d799122ab4967b9c9125"
+    }
+  ]
+}

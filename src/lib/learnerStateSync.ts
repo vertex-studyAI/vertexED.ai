@@ -19,7 +19,8 @@ import {
 } from '@/lib/durableOutbox';
 import { partitionLearnerStateSyncResults } from '@/lib/learnerStateSyncResult.mjs';
 
-export type LearnerStateType = 'weakness' | 'retry' | 'mock_draft' | 'exam_session';
+
+export type LearnerStateType = 'weakness' | 'retry' | 'mock_draft' | 'exam_session' | 'practice_attempt' | 'practice_mistake';
 
 export type LearnerStateWrite = {
   stateType: LearnerStateType;
@@ -240,6 +241,14 @@ export async function hydrateLearnerState(): Promise<number> {
     const localPending = pending.get(compositeKey(item));
     if (localPending && localPending.clientUpdatedAt >= item.clientUpdatedAt) continue;
     try {
+      if (item.stateType === 'practice_attempt' || item.stateType === 'practice_mistake') {
+        const { parseLearningRecords, mergeLearningRecord } = await import('./learningModel.mjs');
+        if (getUserContentStorageScope() !== scope) return 0;
+        const storage = resolveLocalStorage(window);
+        const key = item.stateType === 'practice_attempt' ? userContentStorageKeys(scope).practiceAttempts : userContentStorageKeys(scope).practiceMistakes;
+        const rows = parseLearningRecords(safeStorageGet(storage, key), item.stateType);
+        requireStorageWrite(safeStorageSet(storage, key, JSON.stringify(mergeLearningRecord(rows, item.payload, item.stateType))));
+      }
       if (item.stateType === 'weakness') applyWeakness(item, scope);
       if (item.stateType === 'retry') applyRetry(item, scope);
       if (item.stateType === 'mock_draft') applyMockDraft(item, scope);

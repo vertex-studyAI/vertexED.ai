@@ -114,7 +114,7 @@ export default function AIStudyPlannerArticle() {
         </ul>
 
         <h2>FAQ</h2>
-        <p><strong>Does it sync with Google Calendar?</strong> No two-way calendar sync is available in the current beta. Keep important commitments in your main calendar as well.</p>
+        <p><strong>Does it sync with Google Calendar?</strong> Use Export calendar in the planner to download a calendar file with optional reminders. Import it into a calendar that accepts .ics files. This is a copy: later edits and rescheduled tasks do not sync, so remove old imported events before replacing them.</p>
         <p><strong>What if I miss a day?</strong> Move the task to a realistic time or delete it. VertexED does not silently rebuild your week.</p>
         <p><strong>How does it know what I need to study?</strong> Suggestions can use your exam date, profile, due reviews, and verified weak-topic evidence. You decide whether the result makes sense.</p>
 

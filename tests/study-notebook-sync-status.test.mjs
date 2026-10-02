@@ -10,20 +10,16 @@ const source = await readFile(
 test("Study Notebook exposes hydration, saving, and sync state to users", () => {
   assert.match(source, /const \[notebookHydrated, setNotebookHydrated\] = useState\(false\)/);
   assert.match(source, /const \[notebookSaving, setNotebookSaving\] = useState\(false\)/);
-  assert.match(source, /role="status"/);
-  assert.match(source, /aria-live="polite"/);
-  assert.match(source, /aria-atomic="true"/);
-  assert.match(source, /\? 'Loading…'/);
-  assert.match(source, /\? 'Saving…'/);
-  assert.match(source, /\? 'Cloud synced'/);
-  assert.match(source, /: 'Saved locally'/);
+  assert.match(source, /<StudySaveStatus/);
+  assert.match(source, /notebookSaving \? 'saving' : notebookCloudSynced \? 'cloud' : 'device'/);
+
 });
 
 test("cloud writes wait for the latest snapshot to hydrate", () => {
   assert.match(source, /setNotebookHydrated\(!readOnly\)/);
   assert.match(source, /if \(!notebookHydrated\) return;/);
   assert.match(source, /\}, \[notebookHydrated, notebooks, user\?\.id\]\);/);
-  assert.match(source, /Loading your latest notebook snapshot before enabling cloud saves\./);
+  assert.match(source, /!notebookHydrated \? 'loading'/);
 });
 
 test("notebook save completions cannot overwrite newer sync state", () => {
@@ -35,7 +31,7 @@ test("notebook save completions cannot overwrite newer sync state", () => {
 });
 
 test("local-only saves remain reassuring and screen-reader friendly", () => {
-  assert.match(source, /Cloud sync is unavailable; your notebook is still saved on this device\./);
-  assert.match(source, /<span>\. \{notebookSyncError\}<\/span>/);
+  assert.match(source, /detail=\{!notebookSaving && !notebookCloudSynced \? notebookSyncError/);
+  assert.match(source, /onRetry=\{notebookHydrated && !notebookSaving \? retryNotebookSync/);
   assert.match(source, /notebookSyncError/);
 });

@@ -65,7 +65,7 @@ export default function CloudSaveBanner() {
         if (result.cloudUnavailable) {
           setMessage(
             result.error ||
-              "Cloud sync isn't available right now. Your notes, papers, and reviews still save on this device.",
+              "Cloud sync isn't available right now. Check each tool’s save status before leaving.",
           );
         }
       })
@@ -74,7 +74,7 @@ export default function CloudSaveBanner() {
         if (error instanceof DOMException && error.name === "AbortError") return;
         if (error && typeof error === "object" && "name" in error && error.name === "AbortError") return;
         setMessage(
-          "Cloud sync status couldn't be verified. Your notes, papers, and reviews still save on this device.",
+          "Cloud sync status couldn't be verified. Check each tool’s save status before leaving.",
         );
       });
 
@@ -90,14 +90,14 @@ export default function CloudSaveBanner() {
       role="status"
       aria-live="polite"
       aria-atomic="true"
-      className="mx-4 mt-3 max-w-6xl lg:mx-auto rounded-xl border border-sky-500/25 bg-sky-500/10 px-4 py-3 flex items-start gap-3 text-sm text-sky-100"
+      className="mx-4 mt-3 max-w-6xl lg:mx-auto rounded-xl border border-sky-500/25 bg-sky-500/10 px-4 py-3 flex items-start gap-3 text-sm text-foreground"
     >
       <CloudOff className="h-4 w-4 shrink-0 mt-0.5" aria-hidden="true" />
       <div className="flex-1 min-w-0">
-        <p className="font-medium text-sky-200">Working in device-save mode</p>
-        <p className="mt-1 text-sky-100/90">{message}</p>
-        <p className="mt-1 text-xs text-sky-100/70">
-          You can keep studying here. Cloud sync will resume when the service is available again.
+        <p className="font-medium text-foreground">Working in device-save mode</p>
+        <p className="mt-1 text-muted-foreground">{message}</p>
+        <p className="mt-1 text-xs text-muted-foreground">
+          Keep any unsaved work open. Use Retry saving in the tool when the connection returns.
         </p>
       </div>
       <button

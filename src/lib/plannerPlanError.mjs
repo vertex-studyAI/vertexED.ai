@@ -13,6 +13,8 @@ export function plannerPlanError(error, action = 'week') {
   // Also preserve explicit AI-unavailable product copy (auth-return golden).
   if (
     source.startsWith('Enter a task name')
+    || source.startsWith('The study window and daily limit')
+    || source.startsWith('Choose 2 to 12')
     || source.startsWith('Choose a ')
     || source.startsWith('This overlaps')
     || source.startsWith('This task runs past')

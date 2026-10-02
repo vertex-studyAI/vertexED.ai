@@ -14,7 +14,7 @@
   "functions": {
     "api/[[...path]].js": {
       "maxDuration": 300,
-      "includeFiles": "public/study-guides/**"
+      "includeFiles": "{public/study-guides/**,api/_workers/**,node_modules/pdfjs-dist/**,node_modules/@napi-rs/canvas*/**}"
     }
   },
   "rewrites": [

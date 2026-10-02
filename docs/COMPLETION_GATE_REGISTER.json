@@ -1,0 +1,1088 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-09-28T06:37:23.481904+00:00",
+  "checklist": "PUBLISHABLE_COMPLETION_CHECKLIST.md",
+  "decision": "NO-GO",
+  "scope": "Execution register. PASS requires the complete gate acceptance; local partial receipts do not close live or full-product gates.",
+  "counts": {
+    "total": 112,
+    "open": 109,
+    "pass": 3
+  },
+  "gates": [
+    {
+      "id": "SRC-01",
+      "section": "1. Establish one release candidate \u2014 engineering/release owner",
+      "ownerRole": "engineering/release owner",
+      "status": "PASS",
+      "acceptance": "Reconcile the current canonical checkout, upstream and outstanding WIP; preserve unrelated changes and recoverable copies before selecting what to port.",
+      "receipts": [
+        {
+          "result": "PASS_LOCAL",
+          "candidateCommit": "df0d8cf0a628b3790f8a64af480b34fd8ab5c642",
+          "environment": "isolated local review candidate",
+          "timestamp": "2026-09-27T07:32:26.276778+00:00",
+          "verifier": "Codex local execution",
+          "evidence": "evidence/checklist-execution-20260927.json",
+          "summary": "Upstream and preserved WIP histories reconciled without overwriting the original checkout."
+        }
+      ]
+    },
+    {
+      "id": "SRC-02",
+      "section": "1. Establish one release candidate \u2014 engineering/release owner",
+      "ownerRole": "engineering/release owner",
+      "status": "OPEN",
+      "acceptance": "Review and integrate the entire intended product change set into a clean candidate, including earlier auth, notebook, icon and recovery changes outside the 50-file manifest. Resolve conflicts without dropping working flows.",
+      "receipts": []
+    },
+    {
+      "id": "SRC-03",
+      "section": "1. Establish one release candidate \u2014 engineering/release owner",
+      "ownerRole": "engineering/release owner",
+      "status": "OPEN",
+      "acceptance": "Create a traceability matrix from every original-brief requirement to its route/control, data store, error behavior and acceptance test. No mandatory requirement is unmapped or deferred.",
+      "receipts": []
+    },
+    {
+      "id": "SRC-04",
+      "section": "1. Establish one release candidate \u2014 engineering/release owner",
+      "ownerRole": "engineering/release owner",
+      "status": "PASS",
+      "acceptance": "Pin the supported Node 22 runtime and declared npm version, perform a clean install, preserve lockfile reproducibility and record the exact versions in CI.",
+      "receipts": [
+        {
+          "result": "PASS_LOCAL",
+          "candidateCommit": "df0d8cf0a628b3790f8a64af480b34fd8ab5c642",
+          "environment": "isolated local review candidate",
+          "timestamp": "2026-09-27T07:32:26.276778+00:00",
+          "verifier": "Codex local execution",
+          "evidence": "evidence/checklist-execution-20260927.json",
+          "summary": "Node 22.22.0/npm 10.9.4 clean install and full local CI passed; CI versions pinned."
+        }
+      ]
+    },
+    {
+      "id": "SRC-05",
+      "section": "1. Establish one release candidate \u2014 engineering/release owner",
+      "ownerRole": "engineering/release owner",
+      "status": "OPEN",
+      "acceptance": "Produce a reviewed, committed candidate and release manifest. CI, deployed assets, health revision and migration/content versions must identify that candidate; exclude unrelated research and private/raw test evidence from the published bundle.",
+      "receipts": []
+    },
+    {
+      "id": "CUR-01",
+      "section": "2. Complete curriculum and reviewed content \u2014 curriculum/editorial owner",
+      "ownerRole": "curriculum/editorial owner",
+      "status": "OPEN",
+      "acceptance": "Implement configurable curriculum \u2192 subject \u2192 unit \u2192 topic \u2192 concept \u2192 skill structures with versioned identifiers, prerequisite links and no dangling references or prerequisite cycles.",
+      "receipts": []
+    },
+    {
+      "id": "CUR-02",
+      "section": "2. Complete curriculum and reviewed content \u2014 curriculum/editorial owner",
+      "ownerRole": "curriculum/editorial owner",
+      "status": "OPEN",
+      "acceptance": "Map IB DP/MYP, GCSE/IGCSE and AP requirements into that structure; support DP HL/SL, course variants and exam components. Record supported syllabus years and an explicit optional A-Level decision.",
+      "receipts": []
+    },
+    {
+      "id": "CUR-03",
+      "section": "2. Complete curriculum and reviewed content \u2014 curriculum/editorial owner",
+      "ownerRole": "curriculum/editorial owner",
+      "status": "OPEN",
+      "acceptance": "Complete course-specific learning flows for Math AA, Physics, Computer Science, Economics, English and languages: mathematical working, units/graphs, algorithms/code reasoning, economic diagrams/arguments, text analysis and language practice as appropriate. Executing untrusted code, if offered, requires isolation.",
+      "receipts": []
+    },
+    {
+      "id": "CUR-04",
+      "section": "2. Complete curriculum and reviewed content \u2014 curriculum/editorial owner",
+      "ownerRole": "curriculum/editorial owner",
+      "status": "OPEN",
+      "acceptance": "Create a coverage matrix for each offered course showing explanations, prerequisite support, diagnostic items, practice at relevant difficulty levels, review material and exam-component coverage. Fill every required gap; no advertised course may be backed by an empty adapter.",
+      "receipts": []
+    },
+    {
+      "id": "CUR-05",
+      "section": "2. Complete curriculum and reviewed content \u2014 curriculum/editorial owner",
+      "ownerRole": "curriculum/editorial owner",
+      "status": "OPEN",
+      "acceptance": "Expand the 25-question bank sufficiently to populate that matrix, including distinct transfer questions and non-identical retries. Validate every answer key, mark value, explanation, misconception, calculator policy, estimated time and provenance entry.",
+      "receipts": [
+        {
+          "result": "PARTIAL_LOCAL",
+          "candidateCommit": "b9a8c5a7bb78b0f53a3dd44b581f783ea2582b38",
+          "environment": "local original question bank and mathematical answer checks",
+          "timestamp": "2026-09-28T05:11:47.950390+00:00",
+          "verifier": "Codex local integration",
+          "evidence": "evidence/feature-delivery-20260928.json",
+          "summary": "Ten original complex-number questions bring the bank from 25 to 35, with authored hints and direct answer checks. Full curriculum coverage and independent editorial acceptance remain open."
+        }
+      ]
+    },
+    {
+      "id": "CUR-06",
+      "section": "2. Complete curriculum and reviewed content \u2014 curriculum/editorial owner",
+      "ownerRole": "curriculum/editorial owner",
+      "status": "OPEN",
+      "acceptance": "Obtain recorded subject/content review for all material published or retrieved by AI. Resolve the 53 historical flags; every one of the 245 inventoried guides needs an explicit approved, corrected or excluded disposition. Exclusion cannot leave a promised course unsupported.",
+      "receipts": []
+    },
+    {
+      "id": "CUR-07",
+      "section": "2. Complete curriculum and reviewed content \u2014 curriculum/editorial owner",
+      "ownerRole": "curriculum/editorial owner",
+      "status": "OPEN",
+      "acceptance": "Verify copyright/licensing and attribution for text, questions, diagrams, images and papers. Use original, authorized or appropriately licensed content; handle user-uploaded material privately without assuming redistribution rights.",
+      "receipts": []
+    },
+    {
+      "id": "CUR-08",
+      "section": "2. Complete curriculum and reviewed content \u2014 curriculum/editorial owner",
+      "ownerRole": "curriculum/editorial owner",
+      "status": "OPEN",
+      "acceptance": "Implement IA milestones, deadlines, evidence and revision progress. Grade estimates require enough entered evidence, the correct component weights/boundaries, source/date and limitations; otherwise show insufficient evidence. Do not label a model estimate an official predicted grade.",
+      "receipts": []
+    },
+    {
+      "id": "LRN-01",
+      "section": "3. Finish the learning model and assessment loop \u2014 learning systems/QA owner",
+      "ownerRole": "learning systems/QA owner",
+      "status": "OPEN",
+      "acceptance": "Verify subject-, unit- and concept-level adaptive diagnostics against the curriculum map, retaining accuracy, difficulty, supplied confidence, elapsed time, hints and repeated errors.",
+      "receipts": []
+    },
+    {
+      "id": "LRN-02",
+      "section": "3. Finish the learning model and assessment loop \u2014 learning systems/QA owner",
+      "ownerRole": "learning systems/QA owner",
+      "status": "OPEN",
+      "acceptance": "Handle insufficient questions, ambiguous answers, alternate correct forms, units, exhausted banks and unsupported question types honestly. Never turn missing evidence into failure or mastery.",
+      "receipts": []
+    },
+    {
+      "id": "LRN-03",
+      "section": "3. Finish the learning model and assessment loop \u2014 learning systems/QA owner",
+      "ownerRole": "learning systems/QA owner",
+      "status": "OPEN",
+      "acceptance": "Validate unassessed/developing/weak/mastered transitions, prerequisite strength, recency and review eligibility using independently checked answers. Repeated memorization of one question must not establish transferable mastery.",
+      "receipts": []
+    },
+    {
+      "id": "LRN-04",
+      "section": "3. Finish the learning model and assessment loop \u2014 learning systems/QA owner",
+      "ownerRole": "learning systems/QA owner",
+      "status": "OPEN",
+      "acceptance": "Give historical, generated, deterministic, learner-attested and teacher-confirmed attempts explicit provenance. Connect legitimate sources to one knowledge model without upgrading provisional AI feedback to verified marks.",
+      "receipts": []
+    },
+    {
+      "id": "LRN-05",
+      "section": "3. Finish the learning model and assessment loop \u2014 learning systems/QA owner",
+      "ownerRole": "learning systems/QA owner",
+      "status": "OPEN",
+      "acceptance": "Verify every practice mode: targeted weakness, mixed review, exam, rapid-fire, prerequisite repair and challenge. Each submission produces appropriate feedback, a usable next question and an idempotent evidence update.",
+      "receipts": []
+    },
+    {
+      "id": "LRN-06",
+      "section": "3. Finish the learning model and assessment loop \u2014 learning systems/QA owner",
+      "ownerRole": "learning systems/QA owner",
+      "status": "OPEN",
+      "acceptance": "Verify optional mistake capture with question/context, cause, corrected reasoning and retry history. Include all requested error categories; mark inferred causes as hypotheses rather than facts.",
+      "receipts": []
+    },
+    {
+      "id": "LRN-07",
+      "section": "3. Finish the learning model and assessment loop \u2014 learning systems/QA owner",
+      "ownerRole": "learning systems/QA owner",
+      "status": "OPEN",
+      "acceptance": "Connect cards, concepts, mistakes, formulas and definitions to a consistent review queue. Test ratings, lapses, postponement, timezone/day boundaries, missed days and repeated submissions; explain the scheduling heuristic without claiming calibrated forgetting probabilities.",
+      "receipts": []
+    },
+    {
+      "id": "LRN-08",
+      "section": "3. Finish the learning model and assessment loop \u2014 learning systems/QA owner",
+      "ownerRole": "learning systems/QA owner",
+      "status": "OPEN",
+      "acceptance": "Review the knowledge visualization and analytics against raw attempts. Accuracy, confidence, difficulty, hints and recency remain distinguishable; every metric has a denominator, time window and useful empty state.",
+      "receipts": []
+    },
+    {
+      "id": "LRN-09",
+      "section": "3. Finish the learning model and assessment loop \u2014 learning systems/QA owner",
+      "ownerRole": "learning systems/QA owner",
+      "status": "OPEN",
+      "acceptance": "Validate diagnostic and feedback usefulness with subject reviewers and learners. Resolve misleading classifications and obvious teaching failures; do not require or advertise an unperformed learning-gains study.",
+      "receipts": []
+    },
+    {
+      "id": "DAY-01",
+      "section": "4. Today, planner, dashboard and Focus \u2014 product/frontend owner",
+      "ownerRole": "product/frontend owner",
+      "status": "OPEN",
+      "acceptance": "Verify Today includes entered deadlines/assignments, overdue tasks, due cards, practice, assessments, weak concepts, recent evidence and a focus suggestion; every recommendation explains its actual evidence.",
+      "receipts": []
+    },
+    {
+      "id": "DAY-02",
+      "section": "4. Today, planner, dashboard and Focus \u2014 product/frontend owner",
+      "ownerRole": "product/frontend owner",
+      "status": "OPEN",
+      "acceptance": "Verify prioritization accounts for exam proximity, weakness, prerequisites, review risk, urgency and availability. Explain conflicts and backlog when all work cannot fit; preserve manual overrides.",
+      "receipts": []
+    },
+    {
+      "id": "DAY-03",
+      "section": "4. Today, planner, dashboard and Focus \u2014 product/frontend owner",
+      "ownerRole": "product/frontend owner",
+      "status": "OPEN",
+      "acceptance": "Connect assessment dates, IA milestones and evidence-backed revision tasks to the same planner. Subject/task changes must update recommendations without inventing exams or silently duplicating tasks.",
+      "receipts": []
+    },
+    {
+      "id": "DAY-04",
+      "section": "4. Today, planner, dashboard and Focus \u2014 product/frontend owner",
+      "ownerRole": "product/frontend owner",
+      "status": "OPEN",
+      "acceptance": "Verify recurring commitments, free-time windows, daily limits, deadlines and priority-aware missed-task rebalancing. Keep fixed appointments fixed; test DST, midnight, holidays, collisions, expired deadlines and an entirely full calendar. Clearly state when rescheduling runs.",
+      "receipts": []
+    },
+    {
+      "id": "DAY-05",
+      "section": "4. Today, planner, dashboard and Focus \u2014 product/frontend owner",
+      "ownerRole": "product/frontend owner",
+      "status": "OPEN",
+      "acceptance": "Verify completion history, reopen/edit/delete actions and planned/completed/backlog/pressure summaries. Distinguish scheduled duration marked complete from measured focus time.",
+      "receipts": []
+    },
+    {
+      "id": "DAY-06",
+      "section": "4. Today, planner, dashboard and Focus \u2014 product/frontend owner",
+      "ownerRole": "product/frontend owner",
+      "status": "OPEN",
+      "acceptance": "Finish Focus linkage to the current task, timer, breaks, session notes and completion summary. Preserve the session through refresh/interruption and show the next useful step; only report mastery changes when actual evidence changed.",
+      "receipts": []
+    },
+    {
+      "id": "DAY-07",
+      "section": "4. Today, planner, dashboard and Focus \u2014 product/frontend owner",
+      "ownerRole": "product/frontend owner",
+      "status": "OPEN",
+      "acceptance": "Verify dashboard subjects, topic/accuracy/mastery trends, study time, task completion, upcoming exams and optional streaks answer what changed and what to do next. No arbitrary composite score is presented as learning progress.",
+      "receipts": []
+    },
+    {
+      "id": "DAY-08",
+      "section": "4. Today, planner, dashboard and Focus \u2014 product/frontend owner",
+      "ownerRole": "product/frontend owner",
+      "status": "OPEN",
+      "acceptance": "Provide working opt-out controls for gamification. Test genuine streak/XP/goal/milestone calculations and all five games, including rotation, lazy loading, pause, keyboard/touch, silence and preservation of study state.",
+      "receipts": []
+    },
+    {
+      "id": "DAY-09",
+      "section": "4. Today, planner, dashboard and Focus \u2014 product/frontend owner",
+      "ownerRole": "product/frontend owner",
+      "status": "OPEN",
+      "acceptance": "Close the recorded calendar integration and background scheduling gap: define provider permissions, import/export direction, duplicate/conflict handling, timezone changes, disconnect/revocation and idempotent scheduled jobs. Verify missed work is handled when the app is closed without moving fixed appointments. Until implemented, retain the explicit foreground-only limitation.",
+      "receipts": [
+        {
+          "result": "PARTIAL_LOCAL",
+          "environment": "controlled browser account fixtures with real calendar-file downloads",
+          "timestamp": "2026-09-28T06:37:23.481904+00:00",
+          "verifier": "Codex local execution",
+          "evidence": "evidence/calendar-delivery-20260928.json",
+          "summary": "One-way calendar export with private titles, optional reminders, bounded ranges and time-zone handling is implemented. Background rescheduling, provider synchronisation and actual notification delivery remain unverified; gate remains OPEN."
+        }
+      ]
+    },
+    {
+      "id": "AI-01",
+      "section": "5. AI tutor and exam workspace \u2014 AI systems/assessment owner",
+      "ownerRole": "AI systems/assessment owner",
+      "status": "OPEN",
+      "acceptance": "Test Explain, Teach, Quiz, Hint, Solve With Me, Challenge Me and Exam Mode through the real provider path, including progressive steps, attempted-answer prompts and appropriate difficulty changes.",
+      "receipts": []
+    },
+    {
+      "id": "AI-02",
+      "section": "5. AI tutor and exam workspace \u2014 AI systems/assessment owner",
+      "ownerRole": "AI systems/assessment owner",
+      "status": "OPEN",
+      "acceptance": "Verify explanations, analogous problems, error feedback, misconception hypotheses, summaries, note-to-question conversion and revision plans against trusted references. Ground source-based answers in the supplied material and expose unavailable evidence.",
+      "receipts": []
+    },
+    {
+      "id": "AI-03",
+      "section": "5. AI tutor and exam workspace \u2014 AI systems/assessment owner",
+      "ownerRole": "AI systems/assessment owner",
+      "status": "OPEN",
+      "acceptance": "Consolidate duplicated AI entry points around consistent context, mode, sources, permissions and error behavior. Switching interfaces must not lose a draft or send another account's context.",
+      "receipts": []
+    },
+    {
+      "id": "AI-04",
+      "section": "5. AI tutor and exam workspace \u2014 AI systems/assessment owner",
+      "ownerRole": "AI systems/assessment owner",
+      "status": "OPEN",
+      "acceptance": "Implement durable conversation history, with resume/search/delete/export across sessions and devices. Define retention, bounded history/context limits, conflict handling and account isolation; browser-session storage alone does not close this item.",
+      "receipts": [
+        {
+          "result": "PARTIAL_LOCAL",
+          "candidateCommit": "617d20fc79d307d5940e23ee958ae382828356d8",
+          "environment": "local controlled account/provider fixtures, real PDF parser and disposable SQL database",
+          "timestamp": "2026-09-28T04:57:52.301232+00:00",
+          "verifier": "Codex local execution",
+          "evidence": "evidence/feature-delivery-20260928.json",
+          "summary": "Private bounded conversation snapshots implemented with search, export, clearing, two-device fixture resume/conflicts and account isolation. Live account/provider acceptance remains open."
+        }
+      ]
+    },
+    {
+      "id": "AI-05",
+      "section": "5. AI tutor and exam workspace \u2014 AI systems/assessment owner",
+      "ownerRole": "AI systems/assessment owner",
+      "status": "OPEN",
+      "acceptance": "Freeze an evaluation set and acceptance thresholds before running live evaluations. Cover factual correctness, citations, answer leakage in hint/quiz modes, refusals, ambiguity, prompt injection in documents and fabricated certainty/marks.",
+      "receipts": []
+    },
+    {
+      "id": "AI-06",
+      "section": "5. AI tutor and exam workspace \u2014 AI systems/assessment owner",
+      "ownerRole": "AI systems/assessment owner",
+      "status": "OPEN",
+      "acceptance": "Verify timeout/cancel/retry/fallback behavior, quota enforcement and cost controls on the deployed provider configuration. Define acceptable response latency and per-session cost, then measure them; no fabricated fallback answer may look successful.",
+      "receipts": []
+    },
+    {
+      "id": "EXM-01",
+      "section": "5. AI tutor and exam workspace \u2014 AI systems/assessment owner",
+      "ownerRole": "AI systems/assessment owner",
+      "status": "OPEN",
+      "acceptance": "Complete the exam workspace across the offered course components: sections, question navigation, marks, calculator constraints, flags, timer, answer persistence and expiry behavior.",
+      "receipts": []
+    },
+    {
+      "id": "EXM-02",
+      "section": "5. AI tutor and exam workspace \u2014 AI systems/assessment owner",
+      "ownerRole": "AI systems/assessment owner",
+      "status": "OPEN",
+      "acceptance": "Verify refresh, multi-tab/device conflict, clock manipulation and interrupted submission. Define client-timer limits honestly; only claim tamper-resistant timing if enforced server-side.",
+      "receipts": []
+    },
+    {
+      "id": "EXM-03",
+      "section": "5. AI tutor and exam workspace \u2014 AI systems/assessment owner",
+      "ownerRole": "AI systems/assessment owner",
+      "status": "OPEN",
+      "acceptance": "Verify score/topic/time analysis, lost-mark causes, conceptual versus careless errors and revision actions. Keep AI-inferred causes and provisional marks distinct from confirmed results.",
+      "receipts": []
+    },
+    {
+      "id": "EXM-04",
+      "section": "5. AI tutor and exam workspace \u2014 AI systems/assessment owner",
+      "ownerRole": "AI systems/assessment owner",
+      "status": "OPEN",
+      "acceptance": "Verify supported original/open papers and user-uploaded authorized material end to end. If a format requires human marking, provide that usable workflow instead of fabricated auto-grading.",
+      "receipts": []
+    },
+    {
+      "id": "NTS-01",
+      "section": "6. Notes, documents and search \u2014 product/data owner",
+      "ownerRole": "product/data owner",
+      "status": "OPEN",
+      "acceptance": "Complete note creation/editing with rich text or an equivalently usable formatted editor, math, images, tags, subjects, concept links and links between notes. Test rename/delete/undo or recovery, autosave, refresh and export.",
+      "receipts": []
+    },
+    {
+      "id": "NTS-02",
+      "section": "6. Notes, documents and search \u2014 product/data owner",
+      "ownerRole": "product/data owner",
+      "status": "OPEN",
+      "acceptance": "Implement bounded PDF/worksheet import: allowlisted formats, size/page/text limits, safe parsing, private storage and deletion. Test malformed, encrypted, scanned and oversized files with honest fallback/error states; do not claim OCR unless implemented.",
+      "receipts": [
+        {
+          "result": "PARTIAL_LOCAL",
+          "candidateCommit": "617d20fc79d307d5940e23ee958ae382828356d8",
+          "environment": "local controlled account/provider fixtures, real PDF parser and disposable SQL database",
+          "timestamp": "2026-09-28T04:57:52.301232+00:00",
+          "verifier": "Codex local execution",
+          "evidence": "evidence/feature-delivery-20260928.json",
+          "summary": "Bounded PDF text import implemented with real parser and local malformed/image-only/oversized fixture tests, review, cancellation and browser notebook switching. Full encrypted/hostile corpus, live deployment and privacy acceptance remain open."
+        }
+      ]
+    },
+    {
+      "id": "NTS-03",
+      "section": "6. Notes, documents and search \u2014 product/data owner",
+      "ownerRole": "product/data owner",
+      "status": "OPEN",
+      "acceptance": "Verify note AI actions: summarize, quiz, flashcards, explain selected text and identify prerequisite gaps. Persist generated material with its source references and review status.",
+      "receipts": []
+    },
+    {
+      "id": "NTS-04",
+      "section": "6. Notes, documents and search \u2014 product/data owner",
+      "ownerRole": "product/data owner",
+      "status": "OPEN",
+      "acceptance": "Verify immediate search and Cmd/Ctrl+K across concepts, lessons, questions, notes, documents, cards and durable conversations. Include autocomplete, recents, subject context, keyboard navigation, direct navigation and accurate result counts.",
+      "receipts": [
+        {
+          "result": "PARTIAL_LOCAL",
+          "candidateCommit": "617d20fc79d307d5940e23ee958ae382828356d8",
+          "environment": "local controlled account/provider fixtures, real PDF parser and disposable SQL database",
+          "timestamp": "2026-09-28T04:57:52.301232+00:00",
+          "verifier": "Codex local execution",
+          "evidence": "evidence/feature-delivery-20260928.json",
+          "summary": "Conversation messages are indexed by the existing saved-work search and directly navigable; this does not certify every required content type or full search acceptance."
+        }
+      ]
+    },
+    {
+      "id": "NTS-05",
+      "section": "6. Notes, documents and search \u2014 product/data owner",
+      "ownerRole": "product/data owner",
+      "status": "OPEN",
+      "acceptance": "Verify indexing after edits/deletions, pagination, no results, cloud failure, long queries and slow responses. Signing out or switching accounts must immediately clear private results and pending responses.",
+      "receipts": []
+    },
+    {
+      "id": "NTS-06",
+      "section": "6. Notes, documents and search \u2014 product/data owner",
+      "ownerRole": "product/data owner",
+      "status": "OPEN",
+      "acceptance": "Preserve source-location references through import, generation, review and export: document/page or supported text-span identity, source version and missing-source recovery. Verify citations point to the actual supporting content after edits; do not fabricate page references for text-only imports.",
+      "receipts": []
+    },
+    {
+      "id": "DAT-01",
+      "section": "7. Persistence, offline use and recovery \u2014 storage/frontend owner",
+      "ownerRole": "storage/frontend owner",
+      "status": "OPEN",
+      "acceptance": "Implement offline access to the saved study materials and active session promised by the brief: notes, saved questions, flashcards and current work. Make cache availability explicit; an online-only AI request must fail clearly while drafts remain usable.",
+      "receipts": []
+    },
+    {
+      "id": "DAT-02",
+      "section": "7. Persistence, offline use and recovery \u2014 storage/frontend owner",
+      "ownerRole": "storage/frontend owner",
+      "status": "OPEN",
+      "acceptance": "Add and verify an offline application-loading strategy, versioned cache updates and rollback. Do not cache auth tokens or private API responses in a shared/public cache; isolate or purge account content on logout.",
+      "receipts": []
+    },
+    {
+      "id": "DAT-03",
+      "section": "7. Persistence, offline use and recovery \u2014 storage/frontend owner",
+      "ownerRole": "storage/frontend owner",
+      "status": "OPEN",
+      "acceptance": "Verify cloud acknowledgements, durable retry/outbox behavior, idempotency and two-device conflicts for every saved collection. Never show \u201csaved to account\u201d solely because a local write succeeded.",
+      "receipts": [
+        {
+          "result": "PARTIAL_LOCAL",
+          "candidateCommit": "617d20fc79d307d5940e23ee958ae382828356d8",
+          "environment": "local controlled account/provider fixtures, real PDF parser and disposable SQL database",
+          "timestamp": "2026-09-28T04:57:52.301232+00:00",
+          "verifier": "Codex local execution",
+          "evidence": "evidence/feature-delivery-20260928.json",
+          "summary": "Conversation store tests cover acknowledgement validation, serialized writes and stale-device conflicts. Every-collection live acceptance remains open."
+        }
+      ]
+    },
+    {
+      "id": "DAT-04",
+      "section": "7. Persistence, offline use and recovery \u2014 storage/frontend owner",
+      "ownerRole": "storage/frontend owner",
+      "status": "OPEN",
+      "acceptance": "Inject lost connectivity, aborted writes, quota exhaustion, corrupted records, stale tabs, account switches and expired sessions. Original work survives, unsynced work stays exportable and recovery never silently overwrites newer content.",
+      "receipts": [
+        {
+          "result": "PARTIAL_LOCAL",
+          "candidateCommit": "617d20fc79d307d5940e23ee958ae382828356d8",
+          "environment": "local controlled account/provider fixtures, real PDF parser and disposable SQL database",
+          "timestamp": "2026-09-28T04:57:52.301232+00:00",
+          "verifier": "Codex local execution",
+          "evidence": "evidence/feature-delivery-20260928.json",
+          "summary": "Conversation failure tests cover corrupt storage, quota errors, account changes and late responses while preserving exports. Full-product live fault injection remains open."
+        }
+      ]
+    },
+    {
+      "id": "DAT-05",
+      "section": "7. Persistence, offline use and recovery \u2014 storage/frontend owner",
+      "ownerRole": "storage/frontend owner",
+      "status": "OPEN",
+      "acceptance": "Verify deletion and account export cover new attempts, mistakes, conversations, notes, files, exams, planner history and queued/offline data. Deleted data must not reappear from an old cache or retry queue.",
+      "receipts": [
+        {
+          "result": "PARTIAL_LOCAL",
+          "candidateCommit": "617d20fc79d307d5940e23ee958ae382828356d8",
+          "environment": "local controlled account/provider fixtures, real PDF parser and disposable SQL database",
+          "timestamp": "2026-09-28T04:57:52.301232+00:00",
+          "verifier": "Codex local execution",
+          "evidence": "evidence/feature-delivery-20260928.json",
+          "summary": "Conversation snapshots use existing account export and deletion paths; SQL verifies account-deletion cascade. Retained device conflict and legacy copies are documented; deployed erasure evidence remains open."
+        }
+      ]
+    },
+    {
+      "id": "DB-01",
+      "section": "8. Database and migrations \u2014 database owner",
+      "ownerRole": "database owner",
+      "status": "PASS",
+      "acceptance": "Establish a working isolated database runner and diagnose the recorded base-schema startup failure. Do not reset the shared/live project to make local tests pass.",
+      "receipts": [
+        {
+          "result": "PASS_LOCAL",
+          "environment": "disposable vertexed-test-checklist-20260927",
+          "evidence": "ci-evidence/checklist-exec-20260927/database-verified.log",
+          "summary": "29 migrations; schema lint has no errors; 59 SQL assertions passed. Source manifest supplied by execution report.",
+          "timestamp": "2026-09-27T07:07:15.105167+00:00",
+          "candidateCommit": "47783141cf97a19bfbdf453c3ea2bfde095789f5",
+          "verifier": "Codex local execution",
+          "migrationLedger": "ci-evidence/checklist-exec-20260927/db-replay-v3/replay-manifest.json"
+        }
+      ]
+    },
+    {
+      "id": "DB-02",
+      "section": "8. Database and migrations \u2014 database owner",
+      "ownerRole": "database owner",
+      "status": "OPEN",
+      "acceptance": "Reconcile the complete migration ledger and shared-project ownership. Include the practice-state and optional-school migrations plus any new feature migrations; inspect dependencies and currently applied versions.",
+      "receipts": []
+    },
+    {
+      "id": "DB-03",
+      "section": "8. Database and migrations \u2014 database owner",
+      "ownerRole": "database owner",
+      "status": "OPEN",
+      "acceptance": "Replay every migration from empty state and from a production-shaped disposable snapshot. Run pgTAP and SQL lint, including the practice-state tests, with real execution receipts.",
+      "receipts": [
+        {
+          "result": "PARTIAL_LOCAL",
+          "evidence": "ci-evidence/checklist-exec-20260927/database-verified.log",
+          "remaining": "Production-shaped replay and complete live/concurrent authorization acceptance remain open."
+        }
+      ]
+    },
+    {
+      "id": "DB-04",
+      "section": "8. Database and migrations \u2014 database owner",
+      "ownerRole": "database owner",
+      "status": "OPEN",
+      "acceptance": "Verify table/view/RPC grants, RLS, owner filtering, readiness functions, durable rate limits, singleton writes and account deletion cascades. Test concurrent writes and conflict acknowledgements rather than only schema text.",
+      "receipts": [
+        {
+          "result": "PARTIAL_LOCAL",
+          "evidence": "ci-evidence/checklist-exec-20260927/database-verified.log",
+          "remaining": "Production-shaped replay and complete live/concurrent authorization acceptance remain open."
+        }
+      ]
+    },
+    {
+      "id": "DB-05",
+      "section": "8. Database and migrations \u2014 database owner",
+      "ownerRole": "database owner",
+      "status": "OPEN",
+      "acceptance": "Rehearse backup restoration and forward-compatible migration/application rollback, then apply the reviewed migration sequence to staging and production with environment-specific receipts.",
+      "receipts": [
+        {
+          "result": "PARTIAL_LOCAL",
+          "candidateCommit": "47783141cf97a19bfbdf453c3ea2bfde095789f5",
+          "evidence": "ci-evidence/checklist-exec-20260927/restore-summary.json",
+          "remaining": "Only a labelled synthetic local restore passed. Production-shaped backup, application rollback and environment-specific acceptance remain open."
+        }
+      ]
+    },
+    {
+      "id": "SEC-01",
+      "section": "9. Authentication, authorization and privacy \u2014 security/account owner",
+      "ownerRole": "security/account owner",
+      "status": "OPEN",
+      "acceptance": "Verify the intended signup/access policy, email verification, onboarding, login, OAuth if offered, linking, refresh, expiry/revocation, recovery emails and logout with disposable real accounts.",
+      "receipts": []
+    },
+    {
+      "id": "SEC-02",
+      "section": "9. Authentication, authorization and privacy \u2014 security/account owner",
+      "ownerRole": "security/account owner",
+      "status": "OPEN",
+      "acceptance": "Test anonymous, pending, partially onboarded, approved, non-admin and admin paths. User-editable profile metadata must not grant authorization; browser route guards are not the security boundary.",
+      "receipts": []
+    },
+    {
+      "id": "SEC-03",
+      "section": "9. Authentication, authorization and privacy \u2014 security/account owner",
+      "ownerRole": "security/account owner",
+      "status": "OPEN",
+      "acceptance": "Prove User A cannot read, list, search, mutate, export or delete User B's objects by guessed IDs through APIs, database access or file storage. Include all new learning/chat records and async account-switch races.",
+      "receipts": []
+    },
+    {
+      "id": "SEC-04",
+      "section": "9. Authentication, authorization and privacy \u2014 security/account owner",
+      "ownerRole": "security/account owner",
+      "status": "OPEN",
+      "acceptance": "Audit server-only keys, deployed environment scopes, repository history and built assets. Keep provider/service credentials out of clients and logs; remediate real exposure and verify rotations when needed.",
+      "receipts": []
+    },
+    {
+      "id": "SEC-05",
+      "section": "9. Authentication, authorization and privacy \u2014 security/account owner",
+      "ownerRole": "security/account owner",
+      "status": "OPEN",
+      "acceptance": "Verify body/input limits, authorization, rate limits, CORS, unsafe HTML/Markdown/math/URLs, uploads, parsing and prompt-injection boundaries. Database/limiter failure must not open unrestricted expensive or privileged endpoints.",
+      "receipts": []
+    },
+    {
+      "id": "SEC-06",
+      "section": "9. Authentication, authorization and privacy \u2014 security/account owner",
+      "ownerRole": "security/account owner",
+      "status": "OPEN",
+      "acceptance": "Verify production CSP/security headers, private API caching and index controls. Check for private text in telemetry, analytics, exceptions, filenames, URLs and provider logs; minimize collection and enforce retention.",
+      "receipts": []
+    },
+    {
+      "id": "SEC-07",
+      "section": "9. Authentication, authorization and privacy \u2014 security/account owner",
+      "ownerRole": "security/account owner",
+      "status": "OPEN",
+      "acceptance": "Obtain appropriate review of privacy, terms, age/consent and safeguarding arrangements for the intended student population and jurisdictions. Match policies to actual storage, AI providers, retention, deletion and support practices.",
+      "receipts": []
+    },
+    {
+      "id": "SEC-08",
+      "section": "9. Authentication, authorization and privacy \u2014 security/account owner",
+      "ownerRole": "security/account owner",
+      "status": "OPEN",
+      "acceptance": "Verify account export/deletion and session revocation live, including retained-token behavior. Publish usable contact, privacy-request and incorrect/unsafe-output reporting paths with responsible owners.",
+      "receipts": []
+    },
+    {
+      "id": "SEC-09",
+      "section": "9. Authentication, authorization and privacy \u2014 security/account owner",
+      "ownerRole": "security/account owner",
+      "status": "OPEN",
+      "acceptance": "Re-run dependency/security scans on the final lockfile and artifact, triage every finding and close exploitable release issues. A zero dependency audit is not a substitute for authorization tests.",
+      "receipts": []
+    },
+    {
+      "id": "UX-01",
+      "section": "10. UI, accessibility and performance \u2014 frontend/QA owner",
+      "ownerRole": "frontend/QA owner",
+      "status": "OPEN",
+      "acceptance": "Inventory every route and interactive control, including deep links, errors and 404. Remove or implement dead controls and production TODO/mock/dummy/placeholder content; do not remove legitimate input hints or test fixtures merely to silence a scan.",
+      "receipts": []
+    },
+    {
+      "id": "UX-02",
+      "section": "10. UI, accessibility and performance \u2014 frontend/QA owner",
+      "ownerRole": "frontend/QA owner",
+      "status": "OPEN",
+      "acceptance": "Complete a consistent blue/white design system while preserving the logo, study terminology and revision trace. Verify icons/favicon/manifest assets, typography, spacing, forms, feedback, loading, empty and retry states.",
+      "receipts": []
+    },
+    {
+      "id": "UX-03",
+      "section": "10. UI, accessibility and performance \u2014 frontend/QA owner",
+      "ownerRole": "frontend/QA owner",
+      "status": "OPEN",
+      "acceptance": "Capture and inspect all core routes at 1440, 1024 and 390 pixels, in both themes; correct overflow, masking, dropdown/modal stacking, sticky elements, long content, mobile keyboard and touch problems.",
+      "receipts": [
+        {
+          "result": "PARTIAL_LOCAL",
+          "candidateCommit": "617d20fc79d307d5940e23ee958ae382828356d8",
+          "environment": "local controlled account/provider fixtures, real PDF parser and disposable SQL database",
+          "timestamp": "2026-09-28T04:57:52.301232+00:00",
+          "verifier": "Codex local execution",
+          "evidence": "evidence/feature-delivery-20260928.json",
+          "summary": "Tutor and PDF import reviewed at 1440, 1024 and 390 pixels in both themes; search, mobile controls and PDF label corrected. Not all core routes or physical-device cases are certified."
+        }
+      ]
+    },
+    {
+      "id": "UX-04",
+      "section": "10. UI, accessibility and performance \u2014 frontend/QA owner",
+      "ownerRole": "frontend/QA owner",
+      "status": "OPEN",
+      "acceptance": "Verify keyboard-only operation, focus return/trapping, visible focus, semantic labels, screen-reader status, zoom/text resizing, contrast and reduced motion. No concealed or offscreen control may remain in the focus order.",
+      "receipts": [
+        {
+          "result": "PARTIAL_LOCAL",
+          "candidateCommit": "617d20fc79d307d5940e23ee958ae382828356d8",
+          "environment": "local controlled account/provider fixtures, real PDF parser and disposable SQL database",
+          "timestamp": "2026-09-28T04:57:52.301232+00:00",
+          "verifier": "Codex local execution",
+          "evidence": "evidence/feature-delivery-20260928.json",
+          "summary": "Feature browser journeys exercise keyboard save, modal focus return and reduced motion. Full assistive-technology, zoom and contrast acceptance remains open."
+        }
+      ]
+    },
+    {
+      "id": "UX-05",
+      "section": "10. UI, accessibility and performance \u2014 frontend/QA owner",
+      "ownerRole": "frontend/QA owner",
+      "status": "OPEN",
+      "acceptance": "Run representative desktop Chromium, Firefox and WebKit plus real mobile Safari/Chrome journeys. Test rotation, back navigation and reload; do not infer cross-browser compatibility from Chromium alone.",
+      "receipts": [
+        {
+          "result": "PARTIAL_LOCAL",
+          "candidateCommit": "617d20fc79d307d5940e23ee958ae382828356d8",
+          "environment": "local controlled account/provider fixtures, real PDF parser and disposable SQL database",
+          "timestamp": "2026-09-28T04:57:52.301232+00:00",
+          "verifier": "Codex local execution",
+          "evidence": "evidence/feature-delivery-20260928.json",
+          "summary": "Conversation and PDF scenarios exercised in Chromium, Firefox and WebKit. Failures and isolated reruns retained separately. Real mobile Safari/Chrome acceptance remains open."
+        }
+      ]
+    },
+    {
+      "id": "UX-06",
+      "section": "10. UI, accessibility and performance \u2014 frontend/QA owner",
+      "ownerRole": "frontend/QA owner",
+      "status": "OPEN",
+      "acceptance": "Profile critical routes for loading, API waterfalls, hydration errors, redundant requests, fonts/images, animations and lazy dependencies. Keep frozen bundle budgets passing and fix measured bottlenecks.",
+      "receipts": []
+    },
+    {
+      "id": "UX-07",
+      "section": "10. UI, accessibility and performance \u2014 frontend/QA owner",
+      "ownerRole": "frontend/QA owner",
+      "status": "OPEN",
+      "acceptance": "Define and pass reproducible mobile loading/interaction and API latency budgets on representative hardware/network conditions. Label laboratory measurements correctly; verify responsiveness during a continuous two-hour study session.",
+      "receipts": []
+    },
+    {
+      "id": "PUB-01",
+      "section": "11. Editorial publication, public discovery and commercial scope \u2014 product/editorial owner",
+      "ownerRole": "product/editorial owner",
+      "status": "OPEN",
+      "acceptance": "Audit product copy, metadata, demos, pricing and dashboards for unsupported learner counts, outcomes, testimonials, endorsements, grades and guarantees. Use recorded data or accurate empty states.",
+      "receipts": []
+    },
+    {
+      "id": "PUB-02",
+      "section": "11. Editorial publication, public discovery and commercial scope \u2014 product/editorial owner",
+      "ownerRole": "product/editorial owner",
+      "status": "OPEN",
+      "acceptance": "Publish only approved content into routes, retrieval, previews, sitemaps and structured metadata. Verify canonical links, social images, robots, sitemap and redirects on the real HTTPS domain; private routes remain excluded.",
+      "receipts": []
+    },
+    {
+      "id": "PUB-03",
+      "section": "11. Editorial publication, public discovery and commercial scope \u2014 product/editorial owner",
+      "ownerRole": "product/editorial owner",
+      "status": "OPEN",
+      "acceptance": "Resolve access and payment scope explicitly. A free launch has no working-looking checkout or unenforced paid/unlimited claims. If paid access is offered, implement and test prices, entitlements, webhook verification/idempotency, failures, cancellation, refunds, receipts and account-deletion interactions before closing this gate.",
+      "receipts": []
+    },
+    {
+      "id": "PUB-04",
+      "section": "11. Editorial publication, public discovery and commercial scope \u2014 product/editorial owner",
+      "ownerRole": "product/editorial owner",
+      "status": "OPEN",
+      "acceptance": "Verify transactional email delivery, sender configuration, valid/expired links, duplicate handling and delivery-failure visibility. Test with disposable inboxes, without exposing one-time links in logs.",
+      "receipts": []
+    },
+    {
+      "id": "PUB-05",
+      "section": "11. Editorial publication, public discovery and commercial scope \u2014 product/editorial owner",
+      "ownerRole": "product/editorial owner",
+      "status": "OPEN",
+      "acceptance": "Make onboarding, help, educational limitations, data controls and support instructions match the shipped product. A new student can recover from an error without repository knowledge or operator intervention.",
+      "receipts": []
+    },
+    {
+      "id": "OPS-01",
+      "section": "12. Domain, deployment and operations \u2014 release/operations owner",
+      "ownerRole": "release/operations owner",
+      "status": "OPEN",
+      "acceptance": "Freshly verify the owning registrar/DNS zone, Vercel project, canonical host and current deployments. Diagnose the previously recorded TLS-before-HTTP failure; review records/certificates before changing them.",
+      "receipts": []
+    },
+    {
+      "id": "OPS-02",
+      "section": "12. Domain, deployment and operations \u2014 release/operations owner",
+      "ownerRole": "release/operations owner",
+      "status": "OPEN",
+      "acceptance": "Verify trusted HTTPS for apex and canonical host, intended redirects, A/AAAA behavior where configured, certificate renewal and legacy-host behavior from independent networks. No redirect loops, parked pages or stale deployment aliases.",
+      "receipts": []
+    },
+    {
+      "id": "OPS-03",
+      "section": "12. Domain, deployment and operations \u2014 release/operations owner",
+      "ownerRole": "release/operations owner",
+      "status": "OPEN",
+      "acceptance": "Separate preview/staging/production configuration; verify server-only secrets, OAuth redirect allowlists, provider availability and production environment completeness without printing secret values.",
+      "receipts": []
+    },
+    {
+      "id": "OPS-04",
+      "section": "12. Domain, deployment and operations \u2014 release/operations owner",
+      "ownerRole": "release/operations owner",
+      "status": "OPEN",
+      "acceptance": "Deploy the exact reviewed candidate. Health revision, assets, migration ledger and approved content version must agree; protected readiness must pass every required dependency rather than merely returning liveness.",
+      "receipts": []
+    },
+    {
+      "id": "OPS-05",
+      "section": "12. Domain, deployment and operations \u2014 release/operations owner",
+      "ownerRole": "release/operations owner",
+      "status": "OPEN",
+      "acceptance": "Exercise monitoring for auth failure, persistence failure, provider timeout, rate-limit-store outage and client errors. Confirm redacted telemetry, deduplicated alerts, working delivery and named incident ownership.",
+      "receipts": []
+    },
+    {
+      "id": "OPS-06",
+      "section": "12. Domain, deployment and operations \u2014 release/operations owner",
+      "ownerRole": "release/operations owner",
+      "status": "OPEN",
+      "acceptance": "Define and verify provider spend/usage limits, capacity limits, backup retention, recovery objectives and degraded-service messaging. Record a tested backup restore and rollback to a known healthy release.",
+      "receipts": [
+        {
+          "result": "PARTIAL_LOCAL",
+          "candidateCommit": "47783141cf97a19bfbdf453c3ea2bfde095789f5",
+          "evidence": "ci-evidence/checklist-exec-20260927/restore-summary.json",
+          "remaining": "Only a labelled synthetic local restore passed. Production-shaped backup, application rollback and environment-specific acceptance remain open."
+        }
+      ]
+    },
+    {
+      "id": "OPS-07",
+      "section": "12. Domain, deployment and operations \u2014 release/operations owner",
+      "ownerRole": "release/operations owner",
+      "status": "OPEN",
+      "acceptance": "Confirm failed CI, database, readiness or smoke gates prevent promotion. Publish an operator runbook with current ownership, rollback/recovery steps and post-release checks.",
+      "receipts": []
+    },
+    {
+      "id": "JNY-01",
+      "section": "13. Final acceptance journey \u2014 QA plus a learner reviewer",
+      "ownerRole": "QA plus a learner reviewer",
+      "status": "OPEN",
+      "acceptance": "Create a permitted account and verify the intended access/verification flow.",
+      "receipts": []
+    },
+    {
+      "id": "JNY-02",
+      "section": "13. Final acceptance journey \u2014 QA plus a learner reviewer",
+      "ownerRole": "QA plus a learner reviewer",
+      "status": "OPEN",
+      "acceptance": "Choose curriculum, course level and subjects; refresh and confirm persistence.",
+      "receipts": []
+    },
+    {
+      "id": "JNY-03",
+      "section": "13. Final acceptance journey \u2014 QA plus a learner reviewer",
+      "ownerRole": "QA plus a learner reviewer",
+      "status": "OPEN",
+      "acceptance": "Complete a meaningful diagnostic with enough distinct reviewed items.",
+      "receipts": []
+    },
+    {
+      "id": "JNY-04",
+      "section": "13. Final acceptance journey \u2014 QA plus a learner reviewer",
+      "ownerRole": "QA plus a learner reviewer",
+      "status": "OPEN",
+      "acceptance": "See strengths, weaknesses and unassessed concepts with their supporting evidence.",
+      "receipts": []
+    },
+    {
+      "id": "JNY-05",
+      "section": "13. Final acceptance journey \u2014 QA plus a learner reviewer",
+      "ownerRole": "QA plus a learner reviewer",
+      "status": "OPEN",
+      "acceptance": "Enter availability and an assessment/deadline; receive a feasible, explained plan.",
+      "receipts": []
+    },
+    {
+      "id": "JNY-06",
+      "section": "13. Final acceptance journey \u2014 QA plus a learner reviewer",
+      "ownerRole": "QA plus a learner reviewer",
+      "status": "OPEN",
+      "acceptance": "Search for a concept immediately using the bar and Cmd/Ctrl+K, then open the correct result.",
+      "receipts": []
+    },
+    {
+      "id": "JNY-07",
+      "section": "13. Final acceptance journey \u2014 QA plus a learner reviewer",
+      "ownerRole": "QA plus a learner reviewer",
+      "status": "OPEN",
+      "acceptance": "Learn from approved content and use a tutor mode without losing context or bypassing the intended attempt.",
+      "receipts": []
+    },
+    {
+      "id": "JNY-08",
+      "section": "13. Final acceptance journey \u2014 QA plus a learner reviewer",
+      "ownerRole": "QA plus a learner reviewer",
+      "status": "OPEN",
+      "acceptance": "Answer practice questions and complete a timed exam session with refresh/resume.",
+      "receipts": []
+    },
+    {
+      "id": "JNY-09",
+      "section": "13. Final acceptance journey \u2014 QA plus a learner reviewer",
+      "ownerRole": "QA plus a learner reviewer",
+      "status": "OPEN",
+      "acceptance": "Receive correct, appropriately qualified feedback and exactly one evidence update per submission.",
+      "receipts": []
+    },
+    {
+      "id": "JNY-10",
+      "section": "13. Final acceptance journey \u2014 QA plus a learner reviewer",
+      "ownerRole": "QA plus a learner reviewer",
+      "status": "OPEN",
+      "acceptance": "Save a mistake, record corrected reasoning and perform a later retry.",
+      "receipts": []
+    },
+    {
+      "id": "JNY-11",
+      "section": "13. Final acceptance journey \u2014 QA plus a learner reviewer",
+      "ownerRole": "QA plus a learner reviewer",
+      "status": "OPEN",
+      "acceptance": "Create/edit a note, import supported material, generate revision cards/questions and retrieve them later.",
+      "receipts": []
+    },
+    {
+      "id": "JNY-12",
+      "section": "13. Final acceptance journey \u2014 QA plus a learner reviewer",
+      "ownerRole": "QA plus a learner reviewer",
+      "status": "OPEN",
+      "acceptance": "Complete Focus with task, breaks and notes; pause/play a game without disturbing study state.",
+      "receipts": []
+    },
+    {
+      "id": "JNY-13",
+      "section": "13. Final acceptance journey \u2014 QA plus a learner reviewer",
+      "ownerRole": "QA plus a learner reviewer",
+      "status": "OPEN",
+      "acceptance": "Return the following day and on another device; see the right progress, due reviews, saved work and conversation history. Test offline continuation and reconnection.",
+      "receipts": []
+    },
+    {
+      "id": "JNY-14",
+      "section": "13. Final acceptance journey \u2014 QA plus a learner reviewer",
+      "ownerRole": "QA plus a learner reviewer",
+      "status": "OPEN",
+      "acceptance": "Switch accounts and prove no data leaks; export and delete the disposable account and verify downstream cleanup.",
+      "receipts": []
+    },
+    {
+      "id": "JNY-15",
+      "section": "13. Final acceptance journey \u2014 QA plus a learner reviewer",
+      "ownerRole": "QA plus a learner reviewer",
+      "status": "OPEN",
+      "acceptance": "Complete a continuous two-hour realistic study session without dead controls, unexplained dashboards, blocking layout failures, unhandled errors or lost work. Retest every defect found by the reviewer.",
+      "receipts": []
+    },
+    {
+      "id": "REL-01",
+      "section": "14. Close the release \u2014 accountable release owner",
+      "ownerRole": "accountable release owner",
+      "status": "OPEN",
+      "acceptance": "All mandatory gates above are evidenced; no failed, blocked, unverified or deferred item remains. Conditional billing/A-Level decisions are recorded and reflected in the actual interface and claims.",
+      "receipts": []
+    },
+    {
+      "id": "REL-02",
+      "section": "14. Close the release \u2014 accountable release owner",
+      "ownerRole": "accountable release owner",
+      "status": "OPEN",
+      "acceptance": "Final candidate installation, CI, database replay/contracts, browser/accessibility suite, live AI evaluation and content approval all pass. Archive failures and fixes as well as final passes; do not weaken checks or fabricate evidence.",
+      "receipts": []
+    },
+    {
+      "id": "REL-03",
+      "section": "14. Close the release \u2014 accountable release owner",
+      "ownerRole": "accountable release owner",
+      "status": "OPEN",
+      "acceptance": "Production domain, readiness, exact revision, real-account journeys, two-account isolation, monitoring and recovery all have current receipts for the same release.",
+      "receipts": []
+    },
+    {
+      "id": "REL-04",
+      "section": "14. Close the release \u2014 accountable release owner",
+      "ownerRole": "accountable release owner",
+      "status": "OPEN",
+      "acceptance": "Reconcile older audit/checklist/status documents to the final evidence. Confirm the shipped surface matches the requirement matrix and that no hidden backlog is being called complete.",
+      "receipts": []
+    },
+    {
+      "id": "REL-05",
+      "section": "14. Close the release \u2014 accountable release owner",
+      "ownerRole": "accountable release owner",
+      "status": "OPEN",
+      "acceptance": "Record an explicit GO decision, release owner, deployment URL/SHA, migration/content versions, rollback target and evidence index. If any required proof is absent, retain NO-GO.",
+      "receipts": []
+    },
+    {
+      "id": "EXT-01",
+      "section": "Retained earlier expansion work: explicit scope decisions required",
+      "ownerRole": "release/product owner",
+      "status": "OPEN",
+      "acceptance": "Resolve teacher/tutor confirmation roles, immutable confirmation records, revocation and audit history (VX-502); include the live role/forgery matrix if offered. Existing learner-attested evidence must never be described as teacher verification.",
+      "receipts": []
+    },
+    {
+      "id": "EXT-02",
+      "section": "Retained earlier expansion work: explicit scope decisions required",
+      "ownerRole": "release/product owner",
+      "status": "OPEN",
+      "acceptance": "Resolve private artefact sharing with expiring/revocable links (VX-503), including selected-content export, metadata redaction, enumeration resistance and immediate revocation.",
+      "receipts": []
+    },
+    {
+      "id": "EXT-03",
+      "section": "Retained earlier expansion work: explicit scope decisions required",
+      "ownerRole": "release/product owner",
+      "status": "OPEN",
+      "acceptance": "Resolve invitation-based comments/collaboration and notifications (VX-508), including owner/collaborator/teacher permissions, removal, audit history and notification privacy.",
+      "receipts": []
+    },
+    {
+      "id": "EXT-04",
+      "section": "Retained earlier expansion work: explicit scope decisions required",
+      "ownerRole": "release/product owner",
+      "status": "OPEN",
+      "acceptance": "Resolve a chronological revision history linking note, attempt, feedback, confirmation and retry (VX-501), preserving the evidence status of every event.",
+      "receipts": []
+    },
+    {
+      "id": "EXT-05",
+      "section": "Retained earlier expansion work: explicit scope decisions required",
+      "ownerRole": "release/product owner",
+      "status": "OPEN",
+      "acceptance": "Resolve pre-action quota/usage transparency (VX-507), matching server accounting and reset semantics without promising calls that enforcement rejects; cross-reference AI-06 and PUB-03.",
+      "receipts": []
+    },
+    {
+      "id": "EXT-06",
+      "section": "Retained earlier expansion work: explicit scope decisions required",
+      "ownerRole": "release/product owner",
+      "status": "OPEN",
+      "acceptance": "Close the feedback-to-evaluation maintenance workflow (VX-505): reviewed incorrect-output reports become de-identified regression fixtures only through explicit privacy controls; demonstrate a failure before its fix and a passing regression afterward.",
+      "receipts": []
+    },
+    {
+      "id": "EXT-07",
+      "section": "Retained earlier expansion work: explicit scope decisions required",
+      "ownerRole": "release/product owner",
+      "status": "OPEN",
+      "acceptance": "Add per-candidate route/chunk size deltas and alerts (VX-403) alongside existing frozen budgets; a smaller total bundle must not conceal a critical-route regression.",
+      "receipts": []
+    }
+  ],
+  "historicalSourceManifestCheck": {
+    "manifest": "ci-evidence/learning-os-20260921/source-manifest.json",
+    "filesChecked": 50,
+    "changedFiles": []
+  },
+  "executionReport": "CHECKLIST_EXECUTION_2026-09-27.md",
+  "executionEvidenceIndex": "evidence/checklist-execution-20260927.json",
+  "sourceManifestCheck": {
+    "manifest": "evidence/checklist-execution-20260927.json",
+    "scope": "Runtime, test, migration, evaluation and build inputs; generated revision placeholder excluded as documented.",
+    "fileCount": 1150
+  }
+}

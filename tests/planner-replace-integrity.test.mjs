@@ -129,7 +129,7 @@ test('singleton replacement rejects non-singleton artifact kinds before database
       title: 'Not singleton',
       payload: {},
     }),
-    /Only planner and notebook/,
+    /Only planner, notebook and conversation/,
   );
   assert.equal(calls.length, 0);
 });

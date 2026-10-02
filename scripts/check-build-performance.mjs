@@ -41,10 +41,10 @@ export async function measureBuild({ distDir, html, budgets }) {
   );
   const assetNames = await readdir(resolve(distDir, 'assets'));
   const allJavaScript = await Promise.all(
-    assetNames.filter((name) => name.endsWith('.js')).map((name) => measureFile(distDir, `/assets/${name}`)),
+    assetNames.filter((name) => /\.(?:m?js)$/.test(name)).map((name) => measureFile(distDir, `/assets/${name}`)),
   );
   const sum = (items) => items.reduce((total, item) => total + item.gzipBytes, 0);
-  const initialJavaScript = initial.filter((item) => item.type === 'js');
+  const initialJavaScript = initial.filter((item) => item.type === 'js' || item.type === 'mjs');
   const initialCss = initial.filter((item) => item.type === 'css');
   const metrics = {
     initialJavaScriptGzipBytes: sum(initialJavaScript),

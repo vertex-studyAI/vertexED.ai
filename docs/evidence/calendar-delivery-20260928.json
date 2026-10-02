@@ -1,0 +1,171 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-09-28T06:37:23.481904+00:00",
+  "baseCommit": "4f602538effb0da4019a400238d984948f670517",
+  "status": "LOCAL_FEATURE_VERIFIED_PRODUCTION_BLOCKED",
+  "verification": {
+    "applicationTests": 1280,
+    "calendarUnitTests": 7,
+    "calendarFinalBrowserCases": 12,
+    "combinedPlannerBrowserCasesBeforeSelectCorrection": 21,
+    "copyFindings": 0,
+    "legacyLintWarnings": 2,
+    "database": "unchanged; previous 30 migrations and 69 local assertions remain in feature evidence"
+  },
+  "limits": [
+    "Browser service integrations use controlled account fixtures. Actual calendar-file downloads are exercised.",
+    "No actual calendar-provider import or notification delivery was certified.",
+    "Original interrupted browser failures are retained; final theme controls and 44px selector assertion correct those defects.",
+    "No production merge, domain write or shared database mutation."
+  ],
+  "sources": [
+    {
+      "path": ".github/workflows/ci.yml",
+      "sha256": "8ef2f773e295d73974fc26e84ea2e2bb803838d64cec259213e320aa54d6cf46"
+    },
+    {
+      "path": "src/features/study-calendar/PlannerView.tsx",
+      "sha256": "8f57c844b72bca5fb2c96d2284618ae69196a23236c9b388dbbd9dc5d65b8e35"
+    },
+    {
+      "path": "src/features/study-calendar/components/CalendarExport.tsx",
+      "sha256": "f6fef27cf9e6fdc062e5bcc26815bdcbec2a96c6a215657bf79ca25207ae1167"
+    },
+    {
+      "path": "src/features/study-calendar/styles/planner.css",
+      "sha256": "978ba01a0835d618ae25f1e340783fe11066c28edd9ce766766dbb02f96c4e05"
+    },
+    {
+      "path": "src/lib/plannerCalendar.mjs",
+      "sha256": "6a53b669e3e6e7d71461b830ddcfe91dd0814909cc7f9c8a8babd3cbbc136a67"
+    },
+    {
+      "path": "src/pages/resources/AIStudyPlanner.tsx",
+      "sha256": "ab6c41e8bb9e950b06291485507fbe42008159c47b1f26e363eb21b62751ea80"
+    },
+    {
+      "path": "tests/planner-calendar.test.mjs",
+      "sha256": "e491ee6963762e9cd974a9f0d2a4726851349c3ecb3cb81a95e7d4718e21a90a"
+    },
+    {
+      "path": "e2e/learning-os.spec.ts",
+      "sha256": "fe5a1203214fcdc7d53ab7f340fe2f3cdc035a53bede65d115ed8eff1d9eb6de"
+    }
+  ],
+  "receipts": [
+    {
+      "path": "ci-evidence/conversations-20260927/calendar-app-tests.log",
+      "sha256": "2f454bbb12514b015a2f35344b043b72f086cf0f0bbd187fe74384618c4801dc"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/calendar-lint-final.log",
+      "sha256": "cdb2930d5889bf5c9ef95df2f70f31d2da377f2fb9a023d653c6524c47d84c21"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/calendar-typecheck.log",
+      "sha256": "18613ddbee6bb1383ee22d4a41b90885223169ef27a680cb63aac1cdd738279f"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/calendar-build.log",
+      "sha256": "5a6f200a62e7fd75ee555f01037a1364ebed28accf3f8b8e4b9fb4c6957556cf"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/calendar-performance.log",
+      "sha256": "480a26d325902eb69fa83cd17ba14fdfef98a0e630e9d012d3509e4a061dd755"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/calendar-corrected.log",
+      "sha256": "a0e6fe658a7a1186acdbdc31b2c0e6950491d994e00b0f6132f98ea02432eabb"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/calendar-final.log",
+      "sha256": "557b2dd5c01e88dd162954b1d3a344926fbc470e04fd96863cdc481fd61bd96d"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/calendar-verified.log",
+      "sha256": "93c60bf0daadfaea34f8aef8a5cfb9359ef7e50df40b0a225b1c28fd2f4bb9fc"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/calendar-gitleaks.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    }
+  ],
+  "captures": [
+    {
+      "path": "ci-evidence/conversations-20260927/calendar-verified/learning-os-planner-calend-39dd8-inders-and-keyboard-at-1024-chromium/calendar-1024-dark.png",
+      "sha256": "4d2a702aa8caa4349beea302fb644dadf6c4abae73e4915d35b9a4ba4c5f53cd"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/calendar-verified/learning-os-planner-calend-39dd8-inders-and-keyboard-at-1024-chromium/calendar-1024-light.png",
+      "sha256": "40b41f67a63e2c2331530d8d77b73985e62612d9296127b60854fca8e53f8a69"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/calendar-verified/learning-os-planner-calend-39dd8-inders-and-keyboard-at-1024-firefox/calendar-1024-dark.png",
+      "sha256": "f22fd837284e4110b1efe43a5eca67398e7433257473eff89f9f0b4328072c45"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/calendar-verified/learning-os-planner-calend-39dd8-inders-and-keyboard-at-1024-firefox/calendar-1024-light.png",
+      "sha256": "8ad883848846da777e3cbb056a04863848d20fa46a5fad3447b1d081510a032b"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/calendar-verified/learning-os-planner-calend-39dd8-inders-and-keyboard-at-1024-webkit/calendar-1024-dark.png",
+      "sha256": "3112c5f09c0481e13e4c81aca2e8b24db821ca459f862f12777ff86d6959e385"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/calendar-verified/learning-os-planner-calend-39dd8-inders-and-keyboard-at-1024-webkit/calendar-1024-light.png",
+      "sha256": "6d214888884409ebe8dbb4ab3df2b99a74d50b6b4738c97fca8b0765dae01e5c"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/calendar-verified/learning-os-planner-calend-508d0-minders-and-keyboard-at-390-chromium/calendar-390-dark.png",
+      "sha256": "7f9a49d2ba3761670891748c8f0e9849970945aba4400eb07dbbafa5c682affe"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/calendar-verified/learning-os-planner-calend-508d0-minders-and-keyboard-at-390-chromium/calendar-390-light.png",
+      "sha256": "b9ebaf4009a61f3732468336f543eedb76bf66fb90ce5194645dddfad637f80a"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/calendar-verified/learning-os-planner-calend-508d0-minders-and-keyboard-at-390-firefox/calendar-390-dark.png",
+      "sha256": "b62a0c154e80bf9644fbb351273127ab55d21a5e39332ca686c4a33b15b7cf66"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/calendar-verified/learning-os-planner-calend-508d0-minders-and-keyboard-at-390-firefox/calendar-390-light.png",
+      "sha256": "1eea978170e21310263cb4f27f9fa46ac0f2c12718ad9a5cd4b6a1432c045e8a"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/calendar-verified/learning-os-planner-calend-508d0-minders-and-keyboard-at-390-webkit/calendar-390-dark.png",
+      "sha256": "2d3725d70bd3a081af72d6b1c3958e772cd6790fc96d08696c2505daf04b67eb"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/calendar-verified/learning-os-planner-calend-508d0-minders-and-keyboard-at-390-webkit/calendar-390-light.png",
+      "sha256": "a3c828cb41a3eb4814d746e315385972054e07d5c9f5a40aace11be2e264d19c"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/calendar-verified/learning-os-planner-calend-6570e-inders-and-keyboard-at-1440-chromium/calendar-1440-dark.png",
+      "sha256": "8f96e07e5c7472395b83bb816fda0faa2f5b3fb4bd9a882d8a6fc0c27d460c64"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/calendar-verified/learning-os-planner-calend-6570e-inders-and-keyboard-at-1440-chromium/calendar-1440-light.png",
+      "sha256": "1ffce4ec5c14139e8b265319adc80d834cdaac0793a1f8a704cb9870a58006e4"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/calendar-verified/learning-os-planner-calend-6570e-inders-and-keyboard-at-1440-firefox/calendar-1440-dark.png",
+      "sha256": "729eda2487474765feca1f311def77169db1b6b92a80facd4457eb9cba943423"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/calendar-verified/learning-os-planner-calend-6570e-inders-and-keyboard-at-1440-firefox/calendar-1440-light.png",
+      "sha256": "15fc08998324a0ef7d0eccfa619ea5f01171c2f9a305da017d134389e5b6b469"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/calendar-verified/learning-os-planner-calend-6570e-inders-and-keyboard-at-1440-webkit/calendar-1440-dark.png",
+      "sha256": "48cf7b6d8667943fec4be99c388387f9a16f61add4ea93f85b3e577b517ee455"
+    },
+    {
+      "path": "ci-evidence/conversations-20260927/calendar-verified/learning-os-planner-calend-6570e-inders-and-keyboard-at-1440-webkit/calendar-1440-light.png",
+      "sha256": "2070f16857f0cb3afb5ce2093fadc832cce16762bca818c2fb363cab1a16217e"
+    }
+  ],
+  "retainedFailures": [
+    "calendar-browser.log",
+    "calendar-theme-final.log"
+  ]
+}

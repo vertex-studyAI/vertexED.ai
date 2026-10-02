@@ -1,4 +1,4 @@
-/* Entire legacy file replaced by modern aesthetic; see new definitions below */
+/* Calendar, agenda, workload and task editor share the product reading surfaces. */
 @media (prefers-reduced-motion: reduce) { .calendar *, .schedule-container *, .planner-new, .planner-today, .task { transition: none !important; animation: none !important; } }
 
 /* Calendar */
@@ -17,49 +17,6 @@
 .calendar-day.previous-month, .calendar-day.next-month { color: hsl(var(--foreground) / 0.35); }
 .calendar-day.previous-month:hover, .calendar-day.next-month:hover { background:hsl(var(--primary) / 0.1); }
 .calendar-day.accent::after { content:""; position:absolute; inset:-2px; border-radius:12px; border:2px solid hsl(var(--foreground) / 0.3); pointer-events:none; }
-
-/* Week tabs */
-.tabs-container { position: absolute; top: 13.5%; left: 33.58%; width: 77.5%; display: flex; justify-content: space-between; z-index: 0; }
-.tabs { position: absolute; transform: translateX(-50%); color: hsl(var(--foreground)); font-family: "Bree Serif", serif; }
-
-/* Schedule */
-.schedule-container { width: 77.5%; height: 82.5%; overflow-y: scroll; display: flex; flex-direction: column; border: 1px solid hsl(var(--border) / 0.6); border-radius: 24px; scrollbar-width: none; box-shadow: var(--shadow-soft); background: var(--gradient-surface); left: 21.25%; top: 14.5%; position: absolute; z-index: 1; backdrop-filter: saturate(130%) blur(2px); font-family:'Sen',sans-serif; }
-.schedule-container::-webkit-scrollbar { width: 0; height:0; }
-.time-slot { flex: 0 0 calc(100% / 10); border-bottom: 1px solid hsl(var(--foreground) / 0.12); display: flex; align-items: center; padding: 0 .95rem; font-family:'Sen',Helvetica,Arial,sans-serif; font-weight:500; color: hsl(var(--foreground) / 0.72); font-size:.76rem; letter-spacing:.25px; }
-.time-slot .period { font-size: 0.75rem; margin-left: 0.25rem; }
-.current-time-line { position: absolute; left: 0; right: 0; height: 2px; background: linear-gradient(90deg,hsl(var(--primary)),hsl(var(--accent))); z-index: 2; box-shadow:0 0 0 1px hsl(var(--primary) / 0.4),0 0 10px -2px hsl(var(--primary) / 0.6); }
-.time-slot:last-child { border-bottom: none; }
-
-/* Mobile-only variable-based timeline for Day view */
-
-@media (max-width:900px) {
-	:root { --hour-height: 72px; --time-gutter: 4.05rem; }
-	.schedule-container.mobile.day-view { position: relative; overflow-y:auto; /* remove padding-left so gutter is free */ padding:0 0.75rem 0 0; scrollbar-width: none; }
-	.schedule-container.mobile.day-view::-webkit-scrollbar { width:0; height:0; }
-	/* Timeline + time gutter */
-	.timeline { position:absolute; inset:0 0 0 0; pointer-events:none; }
-	.timeline-row { position:relative; height: var(--hour-height); display:flex; align-items:flex-start; }
-	/* Visible time gutter using absolute labels area */
-	.tl-label { position:absolute; left:0; width:calc(var(--time-gutter) - 0.4rem); text-align:right; padding-right:.4rem; top:4px; font-size:.62rem; font-weight:600; letter-spacing:.5px; color:hsl(var(--foreground)/0.55); text-transform:lowercase; z-index:6; }
-	/* Add faint vertical separator for gutter */
-	.timeline-row::before { content:""; position:absolute; left:0; top:0; bottom:0; width:1px; background:hsl(var(--foreground)/0.15); }
-	.tl-label .period { font-size:.55rem; margin-left:2px; opacity:.6; }
-	.tl-line { position:absolute; left:0; right:0; top:0; height:1px; background:hsl(var(--foreground)/0.14); }
-	.now-marker { position:absolute; left:0; right:0; height:2px; background:linear-gradient(90deg,hsl(var(--primary)),hsl(var(--accent))); box-shadow:0 0 0 1px hsl(var(--primary)/0.4),0 0 10px -2px hsl(var(--primary)/0.6); z-index:6; }
-	/* Mobile striped task - higher specificity so it beats .task */
-	.schedule-container.mobile.day-view .task.task-day { position:absolute; left:var(--time-gutter); right:0.35rem; width:auto; display:flex; justify-content:center; align-items:center; text-align:center; padding:.45rem .65rem; font-size:.68rem; }
-	/* (Removed duplicate padding-left override to preserve gutter) */
-}
-@media (max-width:520px) { :root { --hour-height: 64px; } .task-day { font-size:.62rem; } }
-
-/* Tasks */
-.task { position: absolute; border: 1.5px solid hsl(var(--primary) / 0.4); box-sizing: border-box; width: 91.67%; border-radius: 14px; font-family:'Sen',Helvetica,Arial,sans-serif; font-weight:600; left: 7.82%; z-index: 5; display: flex; justify-content: center; align-items: center; text-align: center; color: hsl(var(--foreground)); backdrop-filter: blur(10px); background: linear-gradient(145deg,hsl(var(--primary) / 0.18),hsl(var(--accent) / 0.18)); font-size:.73rem; line-height:1.2; padding: .3rem .55rem; box-shadow:0 4px 14px -4px hsl(var(--primary) / 0.5), 0 2px 6px hsl(var(--primary) / 0.25); transition: transform .4s cubic-bezier(.22,1,.36,1), box-shadow .4s, background .4s; letter-spacing:.3px; }
-.task:hover { transform: translateY(-2px) scale(1.02); box-shadow:0 10px 32px -8px hsl(var(--primary) / 0.55), 0 4px 10px hsl(var(--primary) / 0.35); background: linear-gradient(145deg,hsl(var(--primary) / 0.28),hsl(var(--accent) / 0.25)); }
-.task:focus-visible { outline:3px solid hsl(var(--ring)); outline-offset:2px; }
-.complete-task-button { position: absolute; left: 6px; top: 6px; background: hsl(var(--background)); color: hsl(var(--foreground) / 0.8); border: 1px solid hsl(var(--foreground) / 0.25); border-radius: 6px; padding: 2px 6px; cursor: pointer; font-size:.63rem; font-weight:600; line-height:1; transition: background .25s, color .25s, transform .25s; font-family:inherit; }
-.complete-task-button:hover { background:hsl(var(--primary)); color:hsl(var(--foreground)); }
-.complete-task-button:focus-visible { outline:2px solid hsl(var(--ring)); outline-offset:2px; }
-.week-divider { position: absolute; top: 0; bottom: 0; width: 1px; background-color: hsl(var(--foreground) / 0.2); z-index: 1; }
 
 /* Time left widget */
 .time-left-widget { position: absolute; left: 1%; top: 75%; width: 18%; padding: 0.9rem .95rem 1rem; border-radius: 16px; border: 1px solid hsl(var(--border) / 0.6); background: var(--gradient-surface); box-shadow: var(--shadow-soft); z-index: 9998; display:flex; flex-direction:column; gap:.65rem; font-family:'Sen',sans-serif; }
@@ -169,22 +126,60 @@
 .planner-entry-modes button[aria-pressed="true"] { background: hsl(var(--primary)); color: hsl(var(--primary-foreground)); border-color: hsl(var(--primary)); }
 .planner-task-form { display: flex; flex-direction: column; gap: 8px; }
 .planner-task-form label { display: flex; flex-direction: column; gap: 8px; font-size: 14px; font-weight: 550; min-width: 0; }
-.planner-task-form input { box-sizing: border-box; width: 100%; min-width: 0; min-height: 44px; padding: 10px 12px; border: 1px solid hsl(var(--border)); border-radius: 8px; background: hsl(var(--background)); color: hsl(var(--foreground)); font-size: 16px; }
+.planner-task-form input, .planner-task-form select { box-sizing: border-box; width: 100%; min-width: 0; min-height: 44px; padding: 10px 12px; border: 1px solid hsl(var(--border)); border-radius: 8px; background: hsl(var(--background)); color: hsl(var(--foreground)); font-size: 16px; }
 .planner-task-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; }
 .planner-task-form .planner-form-hint { font-size: 14px; color: hsl(var(--muted-foreground)); }
 .planner-dialog-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; margin-top: 8px; }
 .planner-form-error { border-left: 3px solid hsl(var(--destructive)); padding-left: 12px; }
 .planner-message { margin: 16px; padding: 12px 16px; border-left: 3px solid hsl(var(--primary)); font-size: 16px; }
-.planner-task-dialog :is(input, button):focus-visible { outline: 2px solid hsl(var(--primary)); outline-offset: 3px; }
-.popup.planner-task-dialog, .planner-task-dialog input, .planner-task-dialog button { font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
+.planner-task-dialog :is(input, select, button):focus-visible { outline: 2px solid hsl(var(--primary)); outline-offset: 3px; }
+.popup.planner-task-dialog, .planner-task-dialog input, .planner-task-dialog select, .planner-task-dialog button { font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
 .planner-task-dialog button { min-height: 44px; font-size: 14px; border-radius: 8px; }
 .planner-task-dialog .planner-new { background: hsl(var(--primary)); color: hsl(var(--primary-foreground)); }
 .planner-task-dialog button:disabled { opacity: .55; cursor: not-allowed; }
-.dark .planner-task-dialog input { color-scheme: dark; }
-.light .planner-task-dialog input { color-scheme: light; }
+.dark .planner-task-dialog :is(input, select) { color-scheme: dark; }
+.light .planner-task-dialog :is(input, select) { color-scheme: light; }
 .planner-jump-now { margin: 0 16px 12px; }
 @media (max-width: 480px) {
   .popup.planner-task-dialog { padding: 20px; }
   .planner-task-fields { grid-template-columns: 1fr; }
   .planner-dialog-heading h2 { font-size: 22px; }
 }
+
+/* Bounded availability controls use the existing planner form surfaces. */
+.planner-capacity-fields { display:grid; gap:.75rem; border:1px solid hsl(var(--border)); padding:1rem; border-radius:.75rem; min-width:0; }
+.planner-capacity-fields label { display:grid; gap:.35rem; }
+.planner-capacity-fields input, .planner-capacity-fields select { min-height:44px; max-width:100%; min-width:0; padding:.5rem; color:hsl(var(--foreground)); background:hsl(var(--background)); border:1px solid hsl(var(--border)); border-radius:.5rem; }
+.planner-check { display:flex!important; flex-direction:row!important; align-items:center; gap:.6rem; }
+.planner-check input[type=checkbox] { width:20px; min-height:20px; flex-shrink:0; }
+.planner-workload p { margin:.5rem 0; }
+.planner-workload li { margin:.4rem 0; overflow-wrap:anywhere; }
+
+/* All planner surfaces participate in document flow; no viewport overlays. */
+.planner-root { width:100%; min-width:0; padding:1rem; }
+.planner-header { position:static; width:100%; padding:0; grid-template-columns:minmax(0,1fr) auto auto; }
+.planner-header .planner-actions { grid-column:1/-1; flex-wrap:wrap; }
+.planner-calendar-layout { display:grid; grid-template-columns:minmax(260px,320px) minmax(0,1fr); gap:1.5rem; align-items:start; margin:1rem 0; }
+.planner-root .calendar { position:static; width:100%; z-index:auto; background:hsl(var(--background)); }
+.planner-root .calendar-day, .planner-root .calendar-arrow { min-height:40px; }
+.planner-root .calendar-grid { gap:2px; padding:8px; }
+.planner-root .time-left-widget { position:static; width:100%; z-index:auto; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); margin-top:1.5rem; }
+.planner-root .planner-today, .planner-root .planner-new, .planner-root .planner-select { min-height:44px; font-size:.875rem; }
+.planner-agenda { min-width:0; display:grid; gap:1rem; }
+.planner-agenda-day { border:1px solid hsl(var(--border)); border-radius:12px; padding:1rem; background:hsl(var(--background)); }
+.planner-agenda-day h2 { font-size:1.1rem; font-weight:650; margin-bottom:.75rem; }
+.planner-agenda-task { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:1rem; padding:1rem 0; border-top:1px solid hsl(var(--border)); overflow-wrap:anywhere; }
+.planner-agenda-task h3 { font-weight:650; margin:.3rem 0; }
+.planner-agenda-time { font-size:.875rem; color:hsl(var(--muted-foreground)); }
+.planner-agenda-actions { display:flex; gap:.5rem; flex-wrap:wrap; }
+@media(max-width:900px) {
+  .planner-calendar-layout { grid-template-columns:minmax(0,1fr); gap:1rem; }
+  .planner-header { grid-template-columns:minmax(0,1fr); }
+  .planner-root { padding:.5rem; }
+  .planner-root .time-left-widget { grid-template-columns:1fr; }
+  .planner-root .planner-workload { margin-inline:0; }
+}
+
+@media(prefers-reduced-motion:reduce) { .popup.planner-task-dialog, .planner-root * { animation:none!important; transition:none!important; } }
+body:has(.planner-root) .vee-launcher { position:relative!important; inset:auto!important; transform:none!important; margin:16px 24px 16px auto; display:flex; max-width:130px; }
+body:has(.planner-root) .feedback-launcher { position:static!important; }

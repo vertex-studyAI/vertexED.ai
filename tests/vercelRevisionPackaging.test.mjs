@@ -55,7 +55,7 @@ test('Vercel catch-all function packages every study-guide curriculum', async ()
   const fn = config.functions?.['api/[[...path]].js'];
   assert.ok(fn, 'catch-all Vercel function config must exist');
   assert.equal(typeof fn.includeFiles, 'string');
-  assert.equal(fn.includeFiles, 'public/study-guides/**');
+  assert.equal(fn.includeFiles, '{public/study-guides/**,api/_workers/**,node_modules/pdfjs-dist/**,node_modules/@napi-rs/canvas*/**}');
 });
 
 test('health handler directly imports the generated revision module for function tracing', async () => {
