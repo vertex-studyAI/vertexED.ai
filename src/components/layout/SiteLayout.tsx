@@ -16,6 +16,7 @@ import { toast } from "@/hooks/use-toast";
 import { logoutWithLocalFallback } from "@/lib/logoutFlow.mjs";
 import { authUiError } from "@/lib/authUi.mjs";
 import { shouldOfferApex } from "@/lib/apexRoute.mjs";
+import { PUBLIC_INTAKE_ROUTES } from "@/lib/intakeRoutes.mjs";
 import '@/styles/navigation.css';
 
 const GlobalChatPanel = lazy(() => import("@/components/chat/GlobalChatPanel"));
@@ -395,6 +396,12 @@ export default function SiteLayout() {
                 <Link to="/terms" className="hover:text-foreground transition">Terms</Link>
                 <Link to="/login" className="hover:text-foreground transition">Login</Link>
               </>
+            )}
+            <a href={PUBLIC_INTAKE_ROUTES.support} className="hover:text-foreground transition">Support</a>
+            <a href={PUBLIC_INTAKE_ROUTES.privacyRequest} className="hover:text-foreground transition">Privacy request</a>
+            <a href={PUBLIC_INTAKE_ROUTES.security} className="hover:text-foreground transition">Security</a>
+            {!isAuthenticated && (
+              <a href={PUBLIC_INTAKE_ROUTES.schoolPilot} className="hover:text-foreground transition">School pilot</a>
             )}
             <a href="mailto:vertexed.25@gmail.com" className="hover:text-foreground transition">Contact</a>
             {companionEligible && (
