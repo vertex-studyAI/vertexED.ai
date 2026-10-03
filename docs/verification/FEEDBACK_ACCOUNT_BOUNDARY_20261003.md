@@ -11,7 +11,7 @@
 
 `FeedbackLauncher` is mounted above account changes. Before this patch, an unsent note and its category/rating remained in component state after sign-out, so a later account on the same mounted application could reopen the previous learner's draft. A delayed insert completion could also close or toast inside the next account's UI.
 
-The repair clears the form whenever `user.id` changes and binds each async submission to a monotonic account scope. An account switch or sign-out invalidates the old token before its promise continuation may update analytics, form state, submission state, or toasts. The database row uses the captured account ID rather than a later render's identity.
+The repair clears the form whenever `user.id` changes, suppresses the launcher during the intervening pre-effect render so stale text is never painted, and binds each async submission to a monotonic account scope. An account switch or sign-out invalidates the old token before its promise continuation may update analytics, form state, submission state, or toasts. The database row uses the captured account ID rather than a later render's identity.
 
 ## Verification
 
