@@ -1,10 +1,11 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { MessageSquare, X } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/lib/supabaseClient";
 import { trackProductEvent } from "@/lib/productAnalytics.mjs";
 import AccessibleModal from "@/components/AccessibleModal";
+import { createAccountOperationScope } from "@/lib/accountOperationScope.mjs";
 import {
   buildFeedbackAnalyticsProperties,
   normalizeProductFeedback,
@@ -30,11 +31,25 @@ export default function FeedbackLauncher() {
   const [feedback, setFeedback] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  const feedbackScopeRef = useRef(createAccountOperationScope(user?.id ?? null));
+  feedbackScopeRef.current.bind(user?.id ?? null);
+
+  useEffect(() => {
+    setOpen(false);
+    setCategory("idea");
+    setRating("");
+    setFeedback("");
+    setSubmitting(false);
+  }, [user?.id]);
 
   if (!user) return null;
 
   const submitFeedback = async () => {
     if (!supabase || submitting) return;
+
+    const submissionScope = feedbackScopeRef.current;
+    const submissionToken = submissionScope.capture(user.id);
+    if (!submissionToken) return;
 
     const normalized = normalizeProductFeedback({
       category,
@@ -55,9 +70,10 @@ export default function FeedbackLauncher() {
     setSubmitting(true);
     try {
       const { error } = await supabase.from("product_feedback").insert({
-        user_id: user.id,
+        user_id: submissionToken.accountId,
         ...normalized.data,
       });
+      if (!submissionScope.isCurrent(submissionToken)) return;
       if (error) throw error;
 
       trackProductEvent(
@@ -74,13 +90,14 @@ export default function FeedbackLauncher() {
         description: "Your note is tied to your account for follow-up, but its text is not sent to product analytics.",
       });
     } catch {
+      if (!submissionScope.isCurrent(submissionToken)) return;
       toast({
         title: "Feedback was not saved",
         description: "Please try again. Your note stays in this form until submission succeeds.",
         variant: "destructive",
       });
     } finally {
-      setSubmitting(false);
+      if (submissionScope.isCurrent(submissionToken)) setSubmitting(false);
     }
   };
 
