@@ -1,0 +1,73 @@
+name: Revision validation focused
+
+on:
+  pull_request:
+    branches: [automation/revision-evidence-core-20261002]
+    paths:
+      - src/lib/revisionEvidence.mjs
+      - tests/revision-evidence.test.mjs
+      - tests/revision-validation-boundary.test.mjs
+      - .github/workflows/revision-validation-focused.yml
+
+permissions:
+  contents: read
+
+concurrency:
+  group: revision-validation-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  revision-validation-node22:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    env:
+      SOURCE_SHA: ${{ github.event.pull_request.head.sha }}
+      BASE_SHA: 572dd3a87e071d4ad41f2ee112923f2a18fe97be
+    steps:
+      - name: Checkout exact source
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          ref: ${{ env.SOURCE_SHA }}
+          persist-credentials: false
+      - name: Setup supported Node
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: '22.22.0'
+      - name: Verify source and baseline identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$SOURCE_SHA"
+          test "$(node --version)" = "v22.22.0"
+          git fetch --no-tags --depth=1 origin "$BASE_SHA"
+          test "$(git rev-parse "$BASE_SHA:src/lib/revisionEvidence.mjs")" = "90531dccdee66fd6a74b2ea0d8fe2d7fb30245e0"
+      - name: Reproduce baseline failures
+        shell: bash
+        run: |
+          set -euo pipefail
+          baseline_dir="$(mktemp -d "$RUNNER_TEMP/revision-baseline.XXXXXX")"
+          trap 'rm -rf "$baseline_dir"' EXIT
+          mkdir -p "$baseline_dir/src/lib" "$baseline_dir/tests"
+          git show "$BASE_SHA:src/lib/revisionEvidence.mjs" > "$baseline_dir/src/lib/revisionEvidence.mjs"
+          cp tests/revision-evidence.test.mjs tests/revision-validation-boundary.test.mjs "$baseline_dir/tests/"
+          set +e
+          node --test "$baseline_dir/tests/revision-evidence.test.mjs" "$baseline_dir/tests/revision-validation-boundary.test.mjs" > "$RUNNER_TEMP/revision-before.tap" 2>&1
+          result=$?
+          set -e
+          cat "$RUNNER_TEMP/revision-before.tap"
+          test "$result" -eq 1
+          grep -qx '# tests 20' "$RUNNER_TEMP/revision-before.tap"
+          grep -qx '# pass 12' "$RUNNER_TEMP/revision-before.tap"
+          grep -qx '# fail 8' "$RUNNER_TEMP/revision-before.tap"
+      - name: Verify repaired source
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$SOURCE_SHA"
+          node --check src/lib/revisionEvidence.mjs
+          node --test tests/revision-evidence.test.mjs tests/revision-validation-boundary.test.mjs | tee "$RUNNER_TEMP/revision-after.tap"
+          grep -qx '# tests 20' "$RUNNER_TEMP/revision-after.tap"
+          grep -qx '# pass 20' "$RUNNER_TEMP/revision-after.tap"
+          grep -qx '# fail 0' "$RUNNER_TEMP/revision-after.tap"
+          grep -qx '# skipped 0' "$RUNNER_TEMP/revision-after.tap"
+          printf '## Exact-head focused verification\n\nSource: `%s`\n\nNode: `%s`\n\nBaseline: 12 passed / 8 failed. Repaired: 20 passed / 0 failed / 0 skipped.\n\nIncludes 13,020 deterministic calendar inputs; no data, application dependencies, paid APIs or protected experiments. Full app/browser/production checks remain separate.\n' "$SOURCE_SHA" "$(node --version)" >> "$GITHUB_STEP_SUMMARY"
