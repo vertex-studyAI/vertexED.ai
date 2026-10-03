@@ -30,6 +30,7 @@ export default function FeedbackLauncher() {
   const [rating, setRating] = useState<number | "">("");
   const [feedback, setFeedback] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [formAccountId, setFormAccountId] = useState<string | null>(user?.id ?? null);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const feedbackScopeRef = useRef(createAccountOperationScope(user?.id ?? null));
   feedbackScopeRef.current.bind(user?.id ?? null);
@@ -40,9 +41,12 @@ export default function FeedbackLauncher() {
     setRating("");
     setFeedback("");
     setSubmitting(false);
+    setFormAccountId(user?.id ?? null);
   }, [user?.id]);
 
-  if (!user) return null;
+  // Effects clear the form after commit. Suppress the launcher during the
+  // intervening account-change render so stale draft text is never painted.
+  if (!user || formAccountId !== user.id) return null;
 
   const submitFeedback = async () => {
     if (!supabase || submitting) return;
