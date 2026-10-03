@@ -46,6 +46,11 @@ test("the launcher clears unsent account-bound form state on identity change", (
   assert.match(effect, /setRating\(""\)/);
   assert.match(effect, /setCategory\("idea"\)/);
   assert.match(effect, /setSubmitting\(false\)/);
+  assert.match(effect, /setFormAccountId\(user\?\.id \?\? null\)/);
+  assert.match(
+    launcherSource,
+    /if \(!user \|\| formAccountId !== user\.id\) return null;/,
+  );
 });
 
 test("the feedback row is bound to the captured account token", () => {
