@@ -7,7 +7,7 @@ const askSource = fs.readFileSync('api/_lib/askPrompt.js', 'utf8');
 const guideSource = fs.readFileSync('api/_handlers/study-guide-chat.js', 'utf8');
 
 test('Apex client sends only completed prior turns in history', () => {
-  assert.match(apexHookSource, /const priorHistory: ChatbotMessage\[\] = messages\.map/);
+  assert.match(apexHookSource, /const priorHistory: ChatbotMessage\[\] = currentMessages\.map/);
   assert.doesNotMatch(apexHookSource, /\[\.\.\.messages, userMsg\]\.map/);
   assert.match(apexHookSource, /fetchChatbotAnswer\(\{/);
   assert.match(apexHookSource, /question,/);

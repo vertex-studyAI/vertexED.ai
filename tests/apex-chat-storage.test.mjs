@@ -84,9 +84,7 @@ test('Apex chat save/load/clear uses the safe session boundary', () => {
   assert.deepEqual(loadApexChatMessages(owner, 'key'), []);
 });
 
-test('useApexChat no longer performs direct sessionStorage operations', () => {
-  assert.match(hookSource, /loadApexChatMessages\(window, storageKey\)/);
-  assert.match(hookSource, /saveApexChatMessages\(window, storageKey, messages\)/);
-  assert.match(hookSource, /clearApexChatMessages\(window, storageKey\)/);
+test('useApexChat uses the shared account store and never writes session storage directly', () => {
+  assert.match(hookSource, /getConversationStore\(accountScope\)/);
   assert.doesNotMatch(hookSource, /sessionStorage\.(?:getItem|setItem|removeItem)/);
 });

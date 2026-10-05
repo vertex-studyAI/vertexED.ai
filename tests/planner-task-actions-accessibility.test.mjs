@@ -8,7 +8,7 @@ const source = await readFile(
 );
 
 test("planner schedule exposes its dynamic accessible name on a semantic region", () => {
-  const scheduleStart = source.indexOf('className={`schedule-container');
+  const scheduleStart = source.indexOf('className="planner-agenda"');
   const scheduleEnd = source.indexOf('>', scheduleStart);
   assert.ok(scheduleStart >= 0);
   assert.ok(scheduleEnd > scheduleStart);
@@ -24,10 +24,10 @@ test("planner schedule exposes its dynamic accessible name on a semantic region"
 test("planner task cards expose sibling native actions instead of nested interactive roles", () => {
   assert.doesNotMatch(source, /role="button"/);
   assert.doesNotMatch(source, /tabIndex=\{0\}/);
-  assert.equal(source.match(/role="group"/g)?.length, 3);
-  assert.equal(source.match(/aria-label=\{`\$\{name\} actions`\}/g)?.length, 3);
+  assert.equal(source.match(/role="group"/g)?.length, 1);
+  assert.equal(source.match(/aria-label=\{`\$\{name\} actions`\}/g)?.length, 1);
   assert.match(source, /className="task-edit-button [^"]*focus-visible:ring-2/);
-  assert.match(source, /className="complete-task-button"/);
+  assert.match(source, /onClick=\{\(\) => onTaskComplete\(task.id\)\}/);
 });
 
 test("native edit action keeps activation semantics without accidental Delete completion", () => {
@@ -38,8 +38,9 @@ test("native edit action keeps activation semantics without accidental Delete co
   assert.doesNotMatch(source, /onKeyDown=/);
 });
 
-test("all three planner layouts reuse the same edit and complete control pair", () => {
-  assert.equal(source.match(/renderTaskControls\(task, name, duration, startStr\)/g)?.length, 3);
+test("day and week views share one responsive native-action agenda", () => {
+  assert.match(source, /mode === 'Week' \? 7 : 1/);
+  assert.equal(source.match(/onTaskComplete\(task.id\)/g)?.length, 1);
   assert.match(source, /aria-label=\{`Edit \$\{name\}, starting at \$\{startTime\} for \$\{duration\} minutes`\}/);
   assert.match(source, /aria-label=\{`Mark \$\{name\} complete`\}/);
 });

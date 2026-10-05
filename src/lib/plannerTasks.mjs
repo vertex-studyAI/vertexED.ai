@@ -44,6 +44,15 @@ export function normalizeStoredPlannerTask(raw) {
   const start = plannerTimeToMinutes(raw['start time'] ?? raw.startTime);
   const duration = Number(raw['task duration'] ?? raw.taskDuration);
   if (typeof name !== 'string' || !name.trim() || !Number.isInteger(duration) || duration < 1 || duration > 1440 || start + duration > 1440) throw new Error('A saved task has invalid details.');
+  if (raw.completed !== undefined && typeof raw.completed !== 'boolean') throw new Error('A saved task has an invalid completion status.');
+  if (raw.completedAt !== undefined && (typeof raw.completedAt !== 'string' || !Number.isFinite(Date.parse(raw.completedAt)))) throw new Error('A saved task has an invalid completion date.');
+  if (raw.taskKind !== undefined && !['study', 'commitment'].includes(raw.taskKind)) throw new Error('A saved task has an invalid kind.');
+  if (raw.priority !== undefined && ![1, 2, 3].includes(raw.priority)) throw new Error('A saved task has an invalid priority.');
+  if (raw.dueDate !== undefined && raw.dueDate !== '') inputDateToPlanner(raw.dueDate);
+  if (raw.reschedule) {
+    const from = inputTimeToMinutes(raw.reschedule.from), to = inputTimeToMinutes(raw.reschedule.to);
+    if (from >= to || !Number.isInteger(raw.reschedule.dailyMinutes) || raw.reschedule.dailyMinutes < 15 || raw.reschedule.dailyMinutes > 480 || duration > to - from || duration > raw.reschedule.dailyMinutes) throw new Error('The study window and daily limit must fit this task.');
+  }
   return { ...raw, 'task name': name, date: inputDateToPlanner(plannerDateToInput(raw.date)), 'start time': minutesToPlannerTime(start), 'task duration': duration, 'end time': minutesToPlannerTime(start + duration) };
 }
 
@@ -55,7 +64,7 @@ export function normalizePlannerTasks(value) {
 }
 
 function conflictAt(tasks, date, start, duration, excludeId) {
-  return tasks.find(task => task.id !== excludeId && plannerDateToInput(task.date) === plannerDateToInput(date)
+  return tasks.find(task => !task.completed && task.id !== excludeId && plannerDateToInput(task.date) === plannerDateToInput(date)
     && start < plannerTimeToMinutes(task['start time']) + task['task duration']
     && start + duration > plannerTimeToMinutes(task['start time']));
 }

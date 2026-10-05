@@ -49,7 +49,7 @@ test('planner and notebook replacement delegate to the non-destructive owner-sco
   assert.ok(postStart >= 0 && putStart > postStart, 'POST branch must be present');
   assert.match(
     postBranch,
-    /\(kind === 'planner' \|\| kind === 'notebook'\) && body\?\.replace === true[\s\S]*?replaceSingletonArtifact\(supabase, \{[\s\S]*?userId:\s*user\.id,[\s\S]*?kind,/,
+    /\(\['planner', 'notebook', 'conversation'\]\.includes\(kind\)\) && body\?\.replace === true[\s\S]*?replaceSingletonArtifact\(supabase, \{[\s\S]*?userId:\s*user\.id,[\s\S]*?kind,/,
   );
   assert.doesNotMatch(postBranch, /\.delete\(\)/, 'planner replacement must not delete the prior snapshot before the replacement write succeeds');
 });

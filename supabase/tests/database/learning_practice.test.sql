@@ -1,0 +1,13 @@
+begin;
+select plan(6);
+insert into auth.users (id, email) values ('44444444-4444-4444-8444-444444444444','practice@example.test');
+set local role service_role;
+select lives_ok($$select * from public.sync_learner_state_item('44444444-4444-4444-8444-444444444444','practice_attempt','attempt:abcdefgh','{"questionId":"physics-forces-01"}'::jsonb,'state:1790000000000:abcdefgh','2026-09-21T12:00:00Z')$$,'practice attempts use existing service-only state channel');
+select lives_ok($$select * from public.sync_learner_state_item('44444444-4444-4444-8444-444444444444','practice_mistake','mistake:abcdefgh','{"reflection":"Review resultant force"}'::jsonb,'state:1790000000000:ijklmnop','2026-09-21T12:00:00Z')$$,'mistake reflections use existing service-only state channel');
+select throws_ok($$select * from public.sync_learner_state_item('44444444-4444-4444-8444-444444444444','practice_mistake','mistake:duplicate','{}'::jsonb,'state:1790000000000:abcdefgh','2026-09-21T12:00:00Z')$$,'23505',null,'one revision cannot be reused for a different record');
+reset role;
+select ok(not has_function_privilege('authenticated','public.sync_learner_state_item(uuid,text,text,jsonb,text,timestamptz)','execute'),'authenticated cannot bypass API validation');
+select ok(not has_function_privilege('anon','public.sync_learner_state_item(uuid,text,text,jsonb,text,timestamptz)','execute'),'anonymous cannot write state');
+select ok((select relrowsecurity from pg_class where oid='public.learner_state_items'::regclass),'learner state retains RLS');
+select * from finish();
+rollback;

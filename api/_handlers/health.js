@@ -144,7 +144,8 @@ export function authorizeDeepReadinessDetails(req, env = process.env) {
   return typeof header === 'string' && header.trim() === configured;
 }
 
-export default async function handler(req, res) {
+export function createHealthHandler(buildRevision = BUILD_REVISION) {
+return async function handler(req, res) {
   applyApiSecurityHeaders(res);
 
   if (req.method !== 'GET' && req.method !== 'HEAD') {
@@ -164,7 +165,7 @@ export default async function handler(req, res) {
     }
   }
   const readiness = readinessRequested ? await getDeepReadinessSnapshot() : null;
-  const revision = getDeploymentRevision();
+  const revision = getDeploymentRevision(process.env, buildRevision);
   const identityMissing = isProduction() && !revision;
   const statusCode = identityMissing || (readiness && !readiness.ready) ? 503 : 200;
 
@@ -208,3 +209,7 @@ export default async function handler(req, res) {
 
   return res.status(statusCode).json(payload);
 }
+
+}
+
+export default createHealthHandler();

@@ -36,6 +36,8 @@ export default function SiteLayout() {
   const mobileNavRef = useRef<HTMLElement | null>(null);
   const headerRef = useRef<HTMLElement | null>(null);
   const isActive = (to: string) => {
+    if (to.includes("?")) return location.pathname + location.search === to;
+    if (to === "/learn") return location.pathname === "/learn" && !location.search.includes("tab=");
     const [pathname, hash] = to.split('#');
     if (hash) return location.pathname === pathname && location.hash === `#${hash}`;
     return location.pathname === pathname || (pathname !== "/" && location.pathname.startsWith(`${pathname}/`));
@@ -43,13 +45,13 @@ export default function SiteLayout() {
   const isStudyGuideRoute = location.pathname.startsWith("/study-guides");
   const chatEligibleRoute =
     shouldOfferApex(location.pathname) &&
-    location.pathname !== "/chatbot" &&
+    location.pathname !== "/chatbot" && location.pathname !== "/learn" &&
     !["/login", "/signup", "/auth/callback", "/onboarding", "/", "/home", "/about", "/features"].includes(
       location.pathname,
     ) &&
     !location.pathname.startsWith("/resources");
   const shouldLoadGlobalChat = chatEligibleRoute && (isAuthenticated || isStudyGuideRoute);
-  const companionEligible = shouldOfferApex(location.pathname);
+  const companionEligible = shouldOfferApex(location.pathname) && location.pathname !== "/learn";
   const companionVisible = companionEligible && settings.studyCompanion && !settings.simpleMode;
 
   useEffect(() => {
@@ -129,12 +131,12 @@ export default function SiteLayout() {
 
   const navLinks = isAuthenticated
     ? [
-        { to: "/main", label: "Dashboard" },
+        { to: "/main", label: "Today" },
+        { to: "/learn?tab=knowledge", label: "Courses" },
+        { to: "/learn", label: "Practise" },
+        { to: "/learn?tab=mistakes", label: "Mistakes" },
+        { to: "/planner", label: "Study plan" },
         { to: "/exam-prep", label: "Exam prep" },
-        { to: "/planner", label: "Plan" },
-        { to: "/study-zone", label: "Focus" },
-        { to: "/paper-maker", label: "Practice" },
-        { to: "/chatbot", label: "AI tutor" },
       ]
     : [
         { to: "/", label: "Home" },
@@ -145,7 +147,7 @@ export default function SiteLayout() {
       ];
 
   return (
-    <div className={`site-shell relative min-h-screen flex flex-col text-foreground ${['/', '/home'].includes(location.pathname) ? 'site-landing' : 'site-workspace bg-transparent overflow-x-hidden'}`}>
+    <div className={`site-shell relative min-h-screen flex flex-col text-foreground ${['/', '/home'].includes(location.pathname) ? 'site-landing' : 'site-workspace bg-transparent'}`}>
       <div className="site-atmosphere" aria-hidden="true"><i /><i /><i /></div>
       <a
         href="#main-content"
@@ -153,6 +155,9 @@ export default function SiteLayout() {
       >
         Skip to content
       </a>
+      {isAuthenticated && <nav className="learning-bottom-nav" aria-label="Mobile learning navigation">{[
+        { to: '/main', label: 'Today' }, { to: '/learn?tab=knowledge', label: 'Learn' }, { to: '/learn', label: 'Practise' }, { to: '/learn?tab=mistakes', label: 'Mistakes' }, { to: '/user-settings', label: 'Profile' }
+      ].map(item => <Link key={item.to} to={item.to} aria-current={isActive(item.to) ? 'page' : undefined}>{item.label}</Link>)}</nav>}
       <Helmet>
         <title>VertexED: Revision planning and exam practice</title>
         <meta
@@ -173,8 +178,6 @@ export default function SiteLayout() {
           <Link to={isAuthenticated ? "/main" : "/"} className="flex items-center gap-2.5 shrink-0 group">
             <img
               src="/logo.png"
-              srcSet="/favicon-32x32.png 32w, /favicon-48x48.png 48w, /apple-touch-icon.png 180w, /logo.png 500w"
-              sizes="36px"
               alt="VertexED logo"
               className="w-9 h-9 rounded-full object-cover select-none ring-1 ring-border/60 group-hover:ring-primary/40 transition-shadow duration-200"
               draggable={false}
@@ -382,7 +385,7 @@ export default function SiteLayout() {
           <nav className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
             {isAuthenticated ? (
               <>
-                <Link to="/main" className="hover:text-foreground transition">Dashboard</Link>
+                <Link to="/main" className="hover:text-foreground transition">Today</Link>
                 <Link to="/planner" className="hover:text-foreground transition">Planner</Link>
                 <Link to="/user-settings" className="hover:text-foreground transition">Account</Link>
                 <Link to="/privacy" className="hover:text-foreground transition">Privacy</Link>

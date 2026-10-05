@@ -23,6 +23,7 @@ import ExamAssessmentSetup from '@/components/ExamAssessmentSetup';
 import ExamBaselinePractice from '@/components/ExamBaselinePractice';
 import ExamEvidence from '@/components/ExamEvidence';
 import ExamPracticeLab from '@/components/ExamPracticeLab';
+import AdaptivePracticeWorkspace from '@/components/AdaptivePracticeWorkspace';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { boardLabel, daysUntilExam } from '@/lib/curriculum';
 import {
@@ -409,6 +410,7 @@ export default function ExamPrep() {
                 )}
               </div>
             </section>
+            <AdaptivePracticeWorkspace key={`adaptive:${authLoading ? 'loading' : user?.id ?? 'anonymous'}:${subject}`} initialSubject={subject} />
             <ExamPracticeLab key={`${authLoading ? 'loading' : user?.id ?? 'anonymous'}:${subject}`} subject={subject} board={profile.curriculum.board} />
             <ExamEvidence subject={subject} />
             <section className="exam-prep-panel" aria-labelledby="session-history-title">

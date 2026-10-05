@@ -59,13 +59,13 @@ export async function createStudyArtifact(
   };
 }
 
-const SINGLETON_ARTIFACT_KINDS = new Set(['planner', 'notebook']);
+const SINGLETON_ARTIFACT_KINDS = new Set(['planner', 'notebook', 'conversation']);
 
 export async function replaceSingletonArtifact(
   supabase,
   { userId, kind, title, payload, expectedUpdatedAt = null, updatedAt = new Date().toISOString() },
 ) {
-  if (!SINGLETON_ARTIFACT_KINDS.has(kind)) throw new TypeError('Only planner and notebook artifacts can use singleton replacement.');
+  if (!SINGLETON_ARTIFACT_KINDS.has(kind)) throw new TypeError('Only planner, notebook and conversation artifacts can use singleton replacement.');
   const conflict = () => ({ data: null, error: null, created: false, conflict: true });
   if (expectedUpdatedAt === null) {
     const { data, error } = await supabase.from('user_study_artifacts')

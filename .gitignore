@@ -5,6 +5,8 @@ node_modules/
 .npm-cache-codex/
 .npm/
 .pnpm-store/
+.cache/
+.vercel/
 
 # Build output
 dist/
@@ -14,6 +16,12 @@ dist-ssr/
 .tmp/
 test-results/
 playwright-report/
+test-results-*/
+
+# Local release preservation receipts (may contain private historical content)
+/ci-evidence/final-release-20260925/initial-*.patch
+/ci-evidence/final-release-20260925/initial-status.txt
+/ci-evidence/final-release-20260925/secret-*.json
 
 # Logs
 logs/
@@ -26,6 +34,8 @@ lerna-debug.log*
 
 # Environment / local overrides
 .env
+.env.*
+!.env.example
 *.local
 
 # IDE / editor files
@@ -38,3 +48,14 @@ lerna-debug.log*
 *.njsproj
 *.sl
 *.sw?
+
+# Local ASTRA verification receipts and preserved user diff
+/ci-evidence/astra-20260927/
+
+# Isolated checklist execution evidence and worktrees
+/.release-work/
+/ci-evidence/checklist-exec-20260927/
+
+/ci-evidence/conversations-20260927/
+
+/node_modules

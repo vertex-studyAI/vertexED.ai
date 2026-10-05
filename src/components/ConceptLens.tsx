@@ -24,10 +24,11 @@ export default function ConceptLens({ id = 'concept-lens' }: { id?: string }) {
       const rect = event.currentTarget.getBoundingClientRect();
       setPoint({ x: Math.max(65, Math.min(315, (event.clientX - rect.left) / rect.width * 380)), y: Math.max(65, Math.min(165, (event.clientY - rect.top) / rect.height * 230)) });
     }}>
-      <defs><mask id={maskId}><rect width="380" height="230" fill="black" /><circle cx={point.x} cy={point.y} r="57" fill="white" /></mask></defs>
+      <defs><mask id={maskId}><rect width="380" height="230" fill="black" /><circle cx={point.x} cy={point.y} r="62" fill="white" /></mask></defs>
       {graph}<text x="245" y="216" fill="currentColor" fontSize="14">Time</text><text x="47" y="20" fill="currentColor" fontSize="14">Temperature</text>
-      {zoom && <g mask={`url(#${maskId})`}><rect width="380" height="230" fill="var(--paper)" /><g transform={`translate(${point.x} ${point.y}) scale(1.65) translate(${-point.x} ${-point.y})`}>{graph}</g></g>}
-      {zoom && <circle cx={point.x} cy={point.y} r="57" fill="none" stroke="currentColor" strokeWidth="2" />}
+      {zoom && <circle className="vh-lens-glow" cx={point.x} cy={point.y} r="72" />}
+      {zoom && <g mask={`url(#${maskId})`}><rect width="380" height="230" fill="var(--paper, #ffffff)" /><circle cx={point.x} cy={point.y} r="62" fill="var(--lens-fill, #edf3ff)" /><g transform={`translate(${point.x} ${point.y}) scale(1.65) translate(${-point.x} ${-point.y})`}>{graph}</g></g>}
+      {zoom && <><circle className="vh-lens-boundary" cx={point.x} cy={point.y} r="62" /><circle className="vh-lens-inner-boundary" cx={point.x} cy={point.y} r="54" /></>}
     </svg>{zoom && <label className="vh-lens-range">Explore from start to finish<input type="range" min="65" max="315" value={point.x} onChange={event => { const x = Number(event.target.value); setPoint({ x, y: x < 110 ? 110 : 155 }); }} /></label>}<figcaption>{zoom ? '1.65× detail. Move your pointer or use the slider to explore.' : 'An illustrative trend, not measured experimental data.'}</figcaption></figure>
   </section>;
 }

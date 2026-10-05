@@ -33,7 +33,9 @@ export default function SavedWorkList({
 
   const openItem = (item: StudyArtifact) => {
     try {
-      queueArtifactRestore(item);
+      // Planner and notebook are revision-checked workspace snapshots. Their
+      // pages hydrate them directly; never leave an unconsumed restore handoff.
+      if (!['planner', 'notebook', 'conversation'].includes(item.kind)) queueArtifactRestore(item);
       navigate(artifactTargetRoute(item.kind));
     } catch {
       toast({
@@ -45,6 +47,11 @@ export default function SavedWorkList({
   };
 
   const removeItem = async (item: StudyArtifact) => {
+    if (item.kind === 'conversation') {
+      navigate('/chatbot');
+      toast({ title: 'Clear conversations in the AI tutor', description: 'Export your history, then clear the selected conversation there. Revision checks protect work on your other devices.' });
+      return;
+    }
     const label = item.title || item.kind;
     if (!window.confirm(`Delete "${label}"? This cannot be undone.`)) return;
 
@@ -62,11 +69,7 @@ export default function SavedWorkList({
   };
 
   if (!visible.length) {
-    return (
-      <p className="text-sm text-muted-foreground">
-        Generate notes, papers, or reviews - they&apos;ll appear here automatically.
-      </p>
-    );
+    return null;
   }
 
   return (
@@ -87,26 +90,26 @@ export default function SavedWorkList({
               <span className="capitalize">{item.kind}</span>
               {" · "}
               {formatArtifactDate(item.updated_at)}
-              {item.localOnly && " · device"}
+              {item.localOnly ? " · Saved on this device" : " · Saved to your account"}
             </p>
           </div>
           <button
             type="button"
             onClick={() => openItem(item)}
-            className="neu-button px-2.5 py-1.5 text-xs inline-flex items-center gap-1 shrink-0"
+            className="neu-button min-h-11 px-2.5 py-1.5 text-sm inline-flex items-center gap-1 shrink-0"
             title="Open in tool"
           >
             <ExternalLink className="h-3.5 w-3.5" />
             Open
           </button>
-          <button
+          {item.kind !== 'conversation' && <button
             type="button"
             onClick={() => void removeItem(item)}
-            className="rounded-lg p-1.5 transition shrink-0 text-muted-foreground hover:text-destructive hover:bg-destructive/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="rounded-lg min-h-11 min-w-11 p-1.5 transition shrink-0 text-muted-foreground hover:text-destructive hover:bg-destructive/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             aria-label={`Delete ${item.title || item.kind}`}
           >
             <Trash2 className="h-3.5 w-3.5" />
-          </button>
+          </button>}
         </li>
       ))}
     </ul>

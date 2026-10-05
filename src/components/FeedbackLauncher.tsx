@@ -89,7 +89,7 @@ export default function FeedbackLauncher() {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="fixed bottom-5 left-5 z-40 inline-flex items-center gap-2 rounded-lg border border-border bg-background px-4 py-3 text-sm font-medium transition hover:border-primary/60 hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+        className="feedback-launcher fixed bottom-5 left-5 z-40 inline-flex items-center gap-2 rounded-lg border border-border bg-background px-4 py-3 text-sm font-medium transition hover:border-primary/60 hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
         aria-label="Give VertexED feedback"
       >
         <MessageSquare className="h-4 w-4" aria-hidden="true" />
