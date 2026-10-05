@@ -228,3 +228,53 @@ test("failed feedback save stays retryable; sign-out hides the draft and stale r
     await mounted.cleanup();
   }
 });
+
+test("switching accounts keeps the new learner's open draft when an older save fails", async () => {
+  const learnerASave = deferred();
+  const learnerBSave = deferred();
+  const submittedRows = [];
+  const mounted = await mountFeedback({ id: "learner-a" });
+  const { dom, root } = mounted;
+  try {
+    globalThis.__feedbackInsert = row => {
+      submittedRows.push(row);
+      return row.user_id === "learner-a" ? learnerASave.promise : learnerBSave.promise;
+    };
+
+    await act(() => buttonNamed(document, "Feedback").click());
+    await changeTextarea(dom, document.querySelector("textarea"), "A pending note");
+    await act(() => buttonNamed(document, "Send feedback").click());
+    assert.equal(submittedRows.length, 1);
+    assert.equal(submittedRows[0].user_id, "learner-a");
+
+    await act(() => {
+      globalThis.__feedbackUser = { id: "learner-b" };
+      root.render(React.createElement(FeedbackLauncher));
+    });
+    assert.equal(document.body.textContent.includes("A pending note"), false, "the identity-change render suppresses old draft text");
+    await act(() => flushEffects());
+    await act(() => buttonNamed(document, "Feedback").click());
+    await changeTextarea(dom, document.querySelector("textarea"), "B's unsent draft");
+
+    const toastCount = globalThis.__feedbackToasts.length;
+    await act(async () => {
+      learnerASave.reject(new Error("late account A failure"));
+      await Promise.resolve();
+    });
+    assert.equal(globalThis.__feedbackToasts.length, toastCount, "stale error does not toast into learner B's session");
+    assert.ok(document.querySelector('[data-testid="feedback-modal"]'), "stale error leaves learner B's form open");
+    assert.equal(document.querySelector("textarea").value, "B's unsent draft", "stale error preserves learner B's current draft");
+
+    await act(() => buttonNamed(document, "Send feedback").click());
+    assert.equal(submittedRows.length, 2);
+    assert.equal(submittedRows[1].user_id, "learner-b");
+    assert.equal(submittedRows[1].feedback, "B's unsent draft");
+    await act(async () => {
+      learnerBSave.resolve({ error: null });
+      await Promise.resolve();
+    });
+    assert.equal(document.querySelector('[data-testid="feedback-modal"]'), null);
+  } finally {
+    await mounted.cleanup();
+  }
+});
