@@ -1,6 +1,7 @@
 import { authFetchWithAccessToken, getAccessToken } from '@/lib/apiAuth';
 import { getUserContentStorageScope, userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
 import { studySyncError } from '@/lib/studySyncError.mjs';
+import { isStudyArtifactTimestamp } from '@/lib/studyArtifactTimestamp.mjs';
 import {
   parseStoredArray,
   resolveLocalStorage,
@@ -74,17 +75,13 @@ function isPlainStoredObject(value: unknown): value is Record<string, unknown> {
   return value !== null && typeof value === 'object' && !Array.isArray(value);
 }
 
-function isStoredTimestamp(value: unknown): value is string {
-  return typeof value === 'string' && !Number.isNaN(Date.parse(value));
-}
-
 function normalizeStoredArtifact(value: unknown): StudyArtifact | null {
   if (!isPlainStoredObject(value)) return null;
   if (typeof value.id !== 'string' || value.id.length === 0 || value.id.length > 200) return null;
   if (typeof value.kind !== 'string' || !STORED_ARTIFACT_KINDS.has(value.kind as StudyArtifactKind)) return null;
   if (value.title !== null && (typeof value.title !== 'string' || value.title.length > 200)) return null;
   if (!isPlainStoredObject(value.payload)) return null;
-  if (!isStoredTimestamp(value.created_at) || !isStoredTimestamp(value.updated_at)) return null;
+  if (!isStudyArtifactTimestamp(value.created_at) || !isStudyArtifactTimestamp(value.updated_at)) return null;
   if (value.localOnly !== undefined && typeof value.localOnly !== 'boolean') return null;
   if (value.idempotencyKey !== undefined && typeof value.idempotencyKey !== 'string') return null;
   if (value.idempotency_key !== undefined && value.idempotency_key !== null && typeof value.idempotency_key !== 'string') return null;
