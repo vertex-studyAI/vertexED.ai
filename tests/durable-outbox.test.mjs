@@ -97,3 +97,33 @@ test('ordinary recovery discards records from an aborted read transaction', asyn
   assert.deepEqual(await result, []);
   assert.equal(db.closes(), 1);
 });
+
+
+function installDeniedIndexedDB(t, deniedAt) {
+  const original = Object.getOwnPropertyDescriptor(globalThis, 'indexedDB');
+  const denied = () => { throw new DOMException('Browser storage is unavailable', 'SecurityError'); };
+  Object.defineProperty(globalThis, 'indexedDB', {
+    configurable: true,
+    ...(deniedAt === 'getter' ? { get: denied } : { value: { open: denied } }),
+  });
+  t.after(() => {
+    if (original) Object.defineProperty(globalThis, 'indexedDB', original);
+    else delete globalThis.indexedDB;
+  });
+}
+
+for (const deniedAt of ['open', 'getter']) {
+  test(`ordinary recovery remains available when IndexedDB ${deniedAt} throws`, async (t) => {
+    installDeniedIndexedDB(t, deniedAt);
+    assert.equal(await putDurableOutboxRecord({
+      channel: 'artifact', scope: 'restricted-account', logicalKey: 'note:restricted',
+      revision: 'restricted-revision', payload: { text: 'Preserve the local fallback' },
+      updatedAt: '2026-10-06T00:00:00.000Z',
+    }), false, 'a denied durable write must let the caller attempt its local mirror');
+    assert.deepEqual(await listDurableOutboxRecords('artifact', 'restricted-account'), []);
+    assert.equal(await deleteDurableOutboxRecord('artifact', 'restricted-account', 'note:restricted'), false);
+    await assert.rejects(listDurableOutboxRecords('artifact', 'restricted-account', true),
+      deniedAt === 'open' ? /Recovery storage is unavailable/ : /Browser storage is unavailable/,
+      'strict exports must not report inaccessible records as an empty export');
+  });
+}
