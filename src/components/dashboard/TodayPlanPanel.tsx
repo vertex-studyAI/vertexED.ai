@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react';
 import { Link } from 'react-router';
 import { CheckCircle2, Circle, ListChecks } from 'lucide-react';
 import type { TodayPlanItem } from '@/lib/todayPlan';
-import { getTodayPlanDoneIds, toggleTodayPlanDone } from '@/lib/todayPlan';
 import LiquidGlass from '@/components/LiquidGlass';
 import { cn } from '@/lib/utils';
 
 type Props = {
   items: TodayPlanItem[];
+  done: ReadonlySet<string>;
+  onToggle: (id: string) => void;
   className?: string;
 };
 
@@ -17,13 +17,7 @@ const SOURCE_LABEL = {
   pulse: 'Pulse',
 } as const;
 
-export default function TodayPlanPanel({ items, className }: Props) {
-  const [done, setDone] = useState(() => getTodayPlanDoneIds());
-
-  useEffect(() => {
-    setDone(getTodayPlanDoneIds());
-  }, [items]);
-
+export default function TodayPlanPanel({ items, done, onToggle, className }: Props) {
   if (items.length === 0) return null;
 
   const completed = items.filter((i) => done.has(i.id)).length;
@@ -60,7 +54,7 @@ export default function TodayPlanPanel({ items, className }: Props) {
                 <button
                   type="button"
                   aria-label={isDone ? `Mark "${item.label}" incomplete` : `Mark "${item.label}" complete`}
-                  onClick={() => setDone(toggleTodayPlanDone(item.id))}
+                  onClick={() => onToggle(item.id)}
                   className="shrink-0 mt-0.5 text-primary hover:opacity-80 transition"
                 >
                   {isDone ? (
