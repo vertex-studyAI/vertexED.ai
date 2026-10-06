@@ -594,8 +594,9 @@ export default function UserSettings() {
                 <input type="checkbox" checked={a11y.simpleMode} onChange={(e) => updateA11y({ simpleMode: e.target.checked })} />
               </label>
               <div className="flex items-center justify-between gap-4">
-                <span>Font size</span>
+                <label htmlFor="settings-font-size">Font size</label>
                 <select
+                  id="settings-font-size"
                   className="neu-input-el max-w-[10rem]"
                   value={a11y.fontSize}
                   onChange={(e) => updateA11y({ fontSize: e.target.value as typeof a11y.fontSize })}
