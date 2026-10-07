@@ -1,0 +1,24 @@
+1
+00:00:00,000 --> 00:00:22,000
+Six constructed study records enter the actual analytics core.
+Three are accepted; three are rejected. No learner data is used.
+
+2
+00:00:22,000 --> 00:00:44,000
+The measured zero becomes a missing score.
+Accepted sessions fall to two. Missing is not measured zero.
+
+3
+00:00:44,000 --> 00:01:06,000
+Restoring the measured zero restores the accepted record.
+The unfinished retry remains incomplete.
+
+4
+00:01:06,000 --> 00:01:28,000
+Withdrawing example A removes both of its session records.
+The aggregate is recomputed from the retained examples.
+
+5
+00:01:28,000 --> 00:01:50,000
+The downloaded aggregate omits participant and session rows.
+These software checks establish no learning or causal benefit.

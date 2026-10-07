@@ -6,8 +6,9 @@ const DANGEROUS_CSV_PREFIX = /^\s*[=+\-@]/;
 export const PILOT_EXPORT_SCHEMA = 'vertexed-pilot-analytics-v1';
 
 const asFiniteNumber = (value) => {
-  const number = typeof value === 'number' ? value : Number(value);
-  return Number.isFinite(number) ? number : null;
+  // Missing values and JSON booleans are not measurements. Number(null),
+  // Number('') and Number(false) would otherwise invent a measured zero.
+  return typeof value === 'number' && Number.isFinite(value) ? value : null;
 };
 
 const normalizeScore = (assessment) => {
@@ -23,7 +24,11 @@ const normalizeTimestamp = (value) => {
   if (typeof value !== 'string') return null;
   const trimmed = value.trim();
   if (!ISO_TIMESTAMP.test(trimmed) || Number.isNaN(Date.parse(trimmed))) return null;
-  return trimmed;
+  const canonical = new Date(trimmed).toISOString();
+  const expected = trimmed.includes('.') ? trimmed : trimmed.replace(/Z$/, '.000Z');
+  // Date.parse normalizes impossible dates (for example February 30).
+  // Compare calendar fields before accepting a source timestamp.
+  return canonical === expected ? canonical : null;
 };
 
 const requiredText = (value) => (typeof value === 'string' && value.trim() ? value.trim() : null);
@@ -35,6 +40,7 @@ export function normalizePilotSession(record) {
   if (!record || typeof record !== 'object') return null;
   if (record.consent_opt_in !== true) return null;
   if (!isPseudonymousParticipantId(record.participant_id)) return null;
+  if (typeof record.completion_flag !== 'boolean') return null;
 
   const curriculum = requiredText(record.curriculum);
   const subject = requiredText(record.subject);
@@ -63,8 +69,8 @@ export function normalizePilotSession(record) {
     completedReviewLoops === null ||
     completedPracticeLoops < 0 ||
     completedReviewLoops < 0 ||
-    !Number.isInteger(completedPracticeLoops) ||
-    !Number.isInteger(completedReviewLoops)
+    !Number.isSafeInteger(completedPracticeLoops) ||
+    !Number.isSafeInteger(completedReviewLoops)
   ) {
     return null;
   }
@@ -72,6 +78,9 @@ export function normalizePilotSession(record) {
   if (Date.parse(interventionStart) < Date.parse(startedAt)) return null;
   if (Date.parse(interventionEnd) < Date.parse(interventionStart)) return null;
   if (completedAt && Date.parse(completedAt) < Date.parse(interventionEnd)) return null;
+  if (record.post_assessment != null && !post) return null;
+  if (record.completed_at != null && !completedAt) return null;
+  if (record.usefulness_rating != null && usefulness === null) return null;
   if (usefulness !== null && (usefulness < 1 || usefulness > 5)) return null;
 
   const completionFlag = record.completion_flag === true;

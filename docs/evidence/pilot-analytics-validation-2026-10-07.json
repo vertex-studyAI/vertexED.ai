@@ -1,0 +1,26 @@
+{
+  "schema": "vertexed.pilot_analytics_validation.v1",
+  "as_of": "2026-10-07",
+  "base_commit": "18b22e51fe5e2f041d7e45335da95546d7a9ae94",
+  "scope": "Strict observations and calendar validation for existing pilot analytics exports",
+  "validation": {
+    "node": "22.22.0",
+    "command": "node --test tests/pilot-analytics-export.test.mjs tests/product-analytics.test.mjs tests/account-lifecycle-analytics.test.mjs tests/progress-analytics-evidence.test.mjs",
+    "passed": 49,
+    "failed": 0
+  },
+  "source_sha256": {
+    "src/lib/pilotAnalyticsCore.mjs": "f92e00034bfd10ba7e702efd2c8f6890066897b71fff992b2ffeeaff35ef436f",
+    "tests/pilot-analytics-export.test.mjs": "7cbc1573681b41c6a9c256b18f8a79d422cff7c1c79332c453f158e66e2818bb"
+  },
+  "observed_defects_fixed": [
+    "null/string/boolean/container coercion into measured scores or counts",
+    "non-boolean completion state",
+    "silently discarded malformed optional observations",
+    "invalid calendar days and 24:00 rollover accepted by Date parsing",
+    "noncanonical timestamp ordering"
+  ],
+  "real_learner_records_used": 0,
+  "learner_outcome_claims_authorized": false,
+  "remaining_gate": "Complete the existing provider/reliability and consented learner-study protocol before any learning-benefit claim."
+}
