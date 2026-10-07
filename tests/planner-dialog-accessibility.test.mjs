@@ -24,5 +24,5 @@ test('accessible modal exposes required semantics and keyboard handling', () => 
   assert.match(modal, /aria-describedby=\{descriptionId\}/);
   assert.match(modal, /event\.key === "Escape"/);
   assert.match(modal, /trapModalFocus\(event, dialogRef\.current\)/);
-  assert.match(modal, /restoreModalFocus\(returnTarget\)/);
+  assert.match(modal, /restoreModalFocusWithRetry\(returnTarget, window\.requestAnimationFrame\.bind\(window\)\)/);
 });
