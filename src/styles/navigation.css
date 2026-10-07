@@ -64,4 +64,5 @@
   .learning-bottom-nav a[aria-current=page]{background:hsl(var(--primary));color:hsl(var(--primary-foreground))}
   .learning-bottom-nav a:focus-visible{outline:3px solid hsl(var(--primary));outline-offset:1px}
   .site-shell:has(.learning-bottom-nav){padding-bottom:76px}
+  body:has(.learning-bottom-nav) :is(.feedback-launcher,.vee-launcher:not([style])){bottom:max(76px,calc(env(safe-area-inset-bottom) + 68px))}
 }
