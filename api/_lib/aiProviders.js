@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto';
-import { fetchWithTimeout } from './fetchWithTimeout.js';
+import { fetchProviderText } from './providerTextRequest.js';
 
 const DEFAULT_OPENAI_BASE_URL = 'https://api.openai.com/v1';
 const DEFAULT_NVIDIA_BASE_URL = 'https://integrate.api.nvidia.com/v1';
@@ -162,17 +162,14 @@ export async function callChatProvider({
       }
     : { model, messages, temperature, max_tokens: maxTokens };
 
-  const executeFetch = fetchImpl || ((url, options) => fetchWithTimeout(url, options, timeoutMs));
-  const response = await executeFetch(`${config.baseUrl}/${isOpenAi ? 'responses' : 'chat/completions'}`, {
+  const { response, raw } = await fetchProviderText(`${config.baseUrl}/${isOpenAi ? 'responses' : 'chat/completions'}`, {
     method: 'POST',
     headers: isOpenAi ? createOpenAiHeaders(config) : {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${config.apiKey}`,
     },
     body: JSON.stringify(payload),
-  });
-
-  const raw = await response.text();
+  }, { timeoutMs, fetchImpl });
   return {
     response,
     raw,
