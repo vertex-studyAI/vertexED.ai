@@ -1,4 +1,5 @@
 import { authFetchWithAccessToken, getAccessToken } from '@/lib/apiAuth';
+import { createRequestDeadline } from '@/lib/apiRequestRecovery.mjs';
 import { getUserContentStorageScope } from '@/lib/userContentStorageScope.mjs';
 import { studySyncError } from '@/lib/studySyncError.mjs';
 import { readSnapshotArray, backupSnapshotBytes, readSnapshotMetadata, writeSnapshotMetadata, writeSnapshotValues, reconcileSnapshot, serializeSnapshotWrite, captureSnapshotRevision, expectedSnapshotRevision } from '@/lib/snapshotConcurrency.mjs';
@@ -6,6 +7,9 @@ import { setNotebookStorageScope, type StudyNotebook } from '@/lib/notebook';
 import { notebookStorageKeys } from '@/lib/notebookStorageScope.mjs';
 import { validateNotebookSnapshot } from '@/lib/snapshotValidation.mjs';
 import { supabase } from '@/lib/supabaseClient';
+
+const NOTEBOOK_SYNC_TIMEOUT_MS = 15_000;
+const NOTEBOOK_SYNC_TIMEOUT_MESSAGE = 'Cloud sync timed out. Your notebooks are saved on this device.';
 
 export type NotebookSnapshot = {
   notebooks: StudyNotebook[];
@@ -118,8 +122,9 @@ export async function loadNotebookSnapshot(storageScope?: string | null, acceptC
     return { ...result, readOnly };
   };
 
+  const deadline = createRequestDeadline(undefined, NOTEBOOK_SYNC_TIMEOUT_MS);
   try {
-    const res = await authFetchWithAccessToken('/api/user-content?kind=notebook&limit=1', accessToken);
+    const res = await authFetchWithAccessToken('/api/user-content?kind=notebook&limit=1', accessToken, { signal: deadline.signal });
     const data = await res.json().catch(() => null);
     if (getUserContentStorageScope() !== resolvedScope) return accountChangedNotebookResult();
     if (!res.ok) {
@@ -150,8 +155,12 @@ export async function loadNotebookSnapshot(storageScope?: string | null, acceptC
     return finish({
       snapshot: local,
       cloudSynced: false,
-      error: studySyncError(err, 'local-fallback'),
+      error: deadline.didTimeout()
+        ? localReadFailed ? 'Cloud sync timed out. Original device data is preserved.' : NOTEBOOK_SYNC_TIMEOUT_MESSAGE
+        : studySyncError(err, 'local-fallback'),
     });
+  } finally {
+    deadline.cleanup();
   }
 }
 
@@ -170,6 +179,7 @@ export async function saveNotebookSnapshot(
     writeSnapshotMetadata(localStorage, metadataKey, { ...metadata, pending: true });
   } catch (error) { return { ok: false, cloudSynced: false, error: studySyncError(error, 'sync') }; }
   return serializeSnapshotWrite(metadataKey, async () => {
+    let deadline: ReturnType<typeof createRequestDeadline> | undefined;
     try {
       if (getUserContentStorageScope() !== resolvedScope) return { ok: true, cloudSynced: false, error: 'Account changed. Work remains on this device.' };
       const token = await getAccessToken();
@@ -177,7 +187,9 @@ export async function saveNotebookSnapshot(
       const metadata = readSnapshotMetadata(localStorage, metadataKey);
       const payload = { notebooks: snapshot.notebooks, version: 1 };
       if (new TextEncoder().encode(JSON.stringify(payload)).length > 256 * 1024) return { ok: true, cloudSynced: false, error: 'This collection exceeds the cloud save limit. Export a backup and reduce its size to resume sync.' };
+      deadline = createRequestDeadline(undefined, NOTEBOOK_SYNC_TIMEOUT_MS);
       const res = await authFetchWithAccessToken('/api/user-content', token, {
+        signal: deadline.signal,
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ kind: 'notebook', title: 'Study Notebooks', replace: true, expectedUpdatedAt: expectedSnapshotRevision(metadataKey, metadata.revision), payload }),
       });
@@ -191,6 +203,9 @@ export async function saveNotebookSnapshot(
       writeSnapshotMetadata(localStorage, metadataKey, { revision: data.item.updated_at, pending, syncedLocalTime: snapshot.updatedAt });
 
       return { ok: true, cloudSynced: !pending };
-    } catch (err) { return { ok: true, cloudSynced: false, error: studySyncError(err, 'local-fallback') }; }
+    } catch (err) { return { ok: true, cloudSynced: false, error: deadline?.didTimeout() ? NOTEBOOK_SYNC_TIMEOUT_MESSAGE : studySyncError(err, 'local-fallback') }; }
+    finally {
+      deadline?.cleanup();
+    }
   });
 }
