@@ -281,3 +281,57 @@ test('withdrawal rejects email-like or malformed identifiers rather than broad-m
   assert.throws(() => removePilotParticipant([session()], 'student@example.com'), /pseudonymous identifier/);
   assert.throws(() => removePilotParticipant([session()], 'x'), /pseudonymous identifier/);
 });
+
+test('missing, coerced and non-finite numbers cannot become measured pilot scores', () => {
+  for (const value of [null, undefined, '', '0', false, true, [], [0], {}, NaN, Infinity]) {
+    const exported = buildPilotExport([
+      session({ pre_assessment: { id: 'pre-missing', score: value, max: 10 } }),
+    ], metadata);
+    assert.equal(exported.metadata.accepted_session_count, 0, `score ${String(value)}`);
+    assert.equal(exported.aggregate.pre_percent_mean, null);
+    assert.equal(exported.aggregate.paired_delta_percent_mean, null);
+  }
+  const genuineZero = buildPilotExport([
+    session({ pre_assessment: { id: 'pre-zero', score: 0, max: 10 } }),
+  ], metadata);
+  assert.equal(genuineZero.aggregate.pre_percent_mean, 0);
+  assert.equal(genuineZero.aggregate.paired_delta_percent_mean, 70);
+});
+
+test('loop counts and explicit completion state reject coercion', () => {
+  for (const value of [null, '', false, '2', [], 0.5, Number.MAX_SAFE_INTEGER + 1]) {
+    const exported = buildPilotExport([session({ completed_review_loops: value })], metadata);
+    assert.equal(exported.metadata.accepted_session_count, 0);
+  }
+  for (const value of [undefined, null, 'false', 0]) {
+    const exported = buildPilotExport([
+      session({ completion_flag: value, post_assessment: null, completed_at: null }),
+    ], metadata);
+    assert.equal(exported.metadata.accepted_session_count, 0);
+  }
+});
+
+test('malformed optional observations are rejected instead of silently becoming missing', () => {
+  const incomplete = { completion_flag: false, post_assessment: null, completed_at: null };
+  for (const invalid of [
+    { post_assessment: { id: 'post-invalid', score: 'bad', max: 10 } },
+    { completed_at: 'not-a-date' },
+    { usefulness_rating: 'not-a-rating' },
+  ]) {
+    const exported = buildPilotExport([session({ ...incomplete, ...invalid })], metadata);
+    assert.equal(exported.metadata.accepted_session_count, 0);
+    assert.equal(exported.metadata.rejected_record_count, 1);
+  }
+});
+
+test('calendar-invalid timestamps fail and accepted timestamps have one ordering format', () => {
+  for (const value of ['2026-02-30T10:00:00.000Z', '2026-09-01T24:00:00.000Z']) {
+    assert.equal(buildPilotExport([session({ started_at: value })], metadata).sessions.length, 0);
+    assert.throws(() => buildPilotExport([], { ...metadata, generated_at: value }), /metadata/);
+  }
+  const normalized = buildPilotExport([
+    session({ started_at: '2026-09-01T10:00:00Z' }),
+  ], metadata);
+  assert.equal(normalized.sessions[0].started_at, '2026-09-01T10:00:00.000Z');
+  assert.equal(normalized.aggregate.measurement_window_start, '2026-09-01T10:00:00.000Z');
+});
