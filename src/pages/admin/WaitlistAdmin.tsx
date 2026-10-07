@@ -157,6 +157,9 @@ export default function WaitlistAdmin() {
           <Link to="/main" className="neu-button px-4 py-2 text-sm">
             ← Back to Main
           </Link>
+          <Link to="/admin/curriculum-review" className="neu-button px-4 py-2 text-sm">
+            Curriculum review
+          </Link>
         </div>
 
         <div className="mb-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">

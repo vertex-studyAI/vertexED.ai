@@ -1,4 +1,4 @@
-import ReactMarkdown from "react-markdown";
+import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
@@ -12,9 +12,10 @@ type Props = {
   children: string;
   className?: string;
   transformMath?: boolean;
+  imageRenderer?: Components["img"];
 };
 
-export default function RichMarkdown({ children, className, transformMath = true }: Props) {
+export default function RichMarkdown({ children, className, transformMath = true, imageRenderer }: Props) {
   // Match ChatMarkdown: sanitize before parse so HTML/plugin drift cannot bypass MarkdownLink.
   const markdown = sanitizeMarkdown(
     transformMath ? enrichMathInText(children || "") : children || "",
@@ -30,7 +31,7 @@ export default function RichMarkdown({ children, className, transformMath = true
       <ReactMarkdown
         remarkPlugins={[remarkGfm, remarkMath]}
         rehypePlugins={[rehypeKatex]}
-        components={{ a: MarkdownLink }}
+        components={{ a: MarkdownLink, ...(imageRenderer ? { img: imageRenderer } : {}) }}
       >
         {markdown || "..."}
       </ReactMarkdown>
