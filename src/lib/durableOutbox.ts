@@ -17,16 +17,22 @@ function recordId(channel: DurableOutboxRecord['channel'], scope: string, logica
 }
 
 function openDatabase(): Promise<IDBDatabase | null> {
-  if (typeof indexedDB === 'undefined') return Promise.resolve(null);
   return new Promise((resolve) => {
-    const request = indexedDB.open(DATABASE_NAME, 1);
-    request.onupgradeneeded = () => {
-      const database = request.result;
-      if (!database.objectStoreNames.contains(STORE_NAME)) database.createObjectStore(STORE_NAME, { keyPath: 'id' });
-    };
-    request.onsuccess = () => resolve(request.result);
-    request.onerror = () => resolve(null);
-    request.onblocked = () => resolve(null);
+    try {
+      if (typeof indexedDB === 'undefined') { resolve(null); return; }
+      const request = indexedDB.open(DATABASE_NAME, 1);
+      request.onupgradeneeded = () => {
+        const database = request.result;
+        if (!database.objectStoreNames.contains(STORE_NAME)) database.createObjectStore(STORE_NAME, { keyPath: 'id' });
+      };
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => resolve(null);
+      request.onblocked = () => resolve(null);
+    } catch {
+      // Browser policy can throw before an open request exists. Keep ordinary
+      // recovery on its local fallback; strict exports still reject below.
+      resolve(null);
+    }
   });
 }
 
@@ -57,12 +63,17 @@ export async function listDurableOutboxRecords<T>(
   const database = await openDatabase();
   if (!database) { if (strict && typeof indexedDB !== 'undefined') throw new Error('Recovery storage is unavailable; export could be incomplete.'); return []; }
   return new Promise((resolve, reject) => {
+    let records: Array<DurableOutboxRecord<T>> = [];
     const transaction = database.transaction(STORE_NAME, 'readonly');
     const request = transaction.objectStore(STORE_NAME).getAll();
-    request.onsuccess = () => resolve((request.result as Array<DurableOutboxRecord<T>>)
-      .filter((record) => record.channel === channel && record.scope === scope));
+    request.onsuccess = () => {
+      records = (request.result as Array<DurableOutboxRecord<T>>)
+        .filter((record) => record.channel === channel && record.scope === scope);
+    };
     request.onerror = () => strict ? reject(new Error('Could not read recovery storage.')) : resolve([]);
-    transaction.oncomplete = () => database.close();
+    // A successful request can still be followed by a transaction abort. Only
+    // expose recovery records after the whole read completes, including exports.
+    transaction.oncomplete = () => { database.close(); resolve(records); };
     transaction.onerror = transaction.onabort = () => {
       database.close();
       if (strict) reject(new Error('Could not finish reading recovery storage.'));
