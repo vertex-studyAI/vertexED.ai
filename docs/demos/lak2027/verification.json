@@ -1,0 +1,112 @@
+{
+  "checked_at": "2026-10-07T17:03:37.440Z",
+  "node": "v24.19.0",
+  "browser": "141.0.7390.37",
+  "result": "PASS",
+  "evidence_type": "constructed interactive software demonstration",
+  "scenarios": {
+    "initial": [
+      3,
+      3,
+      1
+    ],
+    "missing_pre_score": [
+      2,
+      4,
+      1
+    ],
+    "restored_zero": [
+      3,
+      3,
+      1
+    ],
+    "withdrawn_A": [
+      1,
+      3,
+      0
+    ],
+    "reset": [
+      3,
+      3,
+      1
+    ]
+  },
+  "count_order": [
+    "accepted_sessions",
+    "rejected_records",
+    "incomplete_sessions"
+  ],
+  "keyboard_activation": "Space on focused missing-score button passed in both directions",
+  "aggregate_download": "Parsed JSON excludes participant/session rows and example identifiers",
+  "views": [
+    {
+      "width": 1024,
+      "height": 1000,
+      "colorScheme": "dark",
+      "reducedMotion": "no-preference",
+      "viewport": 1024,
+      "scroll": 1024,
+      "animations": 0,
+      "desk_right": 976,
+      "margin_right": 975,
+      "buttons": [
+        {
+          "w": 323.484375,
+          "h": 44
+        },
+        {
+          "w": 197.671875,
+          "h": 44
+        },
+        {
+          "w": 158.890625,
+          "h": 44
+        },
+        {
+          "w": 270.203125,
+          "h": 44
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "colorScheme": "light",
+      "reducedMotion": "reduce",
+      "viewport": 390,
+      "scroll": 390,
+      "animations": 0,
+      "desk_right": 374,
+      "margin_right": 373,
+      "buttons": [
+        {
+          "w": 358,
+          "h": 44
+        },
+        {
+          "w": 358,
+          "h": 44
+        },
+        {
+          "w": 358,
+          "h": 44
+        },
+        {
+          "w": 270.203125,
+          "h": 44
+        }
+      ]
+    }
+  ],
+  "page_errors": [],
+  "hashes": {
+    "fixture.mjs": "dcb501522319889d847eae3efb5e1d491392885b66448321606b27f1ade17c88",
+    "demo.mjs": "3666b95efcc4a6bea8a5ca60180541ffcd42ad1b1cc4b9ebeaf4fc892ad1bc05",
+    "index.html": "4d14a4fa5ce163783e9ed0d22bbd23718e9a181645abaa07d041b35fd90e7faf",
+    "style.css": "6c205f84bc3e95d0deb2dc180e28635a0e71be824c70188d4e8529cfb459ed7a",
+    "analytics_core": "f92e00034bfd10ba7e702efd2c8f6890066897b71fff992b2ffeeaff35ef436f"
+  },
+  "reproduction_note": "The retained run used the same verification assertions with environment-specific runtime/browser/output paths. verify_demo.mjs makes those paths portable; the source hashes bind the executed demo and analytics core.",
+  "visual_review": "1440px light and 1024px dark inspected. 390px reduced-motion review found and corrected grid overflow; final margin fits, table scroll is labelled. All five video scenes inspected separately.",
+  "local_copy_lint": "Attempted twice; unavailable TypeScript package. No baseline or source finding was hidden. Hosted repository copy check remains required."
+}

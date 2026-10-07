@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VertexED | Follow the observation</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip" href="#controls">Skip to example controls</a>
+  <main>
+    <header>
+      <img src="../../../public/logo.png" alt="VertexED" width="48" height="48">
+      <span>VertexED <span class="edition">Research demonstration / 2026</span></span>
+    </header>
+    <section class="opening" aria-labelledby="title">
+      <p class="eyebrow">01 / Attempt. Review. Retry.</p>
+      <h1 id="title">Follow the<br><em>observation.</em></h1>
+      <div class="intro">
+        <p>Before a study record becomes an insight, check what was measured and what is missing.</p>
+        <p class="notice">Constructed examples only. No learner outcomes. Nothing is saved to an account.</p>
+      </div>
+    </section>
+    <section id="controls" class="controls" aria-labelledby="controls-title">
+      <h2 id="controls-title">Try a change to the example records</h2>
+      <div class="buttons">
+        <button type="button" id="missing">Replace measured zero with missing</button>
+        <button type="button" id="withdraw">Withdraw example A</button>
+        <button type="button" id="reset" class="secondary">Reset examples</button>
+      </div>
+      <p id="status" role="status" aria-live="polite">Loading example records...</p>
+    </section>
+    <section class="desk" aria-labelledby="records-title">
+      <div class="records">
+        <p class="eyebrow">02 / Source to decision</p>
+        <h2 id="records-title">The observation sheet</h2>
+        <p>One row per constructed session. A measured zero stays different from a missing score.</p>
+        <p class="table-hint">On a narrow screen, scroll the sheet sideways to read every review action.</p>
+        <div class="table-wrap" role="region" aria-label="Example session decisions, scroll horizontally on narrow screens" tabindex="0">
+          <table>
+            <thead><tr><th scope="col">Example</th><th scope="col">Pre-score</th><th scope="col">Status</th><th scope="col">Review action</th></tr></thead>
+            <tbody id="record-rows"></tbody>
+          </table>
+        </div>
+      </div>
+      <aside class="margin" aria-labelledby="review-title">
+        <h2 id="review-title">Read the gap</h2>
+        <dl>
+          <div><dt>Accepted example sessions</dt><dd id="accepted">-</dd></div>
+          <div><dt>Rejected example records</dt><dd id="rejected">-</dd></div>
+          <div><dt>Incomplete accepted sessions</dt><dd id="incomplete">-</dd></div>
+        </dl>
+        <p id="decision"></p>
+        <p class="boundary">These counts demonstrate software behaviour. They cannot establish learning gains or whether an intervention worked.</p>
+      </aside>
+    </section>
+    <section class="export" aria-labelledby="export-title">
+      <div>
+        <p class="eyebrow">03 / Inspect what leaves</p>
+        <h2 id="export-title">A summary without session rows</h2>
+        <p>The example aggregate contains counts, descriptive summaries and source metadata. It excludes participant and session identifiers. Removing rows alone does not guarantee anonymity in a real small cohort.</p>
+      </div>
+      <button type="button" id="download" class="secondary">Download example aggregate</button>
+      <details><summary>Inspect the current JSON</summary><pre id="json"></pre></details>
+    </section>
+    <footer>Local conference rehearsal. Uses the repository's pilot analytics core. <a href="README.md">Read the scope and reproduction guide</a>.</footer>
+  </main>
+  <script type="module" src="demo.mjs"></script>
+</body>
+</html>
