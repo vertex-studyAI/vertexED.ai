@@ -22,6 +22,10 @@ export const ROUTES = {
     loader: () => import('../_handlers/admin-status.js'),
     methods: ['GET', 'HEAD'],
   },
+  'curriculum-review': {
+    loader: () => import('../_handlers/curriculum-review.js'),
+    methods: ['GET', 'HEAD'],
+  },
   account: {
     loader: () => import('../_handlers/account.js'),
     methods: ['DELETE'],

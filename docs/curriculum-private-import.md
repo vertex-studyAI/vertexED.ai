@@ -53,3 +53,53 @@ All generated values describing teacher approval, runtime export or production i
 ## Verification coverage
 
 The dedicated tests exercise legacy shapes and identities, count/schema corruption, missing prompts/answers, checksum mismatch, path/symlink boundaries, cross-packet collisions, exact-source repairs, context dependencies, guided repetition, private file permissions, immutable replay, complete source reload, and post-validation mutation of sources/projections/receipt counts. They use synthetic fixtures and do not count as student outcomes or teacher review.
+
+## Authenticated reviewer surface
+
+Set `VERTEXED_CURRICULUM_REVIEW_STORE` to the absolute path of one validated, digest-addressed private store to enable the read-only admin route at `/admin/curriculum-review`. The route uses the existing authenticated admin boundary and never bundles the retained sources into the application. Missing configuration, a digest mismatch, altered source-batch metadata, an elevated approval/publication state or altered resource bytes fails closed.
+
+The screen renders retained Markdown lessons, the Spanish learner paragraph extraction and verified PDFs/images; original DOCX files remain downloadable. Every resource request is hash-checked before it is returned. Responses are private and no-store. The surface has no mutation, approval, export, production-import or publishing action. It does not convert the importer receipt into teacher approval, rights clearance, learner efficacy evidence or publication.
+
+## Private reviewer browser acceptance
+
+The private source desk now resolves Markdown diagrams only to a declared image
+in the selected packet. Image requests use the existing authenticated resource
+endpoint, preserve the retained alt text, and check the source hash header and
+media type before creating a temporary browser URL. A missing, external, ambiguous
+or rejected image displays an explicit error. Leaving the source cancels pending
+image requests and revokes its temporary URL. The original verified diagram can
+also be downloaded for reading labels at full size.
+
+The dedicated acceptance server is local test tooling. It binds only to
+`127.0.0.1:14674`, uses synthetic `example.test` identities, and invokes the actual
+`verifyAuthUser`, admin-status and curriculum-review handlers against a local
+Auth response fixture. It cannot certify a hosted identity, durable rate limiter,
+provider configuration or production store mount. Browser requests to other
+origins are blocked in the acceptance test. The retained store is read-only input;
+no teaching material or approval decision belongs in Git.
+
+With the repository's declared Node 22 and npm versions installed, run:
+
+```sh
+npm ci --no-audit --no-fund
+VITE_SUPABASE_URL=http://127.0.0.1:14674 \
+VITE_SUPABASE_PUBLISHABLE_KEY=sb_publishable_local_curriculum_acceptance \
+npm run build -- --outDir .vertexed-test-dist
+VERTEXED_CURRICULUM_REVIEW_STORE=/absolute/private/path/to/bundle-digest \
+npx playwright test --config=playwright.curriculum.config.ts
+```
+
+The store path must identify a real staged importer bundle. The test server fails
+before listening if no path is configured. `PLAYWRIGHT_CHROMIUM_EXECUTABLE` may
+select an installed Chromium executable when the default Playwright browser is
+unavailable. This is an executable override for local acceptance, not an engine
+version claim; retain the actual browser version with the result.
+
+The acceptance covers authenticated and rejected API requests, `HEAD` and
+read-only method behavior, source hash checks, every embedded Markdown diagram,
+keyboard selection, reduced motion, all preferred source types at 1440/1024/390,
+original-diagram downloads, resource-error handling, and object-URL cleanup after
+leaving. PDF coverage checks the verified bytes and the browser frame, not a
+claim that every browser's native PDF viewer rendered every page. Human subject
+review, rights decisions, hosted acceptance and release authorization remain
+separate requirements.

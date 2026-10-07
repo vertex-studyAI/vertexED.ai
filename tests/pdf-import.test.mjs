@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import { Worker } from 'node:worker_threads';
 import { decodePdfRequest, extractPdf } from '../api/_lib/pdfImport.js';
 import { createPdfImportHandler } from '../api/_handlers/import-source.js';
 
@@ -46,4 +47,28 @@ test('handler authenticates and enforces durable rate limits before parsing priv
   await createPdfImportHandler({ verifyUser: async () => ({ id: 'fixture' }), rateLimit: async () => ({ allowed: false, configurationError: true }), extract: async () => { parsed = true; } })(req, limited);
   assert.equal(limited.code, 503); assert.equal(parsed, false);
   assert.equal(limited.headers['Cache-Control'], 'private, no-store');
+});
+
+// The parent terminates workers as soon as a result arrives. Observe natural
+// worker shutdown as well, so stream-cleanup errors cannot race that result.
+test('overlong worker closes cleanly after returning its bounded rejection', { timeout: 15_000 }, async (t) => {
+  const worker = new Worker(new URL('../api/_workers/pdfImportWorker.js', import.meta.url), {
+    workerData: new Uint8Array(fixturePdf('a'.repeat(2400), 25)),
+    resourceLimits: { maxOldGenerationSizeMb: 128, maxYoungGenerationSizeMb: 16, stackSizeMb: 4 },
+    stdout: true,
+    stderr: true,
+  });
+  worker.stdout.resume();
+  worker.stderr.resume();
+  t.after(() => worker.terminate());
+  const messages = [];
+  const errors = [];
+  worker.on('message', (result) => messages.push(result));
+  worker.on('error', (error) => errors.push(error));
+  const exitCode = await new Promise((resolve) => worker.once('exit', resolve));
+  assert.deepEqual(errors.map((error) => ({ code: error.code, message: error.message })), []);
+  assert.equal(exitCode, 0);
+  assert.equal(messages.length, 1);
+  assert.match(messages[0].error, /50,000/);
+  assert.equal('content' in messages[0], false);
 });

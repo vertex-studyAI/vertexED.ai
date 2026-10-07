@@ -28,7 +28,12 @@ try {
           if (content.length + text.length > 50_000) throw new Error('This PDF contains more than 50,000 characters. Split it into smaller sources.');
         }
       }
-    } finally { await reader.cancel().catch(() => {}); page.cleanup(); }
+    } finally {
+      // PDF.js requires an Error reason to mark its stream closed before queued
+      // messages arrive. Cancelling without one can race the bounded result.
+      await reader.cancel(new Error('PDF text extraction stopped.')).catch(() => {});
+      page.cleanup();
+    }
     text = text.trim();
     if (!text) blankPages.push(pageNumber);
     pages.push({ page: pageNumber, text });
