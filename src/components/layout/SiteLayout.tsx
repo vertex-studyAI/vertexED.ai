@@ -68,8 +68,16 @@ export default function SiteLayout() {
 
   useEffect(() => {
     if (location.key === 'default' || location.hash) return;
+    const focusedBeforeFrame = document.activeElement;
     const frame = window.requestAnimationFrame(() => {
-      document.getElementById('main-content')?.focus({ preventScroll: true });
+      const main = document.getElementById('main-content');
+      const active = document.activeElement;
+      if (!main) return;
+      // The new editor can accept focus before this route frame runs. Keep a
+      // learner's or child component's focus choice instead of moving it away
+      // between selection and input, while retaining ordinary route focus.
+      if (main.contains(active) || (active && active !== document.body && active !== focusedBeforeFrame)) return;
+      main.focus({ preventScroll: true });
     });
     return () => window.cancelAnimationFrame(frame);
   }, [location.key, location.hash]);

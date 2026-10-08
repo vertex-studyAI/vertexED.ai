@@ -85,6 +85,75 @@ async function installAccountHarness(page: Page, empty = false, examDate: string
 }
 
 for (const width of [1440, 1024, 390]) {
+  test(`ordinary navigation focuses the main content at ${width}`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await installAccountHarness(page, true, '2090-12-31');
+    await page.getByRole('button', { name: '5 min', exact: true }).click();
+    await page.getByRole('link', { name: 'Start next step · 5 min' }).click();
+    await expect(page.locator('#main-content')).toBeFocused();
+  });
+
+  test(`late navigation focus preserves a resumed answer at ${width}`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await installAccountHarness(page, true, '2090-12-31');
+    await page.goto('/learn?mode=diagnostic&minutes=5&subject=Physics');
+    await page.getByRole('button', { name: 'Start practice', exact: true }).click();
+    await expect(page.getByLabel('Your answer', { exact: true })).toBeVisible();
+    await page.goto('/main');
+    await expect(page.getByRole('link', { name: 'Continue saved practice', exact: true })).toBeVisible();
+
+    // Control the browser frame boundary, without selecting one application
+    // callback or replacing focus. React can render the resumed editor before
+    // the pending route frame runs; the learner can already focus its input.
+    await page.evaluate(() => {
+      const request = window.requestAnimationFrame.bind(window);
+      const cancel = window.cancelAnimationFrame.bind(window);
+      const pending = new Map<number, FrameRequestCallback>();
+      let nextId = -1;
+      window.requestAnimationFrame = callback => {
+        if (location.pathname !== '/learn') return request(callback);
+        const id = nextId--;
+        pending.set(id, callback);
+        return id;
+      };
+      window.cancelAnimationFrame = id => {
+        if (pending.has(id)) pending.delete(id);
+        else cancel(id);
+      };
+      (window as any).settleRouteEffects = () => new Promise<void>(resolve => request(() => request(() => resolve())));
+      (window as any).resumeRouteFrames = () => {
+        window.requestAnimationFrame = request;
+        window.cancelAnimationFrame = cancel;
+        const frames = [...pending.values()];
+        pending.clear();
+        for (const callback of frames) callback(performance.now());
+        return frames.length;
+      };
+    });
+    await page.getByRole('link', { name: 'Continue saved practice', exact: true }).click();
+    const answer = page.getByLabel('Your answer', { exact: true });
+    await expect(answer).toBeVisible();
+    await page.evaluate(() => (window as any).settleRouteEffects());
+    await answer.focus();
+    const resumed = await page.evaluate(() => (window as any).resumeRouteFrames());
+    expect(resumed).toBeGreaterThan(0);
+    await test.info().attach('navigation-focus-observation', {
+      contentType: 'application/json',
+      body: JSON.stringify(await page.evaluate(() => ({
+        activeTag: document.activeElement?.tagName,
+        activeId: document.activeElement?.id,
+        activeLabel: document.activeElement?.getAttribute('aria-label'),
+        answer: (document.querySelector('[aria-label="Your answer"]') as HTMLInputElement)?.value,
+      })), null, 2),
+    });
+    await expect(answer).toBeFocused();
+    await page.keyboard.insertText('-1234');
+    await expect(answer).toHaveValue('-1234');
+    await expect(page.getByRole('button', { name: 'Check answer', exact: true })).toBeEnabled();
+  });
+
   test(`learning loop improvements at ${width}`, async ({ page }, info) => {
     await page.setViewportSize({ width, height: 900 });
     await page.emulateMedia({ reducedMotion: 'reduce' });
