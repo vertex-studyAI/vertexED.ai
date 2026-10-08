@@ -12,6 +12,17 @@ import {
 } from "../scripts/probe-production-gates-core.mjs";
 
 const source = readFileSync(new URL("../scripts/probe-production-gates.mjs", import.meta.url), "utf8");
+const revision = "a".repeat(40);
+const health = { ok: true, service: "vertexed", healthContract: "3", status: "alive", revision };
+const readiness = {
+  ...health, status: "ready",
+  checks: {
+    authentication: true, waitlist: true, coreAi: true, plannerAi: true,
+    durableRateLimiting: true, databaseConnection: true, atomicRateLimitRpc: true,
+    learnerStateStorage: true, batchLearnerStateSync: true, examSessionStorage: true,
+    observabilityStorage: true, singletonIntegrity: true,
+  },
+};
 
 test("production gate probe covers custom-domain revision, readiness, and agents deployment", () => {
   assert.match(source, /www\.vertexed\.app/);
@@ -51,8 +62,8 @@ test("authenticated agents route is live only when unauthenticated access fails 
 test("custom domain passes only when its health endpoint serves the canonical revision", () => {
   const ready = classifyCanonicalDomain({
     rootClass: "HTTP_REACHABLE",
-    healthProbe: { httpCode: "200", json: { revision: "abc123" } },
-    canonicalRevision: "abc123",
+    healthProbe: { curlExit: 0, httpCode: "200", json: health },
+    canonicalRevision: revision,
   });
   assert.equal(ready, "READY_CANONICAL_DOMAIN");
   assert.equal(canonicalDomainGatePasses(ready), true);
@@ -60,24 +71,24 @@ test("custom domain passes only when its health endpoint serves the canonical re
   assert.equal(
     classifyCanonicalDomain({
       rootClass: "HTTP_REACHABLE",
-      healthProbe: { httpCode: "200", json: { revision: "wrong" } },
-      canonicalRevision: "abc123",
+      healthProbe: { curlExit: 0, httpCode: "200", json: { ...health, revision: "b".repeat(40) } },
+      canonicalRevision: revision,
     }),
     "BLOCKED_DOMAIN_REVISION_MISMATCH",
   );
   assert.equal(
     classifyCanonicalDomain({
       rootClass: "HTTP_REACHABLE",
-      healthProbe: { httpCode: "200", json: {} },
-      canonicalRevision: "abc123",
+      healthProbe: { curlExit: 0, httpCode: "200", json: { ...health, revision: null } },
+      canonicalRevision: revision,
     }),
     "BLOCKED_DOMAIN_REVISION_UNCONFIRMED",
   );
   assert.equal(
     classifyCanonicalDomain({
       rootClass: "HTTP_REACHABLE",
-      healthProbe: { httpCode: "503", json: {} },
-      canonicalRevision: "abc123",
+      healthProbe: { curlExit: 0, httpCode: "503", json: {} },
+      canonicalRevision: revision,
     }),
     "BLOCKED_DOMAIN_HEALTH_UNREACHABLE",
   );
@@ -85,7 +96,7 @@ test("custom domain passes only when its health endpoint serves the canonical re
     classifyCanonicalDomain({
       rootClass: "TLS_FAIL_BEFORE_HTTP",
       healthProbe: { httpCode: "000", json: null },
-      canonicalRevision: "abc123",
+      canonicalRevision: revision,
     }),
     "BLOCKED_TLS_FAIL_BEFORE_HTTP",
   );
@@ -94,20 +105,20 @@ test("custom domain passes only when its health endpoint serves the canonical re
 
 test("provider candidate requires immutable revision and full deep readiness", () => {
   const ready = classifyProviderCandidate({
-    shallowProbe: { curlExit: 0, httpCode: "200", json: { ok: true, revision: "a".repeat(40) } },
-    readinessProbe: { curlExit: 0, httpCode: "200", json: { ok: true, status: "ready", checks: { database: true, auth: true } } },
+    shallowProbe: { curlExit: 0, httpCode: "200", json: health },
+    readinessProbe: { curlExit: 0, httpCode: "200", json: readiness },
   });
   assert.equal(ready, "READY_PROVIDER_CANDIDATE");
   assert.equal(providerCandidatePasses(ready), true);
 
   assert.equal(classifyProviderCandidate({
-    shallowProbe: { curlExit: 0, httpCode: "200", json: { ok: true, revision: "short" } },
-    readinessProbe: { curlExit: 0, httpCode: "200", json: { ok: true, status: "ready", checks: { database: true } } },
+    shallowProbe: { curlExit: 0, httpCode: "200", json: { ...health, revision: "short" } },
+    readinessProbe: { curlExit: 0, httpCode: "200", json: readiness },
   }), "BLOCKED_PROVIDER_REVISION_UNCONFIRMED");
 
   assert.equal(classifyProviderCandidate({
-    shallowProbe: { curlExit: 0, httpCode: "200", json: { ok: true, revision: "b".repeat(40) } },
-    readinessProbe: { curlExit: 0, httpCode: "503", json: { ok: false, status: "degraded", checks: { database: false } } },
+    shallowProbe: { curlExit: 0, httpCode: "200", json: health },
+    readinessProbe: { curlExit: 0, httpCode: "503", json: { ...readiness, ok: false, status: "degraded", checks: { ...readiness.checks, databaseConnection: false } } },
   }), "BLOCKED_PROVIDER_DEGRADED");
 
   assert.equal(classifyProviderCandidate({

@@ -1,6 +1,10 @@
 import { expect, type Page } from '@playwright/test';
 
 export async function selectTheme(page: Page, theme: 'light' | 'dark') {
+  // All callers use authenticated account fixtures. At tablet widths, session
+  // restoration hides the still-attached public desktop toggle and shows the
+  // account mobile toggle, so wait for that header before resolving a button.
+  await expect(page.locator('header[data-surface="account"]')).toBeVisible();
   const label = theme === 'dark' ? 'Dark' : 'Light';
   for (let attempt = 0; attempt < 3; attempt += 1) {
     if (await page.getByRole('button', { name: `Theme: ${label}. Click to switch.`, exact: true }).count()) break;
