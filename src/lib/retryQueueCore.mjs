@@ -43,7 +43,7 @@ export function scheduleMeasuredRetry(items, rawEntry, now = new Date()) {
     completedAt: null,
     dismissedAt: null,
     measuredAttempts: Math.max(1, Number(previous?.measuredAttempts) + 1 || 1),
-    history: [...history, { status: 'scheduled', at: now.toISOString(), scorePercent }],
+    history: [...history, { status: 'scheduled', at: now.toISOString(), dueAt, scorePercent }],
   };
 
   return [next, ...(Array.isArray(items) ? items : []).filter((item) => item?.id !== id)]
@@ -95,4 +95,61 @@ export function completeRetryItem(items, id, now = new Date(), scorePercent) {
 
 export function dismissRetryItem(items, id, now = new Date()) {
   return transitionRetry(items, id, 'dismissed', now);
+}
+
+
+export function summarizeRetryFollowThrough(items, now = new Date()) {
+  const nowMs = now.getTime();
+  if (!Number.isFinite(nowMs)) {
+    return { maturedCycles: 0, completedAfterDue: 0, dismissedAfterDue: 0, overdueOpen: 0, completionRate: null };
+  }
+
+  let maturedCycles = 0;
+  let completedAfterDue = 0;
+  let dismissedAfterDue = 0;
+  let overdueOpen = 0;
+
+  const finalize = (cycle, terminal = null) => {
+    if (!cycle || cycle.dueAtMs > nowMs) return;
+    maturedCycles += 1;
+    if (!terminal) {
+      overdueOpen += 1;
+      return;
+    }
+    const terminalAt = Date.parse(terminal.at);
+    if (!Number.isFinite(terminalAt) || terminalAt < cycle.dueAtMs) return;
+    if (terminal.status === 'completed') completedAfterDue += 1;
+    if (terminal.status === 'dismissed') dismissedAfterDue += 1;
+  };
+
+  for (const item of validRetryItems(items)) {
+    const history = Array.isArray(item.history)
+      ? item.history
+          .filter((event) => event && typeof event === 'object' && Number.isFinite(Date.parse(event.at)))
+          .toSorted((a, b) => Date.parse(a.at) - Date.parse(b.at))
+      : [];
+    let current = null;
+
+    for (const event of history) {
+      if (event.status === 'scheduled') {
+        finalize(current);
+        const dueAtMs = Date.parse(event.dueAt);
+        current = Number.isFinite(dueAtMs) ? { dueAtMs } : null;
+        continue;
+      }
+      if ((event.status === 'completed' || event.status === 'dismissed') && current) {
+        finalize(current, event);
+        current = null;
+      }
+    }
+    finalize(current);
+  }
+
+  return {
+    maturedCycles,
+    completedAfterDue,
+    dismissedAfterDue,
+    overdueOpen,
+    completionRate: maturedCycles ? completedAfterDue / maturedCycles : null,
+  };
 }

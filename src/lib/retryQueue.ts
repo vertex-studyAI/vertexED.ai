@@ -26,7 +26,7 @@ export type RetryItem = {
   updatedAt: string;
   completedAt: string | null;
   dismissedAt: string | null;
-  history: Array<{ status: 'scheduled' | 'completed' | 'dismissed'; at: string; scorePercent?: number }>;
+  history: Array<{ status: 'scheduled' | 'completed' | 'dismissed'; at: string; dueAt?: string; scorePercent?: number }>;
 };
 
 function storageKey() {
