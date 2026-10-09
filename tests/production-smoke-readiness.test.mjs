@@ -11,6 +11,8 @@ test('production smoke certifies readiness capabilities and immutable identity',
   assert.match(smokeSource, /coreAi/);
   assert.match(smokeSource, /plannerAi/);
   assert.match(smokeSource, /examSessionStorage/);
+  assert.match(smokeSource, /expiringHashedInvites/);
+  assert.match(smokeSource, /automaticTimestamps/);
   assert.match(smokeSource, /x-vertexed-health/);
   assert.match(smokeSource, /assertExpectedRevision\(readiness/);
 });
