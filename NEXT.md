@@ -2,65 +2,52 @@
 
 ## Current engineering release boundary
 
-Canonical source is `main@6ed3e09b524b2bf86ef3372f517da6cfa627387e`, the verified merge of PR #773.
-PR #773 landed read-only failed-SHA transport diagnostics that preserve a bounded CNAME
-chain alongside final DNS addresses; the exact PR head passed canonical CI before merge.
+Snapshot date: **2026-09-23**.
 
-Post-merge main CI run `34116347054` is complete:
+Canonical repository source is `main@2ca208c8ffd10c83005f3afe65057bc847277d5f`, the verified merge of PR #1057. Do not infer deployment state from repository source alone.
 
-- `build-and-test`: **SUCCESS**;
-- `browser-local-accessibility`: **SUCCESS**;
-- `browser-production`: **FAILURE**;
-- `smoke-production`: **FAILURE**.
+The newest scheduled production evidence on that exact source is:
 
-The failed-main transport workflow `34116777521` then completed **SUCCESS** as an evidence
-workflow and retained artifact `10016567327`
-(`sha256:fe66adaa3d69065c3500fad70ae53fcfe58c9c0b8ee711474483b68a7fdcb49f`) against that
-same exact source SHA.
+- Production Health Monitor `35824818620`: **FAILURE**;
+- Production Transport Diagnostics `35824877967`: **SUCCESS** as evidence collection;
+- retained health artifact `10734722999`, digest `sha256:57da9cb72dcb5cb5257942fa593d2cbf7ea0e68a0092a5d30f925c4f0ed0d489`;
+- retained transport artifact `10734513262`, digest `sha256:9c42548422355f3f5134f5ced28a559eb0362bc673d7f2bfd722bfaad4292d6c`.
 
-Fresh retained transport evidence at `2026-09-07T11:28:23Z` localizes the first observable
-live break after DNS and TCP but before application HTTP semantics:
+Both artifacts are bound to exact `main@2ca208c8ffd10c83005f3afe65057bc847277d5f`; the health artifact was created at `2026-09-23T06:01:32Z` and the transport artifact at `2026-09-23T06:01:57Z`.
 
-- DNS succeeds;
-- `www.vertexed.app` has **no CNAME chain** and terminates directly at A records
-  `2.59.170.20` and `104.219.250.37`;
-- TCP/443 succeeds;
-- authenticated TLS fails with `ECONNRESET` before a secure session is established;
-- HTTPS fails at the same pre-handshake boundary;
-- the final A destinations are announced by Namecheap and Worldstream rather than Vercel.
+The scheduled health job verified its source binding and production-health contracts, collected public evidence, uploaded the probe artifact, and updated the production incident before the final `Enforce production health gate` step failed. The paired transport workflow completed successfully as evidence collection on the same immutable source.
 
-Treat that as a demonstrated production-routing mismatch, not as proof of which of the two
-attached Vercel projects is the intended canonical owner or of the exact DNS value that
-should replace the current route.
+Treat this as a demonstrated serving/routing failure, not proof of which provider project owns the domain or of the DNS/certificate/backend value that should replace the current route. Issue #44 owns authoritative serving-project identity and provider-side correction; issue #652 is the auto-updated scheduled health incident.
 
-Do not create a sentinel/no-op commit, weaken immutable revision/readiness checks, guess a
-project-specific DNS target, or rewrite unrelated product code to probe this failure.
+Do not create a sentinel/no-op commit, weaken immutable revision/readiness checks, guess a project-specific DNS target, or rewrite unrelated product code to probe this failure.
+
+## Current reviewable engineering surfaces
+
+- #1066 — fail-honest exam-practice subject routing. Exact head `e6c02f02df292a081f9649a99ee0df7db865dfe6`; exact-head CI `35615592970` succeeded. Integrate this before reconstructing #1061 because both touch `ExamPracticeLab.tsx`.
+- #1069 — held/unreviewed study-guide publication boundary. Exact head `7a8ac7f368e894c2b235a4792093e9ef6ec5517f`; exact-head CI `35625175172` succeeded.
+- #1072 — direct onboarding routing for incomplete signed-in learners. Exact head `0d24b5345750f2ba5831d03cc6bc756e0ed73d4c`; exact-head CI `35635484070` succeeded.
+
+These are ordinary independent-review surfaces. Repository-green is not deployment authorization.
+
+## Intentionally Draft engineering / provenance surfaces
+
+- #1067 — member-authorization reconstruction. Keep Draft for independent security review and historical-account/access reconciliation.
+- #1070 — complete database-readiness contract. Keep Draft behind #913/#916 migration/provenance review; do not weaken readiness to make production green.
+- #1071 — production-repair provenance. Keep Draft; repository provenance does not authorize migration replay or production mutation.
+- #1073 — professor-study reproducibility infrastructure. Keep Draft for scientific-method review; engineering green does not authorize study execution or outcome access.
+- #1061 — historical optional-baseline branch. Do not restack until #1066 integrates; then reconstruct once on resulting main and require fresh whole-head CI.
 
 ## Next engineering gates
 
-1. Prove which Vercel project intentionally owns the `www.vertexed.app` production alias.
-2. Obtain the exact custom-domain DNS target reported by that canonical Vercel project
-   through its domain settings or verification tooling, and retain only non-secret
-   configuration evidence.
-3. Inspect the first causal private deployment log for the canonical project. Inspect the
-   duplicate project only far enough to determine whether it shares the same cause or
-   should be detached.
-4. Correct only the demonstrated `www.vertexed.app` DNS mismatch, preserving unrelated
-   MX/TXT/verification records. Do not infer a target from examples or another project.
-5. Make one deliberate immutable deployment of a selected current release SHA through the
-   canonical project only after routing/project ownership is corrected.
-6. Require that same SHA to pass DNS/TLS, `/api/health` liveness, exact revision in body and
-   headers, `HEAD` health identity, dependency-aware readiness, production browser,
-   production smoke, and the scheduled Production Health monitor.
-7. Separately remediate the open Supabase platform security warnings tracked in #686
-   through authorized infrastructure controls; do not simulate them in application code
-   or perform an unattended database upgrade.
-8. After exact production identity is certified, run approved disposable-account auth/RLS
-   journeys. Never commit or paste access tokens, database URLs, service-role keys, or
-   learner data into this repository or evidence artifacts.
+1. Obtain genuine independent review on #1066, #1069 and #1072.
+2. After #1066 integrates normally, reconstruct #1061 once on resulting main while preserving fail-honest subject routing, then require fresh exact-head whole-repository CI.
+3. Complete independent security review of #1067 without weakening the member-authorization boundary.
+4. Complete #913/#916 database/provenance review before considering #1070/#1071 for integration or production action.
+5. Prove which provider project intentionally owns the `www.vertexed.app` production alias.
+6. Obtain that project's exact custom-domain DNS/certificate/backend state and one attributable exact-SHA deployment receipt before changing infrastructure.
+7. Correct only the demonstrated serving/routing defect, then rerun the unchanged production health, transport, smoke, browser and readiness contracts on one served revision.
+8. Separately remediate authorized platform-security warnings and only then perform approved disposable-account authenticated journeys.
 
 ## Scientific boundary
 
-Learner-study execution and interpretation remain outside engineering automation. Keep
-`docs/PILOT_PROTOCOL.md` frozen for the research workflow; until participant evidence
-exists, do not claim measured learning improvement.
+Learner-study execution and interpretation remain outside engineering automation. Repository tooling may be repaired without changing frozen protocols or claims, but no study, worker, participant analysis, held-out evaluation or scientific outcome should be run from this lane.
