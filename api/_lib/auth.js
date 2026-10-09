@@ -1,4 +1,7 @@
 import { createServerSupabaseClient } from './serverSupabase.js';
+import { getSupabaseAdmin } from './supabaseAdmin.js';
+import { isAdminUser } from './admin.js';
+import { getAccountWaitlistEntry } from './waitlistAccess.js';
 
 export const MAX_JSON_BODY_BYTES = 2 * 1024 * 1024;
 export const MAX_AUDIO_BYTES = 15 * 1024 * 1024;
@@ -26,7 +29,7 @@ export function isTransientAuthError(error) {
     || status >= 500;
 }
 
-export async function verifyAuthUser(req, res) {
+export async function verifyAuthUserOnly(req, res) {
   const token = getBearerToken(req);
   if (!token) {
     res.status(401).json({ error: 'Authentication required. Please log in.' });
@@ -50,6 +53,38 @@ export async function verifyAuthUser(req, res) {
   }
 
   return user;
+}
+
+/**
+ * Authenticate a VertexED product request and require explicit beta access.
+ *
+ * The shared Supabase Auth project contains identities that are not VertexED
+ * members, so a valid bearer token is not sufficient product authorization.
+ * Account privacy/lifecycle and access-status handlers must use
+ * verifyAuthUserOnly() so an unapproved identity can still export/delete its
+ * own data and inspect its access state.
+ */
+export async function verifyAuthUser(req, res) {
+  const user = await verifyAuthUserOnly(req, res);
+  if (!user) return null;
+
+  // Allowlisted operators retain product access even when their historical
+  // waitlist row is absent or linked to a different sign-in address.
+  if (isAdminUser(user)) return user;
+
+  try {
+    const supabase = getSupabaseAdmin();
+    const entry = await getAccountWaitlistEntry(supabase, user);
+    if (entry?.status !== 'approved') {
+      res.status(403).json({ error: 'Approved VertexED beta access is required.' });
+      return null;
+    }
+    return user;
+  } catch (error) {
+    console.error('VertexED access verification failed:', error?.code || (error instanceof Error ? error.name : 'UnknownError'));
+    res.status(503).json({ error: 'Account access could not be verified. Please try again.' });
+    return null;
+  }
 }
 
 export function readJsonBody(req) {

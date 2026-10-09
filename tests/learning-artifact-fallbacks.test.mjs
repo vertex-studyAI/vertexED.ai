@@ -16,9 +16,11 @@ import { createMocks } from './helpers/mock-http.mjs';
 const noteClientSource = await readFile(new URL('../src/pages/NotetakerQuiz.tsx', import.meta.url), 'utf8');
 const paperClientSource = await readFile(new URL('../src/pages/PaperMaker.tsx', import.meta.url), 'utf8');
 
+const TEST_USER_ID = '550e8400-e29b-41d4-a716-446655440000';
 const ENV_KEYS = [
   'SUPABASE_URL', 'SUPABASE_ANON_KEY', 'SUPABASE_SERVICE_ROLE_KEY',
   'OPENAI_API_KEY', 'ChatbotKey', 'CHATBOT_KEY', 'NODE_ENV', 'VERCEL_ENV',
+  'WAITLIST_RATE_LIMIT_SALT',
 ];
 
 async function withEnvironment(values, fn) {
@@ -28,6 +30,7 @@ async function withEnvironment(values, fn) {
   Object.assign(process.env, {
     SUPABASE_URL: 'https://vertexed-test.supabase.co',
     SUPABASE_ANON_KEY: 'test-anon-key',
+    SUPABASE_SERVICE_ROLE_KEY: 'test-service-role-key',
     NODE_ENV: 'test',
     ...values,
   });
@@ -52,11 +55,41 @@ function authenticatedMocks(body) {
 
 function authResponse() {
   return new Response(JSON.stringify({
-    id: '550e8400-e29b-41d4-a716-446655440000',
+    id: TEST_USER_ID,
     aud: 'authenticated',
     role: 'authenticated',
     email: 'synthetic@example.invalid',
   }), { status: 200, headers: { 'content-type': 'application/json' } });
+}
+
+function approvedMembershipResponse() {
+  return new Response(JSON.stringify({
+    id: 'waitlist-fixture',
+    status: 'approved',
+    signup_method: 'invite',
+    auth_user_id: TEST_USER_ID,
+  }), { status: 200, headers: { 'content-type': 'application/json' } });
+}
+
+function allowedRateLimitResponse() {
+  return new Response(JSON.stringify({
+    allowed: true,
+    retry_after_sec: 0,
+  }), { status: 200, headers: { 'content-type': 'application/json' } });
+}
+
+function isAuthRequest(url) {
+  return String(url).includes('/auth/v1/user');
+}
+
+function isMembershipRequest(url) {
+  const parsed = new URL(String(url));
+  return parsed.pathname === '/rest/v1/waitlist';
+}
+
+function isRateLimitRpcRequest(url) {
+  const parsed = new URL(String(url));
+  return parsed.pathname === '/rest/v1/rpc/consume_waitlist_rate_limit';
 }
 
 test('deterministic note fallback extracts only supplied ideas and carries no factual invention', () => {
@@ -132,8 +165,10 @@ test('paper normalization enforces requested question count and mark total', () 
 test('note endpoint returns a provenance-bound scaffold when the provider is unconfigured', async () => {
   await withEnvironment({}, async () => {
     global.fetch = async (url) => {
-      assert.match(String(url), /auth\/v1\/user/);
-      return authResponse();
+      if (isAuthRequest(url)) return authResponse();
+      if (isMembershipRequest(url)) return approvedMembershipResponse();
+      if (isRateLimitRpcRequest(url)) return allowedRateLimitResponse();
+      throw new Error(`Unexpected request ${url}`);
     };
     const { req, res, getStatus, getJson } = authenticatedMocks({
       topic: 'Photosynthesis',
@@ -153,7 +188,12 @@ test('note endpoint returns a provenance-bound scaffold when the provider is unc
 
 test('paper endpoint returns a usable deterministic paper when the provider is unconfigured', async () => {
   await withEnvironment({}, async () => {
-    global.fetch = async () => authResponse();
+    global.fetch = async (url) => {
+      if (isAuthRequest(url)) return authResponse();
+      if (isMembershipRequest(url)) return approvedMembershipResponse();
+      if (isRateLimitRpcRequest(url)) return allowedRateLimitResponse();
+      throw new Error(`Unexpected request ${url}`);
+    };
     const { req, res, getStatus, getJson } = authenticatedMocks({
       board: 'IB MYP', grade: 10, subject: 'History', topics: ['Source analysis'],
       marks: 40, numQuestions: 5, difficulty: 'medium', images: [],
@@ -170,12 +210,15 @@ test('paper endpoint returns a usable deterministic paper when the provider is u
 
 test('malformed paper model output degrades without returning raw provider content', async () => {
   await withEnvironment({ OPENAI_API_KEY: 'synthetic-provider-key' }, async () => {
-    global.fetch = async (url) => String(url).includes('auth/v1/user')
-      ? authResponse()
-      : new Response(JSON.stringify({ choices: [{ message: { content: 'PRIVATE malformed output' } }] }), {
-          status: 200,
-          headers: { 'content-type': 'application/json' },
-        });
+    global.fetch = async (url) => {
+      if (isAuthRequest(url)) return authResponse();
+      if (isMembershipRequest(url)) return approvedMembershipResponse();
+      if (isRateLimitRpcRequest(url)) return allowedRateLimitResponse();
+      return new Response(JSON.stringify({ choices: [{ message: { content: 'PRIVATE malformed output' } }] }), {
+        status: 200,
+        headers: { 'content-type': 'application/json' },
+      });
+    };
     const { req, res, getStatus, getJson } = authenticatedMocks({
       board: 'IGCSE', grade: 10, subject: 'Physics', topics: ['Forces'],
       marks: 40, numQuestions: 4, difficulty: 'hard', images: [],
@@ -190,9 +233,12 @@ test('malformed paper model output degrades without returning raw provider conte
 
 test('note provider errors degrade without leaking provider response text', async () => {
   await withEnvironment({ OPENAI_API_KEY: 'synthetic-provider-key' }, async () => {
-    global.fetch = async (url) => String(url).includes('auth/v1/user')
-      ? authResponse()
-      : new Response('PRIVATE provider diagnostic', { status: 500 });
+    global.fetch = async (url) => {
+      if (isAuthRequest(url)) return authResponse();
+      if (isMembershipRequest(url)) return approvedMembershipResponse();
+      if (isRateLimitRpcRequest(url)) return allowedRateLimitResponse();
+      return new Response('PRIVATE provider diagnostic', { status: 500 });
+    };
     const { req, res, getStatus, getJson } = authenticatedMocks({
       topic: 'Kinematics', additionalInfo: 'Velocity is displacement per unit time.', flashCount: 4,
     });

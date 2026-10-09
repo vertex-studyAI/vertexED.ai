@@ -6,7 +6,7 @@ const accountSource = fs.readFileSync('api/_handlers/account.js', 'utf8');
 const routesSource = fs.readFileSync('api/_lib/routes.js', 'utf8');
 
 test('account deletion is authenticated, rate-limited, and routed only through DELETE', () => {
-  assert.match(accountSource, /verifyAuthUser\(req, res\)/);
+  assert.match(accountSource, /verifyAuthUserOnly\(req, res\)/);
   assert.match(accountSource, /rateLimitUserEndpoint\(user\.id, 'account-delete', res, \{ limit: 3/);
   assert.match(routesSource, /account:\s*\{[\s\S]*?methods: \['DELETE'\]/);
   assert.match(accountSource, /body\?\.confirmation !== 'DELETE'/);

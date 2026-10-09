@@ -1,4 +1,4 @@
-import { verifyAuthUser } from '../_lib/auth.js';
+import { verifyAuthUserOnly as verifyAuthUser } from '../_lib/auth.js';
 import { getSupabaseAdmin } from '../_lib/supabaseAdmin.js';
 import { isAdminUser } from '../_lib/admin.js';
 import { rateLimitUserEndpoint } from '../_lib/rateLimit.js';
