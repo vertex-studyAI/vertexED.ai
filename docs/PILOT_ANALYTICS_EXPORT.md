@@ -66,3 +66,37 @@ The CSV contains only the bounded pseudonymous session schema. It does not inclu
 ## Production use
 
 This module does not itself collect or consent participants and does not bypass RLS. A production pilot still needs an appropriate opt-in/consent process and an account-isolated source query/export path. Preserve the exact source revision and export inputs used for any public quantitative claim.
+
+
+## Staff-safe aggregate-only report
+
+For ordinary pilot operations or a teacher/staff summary, prefer the aggregate-only mode:
+
+```bash
+node scripts/export-pilot-analytics.mjs \
+  --input pilot-sessions.json \
+  --json pilot-aggregate.json \
+  --aggregate-only true \
+  --generated-at 2026-09-25T00:00:00.000Z \
+  --source-revision <full-immutable-git-sha>
+```
+
+This output contains **no participant or session rows**. It includes the existing descriptive aggregate plus subject-level coverage: participant count, session count, completed-session count/rate, topic count/list, and mean usefulness when ratings exist. Topic names are curricular labels, not learner answers.
+
+Use aggregate-only output for routine staff reporting whenever row-level research data is unnecessary. Pseudonymous row exports remain a narrower research/withdrawal workflow and must stay access-controlled.
+
+
+## Withdrawal / dataset deletion
+
+A withdrawal request must remove the participant from the **raw analysis input**, not only from accepted/normalized rows. Use:
+
+```bash
+node scripts/remove-pilot-participant.mjs \
+  --input pilot-sessions.json \
+  --output pilot-sessions-retained.json \
+  --participant <pseudonymous-id>
+```
+
+The command removes every raw record whose `participant_id` exactly matches the supplied pseudonymous ID, including malformed or non-consented records that would otherwise be rejected during analytics normalization. This prevents invalid rows from surviving a deletion request merely because they were not part of the analytic export.
+
+The tool writes a new dataset rather than overwriting the original in place and reports only counts plus input/output SHA-256 digests. It does not print the participant ID or session content. Replacement/deletion of the original retained dataset remains an authorized operator action outside this repository tool.

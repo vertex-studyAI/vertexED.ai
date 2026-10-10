@@ -9,6 +9,7 @@ import { Helmet } from "react-helmet-async";
 import SEO from "@/components/SEO";
 import { Link } from "react-router";
 import FeatureShowcase from "@/components/features/FeatureShowcase";
+import AdaptivePracticeWorkspace from '@/components/AdaptivePracticeWorkspace';
 import RichMarkdown from "@/components/RichMarkdown";
 import {
   BoardSpotlights,
@@ -194,6 +195,15 @@ export default function Features() {
       </div>
 
       <BoardSpotlights />
+
+      <section className="max-w-6xl mx-auto px-4 md:px-6 pb-20 reveal-section" aria-labelledby="features-adaptive-title">
+        <div className="mb-8 max-w-3xl">
+          <p className="text-sm text-primary">Try the question engine</p>
+          <h2 id="features-adaptive-title" className="text-3xl md:text-5xl font-semibold mt-3 tracking-tight">Difficulty you can see in the work.</h2>
+          <p className="mt-4 text-muted-foreground leading-relaxed">Choose a subject, topic, level and answer type. Known wrong-answer patterns produce a specific diagnosis and a focused follow-up. This local example does not call a model or claim a mastery score.</p>
+        </div>
+        <AdaptivePracticeWorkspace />
+      </section>
 
       <section className="features-lesson max-w-4xl mx-auto px-4 md:px-6 pb-16" aria-labelledby="feature-lesson-title">
         <p className="text-sm text-primary">Try an actual learning workflow</p>

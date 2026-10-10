@@ -3,7 +3,9 @@ import type { Session, User } from "@supabase/supabase-js";
 import { trackLogout } from "@/lib/accountLifecycleAnalytics.mjs";
 import { setAuthAccessToken } from "@/lib/apiAuth";
 import { setPlannerStorageScope } from "@/lib/plannerStorageScope.mjs";
-import { buildMissingProfileInsert, buildProfileUpdate } from "@/lib/profileRecovery.mjs";
+import { buildMissingCurriculumRecovery, buildMissingProfileInsert, buildProfileUpdate } from "@/lib/profileRecovery.mjs";
+import { withCurriculumRecoverySnapshot } from "@/lib/profileRecoverySnapshot.mjs";
+import { isOnboardingComplete } from "@/lib/onboardingStatus.js";
 import { supabase } from "@/lib/supabaseClient";
 import { setUserContentStorageScope } from "@/lib/userContentStorageScope.mjs";
 import { initializeLearnerStateSync } from "@/lib/learnerStateSync";
@@ -114,9 +116,14 @@ export function AuthProvider({ children }: PropsWithChildren) {
         setSession(data.session ?? null);
         setUser(nextUser);
         // Don't block app on profile fetch; fire and forget with a handled failure.
-        if (nextUser) void refreshProfile(nextUser.id, nextUser.email).catch(() => {
-          console.warn("Profile refresh unavailable after session initialization.");
-        });
+        if (nextUser) {
+          const profileTask = isOnboardingComplete(nextUser)
+            ? postAuthUpsertProfile(nextUser)
+            : refreshProfile(nextUser.id, nextUser.email);
+          void profileTask.catch(() => {
+            console.warn("Profile refresh unavailable after session initialization.");
+          });
+        }
         setLoading(false);
       } catch {
         if (!isMounted || initialRevision !== sessionEventRevision) return;
@@ -136,7 +143,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
     if (!supabase) return () => { isMounted = false; };
 
-    const { data: sub } = supabase.auth.onAuthStateChange((_event, newSession) => {
+    const { data: sub } = supabase.auth.onAuthStateChange((event, newSession) => {
       if (!isMounted) return;
       sessionEventRevision += 1;
       clearLoadingSafetyTimer();
@@ -149,8 +156,13 @@ export function AuthProvider({ children }: PropsWithChildren) {
       setSession(newSession);
       setUser(nextUser);
       if (nextUser) {
-        // Update profile in background
-        void refreshProfile(nextUser.id, nextUser.email).catch(() => {
+        // SIGNED_IN can arrive from OAuth as well as password login. If Auth
+        // already carries complete onboarding metadata, use the bounded repair
+        // path so a stale/missing durable profile cannot silently bypass setup.
+        const profileTask = event === "SIGNED_IN" && isOnboardingComplete(nextUser)
+          ? postAuthUpsertProfile(nextUser)
+          : refreshProfile(nextUser.id, nextUser.email);
+        void profileTask.catch(() => {
           console.warn("Profile refresh unavailable after authentication changed.");
         });
       } else {
@@ -255,7 +267,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
     profileRequestRef.current = requestId;
     const { data, error } = await supabase
       .from("profiles")
-      .select("id, email, full_name, avatar_url, board, grade, subjects, exam_date, created_at, updated_at")
+      .select("id, email, full_name, avatar_url, school_name, board, grade, subjects, exam_date, created_at, updated_at")
       .eq("id", userId)
       .maybeSingle();
     // A profile response belongs only to the auth identity and request epoch that
@@ -285,7 +297,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
       .from("profiles")
       .update(updatePayload)
       .eq("id", u.id)
-      .select("id")
+      .select("id, board, grade, subjects, exam_date")
       .maybeSingle();
 
     if (updateError) {
@@ -293,8 +305,36 @@ export function AuthProvider({ children }: PropsWithChildren) {
       return;
     }
 
-    if (!updated) {
-      const insertPayload = buildMissingProfileInsert(u, metadata, updatedAt);
+    if (updated) {
+      const completeCurriculumSnapshot = ['board', 'grade', 'subjects', 'exam_date'].every(
+        (field) => Object.prototype.hasOwnProperty.call(updated, field),
+      );
+      if (!completeCurriculumSnapshot) {
+        await refreshProfile(u.id, u.email);
+        return;
+      }
+      const curriculumRecovery = buildMissingCurriculumRecovery(updated, u);
+      if (Object.keys(curriculumRecovery).length > 0) {
+        // A learner may edit curriculum after the snapshot above. Compare all
+        // observed curriculum fields atomically and refresh on a no-match rather
+        // than retrying an obsolete patch over the learner's newer choices.
+        const { error: curriculumError } = await withCurriculumRecoverySnapshot(
+          supabase
+            .from("profiles")
+            .update({ ...curriculumRecovery, updated_at: updatedAt })
+            .eq("id", u.id),
+          updated,
+        );
+        if (curriculumError) {
+          console.error("profiles curriculum recovery error:", curriculumError);
+          return;
+        }
+      }
+    } else {
+      const insertPayload = {
+        ...buildMissingProfileInsert(u, metadata, updatedAt),
+        ...buildMissingCurriculumRecovery(null, u),
+      };
       const { error: insertError } = await supabase.from("profiles").insert(insertPayload);
       // A concurrent auth event may have repaired the same profile first. In that
       // narrow race, the unique-key conflict is success-equivalent for recovery.

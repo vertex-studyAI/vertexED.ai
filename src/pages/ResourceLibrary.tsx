@@ -268,7 +268,7 @@ export default function ResourceLibrary() {
                     to="/study-notebook"
                     className="inline-flex items-center gap-1 rounded-full border border-border/60 px-2.5 py-1 hover:border-primary/30 transition"
                   >
-                    Add to Notebook →
+                    Open Notebook →
                   </Link>
                 </div>
                 <article className="prose-scroll max-h-[70vh] overflow-y-auto pr-2 immersive-reading">

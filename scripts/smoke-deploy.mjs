@@ -130,12 +130,17 @@ async function main() {
     const databaseError = typeof readiness.body?.databaseError === 'string'
       ? readiness.body.databaseError.trim()
       : '';
+    const readinessDetailsRedacted = readiness.body?.detail === 'redacted';
+    const detailedChecksHealthy = checks
+      && typeof checks === 'object'
+      && missingChecks.length === 0;
+    const redactedSummaryHealthy = !READINESS_TOKEN && readinessDetailsRedacted;
 
     const readinessHealthy = readiness.status === 200
       && readiness.body?.ok === true
       && readiness.body?.status === 'ready'
       && readiness.headers.get('x-vertexed-health') === 'ready'
-      && missingChecks.length === 0;
+      && (detailedChecksHealthy || redactedSummaryHealthy);
 
     if (!readinessHealthy) {
       const details = [
@@ -143,7 +148,12 @@ async function main() {
         `status=${readiness.body?.status ?? 'missing'}`,
         `header=${readiness.headers.get('x-vertexed-health') ?? 'missing'}`,
       ];
-      if (missingChecks.length > 0) {
+      if (readinessDetailsRedacted) {
+        details.push('details=redacted');
+        if (READINESS_TOKEN) {
+          details.push('hint=readiness token was supplied but detailed checks remained redacted; verify provider env parity');
+        }
+      } else if (missingChecks.length > 0) {
         details.push(`failedChecks=${missingChecks.join(',')}`);
       }
       if (databaseError) {
@@ -156,6 +166,8 @@ async function main() {
         details.push('hint=set WAITLIST_RATE_LIMIT_SALT in the Vercel project env');
       }
       fail(`/api/health?readiness=1 not ready (${details.join('; ')})`);
+    } else if (readinessDetailsRedacted) {
+      pass('/api/health?readiness=1 reports ready with protected capability details redacted');
     } else {
       pass('/api/health?readiness=1 reports all required capabilities, including exam-session storage');
     }

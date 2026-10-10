@@ -4,6 +4,7 @@ import { readFile, writeFile } from 'node:fs/promises';
 
 import {
   buildParticipantPilotExport,
+  buildPilotAggregateExport,
   buildPilotExport,
   pilotSessionsToCsv,
 } from '../src/lib/pilotAnalyticsCore.mjs';
@@ -13,6 +14,7 @@ const usage = () => {
     [
       'Usage:',
       '  node scripts/export-pilot-analytics.mjs --input pilot.json --json out.json --csv out.csv',
+      '    [--aggregate-only true]',
       '    --generated-at 2026-09-02T00:00:00.000Z --source-revision <git-sha> [--participant <pseudonymous-id>]',
       '',
       'Input may be a JSON array of session records or {"sessions": [...]}.',
@@ -32,7 +34,10 @@ const parseArgs = (argv) => {
 };
 
 const args = parseArgs(process.argv.slice(2));
-const required = ['input', 'json', 'csv', 'generated-at', 'source-revision'];
+const aggregateOnly = args?.get('aggregate-only') === 'true';
+const required = aggregateOnly
+  ? ['input', 'json', 'generated-at', 'source-revision']
+  : ['input', 'json', 'csv', 'generated-at', 'source-revision'];
 if (!args || required.some((key) => !args.get(key))) {
   usage();
   process.exitCode = 2;
@@ -50,15 +55,18 @@ if (!args || required.some((key) => !args.get(key))) {
       source: `input-sha256:${digest}`,
     };
     const participant = args.get('participant');
-    const exported = participant
-      ? buildParticipantPilotExport(records, participant, metadata)
-      : buildPilotExport(records, metadata);
+    if (aggregateOnly && participant) throw new TypeError('--aggregate-only cannot be combined with --participant');
+    const exported = aggregateOnly
+      ? buildPilotAggregateExport(records, metadata)
+      : participant
+        ? buildParticipantPilotExport(records, participant, metadata)
+        : buildPilotExport(records, metadata);
     const csvRecords = participant
       ? records.filter((record) => record?.participant_id === participant)
       : records;
 
     await writeFile(args.get('json'), `${JSON.stringify(exported, null, 2)}\n`, 'utf8');
-    await writeFile(args.get('csv'), pilotSessionsToCsv(csvRecords), 'utf8');
+    if (!aggregateOnly) await writeFile(args.get('csv'), pilotSessionsToCsv(csvRecords), 'utf8');
 
     process.stdout.write(
       `${JSON.stringify({

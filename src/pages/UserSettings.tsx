@@ -79,6 +79,7 @@ export default function UserSettings() {
     learnerProfile.preferences.explanationDepth,
   );
   const [sessionMinutes, setSessionMinutes] = useState(learnerProfile.preferences.sessionMinutes);
+  const [schoolName, setSchoolName] = useState(() => profile?.school_name ?? (typeof user?.user_metadata?.school === 'string' ? user.user_metadata.school : ''));
   const [savingCurriculum, setSavingCurriculum] = useState(false);
   const [savingProfile, setSavingProfile] = useState(false);
   const [deletingAccount, setDeletingAccount] = useState(false);
@@ -94,7 +95,12 @@ export default function UserSettings() {
     setAiStyle(profile.preferences.aiStyle);
     setExplanationDepth(profile.preferences.explanationDepth);
     setSessionMinutes(profile.preferences.sessionMinutes);
+    setSchoolName((current) => current || (typeof user?.user_metadata?.school === 'string' ? user.user_metadata.school : ''));
   }, [user]);
+
+  useEffect(() => {
+    if (typeof profile?.school_name === 'string') setSchoolName(profile.school_name);
+  }, [profile?.school_name]);
 
   const saveCurriculum = async () => {
     if (!supabase || !user) return;
@@ -128,10 +134,11 @@ export default function UserSettings() {
   };
 
   const saveLearningProfile = async () => {
-    if (!supabase) return;
+    if (!supabase || !user) return;
     setSavingProfile(true);
     try {
-      const metadata = buildLearnerMetadataPatch(
+      const metadata = {
+        ...buildLearnerMetadataPatch(
         {
           studyGoal: studyGoal || null,
           gradeLevel: gradeLevel || null,
@@ -142,12 +149,19 @@ export default function UserSettings() {
           },
         },
         user?.user_metadata ?? {},
-      );
+        ),
+        school: schoolName.trim() || null,
+      };
       const { error } = await supabase.auth.updateUser({ data: metadata });
       if (error) throw error;
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .update({ school_name: schoolName.trim() || null, updated_at: new Date().toISOString() })
+        .eq('id', user.id);
+      if (profileError) throw profileError;
       toast({
         title: "Learning profile saved",
-        description: "Apex, planner suggestions, and default focus-block length now follow your saved preferences.",
+        description: "Your school, learning preferences, and focus-block length are saved to your account.",
       });
     } catch (e) {
       toast({
@@ -452,6 +466,18 @@ export default function UserSettings() {
             </p>
             <div className="space-y-5">
               <label className="block">
+                <span className="text-sm text-muted-foreground mb-1.5 block">School <span className="font-normal">(optional)</span></span>
+                <input
+                  className="neu-input-el w-full"
+                  value={schoolName}
+                  onChange={(event) => setSchoolName(event.target.value.slice(0, 160))}
+                  placeholder="Type your school name"
+                  autoComplete="organization"
+                  maxLength={160}
+                />
+                <span className="mt-1.5 block text-xs text-muted-foreground">Free text is supported. A saved name does not verify an affiliation.</span>
+              </label>
+              <label className="block">
                 <span className="text-sm text-muted-foreground mb-1.5 block">Study goal</span>
                 <select
                   className="neu-input-el w-full"
@@ -568,8 +594,9 @@ export default function UserSettings() {
                 <input type="checkbox" checked={a11y.simpleMode} onChange={(e) => updateA11y({ simpleMode: e.target.checked })} />
               </label>
               <div className="flex items-center justify-between gap-4">
-                <span>Font size</span>
+                <label htmlFor="settings-font-size">Font size</label>
                 <select
+                  id="settings-font-size"
                   className="neu-input-el max-w-[10rem]"
                   value={a11y.fontSize}
                   onChange={(e) => updateA11y({ fontSize: e.target.value as typeof a11y.fontSize })}

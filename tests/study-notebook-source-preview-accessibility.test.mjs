@@ -15,8 +15,8 @@ test("Study Notebook source preview reuses the shared accessible modal", () => {
   assert.match(notebookSource, /import AccessibleModal from '@\/components\/AccessibleModal'/);
   assert.match(notebookSource, /titleId="notebook-source-preview-title"/);
   assert.match(notebookSource, /descriptionId="notebook-source-preview-description"/);
-  assert.match(notebookSource, /overlayClassName="notebook-modal-backdrop"/);
-  assert.match(notebookSource, /className="notebook-modal"/);
+  assert.match(notebookSource, /overlayClassName="learning-rail-overlay"/);
+  assert.match(notebookSource, /className="learning-workspace learning-paper learning-rail"/);
   assert.ok(notebookSource.includes("onClose={() => setPreviewSourceId(null)}"));
   assert.doesNotMatch(
     notebookSource,

@@ -20,8 +20,10 @@ import {
 
 import { useAuth } from '@/contexts/AuthContext';
 import ExamAssessmentSetup from '@/components/ExamAssessmentSetup';
+import ExamBaselinePractice from '@/components/ExamBaselinePractice';
 import ExamEvidence from '@/components/ExamEvidence';
 import ExamPracticeLab from '@/components/ExamPracticeLab';
+import AdaptivePracticeWorkspace from '@/components/AdaptivePracticeWorkspace';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { boardLabel, daysUntilExam } from '@/lib/curriculum';
 import {
@@ -84,6 +86,7 @@ function countdownCopy(days: number | null) {
 }
 
 function missionRoute(mission: Mission, subject: string) {
+  if (mission.kind === 'diagnostic') return '#exam-baseline';
   if (mission.kind === 'review-mock') return '/answer-reviewer';
   if (mission.kind === 'finish-mock') return '/paper-maker';
   if (mission.kind === 'retry' && mission.retryId) {
@@ -333,6 +336,12 @@ export default function ExamPrep() {
               </p>
             </section>
 
+            {mission.kind === 'diagnostic' && <ExamBaselinePractice
+              key={`${authLoading ? 'loading' : user?.id ?? 'anonymous'}:${subject}:${boardLabel(profile.curriculum.board) ?? ''}`}
+              subject={subject}
+              programme={boardLabel(profile.curriculum.board) ?? ''}
+            />}
+
             <section className="exam-prep-panel" aria-labelledby="session-title">
               <div className="exam-prep-section-head">
                 <div>
@@ -401,6 +410,7 @@ export default function ExamPrep() {
                 )}
               </div>
             </section>
+            <AdaptivePracticeWorkspace key={`adaptive:${authLoading ? 'loading' : user?.id ?? 'anonymous'}:${subject}`} initialSubject={subject} />
             <ExamPracticeLab key={`${authLoading ? 'loading' : user?.id ?? 'anonymous'}:${subject}`} subject={subject} board={profile.curriculum.board} />
             <ExamEvidence subject={subject} />
             <section className="exam-prep-panel" aria-labelledby="session-history-title">

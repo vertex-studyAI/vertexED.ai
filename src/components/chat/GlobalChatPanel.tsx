@@ -1,3 +1,4 @@
+import ConversationStatus from '@/components/chat/ConversationStatus';
 import { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router";
 import { Minimize2, Trash2, X } from "lucide-react";
@@ -34,7 +35,7 @@ export default function GlobalChatPanel({ openRequest = 0, hideLauncher = false,
   });
   const [minimized, setMinimized] = useState(false);
 
-  const { messages, input, setInput, loading, streamingMessageId, sendMessage, cancelMessage, clearChat } = useApexChat({
+  const { messages, input, setInput, loading, streamingMessageId, sendMessage, cancelMessage, clearChat, persistence, store, recoveryText, historyDisabled } = useApexChat({
     context: studyContext,
     threadKey: 'apex-main',
     onSessionRecord: recordStudySession,
@@ -203,7 +204,8 @@ export default function GlobalChatPanel({ openRequest = 0, hideLauncher = false,
               </div>
 
               <div className="apex-panel-footer">
-                <ApexChatInput
+                <ConversationStatus store={store} persistence={persistence} recoveryText={recoveryText} />
+                <ApexChatInput disabled={historyDisabled}
                   value={input}
                   onChange={setInput}
                   onSend={send}

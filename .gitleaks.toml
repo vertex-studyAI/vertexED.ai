@@ -1,0 +1,18 @@
+title = "VertexED secret scan"
+
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Public IndexNow ownership key, published in the sitemap submission command"
+condition = "AND"
+paths = ['''(^|/)package\.json$''']
+regexTarget = "line"
+regexes = ['''"seo:indexnow": "node scripts/indexnow\.mjs --host=https://www\.vertexed\.app --key=07fe36c13a0c4aee8856c99f640ebf98 --fromSitemap=public/sitemap\.xml"''']
+
+[[allowlists]]
+description = "Biology prose about the enzyme lock-and-key model, not a credential"
+condition = "AND"
+paths = ['''(^|/)public/study-guides/myp/biology/index\.md$''']
+regexTarget = "line"
+regexes = ['''Lock-and-key model, temperature/pH/concentration effects, named enzymes, inhibitors, Criterion B design''']

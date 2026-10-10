@@ -100,7 +100,7 @@ export default function PortalIntelligenceGrid({ intel, profile, stats }: Props)
       </PortalWidget>
 
       <PortalWidget id="revision-velocity" span={1}>
-        <WidgetHeader icon={<TrendingUp className="h-4 w-4" />} title="Revision Velocity" subtitle="Mastery trend this week" />
+        <WidgetHeader icon={<TrendingUp className="h-4 w-4" />} title="Verified-score trend" subtitle="Comparable repeated-topic evidence" />
         <p
           className={`text-2xl font-bold mt-3 tabular-nums ${
             intel.revisionVelocity.trend === 'up'

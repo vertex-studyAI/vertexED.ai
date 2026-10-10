@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { dirname, resolve } from 'node:path';
+import { dirname, relative, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { performance } from 'node:perf_hooks';
 
@@ -20,16 +20,23 @@ import {
 
 const here = dirname(fileURLToPath(import.meta.url));
 const root = resolve(here, '..', '..');
-const goldenPath = resolve(root, 'evals/ask/golden.jsonl');
+const defaultPromptPath = 'evals/ask/golden.jsonl';
 
 function parseArgs(argv) {
-  const out = { provider: 'both', out: '', limit: 0, sourceRevision: '' };
+  const out = {
+    provider: 'both',
+    out: '',
+    limit: 0,
+    sourceRevision: '',
+    prompts: defaultPromptPath,
+  };
   for (let i = 0; i < argv.length; i += 1) {
     const arg = argv[i];
     if (arg === '--provider') out.provider = argv[++i] || 'both';
     else if (arg === '--out') out.out = argv[++i] || '';
     else if (arg === '--limit') out.limit = Number.parseInt(argv[++i] || '0', 10) || 0;
     else if (arg === '--source-revision') out.sourceRevision = argv[++i] || '';
+    else if (arg === '--prompts') out.prompts = argv[++i] || defaultPromptPath;
   }
   return out;
 }
@@ -56,15 +63,28 @@ function buildMessages(request) {
     const hint = typeof context.hint === 'string' ? context.hint.trim().slice(0, 2000) : '';
     messages.push({
       role: 'system',
-      content: `You are Apex, VertexED's discussion-first study tutor. The student is on: ${label}. ${hint}\n\nRules:\n- Deliberate step-by-step; ask what they've tried before giving full solutions.\n- Prefer Socratic follow-ups over dumping answers.\n- Use clear structure for math (steps, not just final values).\n- When relevant, reference exam technique, command terms, and mark-scheme thinking.\n- Keep responses focused; if a topic is large, offer a sensible first step and invite follow-up.`,
+      content: `You are Apex, VertexED's discussion-first study tutor. The student is on: ${label}. ${hint}
+
+Rules:
+- Deliberate step-by-step; ask what they've tried before giving full solutions.
+- Prefer Socratic follow-ups over dumping answers.
+- Use clear structure for math (steps, not just final values).
+- When relevant, reference exam technique, command terms, and mark-scheme thinking.
+- Keep responses focused; if a topic is large, offer a sensible first step and invite follow-up.`,
     });
   }
 
   const sourceBlock = formatSourcesForPrompt(sources);
   if (sourceBlock && messages.length > 0) {
-    messages[0].content += `\n\n${GROUNDED_CHAT_RULES}\n\n${sourceBlock}`;
+    messages[0].content += `
+
+${GROUNDED_CHAT_RULES}
+
+${sourceBlock}`;
   } else if (sourceBlock) {
-    messages.push({ role: 'system', content: `${GROUNDED_CHAT_RULES}\n\n${sourceBlock}` });
+    messages.push({ role: 'system', content: `${GROUNDED_CHAT_RULES}
+
+${sourceBlock}` });
   }
 
   if (Array.isArray(history)) {
@@ -82,12 +102,25 @@ function buildMessages(request) {
   return messages;
 }
 
-function loadGolden(limit) {
-  const prompts = readFileSync(goldenPath, 'utf8')
+function resolvePromptPath(promptArg) {
+  const candidate = resolve(root, promptArg);
+  const rel = relative(root, candidate);
+  if (rel.startsWith(`..${sep}`) || rel === '..') {
+    throw new Error('Prompt set must be inside the repository root');
+  }
+  return { absolute: candidate, relative: rel.split(sep).join('/') };
+}
+
+function loadPromptSet(promptArg, limit) {
+  const promptPath = resolvePromptPath(promptArg);
+  const prompts = readFileSync(promptPath.absolute, 'utf8')
     .split(/\r?\n/)
     .filter((line) => line.trim())
     .map((line) => JSON.parse(line));
-  return limit > 0 ? prompts.slice(0, limit) : prompts;
+  return {
+    path: promptPath.relative,
+    prompts: limit > 0 ? prompts.slice(0, limit) : prompts,
+  };
 }
 
 function usageFrom(data) {
@@ -99,16 +132,44 @@ function usageFrom(data) {
   };
 }
 
+function finiteNumber(value) {
+  if (typeof value !== 'string' || !value.trim()) return null;
+  const parsed = Number(value);
+  return Number.isFinite(parsed) && parsed >= 0 ? parsed : null;
+}
+
+function providerPricing(providerName) {
+  const prefix = providerName.toUpperCase();
+  const inputPerMillion = finiteNumber(process.env[`${prefix}_INPUT_COST_PER_1M`]);
+  const outputPerMillion = finiteNumber(process.env[`${prefix}_OUTPUT_COST_PER_1M`]);
+  if (inputPerMillion === null || outputPerMillion === null) return null;
+  return { inputPerMillion, outputPerMillion };
+}
+
+function estimateCostUsd(usage, pricing) {
+  if (!pricing || !usage) return null;
+  const estimate =
+    ((usage.inputTokens || 0) / 1_000_000) * pricing.inputPerMillion +
+    ((usage.outputTokens || 0) / 1_000_000) * pricing.outputPerMillion;
+  return Number(estimate.toFixed(8));
+}
+
+function hasAnyTag(row, tags) {
+  return Array.isArray(row.tags) && row.tags.some((tag) => tags.has(tag));
+}
+
 async function runProvider(providerName, prompts) {
   const config = resolveChatProvider({ ...process.env, CHATBOT_PROVIDER: providerName });
   const rows = [];
+  const pricing = providerPricing(providerName);
+  const endpoint = `${config.baseUrl}/${providerName === 'openai' ? 'responses' : 'chat/completions'}`;
 
   for (const prompt of prompts) {
     const started = performance.now();
     let status = 0;
     let error = null;
     let answer = '';
-    let model = config.primaryModel;
+    const model = config.primaryModel;
     let usage = { inputTokens: 0, outputTokens: 0, totalTokens: 0 };
 
     const messages = buildMessages(prompt.request);
@@ -139,10 +200,14 @@ async function runProvider(providerName, prompts) {
 
     const latencyMs = performance.now() - started;
     const { score, breakdown } = scoreResponse(answer, prompt.rubric);
+    const groundingRequired = Boolean(prompt.rubric?.mustCiteSources);
+    const tags = Array.isArray(prompt.tags) ? prompt.tags : [];
     rows.push({
       id: prompt.id,
       category: prompt.category,
+      subcategory: prompt.subcategory,
       title: prompt.title,
+      tags,
       provider: providerName,
       model,
       status,
@@ -150,21 +215,27 @@ async function runProvider(providerName, prompts) {
       passed: !error && score >= 3,
       score,
       breakdown,
+      groundingRequired,
+      groundedSourceCompliant: groundingRequired ? breakdown.cited === true : null,
       latencyMs: Number(latencyMs.toFixed(1)),
       outputChars: answer.length,
       usage,
+      estimatedCostUsd: estimateCostUsd(usage, pricing),
       ...requestEvidence,
       ...createResponseEvidence(answer, { retainText: true }),
     });
 
     const marker = rows.at(-1).passed ? 'PASS' : 'FAIL';
-    console.log(`${providerName.padEnd(7)} ${marker} ${prompt.id.padEnd(20)} score=${score}/5 latency=${latencyMs.toFixed(0)}ms${error ? ` error=${error}` : ''}`);
+    console.log(`${providerName.padEnd(7)} ${marker} ${prompt.id.padEnd(28)} score=${score}/5 latency=${latencyMs.toFixed(0)}ms${error ? ` error=${error}` : ''}`);
   }
 
   const latencies = rows.map((row) => row.latencyMs);
   const outputs = rows.map((row) => row.outputChars);
   const failures = rows.filter((row) => !row.passed);
   const errors = rows.filter((row) => row.error);
+  const grounded = rows.filter((row) => row.groundingRequired);
+  const safetyTags = new Set(['safety', 'adversarial', 'hallucination']);
+  const safetyRows = rows.filter((row) => hasAnyTag(row, safetyTags));
   const tokenTotals = rows.reduce(
     (acc, row) => ({
       inputTokens: acc.inputTokens + row.usage.inputTokens,
@@ -173,10 +244,16 @@ async function runProvider(providerName, prompts) {
     }),
     { inputTokens: 0, outputTokens: 0, totalTokens: 0 },
   );
+  const pricedRows = rows.filter((row) => row.estimatedCostUsd !== null);
+  const estimatedTotalCostUsd = pricedRows.length === rows.length && rows.length > 0
+    ? Number(rows.reduce((sum, row) => sum + row.estimatedCostUsd, 0).toFixed(8))
+    : null;
 
   return {
     provider: providerName,
     model: config.primaryModel,
+    endpoint,
+    pricing,
     summary: {
       prompts: rows.length,
       passed: rows.length - failures.length,
@@ -187,7 +264,18 @@ async function runProvider(providerName, prompts) {
       latencyP50Ms: Number(percentile(latencies, 50).toFixed(1)),
       latencyP95Ms: Number(percentile(latencies, 95).toFixed(1)),
       avgOutputChars: Number(average(outputs).toFixed(1)),
+      groundedSourcePrompts: grounded.length,
+      groundedSourceCompliant: grounded.filter((row) => row.groundedSourceCompliant).length,
+      groundedSourceCompliancePct: grounded.length
+        ? Number(((grounded.filter((row) => row.groundedSourceCompliant).length / grounded.length) * 100).toFixed(1))
+        : null,
+      safetyAdversarialPrompts: safetyRows.length,
+      safetyAdversarialPassed: safetyRows.filter((row) => row.passed).length,
+      safetyAdversarialPassRatePct: safetyRows.length
+        ? Number(((safetyRows.filter((row) => row.passed).length / safetyRows.length) * 100).toFixed(1))
+        : null,
       usage: tokenTotals,
+      estimatedTotalCostUsd,
     },
     results: rows,
   };
@@ -196,7 +284,7 @@ async function runProvider(providerName, prompts) {
 const args = parseArgs(process.argv.slice(2));
 const allowed = new Set(['openai', 'nvidia', 'both']);
 if (!allowed.has(args.provider)) {
-  console.error('Usage: run-ask-provider-benchmark.mjs --provider openai|nvidia|both [--limit N] [--out report.json]');
+  console.error('Usage: run-ask-provider-benchmark.mjs --provider openai|nvidia|both [--prompts evals/ask/golden.jsonl] [--limit N] [--out report.json] [--source-revision SHA]');
   process.exit(2);
 }
 if (args.out && !args.sourceRevision) {
@@ -204,31 +292,34 @@ if (args.out && !args.sourceRevision) {
   process.exit(2);
 }
 
-const prompts = loadGolden(args.limit);
+const promptSet = loadPromptSet(args.prompts, args.limit);
 const providers = args.provider === 'both' ? ['openai', 'nvidia'] : [args.provider];
 const runs = [];
 
 for (const provider of providers) {
-  console.log(`\n=== ${provider.toUpperCase()} / ${prompts.length} prompts ===`);
-  runs.push(await runProvider(provider, prompts));
+  console.log(`\n=== ${provider.toUpperCase()} / ${promptSet.prompts.length} prompts / ${promptSet.path} ===`);
+  runs.push(await runProvider(provider, promptSet.prompts));
 }
 
 const report = {
-  schema: 'vertexed.provider_benchmark.v2',
+  schema: 'vertexed.provider_benchmark.v3',
   generatedAt: new Date().toISOString(),
   sourceRevision: args.sourceRevision || 'UNBOUND_LOCAL_SOURCE',
   sourceBound: Boolean(args.sourceRevision),
-  goldenPath: 'evals/ask/golden.jsonl',
-  goldenSetSha256: sha256Json(prompts),
+  promptPath: promptSet.path,
+  promptSetSha256: sha256Json(promptSet.prompts),
   requestConfig: { temperature: 0.4, maxTokens: 1200 },
-  promptCount: prompts.length,
+  promptCount: promptSet.prompts.length,
   runs,
 };
 
 console.log('\n=== SUMMARY ===');
 for (const run of runs) {
   const s = run.summary;
-  console.log(`${run.provider.padEnd(7)} pass=${s.passRatePct}% avg=${s.avgScore}/5 errors=${s.errorRatePct}% p50=${s.latencyP50Ms}ms p95=${s.latencyP95Ms}ms tokens=${s.usage.totalTokens}`);
+  const grounding = s.groundedSourceCompliancePct === null ? 'n/a' : `${s.groundedSourceCompliancePct}%`;
+  const safety = s.safetyAdversarialPassRatePct === null ? 'n/a' : `${s.safetyAdversarialPassRatePct}%`;
+  const cost = s.estimatedTotalCostUsd === null ? 'n/a' : `$${s.estimatedTotalCostUsd}`;
+  console.log(`${run.provider.padEnd(7)} pass=${s.passRatePct}% avg=${s.avgScore}/5 errors=${s.errorRatePct}% p50=${s.latencyP50Ms}ms p95=${s.latencyP95Ms}ms grounding=${grounding} safety=${safety} cost=${cost} tokens=${s.usage.totalTokens}`);
 }
 
 if (args.out) {

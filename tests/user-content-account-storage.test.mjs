@@ -93,7 +93,7 @@ test('Apex session history is account-scoped and abandons unsafe legacy migratio
   assert.match(apexSource, /apexChatStorageKey\(context\.page, threadKey, accountScope\)/);
   assert.match(apexSource, /vertex_apex:\$\{account\}:/);
   assert.doesNotMatch(apexSource, /vertex_apex_messages_v1/);
-  assert.match(apexSource, /if \(!question \|\| loading \|\| authLoading\) return false/);
+  assert.match(apexSource, /if \(!question \|\| requestAbortRef\.current \|\| authLoading/);
   assert.match(apexSource, /requestRef\.current \+= 1/);
 });
 

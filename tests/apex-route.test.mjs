@@ -9,7 +9,7 @@ test('Apex follows learners across public, curriculum, study and account routes'
 });
 
 test('Apex stays out of authentication, onboarding, admin and legal transactions', () => {
-  for (const route of ['/login', '/login/', '/signup', '/auth/callback', '/onboarding', '/admin/waitlist', '/privacy', '/terms']) {
+  for (const route of ['/login', '/login/', '/signup', '/auth/callback', '/onboarding', '/admin/waitlist', '/privacy', '/terms', '/chatbot']) {
     assert.equal(shouldOfferApex(route), false, route);
   }
 });

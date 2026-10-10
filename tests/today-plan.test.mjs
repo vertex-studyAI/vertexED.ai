@@ -102,3 +102,17 @@ test('today-plan completion does not expose an unpersisted optimistic state', ()
   assert.match(source, /if \(!writeDone\(all\)\) return previous;/);
   assert.match(source, /return next;/);
 });
+
+
+test('dashboard primary action keeps Today priority and saved-work recovery', async () => {
+  const { dashboardNextAction } = await import('../src/lib/dashboardNextAction.mjs');
+  const pendingMock = { status: 'in_progress' };
+  const retry = { href: '/learn?concept=algebra', topic: 'Algebra' };
+  assert.deepEqual(dashboardNextAction({ todayItem: { href: '/planner' }, pendingMock, retry, recentId: 'a' }), { to: '/planner', label: 'Start next step' });
+  assert.equal(dashboardNextAction({ pendingMock, retry }).to, '/paper-maker?resumeMock=1');
+  assert.equal(dashboardNextAction({ pendingMock: { status: 'submitted' } }).to, '/answer-reviewer');
+  assert.equal(dashboardNextAction({ retry }).to, retry.href);
+  assert.equal(dashboardNextAction({ loading: true, recentId: 'stale' }).to, '/study-notebook');
+  assert.equal(dashboardNextAction({ recentId: 'a/b' }).to, '/saved-work?item=a%2Fb');
+  assert.equal(dashboardNextAction({}).to, '/study-notebook?start=1');
+});

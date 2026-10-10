@@ -1,5 +1,6 @@
 const APEX_EXCLUDED_ROUTES = new Set([
   '/login',
+  '/chatbot',
   '/signup',
   '/auth/callback',
   '/onboarding',

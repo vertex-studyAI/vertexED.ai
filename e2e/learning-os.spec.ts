@@ -1,0 +1,557 @@
+import { readFile } from 'node:fs/promises';
+import { fixturePdf } from '../tests/fixtures/pdf.mjs';
+import { extractPdf, decodePdfRequest } from '../api/_lib/pdfImport.js';
+import { selectTheme } from './theme-controls';
+import { expect, test, type Page } from '@playwright/test';
+import { CONCEPT_GRAPH } from '../src/lib/learningModel.mjs';
+const learnerId = 'f40db66b-1b55-4ab8-88d0-14a9ba476c16';
+const artifactId = '25734997-775e-473f-b415-897751b08497';
+
+async function installAccountHarness(page: Page, empty = false, examDate: string | null = null) {
+  const user = { id: learnerId, aud: 'authenticated', role: 'authenticated', email: 'learner@example.test', app_metadata: { provider: 'email' }, user_metadata: { exam_date: examDate, username: 'searchlearner', board: 'IB_MYP', grade: 10, subjects: ['Physics'] }, created_at: '2026-09-21T00:00:00Z', identities: [] };
+  const encode = (value: unknown) => Buffer.from(JSON.stringify(value)).toString('base64url');
+  const token = `${encode({ alg: 'HS256', typ: 'JWT' })}.${encode({ sub: learnerId, exp: 2103836400, role: 'authenticated' })}.test-only`;
+  const artifact = { id: artifactId, kind: 'note', title: 'Mechanics revision source', payload: { notes: 'Momentum is mass multiplied by velocity. Impulse is the change in momentum.' }, created_at: '2026-09-21T00:00:00Z', updated_at: '2026-09-21T00:00:00Z' };
+  const state = { conversation: null as Record<string, unknown> | null, holdReads: null as Promise<void> | null, planner: null as Record<string, unknown> | null, reviewItem: null as Record<string, unknown> | null, fail: false, delay: 0, savedReads: 0, notebook: null as Record<string, unknown> | null, quizSources: [] as Array<{ id: string; excerpt: string }>, review: null as Record<string, unknown> | null, reviewRequest: null as Record<string, unknown> | null, learnerWrites: [] as Array<Record<string, unknown>> };
+  await page.route(/^https:\/\/[^/]+\.supabase\.co\//, async route => {
+    const path = new URL(route.request().url()).pathname;
+    let body: unknown = {};
+    if (path === '/auth/v1/token') body = { access_token: token, token_type: 'bearer', expires_in: 315360000, refresh_token: 'test-refresh', user };
+    else if (path === '/auth/v1/user') body = user;
+    else if (path === '/rest/v1/profiles') body = { id: learnerId, email: user.email, board: 'IB_MYP', grade: 10, subjects: ['Physics'] };
+    await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(body) });
+  });
+  await page.route('**/api/**', async route => {
+    const url = new URL(route.request().url());
+    let body: unknown = {};
+    let status = 200;
+    if (url.pathname === '/api/waitlist-status') body = { status: 'approved' };
+    else if (url.pathname === '/api/admin-status') body = { isAdmin: false };
+    else if (url.pathname === '/api/learner-state') {
+      if (route.request().method() === 'POST') {
+        const items = route.request().postDataJSON().items as Array<Record<string, unknown>>;
+        state.learnerWrites.push(...items);
+        body = { contractVersion: 'vertexed.learner-state.v1', results: items.map(item => ({ stateType: item.stateType, stateKey: item.stateKey, requestedRevision: item.clientRevision, currentRevision: item.clientRevision, applied: true, serverUpdatedAt: new Date().toISOString() })) };
+      } else body = { contractVersion: 'vertexed.learner-state.v1', items: [] };
+    }
+    else if (url.pathname === '/api/user-content') {
+      state.savedReads++;
+      expect(route.request().headers().authorization).toBe(`Bearer ${token}`);
+      if (route.request().method() === 'GET' && state.holdReads) await state.holdReads;
+      if (state.delay) await new Promise(resolve => setTimeout(resolve, state.delay));
+      status = state.fail ? 503 : 200;
+      const requested = url.searchParams.get('id');
+      if (route.request().method() === 'POST' && !state.fail) {
+        const write = route.request().postDataJSON();
+        if (write.kind === 'conversation') {
+          state.conversation = { id: 'c29f1c89-9a84-4906-b59d-b6a405b99e0e', kind: 'conversation', payload: write.payload, updated_at: new Date(Date.now() + state.savedReads).toISOString() };
+          body = { item: state.conversation };
+        } else if (write.kind === 'notebook') {
+          state.notebook = { id: '707d3f91-00e7-4fba-bd1e-24de546233d8', kind: 'notebook', title: 'Study Notebook', payload: write.payload, updated_at: new Date().toISOString() };
+          body = { item: state.notebook };
+        } else if (write.kind === 'planner') {
+          state.planner = { ...artifact, id: 'be70a8b1-c055-4129-9653-ea50a783dbe9', kind: 'planner', payload: write.payload, updated_at: new Date().toISOString() };
+          body = { item: state.planner };
+        } else if (write.kind === 'review') {
+          state.review = write.payload;
+          state.reviewItem = { ...artifact, kind: 'review', payload: write.payload, updated_at: new Date().toISOString() };
+          body = { item: state.reviewItem };
+        } else body = { item: artifact };
+      } else body = state.fail ? { error: 'Test database unavailable' } : { items: url.searchParams.get('kind') === 'conversation' ? state.conversation ? [state.conversation] : [] : url.searchParams.get('kind') === 'planner' ? state.planner ? [state.planner] : [] : url.searchParams.get('kind') === 'review' ? state.reviewItem ? [state.reviewItem] : [] : url.searchParams.get('kind') === 'notebook' ? state.notebook ? [state.notebook] : [] : requested && requested !== artifactId ? [] : state.reviewItem ? [state.reviewItem] : empty ? [] : [artifact], nextOffset: null };
+    } else if (url.pathname === '/api/review') {
+      state.reviewRequest = route.request().postDataJSON();
+      body = { contractVersion: 'vertexed.answer-review.v2', degraded: false, safe_text: 'Explain how momentum differs from velocity.', review: {
+        auditId: 'notebook-practice-review', score: 0, maxScore: 1, scoreStatus: 'EVIDENCE_LINKED', confidence: 0.7,
+        humanReviewRequired: true, measurementEligible: false, evidenceState: 'MODEL_EVIDENCE_LINKED',
+        escalationReason: 'Check this feedback with your teacher before confirming a mark.',
+        feedback: 'Relate impulse to the change in momentum.', includes: 'An attempted explanation.',
+        criteria: [{ id: 'impulse', label: 'Impulse and momentum', score: 0, maxScore: 1, feedback: 'Check the distinction between velocity and momentum.', evidence: [], evidenceVerified: true }], errors: [],
+      } };
+    } else if (url.pathname === '/api/notebook') {
+      state.quizSources = route.request().postDataJSON().sources;
+      body = { mode: 'quiz', title: 'Mechanics retrieval', content: 'Source-based quiz', generatedAt: new Date().toISOString(), quiz: [
+        { id: 'q1', type: 'mcq', question: 'What does impulse measure?', options: ['Change in momentum', 'Velocity'], answer: 'Change in momentum', explanation: 'Impulse equals the change in momentum.', marks: 1, sourceIds: state.quizSources.map(source => source.id) },
+        { id: 'q1', type: 'short', question: 'How do you calculate momentum?', options: [], answer: 'Mass times velocity', explanation: 'Multiply mass by velocity.', marks: 1, sourceIds: state.quizSources.map(source => source.id) },
+      ] };
+    }
+    await route.fulfill({ status, contentType: 'application/json', body: JSON.stringify(body) });
+  });
+  await page.goto('/login');
+  await page.getByLabel('Email address', { exact: true }).fill('learner@example.test');
+  await page.getByLabel('Password', { exact: true }).fill('test-password');
+  await page.getByRole('button', { name: 'Log in', exact: true }).click();
+  await expect(page).toHaveURL(/\/main$/);
+  return state;
+}
+
+for (const width of [1440, 1024, 390]) {
+  test(`learning loop improvements at ${width}`, async ({ page }, info) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await installAccountHarness(page, true, '2090-12-31');
+    await expect(page.getByRole('region', { name: 'Upcoming assessments' })).toContainText('Physics');
+    await page.getByRole('button', { name: '5 min', exact: true }).click();
+    await expect(page.getByRole('link', { name: 'Start next step · 5 min' })).toBeVisible();
+    await page.getByRole('link', { name: 'Start next step · 5 min' }).click();
+    await expect(page.getByRole('combobox', { name: 'Time budget', exact: true })).toHaveValue('5');
+    await page.getByRole('button', { name: 'Start practice', exact: true }).click();
+    await expect(page.getByLabel('Confidence before feedback')).toHaveValue('');
+    await page.getByRole('button', { name: 'Show a hint', exact: true }).click();
+    await page.getByRole('button', { name: 'Show the first step', exact: true }).click();
+    await page.reload();
+    await expect(page.getByRole('button', { name: 'Show complete solution', exact: true })).toBeVisible();
+    await page.goto('/main');
+    await page.getByRole('link', { name: 'Continue saved practice', exact: true }).click();
+    await page.getByLabel('Your answer', { exact: true }).fill('-1234');
+    await page.getByRole('button', { name: 'Check answer', exact: true }).click();
+    await page.getByText('Try again with this feedback', { exact: true }).click();
+    await page.getByLabel('Corrected answer', { exact: true }).fill('3');
+    await page.getByRole('button', { name: 'Check correction', exact: true }).click();
+    await expect(page.getByText('You corrected the answer with feedback. Return later without help to check retention.', { exact: true })).toBeVisible();
+    await expect.poll(() => page.evaluate(id => JSON.parse(localStorage.getItem('vertex_content:' + id + ':practice_attempts') || '[]').length, learnerId)).toBe(2);
+    await page.getByRole('button', { name: 'Finish session', exact: true }).click();
+    await page.getByRole('button', { name: 'Mistakes', exact: true }).click();
+    await expect(page.getByRole('heading', { name: 'Mistake notebook', exact: true })).toBeVisible();
+    const inspect = page.getByRole('button', { name: /Inspect mistake/ }).first();
+    await inspect.click();
+    const dialog = page.getByRole('dialog');
+    await expect(dialog).toContainText('-1234');
+    await dialog.getByLabel('Error cause (your reflection)').selectOption('conceptual');
+    await dialog.getByLabel('Why I got it wrong').fill('I need to identify the resultant force.');
+    await dialog.getByRole('button', { name: 'Save reflection' }).click();
+    await page.keyboard.press('Escape');
+    await expect(inspect).toBeFocused();
+    await page.getByLabel('Filter by your error category').selectOption('conceptual');
+    await expect(page.getByText('I need to identify the resultant force.', { exact: true })).toBeVisible();
+    await page.getByRole('button', { name: 'Knowledge', exact: true }).click();
+    await page.getByRole('combobox', { name: 'Show subject', exact: true }).selectOption('Mathematics');
+    await page.getByLabel('Find a skill').fill('modulus');
+    await page.getByRole('button', { name: 'Graph', exact: true }).click();
+    await page.getByRole('button', { name: 'Zoom in', exact: true }).click();
+    await page.getByRole('button', { name: /modulus.*Not started/i }).click();
+    await expect(page.getByRole('dialog')).toContainText('No recorded attempt.');
+    await page.screenshot({ path: info.outputPath('inspector-top-' + width + '.png') });
+    const slider = page.getByLabel(/Real part:/);
+    await slider.focus(); await page.keyboard.press('ArrowRight');
+    await expect(slider).toHaveValue('3.1');
+    await page.screenshot({ path: info.outputPath('inspector-' + width + '.png') });
+    await page.keyboard.press('Escape');
+    await page.getByRole('button', { name: 'Reviews', exact: true }).click();
+    await expect(page.getByRole('heading', { name: 'Due today', exact: true })).toBeVisible();
+    await page.goto('/main');
+    for (const theme of ['light', 'dark'] as const) {
+      await selectTheme(page, theme);
+      await page.screenshot({ path: info.outputPath(`today-improved-${width}-${theme}.png`), fullPage: true });
+    }
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width + 1);
+    if (width === 390) await expect(page.getByRole('navigation', { name: 'Mobile learning navigation' })).toBeVisible();
+    if (width === 1440) {
+      await page.evaluate(() => { document.documentElement.style.fontSize = '200%'; });
+      expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width + 1);
+      await page.screenshot({ path: info.outputPath('today-text-200-percent.png'), fullPage: true });
+    }
+  });
+
+  test(`diagnostic, mistake, knowledge, Today and refresh at ${width}`, async ({ page }, info) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    const errors: string[] = [];
+    page.on('pageerror', e => errors.push(e.message));
+    await installAccountHarness(page, true);
+    await expect(page.getByRole('heading', { name: 'The next useful step' })).toBeVisible();
+    await page.goto('/learn?subject=Physics&question=physics-forces-01');
+    await page.getByRole('button', { name: 'Start practice', exact: true }).click();
+    await expect(page.locator('#active-question')).toBeFocused();
+    await page.getByLabel('Your answer', { exact: true }).fill('-1234');
+    await page.getByLabel('Confidence before feedback').selectOption('5');
+    await page.reload();
+    await expect(page.getByLabel('Your answer', { exact: true })).toHaveValue('-1234');
+    for (const theme of ['light', 'dark']) {
+      await selectTheme(page, theme as 'light' | 'dark');
+      await page.screenshot({ path: info.outputPath(`practice-${width}-${theme}.png`), fullPage: true });
+    }
+    const checkAnswer = page.getByRole('button', { name: 'Check answer', exact: true });
+    await checkAnswer.focus(); await page.keyboard.press('Enter');
+    await expect(page.getByRole('heading', { name: 'Review this attempt' })).toBeVisible();
+    await page.getByText('Save or update this mistake', { exact: true }).click();
+    await page.getByLabel('Why I got it wrong').fill('I forgot to account for net force.');
+    await page.getByLabel('Corrected reasoning').fill('Find the resultant force and divide by mass.');
+    await page.getByRole('button', { name: 'Save mistake', exact: true }).click();
+    await page.getByRole('button', { name: 'Finish session', exact: true }).click();
+    await page.getByRole('button', { name: 'Knowledge', exact: true }).click();
+    await expect(page.getByRole('heading', { name: 'Concepts and prerequisites' })).toBeVisible();
+    await expect(page.getByText('1 attempts;', { exact: false }).first()).toBeVisible();
+    for (const theme of ['light','dark']) {
+      await page.evaluate(t => { document.documentElement.classList.remove('light','dark'); document.documentElement.classList.add(t); }, theme);
+      await page.screenshot({ path: info.outputPath(`knowledge-${width}-${theme}.png`), fullPage: true });
+    }
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width + 1);
+    await page.getByRole('button', { name: 'Mistakes', exact: true }).click();
+    await expect(page.getByText('I forgot to account for net force.')).toBeVisible();
+    await page.reload();
+    await page.getByRole('button', { name: 'Progress', exact: true }).click();
+    await expect(page.getByRole('cell', { name: 'Incorrect', exact: true })).toHaveCount(1);
+    await page.goto('/main');
+    await expect(page.getByText(/recent correct without a hint/).first()).toBeVisible();
+    await page.getByLabel('Time available today').selectOption('10');
+    await page.screenshot({ path: info.outputPath(`today-${width}.png`), fullPage: true });
+    await page.keyboard.press('Control+k');
+    const input = page.getByRole('combobox', { name: 'Search VertexED' });
+    await input.fill('Newton second law');
+    await expect(page.getByRole('listbox', { name: 'VertexED search results' }).getByRole('option').first()).toContainText(/Newton second law/i);
+    await input.press('Enter');
+    await expect(page).toHaveURL(/\/learn\?concept=/);
+    expect(errors).toEqual([]);
+  });
+}
+
+test('contextual tutor receives the current attempt and closes back to the question', async ({ page }) => {
+  await installAccountHarness(page, true);
+  let request: Record<string, unknown> | null = null;
+  await page.route('**/api/ask', async route => {
+    request = route.request().postDataJSON();
+    await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ answer: 'Which force acts against the motion?' }) });
+  });
+  await page.goto('/learn?subject=Physics&question=physics-forces-01');
+  await page.getByRole('button', { name: 'Start practice', exact: true }).click();
+  await page.getByLabel('Your answer', { exact: true }).fill('7');
+  const opener = page.getByRole('button', { name: 'Ask Apex about this question' });
+  await opener.click();
+  await page.getByRole('button', { name: 'Give me a hint', exact: true }).click();
+  await page.getByRole('button', { name: 'Send', exact: true }).click();
+  await expect.poll(() => request?.learningMode).toBe('solve-with-me');
+  expect(JSON.stringify(request?.context)).toContain('studentAnswer');
+  expect(JSON.stringify(request?.context)).toContain('Physics');
+  await page.keyboard.press('Escape');
+  await expect(opener).toBeFocused();
+  await expect(page.getByText('Progressive help · Assisted attempt', { exact: true })).toBeVisible();
+  expect(new URL(page.url()).pathname).toBe('/learn');
+});
+
+test('another tab pauses practice without overwriting saved work', async ({ page }) => {
+  await installAccountHarness(page, true);
+  await page.goto('/learn?subject=Physics&question=physics-forces-01');
+  await page.getByRole('button', { name: 'Start practice', exact: true }).click();
+  await page.getByLabel('Your answer', { exact: true }).fill('13');
+  await expect(page.getByText('Session saved on this device', { exact: false })).toBeVisible();
+  const changed = await page.evaluate(id => {
+    const key = `vertex_content:${id}:practice_session`;
+    const oldValue = localStorage.getItem(key)!;
+    const value = JSON.parse(oldValue);
+    value.responses[value.ids[0]].answer = '27';
+    const newValue = JSON.stringify(value);
+    localStorage.setItem(key, newValue);
+    window.dispatchEvent(new StorageEvent('storage', { key, oldValue, newValue, storageArea: localStorage }));
+    return newValue;
+  }, learnerId);
+  await expect(page.getByRole('alert').filter({ hasText: 'another tab' })).toBeVisible();
+  await expect(page.getByLabel('Your answer', { exact: true })).toBeDisabled();
+  await expect(page.getByRole('button', { name: 'Finish session', exact: true })).toBeDisabled();
+  expect(await page.evaluate(id => localStorage.getItem(`vertex_content:${id}:practice_session`), learnerId)).toBe(changed);
+  await page.reload();
+  await expect(page.getByLabel('Your answer', { exact: true })).toHaveValue('27');
+});
+
+test('session storage failure offers copyable recovery and never claims a save', async ({ page }) => {
+  await installAccountHarness(page, true);
+  await page.goto('/learn?subject=Physics&question=physics-forces-01');
+  await page.getByRole('button', { name: 'Start practice', exact: true }).click();
+  await page.evaluate(() => {
+    const original = Storage.prototype.setItem;
+    Storage.prototype.setItem = function(key, value) {
+      if (key.endsWith(':practice_session')) throw new DOMException('Full', 'QuotaExceededError');
+      original.call(this, key, value);
+    };
+  });
+  await page.getByLabel('Your answer', { exact: true }).fill('123');
+  await expect(page.getByRole('alert').filter({ hasText: 'could not be saved' })).toBeVisible();
+  await expect(page.getByLabel('Answers in this tab', { exact: true })).toHaveValue(/123/);
+  await expect(page.getByText('Session changes are not saved', { exact: false })).toBeVisible();
+});
+
+test('stale practice deep links do not silently start a different question', async ({ page }) => {
+  await installAccountHarness(page, true);
+  await page.goto('/learn?question=removed-question');
+  await expect(page.getByRole('alert').filter({ hasText: 'no longer available' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Start practice', exact: true })).toBeDisabled();
+  await page.getByRole('link', { name: 'Choose a new practice scope' }).click();
+  await expect(page.getByRole('button', { name: 'Start practice', exact: true })).toBeEnabled();
+  const unrelated = CONCEPT_GRAPH.find(concept => concept.subject === 'Mathematics')!;
+  await page.goto(`/learn?question=physics-forces-01&concept=${encodeURIComponent(unrelated.id)}`);
+  await expect(page.getByRole('alert').filter({ hasText: 'does not match' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Start practice', exact: true })).toBeDisabled();
+});
+
+test('invalid session references preserve bytes and stop practice', async ({ page }) => {
+  await installAccountHarness(page, true);
+  const broken = JSON.stringify({ id: 'broken-session', ids: ['unknown-question'] });
+  await page.evaluate(({ id, broken }) => localStorage.setItem(`vertex_content:${id}:practice_session`, broken), { id: learnerId, broken });
+  await page.goto('/learn');
+  await expect(page.getByRole('alert').filter({ hasText: 'original data is preserved' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Start practice', exact: true })).toBeDisabled();
+  expect(await page.evaluate(id => localStorage.getItem(`vertex_content:${id}:practice_session`), learnerId)).toBe(broken);
+});
+
+test('exam defers feedback, persists flags, locks when timed out and records once', async ({ page }) => {
+  await installAccountHarness(page, true);
+  await page.goto('/learn?subject=Physics&question=physics-forces-01');
+  await page.getByLabel('Practice mode').selectOption('exam');
+  await page.getByRole('button', { name: 'Start practice', exact: true }).click();
+  await page.getByLabel('Your answer', { exact: true }).fill('0');
+  await page.getByRole('button', { name: 'Flag question', exact: true }).click();
+  await expect(page.getByRole('button', { name: 'Check answer', exact: true })).toHaveCount(0);
+  await page.reload();
+  await expect(page.getByRole('button', { name: 'Unflag question', exact: true })).toBeVisible();
+  await page.evaluate(id => { const key = `vertex_content:${id}:practice_session`; const value=JSON.parse(localStorage.getItem(key)!); value.deadline=Date.now()-1000; localStorage.setItem(key,JSON.stringify(value)); }, learnerId);
+  await page.reload();
+  await expect(page.getByLabel('Your answer', { exact: true })).toBeDisabled();
+  await page.getByRole('button', { name: 'Finish session', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'Review this attempt' })).toBeVisible();
+  await page.reload();
+  await page.getByRole('button', { name: 'Progress', exact: true }).click();
+  await expect(page.getByRole('cell', { name: 'Incorrect', exact: true })).toHaveCount(1);
+});
+
+test('corrupt practice is retained and cannot be replaced by starting a new session', async ({ page }) => {
+  await installAccountHarness(page, true);
+  await page.evaluate(id => localStorage.setItem(`vertex_content:${id}:practice_attempts`, '[{"broken":true}]'), learnerId);
+  await page.goto('/learn');
+  await expect(page.getByRole('alert').filter({ hasText: /preserved/ })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Start practice', exact: true })).toBeDisabled();
+  expect(await page.evaluate(id => localStorage.getItem(`vertex_content:${id}:practice_attempts`), learnerId)).toBe('[{"broken":true}]');
+});
+
+test('Apex learning mode reaches API and keyboard-controlled games preserve study tools', async ({ page }) => {
+  await installAccountHarness(page, true);
+  let tutorRequest: Record<string, unknown> | null = null;
+  await page.route('**/api/ask', async route => { tutorRequest = route.request().postDataJSON(); await route.fulfill({ json: { answer: 'What forces act on the object?' } }); });
+  await page.goto('/chatbot');
+  await page.getByLabel('Learning mode', { exact: true }).selectOption('hint');
+  await expect(page.getByLabel('Learning mode', { exact: true })).toHaveValue('hint');
+  await page.getByRole('textbox', { name: 'Message the AI tutor' }).fill('Help with Newton second law');
+  await page.getByRole('button', { name: 'Send', exact: true }).click();
+  await expect.poll(() => tutorRequest?.learningMode).toBe('hint');
+  await page.goto('/study-zone');
+  await page.getByText('Optional study break games', { exact: true }).click();
+  await page.getByLabel('Game', { exact: true }).selectOption('0');
+  const board = page.getByLabel('Number tiles. Use arrow keys to move.', { exact: true });
+  await board.focus(); await board.press('ArrowLeft');
+  await page.getByRole('button', { name: 'Pause game', exact: true }).click();
+  await expect(board).toBeHidden();
+  await page.getByRole('button', { name: 'Resume game', exact: true }).click();
+  await expect(board).toBeVisible();
+  await page.getByLabel('Game', { exact: true }).selectOption('1');
+  await page.getByRole('button', { name: 'Card 1: hidden', exact: true }).click();
+  await expect(page.getByRole('button', { name: /Card 1: [A-F]$/ })).toBeVisible();
+  await page.getByLabel('Game', { exact: true }).selectOption('2');
+  await page.getByRole('button', { name: 'Hide and try', exact: true }).click();
+  await expect(page.getByRole('region', { name: 'Optional study break' }).getByRole('button', { name: '1', exact: true })).toBeVisible();
+  await page.getByLabel('Game', { exact: true }).selectOption('3');
+  await page.getByRole('button', { name: 'Start reaction round', exact: true }).click();
+  await page.getByRole('button', { name: 'Wait', exact: true }).click();
+  await expect(page.getByText('Too early. Try again.')).toBeVisible();
+  await page.getByLabel('Game', { exact: true }).selectOption('4');
+  const stack = page.getByLabel('Revision Stack game. Use arrow keys to move, up arrow to rotate and Space to place a block.', { exact: true });
+  await expect(stack).toBeVisible();
+  expect(await page.locator('.study-break-games .vh-stack-board').evaluate(el => el.getBoundingClientRect().height)).toBeGreaterThan(300);
+  await stack.focus(); await stack.press('ArrowLeft');
+  await page.getByRole('button', { name: 'Place block', exact: true }).click();
+  await expect(page.locator('.study-break-games .vh-stack-board .is-filled').first()).toBeVisible();
+});
+
+for (const width of [1440, 1024, 390]) {
+  test(`planner commitments, automatic rebalance and completion history at ${width}`, async ({ page }, info) => {
+    await page.clock.setFixedTime('2026-09-21T03:30:00Z');
+    await page.setViewportSize({ width, height: 900 });
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    const state = await installAccountHarness(page, true);
+    await page.goto('/planner');
+    await page.getByRole('button', { name: 'New Task', exact: true }).click();
+    const dialog = page.getByRole('dialog');
+    await dialog.getByLabel('Task name', { exact: true }).fill('Weekly physics class');
+    await dialog.getByLabel('Date', { exact: true }).fill('2028-04-03');
+    await dialog.getByLabel('Task type').selectOption('commitment');
+    await dialog.getByLabel('Weekly occurrences').fill('4');
+    await page.screenshot({ path: info.outputPath(`planner-form-${width}.png`), fullPage: true });
+    await dialog.getByRole('button', { name: 'Add task', exact: true }).click();
+    await expect(page.getByText('Added 4 weekly commitments.', { exact: false })).toBeVisible();
+    await expect.poll(() => (state.planner?.payload as { tasks: unknown[] } | undefined)?.tasks.length).toBe(4);
+    await page.getByRole('button', { name: 'New Task', exact: true }).click();
+    await dialog.getByLabel('Task name', { exact: true }).fill('Flexible forces revision');
+    await dialog.getByLabel('Date', { exact: true }).fill('2020-01-01');
+    await dialog.getByLabel('Automatically reschedule if missed').check();
+    await dialog.getByLabel('Study window starts').fill('17:00');
+    await dialog.getByLabel('Study window ends').fill('20:00');
+    await dialog.getByRole('button', { name: 'Add task', exact: true }).click();
+    await expect.poll(() => (state.planner?.payload as { tasks: unknown[] } | undefined)?.tasks.length).toBe(5);
+    await page.reload();
+    await expect(page.getByText(/Moved 1 missed study task within/)).toBeVisible();
+    await expect.poll(() => (state.planner?.payload as { tasks: Array<{ rescheduledFrom?: string }> } | undefined)?.tasks.find(task => task.rescheduledFrom)?.rescheduledFrom).toBe('01/01/2020 10:00 AM');
+    const saved = (state.planner!.payload as { tasks: Array<{ id: string; date: string; 'start time': string; taskKind?: string }> }).tasks;
+    expect(saved.filter(task => task.taskKind === 'commitment').map(task => task.date)).toEqual(['04/03/2028', '04/10/2028', '04/17/2028', '04/24/2028']);
+    await page.getByRole('button', { name: 'Mark Flexible forces revision complete', exact: true }).click();
+    await page.getByText('Recent completed tasks', { exact: true }).click();
+    await expect(page.getByRole('button', { name: 'Reopen Flexible forces revision' })).toBeVisible();
+    await expect(page.getByText(/60 scheduled minutes marked complete/)).toBeVisible();
+    await page.screenshot({ path: info.outputPath(`planner-completed-${width}.png`), fullPage: true });
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width + 1);
+    await page.getByRole('button', { name: 'Reopen Flexible forces revision' }).click();
+    await expect(page.getByRole('button', { name: 'Mark Flexible forces revision complete', exact: true })).toBeVisible();
+  });
+}
+
+
+for (const width of [1440, 1024, 390]) {
+  test(`PDF import review, keyboard save and refresh at ${width}`, async ({ page }, info) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    const state = await installAccountHarness(page, true);
+    await page.route('**/api/import-source', async route => {
+      const result = await extractPdf(decodePdfRequest(route.request().postDataJSON()));
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(result) });
+    });
+    await page.goto('/study-notebook');
+    await page.getByRole('button', { name: 'New notebook', exact: true }).click();
+    for (const theme of ['light', 'dark'] as const) {
+      await selectTheme(page, theme);
+      await page.getByLabel('Choose a source file').setInputFiles({ name: 'Synthetic mechanics.pdf', mimeType: 'application/pdf', buffer: fixturePdf(undefined, 2) });
+      await expect(page.getByRole('dialog', { name: 'Review PDF text' })).toBeVisible();
+      await expect(page.getByLabel('Include Synthetic mechanics', { exact: true })).toHaveCount(0);
+      await expect(page.getByLabel('Extracted text', { exact: true })).toHaveValue(/\[Page 2\]/);
+      await expect(page.getByLabel('Extracted text', { exact: true })).toBeFocused();
+      await page.screenshot({ path: info.outputPath(`pdf-review-${width}-${theme}.png`) });
+      if (theme === 'light') {
+        await page.keyboard.press('Escape');
+        await expect(page.getByRole('button', { name: /^Import a source file/ })).toBeFocused();
+      }
+    }
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width + 1);
+    const save = page.getByRole('button', { name: 'Add PDF source', exact: true });
+    await save.focus(); await page.keyboard.press('Enter');
+    await expect(page.getByLabel('Include Synthetic mechanics', { exact: true })).toBeVisible();
+    await expect.poll(() => JSON.stringify(state.notebook)).toContain('[Page 2]');
+    await page.reload();
+    await expect(page.getByLabel('Include Synthetic mechanics', { exact: true })).toBeVisible();
+  });
+}
+
+test('PDF import failures, cancellation and notebook switching preserve sources', async ({ page }) => {
+  await installAccountHarness(page, true);
+  let release: (() => void) | undefined;
+  let delayed = false;
+  await page.route('**/api/import-source', async route => {
+    if (delayed) await new Promise<void>(resolve => { release = resolve; });
+    try {
+      const result = await extractPdf(decodePdfRequest(route.request().postDataJSON()));
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(result) });
+    } catch (error) {
+      await route.fulfill({ status: 422, contentType: 'application/json', body: JSON.stringify({ error: (error as Error).message }) });
+    }
+  });
+  await page.goto('/study-notebook');
+  await page.getByRole('button', { name: 'New notebook', exact: true }).click();
+  const choose = page.getByLabel('Choose a source file');
+  await choose.setInputFiles({ name: 'broken.pdf', mimeType: 'application/pdf', buffer: Buffer.from('%PDF-1.4 broken') });
+  await expect(page.getByRole('alert').filter({ hasText: /malformed/ })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Retry import' })).toBeEnabled();
+  delayed = true;
+  await choose.setInputFiles({ name: 'cancelled.pdf', mimeType: 'application/pdf', buffer: fixturePdf() });
+  await expect.poll(() => !!release).toBeTruthy();
+  await page.getByRole('button', { name: 'Cancel import', exact: true }).click();
+  release?.(); release = undefined;
+  await expect(page.getByText('Import cancelled. No source was added.', { exact: true })).toBeVisible();
+  await expect(page.getByRole('dialog', { name: 'Review PDF text' })).toHaveCount(0);
+  await choose.setInputFiles({ name: 'old-notebook.pdf', mimeType: 'application/pdf', buffer: fixturePdf() });
+  await expect.poll(() => !!release).toBeTruthy();
+  await page.getByRole('button', { name: 'New notebook', exact: true }).click();
+  release?.();
+  await expect(choose).toBeEnabled();
+  await expect(page.getByLabel('Include old-notebook', { exact: true })).toHaveCount(0);
+  await expect(page.getByRole('dialog', { name: 'Review PDF text' })).toHaveCount(0);
+});
+
+
+for (const width of [1440, 1024, 390]) {
+  test(`planner calendar export with privacy, reminders and keyboard at ${width}`, async ({ page }, info) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    const state = await installAccountHarness(page, true);
+    await page.goto('/planner');
+    const open = page.getByRole('button', { name: 'Export calendar', exact: true });
+    await expect(open).toBeVisible();
+    await page.getByRole('button', { name: 'New Task', exact: true }).click();
+    const add = page.getByRole('dialog', { name: 'Add a study task' });
+    await add.getByLabel('Task name', { exact: true }).fill('Private mechanics revision');
+    await add.getByLabel('Date', { exact: true }).fill('2090-09-28');
+    await add.getByLabel('Start time', { exact: true }).fill('17:00');
+    await add.getByRole('button', { name: 'Add task', exact: true }).click();
+    await expect.poll(() => JSON.stringify(state.planner)).toContain('Private mechanics revision');
+    await open.click();
+    const dialog = page.getByRole('dialog', { name: 'Take your plan with you' });
+    await expect(dialog.getByLabel('From date')).toBeFocused();
+    await expect(dialog).toContainText('1 unfinished task selected');
+    for (const theme of ['light', 'dark'] as const) {
+      await dialog.getByRole('button', { name: 'Close', exact: true }).click();
+      await selectTheme(page, theme);
+      await open.click();
+      await expect(dialog.getByLabel('Calendar reminder')).toHaveCSS('min-height', '44px');
+      await page.screenshot({ path: info.outputPath(`calendar-${width}-${theme}.png`), animations: 'disabled' });
+    }
+    expect(await dialog.evaluate(element => element.scrollWidth <= element.clientWidth + 1)).toBe(true);
+    await dialog.getByRole('button', { name: 'Download calendar' }).focus();
+    await page.keyboard.press('Tab');
+    await expect(dialog.getByRole('button', { name: 'Close', exact: true })).toBeFocused();
+    const firstDownload = page.waitForEvent('download');
+    await dialog.getByRole('button', { name: 'Download calendar' }).click();
+    const first = await firstDownload;
+    expect(first.suggestedFilename()).toBe('vertexed-plan-2090-09-28-to-2090-10-04.ics');
+    const privateCopy = await readFile((await first.path())!, 'utf8');
+    expect(privateCopy).toContain('SUMMARY:Study block');
+    expect(privateCopy).not.toContain('Private mechanics');
+    expect(privateCopy).not.toContain('VALARM');
+    await expect(dialog.getByRole('status')).toContainText('1 task');
+    await dialog.getByLabel('Include task names').check();
+    await dialog.getByLabel('Calendar reminder').selectOption('15');
+    const secondDownload = page.waitForEvent('download');
+    await dialog.getByRole('button', { name: 'Download calendar' }).click();
+    const second = await secondDownload;
+    const namedCopy = await readFile((await second.path())!, 'utf8');
+    expect(namedCopy).toContain('SUMMARY:Private mechanics revision');
+    expect(namedCopy).toContain('TRIGGER:-PT15M');
+    expect(namedCopy.match(/UID:(.*)/)?.[1]).toBe(privateCopy.match(/UID:(.*)/)?.[1]);
+    await dialog.getByLabel('From date').fill('2090-10-01');
+    await dialog.getByRole('button', { name: 'Download calendar' }).click();
+    await expect(dialog.getByRole('alert')).toContainText('no unfinished tasks');
+    await page.keyboard.press('Escape');
+    await expect(dialog).toHaveCount(0);
+    await expect(open).toBeFocused();
+  });
+}
+
+test('planner calendar cancellation discards an in-flight file', async ({ page }) => {
+  await installAccountHarness(page, true);
+  await page.goto('/planner');
+  await page.getByRole('button', { name: 'New Task', exact: true }).click();
+  const add = page.getByRole('dialog', { name: 'Add a study task' });
+  await add.getByLabel('Task name', { exact: true }).fill('Cancelled export');
+  await add.getByRole('button', { name: 'Add task', exact: true }).click();
+  await page.evaluate(() => {
+    const real = crypto.subtle.digest.bind(crypto.subtle);
+    (window as any).calendarGate = {};
+    const gate = new Promise<void>(resolve => { (window as any).calendarGate.release = resolve; });
+    crypto.subtle.digest = async (...args) => { (window as any).calendarGate.started = true; await gate; const result = await real(...args); (window as any).calendarGate.finished = true; return result; };
+  });
+  let downloads = 0;
+  page.on('download', () => downloads++);
+  await page.getByRole('button', { name: 'Export calendar' }).click();
+  await page.getByRole('button', { name: 'Download calendar' }).click();
+  await expect.poll(() => page.evaluate(() => (window as any).calendarGate.started)).toBe(true);
+  await page.keyboard.press('Escape');
+  await page.evaluate(() => (window as any).calendarGate.release());
+  await expect.poll(() => page.evaluate(() => (window as any).calendarGate.finished)).toBe(true);
+  await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+  await page.getByRole('button', { name: 'Export calendar' }).click();
+  await expect(page.getByRole('dialog')).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Download calendar' })).toBeEnabled();
+  expect(downloads).toBe(0);
+});

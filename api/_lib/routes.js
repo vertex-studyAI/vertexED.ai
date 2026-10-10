@@ -98,6 +98,11 @@ export const ROUTES = {
     loader: () => import('../_handlers/notebook.js'),
     methods: ['POST'],
   },
+  'import-source': {
+    loader: () => import('../_handlers/import-source.js'),
+    methods: ['POST'],
+    maxBodyBytes: 1_400_000,
+  },
   'board-resource': {
     loader: () => import('../_handlers/board-resource.js'),
     methods: ['POST'],

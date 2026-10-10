@@ -27,6 +27,7 @@ export type SubjectMastery = {
   subject: string;
   mastery: number;
   attempts: number;
+  topics: number;
   trend: 'improving' | 'stable' | 'declining' | 'unknown';
 };
 
@@ -178,7 +179,7 @@ export function buildAdaptivePlan(input: BuildAdaptiveInput): AdaptivePlan {
       priority: 'medium',
       kind: 'practice',
       title: `Practice ${focusSubject}`,
-      description: 'Generate a targeted mock on your weakest subject',
+      description: weakest ? 'Practise the subject with the lowest recorded measured score' : 'Start with a subject you selected. No weakness has been assessed yet.',
       to: `/paper-maker?subject=${encodeURIComponent(focusSubject)}`,
       subject: focusSubject,
     });

@@ -4,6 +4,7 @@ export const STUDY_ARTIFACT_KINDS = Object.freeze([
   'paper',
   'planner',
   'notebook',
+  'conversation',
 ]);
 
 const STUDY_ARTIFACT_KIND_SET = new Set(STUDY_ARTIFACT_KINDS);

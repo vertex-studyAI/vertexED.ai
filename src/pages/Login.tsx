@@ -212,7 +212,7 @@ export default function Login() {
 
           <p className="mt-4 text-center text-xs text-muted-foreground" role="status">
             {supabase
-              ? "This build is connected for secure email and Google sign-in."
+              ? "Authentication settings are present. Sign-in is complete only after the provider callback creates a VertexED session."
               : "Login is unavailable in this build because its public auth settings are missing."}
           </p>
 

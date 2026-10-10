@@ -24,3 +24,16 @@ test('numeric limit arity remains supported', () => {
   const results = searchVertex('myp', 3);
   assert.ok(results.length <= 3);
 });
+
+test('search tolerates missing letters and transpositions without losing exact ranking', () => {
+  assert.ok(searchVertex('plnner').some(entry => entry.title === 'Study planner'));
+  assert.ok(searchVertex('bioloyg').some(entry => /biology/i.test(entry.title)));
+  assert.equal(searchVertex('Privacy')[0].title, 'Privacy');
+  assert.deepEqual(searchVertex('zzzz-no-such-subject'), []);
+});
+
+test('private saved work is ranked with the catalogue but filtered when signed out', () => {
+  const entry = { title: 'My integral methods', description: 'note', keywords: 'integration by parts', to: '/saved-work?item=1', area: 'Saved work', account: true };
+  assert.equal(searchVertex('integral methods', { entries: [entry] })[0], entry);
+  assert.ok(!searchVertex('integral methods', { entries: [entry], includeAccount: false }).includes(entry));
+});

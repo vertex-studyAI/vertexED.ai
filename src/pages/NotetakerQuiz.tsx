@@ -47,6 +47,8 @@ import { deleteStudyArtifact, saveStudyArtifact, consumeArtifactRestore } from "
 import { getWeakestTopics, recordWeakness, type TopicHeat } from "@/lib/weaknessTracker";
 import { MEASURED_WEAKNESS_EVIDENCE } from "@/lib/weaknessEvidenceCore.mjs";
 import { toast } from "@/hooks/use-toast";
+
+function notifyStudy(description: string) { toast({ title: 'Study update', description }); }
 import AiFeedbackControls from "@/components/AiFeedbackControls";
 import {
   FileText,
@@ -555,14 +557,14 @@ export default function NotetakerQuiz(): React.JSX.Element {
       saveAs(blob, `vertexed-${name}-${new Date().toISOString().slice(0, 10)}.docx`);
     } catch (err) {
       console.error("Word export failed", err);
-      alert("Word export failed");
+      notifyStudy("Word export failed");
     }
   };
 
   const exportToPDF = async (notesText: string, cards: Flashcard[]) => {
     try {
       if (!notesText.trim() && cards.length === 0) {
-        alert("Nothing to export");
+        notifyStudy("Nothing to export");
         return;
       }
       const blocks: PdfTextBlock[] = [
@@ -582,7 +584,7 @@ export default function NotetakerQuiz(): React.JSX.Element {
       await exportTextPdf({ filename: `vertexed-${name}-${new Date().toISOString().slice(0, 10)}.pdf`, blocks });
     } catch (err) {
       console.error("PDF export failed", err);
-      alert("PDF export failed");
+      notifyStudy("PDF export failed");
     }
   };
 
@@ -598,7 +600,7 @@ export default function NotetakerQuiz(): React.JSX.Element {
 
   const handleGenerateNotes = async () => {
     if (!topic.trim()) {
-      alert("Please enter a topic");
+      notifyStudy("Please enter a topic");
       return;
     }
 
@@ -678,7 +680,7 @@ export default function NotetakerQuiz(): React.JSX.Element {
     } catch (err) {
       if (!isCurrentRequest()) return;
       console.error(err);
-      alert(notetakerError(err, "generate"));
+      notifyStudy(notetakerError(err, "generate"));
     } finally {
       releaseLoadingOwner("note", requestId);
     }
@@ -686,7 +688,7 @@ export default function NotetakerQuiz(): React.JSX.Element {
 
   const handleGenerateQuiz = async () => {
     if (!notes.trim()) {
-      alert("Please generate or write notes first");
+      notifyStudy("Please generate or write notes first");
       return;
     }
 
@@ -739,7 +741,7 @@ export default function NotetakerQuiz(): React.JSX.Element {
     } catch (err) {
       if (!isCurrentRequest()) return;
       console.error(err);
-      alert(notetakerError(err, "quiz"));
+      notifyStudy(notetakerError(err, "quiz"));
       setGeneratedQuestions([]);
     } finally {
       releaseLoadingOwner("quiz", requestId);
@@ -908,7 +910,7 @@ export default function NotetakerQuiz(): React.JSX.Element {
     } catch (err) {
       if (!isCurrentRequest()) return;
       console.error("Grading failed:", err);
-      alert(notetakerError(err, "grade"));
+      notifyStudy(notetakerError(err, "grade"));
     } finally {
       releaseLoadingOwner("grade", requestId);
     }
@@ -921,7 +923,7 @@ export default function NotetakerQuiz(): React.JSX.Element {
       window.setTimeout(() => setCopyToastVisible(false), 1800);
     } catch (err) {
       console.error("Clipboard failed:", err);
-      alert("Failed to copy to clipboard.");
+      notifyStudy("Failed to copy to clipboard.");
     }
   };
 
@@ -1069,7 +1071,7 @@ export default function NotetakerQuiz(): React.JSX.Element {
       const r = await authFetch("/api/transcribe", { method: "POST", body: fd });
       if (!r.ok) {
         console.error("Transcribe upload failed", await r.text().catch(() => ""));
-        alert("Upload failed. You can still download the audio locally.");
+        notifyStudy("Upload failed. You can still download the audio locally.");
         return;
       }
 
@@ -1077,7 +1079,7 @@ export default function NotetakerQuiz(): React.JSX.Element {
       applyTranscriptionResult(json);
     } catch (err) {
       console.error("Upload error:", err);
-      alert("Upload failed. Please try again.");
+      notifyStudy("Upload failed. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -1131,7 +1133,7 @@ export default function NotetakerQuiz(): React.JSX.Element {
             } catch {
               // The recorder can already be inactive at the duration boundary.
             }
-            alert("Maximum recording time reached (1 hour). Recording stopped automatically.");
+            notifyStudy("Maximum recording time reached (1 hour). Recording stopped automatically.");
             return MAX_RECORDED_SECONDS;
           }
           return next;
@@ -1139,7 +1141,7 @@ export default function NotetakerQuiz(): React.JSX.Element {
       }, 1000);
     } catch (err) {
       console.error("Audio start failed", err);
-      alert("Could not access microphone. Please check permissions.");
+      notifyStudy("Could not access microphone. Please check permissions.");
     }
   };
 
@@ -1171,7 +1173,7 @@ export default function NotetakerQuiz(): React.JSX.Element {
 
   const downloadAudio = () => {
     if (!lastAudioBlob) {
-      alert("No audio recorded");
+      notifyStudy("No audio recorded");
       return;
     }
     const url = URL.createObjectURL(lastAudioBlob);
@@ -1184,7 +1186,7 @@ export default function NotetakerQuiz(): React.JSX.Element {
 
   const sendNotesToCards = async (count = 6) => {
     if (!notes.trim()) {
-      alert("No notes available to convert.");
+      notifyStudy("No notes available to convert.");
       return;
     }
 
@@ -1209,12 +1211,12 @@ export default function NotetakerQuiz(): React.JSX.Element {
       setFlashcards(data.flashcards.slice(0, count));
       setCurrentFlashIndex(0);
       pushNotesSnapshot(notes);
-      alert(data?.generation?.degraded
+      notifyStudy(data?.generation?.degraded
         ? "Source-bound fallback flashcards generated. Verify them before use."
         : "Flashcards generated successfully.");
     } catch (err) {
       console.error("sendNotesToCards error:", err);
-      alert(notetakerError(err, "flashcards"));
+      notifyStudy(notetakerError(err, "flashcards"));
     }
   };
 
