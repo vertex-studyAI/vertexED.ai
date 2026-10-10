@@ -96,6 +96,9 @@ test('already destroyed uploads fail promptly', async () => {
   request.destroy();
   await new Promise((resolve) => request.once('close', resolve));
   await assert.rejects(() => bounded(parseTranscriptionRequest(request)), inputError(400));
+  await new Promise(setImmediate);
+  assert.equal(request.listenerCount('error'), 0);
+  assert.equal(request.listenerCount('close'), 0);
 });
 
 test('stream overflow releases retained data listeners without requiring end', async () => {
@@ -142,4 +145,41 @@ test('transport errors following abort or overflow are handled until close', () 
     timeout: 5000,
   });
   assert.equal(result.status, 0, result.stderr || result.error?.message);
+});
+
+test('an error queued before transcription parsing is consumed and cleaned up', () => {
+  const source = `
+    import assert from 'node:assert/strict';
+    import { PassThrough } from 'node:stream';
+    import { parseTranscriptionRequest } from './api/_lib/transcriptionInput.js';
+    const request = new PassThrough();
+    request.headers = { 'content-type': 'application/json' };
+    const closed = new Promise((resolve) => request.once('close', resolve));
+    request.destroy(new Error('queued before parser'));
+    await assert.rejects(parseTranscriptionRequest(request), (error) => error.status === 400);
+    await closed;
+    await new Promise(setImmediate);
+    for (const name of ['data', 'end', 'error', 'aborted', 'close']) {
+      assert.equal(request.listenerCount(name), 0, name);
+    }
+  `;
+  const result = spawnSync(process.execPath, [...process.execArgv, '--input-type=module', '-e', source], {
+    encoding: 'utf8',
+    timeout: 5000,
+  });
+  assert.equal(result.status, 0, result.stderr || result.error?.message);
+});
+
+test('a completed non-auto-destroy upload keeps only a transport guard until close', async () => {
+  const request = Readable.from([Buffer.from(JSON.stringify(audioBody()))], { autoDestroy: false });
+  request.headers = headers;
+  const parsed = await parseTranscriptionRequest(request);
+  assert.deepEqual(parsed.audioBuffer, Buffer.from('recording'));
+  assert.equal(request.listenerCount('data'), 0);
+  assert.equal(request.listenerCount('end'), 0);
+  const closed = new Promise((resolve) => request.once('close', resolve));
+  request.destroy(new Error('transport reset after body completion'));
+  await closed;
+  assert.equal(request.listenerCount('error'), 0);
+  assert.equal(request.listenerCount('close'), 0);
 });

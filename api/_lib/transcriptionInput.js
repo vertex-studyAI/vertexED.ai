@@ -1,5 +1,6 @@
 import path from 'node:path';
 import { MAX_AUDIO_BYTES } from './auth.js';
+import { guardInterruptedRequestErrors } from './requestLifecycle.js';
 
 const MAX_MULTIPART_OVERHEAD = 512 * 1024;
 // JSON carries the same audio as base64; bound its larger wire representation.
@@ -34,8 +35,11 @@ async function readRawBody(req, maxBytes) {
     }
     return Buffer.isBuffer(body) ? body : Buffer.from(body);
   }
-  if (!req || typeof req.on !== 'function' || typeof req.removeListener !== 'function'
-      || req.aborted || req.destroyed || req.readableEnded) {
+  if (!req || typeof req.on !== 'function' || typeof req.removeListener !== 'function') {
+    throw new TranscriptionInputError('Request body is unavailable.');
+  }
+  if (req.aborted || req.destroyed || req.readableEnded) {
+    guardInterruptedRequestErrors(req);
     throw new TranscriptionInputError('Request body is unavailable.');
   }
 
