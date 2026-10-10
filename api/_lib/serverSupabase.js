@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import { fetchWithTimeout } from './fetchWithTimeout.js';
+import { fetchBufferedResponse } from './bufferedFetch.js';
 
 export const SUPABASE_REQUEST_TIMEOUT_MS = 12_000;
 
@@ -36,7 +36,9 @@ export function createServerSupabaseClient(
       detectSessionInUrl: false,
     },
     global: {
-      fetch: (input, init) => fetchWithTimeout(input, init, timeoutMs),
+      // The SDK reads JSON/text after fetch resolves, so headers alone cannot
+      // finish the server deadline. Return only after the full body arrives.
+      fetch: (input, init) => fetchBufferedResponse(input, init, timeoutMs),
     },
   });
 }
