@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import { fetchWithTimeout } from './fetchWithTimeout.js';
+import { fetchWithBodyTimeout } from './fetchWithTimeout.js';
 
 export const SUPABASE_REQUEST_TIMEOUT_MS = 12_000;
 
@@ -36,7 +36,7 @@ export function createServerSupabaseClient(
       detectSessionInUrl: false,
     },
     global: {
-      fetch: (input, init) => fetchWithTimeout(input, init, timeoutMs),
+      fetch: (input, init) => fetchWithBodyTimeout(input, init, timeoutMs),
     },
   });
 }
