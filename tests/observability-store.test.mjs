@@ -38,13 +38,13 @@ test('observability persistence reports database failures instead of acknowledgi
   const success = {
     from(table) {
       assert.equal(table, 'observability_events');
-      return { insert: async (row) => { inserted.push(row); return { error: null }; } };
+      return { insert: (row) => { inserted.push(row); return { abortSignal: async () => ({ error: null }) }; } };
     },
   };
   assert.deepEqual(await persistObservabilityEvent(event, success), { ok: true, error: null });
   assert.equal(inserted.length, 1);
 
   const databaseError = { code: '42P01' };
-  const failure = { from: () => ({ insert: async () => ({ error: databaseError }) }) };
+  const failure = { from: () => ({ insert: () => ({ abortSignal: async () => ({ error: databaseError }) }) }) };
   assert.deepEqual(await persistObservabilityEvent(event, failure), { ok: false, error: databaseError });
 });
