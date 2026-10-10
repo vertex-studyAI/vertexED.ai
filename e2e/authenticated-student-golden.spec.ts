@@ -626,7 +626,7 @@ test('approved learner completes the golden study journey and resumes saved work
   await page.getByLabel('Session choice').selectOption('diagnostic');
   await expect(page.getByText(/not a validated diagnostic assessment/)).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Topic evidence and mistakes' })).toBeVisible();
-  await page.getByText('Scientific explanation (1 recorded attempts)', { exact: false }).click();
+  await page.getByText('Scientific explanation (1 verified attempt)', { exact: false }).click();
   await expect(page.getByText('Recorded verification: official mark scheme')).toBeVisible();
   for (const width of [1440, 1024, 390]) {
     await page.setViewportSize({ width, height: 900 });
