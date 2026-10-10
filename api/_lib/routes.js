@@ -4,6 +4,7 @@
  */
 
 import { MAX_JSON_BODY_BYTES } from './auth.js';
+import { guardInterruptedRequestErrors } from './requestLifecycle.js';
 
 export const API_VERSION = '1';
 
@@ -148,21 +149,55 @@ export async function ensureJsonBody(req, maxBytes = MAX_JSON_BODY_BYTES) {
   const contentType = String(req.headers['content-type'] || '').toLowerCase();
   if (contentType.includes('multipart/form-data')) return;
 
+  if (req.aborted || req.destroyed || req.readableEnded) {
+    guardInterruptedRequestErrors(req);
+    throw new Error('BODY_INTERRUPTED');
+  }
+
   const chunks = [];
   let totalBytes = 0;
+  let raw;
 
   try {
-    await new Promise((resolve, reject) => {
-      req.on('data', (chunk) => {
-        totalBytes += chunk.length;
+    raw = await new Promise((resolve, reject) => {
+      let settled = false;
+      const releaseBody = () => {
+        req.removeListener('data', onData);
+        req.removeListener('end', onEnd);
+        req.removeListener('aborted', onInterrupted);
+      };
+      const finish = (error) => {
+        if (settled) return;
+        settled = true;
+        releaseBody();
+        if (error) reject(error);
+        else resolve(Buffer.concat(chunks, totalBytes).toString('utf8'));
+        chunks.length = 0;
+      };
+      const onData = (chunk) => {
+        const buffer = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk);
+        totalBytes += buffer.length;
         if (totalBytes > maxBytes) {
-          reject(new Error('BODY_TOO_LARGE'));
+          finish(new Error('BODY_TOO_LARGE'));
           return;
         }
-        chunks.push(chunk);
-      });
-      req.on('end', resolve);
-      req.on('error', reject);
+        chunks.push(buffer);
+      };
+      const onEnd = () => finish();
+      const onError = (error) => finish(error);
+      const onInterrupted = () => finish(new Error('BODY_INTERRUPTED'));
+      const onClose = () => {
+        onInterrupted();
+        req.removeListener('error', onError);
+        req.removeListener('close', onClose);
+      };
+      req.on('data', onData);
+      req.on('end', onEnd);
+      req.on('aborted', onInterrupted);
+      // Aborted/oversized bodies can still emit a transport error before close.
+      // Keep only this guard and close cleanup after releasing retained bytes.
+      req.on('error', onError);
+      req.on('close', onClose);
     });
   } catch (err) {
     if (err instanceof Error && err.message === 'BODY_TOO_LARGE') {
@@ -173,7 +208,6 @@ export async function ensureJsonBody(req, maxBytes = MAX_JSON_BODY_BYTES) {
     throw err;
   }
 
-  const raw = Buffer.concat(chunks).toString('utf8');
   if (!raw) {
     req.body = {};
     return;
