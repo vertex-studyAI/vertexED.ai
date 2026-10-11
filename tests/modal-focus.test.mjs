@@ -5,6 +5,7 @@ import {
   focusInitialModalElement,
   getModalFocusableElements,
   restoreModalFocus,
+  restoreModalFocusWithRetry,
   trapModalFocus,
 } from '../src/lib/modalFocus.mjs';
 
@@ -74,4 +75,34 @@ test('closing a modal restores focus to the connected invoking control', () => {
   last.focus();
   assert.equal(restoreModalFocus(opener), true);
   assert.equal(document.activeElement, opener);
+});
+
+test('focus restoration reports a browser that ignores the focus request', () => {
+  const { document, opener, last } = fixture();
+  last.focus();
+  opener.focus = () => {};
+
+  assert.equal(restoreModalFocus(opener), false);
+  assert.equal(document.activeElement, last);
+});
+
+test('focus restoration retries once on the next frame after an ignored request', () => {
+  const { document, opener, last } = fixture();
+  last.focus();
+  const focus = opener.focus.bind(opener);
+  let focusCalls = 0;
+  let scheduled;
+  opener.focus = () => {
+    focusCalls += 1;
+    if (focusCalls > 1) focus();
+  };
+
+  assert.equal(restoreModalFocusWithRetry(opener, callback => { scheduled = callback; }), false);
+  assert.equal(document.activeElement, last);
+  assert.equal(focusCalls, 1);
+  assert.equal(typeof scheduled, 'function');
+
+  scheduled();
+  assert.equal(document.activeElement, opener);
+  assert.equal(focusCalls, 2);
 });

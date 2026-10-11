@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { Readable } from 'node:stream';
 import { getQueryNumber, getQueryParam } from '../api/_lib/query.js';
 import { createMocks } from './helpers/mock-http.mjs';
 import { dispatchRoute, resolveRouteKey, ROUTES, ensureJsonBody } from '../api/_lib/routes.js';
@@ -38,15 +39,9 @@ test('getQueryParam falls back to req.url search string', () => {
 });
 
 test('ensureJsonBody parses JSON for DELETE requests', async () => {
-  const req = {
-    method: 'DELETE',
-    headers: { 'content-type': 'application/json' },
-    body: undefined,
-    on(event, cb) {
-      if (event === 'data') cb(Buffer.from(JSON.stringify({ id: 'abc-123' })));
-      if (event === 'end') cb();
-    },
-  };
+  const req = Readable.from([Buffer.from(JSON.stringify({ id: 'abc-123' }))]);
+  req.method = 'DELETE';
+  req.headers = { 'content-type': 'application/json' };
 
   await ensureJsonBody(req);
   assert.equal(req.body.id, 'abc-123');
@@ -54,15 +49,12 @@ test('ensureJsonBody parses JSON for DELETE requests', async () => {
 
 test('ensureJsonBody honors a route-specific body limit', async () => {
   const payload = JSON.stringify({ value: '1234567890' });
-  const makeRequest = () => ({
-    method: 'POST',
-    headers: { 'content-type': 'application/json' },
-    body: undefined,
-    on(event, cb) {
-      if (event === 'data') cb(Buffer.from(payload));
-      if (event === 'end') cb();
-    },
-  });
+  const makeRequest = () => {
+    const req = Readable.from([Buffer.from(payload)]);
+    req.method = 'POST';
+    req.headers = { 'content-type': 'application/json' };
+    return req;
+  };
 
   const tooSmall = makeRequest();
   await ensureJsonBody(tooSmall, 5);
@@ -76,15 +68,10 @@ test('ensureJsonBody honors a route-specific body limit', async () => {
 });
 
 test('dispatchRoute rejects malformed JSON before loading a handler', async () => {
-  const { req, res, getStatus, getJson } = createMocks({
-    method: 'POST',
-    headers: { 'content-type': 'application/json' },
-  });
-  req.body = undefined;
-  req.on = (event, cb) => {
-    if (event === 'data') cb(Buffer.from('{"email":'));
-    if (event === 'end') cb();
-  };
+  const { res, getStatus, getJson } = createMocks();
+  const req = Readable.from([Buffer.from('{"email":')]);
+  req.method = 'POST';
+  req.headers = { 'content-type': 'application/json' };
 
   await dispatchRoute('waitlist', req, res);
 
