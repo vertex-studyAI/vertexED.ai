@@ -91,7 +91,10 @@ export async function createTeamInvitedUser(
   const existing = await supabase
     .from('waitlist')
     .select('id')
-    .ilike('email', email)
+    // ILIKE treats valid mailbox characters (_, %, and PostgREST's * alias)
+    // as wildcards. An anchored, escaped regex keeps the existing case-folded
+    // lookup while treating the complete mailbox as a literal identity.
+    .filter('email', 'imatch', `\\A${email.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\Z`)
     .maybeSingle();
 
   if (existing.error) {

@@ -154,8 +154,8 @@ function fakeTeamInviteSupabase({ existingId = null, lookupError = null, writeEr
           select(fields) {
             calls.push(['lookup-select', fields]);
             return {
-              ilike(field, value) {
-                calls.push(['ilike', field, value]);
+              filter(field, operator, value) {
+                calls.push(['filter', field, operator, value]);
                 return {
                   async maybeSingle() {
                     calls.push(['lookup-maybeSingle']);
