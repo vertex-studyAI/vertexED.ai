@@ -179,7 +179,11 @@ export async function savePlannerSnapshot(
       const token = accessToken || await getAccessToken();
       if (!token || getUserContentStorageScope() !== resolvedScope) return { ok: true, cloudSynced: false, error: 'Saved on this device. Sign in again to resume cloud sync.' };
       const metadata = readSnapshotMetadata(localStorage, metadataKey);
-      const payload = { tasks: snapshot.tasks, mode: snapshot.mode, version: 1 };
+      const { tasks, mode, updatedAt } = validatePlannerSnapshot(snapshot);
+      const payload = { tasks, mode, version: 1 };
+      // A timestamp can be shared by distinct edits. Retain the exact normalized
+      // content submitted by this attempt before awaiting its acknowledgement.
+      const submittedSnapshot = JSON.stringify({ tasks, mode, updatedAt });
       if (new TextEncoder().encode(JSON.stringify(payload)).length > 256 * 1024) return { ok: true, cloudSynced: false, error: 'This collection exceeds the cloud save limit. Export a backup and reduce its size to resume sync.' };
       const res = await authFetchWithAccessToken('/api/user-content', token, {
         signal: deadline.signal,
@@ -192,9 +196,9 @@ export async function savePlannerSnapshot(
       if (getUserContentStorageScope() !== resolvedScope) return { ok: true, cloudSynced: false, error: 'Account changed after saving.' };
       captureSnapshotRevision(metadataKey, data.item.updated_at);
       const current = readLocalSnapshot(resolvedScope);
-      const pending = current.updatedAt !== snapshot.updatedAt;
-      writeSnapshotMetadata(localStorage, metadataKey, { revision: data.item.updated_at, pending, syncedLocalTime: snapshot.updatedAt });
-      trackPlannerSaved({ cloudSynced: !pending, taskCount: snapshot.tasks.length });
+      const pending = JSON.stringify(current) !== submittedSnapshot;
+      writeSnapshotMetadata(localStorage, metadataKey, { revision: data.item.updated_at, pending, syncedLocalTime: updatedAt });
+      trackPlannerSaved({ cloudSynced: !pending, taskCount: tasks.length });
       return { ok: true, cloudSynced: !pending };
     } catch (err) { return { ok: true, cloudSynced: false, error: deadline.didTimeout() ? PLANNER_SYNC_TIMEOUT_MESSAGE : studySyncError(err, 'local-fallback') }; }
     finally {
