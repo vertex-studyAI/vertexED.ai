@@ -81,6 +81,28 @@ function localPlannerSource(snapshot: PlannerSnapshot) {
   return snapshot.tasks.length > 0 ? 'device' : 'empty';
 }
 
+function plannerSaveRevision(data: unknown, expectedRevision: string | null): string | null {
+  if (!data || typeof data !== 'object' || Array.isArray(data)) return null;
+  const receipt = data as Record<string, unknown>;
+  if (receipt.ok !== true || !receipt.item || typeof receipt.item !== 'object' || Array.isArray(receipt.item)) return null;
+  const item = receipt.item as Record<string, unknown>;
+  if (item.kind !== 'planner' || typeof item.id !== 'string'
+    || !/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(item.id)
+    || typeof item.updated_at !== 'string') return null;
+  // Accept the UTC/offset and microsecond formats returned by Postgres, but
+  // reject Date.parse's rollover dates and timestamps without a timezone.
+  const match = item.updated_at.match(/^(\d{4})-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])T(?:[01]\d|2[0-3]):[0-5]\d:[0-5]\d(?:\.\d{1,6})?(?:Z|[+-](?:[01]\d|2[0-3]):[0-5]\d)$/);
+  if (!match) return null;
+  const year = Number(match[1]);
+  const leap = year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0);
+  const monthDays = [31, leap ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+  const revisionTime = Date.parse(item.updated_at);
+  if (Number(match[3]) > monthDays[Number(match[2]) - 1] || !Number.isFinite(revisionTime)) return null;
+  // The singleton replacement route advances its revision by at least 1 ms.
+  if (expectedRevision !== null && !(revisionTime > Date.parse(expectedRevision))) return null;
+  return item.updated_at;
+}
+
 export async function loadPlannerSnapshot(storageScope?: string | null, acceptCloud = false): Promise<{
   snapshot: PlannerSnapshot;
   cloudSynced: boolean;
@@ -169,6 +191,9 @@ export async function savePlannerSnapshot(
   try {
     readLocalSnapshot(resolvedScope);
     const metadata = readSnapshotMetadata(localStorage, metadataKey);
+    // Keep the queued JSON values identical to the device save even if the
+    // caller changes its object while an earlier network write is pending.
+    snapshot = validatePlannerSnapshot(JSON.parse(JSON.stringify(snapshot)));
     writeLocalPlannerSnapshot(snapshot, resolvedScope);
     writeSnapshotMetadata(localStorage, metadataKey, { ...metadata, pending: true });
   } catch (error) { return { ok: false, cloudSynced: false, error: studySyncError(error, 'sync') }; }
@@ -179,6 +204,7 @@ export async function savePlannerSnapshot(
       const token = accessToken || await getAccessToken();
       if (!token || getUserContentStorageScope() !== resolvedScope) return { ok: true, cloudSynced: false, error: 'Saved on this device. Sign in again to resume cloud sync.' };
       const metadata = readSnapshotMetadata(localStorage, metadataKey);
+      const expectedUpdatedAt = expectedSnapshotRevision(metadataKey, metadata.revision);
       const { tasks, mode, updatedAt } = validatePlannerSnapshot(snapshot);
       const payload = { tasks, mode, version: 1 };
       // A timestamp can be shared by distinct edits. Retain the exact normalized
@@ -188,16 +214,17 @@ export async function savePlannerSnapshot(
       const res = await authFetchWithAccessToken('/api/user-content', token, {
         signal: deadline.signal,
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ kind: 'planner', title: 'Study Planner', replace: true, expectedUpdatedAt: expectedSnapshotRevision(metadataKey, metadata.revision), payload }),
+        body: JSON.stringify({ kind: 'planner', title: 'Study Planner', replace: true, expectedUpdatedAt, payload }),
       });
       const data = await res.json().catch(() => null);
       if (!res.ok) return { ok: true, cloudSynced: false, error: data?.error || 'Saved on this device only' };
-      if (typeof data?.item?.updated_at !== 'string') return { ok: true, cloudSynced: false, error: 'Cloud acknowledgement was incomplete. Local work is preserved.' };
+      const revision = plannerSaveRevision(data, expectedUpdatedAt);
+      if (revision === null) return { ok: true, cloudSynced: false, error: 'Cloud acknowledgement was incomplete. Local work is preserved.' };
       if (getUserContentStorageScope() !== resolvedScope) return { ok: true, cloudSynced: false, error: 'Account changed after saving.' };
-      captureSnapshotRevision(metadataKey, data.item.updated_at);
+      captureSnapshotRevision(metadataKey, revision);
       const current = readLocalSnapshot(resolvedScope);
       const pending = JSON.stringify(current) !== submittedSnapshot;
-      writeSnapshotMetadata(localStorage, metadataKey, { revision: data.item.updated_at, pending, syncedLocalTime: updatedAt });
+      writeSnapshotMetadata(localStorage, metadataKey, { revision, pending, syncedLocalTime: updatedAt });
       trackPlannerSaved({ cloudSynced: !pending, taskCount: tasks.length });
       return { ok: true, cloudSynced: !pending };
     } catch (err) { return { ok: true, cloudSynced: false, error: deadline.didTimeout() ? PLANNER_SYNC_TIMEOUT_MESSAGE : studySyncError(err, 'local-fallback') }; }
