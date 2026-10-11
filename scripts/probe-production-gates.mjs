@@ -18,6 +18,7 @@ import {
   classifyAgentsDeployment,
   classifyCanonicalDomain,
   classifyProviderCandidate,
+  classifyReadinessGate,
   providerCandidatePasses,
 } from './probe-production-gates-core.mjs';
 
@@ -218,25 +219,7 @@ const report = {
   },
   verdict: {
     gate1a: gate1aVerdict,
-    gate1b: (() => {
-      const checks = edReady.json?.checks;
-      const allChecks =
-        checks && typeof checks === 'object' && Object.values(checks).every(Boolean);
-      if (
-        edReady.json?.ok === true &&
-        edReady.json?.status === 'ready' &&
-        allChecks
-      ) {
-        return 'READY';
-      }
-      if (edReady.json?.databaseError === 'readiness_rpc_missing') {
-        return 'BLOCKED_READINESS_RPC_MISSING';
-      }
-      if (checks && checks.durableRateLimiting === false) {
-        return 'BLOCKED_MISSING_WAITLIST_RATE_LIMIT_SALT_OR_DEGRADED';
-      }
-      return 'BLOCKED_DEGRADED';
-    })(),
+    gate1b: classifyReadinessGate({ shallowProbe: edShallow, readinessProbe: edReady }),
     agents: classifyAgentsDeployment(edAgents),
   },
 };

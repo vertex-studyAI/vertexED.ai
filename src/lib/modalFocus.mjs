@@ -65,5 +65,12 @@ export function trapModalFocus(event, container) {
 export function restoreModalFocus(element) {
   if (!element || element.isConnected === false || typeof element.focus !== 'function') return false;
   element.focus();
-  return true;
+  return element.ownerDocument?.activeElement === element;
+}
+
+export function restoreModalFocusWithRetry(element, scheduleFrame) {
+  if (restoreModalFocus(element)) return true;
+  if (typeof scheduleFrame !== 'function') return false;
+  scheduleFrame(() => restoreModalFocus(element));
+  return false;
 }

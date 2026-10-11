@@ -9,7 +9,7 @@ import {
 import { createPortal } from "react-dom";
 import {
   focusInitialModalElement,
-  restoreModalFocus,
+  restoreModalFocusWithRetry,
   trapModalFocus,
 } from "@/lib/modalFocus.mjs";
 
@@ -71,7 +71,9 @@ export default function AccessibleModal({
       }
       const returnTarget = returnFocusRef.current;
       window.queueMicrotask(() => {
-        if (!dialog?.isConnected) restoreModalFocus(returnTarget);
+        if (!dialog?.isConnected) {
+          restoreModalFocusWithRetry(returnTarget, window.requestAnimationFrame.bind(window));
+        }
       });
     };
   }, [initialFocusRef, openerRef]);

@@ -1,0 +1,243 @@
+{
+  "base": "e28f24ff1c051eaa91b5443a79fe392987d0c688",
+  "sources": {
+    "1131": {
+      "sha": "dc3308d51ca5e1c9d60169bc102830f415e6736e",
+      "tree": "2ce997df16fd0fe6f40aeb90dea2efe2d6d40331",
+      "file_count": 11
+    },
+    "1132": {
+      "sha": "6672796b6d6ff80a9a8120bf4517488ebd8e2d2e",
+      "tree": "bb2a98d1e682a22e279082fbfdba820a7009a5e7",
+      "file_count": 3
+    },
+    "1133": {
+      "sha": "8c0e2fb1362461d1e33c7202aa54194bd6f50c97",
+      "tree": "4138a3a1c4272bbd6acf68bd57eaf74d43a765b4",
+      "file_count": 22
+    }
+  },
+  "files": [
+    {
+      "source_pr": "1131",
+      "path": "api/_lib/requestLifecycle.js",
+      "blob": "18577ec7e7a793a5c0a87045d3c90dd962b3c742"
+    },
+    {
+      "source_pr": "1131",
+      "path": "api/_lib/routes.js",
+      "blob": "51d764551711c2ddb7906789f01475eafcc39b9d"
+    },
+    {
+      "source_pr": "1131",
+      "path": "api/_lib/transcriptionInput.js",
+      "blob": "950d091ced235b336c4828078057285258771b1a"
+    },
+    {
+      "source_pr": "1131",
+      "path": "src/components/AccessibleModal.tsx",
+      "blob": "02ee8ad83d7711a77892f4853c8561cbb7260288"
+    },
+    {
+      "source_pr": "1131",
+      "path": "src/lib/modalFocus.mjs",
+      "blob": "b8c80267175a34fb96c26f0964f0f52c28511983"
+    },
+    {
+      "source_pr": "1131",
+      "path": "tests/api-router.test.mjs",
+      "blob": "1b5f2bfa902f7a2d004da04bcfa7d435312bed7d"
+    },
+    {
+      "source_pr": "1131",
+      "path": "tests/json-request-stream.test.mjs",
+      "blob": "8c3ffca6f8276c7714d07e89aac02ea648540c86"
+    },
+    {
+      "source_pr": "1131",
+      "path": "tests/modal-focus.test.mjs",
+      "blob": "4fb8e31fe41382f4444f4943e1492fe724f3ba9f"
+    },
+    {
+      "source_pr": "1131",
+      "path": "tests/planner-dialog-accessibility.test.mjs",
+      "blob": "8d28d836841fed8c950df86606a205dab40a4423"
+    },
+    {
+      "source_pr": "1131",
+      "path": "tests/study-notebook-source-preview-accessibility.test.mjs",
+      "blob": "ff68590cc879cfa2da5ccf4ddc91dc2d0ef02d62"
+    },
+    {
+      "source_pr": "1131",
+      "path": "tests/transcription-upload-boundary.test.mjs",
+      "blob": "d987dcb90bd99c40f6cefa61297729f9fa14e18e"
+    },
+    {
+      "source_pr": "1132",
+      "path": "api/_lib/bufferedFetch.js",
+      "blob": "1daa8fa41392dbb4c2a9420afd6a00b537089cba"
+    },
+    {
+      "source_pr": "1132",
+      "path": "api/_lib/serverSupabase.js",
+      "blob": "a4841a4e0cd4c07baf73a9b86e2e8fa7bdebef27"
+    },
+    {
+      "source_pr": "1132",
+      "path": "tests/server-supabase-body-deadline.test.mjs",
+      "blob": "6ae541903a2779113922712a935b355ed0088965"
+    },
+    {
+      "source_pr": "1133",
+      "path": "api/_lib/aiProviders.js",
+      "blob": "d632d9074897e9fca9a0128eec40e4999c22b5dd"
+    },
+    {
+      "source_pr": "1133",
+      "path": "api/_lib/observabilityStore.js",
+      "blob": "6aacf730fc54d9a5fcd255454a3b1518f06ebd2d"
+    },
+    {
+      "source_pr": "1133",
+      "path": "api/_lib/providerRequest.js",
+      "blob": "36bd15619c62953e940925780a833056c92fbf12"
+    },
+    {
+      "source_pr": "1133",
+      "path": "api/_lib/providerTextRequest.js",
+      "blob": "3837f57b44ffbb1965a2086b656b2b4a3a596410"
+    },
+    {
+      "source_pr": "1133",
+      "path": "docs/PRODUCTION_GATE_CONTRACT_REPAIR_20261007.md",
+      "blob": "10c7129a8536327402412d920fe9268219c20a58"
+    },
+    {
+      "source_pr": "1133",
+      "path": "docs/TRANSPORT_DEADLINE_REPAIR_20261007.md",
+      "blob": "582dde463a8e154fa75c9d8d1d541985c6d59ce4"
+    },
+    {
+      "source_pr": "1133",
+      "path": "e2e/theme-controls.spec.ts",
+      "blob": "0b2f5d9badeda08a6eccca84056bfac2b7f0937b"
+    },
+    {
+      "source_pr": "1133",
+      "path": "e2e/theme-controls.ts",
+      "blob": "2cbc7a22ba356c048f31ebb77be3b9a4b42e32e0"
+    },
+    {
+      "source_pr": "1133",
+      "path": "playwright.astra.config.ts",
+      "blob": "d042b85709546a0796829260e45de789966aef95"
+    },
+    {
+      "source_pr": "1133",
+      "path": "scripts/diagnose-production-transport.mjs",
+      "blob": "defee0933fd1507906a40b61c84209282d4c678d"
+    },
+    {
+      "source_pr": "1133",
+      "path": "scripts/probe-production-gates-core.mjs",
+      "blob": "3d20b9351f8fbdd0dcaaf22fc01db220ee362077"
+    },
+    {
+      "source_pr": "1133",
+      "path": "scripts/probe-production-gates.mjs",
+      "blob": "04c72409c0643e9094dca12bdafdb77258330dc6"
+    },
+    {
+      "source_pr": "1133",
+      "path": "tests/chat-provider-body-deadline.test.mjs",
+      "blob": "8e244fa39d5b81aaaa2f4e03f2d69d90805a23bd"
+    },
+    {
+      "source_pr": "1133",
+      "path": "tests/fixtures/transport-localhost/README.md",
+      "blob": "050a6fd07bf3089aab50c07c91748b8e271bb5c1"
+    },
+    {
+      "source_pr": "1133",
+      "path": "tests/fixtures/transport-localhost/cert.pem",
+      "blob": "bf826e138a6cc1d72ec77342609072e7415a8fbd"
+    },
+    {
+      "source_pr": "1133",
+      "path": "tests/fixtures/transport-localhost/key.pem",
+      "blob": "99129e38344c2f9b5d1ccc3f7a6c38e5bba39c18"
+    },
+    {
+      "source_pr": "1133",
+      "path": "tests/observability-deadline.test.mjs",
+      "blob": "9690a0f7f072b93ff567641d5fc67cc4f7819ed5"
+    },
+    {
+      "source_pr": "1133",
+      "path": "tests/observability-store.test.mjs",
+      "blob": "321af6b411e57573588bcd229c3d067fe6934497"
+    },
+    {
+      "source_pr": "1133",
+      "path": "tests/probe-production-gates.test.mjs",
+      "blob": "e11b33a9300ac9c1d2765ed17d95b7c363f13485"
+    },
+    {
+      "source_pr": "1133",
+      "path": "tests/production-gate-fail-closed.test.mjs",
+      "blob": "d1f93c9439f4cd701e5307851a414231c93819b2"
+    },
+    {
+      "source_pr": "1133",
+      "path": "tests/production-transport-runtime.test.mjs",
+      "blob": "ce483614292391354f6219f3719af9963a816a58"
+    },
+    {
+      "source_pr": "1133",
+      "path": "tests/provider-request-body-deadline.test.mjs",
+      "blob": "ce036fd215d37a18d31aad95f7d6cc471bb40d60"
+    }
+  ],
+  "changed_files": 36,
+  "schema": "vertexed.request-boundary-integration.v1",
+  "date": "2026-10-11",
+  "imported_source_tree": "3dcd0c7f07bb20b27d73ade653a0069c01f431de",
+  "scope": "Exact-source composition for candidate review; no production acceptance claim.",
+  "local_validation": {
+    "runtime": {
+      "node": "22.22.0",
+      "npm": "10.9.4"
+    },
+    "full_gate": {
+      "command": "npm run ci",
+      "source_tree": "3dcd0c7f07bb20b27d73ade653a0069c01f431de",
+      "result": "PASS",
+      "application_tests": 1424,
+      "evaluation_tests": 25,
+      "copy_tests": 2,
+      "log_sha256": "cd7de66db2498744860766a0e61ffb8e675b81511215be9cf2874f07b1a8906c"
+    },
+    "composition_test": {
+      "path": "tests/telemetry-server-deadline-integration.test.mjs",
+      "command": "node --test tests/telemetry-server-deadline-integration.test.mjs",
+      "result": "PASS",
+      "tests": 1,
+      "duration_ms": 1509.948099,
+      "log_sha256": "e1ddcdaafd94e4ec3d6df296c81e240c2f581e3ae313a93268d5abe1242f87c8"
+    },
+    "new_test_lint": "PASS",
+    "existing_warnings": {
+      "react_hook_warnings": 2,
+      "guides_awaiting_approval": 245,
+      "guides_flagged_for_review": 53
+    },
+    "limits": "The complete gate preceded the single new composition test. Hosted checks must certify the published final tree. Local logs are retained outside source; no production or live-provider certification is asserted."
+  },
+  "selection": {
+    "1130": "Alternative server deadline implementation, excluded. The selected #1132 explicitly races abort-ignoring transports and retains native response metadata.",
+    "1134": "Exact JSON-reader source already included in #1131 at 965acb65f21b19953d6623f4cde14d5a44b17c6c.",
+    "1120": "Only its five-file modal focus dependency is included by #1131; recovery and notebook-sync changes are excluded.",
+    "1123_1124_1125_1127_1129": "Exact existing provider, probe, diagnostic, and browser-readiness dependencies retained by #1133."
+  }
+}

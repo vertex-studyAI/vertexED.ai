@@ -176,34 +176,72 @@ async function diagnoseTls(hostname, port, connectHost = hostname) {
 
 async function diagnoseHttps(url, connectHost = url.hostname) {
   return new Promise((resolve) => {
-    const request = https.get({
-      protocol: url.protocol,
-      hostname: connectHost,
-      port: Number(url.port || 443),
-      path: `${url.pathname}${url.search}`,
-      servername: url.hostname,
-      rejectUnauthorized: true,
-      headers: { Host: url.host },
-      timeout: TIMEOUT_MS,
-    }, (response) => {
-      response.resume();
-      response.once('end', () => {
-        resolve({
-          ok: true,
-          status: response.statusCode ?? null,
-          headers: {
-            cacheControl: response.headers['cache-control'] || null,
-            vertexApi: response.headers['x-vertex-api'] || null,
-            vertexHealth: response.headers['x-vertexed-health'] || null,
-            vertexRevision: response.headers['x-vertexed-revision'] || null,
-            server: response.headers.server || null,
-          },
-        });
-      });
-    });
+    let request;
+    let response;
+    let settled = false;
 
-    request.once('timeout', () => request.destroy(new Error(`HTTPS request timed out after ${TIMEOUT_MS}ms`)));
-    request.once('error', (error) => resolve({ ok: false, error: describeError(error) }));
+    const finish = (result) => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(deadline);
+      response?.destroy();
+      request?.destroy();
+      resolve(result);
+    };
+    const fail = (error) => finish({ ok: false, error: describeError(error) });
+
+    // Socket inactivity is insufficient: a peer can keep a response alive by
+    // sending bytes without ever completing it. This deadline covers the full
+    // HTTPS request, including response consumption, and cannot be refreshed.
+    const deadline = setTimeout(() => {
+      fail(new Error(`HTTPS request deadline exceeded after ${TIMEOUT_MS}ms`));
+    }, TIMEOUT_MS);
+
+    try {
+      request = https.get({
+        protocol: url.protocol,
+        hostname: connectHost,
+        port: Number(url.port || 443),
+        path: `${url.pathname}${url.search}`,
+        servername: url.hostname,
+        rejectUnauthorized: true,
+        headers: { Host: url.host },
+        timeout: TIMEOUT_MS,
+      }, (incoming) => {
+        response = incoming;
+        response.once('error', fail);
+        if (settled) {
+          response.destroy();
+          return;
+        }
+        response.once('aborted', () => fail(new Error('HTTPS response aborted before completion')));
+        response.once('close', () => {
+          if (!response.complete) fail(new Error('HTTPS response closed before completion'));
+        });
+        response.once('end', () => {
+          if (!response.complete) {
+            fail(new Error('HTTPS response ended before completion'));
+            return;
+          }
+          finish({
+            ok: true,
+            status: response.statusCode ?? null,
+            headers: {
+              cacheControl: response.headers['cache-control'] || null,
+              vertexApi: response.headers['x-vertex-api'] || null,
+              vertexHealth: response.headers['x-vertexed-health'] || null,
+              vertexRevision: response.headers['x-vertexed-revision'] || null,
+              server: response.headers.server || null,
+            },
+          });
+        });
+        response.resume();
+      });
+      request.once('timeout', () => fail(new Error(`HTTPS request timed out after ${TIMEOUT_MS}ms`)));
+      request.once('error', fail);
+    } catch (error) {
+      fail(error);
+    }
   });
 }
 
@@ -224,6 +262,9 @@ async function diagnoseAddress(hostname, port, healthUrl, { address, family }) {
 }
 
 async function main() {
+  if (!Number.isInteger(TIMEOUT_MS) || TIMEOUT_MS < 1 || TIMEOUT_MS > 2_147_483_647) {
+    throw new Error('TRANSPORT_DIAGNOSTIC_TIMEOUT_MS must be an integer between 1 and 2147483647');
+  }
   if (TARGET_URL.protocol !== 'https:') {
     throw new Error(`Transport diagnostics require HTTPS, got ${TARGET_URL.protocol}`);
   }
