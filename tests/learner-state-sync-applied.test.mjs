@@ -25,11 +25,15 @@ const batch = [
 test('partitionLearnerStateSyncResults only treats applied:true as durable success', () => {
   const { applied, rejected, unresolved } = partitionLearnerStateSyncResults(batch, [
     {
+      stateType: 'weakness',
+      stateKey: 'topic-a',
       requestedRevision: 'state:0000000000001:aaaaaaaa',
       currentRevision: 'state:0000000000001:aaaaaaaa',
       applied: true,
     },
     {
+      stateType: 'retry',
+      stateKey: 'topic-b',
       requestedRevision: 'state:0000000000002:bbbbbbbb',
       currentRevision: 'state:0000000000009:winnerxx',
       applied: false,
@@ -44,7 +48,10 @@ test('partitionLearnerStateSyncResults only treats applied:true as durable succe
 test('partitionLearnerStateSyncResults keeps rows without results unresolved', () => {
   const { applied, rejected, unresolved } = partitionLearnerStateSyncResults(batch, [
     {
+      stateType: 'weakness',
+      stateKey: 'topic-a',
       requestedRevision: 'state:0000000000001:aaaaaaaa',
+      currentRevision: 'state:0000000000001:aaaaaaaa',
       applied: true,
     },
   ]);

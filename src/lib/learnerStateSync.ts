@@ -114,10 +114,10 @@ export function getPendingLearnerStateCount(scope = getUserContentStorageScope()
 }
 
 async function removeConfirmedWrites(uploaded: LearnerStateWrite[], scope: string) {
-  const revisions = new Set(uploaded.map((item) => item.clientRevision));
-  // Compare by revision, not just logical key: a newer edit queued while the
-  // request was in flight must remain pending.
-  writeOutbox(readOutbox(scope).filter((item) => !revisions.has(item.clientRevision)), scope);
+  const confirmed = new Map(uploaded.map((item) => [compositeKey(item), item.clientRevision]));
+  // Match the logical item and revision: preserve newer edits and unrelated
+  // queued items even when their client revisions happen to coincide.
+  writeOutbox(readOutbox(scope).filter((item) => confirmed.get(compositeKey(item)) !== item.clientRevision), scope);
   await Promise.all(uploaded.map((item) => deleteDurableOutboxRecord(
     'learner-state', scope, compositeKey(item), item.clientRevision,
   )));
