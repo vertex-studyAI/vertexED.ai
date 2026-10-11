@@ -24,12 +24,17 @@ export default async function handler(req, res) {
         .from('user_study_artifacts')
         .select(ARTIFACT_FIELDS)
         .eq('user_id', user.id)
-        .order('updated_at', { ascending: false })),
+        .order('id', { ascending: true }), { rowKey: row => row.id }),
       listAllOwnedRows(() => supabase
         .from('learner_state_items')
         .select(STATE_FIELDS)
         .eq('user_id', user.id)
-        .order('updated_at', { ascending: false })),
+        .order('state_type', { ascending: true })
+        .order('state_key', { ascending: true }), {
+        rowKey: row => typeof row.state_type === 'string' && row.state_type.trim()
+          && typeof row.state_key === 'string' && row.state_key.trim()
+          ? JSON.stringify([row.state_type, row.state_key]) : null,
+      }),
     ]);
 
     if (profileResult.error) throw profileResult.error;
