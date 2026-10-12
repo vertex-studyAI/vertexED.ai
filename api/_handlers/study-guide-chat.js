@@ -8,6 +8,7 @@ import { routeAiRequest } from '../_lib/aiRouting.js';
 import { VERTEX_AGENTS } from '../_lib/vertexAgents.js';
 
 const MAX_QUESTION_CHARS = 2000;
+const MAX_SOURCE_CHARS = 48_000;
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
@@ -41,7 +42,7 @@ export default async function handler(req, res) {
       content: source.text,
       path: source.path,
     }));
-    const sourceText = formatSourcesForPrompt(groundingSources, 48_000);
+    const sourceText = formatSourcesForPrompt(groundingSources, MAX_SOURCE_CHARS);
     const historyEntries = Array.isArray(history) ? history.slice(-4) : [];
     const recentHistory = historyEntries
       .filter((entry, index) => {
@@ -103,17 +104,17 @@ export default async function handler(req, res) {
       return res.status(502).json({ error: 'Study guide AI request failed. Please try again shortly.' });
     }
     if (!answer) return res.status(502).json({ error: 'Study guide AI returned no answer.' });
-    const grounding = validateSourceCitations(answer, groundingSources);
+    const grounding = validateSourceCitations(answer, groundingSources, MAX_SOURCE_CHARS);
     if (grounding.status !== 'verified') {
       return res.status(502).json({ error: 'Study guide AI returned missing or unverifiable source references. Please retry.' });
     }
-    const citedIds = new Set(grounding.citations.map((citation) => citation.id));
+    const citedSources = new Map(grounding.citations.map((citation) => [citation.id, citation]));
     return res.status(200).json({
       answer,
       citations: grounding.citations,
       sources: groundingSources
-        .filter((source) => citedIds.has(source.id))
-        .map(({ id, title: label, path, content }) => ({ id, label, path, excerpt: content.slice(0, 320) })),
+        .filter((source) => citedSources.has(source.id))
+        .map(({ id, title: label, path }) => ({ id, label, path, excerpt: citedSources.get(id).excerpt })),
     });
   } catch (error) {
     console.error('study-guide-chat error:', error instanceof Error ? error.name : 'UnknownError');

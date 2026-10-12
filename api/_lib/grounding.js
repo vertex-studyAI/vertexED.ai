@@ -3,6 +3,7 @@
  */
 
 const DEFAULT_MAX_CHARS = 80_000;
+const TRUNCATION_MARKER = '\n[truncated]';
 
 function normalizeSourceId(value, index) {
   const normalized = typeof value === 'string'
@@ -54,26 +55,39 @@ export function buildSourceRegistry(sources) {
  * @param {Array<{ id?: string; title?: string; excerpt?: string; content?: string }>} sources
  * @param {number} maxChars
  */
-export function formatSourcesForPrompt(sources, maxChars = DEFAULT_MAX_CHARS) {
+function buildSourceContext(sources, maxChars = DEFAULT_MAX_CHARS) {
+  if (!Number.isSafeInteger(maxChars) || maxChars < 0) {
+    throw new RangeError('Source character budget must be a non-negative safe integer.');
+  }
   const registry = buildSourceRegistry(sources);
-  if (registry.length === 0) return '';
 
   let used = 0;
   const blocks = [];
+  const includedSources = [];
 
   for (const source of registry) {
     const header = `--- SOURCE [${source.id}]: ${source.title} ---\n`;
-    const remaining = maxChars - used - header.length - 2;
+    const separatorLength = blocks.length ? 2 : 0;
+    const remaining = maxChars - used - separatorLength - header.length;
     if (remaining <= 200) break;
 
-    const slice = source.text.length > remaining
-      ? `${source.text.slice(0, remaining)}\n[truncated]`
-      : source.text;
-    blocks.push(`${header}${slice}`);
-    used += header.length + slice.length + 2;
+    const truncated = source.text.length > remaining;
+    const text = truncated ? source.text.slice(0, remaining - TRUNCATION_MARKER.length) : source.text;
+    const block = `${header}${text}${truncated ? TRUNCATION_MARKER : ''}`;
+    blocks.push(block);
+    used += separatorLength + block.length;
+    includedSources.push({ ...source, text });
   }
 
-  return blocks.join('\n\n');
+  return { prompt: blocks.join('\n\n'), registry: includedSources };
+}
+
+/**
+ * Format and validate against the same bounded source context. Sources omitted from
+ * the prompt and text beyond a truncated passage cannot become citation evidence.
+ */
+export function formatSourcesForPrompt(sources, maxChars = DEFAULT_MAX_CHARS) {
+  return buildSourceContext(sources, maxChars).prompt;
 }
 
 /**
@@ -81,9 +95,10 @@ export function formatSourcesForPrompt(sources, maxChars = DEFAULT_MAX_CHARS) {
  *
  * @param {string} answer
  * @param {Array<{ id?: string; title?: string; excerpt?: string; content?: string }>} sources
+ * @param {number} maxChars The same budget used to format the source prompt.
  */
-export function validateSourceCitations(answer, sources) {
-  const registry = buildSourceRegistry(sources);
+export function validateSourceCitations(answer, sources, maxChars = DEFAULT_MAX_CHARS) {
+  const { registry } = buildSourceContext(sources, maxChars);
   if (registry.length === 0) {
     return { status: 'not-grounded', citations: [], invalidCitations: [], sources: [] };
   }
@@ -94,10 +109,12 @@ export function validateSourceCitations(answer, sources) {
     excerpt: text.slice(0, 320),
   }]));
   const citedIds = [];
-  const citationPattern = /\[Source:\s*([^\]\r\n]+)\]/gi;
+  const citationPattern = /\[Source:\s*([^\]\r\n]*)\]/gi;
   let match;
   while ((match = citationPattern.exec(typeof answer === 'string' ? answer : '')) !== null) {
-    const id = normalizeSourceId(match[1], 0);
+    // IDs in model output must match the emitted header. Input ID normalization
+    // would turn malformed citations such as "!!!" into the real ID "source-1".
+    const id = match[1].trim();
     if (!citedIds.includes(id)) citedIds.push(id);
   }
 
@@ -125,9 +142,10 @@ export function validateSourceCitations(answer, sources) {
  *
  * @param {unknown} sourceIds
  * @param {Array<{ id?: string; title?: string; excerpt?: string; content?: string }>} sources
+ * @param {number} maxChars The same budget used to format the source prompt.
  */
-export function validateStructuredSourceIds(sourceIds, sources) {
-  const registry = buildSourceRegistry(sources);
+export function validateStructuredSourceIds(sourceIds, sources, maxChars = DEFAULT_MAX_CHARS) {
+  const { registry } = buildSourceContext(sources, maxChars);
   if (registry.length === 0) {
     return { status: 'not-grounded', citations: [], invalidCitations: [], sources: [] };
   }
@@ -137,7 +155,7 @@ export function validateStructuredSourceIds(sourceIds, sources) {
     excerpt: text.slice(0, 320),
   }]));
   const citedIds = Array.isArray(sourceIds)
-    ? [...new Set(sourceIds.filter((id) => typeof id === 'string').map((id) => normalizeSourceId(id, 0)))]
+    ? [...new Set(sourceIds.map((id) => typeof id === 'string' ? id.trim() : id))]
     : [];
   const invalidCitations = citedIds.filter((id) => !knownSources.has(id));
   const citations = citedIds.flatMap((id) => {
