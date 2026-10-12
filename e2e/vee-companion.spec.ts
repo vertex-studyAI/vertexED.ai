@@ -98,10 +98,11 @@ test('Apex has one finite greeting and stays off in Simple Mode and authenticati
   expect(await launcher.locator('img').evaluate(img => getComputedStyle(img).animationName)).toBe('vee-greeting');
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await expect.poll(() => launcher.locator('img').evaluate(img => getComputedStyle(img).animationName)).toBe('none');
-  await page.evaluate(() => localStorage.setItem('vertex_a11y_settings', JSON.stringify({ simpleMode: true })));
+  // Seed the next document before React initializes and persists preferences.
+  await page.addInitScript(() => localStorage.setItem('vertex_a11y_settings', JSON.stringify({ simpleMode: true })));
   await page.reload();
-  await expect(launcher).toHaveCount(0);
   await expect(page.getByRole('button', { name: 'Apex is off in Simple Mode' })).toBeDisabled();
+  await expect(launcher).toHaveCount(0);
   for (const path of ['/login', '/signup', '/auth/callback']) {
     await page.goto(path);
     await expect(launcher).toHaveCount(0);
