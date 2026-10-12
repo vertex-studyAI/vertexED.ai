@@ -13,7 +13,7 @@ import TodayPlanPanel from "@/components/dashboard/TodayPlanPanel";
 import LearningCommandCenter from "@/components/dashboard/LearningCommandCenter";
 import { useAuth } from "@/contexts/AuthContext";
 import { buildEcosystemBrief, type EcosystemBrief } from "@/lib/studyEcosystem";
-import { buildTodayPlanItems } from "@/lib/todayPlan";
+import { buildTodayPlanItems, getTodayPlanDoneIds, toggleTodayPlanDone } from "@/lib/todayPlan";
 import { dashboardNextAction } from "@/lib/dashboardNextAction.mjs";
 import {
   getLocalArtifactCount,
@@ -29,6 +29,10 @@ import { getPendingLearnerStateCount, hydrateLearnerState, syncLearnerState } fr
 export default function Main() {
   const { user } = useAuth();
   const [brief, setBrief] = useState<EcosystemBrief | null>(null);
+  const [todayCompletion, setTodayCompletion] = useState(() => ({
+    owner: user?.id ?? null,
+    ids: getTodayPlanDoneIds(),
+  }));
   const [recentArtifacts, setRecentArtifacts] = useState<StudyArtifact[]>([]);
   const [retries, setRetries] = useState<RetryItem[]>([]);
   const [weaknesses, setWeaknesses] = useState<TopicHeat[]>([]);
@@ -46,6 +50,7 @@ export default function Main() {
     setWorkLoading(true);
     const refresh = () => {
       setBrief(buildEcosystemBrief(user));
+      setTodayCompletion({ owner: user?.id ?? null, ids: getTodayPlanDoneIds() });
       setRetries(getRetryQueue());
       setWeaknesses(getWeaknessHeatmap(6));
       setPendingMock(getPendingMockReview());
@@ -81,7 +86,15 @@ export default function Main() {
   }, [user]);
 
   const todayItems = brief ? buildTodayPlanItems(brief.todayTasks, brief.adaptivePlan.recommendations) : [];
-  const primaryTodayItem = todayItems[0] ?? null;
+  const doneToday = todayCompletion.owner === (user?.id ?? null)
+    ? todayCompletion.ids
+    : getTodayPlanDoneIds();
+  const primaryTodayItem = todayItems.find(item => !doneToday.has(item.id)) ?? null;
+  const toggleTodayItem = (id: string) => {
+    // The persistence helper retains the previous set if browser storage fails.
+    // Keep the checklist and the primary action on that same truthful result.
+    setTodayCompletion({ owner: user?.id ?? null, ids: toggleTodayPlanDone(id) });
+  };
   const nextRetry = getDueRetries()[0];
   const nextAction = dashboardNextAction({
     todayItem: primaryTodayItem,
@@ -166,7 +179,7 @@ export default function Main() {
 
         {todayItems.length > 0 && (
           <section className="dashboard-today-wrap" aria-label="Your next study steps">
-            <details id="today-plan"><summary className="cursor-pointer p-3 font-medium">More planner and revision actions</summary><TodayPlanPanel items={todayItems} /></details>
+            <details id="today-plan"><summary className="cursor-pointer p-3 font-medium">More planner and revision actions</summary><TodayPlanPanel items={todayItems} done={doneToday} onToggle={toggleTodayItem} /></details>
           </section>
         )}
 

@@ -78,6 +78,26 @@ export default function AccessibleModal({
     };
   }, [initialFocusRef, openerRef]);
 
+  useLayoutEffect(() => {
+    // A focused control can become disabled after an async response, leaving
+    // keyboard events on body instead of inside the dialog.
+    const handleDocumentKeyDown = (event: globalThis.KeyboardEvent) => {
+      if (event.defaultPrevented) return;
+      if (event.target !== document.body && event.target !== document.documentElement && event.target !== document) return;
+      const dialog = dialogRef.current;
+      if (!dialog?.isConnected || dialog.closest('[inert], [aria-hidden="true"]')) return;
+      if (event.key === "Escape") {
+        event.preventDefault();
+        event.stopPropagation();
+        onClose();
+        return;
+      }
+      trapModalFocus(event, dialog);
+    };
+    document.addEventListener('keydown', handleDocumentKeyDown);
+    return () => document.removeEventListener('keydown', handleDocumentKeyDown);
+  }, [onClose]);
+
   const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
     if (event.key === "Escape") {
       event.preventDefault();
