@@ -107,7 +107,10 @@ for (const width of [1440, 1024, 390]) {
     await expect(jump).toHaveValue('2028-03-01');
     await navigation.getByRole('button', { name: 'Previous day', exact: true }).click();
     await expect(jump).toHaveValue('2028-02-29');
-    await page.getByRole('button', { name: 'Add a task for this day', exact: true }).click();
+    const addForSelectedDay = page.getByRole('button', { name: 'Add a task for this day', exact: true });
+    await addForSelectedDay.focus();
+    await expect(addForSelectedDay).toBeFocused();
+    await page.keyboard.press('Enter');
     const dialog = page.getByRole('dialog', { name: 'Add a study task' });
     await expect(dialog.getByLabel('Date', { exact: true })).toHaveValue('2028-02-29');
     await dialog.getByLabel('Task name', { exact: true }).fill('Leap day revision');
@@ -451,7 +454,11 @@ for (const width of [1440, 1024, 390]) {
     await page.getByRole('button', { name: 'New Task', exact: true }).click();
     await dialog.getByLabel('Task name', { exact: true }).fill('Flexible forces revision');
     await dialog.getByLabel('Date', { exact: true }).fill('2020-01-01');
-    await dialog.getByLabel('Automatically reschedule if missed').check();
+    const autoReschedule = dialog.getByLabel('Automatically reschedule if missed');
+    await autoReschedule.focus();
+    await expect(autoReschedule).toBeFocused();
+    await page.keyboard.press('Space');
+    await expect(autoReschedule).toBeChecked();
     await dialog.getByLabel('Study window starts').fill('17:00');
     await dialog.getByLabel('Study window ends').fill('20:00');
     await dialog.getByRole('button', { name: 'Add task', exact: true }).click();
