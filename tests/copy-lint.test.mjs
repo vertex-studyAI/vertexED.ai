@@ -13,3 +13,8 @@ test('copy scan reads JSX and strings, ignores comments, and detects repeated ge
   assert.equal(findings.length, 2);
   assert.ok(findings.some((item) => item.rule === 'repeated-generic-heading'));
 });
+
+test('copy scan covers nested JSON lesson text', () => {
+  const findings = lintSource(JSON.stringify({ modules: [{ explanation: ['Unlock every grade'] }] }), 'lesson.json');
+  assert.ok(findings.some((finding) => finding.rule === 'marketing: unlock'));
+});

@@ -238,3 +238,42 @@ The learning Playwright configuration is Chromium-only. The ASTRA configuration 
 - [Repository isolation boundary](../VERTEXED_REPO_ISOLATION.md) and [current WIP warning](../DO_NOT_USE_AS_CANONICAL.md)
 
 Release record to complete: candidate SHA; deployment ID/URL; canonical host; Node/npm versions; migration ledger; approved content manifest; provider/model configuration; gate-to-receipt index; editorial/security/QA/operations verifiers; rollback target; final GO timestamp.
+
+## 16 October full-product implementation successor
+
+The subsequent implementation pass is recorded in
+[the appended execution report](FULL_SITE_FINISH_2026-10-16.md) and
+[one current evidence index](evidence/product-verification-20261016.json).
+The gate register now maps every existing ID to routes, code, API/auth/storage,
+content dependencies, error handling, acceptance-test paths and remaining work.
+Mapped paths alone are not executed acceptance.
+
+This remains **NO-GO**. No complete gate is newly closed. The register retains
+109 OPEN gates and three historical PASS receipts for older candidates; the
+current dirty candidate has 63 bounded PARTIAL_LOCAL mappings and 49 OPEN
+mappings. Those two classifications describe different things and must not be
+added together or treated as a completion percentage.
+
+The user authorised choosing reasonable AI limits: the local policy is USD 1 per
+account per UTC day and USD 10 across VertexED per UTC day, with at most two
+account and eight project unresolved requests. The unapplied ledger, supported
+model contracts, conservative reservations, usage display, uncertain-outcome
+retention and policy expiry are detailed in
+[the existing reconciliation runbook](BETA_ACCESS_RECONCILIATION_2026-10-16.md).
+This is not evidence that production enforces those ceilings.
+
+Content availability is deliberately restricted to exact approved revisions.
+The inventory has 874 held coverage rows, zero approval entries and 40 missing
+mandatory course maps. The 40 maps are additional authoring work, not the entire
+review workload. Safe empty states, working publication guards and successful
+builds do not complete the curricula or a meaningful diagnostic journey.
+
+Required engineering remains visible: curriculum authoring/correction and
+subject-specific assessment coverage; a unified due-review queue and linked
+revision history; full supported AI modality accounting; operator reconciliation
+for uncertain spend; required live calendar/background behavior; and the retained
+teacher, sharing and collaboration scope decisions. Real database replay,
+security/privacy review, real accounts/providers, mobile devices, a following-day
+and two-device journey, two-hour acceptance, exact-candidate CI, domain recovery,
+deployment and operational recovery are still separate gates. Neither a named
+owner nor this handoff closes them.

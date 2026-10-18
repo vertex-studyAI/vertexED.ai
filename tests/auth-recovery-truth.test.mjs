@@ -26,16 +26,18 @@ test('auth callback removes credentials and provider errors from browser history
 test('protected routes distinguish pending, rejected, and unavailable access truth', async () => {
   const source = await readSource('src/components/ProtectedRoute.tsx');
 
-  assert.match(source, /"pending" \| "rejected" \| "unavailable"/);
-  assert.match(source, /\.catch\(\(\) => \{[\s\S]*setAccess\("unavailable"\);[\s\S]*setAccessUserId\(user\.id\);[\s\S]*\}\)/);
+  const recovery = await readSource('src/lib/accessRequest.mjs');
+  assert.match(source, /requestAccessJson/);
+  assert.match(source, /accessStateFromResponse/);
   assert.match(source, /signal: controller\.signal/);
-  assert.match(source, /setTimeout\(\(\) => controller\.abort\(\), 12000\)/);
-  assert.match(source, /finally\(\(\) => window\.clearTimeout\(timeout\)\)/);
+  assert.match(recovery, /ACCESS_TIMEOUT_MS = 12_000/);
+  assert.match(recovery, /Promise\.race/);
+  assert.match(recovery, /clearTimeout\(timeout\)/);
   assert.match(source, /if \(access === "unavailable"\) return <WaitlistUnavailable/);
-  assert.match(source, /if \(access === "rejected"\) return <WaitlistRejected/);
+  assert.match(source, /if \(access === "denied"\) return <WaitlistRejected/);
   assert.match(source, /if \(access === "pending"\) return <WaitlistPending/);
-  assert.match(source, /Your access status was not changed/);
-  assert.match(source, /setRetryAttempt\(\(attempt\) => attempt \+ 1\)/);
+  assert.match(recovery, /Your access status has not changed/);
+  assert.match(source, /Date\.now\(\) >= retryAt/);
   assert.match(source, /role="alert"/);
   assert.match(source, /location\.pathname === "\/connect-google" \|\| location\.pathname === "\/onboarding"/);
   assert.match(source, /!isOnboardingComplete\(user\) && !isPreOnboardingRoute/);

@@ -1,3 +1,4 @@
+import { extractGeneratedText } from '../_lib/aiProviders.js';
 import { verifyAuthUser, rejectOversizedJsonBody } from '../_lib/auth.js';
 import { rateLimitUserEndpoint } from '../_lib/rateLimit.js';
 import {
@@ -68,7 +69,7 @@ async function callOpenAI(apiKey, messages, route) {
   }
 
   const data = await response.json();
-  return data.choices?.[0]?.message?.content ?? "";
+  return extractGeneratedText(data) || '';
 }
 
 function questionCounts(frqLength) {

@@ -1,10 +1,11 @@
-import { readFile, writeFile } from "node:fs/promises";
+import { writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
+import { approvedStaticPaths, readPublicationApprovals } from './content-publication.mjs';
+import { readLegacyPublication } from './legacy-content-publication.mjs';
 
 const siteUrl = "https://www.vertexed.app";
 const projectRoot = resolve(import.meta.dirname, "..");
 const sitemapPath = resolve(projectRoot, "public/sitemap.xml");
-const provenancePath = resolve(projectRoot, "public/study-guides/myp/provenance-ledger.json");
 // Keep the sitemap limited to pages a search visitor can actually read. Account-only
 // tools are promoted by their public resource pages rather than dead-ending crawlers
 // at the login screen. Omit lastmod until each URL has an authoritative content
@@ -14,6 +15,7 @@ const publicPages = [
   ["/features", "weekly", "0.9"],
   ["/study-guides", "weekly", "0.9"],
   ["/curricula", "weekly", "0.8"],
+  ["/ap", "weekly", "0.8"],
   ["/myp", "weekly", "0.9"],
   ["/myp/eassessment", "weekly", "0.9"],
   ["/study-tools", "weekly", "0.8"],
@@ -23,6 +25,7 @@ const publicPages = [
   ["/archives-history", "monthly", "0.7"],
   ["/archives-geography", "monthly", "0.7"],
   ["/about", "monthly", "0.5"],
+  ["/projects", "monthly", "0.5"],
   ["/vertex-ed", "monthly", "0.4"],
   ["/privacy", "yearly", "0.2"],
   ["/terms", "yearly", "0.2"],
@@ -59,22 +62,22 @@ const curriculumFeaturePages = curriculumSlugs.flatMap((curriculum) => featureSl
   "0.75",
 ]));
 
-const provenance = JSON.parse(await readFile(provenancePath, "utf8"));
-const approvedGuidePages = provenance.entries
+const approvals = await readPublicationApprovals(projectRoot);
+const allowed = await approvedStaticPaths({ root: projectRoot, approvals });
+const approvedGuidePages = approvals
   .filter((entry) => (
     entry.editorialStatus === "approved"
     && entry.publicationStatus === "published"
-    && entry.license !== "unknown"
-    && entry.source
-    && entry.factualReviewer
-    && entry.reviewedAt
+    && entry.path.startsWith('/study-guides/myp/')
+    && entry.path.endsWith('.md')
+    && allowed.has(entry.path)
   ))
   .map((entry) => [entry.path.replace(/\.md$/i, ""), "monthly", "0.65"]);
 
-// Detailed guide pages remain readable, but enter discovery only when their
-// deterministic provenance record contains approval, source, licensing and
-// reviewer evidence. The public library index remains discoverable.
-const urls = [...publicPages, ...curriculumFeaturePages, ...approvedGuidePages];
+// Discovery uses the same exact-byte approval decision as static delivery and
+// retrieval. The public library directory remains discoverable.
+const { heldRoutes } = await readLegacyPublication({ root: projectRoot, approvals });
+const urls = [...publicPages.filter(([path]) => !heldRoutes.has(path)), ...curriculumFeaturePages, ...approvedGuidePages];
 const xml = [
   '<?xml version="1.0" encoding="UTF-8"?>',
   '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',

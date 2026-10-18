@@ -17,7 +17,7 @@ export default function RevisionTrace() {
   const [stage, setStage] = useState('attempt');
   return (
     <aside className="revision-trace" data-stage={stage} aria-label="Example study session">
-      <div className="trace-caption"><span className="trace-brand"><img src="/logo.png" alt="" width="24" height="24" /> Revision desk</span><span>Interactive example · Biology</span></div>
+      <div className="trace-caption"><span className="trace-brand"><img src="/logo.png" alt="" width="24" height="24" /> Revision desk</span><span>Illustrative revision trace</span></div>
       <Tabs value={stage} onValueChange={setStage} className="trace-workspace">
         <TabsList className="trace-tabs" aria-label="Follow a revision attempt">
           {stages.map((stage) => <TabsTrigger key={stage.id} value={stage.id} className="trace-tab"><span>{stage.number}</span>{stage.label}</TabsTrigger>)}
@@ -42,7 +42,7 @@ export default function RevisionTrace() {
           </TabsContent>
         ))}
       </Tabs>
-      <p className="trace-footnote"><span className="trace-node" aria-hidden />Example only. Your account and progress are unchanged.</p>
+      <p className="trace-footnote"><span className="trace-node" aria-hidden />Illustrative workflow. Teaching examples require subject review. Your account and progress are unchanged.</p>
     </aside>
   );
 }

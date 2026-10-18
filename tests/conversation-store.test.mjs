@@ -55,6 +55,32 @@ test('corrupt bytes are preserved and exportable', async () => {
   const h = harness(); h.storage.setItem('history', '{broken'); const a = h.create(); assert.equal(a.getSnapshot().readOnly, true);
   assert.equal(await a.load(), false); assert.equal(h.storage.getItem('history'), '{broken'); assert.match(a.exportData(), /broken/);
 });
+test('existing empty-string history blocks cloud load, edits and legacy import until explicit recovery', async () => {
+  const h = harness(); h.storage.setItem('history', ''); let requests = 0; let legacyReads = 0;
+  const store = h.create({
+    request: async () => { requests += 1; return { items: [{ payload: snap('Cloud'), updated_at: '2026-10-01T12:00:00Z' }] }; },
+    legacyPrefix: 'old:', legacyStorage: { length: 1, key: () => 'old:apex-main', getItem: () => { legacyReads += 1; return JSON.stringify([msg('Legacy')]); } },
+  });
+  assert.equal(store.getSnapshot().readOnly, true);
+  assert.match(store.getSnapshot().status, /Original data is preserved/);
+  assert.equal(await store.load(), false);
+  assert.equal(await store.sync(), false);
+  assert.equal(store.updateThread('apex-main', [msg('Must not overwrite')]), false);
+  assert.equal(requests, 0);
+  assert.equal(legacyReads, 0);
+  assert.equal(h.storage.getItem('history'), '');
+  assert.equal(JSON.parse(store.exportData()).deviceBytes, '');
+});
+test('explicit recovery backs up exact empty-string bytes before replacing history', async () => {
+  const h = harness(); h.storage.setItem('history', '');
+  const store = h.create();
+  assert.equal(await store.load(true), true);
+  const backup = [...h.storage.values].find(([key]) => key.startsWith('history:recovery:'));
+  assert.ok(backup);
+  assert.equal(JSON.parse(backup[1]).deviceBytes, '');
+  assert.equal(store.getSnapshot().readOnly, false);
+  assert.deepEqual(JSON.parse(h.storage.getItem('history')).snapshot, { version: 1, threads: [] });
+});
 test('quota failures preserve the in-memory recovery copy', async () => {
   const h = harness(); const a = h.create(); await a.load(); h.storage.setItem = () => { throw new Error('Quota exceeded'); };
   assert.equal(a.updateThread('apex-main', [msg('Keep this')]), false); assert.match(a.exportData(), /Keep this/); assert.equal(a.getSnapshot().readOnly, true); assert.equal(h.cloud(), null);

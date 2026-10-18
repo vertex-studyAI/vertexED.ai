@@ -1,0 +1,226 @@
+{
+  "slug": "computer-science-principles",
+  "title": "AP Computer Science Principles",
+  "category": "Maths and computer science",
+  "summary": "Explore program design, data, algorithms, networks and computing impacts.",
+  "officialUrl": "https://apstudents.collegeboard.org/courses/ap-computer-science-principles",
+  "frameworkNote": "Unit map checked against College Board on 15 October 2026 for the 2026-27 course. Each unit has one focused original revision lesson, not exhaustive topic coverage or an official practice paper. The official framework uses five Big Ideas rather than numbered units. Includes revision of concepts relevant to the Create task, not a submission or replacement for independently authored assessed work.",
+  "assessment": "mixed",
+  "modules": [
+    {
+      "id": "unit-1",
+      "title": "Iterative development with observable tests",
+      "frameworkUnit": "Big Idea 1",
+      "focus": "Turn a user need into a testable behaviour.",
+      "explanation": [
+        "A program’s purpose describes the problem it addresses; its behaviour describes what it does for particular inputs. Iterative development cycles through design, implementation, testing and revision, using feedback to refine a concrete requirement.",
+        "An abstraction hides details behind a useful interface, such as a procedure with parameters. Good tests specify inputs and expected outputs before execution. Collaboration can reveal assumptions, but each contribution and reused source should be acknowledged."
+      ],
+      "workedExample": {
+        "prompt": "A library reminder tool should flag loans more than 14 days old. Design a boundary test.",
+        "steps": [
+          "Choose loan ages 13, 14 and 15 to distinguish below, at and above the threshold.",
+          "Expected flags are false, false and true because the requirement says more than 14."
+        ]
+      },
+      "misconception": {
+        "claim": "A program that runs without crashing must meet its purpose.",
+        "correction": "Logical errors can produce wrong results without any runtime failure."
+      },
+      "questions": [
+        {
+          "prompt": "A requirement says discounts apply at age 65 or older. Give two boundary tests.",
+          "hint": "Use the boundary and the value just below it.",
+          "answer": "Age 64 should not qualify; age 65 should qualify.",
+          "checkpoints": [
+            "Identify the inclusive threshold.",
+            "State expected outputs."
+          ],
+          "id": "unit-1-q1"
+        },
+        {
+          "prompt": "Why use a parameterised calculateTotal(prices) procedure?",
+          "hint": "Consider reuse with different inputs.",
+          "answer": "It hides repeated summation details and can process different price lists through one interface.",
+          "checkpoints": [
+            "Identify the abstraction.",
+            "Name how the parameter varies."
+          ],
+          "id": "unit-1-q2"
+        }
+      ]
+    },
+    {
+      "id": "unit-2",
+      "title": "Bits, compression and meaningful data",
+      "frameworkUnit": "Big Idea 2",
+      "focus": "Separate a representation from its interpretation.",
+      "explanation": [
+        "With n bits there are 2^n possible patterns. Interpreting those patterns requires a scheme: the same bits could encode numbers, characters or image information. Increasing bit depth increases representational possibilities, not necessarily the accuracy of an original measurement.",
+        "Lossless compression permits exact reconstruction, whereas lossy compression discards some information. Combining datasets can reveal new patterns but may also expose private information through linkage. Check missing values and collection methods before treating a pattern as a population fact."
+      ],
+      "workedExample": {
+        "prompt": "How many distinct values can an unsigned 5-bit field represent, and what is its largest value?",
+        "steps": [
+          "Five binary positions give 2⁵=32 patterns.",
+          "Counting from zero gives values 0 through 31, so the largest is 31."
+        ]
+      },
+      "misconception": {
+        "claim": "Compression always destroys information.",
+        "correction": "Lossless compression preserves the information needed for exact reconstruction."
+      },
+      "questions": [
+        {
+          "prompt": "How many bits are needed to encode at least 100 distinct categories?",
+          "hint": "Find the smallest power of two at least 100.",
+          "answer": "7 bits.",
+          "checkpoints": [
+            "2⁶=64 is too small.",
+            "2⁷=128 is sufficient."
+          ],
+          "id": "unit-2-q1"
+        },
+        {
+          "prompt": "A medical image must be reconstructed exactly. Which compression type fits that requirement?",
+          "hint": "Focus on exact recovery.",
+          "answer": "Lossless compression.",
+          "checkpoints": [
+            "Lossy compression discards information.",
+            "Exact reconstruction is the deciding requirement."
+          ],
+          "id": "unit-2-q2"
+        }
+      ]
+    },
+    {
+      "id": "unit-3",
+      "title": "Algorithms, lists and procedural abstraction",
+      "frameworkUnit": "Big Idea 3",
+      "focus": "Trace a list algorithm and explain its general behaviour.",
+      "explanation": [
+        "An algorithm is a finite, ordered procedure for a task. Sequencing, selection and iteration can express a wide range of algorithms. A list groups related values so one loop can process different amounts of data without separate variables for every item.",
+        "Efficiency compares resource use as input size grows. A linear search may inspect every element, while binary search repeatedly halves a sorted search range. A simulation models assumptions; its results are only as applicable as those assumptions."
+      ],
+      "workedExample": {
+        "prompt": "Trace an algorithm that starts total at zero and adds only values greater than 3 from [2,5,3,7].",
+        "steps": [
+          "2 and 3 fail the strict condition; 5 and 7 pass.",
+          "The accumulated total is 5+7=12."
+        ]
+      },
+      "misconception": {
+        "claim": "A simulation guarantees the real system will behave identically.",
+        "correction": "It estimates behaviour under a model whose assumptions require checking."
+      },
+      "questions": [
+        {
+          "prompt": "How many list elements can a linear search inspect in the worst case for a list of 20?",
+          "hint": "The sought value may be absent.",
+          "answer": "20.",
+          "checkpoints": [
+            "Consider the absent-value case.",
+            "Each element may need inspection."
+          ],
+          "id": "unit-3-q1"
+        },
+        {
+          "prompt": "For list [1,4,6], an algorithm doubles each value then keeps values above 8. What remains?",
+          "hint": "Apply the operations in the stated order.",
+          "answer": "[12].",
+          "checkpoints": [
+            "Doubling gives [2,8,12].",
+            "Strictly above 8 excludes 8."
+          ],
+          "id": "unit-3-q2"
+        }
+      ]
+    },
+    {
+      "id": "unit-4",
+      "title": "Packets and redundant paths",
+      "frameworkUnit": "Big Idea 4",
+      "focus": "Explain how network design tolerates some failures.",
+      "explanation": [
+        "The internet connects networks using shared protocols. Data can be broken into packets whose routes differ; packet routing does not guarantee that every packet arrives in its original order. Higher-level protocols can support reassembly and reliable delivery.",
+        "Redundant connections create alternative routes when some links fail. They improve resilience but do not guarantee immunity to every failure. Parallel computing divides suitable work across processors, although sequential parts and coordination overhead limit speedup."
+      ],
+      "workedExample": {
+        "prompt": "A network has routes A-B-D and A-C-D. If link B-D fails, can A still reach D?",
+        "steps": [
+          "The first route is broken because one required link is unavailable.",
+          "The route A-C-D remains, so communication can continue if those links operate."
+        ]
+      },
+      "misconception": {
+        "claim": "Adding processors always halves the execution time.",
+        "correction": "Only parallelisable work benefits; sequential work and overhead remain."
+      },
+      "questions": [
+        {
+          "prompt": "A job takes 2 seconds of sequential work plus 8 seconds that divide perfectly over four processors. Find ideal total time.",
+          "hint": "Only divide the parallel part.",
+          "answer": "4 seconds.",
+          "checkpoints": [
+            "8/4=2 seconds of parallel work.",
+            "Add the unchanged 2 seconds."
+          ],
+          "id": "unit-4-q1"
+        },
+        {
+          "prompt": "Why can packets arrive out of order?",
+          "hint": "Think about routes and delays.",
+          "answer": "They may travel along different routes or encounter different delays.",
+          "checkpoints": [
+            "Distinguish sending order from arrival order.",
+            "Mention reconstruction by the receiving protocol."
+          ],
+          "id": "unit-4-q2"
+        }
+      ]
+    },
+    {
+      "id": "unit-5",
+      "title": "Computing impacts and biased samples",
+      "frameworkUnit": "Big Idea 5",
+      "focus": "Evaluate benefits alongside who is excluded.",
+      "explanation": [
+        "Computing systems can distribute benefits and harms unevenly. A digital divide can arise from access, cost, connectivity, language or accessibility barriers. Identifying an affected group makes an impact claim more useful than saying technology is simply good or bad.",
+        "An algorithm can reproduce bias in its training data or objective even when it executes exactly as written. Privacy review considers what data is collected, how long it is retained and who can access it. A security measure should address a particular threat."
+      ],
+      "workedExample": {
+        "prompt": "A bus-planning app learns routes only from smartphone volunteers. Identify a possible bias.",
+        "steps": [
+          "People without smartphones cannot contribute, so their travel needs may be underrepresented.",
+          "The recommended routes may favour the sampled group; broader sampling could test and reduce that gap."
+        ]
+      },
+      "misconception": {
+        "claim": "Correct code is necessarily fair code.",
+        "correction": "Fairness depends on data, goals, design and effects as well as implementation accuracy."
+      },
+      "questions": [
+        {
+          "prompt": "Why can collecting precise location when only city totals are needed increase privacy risk?",
+          "hint": "Compare data granularity with purpose.",
+          "answer": "It exposes more about individual movement than the stated analysis requires.",
+          "checkpoints": [
+            "Name the unnecessary detail.",
+            "Connect it to potential identification or tracking."
+          ],
+          "id": "unit-5-q1"
+        },
+        {
+          "prompt": "What does multifactor authentication add beyond a password?",
+          "hint": "Think about independent evidence of identity.",
+          "answer": "A second factor, such as possession of a device, reduces reliance on the password alone.",
+          "checkpoints": [
+            "Name a different factor category.",
+            "Do not claim it removes every threat."
+          ],
+          "id": "unit-5-q2"
+        }
+      ]
+    }
+  ]
+}

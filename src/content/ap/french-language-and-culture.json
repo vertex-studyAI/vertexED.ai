@@ -1,0 +1,269 @@
+{
+  "slug": "french-language-and-culture",
+  "title": "AP French Language and Culture",
+  "category": "World languages",
+  "summary": "Interpret community texts and develop qualified arguments in French with precise grammatical choices.",
+  "officialUrl": "https://apstudents.collegeboard.org/courses/ap-french-language-and-culture",
+  "frameworkNote": "Checked against the revised 2026-27 framework on 15 October 2026: six thematic units and a course project supporting exam speaking tasks. The 2027 project packet is due for release in January 2027. These original fictional text scenarios are practice, not authentic cultural sources or a completed project. Add authentic target-language research, listening, conversation and teacher feedback; text answers do not assess pronunciation or oral proficiency.",
+  "assessment": "mixed",
+  "modules": [
+    {
+      "title": "Respond to a community invitation",
+      "focus": "Families and communities: extract details and maintain register.",
+      "explanation": [
+        "A successful response addresses the sender’s purpose as well as the practical details. In a formal message, vous and a courteous request keep register consistent. “Pourriez-vous préciser l’horaire ?” means “Could you clarify the schedule?” The conditional makes the request less direct.",
+        "Read quantifiers and restrictions carefully. In an original fictional notice, “Les ateliers sont ouverts aux familles du quartier, mais les places sont limitées” invites neighbourhood families while limiting places. It does not promise admission to everyone. Refer to that constraint and ask a relevant follow-up rather than translating every word."
+      ],
+      "workedExample": {
+        "prompt": "Reply to the notice and ask whether registration is required.",
+        "steps": [
+          "Acknowledge the activity: “Je souhaite participer à un atelier avec ma famille.”",
+          "Ask formally: “Pourriez-vous me dire s’il faut s’inscrire à l’avance ?”"
+        ]
+      },
+      "misconception": {
+        "claim": "A polite reply needs complicated vocabulary.",
+        "correction": "Clear answers and appropriate register matter more than unnecessarily elaborate wording."
+      },
+      "questions": [
+        {
+          "prompt": "What does “les places sont limitées” imply?",
+          "hint": "Think about capacity.",
+          "answer": "Places are limited; an interested family may need to register rather than assume a place is available.",
+          "checkpoints": [
+            "Identifies limited capacity",
+            "Avoids guaranteed admission"
+          ],
+          "id": "french-language-and-culture-1-q1"
+        },
+        {
+          "prompt": "Ask formally whether children may attend.",
+          "hint": "Use pourriez-vous or a polite direct question.",
+          "answer": "“Pourriez-vous me dire si les enfants peuvent participer ?”",
+          "checkpoints": [
+            "Uses formal register",
+            "Asks a relevant question"
+          ],
+          "id": "french-language-and-culture-1-q2"
+        }
+      ],
+      "frameworkUnit": "Unit 1",
+      "id": "french-language-and-culture-1"
+    },
+    {
+      "title": "Identify viewpoint in language debates",
+      "focus": "Language and culture: distinguish description from evaluation.",
+      "explanation": [
+        "Writers reveal attitudes through evaluative adjectives, concessions and reported speech. “Certains trouvent ce mot pratique; d’autres le jugent inutile” presents two views without necessarily adopting either. Track who holds each view before attributing an opinion to the writer.",
+        "A cultural comparison should name a community, source and practice rather than make a claim about every French speaker. Language choices can reflect audience and identity, but a single social-media post is not a representative survey. Use qualifiers such as “dans cet exemple” and “selon l’auteur” to keep the claim proportional to the evidence."
+      ],
+      "workedExample": {
+        "prompt": "Interpret “Même si ce terme est répandu, je préfère une expression plus claire.”",
+        "steps": [
+          "“Même si” introduces a concession: the term is widespread.",
+          "“Je préfère” identifies the speaker’s preference for clarity; popularity is acknowledged rather than endorsed."
+        ]
+      },
+      "misconception": {
+        "claim": "Reporting an opinion means agreeing with it.",
+        "correction": "A writer can present a perspective in order to question or compare it."
+      },
+      "questions": [
+        {
+          "prompt": "Who dislikes the word in “Marie le juge inutile, contrairement à Paul” ?",
+          "hint": "Track the named subject.",
+          "answer": "Marie considers it useless; Paul holds a contrasting view.",
+          "checkpoints": [
+            "Identifies Marie",
+            "Recognises contrast"
+          ],
+          "id": "french-language-and-culture-2-q1"
+        },
+        {
+          "prompt": "Qualify “Les francophones utilisent toujours ce mot.”",
+          "hint": "Replace the universal claim.",
+          "answer": "“Dans les messages étudiés, plusieurs auteurs utilisent ce mot.”",
+          "checkpoints": [
+            "Limits the source set",
+            "Avoids always"
+          ],
+          "id": "french-language-and-culture-2-q2"
+        }
+      ],
+      "frameworkUnit": "Unit 2",
+      "id": "french-language-and-culture-2"
+    },
+    {
+      "title": "Research a musical practice",
+      "focus": "Art and creativity: connect a product, practice and perspective.",
+      "explanation": [
+        "A cultural product is something made or expressed; a practice is an action or pattern of use; a perspective concerns values or meanings. A song, a community performance and a participant’s explanation are related evidence, but they are not interchangeable. Music analysis needs actual sources and listening, not an imagined national character.",
+        "For project preparation, keep the title, creator, date, community and source location with each note. Paraphrase a short relevant idea in French and distinguish it from your interpretation. The examples here are fictional; they cannot be cited as authentic evidence for the required project."
+      ],
+      "workedExample": {
+        "prompt": "A fictional interview says: “Nous chantons ensemble pour transmettre les souvenirs du quartier.”",
+        "steps": [
+          "Identify the practice: collective singing.",
+          "Explain the stated purpose: passing on neighbourhood memories. A song recording could supply product evidence, but it is not provided here."
+        ]
+      },
+      "misconception": {
+        "claim": "A musical instrument alone proves a community’s values.",
+        "correction": "A perspective needs contextual evidence, including how people describe or use the music."
+      },
+      "questions": [
+        {
+          "prompt": "Paraphrase the interview’s purpose in French.",
+          "hint": "Use transmettre or préserver.",
+          "answer": "“Le groupe veut préserver la mémoire du quartier grâce au chant collectif.”",
+          "checkpoints": [
+            "Preserves the stated meaning",
+            "Does not invent a tradition"
+          ],
+          "id": "french-language-and-culture-3-q1"
+        },
+        {
+          "prompt": "What additional source would test the claim?",
+          "hint": "Seek a different relevant voice.",
+          "answer": "An authentic interview with another participant, or documented programme notes, could confirm or complicate the stated purpose.",
+          "checkpoints": [
+            "Adds relevant evidence",
+            "Allows disagreement"
+          ],
+          "id": "french-language-and-culture-3-q2"
+        }
+      ],
+      "frameworkUnit": "Unit 3",
+      "id": "french-language-and-culture-3"
+    },
+    {
+      "title": "Explain a technology trade-off",
+      "focus": "Science and technology: connect data to a qualified argument.",
+      "explanation": [
+        "Numerical evidence needs a defined population, measure and date. A rise from 40% to 60% is twenty percentage points, not twenty percent relative growth. In French, “vingt points de pourcentage” names that difference clearly.",
+        "Use connectors to show reasoning: “cependant” introduces contrast, while “donc” introduces a conclusion. A technology can increase convenience while creating an access barrier. State whose experience is represented and avoid turning a fictional class survey into a claim about an entire country."
+      ],
+      "workedExample": {
+        "prompt": "In a fictional class survey, app use rises from 40% to 60%. Explain one limit.",
+        "steps": [
+          "State: “L’utilisation a augmenté de vingt points de pourcentage.”",
+          "Qualify: “Cependant, cette enquête ne représente qu’une seule classe.”"
+        ]
+      },
+      "misconception": {
+        "claim": "A percentage automatically makes a claim representative.",
+        "correction": "Representativeness depends on sampling and the population studied."
+      },
+      "questions": [
+        {
+          "prompt": "Calculate the relative increase from 40% to 60%.",
+          "hint": "Divide the increase by the initial value.",
+          "answer": "The relative increase is 20/40 = 50%, distinct from twenty percentage points.",
+          "checkpoints": [
+            "Uses the original value",
+            "Distinguishes the two measures"
+          ],
+          "id": "french-language-and-culture-4-q1"
+        },
+        {
+          "prompt": "Give a French sentence naming an access limitation.",
+          "hint": "Use sans or ne...pas.",
+          "answer": "“Les élèves sans connexion fiable ne peuvent pas toujours utiliser cette application.”",
+          "checkpoints": [
+            "Names affected users",
+            "Avoids universal benefit"
+          ],
+          "id": "french-language-and-culture-4-q2"
+        }
+      ],
+      "frameworkUnit": "Unit 4",
+      "id": "french-language-and-culture-4"
+    },
+    {
+      "title": "Narrate a change in daily life",
+      "focus": "Contemporary life: use time and cause accurately.",
+      "explanation": [
+        "The imparfait often establishes background, repeated past activity or an ongoing state. The passé composé often presents a bounded event that advances a narrative. The choice reflects how a speaker frames time, not simply whether an event happened long ago.",
+        "In an original account, “Je prenais le bus quand mon école a changé les horaires” sets a habitual or ongoing background and introduces a specific change. Explain the consequence with a connector such as “depuis” or “c’est pourquoi”. Keep observations about one person separate from claims about a whole community."
+      ],
+      "workedExample": {
+        "prompt": "Describe a previous routine interrupted by a timetable change.",
+        "steps": [
+          "Set the background: “Avant, je rentrais à seize heures.”",
+          "Add the event and result: “L’horaire a changé; maintenant, je rentre plus tard.”"
+        ]
+      },
+      "misconception": {
+        "claim": "Imparfait means distant past and passé composé means recent past.",
+        "correction": "Aspect and narrative function, not distance alone, guide the choice."
+      },
+      "questions": [
+        {
+          "prompt": "Why use imparfait in “Chaque samedi, nous allions au marché” ?",
+          "hint": "Notice the repeated time phrase.",
+          "answer": "It presents a repeated past routine.",
+          "checkpoints": [
+            "Identifies repetition",
+            "Connects tense to meaning"
+          ],
+          "id": "french-language-and-culture-5-q1"
+        },
+        {
+          "prompt": "Add a bounded event to “Je lisais...”",
+          "hint": "Use an event that interrupts the background.",
+          "answer": "“Je lisais quand le téléphone a sonné.”",
+          "checkpoints": [
+            "Keeps the background ongoing",
+            "Uses a bounded event"
+          ],
+          "id": "french-language-and-culture-5-q2"
+        }
+      ],
+      "frameworkUnit": "Unit 5",
+      "id": "french-language-and-culture-5"
+    },
+    {
+      "title": "Propose a bounded response to a global issue",
+      "focus": "Global contexts: compare options and acknowledge constraints.",
+      "explanation": [
+        "A persuasive recommendation explains both a benefit and a limitation. “Il faudrait” expresses what should be done; “à condition que” introduces a condition and normally takes the subjunctive. Choose a structure you can use accurately rather than assembling an argument from impressive but disconnected phrases.",
+        "An environmental claim should identify the action, affected group and evidence needed. A local reusable-container scheme may reduce disposable packaging in that setting, but costs and washing arrangements matter. Compare options using the same criteria and distinguish a prediction from an observed result."
+      ],
+      "workedExample": {
+        "prompt": "Recommend a fictional school container-return scheme with a condition.",
+        "steps": [
+          "State: “Il faudrait proposer des récipients réutilisables.”",
+          "Add: “Le projet serait utile à condition que le lavage soit bien organisé.”"
+        ]
+      },
+      "misconception": {
+        "claim": "A recommendation is stronger if it ignores objections.",
+        "correction": "Addressing a relevant constraint makes the reasoning more credible."
+      },
+      "questions": [
+        {
+          "prompt": "What does “serait” signal in the example?",
+          "hint": "Compare a prediction with an observed fact.",
+          "answer": "It presents a conditional or hypothetical outcome, not a measured result.",
+          "checkpoints": [
+            "Recognises hypothetical meaning",
+            "Avoids claiming evidence"
+          ],
+          "id": "french-language-and-culture-6-q1"
+        },
+        {
+          "prompt": "Name two criteria for comparing packaging options.",
+          "hint": "Use the same criteria for both.",
+          "answer": "Amount of waste and total cleaning or replacement cost, measured over the same period.",
+          "checkpoints": [
+            "Uses comparable criteria",
+            "Defines a common period"
+          ],
+          "id": "french-language-and-culture-6-q2"
+        }
+      ],
+      "frameworkUnit": "Unit 6",
+      "id": "french-language-and-culture-6"
+    }
+  ]
+}

@@ -243,7 +243,7 @@ export function buildLearnerContextForAi(profile: LearnerProfile): string {
   }
 
   const confidence = getConfidenceRatings(profile.curriculum.subjects);
-  const lowConf = confidence.filter((c) => c.rating <= 2);
+  const lowConf = confidence.filter((c) => c.rating !== null && c.rating <= 2);
   if (lowConf.length) {
     parts.push(`Low confidence: ${lowConf.map((c) => c.subject).join(', ')}`);
   }
@@ -285,7 +285,7 @@ export function getGoalLearningPath(goal: StudyGoal | null): LearningPathStep[] 
         { phase: 'learn', title: 'Condense notes', description: 'Generate or paste notes on one gap topic only.', to: '/notetaker' },
         { phase: 'practice', title: 'Topic quiz', description: 'Ten questions - honest scoring, no re-read first.', to: '/notetaker' },
         { phase: 'review', title: 'Ask Apex', description: 'One Socratic pass on what you missed.', to: '/chatbot' },
-        { phase: 'remember', title: 'Exemplars', description: 'See how strong answers are structured.', to: '/archives' },
+        { phase: 'remember', title: 'Course materials', description: 'Compare your answer with examples supplied by your teacher.', to: '/study-notebook' },
       ];
     case 'build_habits':
       return [
@@ -298,12 +298,12 @@ export function getGoalLearningPath(goal: StudyGoal | null): LearningPathStep[] 
       return [
         { phase: 'learn', title: 'Deep-dive notes', description: 'Turn lectures into clear explanations.', to: '/notetaker' },
         { phase: 'practice', title: 'Discuss with Apex', description: 'Ask why, not just what.', to: '/chatbot' },
-        { phase: 'review', title: 'Resource guides', description: 'Active recall and study techniques.', to: '/resources/active-recall-spaced-repetition' },
+        { phase: 'review', title: 'Study tools', description: 'Choose a tool or check which references are available.', to: '/study-tools' },
         { phase: 'remember', title: 'Flashcards', description: 'Reinforce concepts over time.', to: '/notetaker' },
       ];
     default:
       return [
-        { phase: 'learn', title: 'Browse archives', description: 'Curated notes and exemplars.', to: '/archives' },
+        { phase: 'learn', title: 'Learning library', description: 'Check available resources and their review status.', to: '/resources' },
         { phase: 'practice', title: 'Generate notes', description: 'AI notes, flashcards, and quizzes.', to: '/notetaker' },
         { phase: 'review', title: 'Mock exam', description: 'Practice papers with mark schemes.', to: '/paper-maker' },
         { phase: 'remember', title: 'Study Zone', description: 'Focus timer, habits, and activity log.', to: '/study-zone' },

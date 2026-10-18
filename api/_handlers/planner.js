@@ -1,9 +1,9 @@
 import { verifyAuthUser, readJsonBody, rejectOversizedJsonBody } from '../_lib/auth.js';
 import { normalizePlannerRequest, normalizePlannerTask } from '../_lib/plannerContract.js';
 import { logProviderRun } from '../_lib/providerTelemetry.js';
-import { fetchWithTimeout } from '../_lib/fetchWithTimeout.js';
+import { fetchPaidProviderResponse } from '../_lib/aiUsage.js';
 import { rateLimitUserEndpoint } from '../_lib/rateLimit.js';
-import { callChatProvider, createSafetyIdentifier, extractChatAnswer, resolveChatProvider } from '../_lib/aiProviders.js';
+import { callChatProvider, createSafetyIdentifier, extractGeneratedText, extractGoogleGeneratedText, resolveChatProvider } from '../_lib/aiProviders.js';
 import { routeAiRequest } from '../_lib/aiRouting.js';
 import { VERTEX_AGENTS } from '../_lib/vertexAgents.js';
 
@@ -95,25 +95,28 @@ async function generateContent(provider, model, prompt, jsonSchema, schemaName) 
     } catch {
       throw new Error('PROVIDER_RESPONSE_INVALID');
     }
-    const text = extractChatAnswer(data);
+    const text = extractGeneratedText(data);
     if (!text) throw new Error('MODEL_OUTPUT_INVALID');
     return { text };
   }
 
-  const response = await fetchWithTimeout(
-    `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`,
-    {
+  const response = await fetchPaidProviderResponse({
+    capability: 'planner', provider: 'google', model,
+    url: `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`,
+    options: {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-goog-api-key': provider.apiKey },
       body: JSON.stringify({
         contents: [{ role: 'user', parts: [{ text: prompt }] }],
-        generationConfig: { responseMimeType: 'application/json' },
+        generationConfig: { responseMimeType: 'application/json', maxOutputTokens: 2200 },
       }),
     },
-    30_000,
-  );
+    timeoutMs: 30_000,
+  });
   if (!response.ok) throw new Error(`Gemini provider returned ${response.status}.`);
-  return response.json();
+  const text = extractGoogleGeneratedText(await response.json());
+  if (!text) throw new Error('MODEL_OUTPUT_INVALID');
+  return { text };
 }
 
 async function handleWeekPlan(body, provider, res) {

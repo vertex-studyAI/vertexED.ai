@@ -1,0 +1,404 @@
+{
+  "slug": "calculus-ab",
+  "title": "AP Calculus AB",
+  "category": "Maths and computer science",
+  "summary": "Work through limits, derivatives, accumulation and differential equations.",
+  "officialUrl": "https://apstudents.collegeboard.org/courses/ap-calculus-ab",
+  "frameworkNote": "Unit map checked against College Board on 15 October 2026 for the 2026-27 course. Each unit has one focused original revision lesson, not exhaustive topic coverage or an official practice paper. ",
+  "assessment": "exam",
+  "modules": [
+    {
+      "id": "unit-1",
+      "title": "Limits at a removable gap",
+      "frameworkUnit": "Unit 1",
+      "focus": "Separate a nearby trend from the defined value.",
+      "objectives": [
+        "Distinguish a function value from a two-sided limit.",
+        "State the domain restriction when cancelling a common factor.",
+        "Choose a parameter that makes both one-sided limits and the function value agree."
+      ],
+      "prerequisites": ["Factor a difference of squares.", "Substitute into linear and quadratic expressions.", "Read the domain of each branch of a piecewise function."],
+      "reviewCards": [
+        { "id": "unit-1-card-limit", "front": "Can a limit exist when the function is undefined at that point?", "back": "Yes. A limit concerns nearby inputs. The function value is an additional condition for continuity." },
+        { "id": "unit-1-card-cancel", "front": "What restriction remains after cancelling x-a?", "back": "The original expression still excludes x=a. A simplified expression can describe nearby values without assigning the missing value." },
+        { "id": "unit-1-card-continuity", "front": "What must agree for continuity at a branch boundary?", "back": "Both one-sided limits must equal each other and the defined function value at the boundary." }
+      ],
+      "explanation": [
+        "A limit describes what function values approach as the input approaches a point. The value at the point can be missing or different. A two-sided limit exists only when both one-sided limits agree, so inspect both branches of a piecewise function.",
+        "Continuity at a requires f(a) to exist, the limit to exist, and their values to agree. Factoring may expose a removable gap, but cancelling a factor does not restore an excluded input to the original domain."
+      ],
+      "workedExample": {
+        "prompt": "For f(x)=(x²-9)/(x-3), find the limit at 3 and the value that would make an extension continuous.",
+        "steps": [
+          "For x≠3 factor and cancel to obtain x+3.",
+          "The nearby values approach 6; define the extension at 3 to equal 6."
+        ]
+      },
+      "misconception": {
+        "claim": "A missing value always prevents a limit.",
+        "correction": "Limits depend on nearby values, whereas continuity also checks the value at the point."
+      },
+      "questions": [
+        {
+          "prompt": "Find lim as x→4 of (x²-16)/(x-4).",
+          "hint": "Factor a difference of squares.",
+          "answer": "8.",
+          "checkpoints": [
+            "Cancel only for x≠4.",
+            "Evaluate the simplified expression near 4."
+          ],
+          "id": "unit-1-q1"
+        },
+        {
+          "prompt": "A piecewise function approaches 2 from the left and 5 from the right at 0. Can choosing f(0)=3 make it continuous?",
+          "hint": "Compare the one-sided limits.",
+          "answer": "No. The two-sided limit does not exist.",
+          "checkpoints": [
+            "State the unequal limits.",
+            "Explain why changing one point cannot fix them."
+          ],
+          "id": "unit-1-q2"
+        },
+        {
+          "id": "unit-1-q3",
+          "prompt": "For x≠5, g(x)=(x²-25)/(x-5). What value should g(5) have to make the extension continuous?",
+          "hint": "Factor the numerator and keep the original exclusion while finding nearby values.",
+          "hints": ["Write x²-25 as a product.", "For x≠5 the expression simplifies to x+5.", "The extension must equal the limit of that expression at 5."],
+          "answer": "10. The original expression is undefined at 5; assigning the extension g(5)=10 makes it continuous.",
+          "checkpoints": ["Factor (x-5)(x+5) and cancel only for x≠5.", "Find the limit 10 and set the extension equal to it."],
+          "marks": 2,
+          "difficulty": "foundation",
+          "calculatorPolicy": "not-required",
+          "numericAnswer": { "value": 10, "tolerance": 0 },
+          "retryOf": "unit-1-q1"
+        },
+        {
+          "id": "unit-1-q4",
+          "prompt": "Let h(x)=3x-1 for x<2 and h(x)=x²+b for x≥2. Find b so that h is continuous at 2, and justify your answer using both sides.",
+          "hint": "The left branch approaches 5. Match the right branch and its defined value to this.",
+          "hints": ["Find the limit of 3x-1 as x approaches 2 from below.", "The right-hand limit and h(2) both equal 4+b.", "Set the two values equal and solve for b."],
+          "answer": "b=1. The left-hand limit is 5; the right-hand limit and h(2) are 4+b, which must also be 5.",
+          "checkpoints": ["Calculate the left-hand limit as 5.", "Express the right-hand limit and h(2) as 4+b.", "Equate them to obtain b=1 and state that the defined value agrees."],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "numericAnswer": { "value": 1, "tolerance": 0 }
+        },
+        {
+          "id": "unit-1-q5",
+          "prompt": "For x≠1, p(x)=(x²-1)/(x-1), but p(1)=7. Give the limit as x approaches 1 and explain why the function is not continuous there.",
+          "hint": "Calculate nearby values using the simplified expression, then compare the result with p(1).",
+          "answer": "The limit is 2, while p(1)=7. Both one-sided limits agree, but they do not equal the function value, so p is not continuous at 1.",
+          "checkpoints": ["Simplify to x+1 only for x≠1 and obtain limit 2.", "Compare 2 with the defined value 7; a limit alone is not enough for continuity."],
+          "marks": 2,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "numericAnswer": { "value": 2, "tolerance": 0 }
+        }
+      ]
+    },
+    {
+      "id": "unit-2",
+      "title": "A derivative from first principles",
+      "frameworkUnit": "Unit 2",
+      "focus": "Connect a difference quotient to instantaneous slope.",
+      "explanation": [
+        "The derivative f′(a) is the limit of [f(a+h)-f(a)]/h as h approaches zero. The quotient is a secant slope before taking the limit. Its units are output units divided by input units.",
+        "Differentiability implies continuity, but continuity alone is insufficient: a corner can have unequal one-sided slopes. For calculations, power, sum, product and quotient rules shorten the same limiting process; a derivative of a product is not generally the product of the derivatives."
+      ],
+      "workedExample": {
+        "prompt": "Use a difference quotient to differentiate f(x)=x²+2x at x=3.",
+        "steps": [
+          "f(3+h)-f(3)=8h+h².",
+          "Divide by h, then take h→0 to obtain 8."
+        ]
+      },
+      "misconception": {
+        "claim": "A derivative is the height of a graph.",
+        "correction": "It is the instantaneous slope; a large function value can have zero derivative."
+      },
+      "questions": [
+        {
+          "prompt": "Differentiate g(x)=4x³-5x+7.",
+          "hint": "Apply the power rule term by term.",
+          "answer": "g′(x)=12x²-5.",
+          "checkpoints": [
+            "Differentiate the constant to zero.",
+            "Keep the coefficient on the cubic term."
+          ],
+          "id": "unit-2-q1"
+        },
+        {
+          "prompt": "Does f(x)=|x| have a derivative at 0?",
+          "hint": "Compare the slopes on either side.",
+          "answer": "No: the left derivative is -1 and the right derivative is 1.",
+          "checkpoints": [
+            "Recognise that f is continuous.",
+            "Use unequal slopes to reject differentiability."
+          ],
+          "id": "unit-2-q2"
+        }
+      ]
+    },
+    {
+      "id": "unit-3",
+      "title": "Implicit curves and the chain rule",
+      "frameworkUnit": "Unit 3",
+      "focus": "Track the derivative of an inner function.",
+      "explanation": [
+        "For y=f(g(x)), the chain rule gives dy/dx=f′(g(x))g′(x). Differentiate the outer operation while retaining its input, then multiply by the derivative of that input. Nested operations may require this process more than once.",
+        "When x and y occur in one equation, treat y as a function of x. Differentiating y² therefore produces 2y(dy/dx). Solve for dy/dx only after differentiating every term. The resulting formula may fail where the curve has a vertical tangent."
+      ],
+      "workedExample": {
+        "prompt": "Find the tangent slope to x²+y²=25 at (3,4).",
+        "steps": [
+          "Differentiate to get 2x+2y(dy/dx)=0.",
+          "Rearrange to dy/dx=-x/y; at (3,4) the slope is -3/4."
+        ]
+      },
+      "misconception": {
+        "claim": "The derivative of y² with respect to x is just 2y.",
+        "correction": "It is 2y(dy/dx) because y changes with x."
+      },
+      "questions": [
+        {
+          "prompt": "Differentiate (2x+1)⁴.",
+          "hint": "Include the inner derivative.",
+          "answer": "8(2x+1)³.",
+          "checkpoints": [
+            "Use the outer power rule.",
+            "Multiply by 2."
+          ],
+          "id": "unit-3-q1"
+        },
+        {
+          "prompt": "If f(2)=5 and f′(2)=4, find (f⁻¹)′(5), assuming a differentiable inverse.",
+          "hint": "An inverse reverses input and output.",
+          "answer": "1/4.",
+          "checkpoints": [
+            "Evaluate f′ at 2, not 5.",
+            "Take the reciprocal."
+          ],
+          "id": "unit-3-q2"
+        }
+      ]
+    },
+    {
+      "id": "unit-4",
+      "title": "Related rates with a moving radius",
+      "frameworkUnit": "Unit 4",
+      "focus": "Differentiate a geometric relationship in time.",
+      "explanation": [
+        "A related-rates model starts with an equation connecting changing quantities. Differentiate that equation with respect to time before substituting a momentary value. This preserves the dependence of each quantity on time.",
+        "Units and signs give useful checks. If area is measured in square centimetres, dA/dt has units cm²/s. A shrinking radius produces a negative area rate. The model assumes the shape stays within the stated geometric family as it changes."
+      ],
+      "workedExample": {
+        "prompt": "A circular stain has radius 3 cm growing at 2 cm/s. Find its area rate.",
+        "steps": [
+          "From A=πr² obtain dA/dt=2πr(dr/dt).",
+          "Substitute r=3 and dr/dt=2 to obtain 12π cm²/s."
+        ]
+      },
+      "misconception": {
+        "claim": "Substitute r=3 into the area formula before differentiating.",
+        "correction": "That treats a changing radius as a constant and loses the required rate."
+      },
+      "questions": [
+        {
+          "prompt": "A sphere has V=4πr³/3. At r=2 m, dr/dt=-0.5 m/s. Find dV/dt.",
+          "hint": "Differentiate with respect to time.",
+          "answer": "-8π m³/s.",
+          "checkpoints": [
+            "Use 4πr²(dr/dt).",
+            "Retain the shrinking sign."
+          ],
+          "id": "unit-4-q1"
+        },
+        {
+          "prompt": "Use linearisation of √x at x=9 to estimate √9.3.",
+          "hint": "The slope is 1/(2√9).",
+          "answer": "3.05.",
+          "checkpoints": [
+            "Use change in x of 0.3.",
+            "Add (1/6)(0.3) to 3."
+          ],
+          "id": "unit-4-q2"
+        }
+      ]
+    },
+    {
+      "id": "unit-5",
+      "title": "Finding an absolute extremum",
+      "frameworkUnit": "Unit 5",
+      "focus": "Compare critical points with endpoints.",
+      "explanation": [
+        "For a continuous function on a closed interval, absolute extrema exist. Interior candidates occur where the derivative is zero or undefined, while endpoints are separate candidates. Evaluate the original function at every admissible candidate.",
+        "A derivative sign chart describes increase and decrease. A change from positive to negative identifies a local maximum. A zero derivative without a sign change need not give any extremum; the stationary point of x³ is an example."
+      ],
+      "workedExample": {
+        "prompt": "Find the absolute maximum and minimum of f(x)=x²-4x on [0,5].",
+        "steps": [
+          "f′(x)=2x-4 gives the interior candidate x=2.",
+          "Compare f(0)=0, f(2)=-4 and f(5)=5. The minimum is -4; the maximum is 5."
+        ]
+      },
+      "misconception": {
+        "claim": "Every zero derivative gives an absolute maximum or minimum.",
+        "correction": "It gives a candidate; local behaviour and the interval still matter."
+      },
+      "questions": [
+        {
+          "prompt": "Find the absolute maximum of x(10-x) on [0,10].",
+          "hint": "Check the vertex and endpoints.",
+          "answer": "25 at x=5.",
+          "checkpoints": [
+            "Solve 10-2x=0.",
+            "Compare with zero at both endpoints."
+          ],
+          "id": "unit-5-q1"
+        },
+        {
+          "prompt": "If f′ is negative before c and positive after c, what occurs at c when f is continuous?",
+          "hint": "Describe how the function moves.",
+          "answer": "A local minimum.",
+          "checkpoints": [
+            "The function decreases into c.",
+            "It increases away from c."
+          ],
+          "id": "unit-5-q2"
+        }
+      ]
+    },
+    {
+      "id": "unit-6",
+      "title": "Accumulation and the fundamental theorem",
+      "frameworkUnit": "Unit 6",
+      "focus": "Translate a rate into net change.",
+      "explanation": [
+        "A definite integral accumulates signed rate times small input intervals. Positive and negative contributions can cancel. If r(t) is a volume rate in L/min, integrating over time gives a volume change in litres, not the final volume unless the initial amount is added.",
+        "The fundamental theorem connects accumulation and differentiation. For continuous f, the derivative of the integral from a to x of f(t) is f(x). If the upper endpoint is g(x), multiply by g′(x) using the chain rule."
+      ],
+      "workedExample": {
+        "prompt": "A tank starts with 10 L and has net inflow r(t)=2t+1 L/min for 0≤t≤3. Find its final volume.",
+        "steps": [
+          "Integrate r: [t²+t] from 0 to 3 equals 12 L.",
+          "Add the initial volume: 10+12=22 L."
+        ]
+      },
+      "misconception": {
+        "claim": "An integral of a rate always gives the final amount.",
+        "correction": "It gives the change; include the initial amount."
+      },
+      "questions": [
+        {
+          "prompt": "Differentiate F(x)=integral from 1 to x² of cos(t) dt.",
+          "hint": "Differentiate the upper endpoint too.",
+          "answer": "F′(x)=2x cos(x²).",
+          "checkpoints": [
+            "Evaluate the integrand at x².",
+            "Multiply by 2x."
+          ],
+          "id": "unit-6-q1"
+        },
+        {
+          "prompt": "Evaluate the integral of (3x²-2) from 0 to 2.",
+          "hint": "Find an antiderivative.",
+          "answer": "4.",
+          "checkpoints": [
+            "Use x³-2x.",
+            "Subtract the lower-end value."
+          ],
+          "id": "unit-6-q2"
+        }
+      ]
+    },
+    {
+      "id": "unit-7",
+      "title": "Solving exponential change",
+      "frameworkUnit": "Unit 7",
+      "focus": "Use an initial condition to select one solution.",
+      "explanation": [
+        "The differential equation dy/dt=ky says that the rate is proportional to the current amount. Separation gives dy/y=k dt for nonzero y, leading to y=Ce^(kt). The zero solution must also be considered when dividing by y.",
+        "An initial condition determines C. Positive k produces growth and negative k decay for positive initial values. The parameter k has reciprocal-time units, and a doubling time is ln(2)/k. The model only applies while the proportional-rate assumption remains plausible."
+      ],
+      "workedExample": {
+        "prompt": "Solve dy/dt=0.2y with y(0)=50.",
+        "steps": [
+          "Separate and integrate: ln",
+          "y",
+          "=0.2t+C₁.",
+          "Use the initial condition to obtain y=50e^(0.2t)."
+        ]
+      },
+      "misconception": {
+        "claim": "All solutions share the same starting value.",
+        "correction": "The differential equation gives a family; the initial condition selects a member."
+      },
+      "questions": [
+        {
+          "prompt": "Solve dy/dt=-3y with y(0)=8.",
+          "hint": "Use exponential decay.",
+          "answer": "y=8e^(-3t).",
+          "checkpoints": [
+            "Check y(0)=8.",
+            "Differentiate to verify the equation."
+          ],
+          "id": "unit-7-q1"
+        },
+        {
+          "prompt": "For dy/dx=2x and y(1)=5, find y(3).",
+          "hint": "Integrate, then determine the constant.",
+          "answer": "13.",
+          "checkpoints": [
+            "Obtain y=x²+4.",
+            "Substitute x=3."
+          ],
+          "id": "unit-7-q2"
+        }
+      ]
+    },
+    {
+      "id": "unit-8",
+      "title": "Area between two curves",
+      "frameworkUnit": "Unit 8",
+      "focus": "Integrate the vertical separation.",
+      "explanation": [
+        "Geometric area is nonnegative. For vertical slices, integrate upper function minus lower function between the intersection points or stated boundaries. If the curves exchange order, split the interval so each integrand remains a nonnegative separation.",
+        "The same slice idea produces volumes. A washer has area π(R²-r²), not π(R-r)². Draw radii from the rotation axis to each boundary before forming an integral, especially when the axis is shifted away from a coordinate axis."
+      ],
+      "workedExample": {
+        "prompt": "Find the area enclosed by y=x and y=x².",
+        "steps": [
+          "The intersections are x=0 and x=1, and x lies above x² between them.",
+          "Integrate x-x² from 0 to 1: 1/2-1/3=1/6 square units."
+        ]
+      },
+      "misconception": {
+        "claim": "The integral of any boundary function gives the area between two curves.",
+        "correction": "The integrand must measure their separation, with order checked."
+      },
+      "questions": [
+        {
+          "prompt": "Find the area between y=4 and y=x² on [-2,2].",
+          "hint": "Integrate 4-x².",
+          "answer": "32/3 square units.",
+          "checkpoints": [
+            "Use both intersections.",
+            "Keep the upper-minus-lower order."
+          ],
+          "id": "unit-8-q1"
+        },
+        {
+          "prompt": "Find the average value of x² on [0,3].",
+          "hint": "Divide the integral by interval length.",
+          "answer": "3.",
+          "checkpoints": [
+            "The integral equals 9.",
+            "Divide by 3."
+          ],
+          "id": "unit-8-q2"
+        }
+      ]
+    }
+  ]
+}

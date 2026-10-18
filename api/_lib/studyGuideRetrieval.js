@@ -1,8 +1,9 @@
 import { readFile } from 'node:fs/promises';
 import { join, normalize, resolve, sep } from 'node:path';
+import { createHash } from 'node:crypto';
+import { hasPublicationEvidence, hasExactContentApproval } from '../../contracts/contentPublication.js';
 
 const STOP_WORDS = new Set(['the', 'and', 'for', 'with', 'that', 'this', 'what', 'when', 'where', 'which', 'from', 'into', 'about', 'have', 'does', 'should', 'would', 'could', 'your', 'you', 'are', 'how', 'why', 'can', 'all', 'any', 'use', 'using']);
-let guideDocumentsPromise;
 
 function tokens(text) {
   return Array.from(new Set(String(text).toLowerCase().match(/[a-z0-9]{2,}/g)?.filter((token) => !STOP_WORDS.has(token)) ?? []));
@@ -31,16 +32,16 @@ export function resolvePublicGuidePath(root, relativePath) {
 async function loadGuideDocuments() {
   const root = join(process.cwd(), 'public');
   const manifest = JSON.parse(await readFile(join(root, 'study-guides/myp/manifest.json'), 'utf8'));
-  const ledger = JSON.parse(await readFile(join(root, 'study-guides/myp/provenance-ledger.json'), 'utf8'));
-  const approved = new Set(ledger.entries.filter(isApprovedGuide).map(entry => entry.path));
-  const pages = await Promise.all(manifest.subjects.flatMap((subject) => subject.pages.filter(page => approved.has(page.path)).map(async (page) => ({
-    subject: subject.name,
-    title: page.title,
-    relativePath: page.relativePath,
-    sourcePath: page.path,
-    content: await readFile(resolvePublicGuidePath(root, page.path), 'utf8'),
-  }))));
-  return pages;
+  const register = JSON.parse(await readFile(join(process.cwd(), 'contracts/content-publication-approvals.json'), 'utf8'));
+  if (register.schemaVersion !== 1 || !Array.isArray(register.entries)) throw new Error('Invalid content approval register.');
+  const approved = new Map(register.entries.filter(isApprovedGuide).map(entry => [entry.path, entry]));
+  const pages = await Promise.all(manifest.subjects.flatMap((subject) => subject.pages.filter(page => approved.has(page.path)).map(async (page) => {
+    const content = await readFile(resolvePublicGuidePath(root, page.path), 'utf8');
+    const hash = `sha256:${createHash('sha256').update(content).digest('hex')}`;
+    if (!hasExactContentApproval(approved.get(page.path), hash)) return null;
+    return { subject: subject.name, title: page.title, relativePath: page.relativePath, sourcePath: page.path, content };
+  })));
+  return pages.filter(Boolean);
 }
 
 function phraseScore(text, question) {
@@ -90,8 +91,9 @@ function excerpt(document, question, limit = 2200) {
 }
 
 export async function retrieveStudyGuideContext(question, { currentGuidePath } = {}) {
-  guideDocumentsPromise ??= loadGuideDocuments();
-  const documents = await guideDocumentsPromise;
+  // Re-read review state so revocation, expiry or edited bytes cannot survive a
+  // warm serverless instance's previous retrieval cache.
+  const documents = await loadGuideDocuments();
   const queryTokens = tokens(question);
   const mentionedSubject = Array.from(new Set(documents.map((document) => document.subject))).find((subject) => queryTokens.includes(subject.toLowerCase()));
   const candidates = mentionedSubject ? documents.filter((document) => document.subject === mentionedSubject) : documents;
@@ -109,8 +111,5 @@ export async function retrieveStudyGuideContext(question, { currentGuidePath } =
 }
 
 export function isApprovedGuide(entry) {
-  return entry?.editorialStatus === 'approved'
-    && Boolean(entry.source && entry.factualReviewer && entry.reviewedAt)
-    && entry.license !== 'unknown' && Boolean(entry.license)
-    && entry.permittedUse !== 'not-yet-determined' && Boolean(entry.permittedUse);
+  return hasPublicationEvidence(entry);
 }

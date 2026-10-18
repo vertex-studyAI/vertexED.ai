@@ -11,6 +11,9 @@ import "@/styles/study-desk.css";
 import LearningToday from "@/components/dashboard/LearningToday";
 import TodayPlanPanel from "@/components/dashboard/TodayPlanPanel";
 import LearningCommandCenter from "@/components/dashboard/LearningCommandCenter";
+import MemberPortalHeader from "@/components/portal/MemberPortalHeader";
+import MemberAccountPanel from "@/components/portal/MemberAccountPanel";
+import PortalEngagementRow from "@/components/portal/PortalEngagementRow";
 import { useAuth } from "@/contexts/AuthContext";
 import { buildEcosystemBrief, type EcosystemBrief } from "@/lib/studyEcosystem";
 import { buildTodayPlanItems } from "@/lib/todayPlan";
@@ -90,7 +93,7 @@ export default function Main() {
     recentId: recentArtifacts[0]?.id,
     loading: workLoading,
   });
-  const firstName = user?.user_metadata?.full_name?.split(" ")[0] || user?.email?.split("@")[0];
+  const dueReviewCount = (brief?.dueFlashcards ?? 0) + retries.length;
 
   return (
     <>
@@ -101,16 +104,29 @@ export default function Main() {
       </Helmet>
 
       <div className="dashboard-shell study-desk mx-auto w-full max-w-7xl space-y-7 pb-6">
-        <header className="learning-heading desk-today-header">
-          <div><p className="dashboard-kicker">{firstName ? `Welcome back, ${firstName}` : "Welcome back"}</p><h1>Today</h1><p>Make an attempt. Find the gap. Come back to it.</p></div>
-          <div className="learning-actions">
-            <Link to={nextAction.to}>{nextAction.label}</Link>
-            <Link to="/planner">Open planner</Link>
-
-          </div>
-        </header>
+        {brief ? (
+          <MemberPortalHeader
+            brief={brief}
+            nextAction={nextAction}
+            dueReviewCount={dueReviewCount}
+            cloudUnavailable={cloudUnavailable}
+            localSaveCount={localSaveCount}
+            workLoading={workLoading}
+          />
+        ) : (
+          <header className="learning-heading desk-today-header">
+            <div><p className="dashboard-kicker">Member workspace</p><h1>Today</h1><p role="status">Preparing your study plan…</p></div>
+          </header>
+        )}
 
         <LearningToday key={user?.id} />
+
+        {brief && (
+          <PortalEngagementRow
+            key={brief.profile.curriculum.subjects.join('|')}
+            profile={brief.profile}
+          />
+        )}
 
         <ContinueSessionBanner />
 
@@ -143,7 +159,7 @@ export default function Main() {
           }}
         />}
 
-        <section className="desk-recent" aria-labelledby="recent-work-heading">
+        <section id="continue-studying" className="desk-recent" aria-labelledby="recent-work-heading">
           <div className="dashboard-section-heading">
             <h2 id="recent-work-heading">Continue studying</h2>
             <Link to="/saved-work" className="text-link">View all saved work</Link>
@@ -170,7 +186,9 @@ export default function Main() {
           </section>
         )}
 
-        <details className="learning-paper"><summary>Study tools and resources</summary><StudyToolbox key={user?.id || "signed-out"} accountId={user?.id} /></details>
+        <details id="member-tools" className="learning-paper"><summary>Study tools and resources</summary><StudyToolbox key={user?.id || "signed-out"} accountId={user?.id} /></details>
+
+        {brief && <MemberAccountPanel brief={brief} accountEmail={user?.email} />}
 
         <section className="dashboard-support-grid" aria-label="Additional study resources">
           <LiquidGlass as="article" variant="card" className="dashboard-support-card">

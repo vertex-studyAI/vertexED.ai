@@ -10,8 +10,8 @@ type Props = {
 };
 
 const MODES: { id: ThemeMode; label: string; icon: typeof Sun }[] = [
-  { id: 'light', label: 'Light', icon: Sun },
-  { id: 'dark', label: 'Dark', icon: Moon },
+  { id: 'light', label: 'Blue', icon: Sun },
+  { id: 'dark', label: 'Midnight', icon: Moon },
   { id: 'system', label: 'Auto', icon: Monitor },
 ];
 
@@ -26,7 +26,7 @@ export default function ThemeToggle({ className, compact = false }: Props) {
     const currentIndex = COMPACT_CYCLE.indexOf(active);
     const next = COMPACT_CYCLE[(currentIndex + 1) % COMPACT_CYCLE.length];
     const Icon = active === 'system' ? Monitor : isDark ? Moon : Sun;
-    const label = active === 'system' ? 'Auto' : isDark ? 'Dark' : 'Light';
+    const label = active === 'system' ? 'Auto' : isDark ? 'Midnight' : 'Blue';
 
     return (
       <button
@@ -35,7 +35,7 @@ export default function ThemeToggle({ className, compact = false }: Props) {
         title={`${label} mode - click to cycle`}
         onClick={() => update({ theme: next })}
         className={cn(
-          'inline-flex h-9 w-9 items-center justify-center rounded-xl border border-border/60 bg-background/50 text-foreground/80 transition-colors hover:bg-accent/20 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+          'inline-flex h-9 w-9 items-center justify-center rounded-lg border border-border/60 bg-background/50 text-foreground/80 transition-colors hover:bg-accent/20 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
           className,
         )}
       >
@@ -47,7 +47,7 @@ export default function ThemeToggle({ className, compact = false }: Props) {
   return (
     <div
       className={cn(
-        'inline-flex items-center gap-1 rounded-full border border-border/50 bg-background/40 p-1 backdrop-blur-md',
+        'inline-flex items-center gap-1 rounded-lg border border-border/50 bg-background/40 p-1 backdrop-blur-md',
         className,
       )}
       role="group"
@@ -61,7 +61,7 @@ export default function ThemeToggle({ className, compact = false }: Props) {
           title={label}
           onClick={() => update({ theme: id })}
           className={cn(
-            'inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium transition',
+            'inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium transition',
             active === id
               ? 'bg-primary/15 text-primary shadow-sm border border-primary/25'
               : 'text-muted-foreground hover:text-foreground hover:bg-accent/10',

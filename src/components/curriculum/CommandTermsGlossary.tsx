@@ -13,6 +13,8 @@ export default function CommandTermsGlossary({ className, compact = false }: Pro
   const board = getLearnerProfile(user).curriculum.board;
   const terms = getCommandTermsForBoard(board);
 
+  if (!terms.length) return <p className={cn('text-sm text-muted-foreground', className)}>Command term definitions are awaiting subject review. Check your course’s current official guidance.</p>;
+
   return (
     <div className={cn('space-y-3', className)}>
       {!compact && (

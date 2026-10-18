@@ -1,0 +1,398 @@
+{
+  "slug": "english-language-and-composition",
+  "title": "AP English Language and Composition",
+  "category": "English",
+  "summary": "Build rhetorical analysis, synthesis and argument through nine applied reading and writing cycles.",
+  "officialUrl": "https://apstudents.collegeboard.org/courses/ap-english-language-and-composition",
+  "frameworkNote": "2026–27 structure checked against College Board on 15 October 2026: 9 units. Original VertexED focused lessons and self-check questions sample each unit; they do not replace the full course framework, required materials or teacher review. College Board organises this course into nine numbered skill cycles without fixed topic titles. Module titles here are original teaching labels. All example sentences are original, not exam passages.",
+  "assessment": "exam",
+  "modules": [
+    {
+      "title": "Claims, reasons and audience",
+      "focus": "Identify what a writer wants readers to believe or do.",
+      "explanation": [
+        "A claim is an arguable position, while a reason explains why it should be accepted. Evidence supports that reason through examples, observations or data. A summary restates a position; analysis explains how the parts work together.",
+        "Rhetorical situation includes speaker, audience, purpose and context. The same evidence can have different force for different readers. Avoid simply naming ethos, pathos or logos without explaining a particular choice and its likely effect."
+      ],
+      "workedExample": {
+        "prompt": "Original example: “Keep the library open later; evening workers cannot visit before closing.” Analyse the reasoning.",
+        "steps": [
+          "The claim asks for longer opening hours.",
+          "The reason links current hours to unequal access, appealing to readers concerned with community provision."
+        ]
+      },
+      "misconception": {
+        "claim": "Every factual statement is an argument.",
+        "correction": "An argument connects evidence and reasoning to a debatable claim."
+      },
+      "questions": [
+        {
+          "prompt": "What evidence would strengthen the library claim?",
+          "hint": "Match evidence to access.",
+          "answer": "Visitor surveys or work-schedule data showing unmet evening demand would support the stated reason.",
+          "checkpoints": [
+            "Identify relevant evidence",
+            "Explain relevance"
+          ],
+          "id": "english-language-and-composition-unit-1-q1"
+        },
+        {
+          "prompt": "Why might a budget committee need more evidence than current library users?",
+          "hint": "Consider audience priorities.",
+          "answer": "The committee must weigh staffing costs and alternatives, so demand evidence should be paired with a feasible cost analysis.",
+          "checkpoints": [
+            "Identify audience concerns",
+            "Adapt evidence"
+          ],
+          "id": "english-language-and-composition-unit-1-q2"
+        }
+      ],
+      "id": "english-language-and-composition-unit-1",
+      "frameworkUnit": "Unit 1"
+    },
+    {
+      "title": "Thesis and reasoning structure",
+      "focus": "Make a defensible claim that directs the argument.",
+      "explanation": [
+        "A thesis states a position that a reader could reasonably dispute. It should address the question and establish a direction for the reasoning. A list of topics or a promise to discuss an issue does not yet make an argument.",
+        "A line of reasoning connects claims in a deliberate sequence. Paragraphs should build rather than merely repeat. Choose evidence for its role: one example may establish a problem, while another tests the practicality of a proposed response."
+      ],
+      "workedExample": {
+        "prompt": "Revise “This essay discusses public gardens” into an arguable thesis.",
+        "steps": [
+          "Choose a position: cities should prioritise gardens in underserved neighbourhoods.",
+          "Add reasoning: this allocation addresses unequal access more effectively than distributing sites evenly by area."
+        ]
+      },
+      "misconception": {
+        "claim": "A thesis must contain exactly three reasons.",
+        "correction": "Its shape should serve the argument rather than a fixed numerical formula."
+      },
+      "questions": [
+        {
+          "prompt": "Why is “Transport is important” a weak thesis?",
+          "hint": "Ask what can be contested.",
+          "answer": "It is broad and offers little direction; a specific policy claim with a reason would guide the argument.",
+          "checkpoints": [
+            "Identify vagueness",
+            "Explain missing direction"
+          ],
+          "id": "english-language-and-composition-unit-2-q1"
+        },
+        {
+          "prompt": "What should follow evidence that a bus route is overcrowded?",
+          "hint": "Explain its argumentative role.",
+          "answer": "Commentary connecting crowding to the proposed change, with attention to whether added frequency would address the cause.",
+          "checkpoints": [
+            "Connect evidence to claim",
+            "Consider mechanism"
+          ],
+          "id": "english-language-and-composition-unit-2-q2"
+        }
+      ],
+      "id": "english-language-and-composition-unit-2",
+      "frameworkUnit": "Unit 2"
+    },
+    {
+      "title": "Sources and causal reasoning",
+      "focus": "Integrate evidence without overstating what it proves.",
+      "explanation": [
+        "Synthesis brings sources into a conversation around your own claim. Attribute evidence clearly and explain agreement, tension or different scope. A paragraph that merely lists source summaries leaves the reader to infer the argument.",
+        "Causal reasoning needs more than sequence. If an outcome follows a policy, alternative causes may still matter. Use careful language that matches the evidence, distinguishing association from a demonstrated mechanism or controlled comparison."
+      ],
+      "workedExample": {
+        "prompt": "A town installs cycle lanes and shop revenue later rises. Evaluate the claim that lanes caused all the growth.",
+        "steps": [
+          "The sequence makes the explanation possible but not established.",
+          "Check wider economic trends, other street improvements and comparisons before assigning causation."
+        ]
+      },
+      "misconception": {
+        "claim": "Two sources that disagree cannot both be useful.",
+        "correction": "Their differences can reveal distinct assumptions, populations or competing explanations."
+      },
+      "questions": [
+        {
+          "prompt": "How can a writer use two surveys with different age groups responsibly?",
+          "hint": "Keep populations visible.",
+          "answer": "Describe each sample and avoid combining their results as if they measured the same population.",
+          "checkpoints": [
+            "Attribute the samples",
+            "Limit comparison"
+          ],
+          "id": "english-language-and-composition-unit-3-q1"
+        },
+        {
+          "prompt": "Why is a quotation insufficient without commentary?",
+          "hint": "Consider the link to your thesis.",
+          "answer": "Readers need an explanation of how the quoted evidence supports, qualifies or challenges the argument.",
+          "checkpoints": [
+            "Explain connection",
+            "Preserve writer’s reasoning"
+          ],
+          "id": "english-language-and-composition-unit-3-q2"
+        }
+      ],
+      "id": "english-language-and-composition-unit-3",
+      "frameworkUnit": "Unit 3"
+    },
+    {
+      "title": "Introductions, definitions and conclusions",
+      "focus": "Frame the issue so the reader can assess the claim.",
+      "explanation": [
+        "An introduction establishes the problem and stakes before presenting a claim. Definitions matter when a key term has competing meanings: a policy argument about access changes if access means physical entry, affordability or meaningful participation.",
+        "Comparison can clarify a proposal by holding one dimension constant. Conclusions should explain the significance of the reasoning or its implications, rather than introduce unsupported evidence or merely repeat every sentence of the introduction."
+      ],
+      "workedExample": {
+        "prompt": "A proposal claims a museum is accessible because admission is free. Test the definition.",
+        "steps": [
+          "Free admission establishes financial access.",
+          "Transport, opening hours and physical design may still restrict other forms of access."
+        ]
+      },
+      "misconception": {
+        "claim": "Defining a term is neutral and never affects an argument.",
+        "correction": "A definition can include some experiences and exclude others, shaping the conclusion."
+      },
+      "questions": [
+        {
+          "prompt": "How could an introduction establish stakes for a water-conservation argument?",
+          "hint": "Name a concrete consequence.",
+          "answer": "It could explain local supply pressure and the decisions households or authorities face before stating the proposal.",
+          "checkpoints": [
+            "Establish context",
+            "Connect to a decision"
+          ],
+          "id": "english-language-and-composition-unit-4-q1"
+        },
+        {
+          "prompt": "What makes a comparison of two school policies fairer?",
+          "hint": "Control the comparison’s basis.",
+          "answer": "Use the same outcome and comparable conditions while acknowledging relevant differences in resources or populations.",
+          "checkpoints": [
+            "Choose common criteria",
+            "Acknowledge differences"
+          ],
+          "id": "english-language-and-composition-unit-4-q2"
+        }
+      ],
+      "id": "english-language-and-composition-unit-4",
+      "frameworkUnit": "Unit 4"
+    },
+    {
+      "title": "Commentary, qualifiers and transitions",
+      "focus": "Show the logical relationship between sentences.",
+      "explanation": [
+        "Commentary explains why evidence matters. Move beyond “this proves” by identifying a mechanism, assumption or implication. Qualifiers such as “under these conditions” can make a claim more accurate by specifying its range rather than weakening it automatically.",
+        "Transitions should name the relationship between ideas: contrast, consequence, extension or concession. A connective cannot repair a missing logical link. Check whether each paragraph advances the thesis and whether the evidence warrants the degree of certainty."
+      ],
+      "workedExample": {
+        "prompt": "Original evidence: “Weekend attendance doubled after free entry.” Write cautious commentary.",
+        "steps": [
+          "Explain that removing admission costs may have reduced one barrier.",
+          "Qualify the inference because publicity or seasonal events may also have affected attendance."
+        ]
+      },
+      "misconception": {
+        "claim": "Strong arguments never use qualifiers.",
+        "correction": "Precise limitations can make a claim more defensible."
+      },
+      "questions": [
+        {
+          "prompt": "Why is “therefore” misleading between two unrelated facts?",
+          "hint": "Think about logical consequence.",
+          "answer": "It implies that one establishes the other, even when no supporting relationship has been shown.",
+          "checkpoints": [
+            "Identify implied inference",
+            "Explain missing connection"
+          ],
+          "id": "english-language-and-composition-unit-5-q1"
+        },
+        {
+          "prompt": "Revise “Online lessons work for everyone” responsibly.",
+          "hint": "Specify conditions and variation.",
+          "answer": "Online lessons can support some learners when access, suitable teaching and independent-study support are available.",
+          "checkpoints": [
+            "Limit universality",
+            "Name relevant conditions"
+          ],
+          "id": "english-language-and-composition-unit-5-q2"
+        }
+      ],
+      "id": "english-language-and-composition-unit-5",
+      "frameworkUnit": "Unit 5"
+    },
+    {
+      "title": "Perspective, bias and revision",
+      "focus": "Let new evidence change the shape of an argument.",
+      "explanation": [
+        "A position is the claim someone supports; perspective includes the experiences and assumptions from which they view the issue. People may share a position for different reasons. Bias should be examined through evidence selection and reasoning, not used as a label that ends discussion.",
+        "A writer can revise a claim when new evidence identifies a limitation. Tone also affects reception: a shift from accusation to concession may invite a sceptical audience to consider a proposal without requiring agreement on every premise."
+      ],
+      "workedExample": {
+        "prompt": "A writer supports a car-free street, then learns that some residents need vehicle access.",
+        "steps": [
+          "Acknowledge the access need as relevant evidence.",
+          "Revise the proposal to consider exemptions or alternatives, and assess whether they preserve its intended benefit."
+        ]
+      },
+      "misconception": {
+        "claim": "Recognising an opposing concern means abandoning the argument.",
+        "correction": "A justified adjustment can preserve the central claim while addressing real limits."
+      },
+      "questions": [
+        {
+          "prompt": "Why examine a campaign group’s funding when reading its report?",
+          "hint": "Connect incentives to evidence selection.",
+          "answer": "Funding may illuminate interests that shape framing; the report’s methods and evidence still need direct evaluation.",
+          "checkpoints": [
+            "Identify possible incentive",
+            "Avoid automatic dismissal"
+          ],
+          "id": "english-language-and-composition-unit-6-q1"
+        },
+        {
+          "prompt": "How can tone change without changing the basic policy position?",
+          "hint": "Separate attitude and claim.",
+          "answer": "The writer can replace dismissive language with respectful acknowledgement while continuing to support the same proposal.",
+          "checkpoints": [
+            "Identify tonal choice",
+            "Preserve position"
+          ],
+          "id": "english-language-and-composition-unit-6-q2"
+        }
+      ],
+      "id": "english-language-and-composition-unit-6",
+      "frameworkUnit": "Unit 6"
+    },
+    {
+      "title": "Counterarguments and qualified claims",
+      "focus": "Test the argument against its strongest reasonable challenge.",
+      "explanation": [
+        "A useful counterargument represents a plausible objection accurately. Concession accepts a valid part; rebuttal explains why the main claim still holds under relevant conditions. Refuting an exaggerated version of an opponent’s view creates a straw person rather than a serious test.",
+        "Sentence structure can express complexity. A subordinate clause may acknowledge a limit while a main clause states the principal judgement. Ensure the grammar reflects the actual priority of ideas instead of hiding a major unresolved problem."
+      ],
+      "workedExample": {
+        "prompt": "Original claim: “Extend park hours.” Objection: “Lighting and staffing cost money.”",
+        "steps": [
+          "Concede that operating costs are real.",
+          "Argue for a limited trial only if projected access benefits justify the measured costs."
+        ]
+      },
+      "misconception": {
+        "claim": "Mentioning any opposing opinion counts as addressing a counterargument.",
+        "correction": "The response must explain how the objection affects the reasoning."
+      },
+      "questions": [
+        {
+          "prompt": "Why is “Opponents hate public space” a weak response?",
+          "hint": "Check representation.",
+          "answer": "It attacks an invented motive rather than addressing their actual concern, such as safety or expense.",
+          "checkpoints": [
+            "Identify distortion",
+            "Return to the real objection"
+          ],
+          "id": "english-language-and-composition-unit-7-q1"
+        },
+        {
+          "prompt": "Complete a qualified claim about later school starts.",
+          "hint": "Balance evidence and feasibility.",
+          "answer": "Later starts may support sleep opportunities, but transport and family schedules must be considered in implementation.",
+          "checkpoints": [
+            "State a defensible benefit",
+            "Acknowledge implementation limits"
+          ],
+          "id": "english-language-and-composition-unit-7-q2"
+        }
+      ],
+      "id": "english-language-and-composition-unit-7",
+      "frameworkUnit": "Unit 7"
+    },
+    {
+      "title": "Style and audience relationships",
+      "focus": "Explain how word and sentence choices shape credibility.",
+      "explanation": [
+        "Style includes diction, syntax, imagery and rhythm. Analyse a choice in context: short sentences can convey urgency, but they can also suggest simplicity, certainty or restraint. Its function depends on the surrounding argument and audience.",
+        "An analogy can make an unfamiliar idea accessible, but it also selects which similarities matter. Evaluate both its explanatory value and its limits. Avoid treating a vivid comparison as independent proof of a policy claim."
+      ],
+      "workedExample": {
+        "prompt": "Original line: “A public timetable is a promise, not a decoration.” Explain its effect.",
+        "steps": [
+          "The contrast recasts scheduling as an obligation to passengers.",
+          "Its concise structure emphasises accountability, though service evidence is still needed to support a criticism."
+        ]
+      },
+      "misconception": {
+        "claim": "Naming a rhetorical device is sufficient analysis.",
+        "correction": "Explain what the specific choice does for this argument and audience."
+      },
+      "questions": [
+        {
+          "prompt": "Why might technical jargon reduce credibility with a general audience?",
+          "hint": "Consider comprehension and trust.",
+          "answer": "Unexplained terms can obscure the reasoning and make readers feel excluded, even when the information is accurate.",
+          "checkpoints": [
+            "Identify audience knowledge",
+            "Explain effect"
+          ],
+          "id": "english-language-and-composition-unit-8-q1"
+        },
+        {
+          "prompt": "How should a writer test an analogy between a city budget and a household budget?",
+          "hint": "Look for relevant differences.",
+          "answer": "Identify limits such as borrowing powers and public responsibilities before treating household constraints as equivalent.",
+          "checkpoints": [
+            "Name a difference",
+            "Limit the analogy"
+          ],
+          "id": "english-language-and-composition-unit-8-q2"
+        }
+      ],
+      "id": "english-language-and-composition-unit-8",
+      "frameworkUnit": "Unit 8"
+    },
+    {
+      "title": "Synthesis and a nuanced final argument",
+      "focus": "Reconcile evidence while keeping a clear judgement.",
+      "explanation": [
+        "A complex argument recognises genuine tensions without becoming indecisive. Establish the conditions under which a claim holds and explain why one consideration deserves more weight. The conclusion should follow from the evidence rather than from an assumed compromise.",
+        "When synthesising, organise by reasons or questions rather than one paragraph per source. Concede valid evidence, rebut unsupported inferences and preserve uncertainty where sources cannot settle an issue. Distinguish your reasoning from the statements you attribute."
+      ],
+      "workedExample": {
+        "prompt": "One source shows pedestrian safety gains; another reports delivery difficulties after a street closure.",
+        "steps": [
+          "Treat both as evidence about different outcomes.",
+          "Develop a conditional proposal, such as restricted delivery windows, and explain what further evaluation it needs."
+        ]
+      },
+      "misconception": {
+        "claim": "A nuanced argument must give every position equal weight.",
+        "correction": "Weight should reflect evidence quality, relevance and the stakes of the decision."
+      },
+      "questions": [
+        {
+          "prompt": "What distinguishes synthesis from a sequence of summaries?",
+          "hint": "Look for relationships and your claim.",
+          "answer": "Synthesis uses sources together to support or qualify a line of reasoning, explaining their agreements and tensions.",
+          "checkpoints": [
+            "Connect sources",
+            "Maintain an organising claim"
+          ],
+          "id": "english-language-and-composition-unit-9-q1"
+        },
+        {
+          "prompt": "How should a conclusion handle unresolved cost evidence?",
+          "hint": "Match certainty to support.",
+          "answer": "State the limitation and identify the evidence needed before a firm cost judgement, while retaining supported conclusions.",
+          "checkpoints": [
+            "Acknowledge uncertainty",
+            "Preserve supported claims"
+          ],
+          "id": "english-language-and-composition-unit-9-q2"
+        }
+      ],
+      "id": "english-language-and-composition-unit-9",
+      "frameworkUnit": "Unit 9"
+    }
+  ]
+}

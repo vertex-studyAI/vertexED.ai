@@ -65,7 +65,7 @@ const StudyZonePage: React.FC = () => {
       {
         key: "timer",
         title: "Timer Suite",
-        description: "Countdown, stopwatch, or Pomodoro - set the length to match your planner block and log when you finish.",
+        description: "Link a planner task, keep session notes, and resume your countdown, stopwatch or Pomodoro on this device.",
         accent: "hsl(var(--primary))",
         badge: "Focus",
         span: "wide",
@@ -169,7 +169,7 @@ const StudyZonePage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen max-w-7xl mx-auto px-4 md:px-6 py-10 md:py-12 pb-24 flex flex-col gap-8 md:gap-10">
+    <div className="study-zone-page min-h-screen max-w-7xl mx-auto px-4 md:px-6 py-10 md:py-12 pb-24 flex flex-col gap-8 md:gap-10">
       <Helmet>
         <title>Study Zone - VertexED</title>
         <meta name="description" content="Focus tools for one study session: a timer, calculator, graphing, notes, and a short reset between blocks." />

@@ -10,7 +10,7 @@ type ArticleProps = {
 export default function Article({ title, subtitle, kicker, children }: ArticleProps) {
   return (
     <section className="relative py-10 md:py-14">
-      <div className="max-w-3xl mx-auto px-4 md:px-6">
+      <div className="max-w-3xl mx-4 md:mx-auto rounded-xl border border-border bg-card px-5 py-6 md:p-8">
         <header className="mb-8 md:mb-10">
           {kicker && (
             <div className="inline-block text-xs tracking-wide uppercase text-muted-foreground bg-foreground/[0.05] border border-border/60 px-3 py-1 rounded-full mb-3">
@@ -27,7 +27,7 @@ export default function Article({ title, subtitle, kicker, children }: ArticlePr
           )}
         </header>
 
-        <article className="article-body prose prose-themed max-w-none prose-headings:scroll-mt-24 prose-p:text-foreground/85 prose-li:text-foreground/80 prose-strong:text-foreground prose-blockquote:text-foreground/90 prose-code:text-foreground prose-pre:bg-muted prose-pre:text-foreground prose-a:text-primary hover:prose-a:text-primary/80 prose-a:no-underline hover:prose-a:underline prose-img:rounded-xl prose-hr:border-border prose-h1:text-4xl md:prose-h1:text-5xl prose-h2:text-2xl md:prose-h2:text-3xl prose-h3:text-xl md:prose-h3:text-2xl">
+        <article className="article-body prose prose-themed dark:prose-invert max-w-none prose-headings:text-foreground prose-headings:scroll-mt-24 prose-p:text-foreground/85 prose-li:text-foreground/80 prose-strong:text-foreground prose-blockquote:text-foreground/90 prose-code:text-foreground prose-pre:bg-muted prose-pre:text-foreground prose-a:text-primary hover:prose-a:text-primary/80 prose-a:no-underline hover:prose-a:underline prose-img:rounded-xl prose-hr:border-border prose-h1:text-4xl md:prose-h1:text-5xl prose-h2:text-2xl md:prose-h2:text-3xl prose-h3:text-xl md:prose-h3:text-2xl">
           {children}
         </article>
       </div>

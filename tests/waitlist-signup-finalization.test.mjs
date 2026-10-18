@@ -154,8 +154,8 @@ function fakeTeamInviteSupabase({ existingId = null, lookupError = null, writeEr
           select(fields) {
             calls.push(['lookup-select', fields]);
             return {
-              ilike(field, value) {
-                calls.push(['ilike', field, value]);
+              filter(field, operator, value) {
+                calls.push(['filter', field, operator, value]);
                 return {
                   async maybeSingle() {
                     calls.push(['lookup-maybeSingle']);
@@ -205,7 +205,7 @@ test('team invitation removes the incomplete Auth identity when access persisten
 });
 
 test('missing waitlist membership is never treated as approved authorization', () => {
-  const statusSource = fs.readFileSync('api/_handlers/waitlist-status.js', 'utf8');
+  const statusSource = fs.readFileSync('api/_lib/vertexAccess.js', 'utf8');
   assert.match(statusSource, /entry\?\.status \?\? 'unregistered'/);
   assert.doesNotMatch(statusSource, /entry\?\.status \?\? 'approved'/);
 });

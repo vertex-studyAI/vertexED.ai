@@ -39,9 +39,9 @@ export function getCommandTermsForBoard(board: ExamBoard | null): Array<{ term: 
       .map(([term, definition]) => ({ term, definition }));
   }
   const terms = BOARD_CONFIGS[board].commandTerms ?? [];
-  return terms.map((term) => ({
+  return terms.filter((term) => Boolean(COMMAND_TERM_DEFINITIONS[term])).map((term) => ({
     term,
-    definition: COMMAND_TERM_DEFINITIONS[term] ?? `Board-specific command term used in ${BOARD_CONFIGS[board].label} exams.`,
+    definition: COMMAND_TERM_DEFINITIONS[term],
   }));
 }
 

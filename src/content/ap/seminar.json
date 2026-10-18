@@ -1,0 +1,226 @@
+{
+  "slug": "seminar",
+  "title": "AP Seminar",
+  "category": "Capstone",
+  "summary": "Evaluate arguments, connect perspectives and build a supported written or spoken case.",
+  "officialUrl": "https://apstudents.collegeboard.org/courses/ap-seminar",
+  "frameworkNote": "Checked against the official course page on 15 October 2026 for 2026-27. This is an original five-part skill sequence across inquiry, analysis, perspectives, synthesis and communication, not prescribed units. Practice scenarios do not replace required source materials, student-authored assessments or the course’s collaboration and process requirements.",
+  "assessment": "mixed",
+  "modules": [
+    {
+      "title": "Turn a topic into a researchable issue",
+      "focus": "Ask a question that permits evidence and competing views.",
+      "explanation": [
+        "A useful inquiry question makes its scope clear and allows more than one defensible response. “School meals” is a topic. “How should one school balance cost, access and food waste in its lunch service?” identifies a decision and criteria that can be investigated.",
+        "Search terms should include alternative descriptions and opposing positions, not only your preferred answer. Record who created each source, its purpose and the evidence it supplies. Credibility is relevant to a particular claim: expertise in nutrition does not automatically establish expertise in school budgeting."
+      ],
+      "workedExample": {
+        "prompt": "Improve “Why should all schools ban packaging?”",
+        "steps": [
+          "Remove the assumed answer and define a setting.",
+          "Ask “Which packaging changes could reduce waste at this school while preserving food safety and access?”"
+        ]
+      },
+      "misconception": {
+        "claim": "A research question is strongest when it already contains the conclusion.",
+        "correction": "An open question makes room for evaluation rather than confirmation alone."
+      },
+      "questions": [
+        {
+          "prompt": "Why search for evidence against a preferred policy?",
+          "hint": "Consider the quality of the eventual decision.",
+          "answer": "It reveals trade-offs, implementation barriers and alternative explanations that a one-sided search may miss.",
+          "checkpoints": [
+            "Includes competing evidence",
+            "Connects it to evaluation"
+          ],
+          "id": "seminar-1-q1"
+        },
+        {
+          "prompt": "What makes expertise claim-specific?",
+          "hint": "Match credentials to the question.",
+          "answer": "A source’s experience must be relevant to the particular topic and method supporting the claim.",
+          "checkpoints": [
+            "Links expertise to claim",
+            "Avoids general authority"
+          ],
+          "id": "seminar-1-q2"
+        }
+      ],
+      "frameworkUnit": "Seminar skill 1",
+      "id": "seminar-1"
+    },
+    {
+      "title": "Map a line of reasoning",
+      "focus": "Separate claims, evidence and the link between them.",
+      "explanation": [
+        "An argument advances a claim using evidence and reasoning. The warrant is the connection explaining why that evidence supports the claim. A statistic can be accurate while the inference drawn from it is weak, so evaluate the logical bridge as well as the source.",
+        "A summary reports what an author says; analysis explains how the argument works and where it succeeds or fails. Trace intermediate claims rather than jumping from one quotation to the conclusion. Watch for an untested shift from correlation to cause or from one example to a universal rule."
+      ],
+      "workedExample": {
+        "prompt": "Analyse “Students who use the library score higher, so requiring library visits will raise everyone’s scores.”",
+        "steps": [
+          "Identify the evidence as an association between use and scores.",
+          "Identify the unsupported leap to causation and universal benefit; prior motivation or access could influence both variables."
+        ]
+      },
+      "misconception": {
+        "claim": "More statistics automatically produce stronger reasoning.",
+        "correction": "Evidence must be relevant and connected to the conclusion through defensible inference."
+      },
+      "questions": [
+        {
+          "prompt": "What is the difference between evidence and a warrant?",
+          "hint": "Think of support and connection.",
+          "answer": "Evidence supplies information; a warrant explains why that information supports the claim.",
+          "checkpoints": [
+            "Defines both",
+            "Explains their relationship"
+          ],
+          "id": "seminar-2-q1"
+        },
+        {
+          "prompt": "How could the library claim be narrowed?",
+          "hint": "Stay within the observed association.",
+          "answer": "In the studied group, library use was associated with higher scores; the data alone do not show that visits caused the difference.",
+          "checkpoints": [
+            "Preserves the finding",
+            "Removes causal overreach"
+          ],
+          "id": "seminar-2-q2"
+        }
+      ],
+      "frameworkUnit": "Seminar skill 2",
+      "id": "seminar-2"
+    },
+    {
+      "title": "Compare perspectives through shared criteria",
+      "focus": "Explain disagreement rather than listing opinions.",
+      "explanation": [
+        "Perspectives differ because people may have different goals, assumptions, evidence or experiences. A stakeholder label is not itself an argument. Identify what a particular source claims and why, then compare it with another view using a shared issue or criterion.",
+        "Avoid false balance: two views do not deserve equal evidential weight merely because both exist. Evaluate the quality and relevance of their support. A strong comparison can recognise a legitimate concern while explaining why another conclusion is better supported for the stated purpose."
+      ],
+      "workedExample": {
+        "prompt": "Compare two fictional views on later school starts.",
+        "steps": [
+          "One source prioritises reported sleep needs; another highlights transport and after-school scheduling.",
+          "Compare benefits, feasibility and affected groups, then seek evidence for each concern rather than treating disagreement as simple selfishness."
+        ]
+      },
+      "misconception": {
+        "claim": "Comparing perspectives means giving every claim equal credibility.",
+        "correction": "Fair representation still permits different judgements about evidence quality."
+      },
+      "questions": [
+        {
+          "prompt": "What is missing from “Parents disagree with students”?",
+          "hint": "Move beyond group labels.",
+          "answer": "The actual claims, reasons, evidence and diversity within each group are missing.",
+          "checkpoints": [
+            "Requires arguments",
+            "Recognises within-group variation"
+          ],
+          "id": "seminar-3-q1"
+        },
+        {
+          "prompt": "Name a shared criterion for comparing start-time proposals.",
+          "hint": "Use a measure applicable to both.",
+          "answer": "Impact on student access to transport, assessed for each proposal using the same constraints.",
+          "checkpoints": [
+            "Uses a common criterion",
+            "Links it to evidence"
+          ],
+          "id": "seminar-3-q2"
+        }
+      ],
+      "frameworkUnit": "Seminar skill 3",
+      "id": "seminar-3"
+    },
+    {
+      "title": "Synthesize a qualified argument",
+      "focus": "Make sources interact to support your own reasoning.",
+      "explanation": [
+        "Synthesis combines sources around an analytical claim rather than presenting one summary after another. One source may establish a problem, another test a solution and a third reveal a limitation. Explain those relationships in your own reasoning while retaining clear attribution.",
+        "A counterargument should address a serious challenge, not a deliberately weak version of the opposing view. You may qualify the proposal, limit its scope or explain why the challenge does not outweigh the evidence. The conclusion should follow from the argument you actually developed."
+      ],
+      "workedExample": {
+        "prompt": "Build a recommendation from a waste audit and an access interview.",
+        "steps": [
+          "Use the audit to identify a particular waste source.",
+          "Use the interview to check whether the proposed remedy excludes some learners, then revise the recommendation to include an accessible alternative."
+        ]
+      },
+      "misconception": {
+        "claim": "Synthesis means placing several citations at the end of a paragraph.",
+        "correction": "The paragraph must explain how the sources relate and what conclusion follows."
+      },
+      "questions": [
+        {
+          "prompt": "How can a source limit another source’s conclusion?",
+          "hint": "Consider differences in population or conditions.",
+          "answer": "It may show that a benefit found in one setting depends on resources absent in another.",
+          "checkpoints": [
+            "Identifies a condition",
+            "Explains the relationship"
+          ],
+          "id": "seminar-4-q1"
+        },
+        {
+          "prompt": "What distinguishes qualification from contradiction?",
+          "hint": "A claim can become narrower.",
+          "answer": "Qualification limits when or where a claim applies without necessarily rejecting it altogether.",
+          "checkpoints": [
+            "Explains scope",
+            "Keeps the logical distinction"
+          ],
+          "id": "seminar-4-q2"
+        }
+      ],
+      "frameworkUnit": "Seminar skill 4",
+      "id": "seminar-4"
+    },
+    {
+      "title": "Communicate and collaborate accountably",
+      "focus": "Make the evidence understandable and contributions traceable.",
+      "explanation": [
+        "A presentation should organise the audience’s attention around the question, reasoning and conclusion. Use a chart only when it clarifies a relationship, and label its source and units. Reading a dense slide aloud usually obscures the argument rather than explaining it.",
+        "In group work, agree on roles and deadlines while sharing the reasoning across sections. Keep a record of contributions and revisions so each person can explain how the final argument developed. In an oral response, answer the question directly, use evidence and acknowledge a limit when it matters."
+      ],
+      "workedExample": {
+        "prompt": "A group presentation has four disconnected source summaries. Revise its structure.",
+        "steps": [
+          "Choose one shared question and organise sections around the main claims.",
+          "Add explicit transitions explaining how each section supports or qualifies the group’s conclusion, then rehearse questions across roles."
+        ]
+      },
+      "misconception": {
+        "claim": "Dividing slides guarantees meaningful collaboration.",
+        "correction": "Collaboration also requires shared decisions, integration and reflection on the argument."
+      },
+      "questions": [
+        {
+          "prompt": "What should a chart caption include?",
+          "hint": "Make the evidence interpretable.",
+          "answer": "The measure, units, population or timeframe where relevant, and a traceable source.",
+          "checkpoints": [
+            "Includes context",
+            "Includes attribution"
+          ],
+          "id": "seminar-5-q1"
+        },
+        {
+          "prompt": "How should a speaker handle a question outside the evidence?",
+          "hint": "Avoid inventing certainty.",
+          "answer": "State the relevant finding, explain the limit and identify what additional evidence would be needed.",
+          "checkpoints": [
+            "Answers honestly",
+            "Names a next evidential step"
+          ],
+          "id": "seminar-5-q2"
+        }
+      ],
+      "frameworkUnit": "Seminar skill 5",
+      "id": "seminar-5"
+    }
+  ]
+}

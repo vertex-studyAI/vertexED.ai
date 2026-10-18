@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto';
-import { fetchWithTimeout } from './fetchWithTimeout.js';
+import { fetchPaidProviderResponse } from './aiUsage.js';
 
 const DEFAULT_OPENAI_BASE_URL = 'https://api.openai.com/v1';
 const DEFAULT_NVIDIA_BASE_URL = 'https://integrate.api.nvidia.com/v1';
@@ -54,12 +54,46 @@ export function resolveChatProvider(env = process.env) {
   throw new Error(`Unsupported CHATBOT_PROVIDER: ${provider}`);
 }
 
-export function extractChatAnswer(data) {
-  const content = data?.choices?.[0]?.message?.content;
-  if (typeof content === 'string' && content.trim()) return content.trim();
+// An HTTP 200 can still contain a cut-off response, a refusal, or a tool call.
+// Never treat those as a completed study artifact.
+export function chatOutputIssue(data) {
+  if (data?.error || (data?.status && data.status !== 'completed')) return 'incomplete';
+  const choice = data?.choices?.[0];
+  if (choice?.finish_reason && !['stop', 'content_filter'].includes(choice.finish_reason)) return 'incomplete';
+  if (choice?.finish_reason === 'content_filter' || choice?.message?.refusal
+    || data?.output?.some?.(item => item?.content?.some?.(part => part?.type === 'refusal'))) return 'refused';
+  if (data?.output?.some?.(item => item?.status && item.status !== 'completed')) return 'incomplete';
+  return null;
+}
 
+export function extractGeneratedText(data) {
+  return chatOutputIssue(data) ? null : extractChatAnswer(data);
+}
+
+export function extractGoogleGeneratedText(data) {
+  const candidate = data?.candidates?.[0];
+  if (data?.error || data?.promptFeedback?.blockReason || candidate?.finishReason !== 'STOP') return null;
+  const parts = candidate?.content?.parts;
+  if (!Array.isArray(parts)) return null;
+  const text = parts.filter(part => !part?.thought && typeof part?.text === 'string')
+    .map(part => part.text).join('').trim();
+  return text || null;
+}
+
+export function extractChatAnswer(data) {
+  if (chatOutputIssue(data) === 'incomplete') return null;
   const refusal = data?.choices?.[0]?.message?.refusal;
   if (typeof refusal === 'string' && refusal.trim()) return refusal.trim();
+  if (chatOutputIssue(data) === 'refused') {
+    const refusals = Array.isArray(data?.output) ? data.output
+      .flatMap(item => Array.isArray(item?.content) ? item.content : [])
+      .filter(part => part?.type === 'refusal' && typeof part.refusal === 'string')
+      .map(part => part.refusal.trim()).filter(Boolean) : [];
+    return refusals.join('\n') || null;
+  }
+
+  const content = data?.choices?.[0]?.message?.content;
+  if (typeof content === 'string' && content.trim()) return content.trim();
 
   const text = data?.choices?.[0]?.text;
   if (typeof text === 'string' && text.trim()) return text.trim();
@@ -162,7 +196,7 @@ export async function callChatProvider({
       }
     : { model, messages, temperature, max_tokens: maxTokens };
 
-  const executeFetch = fetchImpl || ((url, options) => fetchWithTimeout(url, options, timeoutMs));
+  const executeFetch = (url, options) => fetchPaidProviderResponse({ capability, provider: config.name, model, url, options, timeoutMs, fetchImpl });
   const response = await executeFetch(`${config.baseUrl}/${isOpenAi ? 'responses' : 'chat/completions'}`, {
     method: 'POST',
     headers: isOpenAi ? createOpenAiHeaders(config) : {

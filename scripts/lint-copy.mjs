@@ -49,7 +49,7 @@ export function lintSource(source, filename = 'copy.tsx') {
 function filesIn(directory) {
   return fs.readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
     const name = path.join(directory, entry.name);
-    return entry.isDirectory() ? filesIn(name) : /\.(?:tsx?|m?js|jsx)$/.test(name) ? [name] : [];
+    return entry.isDirectory() ? filesIn(name) : /\.(?:tsx?|m?js|jsx|json)$/.test(name) ? [name] : [];
   });
 }
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

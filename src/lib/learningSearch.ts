@@ -2,7 +2,16 @@ import { CONCEPT_GRAPH, LEARNING_QUESTIONS } from './learningModel.mjs';
 import { notebookStorageKeys } from './notebookStorageScope.mjs';
 import { userContentStorageKeys, normalizeUserContentStorageScope } from './userContentStorageScope.mjs';
 import type { GlobalSearchEntry } from './globalSearchIndex';
-export function learningSearchEntries(scope: string, local: Storage, session: Storage): GlobalSearchEntry[] {
+import { notebookSearchEntries } from './savedWorkText.mjs';
+import { conversationSearchEntries } from '../../contracts/apexConversation.js';
+
+export type PersonalSearchIndex = {
+  entries: GlobalSearchEntry[];
+  notebooks: { entries: GlobalSearchEntry[]; dirty: boolean } | null;
+  conversations: { entries: GlobalSearchEntry[]; dirty: boolean } | null;
+};
+
+export function readPersonalSearchIndex(scope: string, local: Storage, session: Storage): PersonalSearchIndex {
   const parse = (storage: Storage, key: string) => { try { const value = JSON.parse(storage.getItem(key) || '[]'); return Array.isArray(value) ? value : []; } catch { return []; } };
   const entries: GlobalSearchEntry[] = [
     { title: 'Start a 5-minute session', description: 'A short attempt with time for feedback.', to: '/learn?minutes=5', area: 'Study tool', keywords: 'quick time practice', account: true },
@@ -13,12 +22,18 @@ export function learningSearchEntries(scope: string, local: Storage, session: St
     ...LEARNING_QUESTIONS.map(q => ({ title: `${q.subject}: ${q.topic} question`, description: q.prompt, to: `/learn?question=${q.id}&subject=${encodeURIComponent(q.subject)}`, area: 'Study tool' as const, keywords: `${q.concepts.join(' ')} ${q.difficulty}`, account: true })),
   ];
   const keys = userContentStorageKeys(scope);
-  for (const notebook of parse(local, notebookStorageKeys(scope).notebooks).slice(0, 100)) {
-    if (typeof notebook?.id !== 'string' || typeof notebook.title !== 'string') continue;
-    const content = [...(Array.isArray(notebook.sources) ? notebook.sources : []), ...(Array.isArray(notebook.outputs) ? notebook.outputs : [])]
-      .map(row => typeof row?.content === 'string' ? row.content.slice(0,8000) : '').join(' ').slice(0,24000);
-    entries.push({ title: notebook.title, description: `Notebook · ${notebook.subject || 'Your sources'}`, to: `/study-notebook?notebook=${encodeURIComponent(notebook.id)}`, area: 'Saved work', account: true, keywords: content });
-  }
+  let notebooks: PersonalSearchIndex['notebooks'] = null;
+  const notebookKeys = notebookStorageKeys(scope);
+  try {
+    const raw = local.getItem(notebookKeys.notebooks);
+    const values = raw === null ? null : JSON.parse(raw);
+    if (Array.isArray(values)) {
+      const metadata = JSON.parse(local.getItem(`${notebookKeys.updatedAt}:sync`) || '{}');
+      const updatedAt = local.getItem(notebookKeys.updatedAt);
+      notebooks = { entries: notebookSearchEntries(values) as GlobalSearchEntry[],
+        dirty: metadata?.pending === true || !metadata?.syncedLocalTime || updatedAt !== metadata.syncedLocalTime };
+    }
+  } catch { /* Unreadable device material must not replace verified cloud results. */ }
   for (const card of parse(local, keys.srDeck).slice(0,300)) {
     if (typeof card?.front !== 'string' || typeof card.back !== 'string') continue;
     entries.push({ title: card.front.slice(0,160), description: 'Saved flashcard · open your review deck', to: '/notetaker?mode=study', area: 'Saved work', keywords: card.back.slice(0,2000), account: true });
@@ -27,9 +42,26 @@ export function learningSearchEntries(scope: string, local: Storage, session: St
     if (typeof note?.title !== 'string' || typeof note.content !== 'string') continue;
     entries.push({ title: note.title, description: 'Study Zone note', to: '/study-zone', area: 'Saved work', keywords: note.content.slice(0,8000), account: true });
   }
-  for (const message of parse(session, `vertex_apex:${normalizeUserContentStorageScope(scope)}:apex-main`).slice(-40)) {
+  let conversations: PersonalSearchIndex['conversations'] = null;
+  try {
+    const raw = local.getItem(`vertex_apex:${normalizeUserContentStorageScope(scope)}:history-v1`);
+    if (raw !== null) {
+      const envelope = JSON.parse(raw);
+      if (typeof envelope?.dirty === 'boolean') conversations = {
+        entries: conversationSearchEntries(envelope.snapshot) as GlobalSearchEntry[], dirty: envelope.dirty,
+      };
+    }
+  } catch { /* Preserve corrupt bytes; search must not attempt recovery writes. */ }
+  const legacy: GlobalSearchEntry[] = [];
+  if (!conversations) for (const message of parse(session, `vertex_apex:${normalizeUserContentStorageScope(scope)}:apex-main`).slice(-40)) {
     if (typeof message?.text !== 'string') continue;
-    entries.push({ title: message.text.slice(0,100), description: 'Apex conversation in this browser session', to: '/chatbot', area: 'Saved work', keywords: message.text.slice(0,8000), account: true });
+    legacy.push({ title: message.text.slice(0,100), description: 'Apex conversation in this browser session', to: '/chatbot', area: 'Saved work', keywords: message.text, account: true });
   }
-  return entries;
+  if (!conversations && legacy.length) conversations = { entries: legacy, dirty: false };
+  return { entries, notebooks, conversations };
+}
+
+export function learningSearchEntries(scope: string, local: Storage, session: Storage): GlobalSearchEntry[] {
+  const index = readPersonalSearchIndex(scope, local, session);
+  return [...index.entries, ...index.notebooks?.entries ?? [], ...index.conversations?.entries ?? []];
 }

@@ -1,112 +1,49 @@
-import SEO from "@/components/SEO";
-import BreadcrumbsJsonLd from "@/components/BreadcrumbsJsonLd";
-import Article from "@/components/Article";
-import { Link } from "react-router";
+import Article from '@/components/Article';
+import SEO from '@/components/SEO';
+import BreadcrumbsJsonLd from '@/components/BreadcrumbsJsonLd';
+import { Link } from 'react-router';
 
-export default function AIAnswerReviewerArticle() {
-  const canonical = "https://www.vertexed.app/resources/ai-answer-reviewer";
+export default function AIAnswerReviewer() {
   return (
     <>
-      <SEO
-        title="AI Answer Reviewer - rubric-style feedback | VertexED"
-        description="Paste or photograph an answer and get mark-scheme feedback - missing definitions, weak links, and command-term gaps named, not just a generic score."
-        canonical={canonical}
-        ogType="article"
-        jsonLd={{
-          "@context": "https://schema.org",
-          "@type": "TechArticle",
-          headline: "AI Answer Reviewer - How It Helps",
-          datePublished: "2025-10-11",
-          dateModified: "2025-10-11",
-          author: { "@type": "Organization", name: "VertexED" },
-          publisher: { "@type": "Organization", name: "VertexED", url: "https://www.vertexed.app" },
-          mainEntityOfPage: canonical,
-          about: [
-            { "@type": "Thing", name: "Rubrics" },
-            { "@type": "Thing", name: "Formative feedback" }
-          ]
-        }}
-      />
-  <BreadcrumbsJsonLd />
-      <Article title="AI Answer Reviewer" subtitle="Rubric-style feedback on typed or photographed answers - what examiners look for, named clearly." kicker="Guides">
-        <p className="lead">
-          Paste a question and your response - typed or photographed - and Answer Reviewer maps your
-          answer to likely rubric criteria. It names missing definitions, weak causal links, and
-          command-term gaps. Feedback is guidance, not a final grade; compare against your official
-          mark scheme.
-        </p>
+      <SEO title="Using Answer Reviewer | VertexED" description="Find a reasoning gap, check the feedback and make a fresh attempt." canonical="https://www.vertexed.app/resources/ai-answer-reviewer" ogType="article" />
+      <BreadcrumbsJsonLd />
+      <Article title="Using Answer Reviewer" subtitle="Find a reasoning gap, check the feedback and make a fresh attempt." kicker="Study guide">
 
-        <h2>When to use it</h2>
-        <ul>
-          <li>Before submitting an assignment to catch easy points.</li>
-          <li>After practice papers to understand where marks are lost.</li>
-        </ul>
-
-        <h2>How it works (at a glance)</h2>
+        <p className="lead"><Link to="/answer-reviewer">Answer Reviewer</Link> gives AI-suggested feedback on a question and your response. It can suggest marks and criteria, but those suggestions are not an official grade or a prediction of your exam result.</p>
+        <h2>Give the reviewer enough context</h2>
         <ol>
-          <li>Provide question, board/grade, and your response.</li>
-          <li>Reviewer maps your answer to likely rubric criteria.</li>
-          <li>It highlights missing or weak elements and suggests improvements.</li>
-          <li>Optionally, it estimates a plausible mark band or score.</li>
+          <li>Provide the full question, including any command term, data and mark allocation.</li>
+          <li>Choose your curriculum and subject, then paste your answer or attach clear images.</li>
+          <li>Include the relevant rubric or mark-scheme guidance in the additional context when you have it.</li>
+          <li>Choose a strictness level and request a review. Strictness changes the instruction; it does not make the mark more accurate.</li>
         </ol>
-
-        <h2>Pro tips</h2>
+        <p>A curriculum selection gives context. It does not establish that the model has the current official rubric. If criteria are missing, treat the feedback as general guidance.</p>
+        <h2>Photographs need a careful check</h2>
+        <p>Keep the whole question and each line of working legible. Avoid glare and cropped symbols. The tool accepts up to five PNG, JPEG, WebP or GIF images across the question and answer, with a 4 MB limit per file. Text drafts save on this device; reattach images after refreshing.</p>
+        <p>Image reading can confuse minus signs, powers, handwriting and diagram labels. If the feedback describes work you did not write, correct the input and request another review. Do not treat unreadable material as an incorrect answer.</p>
+        <h2>Read the evidence behind a suggestion</h2>
         <ul>
-          <li>Include the board/grade so feedback matches expected rubric depth.</li>
-          <li>Ask for “next‑step prompts” you can practice immediately.</li>
+          <li><strong>Quoted wording:</strong> check that the quotation actually appears in your answer.</li>
+          <li><strong>Method:</strong> locate the first step that changes the meaning or breaks a rule.</li>
+          <li><strong>Criteria:</strong> compare each suggested requirement with the supplied mark scheme.</li>
+          <li><strong>Marks:</strong> check the allocation and total instead of accepting the number alone.</li>
         </ul>
-
-        <h2>Example (History short response)</h2>
-        <p>
-          If the command term is “Evaluate”, the Reviewer will look for criteria and a justified judgment - not just
-          description. Missing either piece leads to targeted suggestions such as “State criteria explicitly, then weigh
-          evidence before concluding.”
-        </p>
-
-        <h2>Turn feedback into progress</h2>
+        <h2>Example: improve one explanation</h2>
+        <p>This is an illustrative revision task. Suppose a response describes a trend but the question asks you to explain it. Look for a supported mechanism connecting cause to effect. Write that connection in your own words, then check whether it answers the actual question.</p>
+        <h2>Turn a review into a retry</h2>
         <ol>
-          <li>Generate a paper in <Link to="/paper-maker">Paper Maker</Link> or attempt a past paper.</li>
-          <li>Paste one answer into Answer Reviewer; note the missing elements.</li>
-          <li>Create 3 flashcards from the missing points using the <Link to="/notetaker">Notetaker</Link>.</li>
-          <li>Send a 5‑minute micro‑review to the <Link to="/planner">Planner</Link>.</li>
+          <li>Keep your original answer so you can compare attempts.</li>
+          <li>Choose one feedback point you can verify with your teacher, course material or official mark scheme.</li>
+          <li>Correct the reasoning and attempt a related question without the suggested answer visible.</li>
+          <li>Add a review block in the <Link to="/planner">Planner</Link> if you want time to return to it.</li>
         </ol>
+        <p>Use trusted marking evidence before confirming a result. AI feedback, your confidence and a scheduled retry are different things; none on its own demonstrates mastery.</p>
+        <h2>If a review is unavailable</h2>
+        <p>Keep your answer and any images. Check the error message, then try a smaller, clearer submission. A failed review should not be recorded as a zero or as completed work.</p>
+        <div className="not-prose mt-8 flex gap-3 flex-wrap"><Link to="/answer-reviewer" className="neu-button">Open Answer Reviewer</Link><Link to="/resources/ai-chatbot-tutor" className="neu-button">Use Apex for hints</Link><Link to="/planner" className="neu-button">Plan a retry</Link></div>
 
-        <h2>Best practices</h2>
-        <ul>
-          <li>Use concise answers first; iterate after feedback to avoid anchoring.</li>
-          <li>Paste only the relevant part when items are multi‑part; review each separately.</li>
-          <li>Alternate subjects to train transfer and reduce overfitting to one paper style.</li>
-        </ul>
-
-        <h2>FAQ</h2>
-        <p><strong>Can it grade handwriting?</strong> Yes, as long as it is legible. The OCR technology converts your handwriting to text before analyzing it.</p>
-        <p><strong>Is the grading harsh?</strong> You can set the "persona" of the reviewer. We recommend "Strict Examiner" mode for the most realistic preparation.</p>
-        <p><strong>Does it know the rubric?</strong> Yes, VertexED has built-in knowledge of major exam board rubrics (IB, Cambridge, College Board). You can also paste a custom rubric.</p>
-
-        <div className="not-prose mt-8 flex gap-3">
-          <Link to="/answer-reviewer" className="neu-button">Try Answer Reviewer</Link>
-          <Link to="/paper-maker" className="neu-button">Make a Paper</Link>
-          <Link to="/planner" className="neu-button">Schedule a Review Loop</Link>
-        </div>
-
-        <h2 className="mt-10">Evidence & references</h2>
-        <ul>
-          <li>Hattie, J., & Timperley, H. (2007): The Power of Feedback - feedback is one of the most powerful influences on learning and achievement.</li>
-          <li>Black, P., & Wiliam, D. (1998): Assessment and Classroom Learning - the value of formative assessment.</li>
-        </ul>
-
-        <div className="article-footer">
-          Transparency: Feedback is guidance, not a final grade. Always compare against your official rubric/mark scheme.
-          <div className="mt-1">Last updated: 2025-12-24 · Author: VertexED Team</div>
-        </div>
-
-        <hr className="article-divider" />
-        <h3>Related guides</h3>
-        <ul>
-          <li><Link to="/resources/ib-igcse-paper-maker">IB/IGCSE Paper Maker</Link></li>
-          <li><Link to="/resources/exam-strategy-time-management">Exam Strategy & Time Management</Link></li>
-          <li><Link to="/resources/notes-to-flashcards">From Notes to Flashcards</Link></li>
-        </ul>
+        <div className="article-footer">Product guidance checked against the current implementation on 11 October 2026. Examples are illustrative. Educational accuracy and current assessment rules still require source and teacher checks.</div>
       </Article>
     </>
   );

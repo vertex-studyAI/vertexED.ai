@@ -51,8 +51,8 @@ export default function AIStudyPlannerArticle() {
 
         <h2>Design principles</h2>
         <ul>
-          <li><strong>Short blocks win.</strong> 20–40 minute sessions reduce switching cost and sustain focus.</li>
-          <li><strong>Interleaving.</strong> Rotate topics (e.g., Math → Biology → Language) to strengthen recall.</li>
+          <li><strong>Start with a manageable block.</strong> Try 20–40 minutes, then adjust the duration to the task and your available time.</li>
+          <li><strong>Mix practice deliberately.</strong> Revisit related question types and explain how you choose a method.</li>
           <li><strong>Recovery.</strong> Planned breaks prevent over‑optimistic schedules that fail by day 2.</li>
         </ul>
 
@@ -79,8 +79,8 @@ export default function AIStudyPlannerArticle() {
           In VertexED:
         </p>
         <ol>
-          <li>Add “IGCSE Physics - Waves recap” due Fri; set intensity to “standard”.</li>
-          <li>Add “IB History - Essay outline (Cold War)” due Mon; intensity “deep”.</li>
+          <li>Add “Physics: waves recap” with your chosen date, start time and duration.</li>
+          <li>Add “History: essay outline” as a separate study block before your actual deadline.</li>
           <li>Check school and sport in your own calendar, then keep the evenings you can actually use.</li>
           <li>Add four sessions: two short Physics blocks, one History reading, and one outline.</li>
         </ol>
@@ -118,7 +118,7 @@ export default function AIStudyPlannerArticle() {
         <p><strong>What if I miss a day?</strong> Move the task to a realistic time or delete it. VertexED does not silently rebuild your week.</p>
         <p><strong>How does it know what I need to study?</strong> Suggestions can use your exam date, profile, due reviews, and verified weak-topic evidence. You decide whether the result makes sense.</p>
 
-        <div className="not-prose mt-8 flex gap-3">
+        <div className="not-prose mt-8 flex gap-3 flex-wrap">
           <Link to="/planner" className="neu-button">Open Planner</Link>
           <Link to="/study-zone" className="neu-button">Focus Timer</Link>
           <Link to="/notetaker" className="neu-button">Build Flashcards</Link>

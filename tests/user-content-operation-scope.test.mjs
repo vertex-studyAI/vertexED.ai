@@ -28,7 +28,7 @@ test('save refuses stale account scope before cloud writes, retries, or local fa
 
   assert.ok(tokenIndex >= 0 && firstScopeCheck > tokenIndex && requestIndex > firstScopeCheck);
   assert.match(body, /const request = \(\) => \{\s*if \(!isCurrentUserContentScope\(scope\)\) throw new Error\(ACCOUNT_CHANGED_ERROR\);/);
-  assert.match(body, /catch \(err\) \{\s*if \(!isCurrentUserContentScope\(scope\)\) return accountChangedSaveResult\(\);\s*const local = await saveLocalArtifact/);
+  assert.match(body, /catch \(err\) \{\s*if \(!isCurrentUserContentScope\(scope\)\) return accountChangedSaveResult\(\);\s*const local = recovery \|\| await saveLocalArtifact/);
 });
 
 test('update and delete validate the initiating scope after token acquisition', () => {

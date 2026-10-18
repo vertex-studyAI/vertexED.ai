@@ -33,8 +33,10 @@ export default function CurriculumSelector({
   );
 
   const subjects = useMemo(
-    () => (value.board ? getSubjectsForBoard(value.board, value.grade) : []),
-    [value.board, value.grade],
+    // Keep existing learner choices visible when a catalogue gains more precise
+    // course names. Never silently relabel a saved subject or its exam dates.
+    () => (value.board ? [...new Set([...getSubjectsForBoard(value.board, value.grade), ...value.subjects])] : []),
+    [value.board, value.grade, value.subjects],
   );
 
   const handleBoardChange = (board: ExamBoard) => {

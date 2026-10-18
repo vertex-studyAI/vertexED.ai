@@ -1,0 +1,226 @@
+{
+  "slug": "research",
+  "title": "AP Research",
+  "category": "Capstone",
+  "summary": "Design a defensible inquiry, choose an ethical method and explain what the resulting evidence can support.",
+  "officialUrl": "https://apstudents.collegeboard.org/courses/ap-research",
+  "frameworkNote": "Checked against the official course page on 15 October 2026 for 2026-27. This is an original five-part research skill sequence, not prescribed units. It supports the course’s inquiry and communication goals but does not conduct research, supply participant data or replace the student’s own paper, presentation, oral defence and teacher-supervised process.",
+  "assessment": "research",
+  "modules": [
+    {
+      "title": "Narrow a question to an answerable claim",
+      "focus": "Define a population, concept and feasible evidence.",
+      "explanation": [
+        "A topic names an area; a research question identifies an uncertainty that can be investigated. “School transport” is a topic. “How do students at one school describe barriers to using the existing bus service?” defines a population and a kind of evidence without pretending to establish a causal effect.",
+        "A literature review helps locate what is already known and where a bounded contribution might fit. An absence in a quick web search is not proof of a research gap. Record search terms, source selection and competing findings so the question grows from an accountable reading process."
+      ],
+      "workedExample": {
+        "prompt": "Revise “Does technology improve education?” into a feasible inquiry.",
+        "steps": [
+          "Specify a setting and outcome, such as how one class uses a particular feedback tool.",
+          "Choose a question that the available method can answer, such as reported experiences, and avoid promising a causal learning gain from interviews alone."
+        ]
+      },
+      "misconception": {
+        "claim": "A broad question is more academically ambitious than a narrow one.",
+        "correction": "A focused question can support deeper analysis and clearer limits."
+      },
+      "questions": [
+        {
+          "prompt": "What is missing from “Does exercise help?”",
+          "hint": "Identify undefined terms.",
+          "answer": "The population, kind of exercise, outcome and timeframe are undefined.",
+          "checkpoints": [
+            "Names at least two missing elements",
+            "Connects them to answerability"
+          ],
+          "id": "research-1-q1"
+        },
+        {
+          "prompt": "Why retain sources that disagree with your expectation?",
+          "hint": "Think about the credibility of the review.",
+          "answer": "They reveal competing explanations and prevent the inquiry from being built only on selected supportive evidence.",
+          "checkpoints": [
+            "Recognises alternative explanations",
+            "Avoids cherry-picking"
+          ],
+          "id": "research-1-q2"
+        }
+      ],
+      "frameworkUnit": "Research skill 1",
+      "id": "research-1"
+    },
+    {
+      "title": "Choose a method and protect participants",
+      "focus": "Match the question to evidence and an ethical process.",
+      "explanation": [
+        "Methods answer different questions. Interviews explore accounts and meanings; observations document behaviour in a setting; experiments test a controlled intervention when a suitable design is feasible. A method is not rigorous merely because it produces numbers or uses a familiar label.",
+        "Before collecting information from people, follow school and applicable ethics requirements, obtain the required approvals and consent, and minimise identifiable data. Participation must be voluntary. Do not collect sensitive information simply because it might be interesting. Explain recruitment, storage and withdrawal arrangements in language participants can understand."
+      ],
+      "workedExample": {
+        "prompt": "Plan a fictional interview study of bus-service barriers.",
+        "steps": [
+          "Use neutral prompts such as “Describe your last journey” rather than “Why is the service unreliable?”",
+          "Complete the required review and consent process before recruitment, then document how recordings and identifying details will be protected."
+        ]
+      },
+      "misconception": {
+        "claim": "Consent to participate permits any later use of the data.",
+        "correction": "Use must remain within the consent and approved research arrangements."
+      },
+      "questions": [
+        {
+          "prompt": "Why is “How badly did the new system fail?” a weak interview question?",
+          "hint": "Look for a built-in conclusion.",
+          "answer": "It assumes failure and pushes respondents toward a negative account.",
+          "checkpoints": [
+            "Identifies leading wording",
+            "Suggests neutral framing"
+          ],
+          "id": "research-2-q1"
+        },
+        {
+          "prompt": "Which method better addresses how participants interpret an experience?",
+          "hint": "Consider depth of explanation.",
+          "answer": "Interviews may be appropriate, provided recruitment and analysis are justified for that question.",
+          "checkpoints": [
+            "Matches method to question",
+            "Does not claim automatic superiority"
+          ],
+          "id": "research-2-q2"
+        }
+      ],
+      "frameworkUnit": "Research skill 2",
+      "id": "research-2"
+    },
+    {
+      "title": "Make analysis traceable",
+      "focus": "Separate raw observations, coding and interpretation.",
+      "explanation": [
+        "A transparent analysis leaves a path from original evidence to the reported finding. In qualitative work, define codes, record examples and explain changes to the coding scheme. In quantitative work, retain variable definitions, missing-data decisions and calculation steps.",
+        "An unusual observation is not automatically an error. Investigate it using stated criteria and retain a record of any exclusion. Do not invent missing values, participant quotations or results. A hypothetical example can demonstrate a calculation, but it must remain visibly separate from collected research data."
+      ],
+      "workedExample": {
+        "prompt": "Three hypothetical journey times are 10, 15 and 35 minutes. Describe them.",
+        "steps": [
+          "Calculate the mean as 60/3 = 20 minutes and the median as 15 minutes.",
+          "Explain that the long journey raises the mean; keep it unless a documented error or predefined exclusion rule justifies removal."
+        ]
+      },
+      "misconception": {
+        "claim": "Removing inconvenient data makes a result clearer and therefore better.",
+        "correction": "Undisclosed selective removal distorts the evidence and undermines the conclusion."
+      },
+      "questions": [
+        {
+          "prompt": "Why keep a coding decision log?",
+          "hint": "Think about how another reader follows the analysis.",
+          "answer": "It records how categories were defined and revised, making the interpretation traceable to the evidence.",
+          "checkpoints": [
+            "Names traceability",
+            "Includes revisions"
+          ],
+          "id": "research-3-q1"
+        },
+        {
+          "prompt": "For hypothetical values 4, 4 and 10, find mean and median.",
+          "hint": "Sort the values and calculate the sum.",
+          "answer": "Mean = 18/3 = 6; median = 4.",
+          "checkpoints": [
+            "Calculates both",
+            "Does not erase the larger value"
+          ],
+          "id": "research-3-q2"
+        }
+      ],
+      "frameworkUnit": "Research skill 3",
+      "id": "research-3"
+    },
+    {
+      "title": "Write a conclusion within the design",
+      "focus": "Distinguish contribution, limitation and causal overreach.",
+      "explanation": [
+        "A conclusion answers the research question at the scale supported by the method. A convenience sample from one school cannot automatically represent all students. An observed association also does not establish causation without a design and assumptions that address alternative explanations.",
+        "A limitation should explain its consequence. “Small sample” is less useful than explaining that the sample may miss infrequent experiences or restrict generalisation. A null or mixed result can still be informative when reported accurately. Do not enlarge the claim merely to make the project sound successful."
+      ],
+      "workedExample": {
+        "prompt": "A hypothetical survey finds that frequent library users report higher confidence.",
+        "steps": [
+          "State the association within the sampled group.",
+          "Discuss selection and other explanations, such as already-confident students choosing the library; do not claim that library use caused confidence."
+        ]
+      },
+      "misconception": {
+        "claim": "A project contributes only if its hypothesis is confirmed.",
+        "correction": "A carefully bounded negative or mixed finding can refine understanding and future questions."
+      },
+      "questions": [
+        {
+          "prompt": "Improve the limitation “Only one school was studied.”",
+          "hint": "Explain what follows from the scope.",
+          "answer": "The findings may reflect that school’s timetable and transport arrangements, so transfer to other schools requires caution and comparison.",
+          "checkpoints": [
+            "Names a contextual difference",
+            "Explains the inference limit"
+          ],
+          "id": "research-4-q1"
+        },
+        {
+          "prompt": "What separates implication from result?",
+          "hint": "Consider observation versus consequence.",
+          "answer": "A result reports what the analysis found; an implication explains what that finding may mean, with appropriate qualifications.",
+          "checkpoints": [
+            "Defines both",
+            "Keeps interpretation bounded"
+          ],
+          "id": "research-4-q2"
+        }
+      ],
+      "frameworkUnit": "Research skill 4",
+      "id": "research-4"
+    },
+    {
+      "title": "Defend decisions and preserve the research record",
+      "focus": "Communicate the argument and reflect on revisions.",
+      "explanation": [
+        "An oral defence asks you to explain why you made particular research decisions and what you learned from the process. Prepare a clear chain from question to method, evidence, conclusion and limitation. Memorised confidence cannot substitute for understanding the actual choices.",
+        "Use visuals that support the reasoning and label hypothetical material separately from collected evidence. Keep citations close to borrowed ideas and distinguish your contribution from prior work. A revision log can show how feedback changed the project, including decisions you retained and the reasons for retaining them."
+      ],
+      "workedExample": {
+        "prompt": "Answer “Why did you use interviews instead of a large survey?”",
+        "steps": [
+          "Connect the method to the question: detailed accounts of barriers were needed.",
+          "Acknowledge the trade-off: depth was prioritised, while prevalence and broad generalisation remain outside the design."
+        ]
+      },
+      "misconception": {
+        "claim": "Admitting a limitation weakens the defence.",
+        "correction": "Explaining a limitation accurately shows that you understand what the design can support."
+      },
+      "questions": [
+        {
+          "prompt": "What should a methods slide prioritise?",
+          "hint": "Link design choices to the question.",
+          "answer": "The evidence sought, recruitment or source selection, analysis approach and the reason these fit the question.",
+          "checkpoints": [
+            "Explains fit",
+            "Avoids a disconnected tool list"
+          ],
+          "id": "research-5-q1"
+        },
+        {
+          "prompt": "How should you answer an unexpected question you cannot resolve?",
+          "hint": "Maintain the boundary of your knowledge.",
+          "answer": "State what the evidence supports, identify what remains uncertain and explain what further work would address it.",
+          "checkpoints": [
+            "Does not fabricate",
+            "Proposes a relevant next step"
+          ],
+          "id": "research-5-q2"
+        }
+      ],
+      "frameworkUnit": "Research skill 5",
+      "id": "research-5"
+    }
+  ]
+}

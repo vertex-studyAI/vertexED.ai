@@ -69,7 +69,7 @@ async function installHarness(page: Page) {
     return json(route, {});
   });
   await page.route('**/api/**', (route) => json(route, { ok: true, items: [] }));
-  await page.route('**/api/waitlist-status', (route) => json(route, { status: 'approved' }));
+  await page.route('**/api/waitlist-status', (route) => json(route, { status: 'approved', access: true }));
   await page.route('**/api/paper-generator', (route) => json(route, {
     success: true,
     generation: {

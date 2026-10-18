@@ -22,7 +22,7 @@ export default async function handler(req, res) {
   let supabase;
   try { supabase = getSupabaseAdmin(); } catch (err) {
     console.error('Waitlist config error:', err instanceof Error ? err.name : 'UnknownError');
-    return res.status(500).json({ error: 'Waitlist is not configured on the server.' });
+    return res.status(503).json({ error: 'Waitlist is temporarily unavailable. Please try again later.' });
   }
 
   const body = req.body ?? {};

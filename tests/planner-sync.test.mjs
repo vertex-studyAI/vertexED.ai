@@ -15,6 +15,7 @@ import {
 
 const plannerSyncSource = fs.readFileSync('src/lib/plannerSync.ts', 'utf8');
 const onboardingSource = fs.readFileSync('src/pages/Onboarding.tsx', 'utf8');
+const onboardingPlannerSource = fs.readFileSync('src/lib/onboardingPlanner.ts', 'utf8');
 const apiAuthSource = fs.readFileSync('src/lib/apiAuth.ts', 'utf8');
 const authContextSource = fs.readFileSync('src/contexts/AuthContext.tsx', 'utf8');
 
@@ -70,8 +71,13 @@ test('onboarding planner save stays bound to the initiating authenticated accoun
   assert.match(onboardingSource, /const saveAccountIdRef = useRef<string \| null>\(user\?\.id \?\? null\)/);
   assert.match(
     onboardingSource,
-    /savePlannerSnapshot\([\s\S]*?createFirstStudyPlan\(curriculum\),[\s\S]*?initiatingAccountId,[\s\S]*?initiatingAccessToken,[\s\S]*?\)/,
+    /saveInitialStudyPlan\([\s\S]*?curriculum,[\s\S]*?initiatingAccountId,[\s\S]*?initiatingAccessToken,[\s\S]*?\)/,
   );
+  assert.match(onboardingPlannerSource, /loadPlannerSnapshot\(accountId\)/);
+  assert.match(onboardingPlannerSource, /savePlannerSnapshot\(snapshot, accountId, accessToken\)/);
+  assert.ok(onboardingPlannerSource.indexOf('await loadPlannerSnapshot(accountId)') < onboardingPlannerSource.indexOf('...createFirstStudyPlan(preference)'));
+  assert.match(onboardingPlannerSource, /if \(loaded\.readOnly\)/);
+  assert.match(onboardingPlannerSource, /if \(loaded\.snapshot\.tasks\.length > 0\)/);
   assert.match(onboardingSource, /const stillOwnsAuthSession = async \(\) =>/);
   assert.match(onboardingSource, /const \{ data, error: sessionError \} = await supabase\.auth\.getSession\(\)/);
   assert.match(onboardingSource, /return data\.session\?\.user\.id === initiatingAccountId;/);
@@ -80,7 +86,7 @@ test('onboarding planner save stays bound to the initiating authenticated accoun
   assert.match(onboardingSource, /if \(!isCurrentSave\(\)\) return;[\s\S]*?if \(updateError\) throw updateError;/);
   assert.match(onboardingSource, /if \(requestId === saveRequestIdRef\.current\) \{[\s\S]*?setLoading\(false\);/);
   assert.ok(
-    onboardingSource.indexOf('const planResult = await savePlannerSnapshot(')
+    onboardingSource.indexOf('const planResult = await saveInitialStudyPlan(')
       < onboardingSource.indexOf('supabase.auth.updateUser({ data: metadata })'),
     'the account-bound planner save must complete before the serialized auth mutation starts',
   );

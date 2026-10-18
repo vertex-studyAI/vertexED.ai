@@ -44,13 +44,30 @@ jobs:
         run: npm ci
 
       - name: Run canonical release gate
-        run: npm run ci
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p ci-evidence/release-candidate
+          npm run ci 2>&1 | tee ci-evidence/release-candidate/canonical-gate.log
         env:
           ROLLUP_SKIP_NODEJS_NATIVE: 'true'
 
+      - name: Bind release evidence to the tested source
+        if: always()
+        run: node scripts/build-ci-evidence-manifest.mjs --evidence-dir ci-evidence/release-candidate
+
+      - name: Upload canonical release evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: vertexed-release-candidate-${{ env.SOURCE_SHA }}-${{ github.run_attempt }}
+          path: ci-evidence/release-candidate
+          if-no-files-found: error
+          retention-days: 14
+
   browser-local-accessibility:
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    timeout-minutes: 30
     needs: build-and-test
 
     steps:
@@ -109,6 +126,9 @@ jobs:
 
       - name: Verify learner and study desk journeys across browsers
         run: npx playwright test --config=playwright.astra.config.ts --workers=1 --output=test-results/learner-matrix
+
+      - name: Verify coursework, focus and saved search across browsers
+        run: npx playwright test --config=playwright.study-workflows.config.ts --workers=1
 
       - name: Upload local accessibility evidence
         if: always()
@@ -205,8 +225,8 @@ jobs:
       - name: Verify PDF import journeys
         run: npx playwright test --config=playwright.astra.config.ts --project=chromium --grep="PDF import"
 
-      - name: Verify planner calendar downloads
-        run: npx playwright test --config=playwright.learning-loop.config.ts --project=chromium --grep="planner calendar" --output=test-results/calendar
+      - name: Verify planner calendar and date navigation
+        run: npx playwright test --config=playwright.learning-loop.config.ts --project=chromium --grep="planner (calendar|navigation)" --output=test-results/calendar
 
       - name: Verify editable source import journey
         run: npx playwright test --config=playwright.learning-loop.config.ts --project=chromium --grep="notebook imports" --output=test-results/text-import
@@ -221,6 +241,58 @@ jobs:
             test-results
             ci-evidence/conversations-20260927/browser
             ci-evidence/astra-20260927/browser-matrix
+          if-no-files-found: ignore
+          retention-days: 14
+
+  browser-release-features:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    needs: build-and-test
+    strategy:
+      fail-fast: false
+      matrix:
+        suite: [reference, ai-content, release-content, offline, ap]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          ref: ${{ env.SOURCE_SHA }}
+          persist-credentials: false
+
+      - name: Verify exact source binding
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "${SOURCE_SHA}"
+
+      - name: Setup Node.js
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '22.22.0'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Build reference bundle
+        if: matrix.suite == 'reference' || matrix.suite == 'offline' || matrix.suite == 'ap'
+        run: npm run build:ci
+
+      - name: Verify release feature journeys
+        env:
+          VERTEXED_REFERENCE_BUILT: '1'
+          SUITE: ${{ matrix.suite }}
+        run: npx playwright test --config="playwright.${SUITE}.config.ts" --workers=1
+
+      - name: Upload release feature evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: playwright-release-${{ matrix.suite }}
+          path: test-results
           if-no-files-found: ignore
           retention-days: 14
 
@@ -328,7 +400,7 @@ jobs:
   smoke-production:
     runs-on: ubuntu-24.04
     timeout-minutes: 12
-    needs: [build-and-test, database-contract, browser-local-accessibility, browser-authenticated-golden]
+    needs: [build-and-test, database-contract, browser-local-accessibility, browser-authenticated-golden, browser-release-features]
     if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
 
     steps:

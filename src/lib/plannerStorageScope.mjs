@@ -17,6 +17,7 @@ export function plannerStorageKeys(scope = activeScope) {
   const prefix = `vertex_planner:${normalized}`;
   return {
     tasks: `${prefix}:tasks`,
+    coursework: `${prefix}:coursework`,
     mode: `${prefix}:mode`,
     updatedAt: `${prefix}:updated_at`,
   };

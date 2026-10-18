@@ -12,13 +12,14 @@ import {
   normalizeGeneratedPaper,
 } from '../api/_lib/learningArtifactFallbacks.js';
 import { createMocks } from './helpers/mock-http.mjs';
+import { usageFixture, paidResponse } from './helpers/ai-usage-fixture.mjs';
 
 const noteClientSource = await readFile(new URL('../src/pages/NotetakerQuiz.tsx', import.meta.url), 'utf8');
 const paperClientSource = await readFile(new URL('../src/pages/PaperMaker.tsx', import.meta.url), 'utf8');
 
 const ENV_KEYS = [
   'SUPABASE_URL', 'SUPABASE_ANON_KEY', 'SUPABASE_SERVICE_ROLE_KEY',
-  'OPENAI_API_KEY', 'ChatbotKey', 'CHATBOT_KEY', 'NODE_ENV', 'VERCEL_ENV',
+  'OPENAI_API_KEY', 'OPENAI_MODEL', 'ChatbotKey', 'CHATBOT_KEY', 'NODE_ENV', 'VERCEL_ENV',
 ];
 
 async function withEnvironment(values, fn) {
@@ -158,7 +159,7 @@ test('paper endpoint returns a usable deterministic paper when the provider is u
       board: 'IB MYP', grade: 10, subject: 'History', topics: ['Source analysis'],
       marks: 40, numQuestions: 5, difficulty: 'medium', images: [],
     });
-    await paperHandler(req, res);
+    await usageFixture().run(() => paperHandler(req, res), { userId: '550e8400-e29b-41d4-a716-446655440000' });
     const body = getJson();
     assert.equal(getStatus(), 200);
     assert.equal(body.success, true);
@@ -169,18 +170,15 @@ test('paper endpoint returns a usable deterministic paper when the provider is u
 });
 
 test('malformed paper model output degrades without returning raw provider content', async () => {
-  await withEnvironment({ OPENAI_API_KEY: 'synthetic-provider-key' }, async () => {
-    global.fetch = async (url) => String(url).includes('auth/v1/user')
+  await withEnvironment({ OPENAI_API_KEY: 'synthetic-provider-key', OPENAI_MODEL: 'gpt-4.1-mini' }, async () => {
+    global.fetch = async (url, options) => String(url).includes('auth/v1/user')
       ? authResponse()
-      : new Response(JSON.stringify({ choices: [{ message: { content: 'PRIVATE malformed output' } }] }), {
-          status: 200,
-          headers: { 'content-type': 'application/json' },
-        });
+      : paidResponse({ model: JSON.parse(options.body).model, choices: [{ message: { content: 'PRIVATE malformed output' } }] }, false);
     const { req, res, getStatus, getJson } = authenticatedMocks({
       board: 'IGCSE', grade: 10, subject: 'Physics', topics: ['Forces'],
       marks: 40, numQuestions: 4, difficulty: 'hard', images: [],
     });
-    await paperHandler(req, res);
+    await usageFixture().run(() => paperHandler(req, res), { userId: '550e8400-e29b-41d4-a716-446655440000' });
     const serialized = JSON.stringify(getJson());
     assert.equal(getStatus(), 200);
     assert.equal(getJson().generation.failureClass, 'malformed_model_output');
@@ -189,7 +187,7 @@ test('malformed paper model output degrades without returning raw provider conte
 });
 
 test('note provider errors degrade without leaking provider response text', async () => {
-  await withEnvironment({ OPENAI_API_KEY: 'synthetic-provider-key' }, async () => {
+  await withEnvironment({ OPENAI_API_KEY: 'synthetic-provider-key', OPENAI_MODEL: 'gpt-4.1-mini' }, async () => {
     global.fetch = async (url) => String(url).includes('auth/v1/user')
       ? authResponse()
       : new Response('PRIVATE provider diagnostic', { status: 500 });

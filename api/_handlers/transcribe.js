@@ -1,3 +1,4 @@
+import { extractGeneratedText } from '../_lib/aiProviders.js';
 import { verifyAuthUser } from '../_lib/auth.js';
 import { rateLimitUserEndpoint } from '../_lib/rateLimit.js';
 import { fetchProvider } from '../_lib/providerRequest.js';
@@ -44,7 +45,7 @@ async function generateNotes(apiKey, transcript, noteFormat, noteLength) {
   });
   if (!response.ok) throw new Error(`Note enrichment returned ${response.status}.`);
   const data = await response.json();
-  const result = data?.choices?.[0]?.message?.content;
+  const result = extractGeneratedText(data);
   if (typeof result !== 'string' || !result.trim()) throw new Error('Note enrichment was empty.');
   return result.trim();
 }
@@ -68,7 +69,7 @@ async function generateFlashcards(apiKey, content, count) {
   });
   if (!response.ok) throw new Error(`Flashcard enrichment returned ${response.status}.`);
   const data = await response.json();
-  return parseFlashcards(data?.choices?.[0]?.message?.content ?? '{}', count);
+  return parseFlashcards(extractGeneratedText(data) || '{}', count);
 }
 
 export default async function handler(req, res) {

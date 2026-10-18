@@ -94,7 +94,7 @@ export function buildAdaptivePlan(input: BuildAdaptiveInput): AdaptivePlan {
       : masteryBySubject.map((m) => m.subject);
   const confidenceRatings = getConfidenceRatings(confidenceSubjects);
 
-  for (const c of confidenceRatings.filter((r) => r.rating <= 2 && r.subject)) {
+  for (const c of confidenceRatings.filter((r) => r.rating !== null && r.rating <= 2 && r.subject)) {
     const weakInSubject = weaknesses.find((w) => w.subject === c.subject);
     recs.push({
       id: `confidence-${c.subject}`,

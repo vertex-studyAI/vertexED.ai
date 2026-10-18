@@ -3,6 +3,8 @@ import test from 'node:test';
 
 import { getAccountWaitlistEntry } from '../api/_lib/waitlistAccess.js';
 
+const verifiedUser = { id: 'user-1', email: 'student@example.com', email_confirmed_at: '2026-10-16T00:00:00.000Z' };
+
 function membershipClient({ byUser = null, byEmail = null, claimed = null, concurrent = null } = {}) {
   const calls = [];
   let selectCount = 0;
@@ -40,7 +42,7 @@ function membershipClient({ byUser = null, byEmail = null, claimed = null, concu
 test('account membership resolves directly by Auth user id', async () => {
   const row = { id: 'wait-1', status: 'approved', auth_user_id: 'user-1' };
   const { client, calls } = membershipClient({ byUser: row });
-  assert.equal(await getAccountWaitlistEntry(client, { id: 'user-1', email: 'student@example.com' }), row);
+  assert.equal(await getAccountWaitlistEntry(client, verifiedUser), row);
   assert.equal(calls.filter(([name]) => name === 'select').length, 1);
 });
 
@@ -48,7 +50,7 @@ test('an unlinked normalized email row is atomically claimed by the authenticate
   const emailRow = { id: 'wait-1', status: 'approved', auth_user_id: null };
   const claimed = { ...emailRow, auth_user_id: 'user-1' };
   const { client, calls } = membershipClient({ byEmail: emailRow, claimed });
-  const result = await getAccountWaitlistEntry(client, { id: 'user-1', email: ' Student@Example.com ' });
+  const result = await getAccountWaitlistEntry(client, { ...verifiedUser, email: ' Student@Example.com ' });
 
   assert.equal(result, claimed);
   assert.ok(calls.some(([name, field, value]) => name === 'select-eq' && field === 'email' && value === 'student@example.com'));
@@ -59,7 +61,7 @@ test('an email row owned by another Auth identity is never accepted', async () =
   const { client, calls } = membershipClient({
     byEmail: { id: 'wait-1', status: 'approved', auth_user_id: 'other-user' },
   });
-  const result = await getAccountWaitlistEntry(client, { id: 'user-1', email: 'student@example.com' });
+  const result = await getAccountWaitlistEntry(client, verifiedUser);
 
   assert.equal(result, null);
   assert.equal(calls.some(([name]) => name === 'update'), false);
@@ -71,7 +73,17 @@ test('a lost claim only succeeds when the concurrent winner linked the same user
   const { client } = membershipClient({ byEmail: emailRow, claimed: null, concurrent });
 
   assert.equal(
-    await getAccountWaitlistEntry(client, { id: 'user-1', email: 'student@example.com' }),
+    await getAccountWaitlistEntry(client, verifiedUser),
     concurrent,
   );
+});
+
+test('unverified email and editable metadata cannot claim another unlinked invitation', async () => {
+  const { client, calls } = membershipClient({ byEmail: { id: 'wait-1', status: 'approved', auth_user_id: null } });
+  const result = await getAccountWaitlistEntry(client, {
+    id: 'user-1', email: 'student@example.com', user_metadata: { email_verified: true, approved: true },
+  });
+  assert.equal(result, null);
+  assert.equal(calls.filter(([name]) => name === 'select').length, 1);
+  assert.equal(calls.some(([name]) => name === 'update'), false);
 });

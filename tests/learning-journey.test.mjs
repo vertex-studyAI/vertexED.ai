@@ -1,11 +1,18 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { fitPracticeQuestions, buildMistakeNotebook, prerequisitePath, reviewBucket, practiceHint, sessionEvidenceChanges } from '../src/lib/learningJourney.mjs';
-import { LEARNING_QUESTIONS, CONCEPT_GRAPH, buildLearningPlan, buildKnowledgeModel, selectLearningQuestion } from '../src/lib/learningModel.mjs';
+import { createHash } from 'node:crypto';
+import { fitPracticeQuestions, buildMistakeNotebook as mistakeNotebook, prerequisitePath, reviewBucket, practiceHint, sessionEvidenceChanges as evidenceChanges } from '../src/lib/learningJourney.mjs';
+import { LEARNING_QUESTIONS, CONCEPT_GRAPH, buildLearningPlan as buildPlan, buildKnowledgeModel as buildModel, selectLearningQuestion } from '../src/lib/learningModel.mjs';
 import { COMPLEX_NUMBERS_PRACTICE } from '../src/content/complexNumbersPractice.mjs';
-import { parsePracticeSession, advancePracticeSession } from '../src/lib/practiceSession.mjs';
+import { parsePracticeSession, advancePracticeSession as advanceSession } from '../src/lib/practiceSession.mjs';
 const at = '2026-09-21T12:00:00Z';
-const attempt = (id, answer, patch = {}) => ({ id: 'attempt:journey-' + id, questionId: 'math-modulus-01', answer, confidence: null, hinted: false, seconds: 45, at, mode: 'diagnostic', ...patch });
+const questions = LEARNING_QUESTIONS.map(q => ({ ...q, contentRevision: `sha256:${createHash('sha256').update(JSON.stringify(q)).digest('hex')}` }));
+const buildLearningPlan = options => buildPlan({ ...options, questions });
+const buildKnowledgeModel = values => buildModel(values, Date.now(), questions);
+const buildMistakeNotebook = values => mistakeNotebook(values, [], questions);
+const sessionEvidenceChanges = (session, values) => evidenceChanges(session, values, questions);
+const advancePracticeSession = (session, values) => advanceSession(session, values, { questions });
+const attempt = (id, answer, patch = {}) => ({ id: 'attempt:journey-' + id, questionId: 'math-modulus-01', answer, confidence: null, hinted: false, seconds: 45, at, mode: 'diagnostic', ...patch, contentRevision: questions.find(q => q.id === (patch.questionId || 'math-modulus-01')).contentRevision });
 
 test('all quick budgets yield a bounded original diagnostic, without invented history', () => {
   for (const minutes of [5, 15, 30, 60]) {
@@ -56,6 +63,63 @@ test('new coverage can support evidence across questions and days without counti
   assert.notEqual(buildKnowledgeModel(attempts.map(a => ({ ...a, hinted: true }))).find(n => n.label === 'modulus').status, 'mastered');
 });
 
+test('mastery counts UTC days consistently across timestamp offsets without rewriting history', () => {
+  const attempts = [
+    attempt('utcday001', '5', { at: '2026-09-21T23:00:00-02:00' }),
+    attempt('utcday002', '13', { questionId: 'math-modulus-02', at: '2026-09-22T01:30:00Z' }),
+    attempt('utcday003', '5', { at: '2026-09-22T03:00:00+01:00' }),
+  ];
+  const original = JSON.stringify(attempts);
+  const node = buildKnowledgeModel(attempts).find(n => n.label === 'modulus');
+  const canonical = buildKnowledgeModel(attempts.map(a => ({ ...a, at: new Date(a.at).toISOString() }))).find(n => n.label === 'modulus');
+  assert.equal(node.independentCorrect, 3);
+  assert.equal(node.distinctQuestions, 2);
+  assert.equal(node.status, 'developing', 'three successes on one UTC day do not establish multi-day mastery');
+  assert.deepEqual({ ...node, lastAt: canonical.lastAt }, canonical);
+  assert.equal(node.lastAt, attempts[2].at);
+  assert.equal(JSON.stringify(attempts), original);
+});
+
+test('mastery and review interval use the latest instant when local dates sort differently', () => {
+  const attempts = [
+    attempt('recent001', '5', { at: '2026-09-19T12:00:00Z' }),
+    attempt('recent002', '13', { questionId: 'math-modulus-02', at: '2026-09-20T12:00:00Z' }),
+    attempt('recent003', '5', { at: '2026-09-22T01:30:00+02:00' }),
+    attempt('recent004', '7', { at: '2026-09-21T23:45:00Z' }),
+  ];
+  const original = JSON.stringify(attempts);
+  const node = buildKnowledgeModel(attempts).find(n => n.label === 'modulus');
+  const canonical = buildKnowledgeModel(attempts.map(a => ({ ...a, at: new Date(a.at).toISOString() }))).find(n => n.label === 'modulus');
+  assert.equal(node.status, 'developing', 'the most recent wrong answer prevents a mastered state');
+  assert.equal(node.lastAt, attempts[3].at);
+  assert.equal(node.intervalDays, 1);
+  assert.equal(node.dueAt, Date.parse(attempts[3].at) + 86400000);
+  assert.deepEqual({ ...node, lastAt: canonical.lastAt }, canonical);
+  assert.equal(JSON.stringify(attempts), original);
+});
+
+test('mistake order and recovery follow timestamp instants across offsets', () => {
+  const error = attempt('offset001', '7', { at: '2026-09-22T01:30:00+02:00' });
+  const correction = attempt('offset002', '5', { at: '2026-09-21T23:45:00Z' });
+  const otherError = attempt('offset003', '9', { questionId: 'math-modulus-02', at: '2026-09-21T23:40:00Z' });
+  const attempts = [correction, error, otherError];
+  const original = JSON.stringify(attempts);
+  const rows = buildMistakeNotebook(attempts);
+  assert.deepEqual(rows.map(row => row.question.id), ['math-modulus-02', 'math-modulus-01']);
+  const recovered = rows[1];
+  assert.deepEqual(recovered.history.map(row => row.id), [error.id, correction.id]);
+  assert.equal(recovered.lastError.at, error.at);
+  assert.equal(recovered.recovery, 'Correct on a later unassisted attempt');
+  assert.equal(JSON.stringify(attempts), original);
+});
+
+test('an equivalent timestamp spelling is not a later mistake correction', () => {
+  const error = attempt('sameat001', '7', { at: '2026-09-21T23:30:00Z' });
+  const correction = attempt('sameat002', '5', { at: '2026-09-22T01:30:00+02:00' });
+  assert.equal(Date.parse(error.at), Date.parse(correction.at));
+  assert.equal(buildMistakeNotebook([error, correction])[0].recovery, 'Ready to revisit');
+});
+
 test('nullable confidence and progressive help reload, but inconsistent help fails closed', () => {
   const q = LEARNING_QUESTIONS[0];
   const s = { id: 'journey-session-01', ids: [q.id], index: 0, mode: 'diagnostic', startedAt: 1, deadline: null, finished: false, subject: q.subject, topic: '', concept: '', curriculum: '', budgetMinutes: 5, responses: { [q.id]: { answer: '', confidence: null, hinted: true, hintLevel: 2, seconds: 0, flagged: false } } };
@@ -66,7 +130,7 @@ test('nullable confidence and progressive help reload, but inconsistent help fai
 
 test('adaptation never increases the reserved duration of a budgeted question', () => {
   const ids = fitPracticeQuestions({ minutes: 15, select: exclude => selectLearningQuestion({ subject: 'Mathematics', exclude }) });
-  const s = { id: 'journey-session-02', ids, index: 0, mode: 'diagnostic', startedAt: 1, deadline: null, finished: false, subject: 'Mathematics', topic: '', concept: '', curriculum: '', budgetMinutes: 15, responses: {} };
+  const s = { id: 'journey-session-02', ids, contentRevisions: Object.fromEntries(ids.map(id => [id, questions.find(q => q.id === id).contentRevision])), index: 0, mode: 'diagnostic', startedAt: 1, deadline: null, finished: false, subject: 'Mathematics', topic: '', concept: '', curriculum: '', budgetMinutes: 15, responses: {} };
   const next = advancePracticeSession(s, [attempt('00000001', '5')]);
   const duration = list => list.reduce((n, id) => n + LEARNING_QUESTIONS.find(q => q.id === id).estimatedSeconds, 0);
   assert.ok(duration(next.ids) <= duration(s.ids));

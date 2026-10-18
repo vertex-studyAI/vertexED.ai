@@ -9,7 +9,17 @@ const e2eAnonKey = [
 
 export default defineConfig({
   testDir: './e2e',
-  testMatch: ['authenticated-student-golden.spec.ts', 'auth-return.spec.ts', 'vee-companion.spec.ts'],
+  testMatch: [
+    'authenticated-student-golden.spec.ts',
+    'auth-return.spec.ts',
+    'mobile-navigation.spec.ts',
+    'google-login-return.spec.ts',
+    'coursework.spec.ts',
+    'focus-session.spec.ts',
+    'saved-work-search.spec.ts',
+    'study-desk.spec.ts',
+    'vee-companion.spec.ts',
+  ],
   timeout: 90_000,
   expect: { timeout: 12_000 },
   fullyParallel: false,
@@ -18,6 +28,10 @@ export default defineConfig({
   reporter: process.env.CI ? [['list'], ['html', { open: 'never' }]] : 'list',
   use: {
     baseURL,
+    // Page-route fixtures must own requests in every engine. WebKit can bypass
+    // those routes once the public offline worker controls the page. The
+    // dedicated offline suite explicitly enables real service workers.
+    serviceWorkers: 'block',
     viewport: { width: 1440, height: 900 },
     screenshot: 'only-on-failure',
     trace: 'retain-on-failure',

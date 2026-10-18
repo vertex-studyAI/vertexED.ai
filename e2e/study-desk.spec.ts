@@ -17,7 +17,7 @@ async function signIn(page: Page, id = 'f40db66b-1b55-4ab8-88d0-14a9ba476c16') {
   await page.route('**/api/**', async route => {
     const path = new URL(route.request().url()).pathname;
     let body: unknown = {};
-    if (path === '/api/waitlist-status') body = { status: 'approved' };
+    if (path === '/api/waitlist-status') body = { status: 'approved', access: true };
     if (path === '/api/admin-status') body = { isAdmin: false };
     if (path === '/api/user-content') body = { items: [], nextOffset: null };
     if (path === '/api/learner-state') body = { contractVersion: 'vertexed.learner-state.v1', items: [], results: [] };
@@ -86,6 +86,33 @@ for (const width of [1440, 1024, 390]) {
     expect(errors).toEqual([]);
   });
 }
+
+test('member portal keeps self-reported confidence explicit and links the account workspace', async ({ page }) => {
+  await page.setViewportSize({ width: 1024, height: 900 });
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await signIn(page);
+
+  await expect(page.getByText('Approved private beta access', { exact: true })).toBeVisible();
+  await expect(page.getByRole('complementary', { name: 'Member workspace summary' })).toContainText('No pending device saves');
+
+  const portalNav = page.getByRole('navigation', { name: 'Member portal sections' });
+  await portalNav.getByRole('link', { name: 'Check in', exact: true }).focus();
+  await page.keyboard.press('Enter');
+  await expect(page).toHaveURL(/#quick-capture$/);
+
+  const confidence = page.getByRole('radiogroup', { name: 'Physics confidence' });
+  await expect(page.getByText('Not set', { exact: true })).toBeVisible();
+  const unsure = confidence.getByRole('radio', { name: 'Physics confidence 2 of 5 - Unsure' });
+  await expect(unsure).toHaveAttribute('aria-checked', 'false');
+  await unsure.click();
+  await expect(unsure).toHaveAttribute('aria-checked', 'true');
+  await expect(page.getByText('Unsure', { exact: true })).toBeVisible();
+
+  await page.reload();
+  await expect(page.getByRole('radio', { name: 'Physics confidence 2 of 5 - Unsure' })).toHaveAttribute('aria-checked', 'true');
+  await expect(page.getByRole('heading', { name: 'Your member space, under your control.' })).toBeVisible();
+  await expect(page.getByRole('link', { name: /Open all account controls/ })).toHaveAttribute('href', '/user-settings');
+});
 
 test('pin storage failure stays usable and does not claim a save', async ({ page }) => {
   await signIn(page);

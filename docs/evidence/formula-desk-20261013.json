@@ -1,0 +1,161 @@
+{
+  "date": "2026-10-13",
+  "status": "LOCAL_IMPLEMENTATION_VALIDATED_BUILD_NOT_RUN",
+  "scope": [
+    "30 general formula references and 30 original numeric practice questions across five subjects",
+    "Assumptions, worked examples, hints, common mistakes and selected further-reading links",
+    "Temporary per-question working and answer state; no account writes or mastery claims",
+    "Ranked multiword library search, formula deep links and URL-restored filters",
+    "Prevent route focus loss and dropped keystrokes during query changes"
+  ],
+  "runtime": "Node 22.22.0",
+  "checks": {
+    "focused_unit_tests": {
+      "status": "passed",
+      "passed": 13,
+      "command": "node --experimental-strip-types --test --test-concurrency=1 tests/formula-reference.test.mjs tests/resource-search.test.mjs tests/learning-library.test.mjs tests/route-error-boundary.test.mjs"
+    },
+    "browser_tests": {
+      "status": "passed",
+      "passed": 10,
+      "command": "node node_modules/@playwright/test/cli.js test --config=playwright.reference.config.ts",
+      "runtime": "local Vite development server, Chromium, one worker",
+      "widths": [
+        1440,
+        1024,
+        390
+      ],
+      "includes": [
+        "dark mode",
+        "reduced motion",
+        "keyboard controls",
+        "draft isolation",
+        "answer checking",
+        "URL history",
+        "continuous typing",
+        "route focus"
+      ],
+      "note": "Final browser run preceded the equivalent ES2020 replaceAll-to-regex compatibility correction; unit tests and TypeScript were rerun after that correction."
+    },
+    "visual_review": {
+      "status": "captured_and_inspected",
+      "widths": [
+        1440,
+        1024,
+        390
+      ],
+      "corrections": [
+        "Explicit subject label",
+        "Separate page eyebrow from headline",
+        "Move formula desk before workspace shortcuts",
+        "Retain focus on practice tab after CTA"
+      ]
+    },
+    "copy_lint": {
+      "status": "passed",
+      "files": 401,
+      "findings": 0,
+      "command": "npm run lint:copy"
+    },
+    "eslint_changed_files": {
+      "status": "passed"
+    },
+    "typecheck": {
+      "status": "passed",
+      "command": "NODE_OPTIONS=--max-old-space-size=768 npm run typecheck",
+      "earlier_attempts": [
+        "384 MiB cap exhausted",
+        "ES2020 replaceAll compatibility error corrected"
+      ]
+    },
+    "diff_whitespace": {
+      "status": "passed"
+    },
+    "production_build": {
+      "status": "not_run",
+      "reason": "Low free/speculative memory with rising pageouts; no heavy build launched."
+    },
+    "full_ci": {
+      "status": "not_run"
+    },
+    "deployment": {
+      "status": "not_attempted"
+    }
+  },
+  "content_boundary": "Original general learning material, not official board questions or externally reviewed syllabus coverage. Numeric answer keys checked by independent calculations; reasoning and significant figures are not machine-graded.",
+  "screenshots": [
+    "test-results/formula-reference-1440.png",
+    "test-results/formula-reference-1024.png",
+    "test-results/formula-reference-390.png",
+    "test-results/formula-practice-1440.png",
+    "test-results/formula-practice-1024.png",
+    "test-results/formula-practice-390.png",
+    "test-results/formula-dark-reduced-390.png",
+    "test-results/learning-library-1440.png",
+    "test-results/learning-library-1024.png",
+    "test-results/learning-library-390.png"
+  ],
+  "files": [
+    {
+      "path": "src/components/study/FormulaDesk.tsx",
+      "sha256": "718ceb418d531af90e05a6cbaa185a7498fb0e5e22c33bf5d27cb3351ed2c2ea"
+    },
+    {
+      "path": "src/content/formulaReference.ts",
+      "sha256": "75466537430e8698f4a098f74bb4f2557828ab2ddd819e4b81e3641ad6a988f2"
+    },
+    {
+      "path": "src/hooks/useSearchParamDraft.ts",
+      "sha256": "27ec764c01aa1a6db4b64eadc6b84d0c5dfa6389d56cf60784a5d30f8a033fad"
+    },
+    {
+      "path": "src/lib/referencePractice.ts",
+      "sha256": "ea1a252ec72f19c1b92e79ed9f46c0b715bfc90a40fab53886c326eff3a6f91c"
+    },
+    {
+      "path": "src/lib/resourceSearch.ts",
+      "sha256": "53b62469fbfa549c812246dcd37b0338e98cff081534c58a1886f59561627ffc"
+    },
+    {
+      "path": "src/styles/formula-desk.css",
+      "sha256": "ef3bb0e6048c3f53dc5f26cbc3e4add705686130b233efd8d02f8d4ae16e84e0"
+    },
+    {
+      "path": "src/pages/StudyTools.tsx",
+      "sha256": "384e79856c7c378ee7580a9db6ab42e400a9a58aac8cb3f442759773b7e70dd0"
+    },
+    {
+      "path": "src/pages/resources/Index.tsx",
+      "sha256": "5b7e9bd5dc00a3fadb5f85c5b85d0d382771e94e5d29f53e08d106f3ead709d3"
+    },
+    {
+      "path": "src/components/layout/SiteLayout.tsx",
+      "sha256": "a6d14f69d00b5100ee8d46af4b21b0e19c6a589a55b844cba64d794fbc7937b8"
+    },
+    {
+      "path": "src/content/resourceLibrary.ts",
+      "sha256": "91979103ae7938838fc9fdfd29f0285760f95eee447f8f76d3934257e093dc9f"
+    },
+    {
+      "path": "e2e/formula-desk.spec.ts",
+      "sha256": "3930a007b99ade4394635b98f276e0951f40d8d052df7abd1d52ce38d2f5a794"
+    },
+    {
+      "path": "e2e/learning-library.spec.ts",
+      "sha256": "cbd15a6d88ccd24416ef0d98e6cb4eb07cffabf071ddccf56f3fc49861c4b719"
+    },
+    {
+      "path": "tests/formula-reference.test.mjs",
+      "sha256": "e2faa4a41f57eee635ad7007fac81ba4dfa237eac99bdcb0af4a38bc5dcf3f56"
+    },
+    {
+      "path": "tests/resource-search.test.mjs",
+      "sha256": "8d53856c389eecfb28a0ffaf9532a4d882fe99698b894de6b92302adce873e4c"
+    },
+    {
+      "path": "playwright.reference.config.ts",
+      "sha256": "ab4465717ca009c4ab2d917f8d152892123661099f2f732af603fea9764ae1ae"
+    }
+  ],
+  "worktree_note": "Extensive pre-existing uncommitted work was present. This receipt identifies relevant final files, not ownership of every pre-existing change in them."
+}

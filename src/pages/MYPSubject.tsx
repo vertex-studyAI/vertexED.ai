@@ -1,9 +1,17 @@
+import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router';
 import { ArrowLeft, ArrowRight, Check, FlaskConical, Lightbulb, TriangleAlert } from 'lucide-react';
 import SEO from '@/components/SEO';
 import MypPracticeWorkspace from '@/components/myp/MypPracticeWorkspace';
 import { findSubject, findTopic, learningFrameFor, topicSlug } from '@/content/myp5';
-import { findMypLesson, sourcesForLesson } from '@/content/myp5Lessons';
+import {
+  findLoadedLesson,
+  loadMypSubjectContent,
+  MYP5_SUBJECT_TOTALS,
+  prerequisitesForLoadedLesson,
+  sourcesForLoadedLesson,
+  type MypSubjectContent,
+} from '@/content/myp5ContentClient';
 import '@/styles/myp5.css';
 
 const isScience = (group: string) => group === 'Sciences';
@@ -11,6 +19,29 @@ const isScience = (group: string) => group === 'Sciences';
 export default function MYPSubject() {
   const { subjectSlug, topicSlug: routeTopic } = useParams();
   const subject = findSubject(subjectSlug);
+  const [content, setContent] = useState<MypSubjectContent | null>(null);
+  const [contentError, setContentError] = useState('');
+  const [requestVersion, setRequestVersion] = useState(0);
+  const [reviewRequired, setReviewRequired] = useState(false);
+  const heldByCatalogue = Boolean(subject && MYP5_SUBJECT_TOTALS[subject.slug]?.lessons === 0);
+  const contentHeld = heldByCatalogue || reviewRequired;
+
+  useEffect(() => {
+    let cancelled = false;
+    setContent(null);
+    setContentError('');
+    setReviewRequired(false);
+    if (!subject || heldByCatalogue) return () => { cancelled = true; };
+    loadMypSubjectContent(subject.slug).then((payload) => {
+      if (!cancelled) setContent(payload);
+    }).catch((error) => {
+      if (cancelled) return;
+      if (error?.code === 'CONTENT_REVIEW_REQUIRED') setReviewRequired(true);
+      else setContentError('The lesson library could not be loaded. Check your connection and try again.');
+    });
+    return () => { cancelled = true; };
+  }, [subject, heldByCatalogue, requestVersion]);
+
   if (!subject) {
     return <div className="myp-page"><div className="myp-not-found"><h1>Subject not found.</h1><Link to="/myp">Return to MYP 5</Link></div></div>;
   }
@@ -18,7 +49,8 @@ export default function MYPSubject() {
   const topic = findTopic(subject, routeTopic);
   const topicIndex = subject.topics.indexOf(topic);
   const nextTopic = subject.topics[(topicIndex + 1) % subject.topics.length];
-  const detailedLesson = findMypLesson(subject.slug, topic);
+  const detailedLesson = content ? findLoadedLesson(content, topic) : null;
+  const contentLoading = !contentHeld && !content && !contentError;
   const learningFrame = learningFrameFor(subject);
   const practiceSection = isScience(subject.group) ? 5 : 4;
 
@@ -26,7 +58,7 @@ export default function MYPSubject() {
     <>
       <SEO
         title={`${topic}: MYP 5 ${subject.name} | VertexED`}
-        description={`Learn ${topic} with explanation, examples, original practice, criterion skills and a mastery checklist.`}
+        description={contentHeld ? `${topic}: MYP ${subject.name} directory. Lessons and practice are awaiting subject review.` : `Learn ${topic} with explanation, examples, original practice, criterion skills and a revision checklist.`}
         canonical={`https://www.vertexed.app/myp/subjects/${subject.slug}/${topicSlug(topic)}`}
       />
       <div className="myp-page myp-subject-page" style={{ '--subject': subject.accent } as React.CSSProperties}>
@@ -36,8 +68,8 @@ export default function MYPSubject() {
           <h1>{topic}</h1>
           <p>{detailedLesson?.summary ?? subject.summary}</p>
           <div className="myp-lesson-meta">
-            <span>{detailedLesson ? 'Detailed editorial draft' : 'Study outline'}</span>
-            <span>VertexED Original Practice</span>
+            <span>{contentHeld ? 'Awaiting subject review' : contentLoading ? 'Loading editorial module' : contentError ? 'Lesson library unavailable' : detailedLesson ? 'Available learning module' : 'Study outline'}</span>
+            <span>{contentHeld ? 'Subject directory' : 'VertexED Original Practice'}</span>
             <span>Not official IB guidance</span>
           </div>
         </header>
@@ -57,7 +89,27 @@ export default function MYPSubject() {
           </aside>
 
           <article className="myp-lesson">
-            {detailedLesson ? (
+            {contentHeld ? (
+              <section className="myp-outline-state" role="status">
+                <p className="myp-kicker">Awaiting subject review</p>
+                <h2>This topic is awaiting subject review.</h2>
+                <p>Lessons and practice questions are not available yet. The topic list shows the planned scope. Use your teacher’s approved materials for current study.</p>
+                <Link to="/myp">Return to the MYP subject directory</Link>
+              </section>
+            ) : contentLoading ? (
+              <section className="myp-outline-state" role="status" aria-live="polite">
+                <p className="myp-kicker">Loading lesson</p>
+                <h2>Opening the {subject.name} library.</h2>
+                <p>The module is delivered separately so the rest of VertexED remains fast.</p>
+              </section>
+            ) : contentError ? (
+              <section className="myp-outline-state" role="alert">
+                <p className="myp-kicker">Lesson library unavailable</p>
+                <h2>This module did not load.</h2>
+                <p>{contentError}</p>
+                <button type="button" onClick={() => setRequestVersion((version) => version + 1)}>Try again</button>
+              </section>
+            ) : detailedLesson && content ? (
               <>
                 <section className="myp-learning-frame">
                   <p className="myp-kicker">00 / Orient</p>
@@ -68,6 +120,17 @@ export default function MYPSubject() {
                     <div><span>Suggested global context</span><strong>{learningFrame.globalContext}</strong></div>
                     <div><span>Approaches to learning</span><strong>{learningFrame.atlFocus.join(' + ')}</strong></div>
                   </div>
+                  {detailedLesson.prerequisiteIds && (
+                    <nav aria-label="Suggested prerequisites">
+                      <h3>Before this topic</h3>
+                      {detailedLesson.prerequisiteIds.length > 0 ? <ul>
+                        {prerequisitesForLoadedLesson(content, detailedLesson).map((entry) => (
+                          <li key={entry.id}><Link className="text-primary underline underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4" to={`/myp/subjects/${entry.subjectSlug}/${topicSlug(entry.topic)}`}>{entry.topic}</Link></li>
+                        ))}
+                      </ul> : <p>Start here. No earlier VertexED module is required.</p>}
+                      <p className="myp-note">These links suggest preparation; they do not record completion or assess your understanding.</p>
+                    </nav>
+                  )}
                   <p className="myp-note">This is a VertexED learning frame, not a replacement for your school&apos;s unit planner or current subject guide.</p>
                 </section>
                 <section>
@@ -76,6 +139,8 @@ export default function MYPSubject() {
                   <ul className="myp-objectives">
                     {detailedLesson.objectives.map((objective) => <li key={objective}>{objective}</li>)}
                   </ul>
+                  {subject.slug === 'spanish' && <p className="myp-note">Level assumption: basic present-tense sentences and familiar vocabulary. Editorial target: A2 to early B1, with selected stretch patterns. This is not an official MYP phase mapping or CEFR certification; adapt tasks to your teacher’s guidance.</p>}
+                  {detailedLesson.explanation?.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
                   <div className="myp-key-ideas">
                     {detailedLesson.keyIdeas.map((idea) => <p key={idea}>{idea}</p>)}
                   </div>
@@ -127,6 +192,7 @@ export default function MYPSubject() {
                 </section>
 
                 <MypPracticeWorkspace
+                  key={detailedLesson.id}
                   lesson={detailedLesson}
                   subjectName={subject.name}
                   sectionNumber={practiceSection}
@@ -138,7 +204,7 @@ export default function MYPSubject() {
                   <div className="myp-retrieval-sequence">
                     <div><span>Now</span><h3>Explain the relationship</h3><p>Close the notes and answer: {learningFrame.framingQuestion}</p></div>
                     <div><span>In two days</span><h3>Correct the tempting error</h3><p>Explain why this is wrong, then replace it with a better claim: {detailedLesson.misconceptions[0].mistake}</p></div>
-                    <div><span>In one week</span><h3>Attempt unfamiliar transfer</h3><p>{detailedLesson.practice.at(-1)?.prompt}</p></div>
+                    <div><span>In one week</span><h3>Return to independent practice</h3><p>{detailedLesson.practice.at(-1)?.prompt}</p><p>Reattempt this question without {['english-language-literature', 'history', 'integrated-humanities', 'spanish', 'design', 'visual-arts', 'music', 'drama', 'personal-project', 'physical-health-education'].includes(subject.slug) ? 'the model response' : 'the worked solution'}. Repetition alone does not show transfer to a new problem.</p></div>
                   </div>
                   <p className="myp-note">These intervals are a revision prompt, not a measured prediction of memory or mastery.</p>
                 </section>
@@ -156,7 +222,7 @@ export default function MYPSubject() {
                   <h2>Sources used as references</h2>
                   <p>This is original VertexED editorial-draft content. References inform programme structure and concept checking; their text and protected assessment material are not reproduced.</p>
                   <ul>
-                    {sourcesForLesson(detailedLesson).map((source) => (
+                    {sourcesForLoadedLesson(content, detailedLesson).map((source) => (
                       <li key={source.id}>
                         <a href={source.url} target="_blank" rel="noreferrer">{source.title}</a>
                         <span>{source.publisher}. {source.note}</span>

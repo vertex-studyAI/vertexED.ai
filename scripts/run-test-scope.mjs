@@ -61,7 +61,9 @@ function run(scope) {
   // App tests import a small set of `.ts` modules under `src/`. Node 22 requires
   // explicit type-stripping for those imports; without the flag, `npm run test:app`
   // fails closed with ERR_UNKNOWN_FILE_EXTENSION before any assertions run.
-  const nodeArgs = ['--experimental-strip-types', '--test', ...files];
+  // Each test file starts a process. Keep the canonical gate bounded instead
+  // of multiplying large content fixtures by the host's CPU count.
+  const nodeArgs = ['--experimental-strip-types', '--test', '--test-concurrency=1', ...files];
   const result = spawnSync(process.execPath, nodeArgs, { stdio: 'inherit' });
   if (result.error) throw result.error;
   process.exitCode = result.status ?? 1;

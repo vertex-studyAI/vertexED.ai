@@ -1,0 +1,355 @@
+{
+  "slug": "music-theory",
+  "title": "AP Music Theory",
+  "category": "Arts",
+  "summary": "Read pitch and rhythm, analyse tonal harmony and explain musical structure.",
+  "officialUrl": "https://apstudents.collegeboard.org/courses/ap-music-theory",
+  "frameworkNote": "Checked against the official eight-unit sequence on 15 October 2026 for 2026-27. These original text exercises support notation and analysis. They do not replace audio dictation, sight-singing, score study or teacher feedback. Pitch names use scientific octave labels where needed.",
+  "assessment": "exam",
+  "modules": [
+    {
+      "title": "Count beats and spell a major scale",
+      "focus": "Connect pitch order to meter and beat division.",
+      "explanation": [
+        "A major scale follows whole, whole, half, whole, whole, whole, half steps. Use each letter name once before repeating the tonic. A key signature supplies consistent alterations; an accidental changes a note according to notation conventions within its measure.",
+        "Meter groups beats, while rhythm describes durations within that grouping. In simple meter a beat divides into two; in compound meter it divides into three. Six-eight commonly groups six eighth notes into two dotted-quarter beats, so counting six equal pulses alone misses the usual larger organisation."
+      ],
+      "workedExample": {
+        "prompt": "Spell D major and identify the usual beats in 6/8.",
+        "steps": [
+          "Apply the step pattern: D E F-sharp G A B C-sharp D.",
+          "Group the six eighth notes as 3 + 3, giving two dotted-quarter beats."
+        ]
+      },
+      "misconception": {
+        "claim": "The top meter number always equals the number of felt beats.",
+        "correction": "Compound meter commonly groups three subdivisions into each beat."
+      },
+      "questions": [
+        {
+          "prompt": "Spell F major.",
+          "hint": "The fourth scale degree requires an accidental.",
+          "answer": "F G A B-flat C D E F.",
+          "checkpoints": [
+            "Uses each letter once",
+            "Places the half steps correctly"
+          ],
+          "id": "music-theory-1-q1"
+        },
+        {
+          "prompt": "How many eighth notes fit one dotted quarter?",
+          "hint": "A dot adds half the original value.",
+          "answer": "Three eighth notes: two for the quarter plus one for its dot.",
+          "checkpoints": [
+            "Uses the dot rule",
+            "Gives three"
+          ],
+          "id": "music-theory-1-q2"
+        }
+      ],
+      "frameworkUnit": "Unit 1",
+      "id": "music-theory-1"
+    },
+    {
+      "title": "Distinguish minor forms and textures",
+      "focus": "Track altered scale degrees and independent lines.",
+      "explanation": [
+        "Natural minor has lowered third, sixth and seventh degrees relative to parallel major. Harmonic minor raises the seventh to create a leading tone. The conventional ascending melodic minor also raises the sixth; its conventional descending form returns to natural minor.",
+        "Texture concerns how musical layers relate. Monophony has one melodic line, even if doubled at the octave. Homophony often combines a principal melody with accompaniment. Polyphony involves multiple independent melodic lines. Instrument count alone cannot determine texture, and a written label still needs confirmation through score or listening evidence."
+      ],
+      "workedExample": {
+        "prompt": "Compare A natural minor and A harmonic minor.",
+        "steps": [
+          "Write A B C D E F G A for natural minor.",
+          "Raise G to G-sharp in harmonic minor, creating a semitone approach to A."
+        ]
+      },
+      "misconception": {
+        "claim": "Minor always means slower or sadder music.",
+        "correction": "Mode describes pitch relationships; tempo and expressive effect depend on additional choices."
+      },
+      "questions": [
+        {
+          "prompt": "Spell ascending A melodic minor.",
+          "hint": "Raise degrees six and seven.",
+          "answer": "A B C D E F-sharp G-sharp A.",
+          "checkpoints": [
+            "Raises both degrees",
+            "Keeps the minor third"
+          ],
+          "id": "music-theory-2-q1"
+        },
+        {
+          "prompt": "Ten singers perform the same melody in octaves. What texture is this?",
+          "hint": "Count independent lines, not performers.",
+          "answer": "Monophonic, because there is one melodic line doubled at the octave.",
+          "checkpoints": [
+            "Identifies one line",
+            "Does not infer polyphony from numbers"
+          ],
+          "id": "music-theory-2-q2"
+        }
+      ],
+      "frameworkUnit": "Unit 2",
+      "id": "music-theory-2"
+    },
+    {
+      "title": "Spell chords before naming inversions",
+      "focus": "Separate a chord’s root from its bass.",
+      "explanation": [
+        "A triad stacks two thirds. A major triad combines a major third and minor third above the root; a minor triad reverses that order. A dominant seventh chord adds a minor seventh above the root of a major triad.",
+        "Inversion depends on the lowest sounding chord member, not the top note. Root position places the root in the bass; first inversion places the third there; second inversion places the fifth there. Rearranging upper voices without changing the bass does not create a new inversion."
+      ],
+      "workedExample": {
+        "prompt": "Name E-G-C with E as the lowest note in C major.",
+        "steps": [
+          "Reorder the pitch classes as C-E-G to identify a C major triad.",
+          "E is the third in the bass, so the chord is I6, first inversion."
+        ]
+      },
+      "misconception": {
+        "claim": "The lowest note is always the root.",
+        "correction": "In an inversion the root remains the same while another chord member is lowest."
+      },
+      "questions": [
+        {
+          "prompt": "Spell a G dominant seventh chord.",
+          "hint": "Build a major triad and add a minor seventh.",
+          "answer": "G B D F.",
+          "checkpoints": [
+            "Includes B-natural",
+            "Uses F-natural"
+          ],
+          "id": "music-theory-3-q1"
+        },
+        {
+          "prompt": "Name the inversion of C-E-A with C lowest.",
+          "hint": "Reorder the pitches in thirds.",
+          "answer": "A minor in first inversion: A-C-E with its third C in the bass.",
+          "checkpoints": [
+            "Identifies A as root",
+            "Uses the bass to name inversion"
+          ],
+          "id": "music-theory-3-q2"
+        }
+      ],
+      "frameworkUnit": "Unit 3",
+      "id": "music-theory-3"
+    },
+    {
+      "title": "Hear function through written resolution",
+      "focus": "Use leading tones and chord sevenths purposefully.",
+      "explanation": [
+        "In common-practice tonal harmony, tonic establishes a point of rest and dominant creates an expectation of return. At a V7-I resolution, the leading tone typically moves upward to tonic and the chordal seventh downward by step. Voice-leading rules describe this style, not every musical tradition.",
+        "Analyse each voice horizontally as well as each chord vertically. Correct chord spelling does not prevent awkward leaps, crossed voices or parallel perfect intervals. A cadence is a phrase-ending harmonic event; a perfect authentic cadence also depends on root-position V-I and tonic in the final soprano."
+      ],
+      "workedExample": {
+        "prompt": "Resolve the tendency tones B and F from G7 to C major.",
+        "steps": [
+          "In C major B is the leading tone, so move it up to C.",
+          "F is the dominant chord’s seventh, so move it down to E."
+        ]
+      },
+      "misconception": {
+        "claim": "Any V-I progression is a perfect authentic cadence.",
+        "correction": "Its phrase placement, inversions and final soprano also matter."
+      },
+      "questions": [
+        {
+          "prompt": "Where does F normally resolve in G7-C?",
+          "hint": "Identify the chordal seventh.",
+          "answer": "Down by step to E in the common-practice resolution.",
+          "checkpoints": [
+            "Names E",
+            "Explains the seventh’s role"
+          ],
+          "id": "music-theory-4-q1"
+        },
+        {
+          "prompt": "A phrase ends on V in C major. Name the cadence.",
+          "hint": "The tonic has not arrived.",
+          "answer": "A half cadence.",
+          "checkpoints": [
+            "Identifies dominant ending",
+            "Does not call it authentic"
+          ],
+          "id": "music-theory-4-q2"
+        }
+      ],
+      "frameworkUnit": "Unit 4",
+      "id": "music-theory-4"
+    },
+    {
+      "title": "Prepare the dominant",
+      "focus": "Trace predominant-dominant-tonic motion.",
+      "explanation": [
+        "Predominant harmony commonly leads toward dominant. In a major key, ii and IV often fill this role. Roman numerals show scale-degree roots and chord quality, while figured-bass symbols identify inversions. Harmonic function depends on context as well as a chord label.",
+        "A cadential six-four commonly places tonic-triad pitches above the dominant bass before V. In that context its upper notes behave as embellishments of dominant harmony: the fourth above the bass resolves to a third and the sixth to a fifth. Labelling its pitches I6/4 alone does not explain its function."
+      ],
+      "workedExample": {
+        "prompt": "Analyse D-F-A, G-B-D, C-E-G in C major.",
+        "steps": [
+          "Identify roots D, G and C as degrees 2, 5 and 1.",
+          "Label ii-V-I and explain the progression as predominant, dominant and tonic."
+        ]
+      },
+      "misconception": {
+        "claim": "Every tonic triad has tonic function.",
+        "correction": "A cadential six-four can serve dominant expansion because of its bass and resolutions."
+      },
+      "questions": [
+        {
+          "prompt": "Spell IV in G major.",
+          "hint": "Find scale degree four.",
+          "answer": "C E G.",
+          "checkpoints": [
+            "Uses C as root",
+            "Spells a major triad"
+          ],
+          "id": "music-theory-5-q1"
+        },
+        {
+          "prompt": "In C major, C and E sound over bass G before B and D over G. Describe the upper motion.",
+          "hint": "Measure intervals above G.",
+          "answer": "The fourth C moves to the third B; the sixth E moves to the fifth D.",
+          "checkpoints": [
+            "Identifies both resolutions",
+            "Connects them to dominant preparation"
+          ],
+          "id": "music-theory-5-q2"
+        }
+      ],
+      "frameworkUnit": "Unit 5",
+      "id": "music-theory-5"
+    },
+    {
+      "title": "Identify embellishing tones",
+      "focus": "Use approach, departure and metric placement.",
+      "explanation": [
+        "A non-chord tone is understood against the harmony sounding beneath it. A passing tone connects two chord tones by step in the same direction. A neighbour tone leaves a chord tone by step and returns to it. A suspension is prepared, held into a new harmony, then resolves, usually downward by step.",
+        "Do not label every unfamiliar note as a wrong note or identify embellishments from pitch alone. Establish the chord and track the melodic motion. Motives can also return at a new pitch level or with changed rhythm; describe what remains recognisable and what changes."
+      ],
+      "workedExample": {
+        "prompt": "Over a sustained C major chord, a melody plays C-D-E.",
+        "steps": [
+          "C and E belong to the chord while D does not.",
+          "The melody moves by step in one direction, so D is a passing tone."
+        ]
+      },
+      "misconception": {
+        "claim": "Any repeated non-chord note is a suspension.",
+        "correction": "A suspension requires preparation and a held note across a harmonic change before resolution."
+      },
+      "questions": [
+        {
+          "prompt": "Over C major, identify D in C-D-C.",
+          "hint": "Look at the return to the original pitch.",
+          "answer": "An upper neighbour tone.",
+          "checkpoints": [
+            "Identifies stepwise departure",
+            "Identifies return"
+          ],
+          "id": "music-theory-6-q1"
+        },
+        {
+          "prompt": "A short melody returns two scale steps higher with the same rhythm. What device is suggested?",
+          "hint": "Think of a repeated pattern at another level.",
+          "answer": "A melodic sequence, if the pattern is repeated at the new pitch level.",
+          "checkpoints": [
+            "Names sequence",
+            "Identifies the repeated pattern"
+          ],
+          "id": "music-theory-6-q2"
+        }
+      ],
+      "frameworkUnit": "Unit 6",
+      "id": "music-theory-6"
+    },
+    {
+      "title": "Explain a secondary dominant",
+      "focus": "Identify a temporary tonal target.",
+      "explanation": [
+        "A secondary dominant is the dominant of a diatonic chord other than tonic. In C major, D major can function as V/V because D-F-sharp-A leads to G. The F-sharp acts as a local leading tone to G even though it is outside the C major key signature.",
+        "Tonicisation briefly gives a chord tonic-like emphasis. Modulation establishes a new key more durably through phrase structure and cadential evidence. One chromatic chord alone is insufficient to claim a modulation. Spell the target chord first, then build its dominant and check the actual resolution."
+      ],
+      "workedExample": {
+        "prompt": "Explain D7-G-C in C major.",
+        "steps": [
+          "D7 contains D-F-sharp-A-C and points toward G.",
+          "Label V7/V-V-I: G is temporarily tonicised before the phrase returns to C."
+        ]
+      },
+      "misconception": {
+        "claim": "Every accidental proves a change of key.",
+        "correction": "Accidentals can embellish a line or create brief tonicisation without establishing a new key."
+      },
+      "questions": [
+        {
+          "prompt": "Spell V/ii in C major.",
+          "hint": "The target ii is D minor; find D’s dominant.",
+          "answer": "A C-sharp E, an A major triad.",
+          "checkpoints": [
+            "Identifies target D",
+            "Raises C to C-sharp"
+          ],
+          "id": "music-theory-7-q1"
+        },
+        {
+          "prompt": "Where does F-sharp tend to move in D7-G?",
+          "hint": "Treat G as the local tonic.",
+          "answer": "Up by semitone to G.",
+          "checkpoints": [
+            "Names G",
+            "Explains local leading-tone motion"
+          ],
+          "id": "music-theory-7-q2"
+        }
+      ],
+      "frameworkUnit": "Unit 7",
+      "id": "music-theory-7"
+    },
+    {
+      "title": "Compare modes and phrase designs",
+      "focus": "Distinguish pitch collection from formal return.",
+      "explanation": [
+        "A mode has a tonic and a characteristic interval pattern. D Dorian uses D-E-F-G-A-B-C-D; its raised sixth relative to D natural minor is B-natural. Playing white notes without establishing a tonal centre does not by itself communicate a particular mode.",
+        "Form describes relationships across spans of music. In binary form two principal sections are often labelled A and B. Ternary form returns to A after a contrasting B. Repetition signs, cadences, thematic material and key areas all contribute to analysis; section length alone is not decisive."
+      ],
+      "workedExample": {
+        "prompt": "Compare D Dorian with D natural minor, then describe A-B-A.",
+        "steps": [
+          "Only the sixth differs: Dorian has B-natural and natural minor has B-flat.",
+          "A-B-A suggests ternary organisation when the final A restores recognisable opening material."
+        ]
+      },
+      "misconception": {
+        "claim": "Any three phrases create ternary form.",
+        "correction": "Ternary form depends on contrasting and returning material, not simply counting phrases."
+      },
+      "questions": [
+        {
+          "prompt": "What distinguishes C Mixolydian from C major?",
+          "hint": "Compare scale degree seven.",
+          "answer": "C Mixolydian has B-flat rather than B-natural.",
+          "checkpoints": [
+            "Identifies lowered seventh",
+            "Keeps C as tonic"
+          ],
+          "id": "music-theory-8-q1"
+        },
+        {
+          "prompt": "Why might A-A-B-B still be binary?",
+          "hint": "Separate repeats from distinct sections.",
+          "answer": "It contains two principal sections, each repeated, rather than four distinct formal sections.",
+          "checkpoints": [
+            "Identifies A and B",
+            "Explains repetitions"
+          ],
+          "id": "music-theory-8-q2"
+        }
+      ],
+      "frameworkUnit": "Unit 8",
+      "id": "music-theory-8"
+    }
+  ]
+}

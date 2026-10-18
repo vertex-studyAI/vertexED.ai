@@ -23,6 +23,8 @@ export type MypLesson = {
   subjectSlug: string;
   topic: string;
   summary: string;
+  explanation?: string[];
+  prerequisiteIds?: string[];
   objectives: string[];
   keyIdeas: string[];
   definitions: Array<{ term: string; meaning: string }>;
@@ -37,8 +39,93 @@ export type MypLesson = {
 };
 
 import { MYP5_LESSON_EXPANSION } from './myp5LessonExpansion';
+import { MYP5_MATHEMATICS_COMPLETION } from './myp5MathematicsCompletion';
+import { MYP5_PHYSICS_COMPLETION } from './myp5PhysicsCompletion';
+import { MYP5_CHEMISTRY_COMPLETION } from './myp5ChemistryCompletion';
+import { MYP5_BIOLOGY_COMPLETION } from './myp5BiologyCompletion';
+import { MYP5_INTEGRATED_SCIENCES_COMPLETION } from './myp5IntegratedSciencesCompletion';
+import { MYP5_ENGLISH_COMPLETION } from './myp5EnglishCompletion';
+import { MYP5_HISTORY_COMPLETION } from './myp5HistoryCompletion';
+import { MYP5_SPANISH_COMPLETION } from './myp5SpanishCompletion';
+import { MYP5_DESIGN_COMPLETION } from './myp5DesignCompletion';
+import { MYP5_ARTS_COMPLETION } from './myp5ArtsCompletion';
+import { MYP5_PERSONAL_PROJECT_COMPLETION } from './myp5PersonalProjectCompletion';
+import { MYP5_PHE_COMPLETION } from './myp5PheCompletion';
+import { MYP5_INTEGRATED_HUMANITIES_COMPLETION } from './myp5IntegratedHumanitiesCompletion';
+import { MYP5_GEOGRAPHY_COMPLETION } from './myp5GeographyCompletion';
+import { MYP5_ECONOMICS_COMPLETION } from './myp5EconomicsCompletion';
 
 export const MYP_CONTENT_SOURCES: MypContentSource[] = [
+{"id": "phe-openstax-cardiac", "title": "Anatomy and Physiology 2e: Cardiac physiology", "publisher": "OpenStax", "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/19-4-cardiac-physiology", "use": "concept-reference", "note": "Inspected 9 October 2026. Concepts of circulation and rate. Fictional arithmetic only; no diagnostic ranges, target heart rates or individual fitness inference adopted. These are original editorial drafts, not official MYP descriptors or teacher approval."},
+{"id": "phe-openstax-muscle", "title": "Anatomy and Physiology 2e: Skeletal muscle", "publisher": "OpenStax", "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/10-2-skeletal-muscle", "use": "concept-reference", "note": "Inspected 9 October 2026. Muscle force, movement and stabilisation concepts. Original written examples; no claim to assess technique or prescribe activity. These are original editorial drafts, not official MYP descriptors or teacher approval."},
+{"id": "phe-who-diet", "title": "Healthy diet", "publisher": "World Health Organization", "url": "https://www.who.int/news-room/fact-sheets/detail/healthy-diet", "use": "concept-reference", "note": "Inspected 9 October 2026. General variety and adequacy concepts. Original fictional label arithmetic; adult dietary quantities, restrictive diets and personal nutrition recommendations are not adopted. These are original editorial drafts, not official MYP descriptors or teacher approval."},
+{"id": "phe-nhs-wellbeing", "title": "Five steps to mental wellbeing", "publisher": "NHS", "url": "https://www.nhs.uk/mental-health/self-help/guides-tools-and-activities/five-steps-to-mental-wellbeing/", "use": "concept-reference", "note": "Inspected 9 October 2026. General supportive connection and wellbeing concepts. No diagnosis, guaranteed cure or replacement for appropriate care. These are original editorial drafts, not official MYP descriptors or teacher approval."},
+{"id": "phe-who-activity", "title": "Physical activity", "publisher": "World Health Organization", "url": "https://www.who.int/news-room/fact-sheets/detail/physical-activity", "use": "concept-reference", "note": "Inspected 9 October 2026. General activity, health and inclusion context. No age-specific dosage, universal progression percentage or personal exercise programme adopted. These are original editorial drafts, not official MYP descriptors or teacher approval."},
+{"id": "phe-asc-game-sense", "title": "Game sense approach", "publisher": "Australian Sports Commission", "url": "https://www.ausport.gov.au/schools/resource-hub/p4l/game-sense-approach", "use": "concept-reference", "note": "Inspected 9 October 2026. Decision-making, contextual adjustment, participation and specific feedback concepts. Original fictional cases and datasets; no activity cards, images or practical assessments reproduced. These are original editorial drafts, not official MYP descriptors or teacher approval."},
+  {"id": "project-ib-learning", "title": "What is an IB education? Approaches to learning", "publisher": "International Baccalaureate", "url": "https://www-prod.ibo.org/professional-development/free-learning/what-is-an-ib-education/", "use": "concept-reference", "note": "Inspected 9 October 2026. Public cross-programme reference for inquiry and the five ATL categories. Original fictional project cases and editorial practice criteria; not official Personal Project descriptors, submission requirements or teacher approval. The public MYP project overview could not be reopened, so no new current rubric claim is made."},
+  {"id": "arts-nga-elements", "title": "The Elements of Art", "publisher": "National Gallery of Art", "url": "https://www.nga.gov/educational-resources/elements-art", "use": "concept-reference", "note": "Inspected 9 October 2026. Visual-element concept reference. Original fictional cases and responses; no source image, exercise or prose reproduced. Editorial practice, not an official rubric or teacher approval."},
+  {"id": "arts-getty-analysis", "title": "Understanding Formal Analysis", "publisher": "J. Paul Getty Museum", "url": "https://www.getty.edu/education/teachers/classroom_resources/formal_analysis.html", "use": "concept-reference", "note": "Inspected 9 October 2026. Formal-analysis vocabulary reference. Original editorial exercises; no artwork or source activity copied. Editorial practice, not an official rubric or teacher approval."},
+  {"id": "arts-vam-sketchbooks", "title": "Architects and their sketchbooks", "publisher": "Victoria and Albert Museum", "url": "https://www.vam.ac.uk/articles/architects-and-their-sketchbooks", "use": "concept-reference", "note": "Inspected 9 October 2026. Reference for sketchbooks as records of observation and developing ideas. No source quotation, image or case study reproduced. Editorial practice, not an official rubric or teacher approval."},
+  {"id": "arts-carnegie-toolbox", "title": "Music Educators Toolbox", "publisher": "Carnegie Hall", "url": "https://www.carnegiehall.org/Education/Programs/Music-Educators-Toolbox", "use": "concept-reference", "note": "Inspected 9 October 2026. Elementary musical-element reference, not MYP alignment or practical assessment certification. All duration patterns and fictional cases are original; no audio, score or source exercise copied. Editorial practice, not an official rubric or teacher approval."},
+  {"id": "arts-rsc-rehearsal", "title": "Rehearsal room approaches to Shakespeare", "publisher": "Royal Shakespeare Company", "url": "https://www.rsc.org.uk/learn/schools-and-teachers/teacher-resources/rehearsal-room-approaches-to-shakespeare", "use": "concept-reference", "note": "Inspected 9 October 2026. Concept reference for collaborative rehearsal and interpretation. Original non-contact cases and dialogue; no play text, licensed activity or learning-gain claim reproduced. Editorial practice, not an official rubric or teacher approval."},
+
+  {"id": "design-double-diamond", "title": "The Double Diamond", "publisher": "Design Council", "url": "https://www.designcouncil.org.uk/resources/the-double-diamond/", "use": "concept-reference", "note": "Concept reference inspected 8–9 October 2026. Exercises and hypothetical data are original editorial material; no source prose or exercises are reproduced. Design criterion headings are local mapped practice, not official rubric descriptors."},
+  {"id": "design-user-needs", "title": "Start by learning user needs", "publisher": "Government Digital Service", "url": "https://www.gov.uk/service-manual/user-research/start-by-learning-user-needs", "use": "concept-reference", "note": "Concept reference inspected 8–9 October 2026. Exercises and hypothetical data are original editorial material; no source prose or exercises are reproduced. Design criterion headings are local mapped practice, not official rubric descriptors."},
+  {"id": "design-research-planning", "title": "Plan user research for your service", "publisher": "Government Digital Service", "url": "https://www.gov.uk/service-manual/user-research/plan-user-research-for-your-service", "use": "concept-reference", "note": "Concept reference inspected 8–9 October 2026. Exercises and hypothetical data are original editorial material; no source prose or exercises are reproduced. Design criterion headings are local mapped practice, not official rubric descriptors."},
+  {"id": "design-usability", "title": "Using moderated usability testing", "publisher": "Government Digital Service", "url": "https://www.gov.uk/service-manual/user-research/using-moderated-usability-testing", "use": "concept-reference", "note": "Concept reference inspected 8–9 October 2026. Exercises and hypothetical data are original editorial material; no source prose or exercises are reproduced. Design criterion headings are local mapped practice, not official rubric descriptors."},
+  {"id": "design-acceptance-criteria", "title": "Writing user stories and acceptance criteria", "publisher": "Government Digital Service", "url": "https://www.gov.uk/service-manual/agile-delivery/writing-user-stories", "use": "concept-reference", "note": "Concept reference inspected 8–9 October 2026. Exercises and hypothetical data are original editorial material; no source prose or exercises are reproduced. Design criterion headings are local mapped practice, not official rubric descriptors."},
+  {"id": "econ-externalities", "title": "The economics of pollution and externalities", "publisher": "OpenStax, Rice University", "url": "https://openstax.org/books/principles-economics-3e/pages/12-1-the-economics-of-pollution", "use": "concept-reference", "note": "Concept reference inspected 9 October 2026. Existing original lesson examples retained; no source prose, data or exercises reproduced."},
+  {"id": "spanish-conjugation", "title": "Spanish verb conjugation models", "publisher": "Real Academia Espa\u00f1ola and ASALE", "url": "https://www.rae.es/dpd/ayuda/modelos-de-conjugacion-verbal", "use": "concept-reference", "note": "Regular and irregular paradigms inspected 8 October 2026. Original teaching sentences; no literary examples or exercises reproduced."},
+  {"id": "spanish-agreement", "title": "Spanish grammatical agreement", "publisher": "Real Academia Española and ASALE", "url": "https://www.rae.es/dpd/concordancia", "use": "concept-reference", "note": "Reference inspected 8 October 2026. Original teaching sentences and passages; no source literary examples or exercises reproduced. The editorial A2-to-early-B1 target is not an official alignment or proficiency certification."},
+  {"id": "spanish-accents", "title": "Spanish written accents", "publisher": "Real Academia Española and ASALE", "url": "https://www.rae.es/dpd/tilde", "use": "concept-reference", "note": "Reference inspected 8 October 2026. Original teaching sentences and passages; no source literary examples or exercises reproduced. The editorial A2-to-early-B1 target is not an official alignment or proficiency certification."},
+  {"id": "spanish-porque", "title": "Porque and por qué", "publisher": "Real Academia Española and ASALE", "url": "https://www.rae.es/dpd/porqu%C3%A9", "use": "concept-reference", "note": "Reference inspected 8 October 2026. Original teaching sentences and passages; no source literary examples or exercises reproduced. The editorial A2-to-early-B1 target is not an official alignment or proficiency certification."},
+  {"id": "spanish-haber", "title": "Haber: existence and auxiliary uses", "publisher": "Real Academia Española and ASALE", "url": "https://www.rae.es/dpd/haber", "use": "concept-reference", "note": "Reference inspected 8 October 2026. Original teaching sentences and passages; no source literary examples or exercises reproduced. The editorial A2-to-early-B1 target is not an official alignment or proficiency certification."},
+  {"id": "spanish-gustar", "title": "Gustar: meaning and agreement", "publisher": "Real Academia Española and ASALE", "url": "https://www.rae.es/dpd/gustar", "use": "concept-reference", "note": "Reference inspected 8 October 2026. Original teaching sentences and passages; no source literary examples or exercises reproduced. The editorial A2-to-early-B1 target is not an official alignment or proficiency certification."},
+  {"id": "spanish-ir", "title": "Ir: constructions and usage", "publisher": "Real Academia Española and ASALE", "url": "https://www.rae.es/dpd/ir", "use": "concept-reference", "note": "Reference inspected 8 October 2026. Original teaching sentences and passages; no source literary examples or exercises reproduced. The editorial A2-to-early-B1 target is not an official alignment or proficiency certification."},
+  {"id": "spanish-si", "title": "Si: conditional constructions", "publisher": "Real Academia Española and ASALE", "url": "https://www.rae.es/dpd/si", "use": "concept-reference", "note": "Reference inspected 8 October 2026. Original teaching sentences and passages; no source literary examples or exercises reproduced. The editorial A2-to-early-B1 target is not an official alignment or proficiency certification."},
+  {"id": "spanish-mano", "title": "Mano: echar una mano", "publisher": "Real Academia Española and ASALE", "url": "https://dle.rae.es/mano", "use": "concept-reference", "note": "Reference inspected 8 October 2026. Original teaching sentences and passages; no source literary examples or exercises reproduced. The editorial A2-to-early-B1 target is not an official alignment or proficiency certification."},
+  {"id": "spanish-nube", "title": "Nube: en las nubes and por las nubes", "publisher": "Real Academia Española and ASALE", "url": "https://dle.rae.es/nube", "use": "concept-reference", "note": "Reference inspected 8 October 2026. Original teaching sentences and passages; no source literary examples or exercises reproduced. The editorial A2-to-early-B1 target is not an official alignment or proficiency certification."},
+  {"id": "spanish-cefr", "title": "The CEFR levels", "publisher": "Council of Europe", "url": "https://www.coe.int/en/web/common-european-framework-reference-languages/level-descriptions", "use": "concept-reference", "note": "Reference inspected 8 October 2026. Original teaching sentences and passages; no source literary examples or exercises reproduced. The editorial A2-to-early-B1 target is not an official alignment or proficiency certification."},
+
+  {"id": "geog-net-migration", "title": "Net migration: definition and measurement", "publisher": "World Bank", "url": "https://databank.worldbank.org/metadataglossary/world-development-indicators/series/SM.POP.NETM", "use": "concept-reference", "note": "Concept reference inspected 8 October 2026. Examples and datasets are original hypothetical classroom material; no source charts, exercises or real-place statistics are reproduced."},
+  {"id": "geog-urban-population", "title": "Urban population: definitions and comparability", "publisher": "World Bank", "url": "https://databank.worldbank.org/metadataglossary/world-development-indicators/series/SP.URB.TOTL.IN.ZS", "use": "concept-reference", "note": "Concept reference inspected 8 October 2026. Examples and datasets are original hypothetical classroom material; no source charts, exercises or real-place statistics are reproduced."},
+  {"id": "geog-water-cycle", "title": "The water cycle: stores and flows", "publisher": "US Geological Survey", "url": "https://www.usgs.gov/water-science-school/water-cycle", "use": "concept-reference", "note": "Concept reference inspected 8 October 2026. Examples and datasets are original hypothetical classroom material; no source charts, exercises or real-place statistics are reproduced."},
+  {"id": "geog-sustainable-consumption", "title": "Sustainable consumption and production policies", "publisher": "United Nations Environment Programme", "url": "https://www.unep.org/explore-topics/resource-efficiency/what-we-do/sustainable-consumption-and-production-policies", "use": "concept-reference", "note": "Concept reference inspected 8 October 2026. Examples and datasets are original hypothetical classroom material; no source charts, exercises or real-place statistics are reproduced."},
+  {"id": "geog-risk", "title": "Disaster risk terminology", "publisher": "United Nations Office for Disaster Risk Reduction", "url": "https://www.undrr.org/terminology/disaster-risk", "use": "concept-reference", "note": "Concept reference inspected 8 October 2026. Examples and datasets are original hypothetical classroom material; no source charts, exercises or real-place statistics are reproduced."},
+  {"id": "geog-hazard", "title": "Hazard terminology", "publisher": "United Nations Office for Disaster Risk Reduction", "url": "https://www.undrr.org/terminology/hazard", "use": "concept-reference", "note": "Concept reference inspected 8 October 2026. Examples and datasets are original hypothetical classroom material; no source charts, exercises or real-place statistics are reproduced."},
+  {"id": "geog-exposure", "title": "Exposure terminology", "publisher": "United Nations Office for Disaster Risk Reduction", "url": "https://www.undrr.org/terminology/exposure", "use": "concept-reference", "note": "Concept reference inspected 8 October 2026. Examples and datasets are original hypothetical classroom material; no source charts, exercises or real-place statistics are reproduced."},
+  {"id": "geog-vulnerability", "title": "Vulnerability terminology", "publisher": "United Nations Office for Disaster Risk Reduction", "url": "https://www.undrr.org/terminology/vulnerability", "use": "concept-reference", "note": "Concept reference inspected 8 October 2026. Examples and datasets are original hypothetical classroom material; no source charts, exercises or real-place statistics are reproduced."},
+  {"id": "geog-globalisation", "title": "Globalization Today", "publisher": "International Monetary Fund", "url": "https://www.imf.org/en/publications/fandd/issues/2024/06/b2b-globalization-today-adam-jakubik-and-elizabeth-van-heuvelen", "use": "concept-reference", "note": "Concept reference inspected 8 October 2026. Examples and datasets are original hypothetical classroom material; no source charts, exercises or real-place statistics are reproduced."},
+  {"id": "geog-map-scales", "title": "Map symbols and scale: OnDemand Topo guide", "publisher": "US Geological Survey", "url": "https://www.usgs.gov/ngp-standards-and-specifications/75-minute-ondemand-topo-cartographic-specifications-map-symbol", "use": "concept-reference", "note": "Concept reference inspected 8 October 2026. Examples and datasets are original hypothetical classroom material; no source charts, exercises or real-place statistics are reproduced."},
+
+  {"id": "econ-choice", "title": "Choice and budget constraints", "publisher": "OpenStax, Rice University", "url": "https://openstax.org/books/principles-economics-3e/pages/2-1-how-individuals-make-choices-based-on-their-budget-constraint", "use": "concept-reference", "note": "Concept reference inspected 8 October 2026. VertexED explanations, numerical datasets and practice are original hypothetical material. No source prose, charts or exercises are reproduced."},
+  {"id": "econ-systems", "title": "Economic systems", "publisher": "OpenStax, Rice University", "url": "https://openstax.org/books/principles-economics-3e/pages/1-4-how-to-organize-economies-an-overview-of-economic-systems", "use": "concept-reference", "note": "Concept reference inspected 8 October 2026. VertexED explanations, numerical datasets and practice are original hypothetical material. No source prose, charts or exercises are reproduced."},
+  {"id": "econ-markets", "title": "Demand, supply and equilibrium", "publisher": "OpenStax, Rice University", "url": "https://openstax.org/books/principles-economics-3e/pages/3-1-demand-supply-and-equilibrium-in-markets-for-goods-and-services", "use": "concept-reference", "note": "Concept reference inspected 8 October 2026. VertexED explanations, numerical datasets and practice are original hypothetical material. No source prose, charts or exercises are reproduced."},
+  {"id": "econ-shifts", "title": "Shifts in demand and supply", "publisher": "OpenStax, Rice University", "url": "https://openstax.org/books/principles-economics-3e/pages/3-2-shifts-in-demand-and-supply-for-goods-and-services", "use": "concept-reference", "note": "Concept reference inspected 8 October 2026. VertexED explanations, numerical datasets and practice are original hypothetical material. No source prose, charts or exercises are reproduced."},
+  {"id": "econ-elasticity", "title": "Price elasticity of demand and supply", "publisher": "OpenStax, Rice University", "url": "https://openstax.org/books/principles-economics-3e/pages/5-1-price-elasticity-of-demand-and-price-elasticity-of-supply", "use": "concept-reference", "note": "Concept reference inspected 8 October 2026. VertexED explanations, numerical datasets and practice are original hypothetical material. No source prose, charts or exercises are reproduced."},
+  {"id": "econ-revenue", "title": "Elasticity and pricing", "publisher": "OpenStax, Rice University", "url": "https://openstax.org/books/principles-economics-3e/pages/5-3-elasticity-and-pricing", "use": "concept-reference", "note": "Concept reference inspected 8 October 2026. VertexED explanations, numerical datasets and practice are original hypothetical material. No source prose, charts or exercises are reproduced."},
+  {"id": "econ-controls", "title": "Price ceilings and floors", "publisher": "OpenStax, Rice University", "url": "https://openstax.org/books/principles-economics-3e/pages/3-4-price-ceilings-and-price-floors", "use": "concept-reference", "note": "Concept reference inspected 8 October 2026. VertexED explanations, numerical datasets and practice are original hypothetical material. No source prose, charts or exercises are reproduced."},
+  {"id": "econ-labour", "title": "Demand and supply in labour markets", "publisher": "OpenStax, Rice University", "url": "https://openstax.org/books/principles-economics-3e/pages/4-1-demand-and-supply-at-work-in-labor-markets", "use": "concept-reference", "note": "Concept reference inspected 8 October 2026. VertexED explanations, numerical datasets and practice are original hypothetical material. No source prose, charts or exercises are reproduced."},
+  {"id": "econ-unemployment", "title": "Defining and computing unemployment", "publisher": "OpenStax, Rice University", "url": "https://openstax.org/books/principles-economics-3e/pages/21-1-how-economists-define-and-compute-unemployment-rate", "use": "concept-reference", "note": "Concept reference inspected 8 October 2026. VertexED explanations, numerical datasets and practice are original hypothetical material. No source prose, charts or exercises are reproduced."},
+  {"id": "econ-trade", "title": "Absolute and comparative advantage", "publisher": "OpenStax, Rice University", "url": "https://openstax.org/books/principles-economics-3e/pages/33-1-absolute-and-comparative-advantage", "use": "concept-reference", "note": "Concept reference inspected 8 October 2026. VertexED explanations, numerical datasets and practice are original hypothetical material. No source prose, charts or exercises are reproduced."},
+  {"id": "econ-gdp", "title": "Measuring output with GDP", "publisher": "OpenStax, Rice University", "url": "https://openstax.org/books/principles-economics-3e/pages/19-1-measuring-the-size-of-the-economy-gross-domestic-product", "use": "concept-reference", "note": "Concept reference inspected 8 October 2026. VertexED explanations, numerical datasets and practice are original hypothetical material. No source prose, charts or exercises are reproduced."},
+  {"id": "econ-real-values", "title": "Adjusting nominal values to real values", "publisher": "OpenStax, Rice University", "url": "https://openstax.org/books/principles-economics-3e/pages/19-2-adjusting-nominal-values-to-real-values", "use": "concept-reference", "note": "Concept reference inspected 8 October 2026. VertexED explanations, numerical datasets and practice are original hypothetical material. No source prose, charts or exercises are reproduced."},
+  {"id": "econ-inflation", "title": "Tracking inflation", "publisher": "OpenStax, Rice University", "url": "https://openstax.org/books/principles-economics-3e/pages/22-1-tracking-inflation", "use": "concept-reference", "note": "Concept reference inspected 8 October 2026. VertexED explanations, numerical datasets and practice are original hypothetical material. No source prose, charts or exercises are reproduced."},
+  {"id": "undp-hdi", "title": "Human Development Index: dimensions and limitations", "publisher": "United Nations Development Programme", "url": "https://hdr.undp.org/data-center/human-development-index", "use": "concept-reference", "note": "Reference for HDI dimensions and interpretive limits, inspected 8 October 2026. No country statistics or source exercises are reproduced; lesson data are hypothetical."},
+
+  {"id": "archives-document-analysis", "title": "Document Analysis", "publisher": "National Archives and Records Administration", "url": "https://www.archives.gov/education/lessons/worksheets", "use": "concept-reference", "note": "Method and concept reference inspected 8 October 2026. VertexED explanations and fictional teaching cases are original; no archival quotation, exercise or official alignment is reproduced or implied."},
+  {"id": "history-primary-evidence", "title": "Primary Source Evidence", "publisher": "Historical Thinking Project", "url": "https://historicalthinking.ca/primary-source-evidence", "use": "concept-reference", "note": "Method and concept reference inspected 8 October 2026. VertexED explanations and fictional teaching cases are original; no archival quotation, exercise or official alignment is reproduced or implied."},
+  {"id": "history-cause-consequence", "title": "Cause and Consequence", "publisher": "Historical Thinking Project", "url": "https://historicalthinking.ca/cause-and-consequence", "use": "concept-reference", "note": "Method and concept reference inspected 8 October 2026. VertexED explanations and fictional teaching cases are original; no archival quotation, exercise or official alignment is reproduced or implied."},
+  {"id": "history-continuity-change", "title": "Continuity and Change", "publisher": "Historical Thinking Project", "url": "https://historicalthinking.ca/continuity-and-change", "use": "concept-reference", "note": "Method and concept reference inspected 8 October 2026. VertexED explanations and fictional teaching cases are original; no archival quotation, exercise or official alignment is reproduced or implied."},
+  {"id": "history-perspectives", "title": "Historical Perspectives", "publisher": "Historical Thinking Project", "url": "https://historicalthinking.ca/historical-perspectives", "use": "concept-reference", "note": "Method and concept reference inspected 8 October 2026. VertexED explanations and fictional teaching cases are original; no archival quotation, exercise or official alignment is reproduced or implied."},
+  {"id": "history-significance", "title": "Historical Significance", "publisher": "Historical Thinking Project", "url": "https://historicalthinking.ca/historical-significance", "use": "concept-reference", "note": "Method and concept reference inspected 8 October 2026. VertexED explanations and fictional teaching cases are original; no archival quotation, exercise or official alignment is reproduced or implied."},
+
+  {
+    id: 'openstax-statistics', title: 'Introductory Statistics 2e', publisher: 'OpenStax, Rice University',
+    url: 'https://openstax.org/books/introductory-statistics-2e/pages/1-introduction',
+    use: 'concept-reference',
+    note: 'Scope reference for sampling and statistical reasoning. No source prose, examples or exercises are reproduced.',
+  },
   {
     id: 'ib-myp-programme',
     title: 'Middle Years Programme',
@@ -83,7 +170,7 @@ export const MYP_CONTENT_SOURCES: MypContentSource[] = [
     id: 'openstax-physics',
     title: 'Physics',
     publisher: 'OpenStax, Rice University',
-    url: 'https://openstax.org/books/physics/pages/1-introduction-to-science-and-the-realm-of-physics-physical-quantities-and-units',
+    url: 'https://openstax.org/books/physics/pages/1-introduction',
     use: 'concept-reference',
     note: 'Concept reference only. VertexED prose and exercises are original.',
   },
@@ -121,7 +208,7 @@ function practice(
 
 export const MYP5_LESSONS: MypLesson[] = [
   lesson({
-    id: 'myp5-mathematics-number', subjectSlug: 'mathematics', topic: 'Number',
+    id: 'myp5-mathematics-number', prerequisiteIds: [], subjectSlug: 'mathematics', topic: 'Number',
     summary: 'Use proportional, percentage and standard-form reasoning while keeping units and scale visible.',
     objectives: ['Move between fractions, decimals and percentages.', 'Use ratio and proportional reasoning.', 'Estimate to test whether a result is reasonable.'],
     keyIdeas: ['A percentage is a multiplicative comparison to 100.', 'Equivalent ratios preserve the same multiplicative relationship.', 'An estimate is a check, not a replacement for exact working.'],
@@ -134,7 +221,7 @@ export const MYP5_LESSONS: MypLesson[] = [
     sourceIds: ['ib-myp-programme', 'openstax-algebra-trigonometry'],
   }),
   lesson({
-    id: 'myp5-mathematics-algebra', subjectSlug: 'mathematics', topic: 'Algebra',
+    id: 'myp5-mathematics-algebra', prerequisiteIds: ['myp5-mathematics-number'], subjectSlug: 'mathematics', topic: 'Algebra',
     summary: 'Represent relationships with expressions and equations, then preserve equality while transforming them.',
     objectives: ['Simplify expressions accurately.', 'Solve linear and quadratic equations.', 'Interpret algebraic solutions in context.'],
     keyIdeas: ['An equation states that two expressions have equal value.', 'Inverse operations preserve equality when applied to both sides.', 'A solution must satisfy the original equation.'],
@@ -147,7 +234,7 @@ export const MYP5_LESSONS: MypLesson[] = [
     sourceIds: ['openstax-algebra-trigonometry'],
   }),
   lesson({
-    id: 'myp5-mathematics-functions', subjectSlug: 'mathematics', topic: 'Functions',
+    id: 'myp5-mathematics-functions', prerequisiteIds: ['myp5-mathematics-algebra'], subjectSlug: 'mathematics', topic: 'Functions',
     summary: 'Treat a function as a rule that assigns one output to each permitted input.',
     objectives: ['Use function notation.', 'Connect symbolic, tabular and graphical representations.', 'Interpret rate of change and intercepts.'],
     keyIdeas: ['The domain is the permitted input set.', 'A graph represents all ordered pairs satisfying the rule.', 'For a linear function, slope is change in output divided by change in input.'],
@@ -155,12 +242,12 @@ export const MYP5_LESSONS: MypLesson[] = [
     method: ['Identify input and output quantities.', 'State the rule and any domain restriction.', 'Calculate key points or features.', 'Interpret those features in context.'],
     workedExample: { prompt: 'For f(x) = 3x - 4, find f(5) and the input when f(x) = 17.', steps: ['Substitute x = 5: f(5) = 15 - 4 = 11.', 'Set 3x - 4 = 17.', 'Solve 3x = 21, so x = 7.'], conclusion: 'The function sends input 5 to output 11, and output 17 comes from input 7.' },
     misconceptions: [{ mistake: 'Reading f(x) as f multiplied by x.', correction: 'Function notation names the output produced by input x.' }, { mistake: 'Using vertical change divided by horizontal change inconsistently.', correction: 'Choose two points and use the same order in numerator and denominator.' }],
-    practice: [practice('fun-1', 'Foundation', 'Calculate', 3, 'For g(x) = x² + 2, calculate g(-3).', ['Square the whole input.'], ['g(-3) = (-3)² + 2 = 11.'], ['Correct substitution', 'Correct order of operations']), practice('fun-2', 'Standard', 'Determine', 5, 'A line passes through (2, 5) and (8, 17). Determine its equation.', ['Find the slope first.', 'Use y = mx + c.'], ['m = (17 - 5)/(8 - 2) = 2.', '5 = 2(2) + c, so c = 1.', 'The equation is y = 2x + 1.'], ['Correct slope', 'Correct intercept', 'Equation stated']), practice('fun-3', 'Advanced', 'Interpret', 6, 'A taxi cost is C(d) = 2.4d + 3.5 for distance d kilometres. Interpret both constants and state a sensible domain.', ['Separate rate from starting value.'], ['2.4 is the cost per kilometre.', '3.5 is the fixed starting charge.', 'A sensible domain is d ≥ 0, with any upper bound set by the journey context.'], ['Both parameters interpreted', 'Units included', 'Domain justified'])],
+    practice: [practice('fun-1', 'Foundation', 'Calculate', 3, 'For g(x) = x² + 2, calculate g(-3).', ['Square the whole input.'], ['g(-3) = (-3)² + 2 = 11.'], ['Correct substitution', 'Correct order of operations']), practice('fun-2', 'Standard', 'Determine', 5, 'A line passes through (2, 5) and (8, 17). Determine its equation.', ['Find the slope first.', 'Use y = mx + c.'], ['m = (17 - 5)/(8 - 2) = 2.', '5 = 2(2) + c, so c = 1.', 'The equation is y = 2x + 1.'], ['Correct slope', 'Correct intercept', 'Equation stated']), practice('fun-3', 'Advanced', 'Interpret', 6, 'A taxi cost in currency units is C(d) = 2.4d + 3.5 for distance d kilometres. Interpret both constants and state a sensible domain.', ['Separate rate from starting value.'], ['2.4 is the rate in currency units per kilometre.', '3.5 currency units is the fixed starting charge.', 'A sensible domain is d ≥ 0, with any upper bound set by the journey context.'], ['Both parameters interpreted', 'Units included', 'Domain justified'])],
     checklist: ['I use brackets when substituting negative values.', 'I connect equations, tables and graphs.', 'I interpret slope with units.', 'I state meaningful domains.'],
     sourceIds: ['openstax-algebra-trigonometry'],
   }),
   lesson({
-    id: 'myp5-physics-motion', subjectSlug: 'physics', topic: 'Motion',
+    id: 'myp5-physics-motion', subjectSlug: 'physics', topic: 'Motion', prerequisiteIds: ['myp5-mathematics-number'],
     summary: 'Describe how position changes with time and distinguish scalar speed from vector velocity.',
     objectives: ['Calculate speed, velocity and acceleration.', 'Interpret motion graphs.', 'Connect gradient and area to physical quantities.'],
     keyIdeas: ['Average speed is total distance divided by total time.', 'Velocity includes direction.', 'Acceleration measures the rate of change of velocity.'],
@@ -173,7 +260,7 @@ export const MYP5_LESSONS: MypLesson[] = [
     sourceIds: ['openstax-physics'],
   }),
   lesson({
-    id: 'myp5-chemistry-atomic-structure', subjectSlug: 'chemistry', topic: 'Atomic structure',
+    id: 'myp5-chemistry-atomic-structure', subjectSlug: 'chemistry', topic: 'Atomic structure', prerequisiteIds: [],
     summary: 'Use particle structure and electron arrangement to explain isotopes, ions and periodic behaviour.',
     objectives: ['Relate atomic and mass numbers to particles.', 'Represent ions and isotopes.', 'Use electron arrangement to explain chemical behaviour.'],
     keyIdeas: ['Atomic number equals proton number.', 'Isotopes share proton number but differ in neutron number.', 'Ions form when electrons are gained or lost.'],
@@ -186,20 +273,20 @@ export const MYP5_LESSONS: MypLesson[] = [
     sourceIds: ['openstax-chemistry'],
   }),
   lesson({
-    id: 'myp5-biology-cells', subjectSlug: 'biology', topic: 'Cells',
+    id: 'myp5-biology-cells', subjectSlug: 'biology', topic: 'Cells', prerequisiteIds: [],
     summary: 'Connect cell structures to functions and explain how specialised cells support larger systems.',
     objectives: ['Compare major cell structures.', 'Explain structure-function relationships.', 'Use scale and evidence when interpreting micrographs.'],
     keyIdeas: ['Cells exchange matter and energy with their surroundings.', 'Specialisation involves structures suited to a particular function.', 'Observations support claims only when scale and image limits are considered.'],
     definitions: [{ term: 'Organelle', meaning: 'A specialised structure within a cell that performs a particular function.' }, { term: 'Differentiation', meaning: 'The process through which a cell develops specialised features.' }, { term: 'Magnification', meaning: 'Image size divided by actual size.' }],
-    method: ['Identify visible evidence before naming a structure.', 'State the structure’s feature.', 'Explain how that feature supports a process.', 'Link the process to the cell or organism.'],
-    workedExample: { prompt: 'Explain one way a root hair cell is adapted for mineral-ion uptake.', steps: ['A root hair cell has a long projection.', 'The projection increases surface area in contact with soil water.', 'More membrane area permits more transport proteins and exchange.'], conclusion: 'The structure supports faster mineral-ion uptake; naming the projection alone would not explain the adaptation.' },
+    method: ['Identify visible evidence before naming a structure.', 'State the structure’s feature.', 'Explain how that feature supports a process.', 'Link the process to the cell or organism.', 'For magnification, convert image size and actual size to the same length unit, then divide image size by actual size.'],
+    workedExample: { prompt: 'Explain one way a root hair cell is adapted for mineral-ion uptake. In a separate hypothetical micrograph calculation, an image length is 30 mm and the corresponding actual length is 15 micrometres. Calculate magnification.', steps: ['A root hair cell has a long projection.', 'The projection increases surface area in contact with soil water.', 'More membrane area permits more transport proteins and exchange.', 'Convert image length: 30 mm × 1000 = 30000 micrometres.', 'Magnification = image length ÷ actual length = 30000 micrometres ÷ 15 micrometres = 2000×. The matching units cancel.'], conclusion: 'The projection supports mineral-ion uptake. The separate image has magnification 2000×; magnification alone does not identify a cell or prove that a dark region is a chloroplast.' },
     misconceptions: [{ mistake: 'Saying mitochondria create energy.', correction: 'Mitochondria transfer energy from respiratory substrates into usable cellular forms.' }, { mistake: 'Assuming every plant cell contains chloroplasts.', correction: 'Only photosynthetic plant tissues typically need many chloroplasts.' }],
-    practice: [practice('cell-1', 'Foundation', 'Identify', 3, 'Name the structure that controls movement of substances into and out of a cell, then state its function.', ['It forms the cell boundary.'], ['Cell membrane.', 'It selectively regulates substances entering and leaving the cell.'], ['Correct structure', 'Accurate function']), practice('cell-2', 'Standard', 'Explain', 5, 'Explain how a sperm cell’s structure supports fertilisation.', ['Choose two structures and connect each to a process.'], ['A flagellum provides movement towards the egg.', 'Many mitochondria support the energy transfer needed for movement.', 'The acrosome contains substances involved in penetrating outer egg layers.'], ['Two valid adaptations', 'Mechanisms explained', 'Links to fertilisation']), practice('cell-3', 'Advanced', 'Evaluate', 6, 'A student identifies a cell as photosynthetic because a micrograph contains dark circular regions. Evaluate the conclusion.', ['Consider alternative explanations and missing evidence.'], ['Dark regions alone do not prove chloroplast identity.', 'Staining, section thickness or other organelles could produce similar regions.', 'A scale, labelled comparison or additional imaging evidence is needed.'], ['Questions the inference', 'Names alternatives', 'Requests specific evidence'])],
+    practice: [practice('cell-1', 'Foundation', 'Identify', 3, 'Name the structure that controls movement of substances into and out of a cell, then state its function.', ['It forms the cell boundary.'], ['Cell membrane.', 'It selectively regulates substances entering and leaving the cell.'], ['Correct structure', 'Accurate function']), practice('cell-2', 'Standard', 'Explain', 5, 'Explain how a sperm cell’s structure supports fertilisation.', ['Choose two structures and connect each to a process.'], ['A flagellum provides movement towards the egg.', 'Many mitochondria support the energy transfer needed for movement.', 'The acrosome contains substances involved in penetrating outer egg layers.'], ['Two valid adaptations', 'Mechanisms explained', 'Links to fertilisation']), practice('cell-3', 'Advanced', 'Evaluate', 6, 'A student identifies a cell as photosynthetic because a micrograph contains dark circular regions. Evaluate the conclusion.', ['Consider alternative explanations and missing evidence.'], ['Dark regions alone do not prove chloroplast identity.', 'Staining, section thickness or other organelles could produce similar regions.', 'A scale, labelled comparison or additional imaging evidence is needed.'], ['Questions the inference', 'Names alternatives', 'Requests specific evidence']), practice('cell-4', 'Standard', 'Calculate', 5, 'In an original hypothetical micrograph exercise, a cell image is 48 mm long and the actual cell is 24 micrometres long. Calculate magnification, showing a unit conversion. State whether magnification alone identifies the cell type.', ['Convert millimetres to micrometres before dividing.', 'Distinguish a scale ratio from structural evidence.'], ['48 mm × 1000 = 48000 micrometres.', 'Magnification = 48000 micrometres ÷ 24 micrometres = 2000×; the matching length units cancel.', 'Magnification alone does not identify the cell type. Visible structures, a labelled comparison or other appropriate evidence are needed.'], ['Correct conversion', 'Correct dimensionless ratio', 'Cell-identification limit retained'])],
     checklist: ['I connect structures to mechanisms.', 'I avoid absolute claims unsupported by an image.', 'I calculate magnification with consistent units.', 'I compare cells using both similarities and differences.'],
     sourceIds: ['openstax-biology'],
   }),
   lesson({
-    id: 'myp5-integrated-sciences-systems', subjectSlug: 'integrated-sciences', topic: 'Systems and models',
+    id: 'myp5-integrated-sciences-systems', subjectSlug: 'integrated-sciences', topic: 'Systems and models', prerequisiteIds: [],
     summary: 'Use system boundaries, inputs, outputs and interactions to explain complex scientific behaviour.',
     objectives: ['Define a useful system boundary.', 'Construct and critique models.', 'Explain feedback and interaction across components.'],
     keyIdeas: ['A system model simplifies reality for a purpose.', 'Changing the boundary changes which transfers are counted.', 'A useful model states both what it represents and what it omits.'],
@@ -212,7 +299,7 @@ export const MYP5_LESSONS: MypLesson[] = [
     sourceIds: ['ib-myp-programme', 'openstax-physics', 'openstax-biology'],
   }),
   lesson({
-    id: 'myp5-english-literary-analysis', subjectSlug: 'english-language-literature', topic: 'Literary analysis',
+    id: 'myp5-english-literary-analysis', subjectSlug: 'english-language-literature', topic: 'Literary analysis', prerequisiteIds: [],
     summary: 'Build interpretations from precise textual choices rather than naming techniques in isolation.',
     objectives: ['Develop an arguable interpretation.', 'Select concise evidence.', 'Explain how form and language shape meaning.'],
     keyIdeas: ['A technique is evidence, not an interpretation.', 'Context matters when it changes how a choice is understood.', 'Strong analysis considers patterns, tensions and alternatives.'],
@@ -225,7 +312,7 @@ export const MYP5_LESSONS: MypLesson[] = [
     sourceIds: ['ib-myp-programme'],
   }),
   lesson({
-    id: 'myp5-spanish-identity', subjectSlug: 'spanish', topic: 'Identity and relationships',
+    id: 'myp5-spanish-identity', prerequisiteIds: ['myp5-spanish-present-tense'], subjectSlug: 'spanish', topic: 'Identity and relationships',
     summary: 'Communicate about identity and relationships with controlled tense, agreement and supporting detail.',
     objectives: ['Describe identity using varied adjectives.', 'Explain relationships with reasons and examples.', 'Move between present and past experience.'],
     keyIdeas: ['Adjectives usually agree with the noun they describe.', 'Connectors turn separate facts into sustained communication.', 'A clear message matters more than forcing unfamiliar complexity.'],
@@ -233,12 +320,12 @@ export const MYP5_LESSONS: MypLesson[] = [
     method: ['Identify audience, purpose and required tense.', 'Plan one main idea per sentence group.', 'Add reasons with porque, ya que or dado que.', 'Check verb endings and adjective agreement.'],
     workedExample: { prompt: 'Describe a friendship and explain why it matters.', steps: ['Opening: Mi amistad con Ana es importante para mí.', 'Detail: Nos conocemos desde hace cinco años y compartimos el interés por la música.', 'Reason: Aunque no siempre estamos de acuerdo, me escucha cuando tengo un problema.'], conclusion: 'The response communicates relationship, time, shared experience and a justified personal view.' },
     misconceptions: [{ mistake: 'Translating English word order directly.', correction: 'Build the Spanish phrase around its own agreement and placement patterns.' }, { mistake: 'Using porque and por qué interchangeably.', correction: 'Porque gives a reason; por qué introduces or embeds a question.' }],
-    practice: [practice('spa-1', 'Foundation', 'Describe', 4, 'Escribe cuatro frases sobre tu personalidad y tus intereses.', ['Use two different adjective patterns.'], ['Possible structure: Soy..., pero a veces...; Me interesa... porque...; En mi tiempo libre...; Mis amigos dicen que...'], ['Four relevant sentences', 'Agreement mostly controlled', 'At least one reason']), practice('spa-2', 'Standard', 'Explain', 6, 'Explica cómo ha cambiado una relación importante en tu vida.', ['Use a past reference and a present comparison.'], ['Begin with Antes..., describe one event, then compare with Ahora... and explain the change.'], ['Past and present', 'Specific example', 'Clear explanation']), practice('spa-3', 'Advanced', 'Discuss', 8, '¿Las redes sociales fortalecen o debilitan las amistades?', ['Give both a benefit and a limitation.'], ['State a position, support it with an example, acknowledge the opposing view with sin embargo, and finish with a qualified conclusion.'], ['Developed viewpoint', 'Contrasting perspective', 'Range of connectors', 'Relevant conclusion'])],
+    practice: [practice('spa-1', 'Foundation', 'Describe', 4, 'Escribe cuatro frases sobre tu personalidad y tus intereses. Puedes inventar los detalles.', ['Use two different adjective patterns.'], ['Possible fictional response: Soy una persona tranquila, pero a veces hablo mucho. Me interesa la música porque me ayuda a relajarme. En mi tiempo libre dibujo. Mis amigos dicen que soy amable.', 'Other coherent descriptions with four sentences and a reason are valid.'], ['Four relevant sentences', 'Agreement mostly controlled', 'At least one reason']), practice('spa-2', 'Standard', 'Explain', 6, 'Explica cómo ha cambiado una relación importante en tu vida. Puedes inventar una situación.', ['Use a past reference and a present comparison.'], ['Possible fictional response: Antes hablaba poco con mi prima. El año pasado hicimos un proyecto juntas. Ahora hablamos más porque tenemos intereses comunes.', 'Juntas describes two female participants in this model; juntos is appropriate for a different relevant group. Other coherent accounts are valid.'], ['Past and present', 'Specific example', 'Clear explanation']), practice('spa-3', 'Advanced', 'Discuss', 8, '¿Las redes sociales fortalecen o debilitan las amistades?', ['Give both a benefit and a limitation.'], ['Possible response: Creo que las redes sociales pueden fortalecer las amistades porque permiten mantener el contacto. Por ejemplo, puedo escribir a un amigo que vive lejos. Sin embargo, los mensajes no siempre sustituyen una conversación en persona. Su efecto depende de cómo las usemos.', 'Alternative supported positions are valid; this is a model opinion, not a research finding.'], ['Developed viewpoint', 'Contrasting perspective', 'Range of connectors', 'Relevant conclusion'])],
     checklist: ['I answer the stated purpose.', 'I control the main tense.', 'I justify opinions.', 'I check agreement and high-frequency verbs.'],
-    sourceIds: ['ib-myp-programme'],
+    sourceIds: ['ib-myp-programme', 'spanish-agreement', 'spanish-conjugation'],
   }),
   lesson({
-    id: 'myp5-economics-scarcity', subjectSlug: 'economics', topic: 'Scarcity',
+    id: 'myp5-economics-scarcity', prerequisiteIds: [], subjectSlug: 'economics', topic: 'Scarcity',
     summary: 'Explain how limited resources create choices, opportunity costs and competing priorities.',
     objectives: ['Distinguish scarcity from a temporary shortage.', 'Identify opportunity cost.', 'Evaluate choices using stakeholder evidence.'],
     keyIdeas: ['Scarcity exists because wants exceed available resources.', 'Opportunity cost is the next-best alternative forgone.', 'A choice can distribute costs and benefits unevenly.'],
@@ -248,10 +335,10 @@ export const MYP5_LESSONS: MypLesson[] = [
     misconceptions: [{ mistake: 'Defining opportunity cost as all alternatives.', correction: 'It is the value of the next-best forgone alternative.' }, { mistake: 'Treating scarcity as the same as poverty.', correction: 'Scarcity applies whenever resources are limited relative to possible uses.' }],
     practice: [practice('eco-1', 'Foundation', 'Define', 3, 'Define opportunity cost and give one school-based example.', ['Name the next-best choice given up.'], ['Opportunity cost is the next-best alternative forgone; for example, spending a free period rehearsing means giving up the next-best use of that time.'], ['Accurate definition', 'Relevant example']), practice('eco-2', 'Standard', 'Explain', 5, 'Explain why clean water can be scarce in a region with high rainfall.', ['Scarcity can involve access and infrastructure.'], ['Rainfall does not guarantee safe storage, treatment or distribution.', 'Pollution, seasonal variation and unequal infrastructure can limit usable supply.'], ['Distinguishes water from usable water', 'Two causal factors']), practice('eco-3', 'Challenge', 'Evaluate', 8, 'A school can fund either smaller classes or a new sports hall. Evaluate the decision information needed.', ['Avoid choosing without evidence.'], ['Compare learning needs, facility condition, student access, recurring staffing costs and long-term use.', 'Identify affected groups and uncertainty.', 'Reach a conditional decision based on the strongest need and feasible costs.'], ['Relevant evidence', 'Stakeholder comparison', 'Opportunity cost', 'Qualified judgement'])],
     checklist: ['I identify the scarce resource.', 'I state a realistic next-best alternative.', 'I distinguish evidence from preference.', 'I compare short- and long-term effects.'],
-    sourceIds: ['ib-myp-programme'],
+    sourceIds: ['ib-myp-programme', 'econ-choice'],
   }),
   lesson({
-    id: 'myp5-geography-population', subjectSlug: 'geography', topic: 'Population',
+    id: 'myp5-geography-population', subjectSlug: 'geography', topic: 'Population', prerequisiteIds: [],
     summary: 'Interpret population patterns using scale, rates, spatial evidence and interacting causes.',
     objectives: ['Read population structures and rates.', 'Explain spatial variation.', 'Evaluate demographic claims using evidence quality.'],
     keyIdeas: ['Population change reflects births, deaths and migration.', 'Rates allow fairer comparison than raw totals.', 'Patterns at national scale can hide regional differences.'],
@@ -264,7 +351,7 @@ export const MYP5_LESSONS: MypLesson[] = [
     sourceIds: ['ib-myp-programme'],
   }),
   lesson({
-    id: 'myp5-history-source-analysis', subjectSlug: 'history', topic: 'Source analysis',
+    id: 'myp5-history-source-analysis', prerequisiteIds: [], subjectSlug: 'history', topic: 'Source analysis',
     summary: 'Interrogate what a source can reveal by connecting content, origin, purpose and historical context.',
     objectives: ['Infer from source content.', 'Evaluate value and limitation in relation to a question.', 'Corroborate across sources.'],
     keyIdeas: ['A source is valuable for some questions and limited for others.', 'Origin does not automatically determine reliability.', 'Corroboration compares both agreement and difference.'],
@@ -277,7 +364,7 @@ export const MYP5_LESSONS: MypLesson[] = [
     sourceIds: ['ib-myp-programme', 'loc-primary-sources'],
   }),
   lesson({
-    id: 'myp5-integrated-humanities-inquiry', subjectSlug: 'integrated-humanities', topic: 'Inquiry questions',
+    id: 'myp5-integrated-humanities-inquiry', prerequisiteIds: [], subjectSlug: 'integrated-humanities', topic: 'Inquiry questions',
     summary: 'Design focused inquiries that connect spatial, historical, economic and social evidence.',
     objectives: ['Turn a broad theme into a focused question.', 'Choose evidence suited to the question.', 'Synthesize more than one disciplinary lens.'],
     keyIdeas: ['A strong inquiry names a relationship, context and workable scope.', 'Different disciplines make different evidence visible.', 'Synthesis explains what the combined view reveals.'],
@@ -290,7 +377,7 @@ export const MYP5_LESSONS: MypLesson[] = [
     sourceIds: ['ib-myp-programme', 'loc-primary-sources'],
   }),
   lesson({
-    id: 'myp5-design-cycle', subjectSlug: 'design', topic: 'Design cycle',
+    id: 'myp5-design-cycle', prerequisiteIds: [], subjectSlug: 'design', topic: 'Design cycle',
     summary: 'Trace a design decision from an evidenced need through specification, creation and evaluation.',
     objectives: ['Investigate a defined user need.', 'Develop measurable success criteria.', 'Use test evidence to justify iteration.'],
     keyIdeas: ['A design problem belongs to a user in a context.', 'Specifications must be testable.', 'Evaluation compares evidence with criteria rather than describing the final product.'],
@@ -298,64 +385,182 @@ export const MYP5_LESSONS: MypLesson[] = [
     method: ['Define user, context and observed problem.', 'Prioritise research questions.', 'Translate evidence into measurable criteria.', 'Prototype risky assumptions early and record why each revision occurs.'],
     workedExample: { prompt: 'Improve “The bottle should be easy to use” as a specification.', steps: ['Name the user and action.', 'Choose a measurable threshold.', 'State a test.'], conclusion: '“A Year 5 learner wearing gloves can open and reseal the bottle within 8 seconds in four of five trials” is testable and user-specific.' },
     misconceptions: [{ mistake: 'Treating a feature list as a specification.', correction: 'Each important requirement needs a measurable condition and test.' }, { mistake: 'Changing a design without recording why.', correction: 'Link every iteration to evidence, a failed criterion or new constraint.' }],
-    practice: [practice('des-1', 'Foundation', 'Develop', 4, 'Write two measurable criteria for a reusable lunch container.', ['Include a threshold and test.'], ['Example: no leakage after 30 seconds upside down; mass below 450 g when empty.'], ['Two criteria', 'Measurable thresholds']), practice('des-2', 'Standard', 'Explain', 6, 'Explain why interviewing one user and observing the task can provide different evidence.', ['Compare reported preference with observed behaviour.'], ['An interview reveals priorities and explanations.', 'Observation can expose actions or difficulties the user does not mention.', 'Together they reduce reliance on one evidence type.'], ['Both methods explained', 'Difference identified', 'Combined value']), practice('des-3', 'Challenge', 'Evaluate', 8, 'A prototype passes strength tests but users avoid it. Evaluate the next design step.', ['Technical success is not complete success.'], ['Retain the validated structural decisions.', 'Investigate usability, appearance, effort and context through targeted observation or interviews.', 'Revise the failing criteria and test the changed prototype with representative users.'], ['Uses existing evidence', 'Identifies missing evidence', 'Specific iteration plan', 'Retest'])],
+    practice: [practice('des-1', 'Foundation', 'Develop', 4, 'Write two measurable criteria for a reusable lunch container.', ['Include a threshold and test.'], ['Example: no leakage after 30 seconds upside down; mass below 450 g when empty.'], ['Two criteria', 'Measurable thresholds']), practice('des-2', 'Standard', 'Explain', 6, 'Explain why interviewing one user and observing the task can provide different evidence.', ['Compare reported preference with observed behaviour.'], ['An interview reveals priorities and explanations.', 'Observation can expose actions or difficulties the user does not mention.', 'Together they reduce reliance on one evidence type.'], ['Both methods explained', 'Difference identified', 'Combined value']), practice('des-3', 'Challenge', 'Evaluate', 8, 'A prototype passes strength tests but users avoid it. Evaluate the next design step.', ['Technical success is not complete success.'], ['Retain the validated structural decisions.', 'Investigate usability, appearance, effort and context through targeted observation or interviews.', 'Revise features that fail the criteria and test the changed prototype with representative users; change a criterion only when new evidence justifies it.'], ['Uses existing evidence', 'Identifies missing evidence', 'Specific iteration plan', 'Retest'])],
     checklist: ['I define a real user and context.', 'My criteria are measurable.', 'My tests match the criteria.', 'Every iteration has an evidence trail.'],
-    sourceIds: ['ib-myp-programme', 'ib-myp-assessment'],
+    sourceIds: ['ib-myp-programme', 'ib-myp-assessment', 'design-double-diamond', 'design-usability'],
   }),
   lesson({
-    id: 'myp5-visual-arts-analysis', subjectSlug: 'visual-arts', topic: 'Artwork analysis',
+    id: 'myp5-visual-arts-analysis', prerequisiteIds: [], subjectSlug: 'visual-arts', topic: 'Artwork analysis',
     summary: 'Interpret how material, composition and context contribute to meaning in an artwork.',
     objectives: ['Describe visible evidence precisely.', 'Analyse relationships among formal choices.', 'Develop contextual interpretations without treating them as certain.'],
     keyIdeas: ['Description records what is visible; analysis explains relationships.', 'Meaning emerges from choices working together.', 'Context can deepen an interpretation but should not replace visual evidence.'],
     definitions: [{ term: 'Composition', meaning: 'The arrangement and relationship of visual elements.' }, { term: 'Medium', meaning: 'The materials and processes used to make an artwork.' }, { term: 'Focal point', meaning: 'An area given particular visual emphasis.' }],
     method: ['Describe one precise feature.', 'Name the formal relationship it creates.', 'Explain a plausible effect or meaning.', 'Test the interpretation against another feature or context.'],
-    workedExample: { prompt: 'Analyse a portrait in which the figure occupies the edge of a large empty field.', steps: ['The off-centre placement creates strong asymmetry.', 'Negative space dominates the frame.', 'The visual imbalance can suggest isolation or movement beyond the frame.'], conclusion: 'The interpretation remains provisional until colour, gaze, context and other choices are considered.' },
+    workedExample: { prompt: 'Use this original imagined portrait description: the figure occupies the edge of a large empty field. Analyse its composition.', steps: ['The off-centre placement creates strong asymmetry.', 'Negative space dominates the frame.', 'The visual imbalance can suggest isolation or movement beyond the frame.'], conclusion: 'The interpretation remains provisional until colour, gaze, context and other choices are considered.' },
     misconceptions: [{ mistake: 'Listing colours and shapes without explaining relationships.', correction: 'Explain contrast, repetition, balance, emphasis or movement.' }, { mistake: 'Claiming one universal emotional effect.', correction: 'Offer a supported interpretation and acknowledge ambiguity where relevant.' }],
     practice: [practice('art-1', 'Foundation', 'Describe', 3, 'Describe three compositional features of an imagined poster with one large red circle above a row of small grey figures.', ['Use position, scale and contrast.'], ['Large red circle near the top; repeated small grey figures below; strong contrast in colour and scale.'], ['Three precise observations', 'Description stays separate from interpretation']), practice('art-2', 'Standard', 'Analyse', 6, 'Analyse how repetition and interruption can create emphasis.', ['Identify the pattern before the break.'], ['Repetition establishes expectation and rhythm.', 'A changed element interrupts the pattern and becomes a focal point.', 'Its meaning depends on what distinguishes it and the surrounding context.'], ['Pattern explained', 'Interruption analysed', 'Meaning connected']), practice('art-3', 'Challenge', 'Evaluate', 8, 'Evaluate whether an artist statement should determine the meaning of an artwork.', ['Balance intention with the work and viewer context.'], ['The statement can clarify process and intention.', 'Visual evidence may support, complicate or contradict it.', 'Interpretation should consider intention without making it the only authority.'], ['Value', 'Limitation', 'Visual evidence', 'Judgement'])],
     checklist: ['I separate observation from inference.', 'I analyse relationships among choices.', 'I use context selectively.', 'I support interpretations with visible evidence.'],
-    sourceIds: ['ib-myp-programme', 'ib-myp-assessment'],
+    sourceIds: ['ib-myp-programme', 'ib-myp-assessment', 'arts-nga-elements', 'arts-getty-analysis', 'arts-vam-sketchbooks'],
   }),
   lesson({
-    id: 'myp5-music-analysis', subjectSlug: 'music', topic: 'Musical analysis',
+    id: 'myp5-music-analysis', prerequisiteIds: [], subjectSlug: 'music', topic: 'Musical analysis',
     summary: 'Explain how musical elements interact over time to shape structure, tension and character.',
     objectives: ['Use musical vocabulary accurately.', 'Track change across a passage.', 'Connect evidence to an interpretation.'],
     keyIdeas: ['Musical effect usually comes from interacting elements.', 'Analysis needs a location in the music.', 'Contrast and development help listeners perceive structure.'],
     definitions: [{ term: 'Texture', meaning: 'How simultaneous musical lines or layers relate.' }, { term: 'Timbre', meaning: 'The characteristic quality of a sound.' }, { term: 'Motif', meaning: 'A short musical idea that can recur or develop.' }],
     method: ['Locate the passage by time, section or rehearsal mark.', 'Describe a specific musical change.', 'Explain interaction with another element.', 'Connect the change to structure or expressive intention.'],
-    workedExample: { prompt: 'Analyse a repeated four-note motif that moves to higher pitch and louder dynamics.', steps: ['Repetition establishes the motif as recognisable.', 'Sequential rise increases register.', 'Crescendo adds growing intensity.'], conclusion: 'Together, rising pitch and dynamics develop the motif into a structural build rather than simple repetition.' },
+    workedExample: { prompt: 'Original written musical description: a four-note motif repeats, moving into a higher register on each repetition while gradually becoming louder. Analyse the described changes.', steps: ['Repetition establishes the motif as recognisable.', 'Each repetition moves the motif into a higher register.', 'The gradual increase in loudness is a crescendo and may contribute to growing intensity.'], conclusion: 'Together, rising pitch and dynamics develop the motif into a structural build rather than simple repetition.' },
     misconceptions: [{ mistake: 'Writing a vocabulary list instead of an analysis.', correction: 'Connect each term to audible evidence, change and effect.' }, { mistake: 'Calling tempo and rhythm the same thing.', correction: 'Tempo is overall pulse speed; rhythm is the pattern of durations and accents.' }],
     practice: [practice('mus-1', 'Foundation', 'Identify', 3, 'Identify three elements you could track when comparing two performances.', ['Choose measurable or audible features.'], ['Tempo, articulation and dynamics are three valid elements.'], ['Three valid elements', 'Elements can be located or compared in the recording']), practice('mus-2', 'Standard', 'Explain', 6, 'Explain how thinning texture can prepare a climax.', ['Think about contrast.'], ['Removing layers lowers density and can create expectation.', 'A later return of fuller texture gains impact through contrast.', 'Dynamics, register and silence may strengthen the preparation.'], ['Texture change', 'Contrast', 'Connection to climax']), practice('mus-3', 'Challenge', 'Evaluate', 8, 'Evaluate whether a faster performance is necessarily more energetic.', ['Separate tempo from energy.'], ['Faster tempo may contribute energy.', 'Weak articulation, narrow dynamics or low rhythmic emphasis can reduce intensity.', 'Energy should be judged from interacting performance choices.'], ['Considers tempo', 'Counterfactors', 'Integrated judgement'])],
     checklist: ['I locate evidence in the music.', 'I distinguish musical elements.', 'I analyse interactions and change.', 'I connect evidence to structure or intention.'],
-    sourceIds: ['ib-myp-programme', 'ib-myp-assessment'],
+    sourceIds: ['ib-myp-programme', 'ib-myp-assessment', 'arts-carnegie-toolbox'],
   }),
   lesson({
-    id: 'myp5-drama-performance', subjectSlug: 'drama', topic: 'Performance analysis',
+    id: 'myp5-drama-performance', prerequisiteIds: [], subjectSlug: 'drama', topic: 'Performance analysis',
     summary: 'Analyse how performer, space, design and audience relationships create meaning in live work.',
     objectives: ['Describe performance evidence.', 'Explain interaction among theatrical choices.', 'Evaluate choices against an artistic intention.'],
     keyIdeas: ['Performance choices occur in time and space.', 'Meaning can come from contrast between spoken text and physical action.', 'Evaluation needs a stated intention and evidence of audience effect.'],
     definitions: [{ term: 'Proxemics', meaning: 'The use of distance and spatial relationship between performers.' }, { term: 'Blocking', meaning: 'Planned movement and positioning on stage.' }, { term: 'Subtext', meaning: 'Meaning implied beneath or beside the spoken words.' }],
     method: ['Locate the moment.', 'Describe voice, body, space or design precisely.', 'Explain how choices interact.', 'Judge their effect in relation to intention and audience.'],
-    workedExample: { prompt: 'Analyse a character saying “I trust you” while stepping backwards.', steps: ['The words state trust.', 'Backward movement increases distance.', 'The contradiction creates subtext of fear, doubt or concealment.'], conclusion: 'The moment asks the audience to question the literal dialogue and attend to physical evidence.' },
+    workedExample: { prompt: 'Original fictional moment: a character says “I trust you” while stepping backwards. Analyse the relationship between words and movement.', steps: ['The words state trust.', 'Backward movement increases distance.', 'The contradiction creates subtext of fear, doubt or concealment.'], conclusion: 'The moment asks the audience to question the literal dialogue and attend to physical evidence.' },
     misconceptions: [{ mistake: 'Retelling the scene.', correction: 'Select a moment and analyse the choices that produce meaning.' }, { mistake: 'Calling a performance effective without criteria.', correction: 'State the intention, evidence and observed or plausible audience response.' }],
     practice: [practice('dra-1', 'Foundation', 'Describe', 3, 'Describe three performance choices that could show status without dialogue.', ['Consider level, gaze and pace.'], ['Higher physical level, sustained direct gaze and controlled slower movement could suggest status.'], ['Three specific choices', 'Choices are observable rather than inferred emotions']), practice('dra-2', 'Standard', 'Explain', 6, 'Explain how lighting and proxemics could isolate one performer.', ['Connect two design areas.'], ['A narrow pool of light can separate the performer visually.', 'Large distance from the ensemble reinforces social separation.', 'The combined choices direct audience attention and communicate isolation.'], ['Lighting', 'Proxemics', 'Combined effect']), practice('dra-3', 'Challenge', 'Evaluate', 8, 'A scene intends to create tension but the audience laughs. Evaluate what evidence the group should review.', ['Do not assume laughter means total failure.'], ['Review timing, vocal delivery, physical exaggeration, audience context and whether laughter occurred at intended moments.', 'Compare rehearsal recordings and feedback.', 'Revise the clearest mismatch, then retest.'], ['Multiple evidence sources', 'Connection to intention', 'Specific revision', 'Retest'])],
     checklist: ['I select exact moments.', 'I describe observable choices.', 'I analyse interactions.', 'I evaluate against intention and evidence.'],
-    sourceIds: ['ib-myp-programme', 'ib-myp-assessment'],
+    sourceIds: ['ib-myp-programme', 'ib-myp-assessment', 'arts-rsc-rehearsal'],
   }),
+  {
+  "id": "myp5-phe-fitness",
+  "subjectSlug": "physical-health-education",
+  "topic": "Fitness",
+  "prerequisiteIds": [],
+  "contentStatus": "original-editorial-draft",
+  "curriculumVersion": "vertexed-myp5-2026.1",
+  "summary": "Distinguish fitness qualities and evaluate what a fictional measure can establish without treating a result as a health diagnosis.",
+  "objectives": [
+    "Relate a fitness quality to a stated task.",
+    "Distinguish validity and reliability.",
+    "Identify limits of a proposed test or plan."
+  ],
+  "explanation": [
+    "Fitness refers to capacities relevant to particular activities, rather than one score that ranks a whole person. Speed, strength, muscular endurance and cardiorespiratory endurance describe different demands. A measure chosen for one purpose may not answer a different question. The interpretation also depends on the conditions and on who the measure is suitable for. A classroom example of a test is not a request to attempt it.",
+    "Validity concerns whether evidence supports the intended interpretation; reliability concerns consistency under comparable conditions. A consistently recorded result can still be an unsuitable measure of the chosen quality. Real testing requires appropriate instruction, suitability and school guidance. The original fictional records here support discussion of measures and evidence only. They cannot diagnose health, certify safe technique or establish an individual training workload. Keep performance observations separate from assumptions about wellbeing or personal worth."
+  ],
+  "keyIdeas": [
+    "Different activities make different demands.",
+    "Consistency does not guarantee validity.",
+    "A result needs context and an appropriate interpretation."
+  ],
+  "definitions": [
+    {
+      "term": "Validity",
+      "meaning": "The extent to which evidence supports the intended interpretation of a measure."
+    },
+    {
+      "term": "Reliability",
+      "meaning": "Consistency under comparable measurement conditions."
+    },
+    {
+      "term": "Cardiorespiratory endurance",
+      "meaning": "Capacity to sustain activity supported by the circulatory and respiratory systems."
+    }
+  ],
+  "method": [
+    "Name the stated activity demand.",
+    "Identify the quality the measure aims to describe.",
+    "Check comparable conditions and suitability information.",
+    "State what the result cannot establish."
+  ],
+  "workedExample": {
+    "prompt": "A fictional report uses a short sprint time as its only evidence that a learner can sustain a prolonged activity. Evaluate the interpretation.",
+    "steps": [
+      "The timed sprint provides information about performance over that short distance.",
+      "Sustaining a prolonged activity involves demands not established by the short sprint alone.",
+      "Consistent timing does not remove that validity problem.",
+      "Identify relevant evidence with a qualified teacher rather than attempting a new test unsupervised."
+    ],
+    "conclusion": "The measure does not establish the broader endurance claim; further appropriate evidence would be needed."
+  },
+  "misconceptions": [
+    {
+      "mistake": "One fitness score describes all capacities.",
+      "correction": "Relate each measure to its intended task and interpretation."
+    },
+    {
+      "mistake": "Discomfort proves improvement.",
+      "correction": "Discomfort is not evidence of improved capacity and should not be used as a target."
+    }
+  ],
+  "practice": [
+    {
+      "id": "phe-1",
+      "difficulty": "Foundation",
+      "command": "Identify",
+      "marks": 3,
+      "prompt": "A fictional task concerns covering a short distance quickly. Name a relevant fitness quality and explain why this does not establish prolonged endurance.",
+      "hints": [
+        "Separate short-duration speed and sustained activity."
+      ],
+      "solution": [
+        "Speed is relevant to covering the short distance quickly.",
+        "That performance alone does not establish ability to sustain a prolonged activity."
+      ],
+      "successCriteria": [
+        "Relevant quality",
+        "Limit identified"
+      ]
+    },
+    {
+      "id": "phe-2",
+      "difficulty": "Standard",
+      "command": "Analyse",
+      "marks": 5,
+      "prompt": "Two fictional timings used different distances and different start signals. Explain why a smaller time does not by itself prove improvement.",
+      "hints": [
+        "Check comparable conditions."
+      ],
+      "solution": [
+        "Distance and starting procedure changed, so the times do not represent the same task under comparable conditions.",
+        "Use a defined, appropriate observation protocol and qualified guidance before interpreting a difference."
+      ],
+      "successCriteria": [
+        "Conditions recognised",
+        "Qualified interpretation"
+      ]
+    },
+    {
+      "id": "phe-3",
+      "difficulty": "Advanced",
+      "command": "Evaluate",
+      "marks": 6,
+      "prompt": "A template claims one automatic percentage increase makes every exercise plan suitable for every learner. Evaluate without prescribing a replacement workload.",
+      "hints": [
+        "Suitability depends on more than arithmetic."
+      ],
+      "solution": [
+        "The claim ignores activity, experience, individual circumstances and recovery.",
+        "A percentage calculation does not establish safety or suitability.",
+        "Real plans require appropriate qualified review and a way to respond to concerns."
+      ],
+      "successCriteria": [
+        "Universal claim rejected",
+        "Arithmetic boundary",
+        "Appropriate review"
+      ]
+    }
+  ],
+  "checklist": [
+    "I connect a measure with a task.",
+    "I check comparability.",
+    "I distinguish performance and health.",
+    "I recognise the need for appropriate guidance."
+  ],
+  "sourceIds": [
+    "phe-who-activity",
+    "phe-openstax-cardiac"
+  ]
+},
   lesson({
-    id: 'myp5-phe-fitness', subjectSlug: 'physical-health-education', topic: 'Fitness',
-    summary: 'Connect fitness components, training demands and recovery to a defined performance goal.',
-    objectives: ['Distinguish fitness components.', 'Select valid field tests.', 'Design safe, progressive training decisions.'],
-    keyIdeas: ['Fitness is specific to a task and person.', 'A test is useful only if it is valid, reliable and applied consistently.', 'Adaptation requires overload alongside recovery.'],
-    definitions: [{ term: 'Validity', meaning: 'The extent to which a test measures the intended quality.' }, { term: 'Reliability', meaning: 'The consistency of results under repeated comparable conditions.' }, { term: 'Progressive overload', meaning: 'A gradual increase in training demand as adaptation occurs.' }],
-    method: ['Define the performance demand.', 'Choose the relevant component and baseline test.', 'Set frequency, intensity, time and type.', 'Plan recovery and a later comparable retest.'],
-    workedExample: { prompt: 'Plan one progression for a runner completing three 20-minute easy runs per week.', steps: ['Keep two sessions unchanged.', 'Increase one run to 23 minutes, a 15% rise for that session.', 'Monitor effort and recovery before another increase.'], conclusion: 'The progression changes one variable and preserves recovery, making the response easier to evaluate.' },
-    misconceptions: [{ mistake: 'Increasing every training variable at once.', correction: 'Change demand gradually so adaptation and fatigue can be interpreted.' }, { mistake: 'Treating soreness as proof of improvement.', correction: 'Use performance, recovery and wellbeing evidence rather than discomfort alone.' }],
-    practice: [practice('phe-1', 'Foundation', 'Identify', 3, 'Identify the main fitness component in a 100 m sprint and one suitable test.', ['Think about rapid force and speed.'], ['Speed is central; a timed 30 m or 40 m sprint can provide a relevant field measure.'], ['Component', 'Suitable test']), practice('phe-2', 'Standard', 'Design', 6, 'Design one interval session for an intermediate 5 km runner.', ['Include work, recovery, repetitions and intensity cue.'], ['Example: 6 × 2 minutes at a controlled hard effort with 2 minutes easy movement between repetitions, after warm-up and before cool-down.'], ['Complete structure', 'Intensity', 'Recovery', 'Safety']), practice('phe-3', 'Challenge', 'Evaluate', 8, 'Evaluate a four-week plan that increases running distance by 20% every week with no recovery week.', ['Compound the increases and consider individual response.'], ['The plan provides overload but compounds quickly.', 'No lighter week or symptom monitoring increases fatigue risk.', 'Progression should respond to training history, recovery and performance evidence rather than use one automatic percentage.'], ['Benefit', 'Risk', 'Individualisation', 'Recommendation'])],
-    checklist: ['I connect fitness to a task.', 'I choose valid tests.', 'I specify training dose.', 'I include recovery and retesting.'],
-    sourceIds: ['ib-myp-programme', 'ib-myp-assessment'],
-  }),
-  lesson({
-    id: 'myp5-personal-project-goal', subjectSlug: 'personal-project', topic: 'Goal development',
+    id: 'myp5-personal-project-goal', prerequisiteIds: [], subjectSlug: 'personal-project', topic: 'Goal development',
     summary: 'Turn an interest into a feasible learning goal, product goal and evidence plan.',
     objectives: ['Separate learning and product goals.', 'Define meaningful success criteria.', 'Plan evidence of process and reflection.'],
     keyIdeas: ['The learning goal describes what the learner will understand or become able to do.', 'The product goal describes what will be created or performed.', 'Success criteria should be testable before production begins.'],
@@ -365,9 +570,24 @@ export const MYP5_LESSONS: MypLesson[] = [
     misconceptions: [{ mistake: 'Choosing a product before deciding what to learn.', correction: 'Make the product serve the learning goal.' }, { mistake: 'Writing criteria after the product is finished.', correction: 'Freeze criteria early, then document justified changes.' }],
     practice: [practice('pp-1', 'Foundation', 'Distinguish', 4, 'Distinguish a learning goal from a product goal using one example.', ['Use “learn to” and “create”.'], ['Learning goal: learn to conduct oral-history interviews ethically.', 'Product goal: create a ten-minute edited audio documentary.'], ['Clear distinction', 'Connected example']), practice('pp-2', 'Standard', 'Develop', 6, 'Develop three success criteria for an illustrated beginner’s cooking guide.', ['Include content, usability and testing.'], ['Examples: every recipe is tested twice; a beginner completes one recipe using only the guide; allergen information is visible for every recipe.'], ['Three measurable criteria', 'User relevance', 'Testability']), practice('pp-3', 'Challenge', 'Evaluate', 8, 'A learner changes the project goal halfway through but has no dated record. Evaluate the evidence problem and recovery action.', ['Separate the quality of the change from the missing trace.'], ['The change may be justified, but without dated evidence the reasoning and sequence cannot be established.', 'Reconstruct only from existing messages, drafts or files, label uncertainty, and document future decisions contemporaneously.'], ['Evidence limitation', 'No fabrication', 'Recovery method', 'Future process'])],
     checklist: ['My learning and product goals are distinct.', 'My scope is feasible.', 'My criteria are measurable.', 'My process evidence records decisions when they happen.'],
-    sourceIds: ['ib-myp-programme', 'ib-myp-assessment'],
+    sourceIds: ['ib-myp-programme', 'ib-myp-assessment', 'project-ib-learning'],
   }),
   ...MYP5_LESSON_EXPANSION,
+  ...MYP5_MATHEMATICS_COMPLETION,
+  ...MYP5_PHYSICS_COMPLETION,
+  ...MYP5_CHEMISTRY_COMPLETION,
+  ...MYP5_BIOLOGY_COMPLETION,
+  ...MYP5_INTEGRATED_SCIENCES_COMPLETION,
+  ...MYP5_ENGLISH_COMPLETION,
+  ...MYP5_HISTORY_COMPLETION,
+  ...MYP5_ECONOMICS_COMPLETION,
+  ...MYP5_GEOGRAPHY_COMPLETION,
+  ...MYP5_INTEGRATED_HUMANITIES_COMPLETION,
+  ...MYP5_SPANISH_COMPLETION,
+  ...MYP5_DESIGN_COMPLETION,
+  ...MYP5_ARTS_COMPLETION,
+  ...MYP5_PERSONAL_PROJECT_COMPLETION,
+  ...MYP5_PHE_COMPLETION,
 ];
 
 const lessonByKey = new Map(MYP5_LESSONS.map((entry) => [`${entry.subjectSlug}:${entry.topic}`, entry]));
@@ -379,4 +599,14 @@ export function findMypLesson(subjectSlug: string, topic: string): MypLesson | n
 export function sourcesForLesson(lessonEntry: MypLesson): MypContentSource[] {
   const ids = new Set(lessonEntry.sourceIds);
   return MYP_CONTENT_SOURCES.filter((source) => ids.has(source.id));
+}
+
+const lessonById = new Map(MYP5_LESSONS.map((entry) => [entry.id, entry]));
+
+export function prerequisitesForLesson(entry: MypLesson): MypLesson[] {
+  return (entry.prerequisiteIds ?? []).map((id) => {
+    const prerequisite = lessonById.get(id);
+    if (!prerequisite) throw new Error(`Unknown prerequisite: ${id}`);
+    return prerequisite;
+  });
 }

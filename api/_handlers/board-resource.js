@@ -4,7 +4,7 @@ import {
   callChatProvider,
   createSafetyIdentifier,
   DEFAULT_OPENAI_PRIMARY_MODEL,
-  extractChatAnswer,
+  extractGeneratedText,
   resolveOpenAiConfig,
 } from '../_lib/aiProviders.js';
 import { fetchProvider } from '../_lib/providerRequest.js';
@@ -91,7 +91,7 @@ REQUIREMENTS:
       return res.status(502).json({ error: 'Generation failed. Try again shortly.' });
     }
 
-    const content = extractChatAnswer(JSON.parse(result.raw)) ?? '';
+    const content = extractGeneratedText(JSON.parse(result.raw)) ?? '';
 
     if (!content || countWords(content) < 400) {
       return res.status(502).json({ error: 'Guide too short — retry.' });

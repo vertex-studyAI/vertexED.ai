@@ -3,6 +3,9 @@ select plan(10);
 insert into auth.users(id, email) values
 ('33333333-3333-4333-8333-333333333333', 'conversation-one@example.test'),
 ('44444444-4444-4444-8444-444444444444', 'conversation-two@example.test');
+-- Transaction-only grant isolates the retained owner-policy/uniqueness tests.
+-- Production direct access is separately denied in artifact_access.test.sql.
+grant select, insert, update, delete on public.user_study_artifacts to authenticated;
 set local role authenticated;
 set local request.jwt.claim.sub = '33333333-3333-4333-8333-333333333333';
 select lives_ok($$insert into public.user_study_artifacts(user_id, kind, payload)

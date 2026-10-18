@@ -11,13 +11,17 @@ import CloudSaveBanner from "@/components/CloudSaveBanner";
 import ThemeToggle from "@/components/ThemeToggle";
 import PageLoader from "@/components/PageLoader";
 import GlobalStudySearch from "@/components/GlobalStudySearch";
+import LearningMethodBand from "@/components/LearningMethodBand";
 import { useStudySessionTracker } from "@/hooks/useStudySessionTracker";
 import { toast } from "@/hooks/use-toast";
 import { logoutWithLocalFallback } from "@/lib/logoutFlow.mjs";
 import { authUiError } from "@/lib/authUi.mjs";
 import { shouldOfferApex } from "@/lib/apexRoute.mjs";
+import { observeFooterVisibility } from "@/lib/companionDock.mjs";
 import { PUBLIC_INTAKE_ROUTES } from "@/lib/intakeRoutes.mjs";
 import '@/styles/navigation.css';
+import '@/styles/beta-access.css';
+import { BetaAccessDisplayContext } from '@/contexts/BetaAccessDisplayContext';
 
 const GlobalChatPanel = lazy(() => import("@/components/chat/GlobalChatPanel"));
 const ApexCompanion = lazy(() => import("@/components/ApexCompanion"));
@@ -28,10 +32,14 @@ export default function SiteLayout() {
   const { isAdmin } = useIsAdmin();
   const showAdmin = isAuthenticated && isAdmin;
   const location = useLocation();
+  const previousFocusPath = useRef(location.pathname);
   useStudySessionTracker(isAuthenticated);
   const [menuOpen, setMenuOpen] = useState(false);
   const [tutorRequest, setTutorRequest] = useState(0);
   const [tutorOpen, setTutorOpen] = useState(false);
+  const [accessPanelVisible, setAccessPanelVisible] = useState(false);
+  const [footerVisible, setFooterVisible] = useState(false);
+  const footerRef = useRef<HTMLElement | null>(null);
   const menuButtonRef = useRef<HTMLButtonElement | null>(null);
   const mobileNavRef = useRef<HTMLElement | null>(null);
   const headerRef = useRef<HTMLElement | null>(null);
@@ -53,6 +61,19 @@ export default function SiteLayout() {
   const shouldLoadGlobalChat = chatEligibleRoute && (isAuthenticated || isStudyGuideRoute);
   const companionEligible = shouldOfferApex(location.pathname) && location.pathname !== "/learn";
   const companionVisible = companionEligible && settings.studyCompanion && !settings.simpleMode;
+  const showLearningMethod = ![
+    '/login',
+    '/signup',
+    '/auth/callback',
+    '/onboarding',
+    '/privacy',
+    '/terms',
+  ].includes(location.pathname) && !location.pathname.startsWith('/admin');
+
+  useEffect(() => {
+    if (!footerRef.current) return;
+    return observeFooterVisibility(footerRef.current, setFooterVisible);
+  }, []);
 
   useEffect(() => {
     const frame = window.requestAnimationFrame(() => {
@@ -67,12 +88,15 @@ export default function SiteLayout() {
   }, [location.pathname, location.hash]);
 
   useEffect(() => {
-    if (location.key === 'default' || location.hash) return;
+    const routeChanged = previousFocusPath.current !== location.pathname;
+    previousFocusPath.current = location.pathname;
+    // Query-backed search and filters must keep focus in the active control.
+    if (!routeChanged || location.hash) return;
     const frame = window.requestAnimationFrame(() => {
       document.getElementById('main-content')?.focus({ preventScroll: true });
     });
     return () => window.cancelAnimationFrame(frame);
-  }, [location.key, location.hash]);
+  }, [location.pathname, location.hash]);
 
   const handleLogout = async () => {
     try {
@@ -100,6 +124,11 @@ export default function SiteLayout() {
       document.body.style.overflow = "";
     };
   }, [menuOpen]);
+
+  useEffect(() => {
+    // Logo, search and browser-history navigation also leave the menu behind.
+    setMenuOpen(false);
+  }, [location.key]);
 
   useEffect(() => {
     const close = () => setMenuOpen(false);
@@ -133,6 +162,7 @@ export default function SiteLayout() {
     ? [
         { to: "/main", label: "Today" },
         { to: "/learn?tab=knowledge", label: "Courses" },
+        { to: "/resources", label: "Library" },
         { to: "/learn", label: "Practise" },
         { to: "/learn?tab=mistakes", label: "Mistakes" },
         { to: "/planner", label: "Study plan" },
@@ -141,14 +171,16 @@ export default function SiteLayout() {
     : [
         { to: "/", label: "Home" },
         { to: "/features", label: "Features" },
+        { to: "/resources", label: "Library" },
+        { to: "/projects", label: "Projects" },
         { to: "/#concept-lens", label: "Try the lens" },
         { to: "/about", label: "About" },
         { to: "/login", label: "Login" },
       ];
 
   return (
-    <div className={`site-shell relative min-h-screen flex flex-col text-foreground ${['/', '/home'].includes(location.pathname) ? 'site-landing' : 'site-workspace bg-transparent'}`}>
-      <div className="site-atmosphere" aria-hidden="true"><i /><i /><i /></div>
+    <BetaAccessDisplayContext.Provider value={setAccessPanelVisible}>
+    <div data-footer-visible={footerVisible ? 'true' : undefined} className={`site-shell relative min-h-screen flex flex-col text-foreground ${['/', '/home'].includes(location.pathname) ? 'site-landing' : 'site-workspace bg-transparent'}`}>
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:rounded-lg focus:bg-primary focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-primary-foreground"
@@ -160,10 +192,10 @@ export default function SiteLayout() {
       ].map(item => <Link key={item.to} to={item.to} aria-current={isActive(item.to) ? 'page' : undefined}>{item.label}</Link>)}</nav>}
       <Helmet>
         <title>VertexED: Revision planning and exam practice</title>
-        <meta
+        {!location.pathname.startsWith("/myp/subjects/") && <meta
           name="description"
           content="Plan revision, practise papers, review answers, and revisit topics with notes and flashcards in VertexED."
-        />
+        />}
         <meta property="og:site_name" content="VertexED" />
         <meta property="og:image" content="https://www.vertexed.app/socialpreview.jpg" />
         <meta property="og:locale" content="en_US" />
@@ -233,7 +265,7 @@ export default function SiteLayout() {
             {!isAuthenticated && (
               <Link
                 to="/signup"
-                className="ml-2 rounded-full px-4 py-2 text-sm font-semibold brand-cta brand-ink-dark transition hover:brightness-110"
+                className="ml-2 rounded-lg px-4 py-2 text-sm font-semibold brand-cta brand-ink-dark transition hover:brightness-110"
               >
                 Join beta
               </Link>
@@ -245,7 +277,7 @@ export default function SiteLayout() {
             {!isAuthenticated && (
               <Link
                 to="/signup"
-                className="mobile-join-link rounded-full px-3 py-1.5 text-xs font-semibold brand-cta brand-ink-dark"
+                className="mobile-join-link rounded-lg px-3 py-1.5 text-xs font-semibold brand-cta brand-ink-dark"
               >
                 Join
               </Link>
@@ -257,7 +289,7 @@ export default function SiteLayout() {
               aria-expanded={menuOpen}
               aria-controls="mobile-nav"
               onClick={() => setMenuOpen((open) => !open)}
-              className="relative w-10 h-10 inline-flex items-center justify-center rounded-xl border border-border/60 bg-background/50 hover:bg-accent/20 transition-colors backdrop-blur-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              className="relative w-10 h-10 inline-flex items-center justify-center rounded-lg border border-border/60 bg-background/50 hover:bg-accent/20 transition-colors backdrop-blur-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             >
               <span className="sr-only">Menu</span>
               <div className="flex flex-col gap-1.5">
@@ -301,7 +333,7 @@ export default function SiteLayout() {
                 to={l.to}
                 aria-current={isActive(l.to) ? "page" : undefined}
                 onClick={() => setMenuOpen(false)}
-                className={`rounded-xl px-3 py-2.5 ${
+                className={`rounded-lg px-3 py-2.5 ${
                   isActive(l.to)
                     ? "bg-primary/12 text-foreground border border-primary/25"
                     : "text-muted-foreground hover:bg-accent/30 hover:text-foreground"
@@ -315,7 +347,7 @@ export default function SiteLayout() {
                 to="/user-settings"
                 aria-current={isActive("/user-settings") ? "page" : undefined}
                 onClick={() => setMenuOpen(false)}
-                className={`rounded-xl px-3 py-2.5 ${
+                className={`rounded-lg px-3 py-2.5 ${
                   isActive("/user-settings")
                     ? "bg-primary/12 text-foreground border border-primary/25"
                     : "text-muted-foreground hover:bg-accent/30 hover:text-foreground"
@@ -329,7 +361,7 @@ export default function SiteLayout() {
                 to="/admin/waitlist"
                 aria-current={isActive("/admin/waitlist") ? "page" : undefined}
                 onClick={() => setMenuOpen(false)}
-                className={`rounded-xl px-3 py-2.5 ${
+                className={`rounded-lg px-3 py-2.5 ${
                   isActive("/admin/waitlist")
                     ? "bg-primary/12 text-foreground border border-primary/25"
                     : "text-muted-foreground hover:bg-accent/30 hover:text-foreground"
@@ -342,7 +374,7 @@ export default function SiteLayout() {
               <Link
                 to="/signup"
                 onClick={() => setMenuOpen(false)}
-                className="mt-2 rounded-full px-4 py-2.5 text-sm font-semibold text-center brand-cta brand-ink-dark"
+                className="mt-2 rounded-lg px-4 py-2.5 text-sm font-semibold text-center brand-cta brand-ink-dark"
               >
                 Join the private beta
               </Link>
@@ -351,7 +383,7 @@ export default function SiteLayout() {
               <button
                 type="button"
                 onClick={() => void handleLogout()}
-                className="mt-2 rounded-full px-4 py-2.5 text-sm font-semibold border border-border bg-accent/20 hover:bg-accent/30 transition"
+                className="mt-2 rounded-lg px-4 py-2.5 text-sm font-semibold border border-border bg-accent/20 hover:bg-accent/30 transition"
               >
                 Sign Out
               </button>
@@ -371,6 +403,7 @@ export default function SiteLayout() {
             <Outlet />
           </Suspense>
         </RouteErrorBoundary>
+        {showLearningMethod && <LearningMethodBand pathname={location.pathname} />}
       </main>
 
       {shouldLoadGlobalChat && (
@@ -379,7 +412,7 @@ export default function SiteLayout() {
         </Suspense>
       )}
 
-      <footer className="relative z-10 border-t border-border/60 bg-background/50 backdrop-blur-sm">
+      <footer ref={footerRef} className="relative z-10 border-t border-border/60 bg-background/50 backdrop-blur-sm">
         <div className="mx-auto w-full max-w-[1400px] px-4 md:px-6 py-8 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
           <p>© {new Date().getFullYear()} VertexED. Plan, practise, review, remember.</p>
           <nav className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
@@ -387,6 +420,8 @@ export default function SiteLayout() {
               <>
                 <Link to="/main" className="hover:text-foreground transition">Today</Link>
                 <Link to="/planner" className="hover:text-foreground transition">Planner</Link>
+                <Link to="/resources" className="hover:text-foreground transition">Learning library</Link>
+                <Link to="/myp" className="hover:text-foreground transition">MYP 5</Link>
                 <Link to="/user-settings" className="hover:text-foreground transition">Account</Link>
                 <Link to="/privacy" className="hover:text-foreground transition">Privacy</Link>
                 <Link to="/terms" className="hover:text-foreground transition">Terms</Link>
@@ -394,6 +429,10 @@ export default function SiteLayout() {
             ) : (
               <>
                 <Link to="/features" className="hover:text-foreground transition">Features</Link>
+                <Link to="/resources" className="hover:text-foreground transition">Learning library</Link>
+                <Link to="/curricula" className="hover:text-foreground transition">Curricula</Link>
+                <Link to="/myp" className="hover:text-foreground transition">MYP 5</Link>
+                <Link to="/projects" className="hover:text-foreground transition">Projects</Link>
                 <Link to="/about" className="hover:text-foreground transition">About</Link>
                 <Link to="/privacy" className="hover:text-foreground transition">Privacy</Link>
                 <Link to="/terms" className="hover:text-foreground transition">Terms</Link>
@@ -409,7 +448,7 @@ export default function SiteLayout() {
             <a href="mailto:vertexed.25@gmail.com" className="hover:text-foreground transition">Contact</a>
             {companionEligible && (
               <Suspense fallback={null}>
-                <ApexCompanion suspended={menuOpen || (shouldLoadGlobalChat && tutorOpen)}
+                <ApexCompanion docked={footerVisible || accessPanelVisible || location.pathname === "/user-settings" || location.pathname === "/study-zone" || location.pathname === "/saved-work" || location.pathname.startsWith("/myp") || location.pathname === "/ap" || location.pathname.startsWith("/ap/")} suspended={menuOpen || (shouldLoadGlobalChat && tutorOpen)}
                   onOpenTutor={shouldLoadGlobalChat ? () => setTutorRequest((request) => request + 1) : undefined} />
               </Suspense>
             )}
@@ -417,5 +456,6 @@ export default function SiteLayout() {
         </div>
       </footer>
     </div>
+    </BetaAccessDisplayContext.Provider>
   );
 }

@@ -5,11 +5,13 @@ import {
   NOTEBOOK_OUTPUT_MODES,
   validateSourceCitations,
   validateStructuredSourceIds,
+  prepareSourceContext,
 } from '../_lib/grounding.js';
 import { fetchProvider } from '../_lib/providerRequest.js';
 import { routeAiRequest } from '../_lib/aiRouting.js';
 import { validateNotebookOutput } from '../../contracts/learningOutputs.js';
 import { VERTEX_AGENTS } from '../_lib/vertexAgents.js';
+import { extractGeneratedText } from '../_lib/aiProviders.js';
 
 const ALLOWED_MODES = new Set(Object.keys(NOTEBOOK_OUTPUT_MODES));
 
@@ -97,10 +99,10 @@ ${sourceBlock}`;
     }
 
     const data = await response.json();
-    const raw = data.choices?.[0]?.message?.content?.trim() ?? '';
+    const raw = extractGeneratedText(data);
 
     if (!raw) {
-      return res.status(502).json({ error: 'AI returned empty output.' });
+      return res.status(502).json({ error: 'AI could not complete this study material. Your sources are unchanged. Try a smaller selection or a different request.' });
     }
 
     if (spec.json) {
@@ -108,9 +110,7 @@ ${sourceBlock}`;
       try {
         parsed = JSON.parse(raw);
       } catch {
-        const start = raw.indexOf('{');
-        const end = raw.lastIndexOf('}') + 1;
-        if (start >= 0 && end > start) parsed = JSON.parse(raw.slice(start, end));
+        return res.status(502).json({ error: 'Generated material was incomplete or invalid. Your sources are unchanged; please retry.' });
       }
 
       const validated = validateNotebookOutput(mode, parsed);
@@ -141,20 +141,17 @@ ${sourceBlock}`;
           content,
           suggestedQuestions: questions,
           generatedAt: new Date().toISOString(),
+          sources: prepareSourceContext(sources).sources.map(({ id, title }) => ({ id, title })),
         });
       }
 
       if (spec.quiz) {
-        const questions = (parsed.questions || []).slice(0, 12).map((q, i) => ({
-          question: String(q.question || '').trim().slice(0, 500),
-          type: q.type === 'mcq' ? 'mcq' : 'short',
-          options: Array.isArray(q.options) ? q.options.map((o) => String(o).slice(0, 200)).slice(0, 6) : [],
-          answer: String(q.answer || '').trim().slice(0, 300),
-          explanation: String(q.explanation || '').trim().slice(0, 500),
-          marks: typeof q.marks === 'number' ? q.marks : 1,
-          sourceIds: q.sourceIds,
+        // The contract already bounds these fields. Cutting them again can
+        // remove a condition or make a correct MCQ answer differ from its option.
+        const questions = parsed.questions.map((q, i) => ({
+          ...q,
           id: `q-${i}`,
-        })).filter((q) => q.question);
+        }));
 
         const content = questions
           .map(
@@ -178,14 +175,7 @@ ${sourceBlock}`;
         });
       }
 
-      const flashcards = (parsed.flashcards || [])
-        .filter((c) => c?.front && c?.back)
-        .slice(0, 20)
-        .map((c) => ({
-          front: String(c.front).trim().slice(0, 300),
-          back: String(c.back).trim().slice(0, 500),
-          sourceIds: c.sourceIds,
-        }));
+      const flashcards = parsed.flashcards;
 
       const markdown = flashcards
         .map((c, i) => `### Card ${i + 1}\n**Q:** ${c.front}\n**A:** ${c.back}`)

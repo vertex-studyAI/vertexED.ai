@@ -1,0 +1,183 @@
+{
+  "slug": "african-american-studies",
+  "title": "AP African American Studies",
+  "category": "History and social sciences",
+  "summary": "Connect African societies, resistance, freedom and modern movements through careful source analysis.",
+  "officialUrl": "https://apstudents.collegeboard.org/courses/ap-african-american-studies",
+  "frameworkNote": "2026–27 structure checked against College Board on 15 October 2026: 4 units. Original VertexED focused lessons and self-check questions sample each unit; they do not replace the full course framework, required materials or teacher review. The course also includes an individual student project; these exercises are preparation, not a submitted or assessed project.",
+  "assessment": "mixed",
+  "modules": [
+    {
+      "title": "African societies and connected worlds",
+      "focus": "Use regional evidence to challenge a single-story account of Africa.",
+      "explanation": [
+        "Africa contained diverse political systems, languages and trading networks before Atlantic slavery. Mali’s trans-Saharan connections and the Swahili coast’s Indian Ocean connections show different routes through which goods, beliefs and knowledge travelled.",
+        "A source reveals a particular viewpoint. Read an artefact alongside its place, date and purpose; a traveller’s description alone cannot represent every resident or an entire continent."
+      ],
+      "workedExample": {
+        "prompt": "Compare a map of Mali’s trade routes with one of Swahili coastal ports.",
+        "steps": [
+          "Identify Mali’s links across the Sahara and the ports’ maritime connections.",
+          "Explain that both supported exchange, while their geography and trading partners differed."
+        ]
+      },
+      "misconception": {
+        "claim": "African history begins with Atlantic enslavement.",
+        "correction": "Complex African societies and global connections preceded that trade by centuries."
+      },
+      "questions": [
+        {
+          "prompt": "Why would a single European travel account be insufficient evidence of life in medieval Mali?",
+          "hint": "Consider whose experience appears.",
+          "answer": "It reflects one visitor’s access and assumptions; local material, oral and written evidence can reveal other experiences.",
+          "checkpoints": [
+            "Identify perspective",
+            "Explain a corroborating source"
+          ],
+          "id": "african-american-studies-unit-1-q1"
+        },
+        {
+          "prompt": "How could imported pottery at an East African port support an argument about exchange?",
+          "hint": "Separate evidence from inference.",
+          "answer": "Its origin can support contact through trade, but it does not alone prove how all residents lived.",
+          "checkpoints": [
+            "Connect object to exchange",
+            "Limit the inference"
+          ],
+          "id": "african-american-studies-unit-1-q2"
+        }
+      ],
+      "id": "african-american-studies-unit-1",
+      "frameworkUnit": "Unit 1"
+    },
+    {
+      "title": "Enslavement, community and resistance",
+      "focus": "Distinguish a system of coercion from the choices people made within it.",
+      "explanation": [
+        "Atlantic slavery forcibly displaced Africans and treated people as property under changing colonial laws. Enslaved people nevertheless sustained relationships, adapted cultural practices and resisted through escape, work slowdowns, legal claims and revolt.",
+        "Resistance differed by circumstance and risk. When reading a freedom narrative, examine the writer’s purpose and audience while taking testimony seriously; compare it with other evidence rather than assuming either perfect neutrality or worthlessness."
+      ],
+      "workedExample": {
+        "prompt": "Explain why escape and preserving family ties can both be studied as resistance.",
+        "steps": [
+          "Escape directly challenged an enslaver’s control over movement and labour.",
+          "Protecting relationships resisted a system that threatened separation and denied independent family authority."
+        ]
+      },
+      "misconception": {
+        "claim": "Only armed revolt counts as resistance.",
+        "correction": "Resistance also included everyday, cultural, legal and collective actions."
+      },
+      "questions": [
+        {
+          "prompt": "Why does an abolitionist audience matter when analysing a published freedom narrative?",
+          "hint": "Think about persuasion.",
+          "answer": "The author may select experiences to challenge slavery and persuade readers; this purpose shapes presentation without automatically invalidating the account.",
+          "checkpoints": [
+            "Identify audience",
+            "Connect purpose to presentation"
+          ],
+          "id": "african-american-studies-unit-2-q1"
+        },
+        {
+          "prompt": "What extra evidence would strengthen a claim that enslaved communities preserved cultural practices?",
+          "hint": "Look beyond one observer.",
+          "answer": "Material objects, language, music or multiple testimonies can corroborate patterns across people and places.",
+          "checkpoints": [
+            "Name relevant evidence",
+            "Explain corroboration"
+          ],
+          "id": "african-american-studies-unit-2-q2"
+        }
+      ],
+      "id": "african-american-studies-unit-2",
+      "frameworkUnit": "Unit 2"
+    },
+    {
+      "title": "Freedom after emancipation",
+      "focus": "Separate constitutional change from access to power and resources.",
+      "explanation": [
+        "The Reconstruction Amendments abolished slavery, established national citizenship and equal protection, and prohibited denying voting rights on grounds of race. Enforcement, political violence and economic dependence shaped how these rights operated in practice.",
+        "African Americans built schools, businesses, organisations and artistic movements while resisting exclusion. The Great Migration combined pressures such as racial violence with opportunities elsewhere; migration did not remove discrimination from destination cities."
+      ],
+      "workedExample": {
+        "prompt": "Explain how a Black school founded after emancipation could express freedom.",
+        "steps": [
+          "Education increased opportunities to read contracts, participate politically and pursue work.",
+          "Community control of institutions also asserted collective priorities despite unequal resources."
+        ]
+      },
+      "misconception": {
+        "claim": "A constitutional right guarantees equal practical access.",
+        "correction": "Enforcement and social conditions can limit access even when a right exists in law."
+      },
+      "questions": [
+        {
+          "prompt": "How could a poll tax weaken voting access without explicitly naming race?",
+          "hint": "Consider unequal resources and historical context.",
+          "answer": "A payment requirement could exclude poor voters and operate alongside violence and discriminatory administration to suppress Black participation.",
+          "checkpoints": [
+            "Identify mechanism",
+            "Explain context"
+          ],
+          "id": "african-american-studies-unit-3-q1"
+        },
+        {
+          "prompt": "Give one push and one pull factor in the Great Migration.",
+          "hint": "Separate departure pressures from destination attractions.",
+          "answer": "Racial violence pushed people from the South; industrial jobs attracted many to northern and midwestern cities.",
+          "checkpoints": [
+            "Name a push factor",
+            "Name a pull factor"
+          ],
+          "id": "african-american-studies-unit-3-q2"
+        }
+      ],
+      "id": "african-american-studies-unit-3",
+      "frameworkUnit": "Unit 3"
+    },
+    {
+      "title": "Movements, strategies and research claims",
+      "focus": "Compare change strategies without treating a movement as a single voice.",
+      "explanation": [
+        "Twentieth-century freedom movements used litigation, boycotts, organising, direct action and cultural expression. Organisations sometimes shared aims while disagreeing over tactics, leadership or the relationship between legal equality and economic justice.",
+        "A research argument should define a manageable question and connect specific evidence to a claim. Different forms of evidence answer different questions: a speech reveals an argument, while participation records may illuminate an organisation’s reach."
+      ],
+      "workedExample": {
+        "prompt": "Compare a legal challenge to segregation with a sustained bus boycott.",
+        "steps": [
+          "The court case sought an enforceable ruling within legal institutions.",
+          "The boycott combined economic pressure and collective action; the two strategies could reinforce each other."
+        ]
+      },
+      "misconception": {
+        "claim": "Civil rights organisations all used the same strategy.",
+        "correction": "Their priorities, constituencies and methods varied and changed over time."
+      },
+      "questions": [
+        {
+          "prompt": "What makes “How did local organising sustain one boycott?” more researchable than “How did freedom happen?”",
+          "hint": "Consider scope and evidence.",
+          "answer": "It identifies a bounded event and mechanism that can be investigated with meeting records, testimony and contemporary reporting.",
+          "checkpoints": [
+            "Identify narrower scope",
+            "Name usable evidence"
+          ],
+          "id": "african-american-studies-unit-4-q1"
+        },
+        {
+          "prompt": "Can a movement’s song alone establish the number of its supporters?",
+          "hint": "Match source to claim.",
+          "answer": "No. It can reveal ideas and cultural expression; participation counts require additional evidence with known coverage.",
+          "checkpoints": [
+            "Limit the claim",
+            "Identify suitable evidence"
+          ],
+          "id": "african-american-studies-unit-4-q2"
+        }
+      ],
+      "id": "african-american-studies-unit-4",
+      "frameworkUnit": "Unit 4"
+    }
+  ]
+}

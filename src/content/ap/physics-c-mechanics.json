@@ -1,0 +1,312 @@
+{
+  "slug": "physics-c-mechanics",
+  "title": "AP Physics C: Mechanics",
+  "category": "Sciences",
+  "summary": "Use calculus to model motion, forces, energy, momentum, rotation and oscillation.",
+  "officialUrl": "https://apstudents.collegeboard.org/courses/ap-physics-c-mechanics",
+  "frameworkNote": "Unit map checked against College Board on 15 October 2026 for the 2026-27 course. Each unit has one focused original revision lesson, not exhaustive topic coverage or an official practice paper. Uses the revised seven-unit framework. Gravitation and orbits are integrated into forces and rotating systems; the historical separate gravitation unit is not used.",
+  "assessment": "exam",
+  "modules": [
+    {
+      "id": "unit-1",
+      "title": "Integrating a changing acceleration",
+      "frameworkUnit": "Unit 1",
+      "focus": "Recover velocity and position with initial conditions.",
+      "explanation": [
+        "Calculus connects position, velocity and acceleration through v=dx/dt and a=dv/dt. Differentiating removes an integration constant; integrating requires an initial condition to recover a particular motion. Keep units consistent in each coefficient.",
+        "Area under an acceleration-time curve gives velocity change, while area under velocity gives displacement. Distance travelled uses the integral of |v| and may require splitting at direction changes. Constant-acceleration shortcuts do not apply to a general time-dependent acceleration."
+      ],
+      "workedExample": {
+        "prompt": "For a(t)=6t m/s² with t in seconds and v(0)=2 m/s, find v(2).",
+        "steps": [
+          "Integrate acceleration to get v(t)=3t²+C; the initial condition gives C=2.",
+          "At t=2 s, v=3(4)+2=14 m/s."
+        ]
+      },
+      "misconception": {
+        "claim": "Integrating acceleration directly gives position.",
+        "correction": "One integration gives velocity; a second gives position."
+      },
+      "questions": [
+        {
+          "prompt": "For x(t)=t³-3t in metres, find v at t=2 s.",
+          "hint": "Differentiate x.",
+          "answer": "9 m/s.",
+          "checkpoints": [
+            "v=3t²-3.",
+            "Substitute t=2."
+          ],
+          "id": "unit-1-q1"
+        },
+        {
+          "prompt": "A particle has v(t)=2t-2 m/s on [0,2] s. Find displacement and distance.",
+          "hint": "Split at v=0 for distance.",
+          "answer": "Displacement 0 m; distance 2 m.",
+          "checkpoints": [
+            "Negative and positive signed areas cancel.",
+            "Add their magnitudes for distance."
+          ],
+          "id": "unit-1-q2"
+        }
+      ]
+    },
+    {
+      "id": "unit-2",
+      "title": "A resistive force as a differential equation",
+      "frameworkUnit": "Unit 2",
+      "focus": "Model acceleration from the instantaneous velocity.",
+      "explanation": [
+        "Newton’s second law remains a vector equation even when forces depend on time, position or velocity. A linear drag model Fdrag=-bv opposes velocity, with b carrying units kg/s. It is an assumption valid only in an appropriate flow regime.",
+        "For vertical falling motion with downward positive, m dv/dt=mg-bv. Terminal velocity occurs when net force vanishes, not when all forces vanish. Initial conditions and the model’s domain determine the particular velocity history."
+      ],
+      "workedExample": {
+        "prompt": "A falling object has m=2 kg, b=4 kg/s and g=10 m/s². Find terminal downward speed.",
+        "steps": [
+          "At terminal velocity dv/dt=0, so mg=bvterminal.",
+          "Thus vterminal=20/4=5 m/s downward."
+        ]
+      },
+      "misconception": {
+        "claim": "Terminal velocity means gravity stops acting.",
+        "correction": "Gravity continues but is balanced by the opposing drag force."
+      },
+      "questions": [
+        {
+          "prompt": "For horizontal motion with only F=-bv, what is the sign of acceleration when v>0?",
+          "hint": "Use a=F/m.",
+          "answer": "Negative.",
+          "checkpoints": [
+            "Mass and b are positive.",
+            "Drag opposes the positive velocity."
+          ],
+          "id": "unit-2-q1"
+        },
+        {
+          "prompt": "An object moves in a circular orbit of radius r around mass M. Derive its speed.",
+          "hint": "Set gravitational force equal to required radial net force.",
+          "answer": "v=√(GM/r).",
+          "checkpoints": [
+            "GMm/r²=mv²/r.",
+            "Cancel m and solve for v."
+          ],
+          "id": "unit-2-q2"
+        }
+      ]
+    },
+    {
+      "id": "unit-3",
+      "title": "Variable-force work and potential energy",
+      "frameworkUnit": "Unit 3",
+      "focus": "Integrate force over displacement.",
+      "explanation": [
+        "Work by a variable force is the line integral of force along displacement. In one dimension this becomes the integral of F(x) dx. Net work equals kinetic-energy change regardless of whether the force is constant.",
+        "For a conservative force in one dimension, F=-dU/dx. Stable equilibrium occurs at a local minimum of potential energy, where a small displacement produces a restoring force. The zero of potential energy is arbitrary; differences affect the motion."
+      ],
+      "workedExample": {
+        "prompt": "A force F(x)=4x N, with x in metres, acts from x=0 to x=3 m. Find work.",
+        "steps": [
+          "Integrate 4x to obtain 2x².",
+          "Evaluate from 0 to 3: W=18 J."
+        ]
+      },
+      "misconception": {
+        "claim": "The work of a variable force equals its final value times the distance.",
+        "correction": "That ignores the force history; integrate or use a justified average."
+      },
+      "questions": [
+        {
+          "prompt": "For U(x)=3x² J with x in metres, find F at x=2 m.",
+          "hint": "Differentiate and apply the negative sign.",
+          "answer": "-12 N.",
+          "checkpoints": [
+            "F=-6x.",
+            "Evaluate at x=2."
+          ],
+          "id": "unit-3-q1"
+        },
+        {
+          "prompt": "A 2 kg particle receives 9 J net work while moving initially at 4 m/s. Find final speed.",
+          "hint": "Add work to initial kinetic energy.",
+          "answer": "5 m/s.",
+          "checkpoints": [
+            "Initial kinetic energy is 16 J.",
+            "Final kinetic energy is 25 J, so v²=25."
+          ],
+          "id": "unit-3-q2"
+        }
+      ]
+    },
+    {
+      "id": "unit-4",
+      "title": "Force-time integration and centre of mass",
+      "frameworkUnit": "Unit 4",
+      "focus": "Apply momentum conservation to the whole system.",
+      "explanation": [
+        "Impulse is the time integral of net force, equal to momentum change. For a variable force, the area of the force-time graph accounts for its full history. Retain direction signs before combining impulses.",
+        "The centre of mass follows the external net force according to M acm=Fexternal. Internal forces can redistribute momentum among components without changing total momentum. For explosions or collisions, define the system before deciding which impulse is external."
+      ],
+      "workedExample": {
+        "prompt": "A force F(t)=6t N acts on a particle from t=0 to 2 s. Find its impulse.",
+        "steps": [
+          "Integrate force: J=integral from 0 to 2 of 6t dt.",
+          "The result is [3t²] from 0 to 2=12 N s in the positive direction."
+        ]
+      },
+      "misconception": {
+        "claim": "Internal forces can accelerate an isolated system’s centre of mass.",
+        "correction": "Internal action-reaction pairs cancel in the total force; external force controls centre-of-mass acceleration."
+      },
+      "questions": [
+        {
+          "prompt": "Masses 1 kg and 3 kg lie at x=0 and x=4 m. Find centre-of-mass position.",
+          "hint": "Use the mass-weighted position.",
+          "answer": "3 m.",
+          "checkpoints": [
+            "Weighted sum is 12 kg m.",
+            "Divide by total mass 4 kg."
+          ],
+          "id": "unit-4-q1"
+        },
+        {
+          "prompt": "An initially stationary system separates into 2 kg moving at +3 m/s and 1 kg. Find the second velocity with no external impulse.",
+          "hint": "Total momentum remains zero.",
+          "answer": "-6 m/s.",
+          "checkpoints": [
+            "First momentum is +6 kg m/s.",
+            "The second must have -6 kg m/s."
+          ],
+          "id": "unit-4-q2"
+        }
+      ]
+    },
+    {
+      "id": "unit-5",
+      "title": "Moment of inertia from a mass distribution",
+      "frameworkUnit": "Unit 5",
+      "focus": "Integrate distance squared over the object.",
+      "explanation": [
+        "Moment of inertia about an axis is the integral of r² dm. The distance r is perpendicular to the chosen axis. A uniform rod permits dm=(M/L)dx, but a nonuniform density requires a different mass element.",
+        "For fixed-axis rotation, net torque equals Iα when I is constant. Changing the axis changes the inertia even though the object stays the same. The parallel-axis theorem I=Icm+Md² connects parallel axes separated by distance d."
+      ],
+      "workedExample": {
+        "prompt": "Derive the inertia of a uniform thin rod of length L and mass M about an axis perpendicular to one end.",
+        "steps": [
+          "Use dm=(M/L)dx and integrate x² from 0 to L.",
+          "I=(M/L)[x³/3] from 0 to L=ML²/3."
+        ]
+      },
+      "misconception": {
+        "claim": "Moment of inertia is an intrinsic number independent of the axis.",
+        "correction": "It depends on how mass is distributed relative to the specified axis."
+      },
+      "questions": [
+        {
+          "prompt": "A rod has M=3 kg and L=2 m. Find its end-axis inertia.",
+          "hint": "Use ML²/3.",
+          "answer": "4 kg m².",
+          "checkpoints": [
+            "Square the length.",
+            "Include inertia units."
+          ],
+          "id": "unit-5-q1"
+        },
+        {
+          "prompt": "An object has Icm=2 kg m², M=4 kg and a parallel axis 0.5 m away. Find I.",
+          "hint": "Use the parallel-axis theorem.",
+          "answer": "3 kg m².",
+          "checkpoints": [
+            "Md²=1 kg m².",
+            "Add to Icm."
+          ],
+          "id": "unit-5-q2"
+        }
+      ]
+    },
+    {
+      "id": "unit-6",
+      "title": "Orbital energy and angular momentum",
+      "frameworkUnit": "Unit 6",
+      "focus": "Use conservation about a specified centre.",
+      "explanation": [
+        "For a particle, angular momentum is r×p. A central force has zero torque about its centre, so angular momentum about that point is conserved. A radial force can still do work when radial motion changes.",
+        "For a circular gravitational orbit, K=GMm/(2r) and U=-GMm/r when potential is zero at infinity. Total energy is -GMm/(2r). These circular-orbit expressions should not be inserted unchanged at an arbitrary point of an elliptical trajectory."
+      ],
+      "workedExample": {
+        "prompt": "A circular orbit radius doubles around the same central mass. Compare orbital speed and total energy.",
+        "steps": [
+          "From v=√(GM/r), speed becomes 1/√2 of its previous value.",
+          "From E=-GMm/(2r), energy becomes half its old negative value, so it is less negative."
+        ]
+      },
+      "misconception": {
+        "claim": "Zero torque means no force acts.",
+        "correction": "A nonzero radial force can have zero torque about the force centre."
+      },
+      "questions": [
+        {
+          "prompt": "A spinning object changes I from 6 to 3 kg m² without external torque. Initial ω=2 rad/s. Find final ω.",
+          "hint": "Conserve Iω.",
+          "answer": "4 rad/s.",
+          "checkpoints": [
+            "Initial angular momentum is 12 kg m²/s.",
+            "Divide by final inertia."
+          ],
+          "id": "unit-6-q1"
+        },
+        {
+          "prompt": "Why is static friction not necessarily a mechanical-energy loss in ideal rolling on a fixed surface?",
+          "hint": "Consider the instantaneous contact point.",
+          "answer": "With no slipping, that contact point is instantaneously at rest, so ideal static friction there does no work.",
+          "checkpoints": [
+            "State the no-slip fixed-surface assumptions.",
+            "Distinguish static from sliding friction."
+          ],
+          "id": "unit-6-q2"
+        }
+      ]
+    },
+    {
+      "id": "unit-7",
+      "title": "Differential equations for oscillation",
+      "frameworkUnit": "Unit 7",
+      "focus": "Recognise restoring acceleration proportional to displacement.",
+      "explanation": [
+        "An ideal spring-mass oscillator satisfies d²x/dt²=-(k/m)x. Solutions are sinusoidal, with angular frequency √(k/m). Initial position and velocity set amplitude and phase, so one frequency allows many possible trajectories.",
+        "A physical pendulum at small angular displacement obeys approximately Iθ″=-mgdθ, where d is the pivot-to-centre-of-mass distance. Its period is 2π√(I/(mgd)). The small-angle assumption is essential because the exact torque contains sin θ."
+      ],
+      "workedExample": {
+        "prompt": "For x(t)=0.10 cos(4t) m, find acceleration as a function of time.",
+        "steps": [
+          "Differentiate twice: v=-0.40 sin(4t) m/s and a=-1.60 cos(4t) m/s².",
+          "This also equals -16x, consistent with ω²=16 s⁻²."
+        ]
+      },
+      "misconception": {
+        "claim": "The small-angle pendulum period formula is exact at every amplitude.",
+        "correction": "The linear restoring model approximates sin θ by θ and fails for large amplitudes."
+      },
+      "questions": [
+        {
+          "prompt": "For k=50 N/m and m=2 kg, find angular frequency.",
+          "hint": "Use √(k/m).",
+          "answer": "5 rad/s.",
+          "checkpoints": [
+            "k/m=25 s⁻².",
+            "Take the square root."
+          ],
+          "id": "unit-7-q1"
+        },
+        {
+          "prompt": "In x=A cos(ωt), what are position and velocity at t=0?",
+          "hint": "Evaluate cosine and sine at zero.",
+          "answer": "x(0)=A and v(0)=0.",
+          "checkpoints": [
+            "Differentiate before finding velocity.",
+            "Recognise a turning-point initial condition."
+          ],
+          "id": "unit-7-q2"
+        }
+      ]
+    }
+  ]
+}

@@ -5,7 +5,8 @@ import { useAuth } from '@/contexts/AuthContext';
 import { type GlobalSearchEntry, GLOBAL_SEARCH_INDEX, STUDY_COMMANDS, searchVertex } from '@/lib/globalSearchIndex';
 import { readSearchHistory, rememberSearch, searchHistoryKey } from '@/lib/searchHistory.mjs';
 import { resolveLocalStorage, safeStorageRemove } from '@/lib/browserStorage.mjs';
-import { savedWorkSearchEntries } from '@/lib/savedWorkSearch';
+import { mergedSavedWorkSearchEntries } from '@/lib/savedWorkSearch';
+import type { PersonalSearchIndex } from '@/lib/learningSearch';
 import { useStudyArtifactCollection } from '@/hooks/useStudyArtifactCollection';
 import AnchoredOverlay from '@/components/AnchoredOverlay';
 
@@ -23,15 +24,18 @@ export default function GlobalStudySearch() {
   const { isAuthenticated, user } = useAuth();
   const scope = user?.id ?? null;
   const saved = useStudyArtifactCollection(open && isAuthenticated);
-  const [personalIndex, setPersonalIndex] = useState<{ scope: string; entries: GlobalSearchEntry[] } | null>(null);
+  const [personalIndex, setPersonalIndex] = useState<{ scope: string; index: PersonalSearchIndex } | null>(null);
   useEffect(() => {
     let active = true;
-    if (open && scope) void import('@/lib/learningSearch').then(({ learningSearchEntries }) => {
-      if (active) setPersonalIndex({ scope, entries: learningSearchEntries(scope, localStorage, sessionStorage) });
+    const refresh = () => { if (open && scope) void import('@/lib/learningSearch').then(({ readPersonalSearchIndex }) => {
+      if (active) setPersonalIndex({ scope, index: readPersonalSearchIndex(scope, localStorage, sessionStorage) });
     }).catch(() => { if (active) setPersonalIndex(null); });
-    return () => { active = false; };
+    };
+    refresh();
+    window.addEventListener('storage', refresh);
+    return () => { active = false; window.removeEventListener('storage', refresh); };
   }, [open, scope]);
-  const entries = useMemo(() => [...savedWorkSearchEntries(saved.items), ...(personalIndex?.scope === scope ? personalIndex.entries : [])], [saved.items, personalIndex, scope]);
+  const entries = useMemo(() => mergedSavedWorkSearchEntries(saved.items, personalIndex?.scope === scope ? personalIndex.index : null), [saved.items, personalIndex, scope]);
   const recent = history.scope === scope ? history.queries : [];
   const results = useMemo(() => query.trim()
     ? searchVertex(query, { includeAccount: isAuthenticated, entries, limit: 12 })

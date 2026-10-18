@@ -1,0 +1,226 @@
+{
+  "slug": "united-states-government-and-politics",
+  "title": "AP United States Government and Politics",
+  "category": "History and social sciences",
+  "summary": "Analyse constitutional design, institutions, rights and participation through focused academic scenarios.",
+  "officialUrl": "https://apstudents.collegeboard.org/courses/ap-united-states-government-and-politics",
+  "frameworkNote": "2026–27 structure checked against College Board on 15 October 2026: 5 units. Original VertexED focused lessons and self-check questions sample each unit; they do not replace the full course framework, required materials or teacher review. These are academic explanations of course concepts, not legal advice or a complete treatment of required documents and Supreme Court cases.",
+  "assessment": "exam",
+  "modules": [
+    {
+      "title": "Constitutional design and divided authority",
+      "focus": "Distinguish federalism from separation of powers.",
+      "explanation": [
+        "Federalism divides authority between national and state governments; separation of powers distributes functions among branches within a government. Checks and balances allow institutions to constrain one another. These arrangements address power while creating opportunities for disagreement and delay.",
+        "The Constitution emerged from debate about the weaknesses of the Articles of Confederation and the risks of concentrated authority. Federalist and Anti-Federalist arguments should be situated in that debate rather than treated as exact equivalents of present political parties."
+      ],
+      "workedExample": {
+        "prompt": "Compare a state education policy with a presidential veto of a congressional bill.",
+        "steps": [
+          "The state’s policymaking illustrates the territorial division of authority under federalism.",
+          "The veto illustrates an executive check on the legislative branch."
+        ]
+      },
+      "misconception": {
+        "claim": "Federalism means the three national branches share power.",
+        "correction": "That describes separation of powers; federalism concerns levels of government."
+      },
+      "questions": [
+        {
+          "prompt": "Why might a stronger national government concern Anti-Federalists?",
+          "hint": "Consider concentration and representation.",
+          "answer": "They feared distant central authority could threaten liberty and reduce local control, among other concerns.",
+          "checkpoints": [
+            "Identify centralisation concern",
+            "Connect to liberty or representation"
+          ],
+          "id": "united-states-government-and-politics-unit-1-q1"
+        },
+        {
+          "prompt": "How can divided authority slow policy change?",
+          "hint": "Count the decision points.",
+          "answer": "Different institutions can withhold agreement or challenge action, requiring negotiation before a policy takes effect.",
+          "checkpoints": [
+            "Identify institutional veto points",
+            "Explain negotiation"
+          ],
+          "id": "united-states-government-and-politics-unit-1-q2"
+        }
+      ],
+      "id": "united-states-government-and-politics-unit-1",
+      "frameworkUnit": "Unit 1"
+    },
+    {
+      "title": "Branches, implementation and accountability",
+      "focus": "Trace a policy from legislation through administration and review.",
+      "explanation": [
+        "Congress legislates, the executive implements laws, and courts resolve legal disputes within their jurisdiction. The boundaries interact: Congress controls appropriations, presidents veto bills, and judicial review can assess constitutionality in cases. Formal powers do not eliminate political negotiation.",
+        "Bureaucracies translate broad statutes into administration and regulations within delegated authority. Oversight examines whether implementation follows law and policy goals. Distinguish a legal power from a claim that officials can use it without institutional or practical constraints."
+      ],
+      "workedExample": {
+        "prompt": "Congress funds a programme and later holds hearings about delayed delivery.",
+        "steps": [
+          "Appropriations provide resources for implementation.",
+          "Hearings exercise legislative oversight by examining how the executive branch uses those resources."
+        ]
+      },
+      "misconception": {
+        "claim": "Passing a statute automatically produces its intended outcome.",
+        "correction": "Implementation depends on resources, administrative decisions, compliance and oversight."
+      },
+      "questions": [
+        {
+          "prompt": "How can divided government affect legislation?",
+          "hint": "Consider party control across institutions.",
+          "answer": "Different party control can increase bargaining or conflict, though it does not make legislative agreement impossible.",
+          "checkpoints": [
+            "Identify differing control",
+            "Avoid an absolute prediction"
+          ],
+          "id": "united-states-government-and-politics-unit-2-q1"
+        },
+        {
+          "prompt": "Why distinguish a regulation from a statute?",
+          "hint": "Identify the institution and authority.",
+          "answer": "A statute is enacted through the legislative process; an agency regulation implements delegated authority and remains subject to legal constraints.",
+          "checkpoints": [
+            "Identify lawmaking source",
+            "Explain delegated authority"
+          ],
+          "id": "united-states-government-and-politics-unit-2-q2"
+        }
+      ],
+      "id": "united-states-government-and-politics-unit-2",
+      "frameworkUnit": "Unit 2"
+    },
+    {
+      "title": "Liberties, equality and constitutional claims",
+      "focus": "Separate protection from interference from equal treatment.",
+      "explanation": [
+        "Civil liberties protect individuals against certain government interference; civil rights concern equal treatment and protection against discrimination. Many Bill of Rights protections have been applied to states through selective incorporation under the Fourteenth Amendment, rather than one automatic act covering every provision.",
+        "A constitutional analysis identifies the government action, relevant protection and applicable reasoning. Similar facts do not always imply identical legal outcomes. Study cases through the issue, holding and reasoning instead of memorising a slogan detached from context."
+      ],
+      "workedExample": {
+        "prompt": "Compare a claim about government censorship with a claim about unequal access to public schooling.",
+        "steps": [
+          "Censorship raises a civil-liberties question about expression.",
+          "Unequal treatment raises a civil-rights question about equality and the basis of the distinction."
+        ]
+      },
+      "misconception": {
+        "claim": "Civil liberties and civil rights are interchangeable labels.",
+        "correction": "They overlap in practice but emphasise different constitutional concerns."
+      },
+      "questions": [
+        {
+          "prompt": "What does selective incorporation help explain?",
+          "hint": "Think about levels of government.",
+          "answer": "How particular protections in the Bill of Rights became applicable to state governments through Fourteenth Amendment reasoning.",
+          "checkpoints": [
+            "Name state application",
+            "Identify the Fourteenth Amendment"
+          ],
+          "id": "united-states-government-and-politics-unit-3-q1"
+        },
+        {
+          "prompt": "Why include case facts when comparing constitutional decisions?",
+          "hint": "Consider the rule’s application.",
+          "answer": "Facts determine which protection and reasoning apply, so superficial topic similarity may conceal a legally significant difference.",
+          "checkpoints": [
+            "Identify relevant facts",
+            "Connect facts to reasoning"
+          ],
+          "id": "united-states-government-and-politics-unit-3-q2"
+        }
+      ],
+      "id": "united-states-government-and-politics-unit-3",
+      "frameworkUnit": "Unit 3"
+    },
+    {
+      "title": "Political beliefs and public-opinion evidence",
+      "focus": "Evaluate a poll before treating it as national opinion.",
+      "explanation": [
+        "Political beliefs develop through socialisation, experience and changing circumstances. Ideology concerns broader beliefs about government and society; party identification is an affiliation that may not match every policy view. Avoid assuming that every member of a group holds the same preferences.",
+        "Poll quality depends on sampling, wording, timing and response patterns. A large convenience sample can still be biased. A margin of sampling error does not account for every problem, such as leading wording or systematic nonresponse."
+      ],
+      "workedExample": {
+        "prompt": "A website asks its readers whether its own campaign is popular.",
+        "steps": [
+          "Participation is self-selected from a particular audience.",
+          "The result cannot automatically represent the whole electorate, regardless of response count."
+        ]
+      },
+      "misconception": {
+        "claim": "A larger sample fixes every polling bias.",
+        "correction": "Size reduces some sampling uncertainty but does not repair an unrepresentative method."
+      },
+      "questions": [
+        {
+          "prompt": "How might question wording influence responses about spending?",
+          "hint": "Compare frames.",
+          "answer": "Describing the same policy as a benefit or a burden can highlight different considerations and change answers.",
+          "checkpoints": [
+            "Identify framing",
+            "Explain response effect"
+          ],
+          "id": "united-states-government-and-politics-unit-4-q1"
+        },
+        {
+          "prompt": "Why can party identification and issue preference differ?",
+          "hint": "Consider multidimensional beliefs.",
+          "answer": "A person may affiliate for one set of reasons while disagreeing with the party on a particular policy.",
+          "checkpoints": [
+            "Separate affiliation from issue",
+            "Recognise variation"
+          ],
+          "id": "united-states-government-and-politics-unit-4-q2"
+        }
+      ],
+      "id": "united-states-government-and-politics-unit-4",
+      "frameworkUnit": "Unit 4"
+    },
+    {
+      "title": "Participation, elections and political influence",
+      "focus": "Distinguish turnout, representation and policy influence.",
+      "explanation": [
+        "Political participation includes voting, campaigning, contacting representatives and joining organisations. Eligibility, registration, resources and motivation affect turnout. Different denominators, such as eligible voters and registered voters, produce different turnout percentages.",
+        "Parties organise electoral competition; interest groups seek policy influence; media select and frame public information. Electoral rules affect how votes become representation, so winning the national popular vote and winning the presidency are conceptually distinct under the Electoral College system."
+      ],
+      "workedExample": {
+        "prompt": "A district has 1,000 eligible voters, 800 registered voters and 600 votes cast.",
+        "steps": [
+          "Turnout among eligible voters is 600 ÷ 1,000 = 60%.",
+          "Turnout among registered voters is 600 ÷ 800 = 75%; both require labelled denominators."
+        ]
+      },
+      "misconception": {
+        "claim": "One turnout percentage is meaningful without knowing its denominator.",
+        "correction": "The population used changes the measure and the comparison."
+      },
+      "questions": [
+        {
+          "prompt": "Why might interest groups provide information to legislators?",
+          "hint": "Consider influence beyond elections.",
+          "answer": "Specialised information can shape agendas and policy design, though legislators should evaluate its interests and reliability.",
+          "checkpoints": [
+            "Identify informational influence",
+            "Recognise possible bias"
+          ],
+          "id": "united-states-government-and-politics-unit-5-q1"
+        },
+        {
+          "prompt": "How can media agenda-setting influence politics without telling people what to think?",
+          "hint": "Focus on topic attention.",
+          "answer": "Repeated attention can make some issues appear more urgent or salient than others.",
+          "checkpoints": [
+            "Identify issue selection",
+            "Distinguish salience from persuasion"
+          ],
+          "id": "united-states-government-and-politics-unit-5-q2"
+        }
+      ],
+      "id": "united-states-government-and-politics-unit-5",
+      "frameworkUnit": "Unit 5"
+    }
+  ]
+}

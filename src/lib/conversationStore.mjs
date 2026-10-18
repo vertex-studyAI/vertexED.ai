@@ -34,7 +34,7 @@ export function createConversationStore({ key, storage, request, isCurrent, lega
   };
   try {
     raw = storage.getItem(key);
-    if (raw) envelope = parseEnvelope(raw);
+    if (raw !== null && raw !== undefined) envelope = parseEnvelope(raw);
     // Import old session history once, retaining its bytes until account cleanup.
     else if (legacyStorage && legacyPrefix) {
       const threads = [];

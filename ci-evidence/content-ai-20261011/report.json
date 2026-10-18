@@ -1,0 +1,188 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-11T12:08:58.722794+00:00",
+  "title": "VertexED content and AI reliability improvements",
+  "status": "LOCAL_CHECKS_PASSED_WITH_OPEN_LIVE_AND_EDITORIAL_GATES",
+  "workspace": "/Volumes/PRO-BLADE/GitHubRepos/vertexED.ai",
+  "head": "e28f24ff1c051eaa91b5443a79fe392987d0c688",
+  "runtime": "Node.js 22.22.0",
+  "delivery": {
+    "localWorkingTreeOnly": true,
+    "committed": false,
+    "pushed": false,
+    "deployed": false
+  },
+  "changes": [
+    "Corrected eight AI and study guides against implemented workflows, inputs, saving behaviour and assessment limitations; substantially rewrote five.",
+    "Rejected provider outputs marked incomplete, filtered or refused before generating study artifacts. Chat can display a refusal without treating it as a sourced answer.",
+    "Matched citation validation to the exact source excerpts admitted to each prompt budget; moved chat reference text out of system instructions.",
+    "Preserved complete validated quiz questions, answer options, explanations and flashcard backs instead of truncating them after validation.",
+    "Separated concept-map source notes from diagram syntax; added source previews, readable labels, keyboard scrolling, contained mobile layout and theme-aware text.",
+    "Improved article reading surfaces and dark-mode heading contrast.",
+    "Preserved the existing /projects sitemap entry by adding it to the generator after detecting prebuild removal."
+  ],
+  "changedCodeFiles": 35,
+  "sourceHashManifest": "source-hashes.json",
+  "preservation": {
+    "previouslyModifiedFilesChecked": 80,
+    "changedByThisWork": [],
+    "manifest": "preserved-files.json"
+  },
+  "checks": {
+    "applicationTests": {
+      "passed": 1368,
+      "failed": 0,
+      "log": "logs/app-tests.log",
+      "command": "node --experimental-strip-types --test --test-concurrency=1 tests/*.test.mjs"
+    },
+    "focusedTestsAfterFinalCorrections": {
+      "passed": 25,
+      "failed": 0,
+      "log": "logs/ai-focused-tests.log"
+    },
+    "evaluationTests": {
+      "passed": 25,
+      "failed": 0,
+      "log": "logs/eval-tests.log"
+    },
+    "askEvaluation": {
+      "mode": "synthetic fixture",
+      "passed": 13,
+      "failed": 0,
+      "log": "logs/ask-fixture-eval.log"
+    },
+    "gradingEvaluation": {
+      "mode": "synthetic contract validation",
+      "fixtures": 6,
+      "passed": true,
+      "log": "logs/grading-fixture-eval.log"
+    },
+    "browserSuite": {
+      "passed": 5,
+      "failed": 0,
+      "log": "logs/browser-suite.log",
+      "command": "playwright test --config=playwright.ai-content.config.ts",
+      "providerAndAccountResponses": "synthetic fixtures"
+    },
+    "notebookFinalCorrection": {
+      "passed": 1,
+      "failed": 0,
+      "log": "logs/notebook-final-correction.log",
+      "command": "playwright test --config=playwright.ai-content.config.ts --grep \"concept maps\" --output=test-results/ai-notebook-theme-final"
+    },
+    "typecheck": {
+      "passed": true,
+      "log": "logs/typecheck.log"
+    },
+    "lint": {
+      "errors": 0,
+      "preexistingWarnings": [
+        {
+          "file": "src/components/ExamBaselinePractice.tsx",
+          "line": 77,
+          "detail": "Unnecessary setupRevision useMemo dependency"
+        },
+        {
+          "file": "src/contexts/AuthContext.tsx",
+          "line": 180,
+          "detail": "Missing postAuthUpsertProfile useEffect dependency"
+        }
+      ],
+      "log": "logs/lint-copy.log"
+    },
+    "copyLint": {
+      "filesScanned": 396,
+      "findings": 0,
+      "ruleTestsPassed": 2,
+      "log": "logs/lint-copy.log"
+    },
+    "contentInventory": {
+      "passed": true,
+      "files": 245,
+      "approved": 0,
+      "unreviewed": 192,
+      "quarantined": 53,
+      "heldFromIndex": 245,
+      "log": "logs/content-audit.log"
+    },
+    "build": {
+      "passed": true,
+      "directory": "test-results/ai-content-build",
+      "configuration": "Synthetic Supabase URL and public key for browser fixtures"
+    },
+    "bundleBudget": {
+      "passed": true,
+      "metrics": {
+        "initialJavaScriptGzipBytes": 241539,
+        "initialCssGzipBytes": 34774,
+        "largestJavaScriptGzipBytes": 130257,
+        "totalJavaScriptGzipBytes": 940165
+      },
+      "budgets": {
+        "initialJavaScriptGzipBytes": 275000,
+        "initialCssGzipBytes": 45000,
+        "largestJavaScriptGzipBytes": 240000,
+        "totalJavaScriptGzipBytes": 1000000
+      },
+      "log": "logs/bundle.json"
+    },
+    "diffWhitespace": {
+      "passed": true
+    }
+  },
+  "visualReview": {
+    "widths": [
+      1440,
+      1024,
+      390
+    ],
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "reducedMotion": true,
+    "automatedCoverage": "Eight guide routes at every width, action links, keyboard focus, sign-in return path, theme controls and heading contrast. Notebook source preview, focus restoration, arrow-key scrolling, failed-regeneration preservation and reload.",
+    "inspection": "Representative guide and concept-map screenshots inspected at all three widths. Correction passes fixed subtitle artifacts, reading-surface contrast, diagram sizing, mobile overflow and notebook dark-mode text.",
+    "retainedScreenshots": [
+      "screenshots/ai-answer-reviewer-390-dark.png",
+      "screenshots/ai-answer-reviewer-390-light.png",
+      "screenshots/ai-chatbot-tutor-1440-dark.png",
+      "screenshots/ai-chatbot-tutor-1440-light.png",
+      "screenshots/ai-study-planner-390-actions.png",
+      "screenshots/concept-map-1024-dark.png",
+      "screenshots/concept-map-1024-light.png",
+      "screenshots/concept-map-1440-dark.png",
+      "screenshots/concept-map-1440-light.png",
+      "screenshots/concept-map-390-dark.png",
+      "screenshots/concept-map-390-light.png",
+      "screenshots/notes-to-flashcards-1024-dark.png",
+      "screenshots/notes-to-flashcards-1024-light.png"
+    ]
+  },
+  "correctionHistory": [
+    {
+      "finding": "Initial application run had one stale accessibility-region count after adding the generated concept-map region.",
+      "resolution": "Updated the expected count; full application rerun passed.",
+      "log": "logs/app-tests-initial-accessibility-count-failure.log"
+    },
+    {
+      "finding": "Larger concept-map labels widened the mobile grid instead of scrolling internally.",
+      "resolution": "Constrained the studio grid item. Keyboard scrolling and absence of page overflow passed.",
+      "log": "logs/notebook-mobile-correction-failure.log"
+    },
+    {
+      "finding": "Visual review found inherited dark-mode notebook text remained dark and manual CSS theme changes produced inconsistent captures.",
+      "resolution": "Added explicit notebook foreground colour; tests use real theme controls and check relationship text colour."
+    }
+  ],
+  "openGates": [
+    "Live AI quality, latency, failure rate and educational accuracy were not measured. No configured server AI credentials were available in this checkout.",
+    "The imported MYP inventory contains 245 files: 192 unreviewed and 53 flagged for review, with zero approved. Source, licensing, factual and curriculum review remain unresolved; statuses were preserved.",
+    "Citation validation checks source-ID membership, not factual entailment or source reliability. Prompt instructions cannot guarantee absence of model mistakes.",
+    "This work does not establish production deployment, live authentication, live database policies or independent educational validation."
+  ],
+  "providerReferences": [
+    "https://developers.openai.com/api/docs/guides/structured-outputs?api-mode=chat",
+    "https://ai.google.dev/api/generate-content#FinishReason"
+  ]
+}

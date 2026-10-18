@@ -1,0 +1,1191 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-14T11:36:05.097874+00:00",
+  "decision": "NO-GO",
+  "scope": "Working-tree release preparation and read-only production diagnosis",
+  "baseCommit": "e28f24ff1c051eaa91b5443a79fe392987d0c688",
+  "committed": false,
+  "pushed": false,
+  "deployed": false,
+  "databaseMutated": false,
+  "freshChecks": {
+    "productionDependencyAudit": {
+      "status": "PASS",
+      "vulnerabilities": {
+        "info": 0,
+        "low": 4,
+        "moderate": 0,
+        "high": 0,
+        "critical": 0,
+        "total": 4
+      }
+    },
+    "copyLint": {
+      "status": "PASS",
+      "files": 401,
+      "findings": 0
+    },
+    "functionValidation": {
+      "status": "PASS",
+      "functions": 1,
+      "routes": 23
+    },
+    "contentInventory": {
+      "status": "PASS_INVENTORY_NOT_APPROVAL",
+      "files": 245,
+      "approved": 0,
+      "flagged": 53
+    },
+    "evaluationTests": {
+      "status": "PASS",
+      "tests": 25
+    },
+    "askFixture": {
+      "status": "PASS",
+      "passed": 13,
+      "failed": 0
+    },
+    "gradingFixture": {
+      "status": "PASS",
+      "boundary": "Synthetic contract validation only"
+    },
+    "newCiWorkflow": {
+      "status": "STATIC_VALIDATION_PASSED_EXECUTION_PENDING",
+      "suites": {
+        "reference": 10,
+        "ai-content": 5,
+        "release-content": 95
+      },
+      "yamlParsed": true,
+      "newConfigLint": "PASS"
+    },
+    "migrationLedger": {
+      "status": "FAIL_RECONCILIATION_REQUIRED",
+      "localCount": 30,
+      "remoteCount": 35,
+      "localDuplicatePrefixes": [
+        "20260711",
+        "20260725"
+      ]
+    },
+    "hostedDatabase": {
+      "project": "xwlrzgfuhfbckgvcmyoq",
+      "readinessChecksAllTrue": true,
+      "serviceOnlyBrowserPrivilegesDenied": true,
+      "openAdvisories": [
+        "leaked_password_protection_disabled",
+        "postgres_security_updates_available"
+      ]
+    }
+  },
+  "retainedEvidence": {
+    "receipt": "docs/evidence/formula-desk-20261014.json",
+    "all15SourceHashesMatch": true,
+    "buildIndexMatches": true,
+    "applicationTests": 1374,
+    "browserTests": 10,
+    "notRerunThisPass": true
+  },
+  "production": {
+    "probedAt": "2026-10-14T11:31:57.419Z",
+    "gate1a_custom_domain": {
+      "www_vertexed_app": {
+        "class": "TLS_FAIL_BEFORE_HTTP",
+        "aRecords": [
+          "104.219.250.37",
+          "2.59.170.20"
+        ],
+        "cnameRecords": [],
+        "probe": {
+          "httpCode": "000",
+          "errormsg": "LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to www.vertexed.app:443"
+        },
+        "health": {
+          "label": "www-vertexed-app-health",
+          "httpCode": "000",
+          "ok": false,
+          "status": null,
+          "revision": null,
+          "databaseError": null,
+          "checks": null,
+          "errormsg": "LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to www.vertexed.app:443"
+        }
+      },
+      "apex_vertexed_app": {
+        "class": "TLS_FAIL_BEFORE_HTTP",
+        "aRecords": [
+          "2.59.170.20",
+          "104.219.250.37"
+        ],
+        "cnameRecords": [],
+        "probe": {
+          "httpCode": "000",
+          "errormsg": "LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to vertexed.app:443"
+        }
+      },
+      "www_vertexed_ai": {
+        "class": "DNS_NXDOMAIN_OR_EMPTY",
+        "aRecords": [],
+        "cnameRecords": [],
+        "probe": {
+          "httpCode": "000",
+          "errormsg": "Could not resolve host: www.vertexed.ai"
+        }
+      },
+      "apex_vertexed_ai": {
+        "class": "DNS_NXDOMAIN_OR_EMPTY",
+        "aRecords": [],
+        "cnameRecords": [],
+        "probe": {
+          "httpCode": "000",
+          "errormsg": "Could not resolve host: vertexed.ai"
+        }
+      }
+    },
+    "provider_candidates": {
+      "ed_ai": {
+        "verdict": "BLOCKED_PROVIDER_DEGRADED",
+        "shallow": {
+          "label": "ed-ai-shallow",
+          "httpCode": "200",
+          "ok": true,
+          "status": "alive",
+          "revision": "2b0b51c5a0df8fd42af74252fabc5d8aec6d29e6",
+          "databaseError": null,
+          "checks": null,
+          "errormsg": null
+        },
+        "readiness": {
+          "label": "ed-ai-readiness",
+          "httpCode": "503",
+          "ok": false,
+          "status": "degraded",
+          "revision": "2b0b51c5a0df8fd42af74252fabc5d8aec6d29e6",
+          "databaseError": null,
+          "checks": null,
+          "errormsg": null
+        }
+      },
+      "rho": {
+        "verdict": "BLOCKED_PROVIDER_DEGRADED",
+        "shallow": {
+          "label": "rho-shallow",
+          "httpCode": "200",
+          "ok": true,
+          "status": "alive",
+          "revision": "2b0b51c5a0df8fd42af74252fabc5d8aec6d29e6",
+          "databaseError": null,
+          "checks": null,
+          "errormsg": null
+        },
+        "readiness": {
+          "label": "rho-readiness",
+          "httpCode": "503",
+          "ok": false,
+          "status": "degraded",
+          "revision": "2b0b51c5a0df8fd42af74252fabc5d8aec6d29e6",
+          "databaseError": null,
+          "checks": null,
+          "errormsg": null
+        }
+      },
+      "ready_provider_count": 0,
+      "ownership_note": "Do not infer canonical domain ownership from provider-host health alone."
+    },
+    "gate1b_readiness": {
+      "ed_ai_shallow": {
+        "label": "ed-ai-shallow",
+        "httpCode": "200",
+        "ok": true,
+        "status": "alive",
+        "revision": "2b0b51c5a0df8fd42af74252fabc5d8aec6d29e6",
+        "databaseError": null,
+        "checks": null,
+        "errormsg": null
+      },
+      "ed_ai_readiness": {
+        "label": "ed-ai-readiness",
+        "httpCode": "503",
+        "ok": false,
+        "status": "degraded",
+        "revision": "2b0b51c5a0df8fd42af74252fabc5d8aec6d29e6",
+        "databaseError": null,
+        "checks": null,
+        "errormsg": null
+      },
+      "rho_shallow": {
+        "label": "rho-shallow",
+        "httpCode": "200",
+        "ok": true,
+        "status": "alive",
+        "revision": "2b0b51c5a0df8fd42af74252fabc5d8aec6d29e6",
+        "databaseError": null,
+        "checks": null,
+        "errormsg": null
+      },
+      "rho_readiness": {
+        "label": "rho-readiness",
+        "httpCode": "503",
+        "ok": false,
+        "status": "degraded",
+        "revision": "2b0b51c5a0df8fd42af74252fabc5d8aec6d29e6",
+        "databaseError": null,
+        "checks": null,
+        "errormsg": null
+      },
+      "operatorHints": []
+    },
+    "agents_pr_917": {
+      "ed_ai_agents": {
+        "httpCode": "401",
+        "bodyPreview": "{\"error\":\"Authentication required. Please log in.\"}",
+        "note": "Before deployment expect 404; once the authenticated route is live, an unauthenticated probe must return 401"
+      }
+    },
+    "verdict": {
+      "gate1a": "BLOCKED_TLS_FAIL_BEFORE_HTTP",
+      "gate1b": "BLOCKED_DEGRADED",
+      "agents": "LIVE_AUTH_REQUIRED"
+    }
+  },
+  "blockers": [
+    "VertexED Vercel team and DNS access unavailable in authenticated account",
+    "Free plus speculative memory below 512 MiB admission floor; heavy checks deferred",
+    "Outstanding changes not integrated into a committed release candidate",
+    "Shared migration ledger mismatch; disposable rehearsal and backups required",
+    "Real-account and live-provider acceptance incomplete",
+    "Editorial, rights and privacy approvals incomplete"
+  ],
+  "changedFileManifest": [
+    {
+      "path": ".github/workflows/ci.yml",
+      "sha256": "c4c0cc7b51b56de9f41479ea792c6e3d54c3f71641b16f6a49e3aa0f1ddc1f1d",
+      "bytes": 15625
+    },
+    {
+      "path": "FINAL_RELEASE_REPORT.md",
+      "sha256": "2cc6d852759526dc11e56966ebb220500e0ef784a5b0b5a0569ea5d2c2f79eb2",
+      "bytes": 6516
+    },
+    {
+      "path": "api/_handlers/ask.js",
+      "sha256": "bcd331788284ed4d03f9a61c6b6fee81b4c14912342932867de707ac78bdab0d",
+      "bytes": 7072
+    },
+    {
+      "path": "api/_handlers/board-resource.js",
+      "sha256": "90cfe79ceb93cfe24fe8be57c841479cd35c1550448515a0783b26589ff17060",
+      "bytes": 5218
+    },
+    {
+      "path": "api/_handlers/note.js",
+      "sha256": "61be45134e5e78350bf1bfd903ef1a8631c68957b587816f487a1706ef1a49d0",
+      "bytes": 13305
+    },
+    {
+      "path": "api/_handlers/notebook.js",
+      "sha256": "57d1b5559728f1cd0cc1f684c0993ebd37352635e6fa7bc45a9fbfab0808d11e",
+      "bytes": 7875
+    },
+    {
+      "path": "api/_handlers/paper-generator.js",
+      "sha256": "535f7a8ba88ca6c97d51b27bcbb353be179cfc347d02f108692bf9ad7d661509",
+      "bytes": 13099
+    },
+    {
+      "path": "api/_handlers/planner.js",
+      "sha256": "caa8afa1c03011ac419bdcdeed65b00d0fa709b96386000b6934f526a770f0e4",
+      "bytes": 9997
+    },
+    {
+      "path": "api/_handlers/quiz.js",
+      "sha256": "ca1487ad83f146a279635a195cb9636a81ce6592099c92c944f803d214aff6dd",
+      "bytes": 10082
+    },
+    {
+      "path": "api/_handlers/review-safe.ts",
+      "sha256": "4c71cb04b2e73cf80bf3448fe7ed54ff267b65f10e32201fb11b30cce75336cb",
+      "bytes": 7459
+    },
+    {
+      "path": "api/_handlers/study-guide-chat.js",
+      "sha256": "b8f46a541d7e4e8228d306d60535c673a1542cfa237a65fa7f7c666df1cfe157",
+      "bytes": 6597
+    },
+    {
+      "path": "api/_handlers/transcribe.js",
+      "sha256": "b7baabe33fd37308f739e52d3c8138339e0edd6323f87841d498c94f937ca06e",
+      "bytes": 7224
+    },
+    {
+      "path": "api/_lib/aiProviders.js",
+      "sha256": "925af08700ffaecf433e4078a841072cb93cde2185095b7eacb7fd11b29bf135",
+      "bytes": 8277
+    },
+    {
+      "path": "api/_lib/askPrompt.js",
+      "sha256": "0a23817f3b20e6e4f3de541aa2edb19850f62363bace91d41bf4f88060ab235c",
+      "bytes": 1940
+    },
+    {
+      "path": "api/_lib/grounding.js",
+      "sha256": "f0de02b52fd9e73a7c63e3fc1e4b2683f33b1d89de72c4ede5a8f3b15c16eb97",
+      "bytes": 11572
+    },
+    {
+      "path": "api/_lib/reviewVision.js",
+      "sha256": "30362e6ba67ae71b440a4dd5b57d299ad16ab95d8b2e08f610794de2814b6c09",
+      "bytes": 2311
+    },
+    {
+      "path": "api/_lib/vertexAgents.js",
+      "sha256": "848255e5f1aefa4765a16b0bc3fd472f579029cfcc0924e5ff9aca747f5e750b",
+      "bytes": 4409
+    },
+    {
+      "path": "ci-evidence/content-ai-20261011/artifact-hashes.json",
+      "sha256": "0af75104f1a869642b5976dbf1c9480895eedc1946b44ca985e8c7b9bab5dbe6",
+      "bytes": 3170
+    },
+    {
+      "path": "ci-evidence/content-ai-20261011/preserved-files.json",
+      "sha256": "0bdf2856c704e1469d1efa59d40896d501501cd806edd32810b8eb434f036881",
+      "bytes": 8320
+    },
+    {
+      "path": "ci-evidence/content-ai-20261011/report.json",
+      "sha256": "35d0edf7d6b50675f7d9b2a26903936e9b7571719b56c267f0604d475497baa9",
+      "bytes": 7708
+    },
+    {
+      "path": "ci-evidence/content-ai-20261011/screenshots/ai-answer-reviewer-390-dark.png",
+      "sha256": "c53bfea8e74030beeec9befd812d151c72c3fe97abe6e99226f41d8118bc7b07",
+      "bytes": 137437
+    },
+    {
+      "path": "ci-evidence/content-ai-20261011/screenshots/ai-answer-reviewer-390-light.png",
+      "sha256": "ff8db031ddb0b42284fc52cfc1094642ed48f1dc45d529c69ac7c267be755aad",
+      "bytes": 441435
+    },
+    {
+      "path": "ci-evidence/content-ai-20261011/screenshots/ai-chatbot-tutor-1440-dark.png",
+      "sha256": "c6b8c12778b879f24323c9dcc8d3d52df3d18e860a4553e8c2f7ee81eb251b93",
+      "bytes": 336460
+    },
+    {
+      "path": "ci-evidence/content-ai-20261011/screenshots/ai-chatbot-tutor-1440-light.png",
+      "sha256": "8c620e8e7838e1221a12b4a080c90bb5ba21d9917909c0c98994411552b6bc55",
+      "bytes": 571914
+    },
+    {
+      "path": "ci-evidence/content-ai-20261011/screenshots/ai-study-planner-390-actions.png",
+      "sha256": "4f36d7c06e05f3762f3a623d50ca22093cb1a1071c18106365bb94d8ff6c2657",
+      "bytes": 134312
+    },
+    {
+      "path": "ci-evidence/content-ai-20261011/screenshots/concept-map-1024-dark.png",
+      "sha256": "eb33f0e72c1ae354fcbfa8287a43785a486ef52d08c8839aec9a6d5ba1fdeb93",
+      "bytes": 195934
+    },
+    {
+      "path": "ci-evidence/content-ai-20261011/screenshots/concept-map-1024-light.png",
+      "sha256": "a1bf06654a2a4842232e393a81930b937962758bfd6d80efdf1530a18456a290",
+      "bytes": 192474
+    },
+    {
+      "path": "ci-evidence/content-ai-20261011/screenshots/concept-map-1440-dark.png",
+      "sha256": "ab63a498faa01fd4d964c1e02bc089586287ebf4fba53e0e66c4476121c5a7b7",
+      "bytes": 225740
+    },
+    {
+      "path": "ci-evidence/content-ai-20261011/screenshots/concept-map-1440-light.png",
+      "sha256": "f1862eff883da3ca519565085d61c5e91cd1802518793b867ce5aae2c4aa5ef8",
+      "bytes": 230470
+    },
+    {
+      "path": "ci-evidence/content-ai-20261011/screenshots/concept-map-390-dark.png",
+      "sha256": "7b49c7f2e319c5a50b97c96a2a8eaf897320d4865f7a3af94b3d38d5ed53d27d",
+      "bytes": 98568
+    },
+    {
+      "path": "ci-evidence/content-ai-20261011/screenshots/concept-map-390-light.png",
+      "sha256": "7269dc67164189ce5ce5885c738ef38470b759a1f517ec4f3e9dbb637ada6a35",
+      "bytes": 95016
+    },
+    {
+      "path": "ci-evidence/content-ai-20261011/screenshots/notes-to-flashcards-1024-dark.png",
+      "sha256": "ca6725059cc09338ec9fe4b0f796fed782761898b1d1b45db1a60afdf294dcee",
+      "bytes": 243391
+    },
+    {
+      "path": "ci-evidence/content-ai-20261011/screenshots/notes-to-flashcards-1024-light.png",
+      "sha256": "49a831de1add3fd36ab2849881bc9bd5eaa00a55cd791d5f79267248eae6408b",
+      "bytes": 495843
+    },
+    {
+      "path": "ci-evidence/content-ai-20261011/source-hashes.json",
+      "sha256": "40fa1565458988e519312365566a553cd41e01a7bb791414d62aa014f23d2005",
+      "bytes": 3708
+    },
+    {
+      "path": "ci-evidence/npm-audit/attempt-1.stdout.json",
+      "sha256": "64ce08ce7d68a29e7b13e7fc2fb7dc4699cddb0695695c9c455ff616a7420f67",
+      "bytes": 2467
+    },
+    {
+      "path": "docs/NEXT_ACTIONS_CHECKLIST_2026-09-27.md",
+      "sha256": "94485d0fc7d25e9a76f54911dca8be9be16609362fc37d17635f53c6aead8f49",
+      "bytes": 15064
+    },
+    {
+      "path": "docs/RELEASE_EXECUTION_2026-10-14.md",
+      "sha256": "9e3b26a899e7198aa032854ba16b874c113e1af0cb13ddfed0f7c8bfb4c3414d",
+      "bytes": 5678
+    },
+    {
+      "path": "docs/evidence/formula-desk-20261013.json",
+      "sha256": "bfb5425034bc487a4759e5ac025b9083738e1b58c5eceabbf315c7ade04aa244",
+      "bytes": 5814
+    },
+    {
+      "path": "docs/evidence/formula-desk-20261014.json",
+      "sha256": "c80f32971d2588f9848f84a35a65a5b5f919b3f2df8194e13f9947156d2022c6",
+      "bytes": 6987
+    },
+    {
+      "path": "e2e/ai-content-guides.spec.ts",
+      "sha256": "1d5576ad5fde8fd1d7b0ba29e6ff4f3dea85bf2ffbd100243f68ec37c478380b",
+      "bytes": 3939
+    },
+    {
+      "path": "e2e/ai-notebook-integrity.spec.ts",
+      "sha256": "85cddd5f7b3bed63ac2c89d3422cad656a5ddfd2ed8793a251b673adb5eae466",
+      "bytes": 6108
+    },
+    {
+      "path": "e2e/formula-desk.spec.ts",
+      "sha256": "3930a007b99ade4394635b98f276e0951f40d8d052df7abd1d52ce38d2f5a794",
+      "bytes": 8429
+    },
+    {
+      "path": "e2e/learning-library.spec.ts",
+      "sha256": "cbd15a6d88ccd24416ef0d98e6cb4eb07cffabf071ddccf56f3fc49861c4b719",
+      "bytes": 2409
+    },
+    {
+      "path": "e2e/myp-arts.spec.ts",
+      "sha256": "54d688291219752ca75ceeff5ed606737aefa68ec9d89966fb85828ca602a071",
+      "bytes": 5644
+    },
+    {
+      "path": "e2e/myp-biology.spec.ts",
+      "sha256": "e4b029c30c583ab18ac34a9c4c2008c2d3d0b026ba5f9a8815d1e30fd9fd069f",
+      "bytes": 4453
+    },
+    {
+      "path": "e2e/myp-chemistry.spec.ts",
+      "sha256": "e1f351b60bc4d8afa0c71a12f6dbb291a3f4983dc0e235f5d8e26450f4dec183",
+      "bytes": 4246
+    },
+    {
+      "path": "e2e/myp-design.spec.ts",
+      "sha256": "3644fa84d9aadb2976bb1e47ba393ea7502106aa82ff1c4eb0c8d5ff87d3c0e0",
+      "bytes": 8394
+    },
+    {
+      "path": "e2e/myp-economics.spec.ts",
+      "sha256": "77554892849c40bff1f3f9c7241474192a40c1288b0ed8120ab693b3d81b91c1",
+      "bytes": 6357
+    },
+    {
+      "path": "e2e/myp-english.spec.ts",
+      "sha256": "78ab926c2e321b974c9b4bcb57b86773ec68a8ab5e7f4496dda867dd0fabfa31",
+      "bytes": 6550
+    },
+    {
+      "path": "e2e/myp-geography.spec.ts",
+      "sha256": "bd59ab8cd623214e4b2386a7577ff5da7a8062704fae9465cf6e4840eb7c91b7",
+      "bytes": 6162
+    },
+    {
+      "path": "e2e/myp-history.spec.ts",
+      "sha256": "9bb25d82476c702767ff9bf175091407d2c74178ecd10fba473fa651c7f368e2",
+      "bytes": 5935
+    },
+    {
+      "path": "e2e/myp-integrated-humanities.spec.ts",
+      "sha256": "7d7a3b932c331aad628c26ff1cb4ccfee0a6b84119ec8529cccb557fd3b696de",
+      "bytes": 5804
+    },
+    {
+      "path": "e2e/myp-integrated-sciences.spec.ts",
+      "sha256": "d8b316a4ea15cd13e10b536c3c0feff9288a0b4ae37f2993d56a2a19fa46f883",
+      "bytes": 4320
+    },
+    {
+      "path": "e2e/myp-learning.spec.ts",
+      "sha256": "f06ac9725369997698f85aea53b35b85e4b6788688e9d299a16eae6af0dabef4",
+      "bytes": 5009
+    },
+    {
+      "path": "e2e/myp-mathematics.spec.ts",
+      "sha256": "a067594ca3b1b86949b97697508cbc560f4ebf9d32bd914787eb5d87acf6d23a",
+      "bytes": 8539
+    },
+    {
+      "path": "e2e/myp-personal-project.spec.ts",
+      "sha256": "0aab39c46db89696059c0b206014c7e3c1f9f0ad2ab5fe2690dc69fa3e7889a2",
+      "bytes": 5174
+    },
+    {
+      "path": "e2e/myp-phe.spec.ts",
+      "sha256": "a5792c9048cf3069fa362d90b8afb3b2ea9682a55f27b2348a3cef3ebda1847c",
+      "bytes": 5133
+    },
+    {
+      "path": "e2e/myp-physics.spec.ts",
+      "sha256": "2f283886ab0a139291de364e4d9b230e2043a21ed2fd2205f1d5e9aff35b02c8",
+      "bytes": 4188
+    },
+    {
+      "path": "e2e/myp-science-review.spec.ts",
+      "sha256": "09e89b8c0209d40ea1b26b0e2a3706f7256042587052277032938c9f95bcb909",
+      "bytes": 3044
+    },
+    {
+      "path": "e2e/myp-spanish.spec.ts",
+      "sha256": "eb565b385c5f346e78ea37bca2dd8f48294cb3162d718fc043b5ae1213dc3278",
+      "bytes": 6132
+    },
+    {
+      "path": "e2e/product-rebuild.spec.ts",
+      "sha256": "358f49f5c6b0e19f92844c2212fa4d2b06d7c293b5f5b3d3cdd0eb09a4a86e91",
+      "bytes": 29466
+    },
+    {
+      "path": "e2e/study-desk.spec.ts",
+      "sha256": "b36447773e91e9ae6cc6a8f24c53c5cb974eccad1ab68903fb72f3ef1be6a702",
+      "bytes": 9061
+    },
+    {
+      "path": "package.json",
+      "sha256": "229319f53197772c77a8056ac8643430cda93fe484de75553d79c1afce0e6a5f",
+      "bytes": 5615
+    },
+    {
+      "path": "playwright.ai-content.config.ts",
+      "sha256": "afb586eb2738d540ac8841a36dd95adcaf14795c63f0d29a57a8f726c945ebfb",
+      "bytes": 1070
+    },
+    {
+      "path": "playwright.golden.config.ts",
+      "sha256": "ba80339ec4a67733bc17af966d0607f6927809967e848cd1092a86250dd0fa68",
+      "bytes": 1588
+    },
+    {
+      "path": "playwright.reference.config.ts",
+      "sha256": "d9b2c26dc805d57d3e1329e164093fa4eb67cd72ae2b22888bcf27f7ae7057ca",
+      "bytes": 841
+    },
+    {
+      "path": "playwright.release-content.config.ts",
+      "sha256": "6b898d996e727af23744fc2a50f4118535ba303e914a129cccb9902ebcc24c79",
+      "bytes": 408
+    },
+    {
+      "path": "public/myp5-content/biology.json",
+      "sha256": "d51947507b5b69d085b35b8348d41cf8a129c72c915b9ceaa9fb72c8405f4da2",
+      "bytes": 64401
+    },
+    {
+      "path": "public/myp5-content/chemistry.json",
+      "sha256": "5b7b814dfffacbbbd59c97995e5a713270292ef646d98abef430422168c81711",
+      "bytes": 64224
+    },
+    {
+      "path": "public/myp5-content/design.json",
+      "sha256": "5d46f81f17ce74fc09f80f81a25be00463d34b3e4ee2c6cca04bc1e0fbc5cc2e",
+      "bytes": 73500
+    },
+    {
+      "path": "public/myp5-content/drama.json",
+      "sha256": "09fd73f97f8573077cd1c79379fa7aa03beee75d3da167412f1e9515e858d8ec",
+      "bytes": 41614
+    },
+    {
+      "path": "public/myp5-content/economics.json",
+      "sha256": "ce37530f1dea4446a7bb0854d9eeae0595a3a8de4f96dfc101e50c46575d0f09",
+      "bytes": 71532
+    },
+    {
+      "path": "public/myp5-content/english-language-literature.json",
+      "sha256": "eb66938374a1936bd3c5d5c79659f37d58470fdb03bfbd05767cccfaf8a09d26",
+      "bytes": 131962
+    },
+    {
+      "path": "public/myp5-content/geography.json",
+      "sha256": "3875463a21342041f1037027615e211d347c67d629ab49d4b377efce73d905d0",
+      "bytes": 53204
+    },
+    {
+      "path": "public/myp5-content/history.json",
+      "sha256": "1d32fc5227dda154a80f37e04b8b919155a77db4d4e8b8eb8dd923c3a9efa16d",
+      "bytes": 53989
+    },
+    {
+      "path": "public/myp5-content/integrated-humanities.json",
+      "sha256": "6a37e16549c61dc10c385b334b9a2435c6d8d451f3155f88f17f9e4f8f4335ee",
+      "bytes": 47242
+    },
+    {
+      "path": "public/myp5-content/integrated-sciences.json",
+      "sha256": "d589c02b49df879a6d3dc6b89229663991ae999aa0f037c65a91b16ac6251ab2",
+      "bytes": 43383
+    },
+    {
+      "path": "public/myp5-content/manifest.json",
+      "sha256": "ed4c878fa31b8489a7917ad799d43e47b88a5e808204c4df319ac3668e7826a8",
+      "bytes": 1700
+    },
+    {
+      "path": "public/myp5-content/mathematics.json",
+      "sha256": "1fb3d1addae750af75b24e68c7d92001f3fa6f10bde2c73ca5d66ab6f73a2ebd",
+      "bytes": 65166
+    },
+    {
+      "path": "public/myp5-content/music.json",
+      "sha256": "f655b9dbee7e6f6f03cce81745dc446901c55b40a337d7a223c3d64bd2977e3b",
+      "bytes": 40693
+    },
+    {
+      "path": "public/myp5-content/personal-project.json",
+      "sha256": "598764aec649994e6e5c2f32938f7703a5d7e8ac58ea8a38b090d71d3acc127f",
+      "bytes": 53772
+    },
+    {
+      "path": "public/myp5-content/physical-health-education.json",
+      "sha256": "f6208c5dec755638a77f738c2e3f7e6cef03686a113b566b035254b8c10aa3b3",
+      "bytes": 56138
+    },
+    {
+      "path": "public/myp5-content/physics.json",
+      "sha256": "5961a91589814e3b40b62b09b2c28ddea2e07ee77d58536aed8bb3af8d855b86",
+      "bytes": 74468
+    },
+    {
+      "path": "public/myp5-content/spanish.json",
+      "sha256": "ca6eff9a28b585cde6a22399eee578bed26b73645c8404f95e688a3d23ec8318",
+      "bytes": 74594
+    },
+    {
+      "path": "public/myp5-content/visual-arts.json",
+      "sha256": "4e8a7a206fe1d141bb7fa25ba9d1b6d69403f82e5e5b56190650d6d4598de5e8",
+      "bytes": 42437
+    },
+    {
+      "path": "public/sitemap.xml",
+      "sha256": "7c18c9bdbd7d764a2ae0d6edbce5bb0da9bb92ab59e993b655aa94c820120df9",
+      "bytes": 13234
+    },
+    {
+      "path": "scripts/audit-founder-project-links.mjs",
+      "sha256": "15c6049c82d0236b394845e9e8970e74a6aae9db465b305b44d3e7efa940289b",
+      "bytes": 1337
+    },
+    {
+      "path": "scripts/generate-myp5-content.mjs",
+      "sha256": "d6f5825e676fcf40b48392f6c8a01e54141aad98eabd6521540f9ab1fb0d8767",
+      "bytes": 5173
+    },
+    {
+      "path": "scripts/generate-study-guide-sitemap.mjs",
+      "sha256": "81143258d5ab3f0d0bdb8bdf8e234542aabbbad9adb3ec8fdffd0264a0da1959",
+      "bytes": 4419
+    },
+    {
+      "path": "src/app/App.tsx",
+      "sha256": "3aa7af39027d51464ca4d1bf3a86bfb654ce29b27115fd3e637990a28eb7244c",
+      "bytes": 14040
+    },
+    {
+      "path": "src/components/ApexCompanion.tsx",
+      "sha256": "6ead31e614c69519be7c3daf7410521385b63a7766d0b52ed4b37f53c1b826d1",
+      "bytes": 15487
+    },
+    {
+      "path": "src/components/Article.tsx",
+      "sha256": "8f47095ef9f69ad338fea2c14ab1bae7bcb416db99a0212362ac72e0998785f1",
+      "bytes": 1694
+    },
+    {
+      "path": "src/components/layout/SiteLayout.tsx",
+      "sha256": "a6d14f69d00b5100ee8d46af4b21b0e19c6a589a55b844cba64d794fbc7937b8",
+      "bytes": 20025
+    },
+    {
+      "path": "src/components/myp/MypPracticeWorkspace.tsx",
+      "sha256": "c30d7bd418000c024670e08a1800b54d46867063ce1f3f9d04b325c7114d4c91",
+      "bytes": 14102
+    },
+    {
+      "path": "src/components/notebook/ConceptMap.tsx",
+      "sha256": "1361f9d703fa81f28f5b1ca9d783e6d482acf4933e130b12256c444c375a5b48",
+      "bytes": 3001
+    },
+    {
+      "path": "src/components/notebook/NotebookOutputPanel.tsx",
+      "sha256": "cebc73547ac8ac526f1a6f174d4a6b07b40adc4e6d1dea1f8746e5d6bf154a63",
+      "bytes": 12101
+    },
+    {
+      "path": "src/components/portal/MemberAccountPanel.tsx",
+      "sha256": "5e0c52562a85320b54baa4c0e11cc8ddf46b7448e571a00b48ba58a7e2d7d5e3",
+      "bytes": 2740
+    },
+    {
+      "path": "src/components/portal/MemberPortalHeader.tsx",
+      "sha256": "6b6e0e6d6984f67163ed0094ab74eb9eebd52f8efd2c139d37b2952d007811a0",
+      "bytes": 4778
+    },
+    {
+      "path": "src/components/portal/PortalEngagementRow.tsx",
+      "sha256": "a197193544bd8678c50fb4e5806fc8996a219ee35f0f1ba1388dae44f2481da9",
+      "bytes": 6953
+    },
+    {
+      "path": "src/components/study/FormulaDesk.tsx",
+      "sha256": "718ceb418d531af90e05a6cbaa185a7498fb0e5e22c33bf5d27cb3351ed2c2ea",
+      "bytes": 10197
+    },
+    {
+      "path": "src/content/curriculumDirectory.ts",
+      "sha256": "f5cfa3fda7549044fc2f9455dd6e12f24c6f55d97563635aba34bf830c0facce",
+      "bytes": 2310
+    },
+    {
+      "path": "src/content/formulaReference.ts",
+      "sha256": "75466537430e8698f4a098f74bb4f2557828ab2ddd819e4b81e3641ad6a988f2",
+      "bytes": 27699
+    },
+    {
+      "path": "src/content/founderPortfolio.ts",
+      "sha256": "d85e5b8044b7ad7bb6c88d2d1ae3e31ca6575176ad5d09a62ea2275633eb3d29",
+      "bytes": 3953
+    },
+    {
+      "path": "src/content/myp5ArtsCompletion.ts",
+      "sha256": "7eb1ed6fbbcf365897400f4bda3d848340a75c4b5890b00fcd27c7331a2647ec",
+      "bytes": 114504
+    },
+    {
+      "path": "src/content/myp5BiologyCompletion.ts",
+      "sha256": "c2748f049d21dea4a025faa3dea3a1b192f818ad577466081fa64cdfc5af7647",
+      "bytes": 53131
+    },
+    {
+      "path": "src/content/myp5ChemistryCompletion.ts",
+      "sha256": "5e1ebc4235c3e73db55ae8744c0f82a220a88cabaa4625195e7fff025314eb8b",
+      "bytes": 54012
+    },
+    {
+      "path": "src/content/myp5ContentClient.ts",
+      "sha256": "8306dec9880c10d6652c92f505152ac695d3694db3de6d443803c4d17b84412e",
+      "bytes": 3997
+    },
+    {
+      "path": "src/content/myp5DesignCompletion.ts",
+      "sha256": "dfd2165fb07408fd2eb6724d34cbbdf685a620896b7c7faaf27df1199187bc5f",
+      "bytes": 70379
+    },
+    {
+      "path": "src/content/myp5EconomicsCompletion.ts",
+      "sha256": "5c9b6897c6d20352b1742da9ffeb2b4dfe69fc846332e415d1b905aa5dfc6969",
+      "bytes": 64370
+    },
+    {
+      "path": "src/content/myp5EnglishCompletion.ts",
+      "sha256": "6c340d29c410cc2b6cc1a05afc8f1eee82c010b95b0f5ee638abaaa931936698",
+      "bytes": 131173
+    },
+    {
+      "path": "src/content/myp5GeographyCompletion.ts",
+      "sha256": "10b408b6f832616c575625f554851c40f05ce95ac2231ee8c8837e4fe1fc6050",
+      "bytes": 46327
+    },
+    {
+      "path": "src/content/myp5HistoryCompletion.ts",
+      "sha256": "39f582002b5b9d4a0b7a02f3f14dbb8c0e76859cb02089523fe2d32ec28e7882",
+      "bytes": 48123
+    },
+    {
+      "path": "src/content/myp5IntegratedHumanitiesCompletion.ts",
+      "sha256": "a91df7ca9b11c3453f00fd67eb88e81937b5f5d4c6282f9ebfa792f62fb94752",
+      "bytes": 38293
+    },
+    {
+      "path": "src/content/myp5IntegratedSciencesCompletion.ts",
+      "sha256": "b360d7b235f430df44adfaadfe575d5c60de4fc0f1768caf8b6aa1a390897f07",
+      "bytes": 32239
+    },
+    {
+      "path": "src/content/myp5LessonExpansion.ts",
+      "sha256": "9cbcf2491cdbcbddfff0786b98be61348847c64f82275bb895f35368b1abe6a5",
+      "bytes": 65456
+    },
+    {
+      "path": "src/content/myp5Lessons.ts",
+      "sha256": "e7538ff44b1f5d352b7f3cde779a56402cc6e6f2e9fde6a4d78809a4cc3ec45a",
+      "bytes": 99547
+    },
+    {
+      "path": "src/content/myp5MathematicsCompletion.ts",
+      "sha256": "8975479ba438c91f2cea2f6979a412b35a72674b46182b8d9006619765305825",
+      "bytes": 49523
+    },
+    {
+      "path": "src/content/myp5PersonalProjectCompletion.ts",
+      "sha256": "2da0788a196c87e3d3cf0ad3448ab2ac862c397da2b31e8a4c6fa2756cc4c69b",
+      "bytes": 51274
+    },
+    {
+      "path": "src/content/myp5PheCompletion.ts",
+      "sha256": "b15f21e16c6e760e97af06b58e5c3baf43f889eb57b5fa45f20a448d379d3236",
+      "bytes": 50435
+    },
+    {
+      "path": "src/content/myp5PhysicsCompletion.ts",
+      "sha256": "94ec1d9e299186c4dcc30c7c0090c0c74b405cb33c31dced189dc725e0304b7f",
+      "bytes": 64167
+    },
+    {
+      "path": "src/content/myp5SpanishCompletion.ts",
+      "sha256": "28fd7f425fdc6857f0c7667399e47fcf531deac750429365b7bd87c90fa4e172",
+      "bytes": 71440
+    },
+    {
+      "path": "src/content/resourceLibrary.ts",
+      "sha256": "91979103ae7938838fc9fdfd29f0285760f95eee447f8f76d3934257e093dc9f",
+      "bytes": 8767
+    },
+    {
+      "path": "src/hooks/useSearchParamDraft.ts",
+      "sha256": "27ec764c01aa1a6db4b64eadc6b84d0c5dfa6389d56cf60784a5d30f8a033fad",
+      "bytes": 936
+    },
+    {
+      "path": "src/lib/adaptiveLearning.ts",
+      "sha256": "2ff68ad310ba43c60b69aa43ca3b28a8843ff15179741a4ec4dee5cc525d2e9a",
+      "bytes": 8581
+    },
+    {
+      "path": "src/lib/conceptMap.mjs",
+      "sha256": "ebe311a4772416488175cd8728127a7bf76d7f2d8fdba02988e001f0d6f4245a",
+      "bytes": 1504
+    },
+    {
+      "path": "src/lib/globalSearchIndex.ts",
+      "sha256": "caaea54d9821ce74bc2c0dc6c05af55373e1a661e0260a41a1e9fdf689f73a5c",
+      "bytes": 8426
+    },
+    {
+      "path": "src/lib/learnerProfile.ts",
+      "sha256": "1338a62a6fe6aecdb29e586c22c2cc16885d66346af8cf217b0c5c0774071888",
+      "bytes": 12171
+    },
+    {
+      "path": "src/lib/portalFeatures.ts",
+      "sha256": "29ccf80ca7d2ccab9752dab762606cab8056c54615641ed79ef72bebd4288341",
+      "bytes": 13886
+    },
+    {
+      "path": "src/lib/referencePractice.ts",
+      "sha256": "ea1a252ec72f19c1b92e79ed9f46c0b715bfc90a40fab53886c326eff3a6f91c",
+      "bytes": 1038
+    },
+    {
+      "path": "src/lib/resourceSearch.ts",
+      "sha256": "53b62469fbfa549c812246dcd37b0338e98cff081534c58a1886f59561627ffc",
+      "bytes": 1338
+    },
+    {
+      "path": "src/pages/About.tsx",
+      "sha256": "46236ecc03269e2032074c91fd04801905cce8a5474bbbfe9957436ac594c0e3",
+      "bytes": 9036
+    },
+    {
+      "path": "src/pages/ArchivesHome.tsx",
+      "sha256": "9cf82eb280f5cedf937b074734198788ad79216c04c8a15454d7cd2f5ac75732",
+      "bytes": 5854
+    },
+    {
+      "path": "src/pages/CurriculumFeature.tsx",
+      "sha256": "788df60e78d3ce8e4c4760965a3ab91b178de84291ebf51e02dfa99eaf4de4ab",
+      "bytes": 4037
+    },
+    {
+      "path": "src/pages/CurriculumToolsIndex.tsx",
+      "sha256": "139f2a45adeb303dbc041197248d1367651f845eaed3b8fb771844ea1ac812fd",
+      "bytes": 5641
+    },
+    {
+      "path": "src/pages/MYPEAssessment.tsx",
+      "sha256": "9efa229bbbcbf641fbc95f6aab4f4ca24faa4b7c4d4ba66e2d1689c1c3de2d8b",
+      "bytes": 7790
+    },
+    {
+      "path": "src/pages/MYPHub.tsx",
+      "sha256": "1ccea575539cb41c7808611c801050c77b98dfb4d08e898e47f31099ec08d082",
+      "bytes": 4946
+    },
+    {
+      "path": "src/pages/MYPSubject.tsx",
+      "sha256": "1a20d997593e01041cdd15ab2a44c49c074e8d8a6d7e91677d1d0b7401ad2b8c",
+      "bytes": 13649
+    },
+    {
+      "path": "src/pages/Main.tsx",
+      "sha256": "ad215bf25219678a8130c902aa6b9414f0a5a9729f3976f93da54665f8c5f090",
+      "bytes": 10353
+    },
+    {
+      "path": "src/pages/Projects.tsx",
+      "sha256": "436fbcba74cbf0417a21302fce01e803d79ba4cb1fadd7bd9b838a90e2b12c28",
+      "bytes": 9366
+    },
+    {
+      "path": "src/pages/StudyNotebook.tsx",
+      "sha256": "dffe5d94bead6fa279e8b8ae3695b7c9b5b2c820ffd46d094b78c17c013ca38e",
+      "bytes": 43483
+    },
+    {
+      "path": "src/pages/StudyTools.tsx",
+      "sha256": "384e79856c7c378ee7580a9db6ab42e400a9a58aac8cb3f442759773b7e70dd0",
+      "bytes": 5660
+    },
+    {
+      "path": "src/pages/resources/AIAnswerReviewer.tsx",
+      "sha256": "3ec05f0a865e90c80d592ca8f131e842e836610e3691f431ba426cbca40d28ef",
+      "bytes": 4547
+    },
+    {
+      "path": "src/pages/resources/AIChatbotTutorGuide.tsx",
+      "sha256": "42cb1b3b7dc58714be4de72abb9ea7868d4cf960942fd785e020b6fba31dcde6",
+      "bytes": 4761
+    },
+    {
+      "path": "src/pages/resources/AIStudyPlanner.tsx",
+      "sha256": "2cf6092cf1f08f2ab339bd5ff7ba997b445f65d4598d3e4318d517540b18958c",
+      "bytes": 8341
+    },
+    {
+      "path": "src/pages/resources/AutomatedNoteTakingGuide.tsx",
+      "sha256": "825b846dd162f02bf09c0842f629dff8f06c9248adbf729ad3cdd47c1e389485",
+      "bytes": 4769
+    },
+    {
+      "path": "src/pages/resources/BestAIPromptsForStudents.tsx",
+      "sha256": "a8542d5e271103bcba954bede66298dff6cf22f06724b6e9cec94df27a24338e",
+      "bytes": 8706
+    },
+    {
+      "path": "src/pages/resources/BestAIStudyTools2025.tsx",
+      "sha256": "777d68fbc7b0829a5b9f11db612d94d12acb74683e87882fb6e6d86231553a82",
+      "bytes": 8879
+    },
+    {
+      "path": "src/pages/resources/IBMathGuide.tsx",
+      "sha256": "9a47d3397789e0b71385a4e0098028cb96506edf9fb2c82444c39a8be778368a",
+      "bytes": 7963
+    },
+    {
+      "path": "src/pages/resources/Index.tsx",
+      "sha256": "5b7e9bd5dc00a3fadb5f85c5b85d0d382771e94e5d29f53e08d106f3ead709d3",
+      "bytes": 10865
+    },
+    {
+      "path": "src/pages/resources/NotesToFlashcards.tsx",
+      "sha256": "195d108357ee3da2d60d5c6b8ca640753a8a891b1b3acc6a76fb1aaed1b2a885",
+      "bytes": 4536
+    },
+    {
+      "path": "src/pages/resources/PaperMakerGuide.tsx",
+      "sha256": "e563570368ddca09e09d8c327c2dc4f6c504b48e51e8a429451a0be0002c9d67",
+      "bytes": 4400
+    },
+    {
+      "path": "src/styles/about.css",
+      "sha256": "f96990bc0d66c9180a37c94ded8532b1be5fac6a8e41c50db2d29c412b792c33",
+      "bytes": 9192
+    },
+    {
+      "path": "src/styles/formula-desk.css",
+      "sha256": "ef3bb0e6048c3f53dc5f26cbc3e4add705686130b233efd8d02f8d4ae16e84e0",
+      "bytes": 6794
+    },
+    {
+      "path": "src/styles/learning-library.css",
+      "sha256": "251650be061c4d4ff9e4cc399a61e13b4be1c7b9d0444376a3931635ef3c5e29",
+      "bytes": 8337
+    },
+    {
+      "path": "src/styles/myp5.css",
+      "sha256": "18f990cef9e0b466aa47a3a2f5039494e2a9e606f9a8ccde750af32b148e416d",
+      "bytes": 22013
+    },
+    {
+      "path": "src/styles/projects.css",
+      "sha256": "e0aaaceecde87b5379e75908859ce2884425ce332f600c0de4b247ea4eff32d9",
+      "bytes": 9089
+    },
+    {
+      "path": "src/styles/study-desk.css",
+      "sha256": "4e0340dadb398c2528754321600883a9624265780f2cec8d177beb6e3df5a443",
+      "bytes": 20980
+    },
+    {
+      "path": "src/styles/vee.css",
+      "sha256": "b38fce372b67f49c053b4a4be79003fbe9924f96cc6cc7d2ce34a83d8cc99a66",
+      "bytes": 17210
+    },
+    {
+      "path": "tests/about-project-links.test.mjs",
+      "sha256": "aa172b81f6ce8e63a59151ec116659f9463adb1299e563fe87ad1ac55e06750b",
+      "bytes": 3659
+    },
+    {
+      "path": "tests/ai-content-integrity.test.mjs",
+      "sha256": "35a783c1dbd6d673242a77c2a6f2b7465d765ed5fcc6c10d0c21b92194bf16d9",
+      "bytes": 10067
+    },
+    {
+      "path": "tests/ask-prompt.test.mjs",
+      "sha256": "ff93c2cdc13386e20111db71461df949f93be5287cd039b4bb3da5850c9a5c66",
+      "bytes": 3210
+    },
+    {
+      "path": "tests/formula-reference.test.mjs",
+      "sha256": "e2faa4a41f57eee635ad7007fac81ba4dfa237eac99bdcb0af4a38bc5dcf3f56",
+      "bytes": 3207
+    },
+    {
+      "path": "tests/learning-library.test.mjs",
+      "sha256": "b28b5a451102ad734778ed2864cde12a64807cd4d6c33d2e0ed596602a38b63d",
+      "bytes": 2254
+    },
+    {
+      "path": "tests/member-portal.test.mjs",
+      "sha256": "671d0d994d1f570efa0fa05fb7c0ba29f1b3ee5235a56630ee636828038a617d",
+      "bytes": 1490
+    },
+    {
+      "path": "tests/myp5-content-delivery.test.mjs",
+      "sha256": "0b8a87468882722ab49235f887a954b75e39e1c9af3001b315f74b25aa61a246",
+      "bytes": 2385
+    },
+    {
+      "path": "tests/myp5-lessons.test.mjs",
+      "sha256": "a122ffc87e98931b45bc4373f59ef2d0eb748c752214a75ca4a17794338057a0",
+      "bytes": 63509
+    },
+    {
+      "path": "tests/notebook-generated-content-accessibility.test.mjs",
+      "sha256": "748aad0161639730fd4cedf8d237f5ddfef51cee7dede378866645fd6cbf721a",
+      "bytes": 3229
+    },
+    {
+      "path": "tests/resource-search.test.mjs",
+      "sha256": "8d53856c389eecfb28a0ffaf9532a4d882fe99698b894de6b92302adce873e4c",
+      "bytes": 1666
+    }
+  ],
+  "freshEvidenceHashes": [
+    {
+      "path": ".tmp/release-finish-20261014/ai-content-discovery.log",
+      "sha256": "ce3a3da826b038a3fc94e27f65dd07cd25f8b1f3fda73adab96d5f8a7ab47eff"
+    },
+    {
+      "path": ".tmp/release-finish-20261014/ask.log",
+      "sha256": "533aa98ab0e55df4c0cda07bb0f2189c8a52424a9e16707ba38bbf4d978b7c7b"
+    },
+    {
+      "path": ".tmp/release-finish-20261014/content.log",
+      "sha256": "5a3f792c8f7a2d20ec6fbd555112397228527dc600abfb52472e84461da6c4aa"
+    },
+    {
+      "path": ".tmp/release-finish-20261014/copy.log",
+      "sha256": "076fa7a4b7ee4144ee5cc1bcaa42c59466fdfa39f4cd7d42a15994e3b58d2053"
+    },
+    {
+      "path": ".tmp/release-finish-20261014/evals.log",
+      "sha256": "ddcdc1a93ccf07a3bd8a70004021dbe07d1f7ee877b4e76cc326c41545c2be8a"
+    },
+    {
+      "path": ".tmp/release-finish-20261014/functions.log",
+      "sha256": "a1a60cab006cd71dfaa12eb788e9aa48ebf862a943767daa69330b9547a0f35d"
+    },
+    {
+      "path": ".tmp/release-finish-20261014/grading.log",
+      "sha256": "572106c41c0112778ae37c3ec55a47ec3659662bba938873e714fbeec0908cef"
+    },
+    {
+      "path": ".tmp/release-finish-20261014/hosted-migrations.json",
+      "sha256": "4cc404d7b5afe557f9c3183f53e7350ae353ba2ebfd08b588a82614f867162f2"
+    },
+    {
+      "path": ".tmp/release-finish-20261014/hosted-readiness.json",
+      "sha256": "da294bb0795dfaa031f021e5b62576e34ee2cdd6a67adfbb4e219b3c38129029"
+    },
+    {
+      "path": ".tmp/release-finish-20261014/hosted-security.json",
+      "sha256": "be818484f276b93df9875c269e167d7a7c9164047dfca510866cce567cfa8018"
+    },
+    {
+      "path": ".tmp/release-finish-20261014/migration-comparison.json",
+      "sha256": "4399547c29c104b69ac0f59cd9ef00595ebd558e9b8827801f7fb86060413123"
+    },
+    {
+      "path": ".tmp/release-finish-20261014/npm-audit/attempt-1.error.txt",
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": ".tmp/release-finish-20261014/npm-audit/attempt-1.signal.txt",
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": ".tmp/release-finish-20261014/npm-audit/attempt-1.status.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": ".tmp/release-finish-20261014/npm-audit/attempt-1.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".tmp/release-finish-20261014/npm-audit/attempt-1.stdout.json",
+      "sha256": "64ce08ce7d68a29e7b13e7fc2fb7dc4699cddb0695695c9c455ff616a7420f67"
+    },
+    {
+      "path": ".tmp/release-finish-20261014/npm-audit/result.txt",
+      "sha256": "de1888651f252acf92d8351acf1c7a28885fad52591c4e6278a35cf04724ab97"
+    },
+    {
+      "path": ".tmp/release-finish-20261014/production-probe-network.json",
+      "sha256": "5ff8e7f35b95a6c6fa7df47c36fc1a2398a4eb4bdbac03af6a87f1480566c01e"
+    },
+    {
+      "path": ".tmp/release-finish-20261014/production-probe.json",
+      "sha256": "47cc27757426b98897b2a83be5b63e2c26cf38ace6d174c88a71b978e0590dab"
+    },
+    {
+      "path": ".tmp/release-finish-20261014/reference-discovery.log",
+      "sha256": "dc24a9bbd9ed416e182f09cd354da8b979e5ecbda13067d9313ed14bd17396d7"
+    },
+    {
+      "path": ".tmp/release-finish-20261014/release-content-discovery.log",
+      "sha256": "b745d06e8eee89dc543d0f7ddb9aa6d128ce575ddbf6c491077df3af4ca3d0a1"
+    },
+    {
+      "path": ".tmp/release-finish-20261014/remote-ledger.json",
+      "sha256": "6b5808166bcaf2458c5b7db5bd1a6b0fbf7244d4e6bcd393ef82fa2a2e390b69"
+    }
+  ]
+}

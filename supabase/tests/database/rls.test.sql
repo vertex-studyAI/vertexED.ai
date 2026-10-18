@@ -7,6 +7,11 @@ values
   ('11111111-1111-4111-8111-111111111111', 'one@example.test'),
   ('22222222-2222-4222-8222-222222222222', 'two@example.test');
 
+-- Exercise the retained owner policies independently of the production ACL.
+-- This test-only grant rolls back; artifact_access.test.sql verifies that the
+-- actual migrated ACL denies every direct browser artifact operation.
+grant select, insert, update, delete on public.user_study_artifacts to authenticated;
+
 set local role authenticated;
 set local request.jwt.claim.sub = '11111111-1111-4111-8111-111111111111';
 

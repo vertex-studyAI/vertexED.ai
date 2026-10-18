@@ -45,8 +45,8 @@ export const ADAPTIVE_QUESTION_BANK = [
     prompt: 'A geometric sequence has $u_2=12$ and $u_5=96$, with positive common ratio. Find the sum of the first six terms.', answer: { value: 378, tolerance: 0 },
     solution: ['$ar=12$ and $ar^4=96$, so $r^3=8$ and $r=2$.', '$a=6$.', '$S_6=6(2^6-1)/(2-1)=378$.'],
     mistakes: [
-      { value: 252, category: 'execution', subcategory: 'term_count', evidence: 'This is the sum only through $u_5$, so one term has been omitted.', misconception: 'The first six terms include indices 1 through 6.', nextStep: 'List the final index or write the finite-series formula with $n=6$ before calculating.' },
-      { value: 186, category: 'formula', subcategory: 'geometric_sum_formula', evidence: 'The ratio and first term appear plausible, but the finite-series expression is not applied consistently.', misconception: 'For $r\\ne1$, $S_n=a(r^n-1)/(r-1)$.', nextStep: 'Substitute $a$, $r$ and $n$ into a labelled formula first.' },
+      { value: 186, category: 'execution', subcategory: 'term_count', evidence: 'This is the sum only through $u_5$, so one term has been omitted.', misconception: 'The first six terms include indices 1 through 6.', nextStep: 'List the final index or write the finite-series formula with $n=6$ before calculating.' },
+      { value: 192, category: 'conceptual', subcategory: 'term_not_sum', evidence: 'This is the sixth term, rather than the sum of all six terms.', misconception: 'A term and a partial sum answer different questions.', nextStep: 'List and add the first six terms, or use the finite geometric-series formula.' },
     ], difficultyReason: 'Requires recovering two parameters before applying the sum formula.',
   },
   {
@@ -282,6 +282,12 @@ export const ADAPTIVE_QUESTION_BANK = [
     ], difficultyReason: 'Requires defining a state, decomposing the final decision and enforcing the 0/1 constraint.',
   },
 ];
+
+// Stable descriptive identities keep saved history readable when an item is held.
+// This catalogue deliberately contains no question body, response key or solution.
+export const ADAPTIVE_QUESTION_METADATA = ADAPTIVE_QUESTION_BANK.map(({ id, subject, topic, difficulty, type, curriculum, concepts }) => ({
+  id, subject, topic, difficulty, type, curriculum, concepts,
+}));
 
 export const PRACTICE_SUBJECTS = [...new Set(ADAPTIVE_QUESTION_BANK.map((question) => question.subject))];
 export const PRACTICE_DIFFICULTIES = ['foundation', 'intermediate', 'advanced', 'very-hard'];

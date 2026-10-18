@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/lib/supabaseClient";
 import { authUiError, safeAuthReturnPath } from "@/lib/authUi.mjs";
+import { clearGoogleLoginReturn, prepareGoogleLoginReturn } from "@/lib/authReturn.mjs";
 import { useNavigate, Link, useLocation } from "react-router";
 import PageSection from "@/components/PageSection";
 
@@ -42,6 +43,7 @@ export default function Login() {
     setLoginMethod("email");
 
     try {
+      clearGoogleLoginReturn(window);
       await login(normalizedEmail, password);
       navigate(from, { replace: true });
     } catch (err) {
@@ -116,12 +118,15 @@ export default function Login() {
                   setLoginMethod("google");
                   setError(null);
                   setInfo(null);
+                  // A missing optional return path must not prevent authentication.
+                  prepareGoogleLoginReturn(window, from);
                   await loginWithGoogle();
                   window.setTimeout(() => {
                     setLoading(false);
                     setLoginMethod(null);
                   }, 4000);
                 } catch (err) {
+                  clearGoogleLoginReturn(window);
                   setError(authUiError(err));
                   setLoading(false);
                   setLoginMethod(null);

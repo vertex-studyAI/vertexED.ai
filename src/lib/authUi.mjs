@@ -1,3 +1,5 @@
+import { accessFailureMessage } from './accessRequest.mjs';
+
 export function safeAuthReturnPath(value, fallback = '/main') {
   if (typeof value !== 'string' || !value.startsWith('/') || value.startsWith('//')) return fallback;
   try {
@@ -11,6 +13,13 @@ export function safeAuthReturnPath(value, fallback = '/main') {
 }
 
 export function authUiError(error, action = 'login') {
+  // Account creation has already committed. Never turn a later sign-in failure
+  // into copy that encourages another creation attempt.
+  if (action === 'signup') return 'Your account was created, but sign-in did not finish. Sign in or reset your password. Do not create another account.';
+  if (error?.name === 'AccessRequestError') {
+    if (action === 'invite-signup' && ['transport', 'timeout', 'response', 'routing', 'service'].includes(error.kind)) return 'We could not confirm whether account creation finished. Try signing in or resetting your password before submitting again.';
+    return accessFailureMessage(error);
+  }
   const source = typeof error === 'string'
     ? error
     : error && typeof error === 'object' && 'message' in error

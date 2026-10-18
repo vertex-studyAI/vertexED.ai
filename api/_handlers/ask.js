@@ -1,6 +1,6 @@
 import { verifyAuthUser, readJsonBody, rejectOversizedJsonBody } from '../_lib/auth.js';
 import { rateLimitUserEndpoint } from '../_lib/rateLimit.js';
-import { callChatProvider, createSafetyIdentifier, extractChatAnswer, resolveChatProvider } from '../_lib/aiProviders.js';
+import { callChatProvider, chatOutputIssue, createSafetyIdentifier, extractChatAnswer, resolveChatProvider } from '../_lib/aiProviders.js';
 import { buildAskMessages } from '../_lib/askPrompt.js';
 import { validateSourceCitations } from '../_lib/grounding.js';
 import { resolveChatRoute } from '../_lib/modelPolicy.js';
@@ -119,6 +119,9 @@ export default async function handler(req, res) {
     }
 
     let answer = extractChatAnswer(data);
+    if (chatOutputIssue(data) === 'refused') {
+      return res.status(200).json({ answer: answer || 'I cannot help with that request. Try asking about the study concept you want to understand.' });
+    }
 
     // Some models can return empty output. Treat that as failure and retry only
     // with an explicitly configured fallback model on the same provider.
@@ -146,12 +149,15 @@ export default async function handler(req, res) {
       }
 
       answer = extractChatAnswer(data);
+      if (chatOutputIssue(data) === 'refused') {
+        return res.status(200).json({ answer: answer || 'I cannot help with that request. Try asking about the study concept you want to understand.' });
+      }
     }
 
     if (!answer) {
       console.error("❌ No answer in AI provider response:", provider, resolvedModel);
-      return res.status(500).json({
-        error: "AI returned no answer",
+      return res.status(502).json({
+        error: "AI could not complete the answer. Try a shorter question or fewer sources.",
       });
     }
 

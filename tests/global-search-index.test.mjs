@@ -2,6 +2,14 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 
 import { GLOBAL_SEARCH_INDEX, searchVertex } from '../src/lib/globalSearchIndex.ts';
+import { AP_COURSES } from '../src/content/apCatalogue.ts';
+
+test('every AP course can be discovered without an account', () => {
+  for (const course of AP_COURSES) {
+    const results = searchVertex(course.title, { includeAccount: false });
+    assert.ok(results.some((entry) => entry.to === `/ap/${course.slug}`), `${course.title} must remain discoverable`);
+  }
+});
 
 test('signed-out search hides account-scoped study tools', () => {
   const accountTitles = GLOBAL_SEARCH_INDEX.filter((entry) => entry.account).map((entry) => entry.title);

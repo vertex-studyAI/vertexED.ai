@@ -14,13 +14,20 @@
   "functions": {
     "api/[[...path]].js": {
       "maxDuration": 300,
-      "includeFiles": "{public/study-guides/**,api/_workers/**,node_modules/pdfjs-dist/**,node_modules/@napi-rs/canvas*/**}"
+      "includeFiles": "{public/study-guides/**,contracts/content-publication-approvals.json,api/_workers/**,node_modules/pdfjs-dist/**,node_modules/@napi-rs/canvas*/**}"
     }
   },
   "rewrites": [
     { "source": "/((?!api|.*\\..*).*)", "destination": "/index.html" }
   ],
   "headers": [
+    {
+      "source": "/sw.js",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-cache, max-age=0, must-revalidate" },
+        { "key": "Service-Worker-Allowed", "value": "/" }
+      ]
+    },
     {
       "source": "/api/(.*)",
       "headers": [

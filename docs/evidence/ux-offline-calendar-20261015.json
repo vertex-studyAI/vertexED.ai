@@ -1,0 +1,153 @@
+{
+  "recordedAt": "2026-10-15T14:42:17.216476+00:00",
+  "scope": "Local offline and calendar UX improvements",
+  "implemented": [
+    "Two-step calendar import, persistent footer, focus management and file-preserving Back action",
+    "Readable dates, duplicate/conflict totals, completion state and inline calendar removal confirmation",
+    "Offline device status, content/connection distinction, repair/update feedback and inline removal confirmation",
+    "Mobile confirmation centred clear of the default companion position"
+  ],
+  "checks": {
+    "applicationTests": {
+      "passed": 1386,
+      "failed": 0,
+      "skipped": 0
+    },
+    "focusedTests": 24,
+    "browserInitial": 12,
+    "browserCalendarAndOfflineCorrection": 8,
+    "browserFinalOffline": 4,
+    "typecheck": "PASS",
+    "build": "PASS",
+    "bundleBudgets": "PASS",
+    "lint": {
+      "errors": 0,
+      "legacyWarnings": 2
+    },
+    "copy": {
+      "files": 406,
+      "findings": 0
+    },
+    "diffCheck": "PASS"
+  },
+  "visualReview": {
+    "widths": [
+      1440,
+      1024,
+      390
+    ],
+    "shortViewport": [
+      390,
+      640
+    ],
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "keyboard": true,
+    "reducedMotion": true,
+    "corrections": [
+      "Mobile count alignment",
+      "Readable dates and singular commitment labels",
+      "Action guidance on invalid files",
+      "Offline confirmation placement"
+    ]
+  },
+  "verificationNote": "Full app suite passed after the UX implementation; subsequent presentation corrections were checked with TypeScript/lint, fresh builds and affected browser journeys. Authentication uses synthetic local fixtures. No deployment performed.",
+  "files": [
+    {
+      "path": "src/components/OfflineSettings.tsx",
+      "sha256": "1c3025338b6487653b335efc22fb9c917e49f567bf0ad8780df14d5ebc593718"
+    },
+    {
+      "path": "src/styles/offline-study.css",
+      "sha256": "36df9553a00d0de7861c6dcc3b80298896de4949250094b5f8cb221b4a672a44"
+    },
+    {
+      "path": "src/features/study-calendar/components/CalendarImport.tsx",
+      "sha256": "f23f5326243cd5820aee42b7903a94d6e95bb996a08bb1b6c9576f65d9d87071"
+    },
+    {
+      "path": "src/features/study-calendar/styles/planner.css",
+      "sha256": "2d5f8962d8cab2d38e395ba833913f850c0ebddd7a830d7601d8e48c48f39875"
+    },
+    {
+      "path": "e2e/learning-os.spec.ts",
+      "sha256": "797f0e30a64513a24edfc3362caa341991c7fb59d3962ca1aa37589f758ee70e"
+    },
+    {
+      "path": "e2e/offline-study.spec.ts",
+      "sha256": "82b48e4f69297c3e36fa0c9e4a24acff2243d15636be4d9f88eb4aa368b5a574"
+    },
+    {
+      "path": "brand/DESIGN.md",
+      "sha256": "b25696049341071e4fec2a6e10bb834db5bf851f977bbc5e46cdf272fdc66548"
+    }
+  ],
+  "logs": [
+    {
+      "path": ".tmp/ux-20261015/app-tests.log",
+      "sha256": "e3732ce432e3f873de793ae0191486442bb50c3c35c05bf39e292c5c407b0d38"
+    },
+    {
+      "path": ".tmp/ux-20261015/browser-correction.log",
+      "sha256": "a3af4cd1c126c7011583b0661f839c7d0e1a25fef25d4211a95d99a81c21b8ea"
+    },
+    {
+      "path": ".tmp/ux-20261015/browser-final-offline.log",
+      "sha256": "82238d658f0a4e19e49222a5837a4c56148531cca90d4ffd4f4ad1c98606ae34"
+    },
+    {
+      "path": ".tmp/ux-20261015/browser.log",
+      "sha256": "a35f2445d414fd38dee8c4c672d8ccb60193a2df7da43e8c23984b1784cf7015"
+    },
+    {
+      "path": ".tmp/ux-20261015/build-correction.log",
+      "sha256": "9c4596ab1bb05a3de59104b6c90113a490a7bfb33e1271287fd7b0dba6901623"
+    },
+    {
+      "path": ".tmp/ux-20261015/build-final.log",
+      "sha256": "ce4076dabce5b701481e532e02d1315635c4c6fcd4dd5d67c416287598a89c46"
+    },
+    {
+      "path": ".tmp/ux-20261015/build.log",
+      "sha256": "bdf7b5f80afeeec9b070bf3aba56df10d0307a3727cea337d4d51bb4314283c6"
+    },
+    {
+      "path": ".tmp/ux-20261015/bundle-final.log",
+      "sha256": "244564d31c011c5c46faa9eab95fd15f6abf004d7013331f687362be18594f16"
+    },
+    {
+      "path": ".tmp/ux-20261015/bundle.log",
+      "sha256": "a7a399c81e24146e476309a8a631ca928aa9bbad9fbfb2499bdcbd79d1dd497a"
+    },
+    {
+      "path": ".tmp/ux-20261015/copy-final.log",
+      "sha256": "884bd88f5f03ab464a33a86bd9bc616b6cf2e1ca9620e9ba526af1648ab0438f"
+    },
+    {
+      "path": ".tmp/ux-20261015/focused-tests.log",
+      "sha256": "7efb3654b0a06fcc8329d389287158d2f8f1960bcb331339296d15b41177de4f"
+    },
+    {
+      "path": ".tmp/ux-20261015/lint-correction.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".tmp/ux-20261015/lint.log",
+      "sha256": "b5a430de04cf7dc687edcce975b5f8e46536ba11f6f43f08eb0b18a8c6a6e22b"
+    },
+    {
+      "path": ".tmp/ux-20261015/typecheck-final.log",
+      "sha256": "18613ddbee6bb1383ee22d4a41b90885223169ef27a680cb63aac1cdd738279f"
+    },
+    {
+      "path": ".tmp/ux-20261015/typecheck.log",
+      "sha256": "18613ddbee6bb1383ee22d4a41b90885223169ef27a680cb63aac1cdd738279f"
+    }
+  ],
+  "screenshots": [
+    "test-results/ux-20261015-correction",
+    "test-results/ux-20261015-final-offline"
+  ]
+}

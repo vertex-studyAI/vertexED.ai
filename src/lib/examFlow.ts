@@ -71,11 +71,44 @@ export function mockExamAnswersStorageKey() {
 
 export function saveMockExamAnswersHandoff(handoff: MockExamAnswersHandoff): boolean {
   if (typeof window === 'undefined') return false;
-  return safeStorageSet(
+  if (!validAnswersHandoff(handoff)) return false;
+  const storage = resolveLocalStorage(window);
+  const existing = readStoredMockExamDraft();
+  if (existing.error) return false;
+  try {
+    const previousAnswers = storage?.getItem(mockExamAnswersStorageKey());
+    if (previousAnswers && !validAnswersHandoff(JSON.parse(previousAnswers))) return false;
+  } catch { return false; }
+  const now = new Date();
+  const submitted = {
+    ...existing.draft,
+    paper: existing.draft?.paper ?? { title: handoff.paperTitle, sections: [{ questions: handoff.questions }] },
+    paperTitle: handoff.paperTitle || 'Practice paper',
+    answers: handoff.answers,
+    answered: Object.values(handoff.answers).filter(answer => answer.trim()).length,
+    total: handoff.questions.length,
+    currentIndex: existing.draft?.currentIndex ?? 0,
+    deadlineAt: existing.draft?.deadlineAt ?? now.toISOString(),
+    cramMode: existing.draft?.cramMode ?? false,
+    subject: handoff.subject,
+    status: 'awaiting_review',
+    submittedAnswers: handoff,
+    savedAt: now.toISOString(),
+    updatedAt: now.toISOString(),
+  } satisfies MockExamDraft;
+  // A temporary handoff is insufficient: closing the browser must leave the
+  // submitted answers available. Do not retire the active draft before this
+  // durable device acknowledgement succeeds.
+  if (!safeStorageSet(storage, mockExamAnswersStorageKey(), JSON.stringify(handoff))) return false;
+  if (!safeStorageSet(storage, mockExamDraftStorageKey(), JSON.stringify(submitted))) return false;
+  try { queueLearnerStateWrite('mock_draft', 'active', submitted as unknown as Record<string, unknown>, now); }
+  catch { /* The acknowledged device copy remains available if cloud queuing is unavailable. */ }
+  safeStorageSet(
     resolveSessionStorage(window),
     mockExamAnswersStorageKey(),
     JSON.stringify(handoff),
   );
+  return true;
 }
 
 export type PendingMockReview = {
@@ -97,28 +130,53 @@ export type MockExamDraft = PendingMockReview & {
   cramMode: boolean;
   savedAt: string;
   updatedAt: string;
+  submittedAnswers?: MockExamAnswersHandoff;
 };
 
 function mockExamDraftStorageKey() {
   return userContentStorageKeys().mockExamDraft;
 }
 
-export function loadMockExamDraft(): MockExamDraft | null {
-  if (typeof window === 'undefined') return null;
+function validAnswersHandoff(value: unknown): value is MockExamAnswersHandoff {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return false;
+  const handoff = value as MockExamAnswersHandoff;
+  return Array.isArray(handoff.questions)
+    && handoff.questions.every(question => question && typeof question === 'object'
+      && (question.id === undefined || typeof question.id === 'string')
+      && (question.question === undefined || typeof question.question === 'string'))
+    && Boolean(handoff.answers && typeof handoff.answers === 'object' && !Array.isArray(handoff.answers))
+    && Object.values(handoff.answers).every(answer => typeof answer === 'string')
+    && (handoff.paperTitle === undefined || typeof handoff.paperTitle === 'string')
+    && (handoff.rubricNotes === undefined || (Array.isArray(handoff.rubricNotes) && handoff.rubricNotes.every(note => typeof note === 'string')));
+}
+
+function readStoredMockExamDraft(): { draft: MockExamDraft | null; error: boolean } {
+  if (typeof window === 'undefined') return { draft: null, error: true };
   try {
-    const raw = safeStorageGet(resolveLocalStorage(window), mockExamDraftStorageKey());
-    if (!raw) return null;
+    const storage = resolveLocalStorage(window);
+    if (!storage) return { draft: null, error: true };
+    const raw = storage.getItem(mockExamDraftStorageKey());
+    if (raw === null) return { draft: null, error: false };
     const draft = JSON.parse(raw) as MockExamDraft;
-    if (!draft?.paper || !Array.isArray((draft.paper as { sections?: unknown }).sections)) return null;
-    if (!Number.isFinite(Date.parse(draft.deadlineAt)) || !draft.answers || typeof draft.answers !== 'object') return null;
-    return draft;
+    if (!draft?.paper || !Array.isArray((draft.paper as { sections?: unknown }).sections)
+      || !Number.isFinite(Date.parse(draft.deadlineAt)) || !draft.answers || typeof draft.answers !== 'object'
+      || Array.isArray(draft.answers) || !Object.values(draft.answers).every(answer => typeof answer === 'string')
+      || !Number.isInteger(draft.currentIndex) || draft.currentIndex < 0
+      || (draft.status !== 'in_progress' && draft.status !== 'awaiting_review')) return { draft: null, error: true };
+    return { draft, error: false };
   } catch {
-    return null;
+    return { draft: null, error: true };
   }
+}
+
+export function loadMockExamDraft(): MockExamDraft | null {
+  const { draft } = readStoredMockExamDraft();
+  return draft?.status === 'in_progress' ? draft : null;
 }
 
 export function saveMockExamDraft(draft: Omit<MockExamDraft, 'status' | 'savedAt' | 'updatedAt'>): boolean {
   if (typeof window === 'undefined') return false;
+  if (readStoredMockExamDraft().error) return false;
   const now = new Date();
   const saved = {
     ...draft,
@@ -131,7 +189,8 @@ export function saveMockExamDraft(draft: Omit<MockExamDraft, 'status' | 'savedAt
     mockExamDraftStorageKey(),
     JSON.stringify(saved),
   );
-  queueLearnerStateWrite('mock_draft', 'active', saved as unknown as Record<string, unknown>, now);
+  try { queueLearnerStateWrite('mock_draft', 'active', saved as unknown as Record<string, unknown>, now); }
+  catch { /* Return only the confirmed device-save status. */ }
   return stored;
 }
 
@@ -147,7 +206,8 @@ export function clearMockExamDraft(): void {
 
 export function getPendingMockReview(): PendingMockReview | null {
   if (typeof window === 'undefined') return null;
-  const raw = safeStorageGet(resolveSessionStorage(window), mockExamAnswersStorageKey());
+  const raw = safeStorageGet(resolveSessionStorage(window), mockExamAnswersStorageKey())
+    || safeStorageGet(resolveLocalStorage(window), mockExamAnswersStorageKey());
   if (raw) {
     try {
       const parsed = JSON.parse(raw) as {
@@ -171,13 +231,13 @@ export function getPendingMockReview(): PendingMockReview | null {
     }
   }
 
-  const draft = loadMockExamDraft();
+  const { draft } = readStoredMockExamDraft();
   return draft ? {
     subject: draft.subject,
     paperTitle: draft.paperTitle,
     answered: draft.answered,
     total: draft.total,
-    status: 'in_progress',
+    status: draft.status,
   } : null;
 }
 
@@ -211,16 +271,21 @@ export function consumeMockExamAnswers(): MockExamAnswersHandoff | null {
   if (typeof window === 'undefined') return null;
   const storage = resolveSessionStorage(window);
   const scopedAnswersKey = mockExamAnswersStorageKey();
-  const raw = safeStorageGet(storage, scopedAnswersKey);
+  const raw = safeStorageGet(storage, scopedAnswersKey)
+    || safeStorageGet(resolveLocalStorage(window), scopedAnswersKey);
 
-  safeStorageRemove(storage, scopedAnswersKey);
-  if (!raw) return null;
+  if (!raw) {
+    const { draft } = readStoredMockExamDraft();
+    return draft?.status === 'awaiting_review' && validAnswersHandoff(draft.submittedAnswers)
+      ? draft.submittedAnswers : null;
+  }
 
   try {
     const parsed = JSON.parse(raw) as Partial<MockExamAnswersHandoff>;
-    if (!Array.isArray(parsed.questions) || !parsed.answers || typeof parsed.answers !== 'object') {
+    if (!validAnswersHandoff(parsed)) {
       return null;
     }
+    safeStorageRemove(storage, scopedAnswersKey);
     // A completed timed exam is richer than the question-only review handoff.
     // Remove the latter so it cannot appear as a stale second import.
     safeStorageRemove(storage, mockReviewStorageKey());

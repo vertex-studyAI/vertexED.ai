@@ -2,11 +2,13 @@ import { verifyAuthUser } from '../_lib/auth.js';
 import { getSupabaseAdmin } from '../_lib/supabaseAdmin.js';
 import { rateLimitUserEndpoint } from '../_lib/rateLimit.js';
 import { buildAccountExport, listAllOwnedRows } from '../_lib/accountExport.js';
+import { readAccountAiUsage } from '../_lib/aiUsage.js';
 
 const PROFILE_FIELDS = 'id, email, full_name, avatar_url, school_name, board, grade, subjects, exam_date, created_at, updated_at';
 const WAITLIST_FIELDS = 'id, email, status, signup_method, school_id, application_profile, profile_collected_at, created_at, updated_at';
 const ARTIFACT_FIELDS = 'id, kind, title, payload, idempotency_key, created_at, updated_at';
 const STATE_FIELDS = 'state_type, state_key, payload, client_revision, client_updated_at, created_at, updated_at';
+const USAGE_FIELDS = 'id, operation_hash, request_fingerprint, capability, provider, model, policy_version, usage_day, reserved_microusd, charged_microusd, state, reserved_at, expires_at, dispatched_at, settled_at';
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' });
@@ -17,7 +19,7 @@ export default async function handler(req, res) {
 
   try {
     const supabase = getSupabaseAdmin();
-    const [profileResult, waitlistResult, studyArtifacts, learnerState] = await Promise.all([
+    const [profileResult, waitlistResult, studyArtifacts, learnerState, aiUsageOperations, aiUsage] = await Promise.all([
       supabase.from('profiles').select(PROFILE_FIELDS).eq('id', user.id).maybeSingle(),
       supabase.from('waitlist').select(WAITLIST_FIELDS).eq('auth_user_id', user.id).maybeSingle(),
       listAllOwnedRows(() => supabase
@@ -30,6 +32,8 @@ export default async function handler(req, res) {
         .select(STATE_FIELDS)
         .eq('user_id', user.id)
         .order('updated_at', { ascending: false })),
+      listAllOwnedRows(() => supabase.from('ai_usage_reservations').select(USAGE_FIELDS).eq('user_id', user.id).order('reserved_at', { ascending: false })),
+      readAccountAiUsage(user.id),
     ]);
 
     if (profileResult.error) throw profileResult.error;
@@ -41,6 +45,8 @@ export default async function handler(req, res) {
       waitlist: waitlistResult.data,
       studyArtifacts,
       learnerState,
+      aiUsageOperations,
+      aiUsage,
       exportedAt: new Date().toISOString(),
     }));
   } catch (error) {

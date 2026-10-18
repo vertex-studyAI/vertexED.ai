@@ -1,0 +1,398 @@
+{
+  "slug": "united-states-history",
+  "title": "AP United States History",
+  "category": "History and social sciences",
+  "summary": "Trace change across nine historical periods while practising comparison, causation and evidence-based claims.",
+  "officialUrl": "https://apstudents.collegeboard.org/courses/ap-united-states-history",
+  "frameworkNote": "2026–27 structure checked against College Board on 15 October 2026: 9 units. Original VertexED focused lessons and self-check questions sample each unit; they do not replace the full course framework, required materials or teacher review. Nine chronological periods follow the current framework. College Board announced May 2027 changes to short-answer and long-essay questions without changing course content; these original exercises are not a replica of an exam format.",
+  "assessment": "exam",
+  "modules": [
+    {
+      "title": "1491–1607: Diverse societies and Atlantic contact",
+      "focus": "Compare societies before explaining the effects of contact.",
+      "explanation": [
+        "North America before European colonisation contained diverse societies shaped by different environments, economies and political relationships. Agricultural communities, trading networks and mobile lifeways cannot be reduced to one Indigenous experience.",
+        "Atlantic contact connected peoples, crops, animals and diseases with unequal consequences. Epidemic disease, warfare, coercive labour and negotiation shaped encounters. Explain a mechanism and identify the groups involved rather than treating exchange as equally beneficial or uniformly experienced."
+      ],
+      "workedExample": {
+        "prompt": "Compare the effects of introduced horses and introduced diseases on Indigenous communities.",
+        "steps": [
+          "Horses could change mobility, hunting and conflict in some regions over time.",
+          "Diseases caused devastating mortality; the consequences differed in mechanism, timing and geography."
+        ]
+      },
+      "misconception": {
+        "claim": "All Indigenous societies had the same economy and political organisation.",
+        "correction": "Evidence shows substantial regional and historical variation."
+      },
+      "questions": [
+        {
+          "prompt": "Why should an account of European contact specify a region and time?",
+          "hint": "Consider variation.",
+          "answer": "Encounters differed with local societies, colonising powers and changing circumstances, so one event cannot represent the continent.",
+          "checkpoints": [
+            "Identify regional variation",
+            "Identify change over time"
+          ],
+          "id": "united-states-history-unit-1-q1"
+        },
+        {
+          "prompt": "How could a trade object support an argument about pre-contact networks?",
+          "hint": "Connect material evidence to movement.",
+          "answer": "An object made from material originating elsewhere may indicate exchange, though its route requires corroboration.",
+          "checkpoints": [
+            "Infer contact carefully",
+            "State a limitation"
+          ],
+          "id": "united-states-history-unit-1-q2"
+        }
+      ],
+      "id": "united-states-history-unit-1",
+      "frameworkUnit": "Unit 1"
+    },
+    {
+      "title": "1607–1754: Colonial economies and labour",
+      "focus": "Connect regional production to labour systems and institutions.",
+      "explanation": [
+        "British colonies developed different economies influenced by climate, land, migration and markets. Plantation agriculture expanded demand for coerced labour, while other regions combined farming, trade and skilled work. Slavery existed beyond plantation regions and changed over time.",
+        "Colonial institutions also reflected conflict and negotiation among settlers, imperial authorities and Indigenous peoples. Compare regions using specific economic and political evidence; avoid assuming that one colony’s experience describes all British North America."
+      ],
+      "workedExample": {
+        "prompt": "Explain a connection between labour-intensive tobacco production and labour demand in the Chesapeake.",
+        "steps": [
+          "Tobacco required sustained cultivation and processing for export.",
+          "Planters sought labour through indenture and increasingly racialised hereditary slavery, shaped by law and profit."
+        ]
+      },
+      "misconception": {
+        "claim": "Slavery existed only in the southern colonies.",
+        "correction": "Enslavement also existed in other colonies, though scale and economic roles differed."
+      },
+      "questions": [
+        {
+          "prompt": "Why might port towns develop different occupations from plantation districts?",
+          "hint": "Consider economic activity.",
+          "answer": "Trade and shipping create demand for merchants, dock labour and crafts, while plantations concentrate labour in agricultural production.",
+          "checkpoints": [
+            "Compare economic bases",
+            "Link to occupations"
+          ],
+          "id": "united-states-history-unit-2-q1"
+        },
+        {
+          "prompt": "What evidence would test whether a labour system changed over time?",
+          "hint": "Look for a sequence.",
+          "answer": "Laws, contracts and population records from different dates can show shifts in legal status and workforce composition.",
+          "checkpoints": [
+            "Use dated evidence",
+            "Identify what changes"
+          ],
+          "id": "united-states-history-unit-2-q2"
+        }
+      ],
+      "id": "united-states-history-unit-2",
+      "frameworkUnit": "Unit 2"
+    },
+    {
+      "title": "1754–1800: Revolution and constitutional settlement",
+      "focus": "Separate the causes of protest from the outcomes of independence.",
+      "explanation": [
+        "Imperial war and new revenue policies intensified disputes about representation and authority. Independence grew through political argument, mobilisation and conflict rather than from one universally shared motive. Loyalists and Patriots differed, and many groups faced constrained choices.",
+        "Revolutionary ideals expanded political possibilities while coexisting with slavery and exclusions from citizenship. The Constitution responded to governing problems under the Articles of Confederation, but ratification required argument and compromise about national power and rights."
+      ],
+      "workedExample": {
+        "prompt": "Explain how a war could increase disputes over colonial taxation.",
+        "steps": [
+          "War increased imperial debt and defence expenses.",
+          "Efforts to raise colonial revenue sharpened disagreements about who could authorise taxes and representation."
+        ]
+      },
+      "misconception": {
+        "claim": "Independence immediately created equal rights for everyone.",
+        "correction": "Political ideals and institutions changed while major exclusions and slavery persisted."
+      },
+      "questions": [
+        {
+          "prompt": "Why compare Patriot rhetoric with the status of enslaved people?",
+          "hint": "Look for tension between ideals and practice.",
+          "answer": "The comparison reveals how claims about liberty coexisted with bondage and prompted challenges to that contradiction.",
+          "checkpoints": [
+            "Identify the contradiction",
+            "Explain historical significance"
+          ],
+          "id": "united-states-history-unit-3-q1"
+        },
+        {
+          "prompt": "Why did the Articles’ weaknesses matter in constitutional debate?",
+          "hint": "Connect a problem to a proposed institution.",
+          "answer": "Difficulties raising revenue and coordinating national action supported arguments for stronger federal powers.",
+          "checkpoints": [
+            "Name a governing problem",
+            "Connect to constitutional change"
+          ],
+          "id": "united-states-history-unit-3-q2"
+        }
+      ],
+      "id": "united-states-history-unit-3",
+      "frameworkUnit": "Unit 3"
+    },
+    {
+      "title": "1800–1848: Markets, reform and contested democracy",
+      "focus": "Explain how expanding participation could coexist with exclusion.",
+      "explanation": [
+        "Transport improvements and market expansion connected producers and consumers more closely while changing work and family life. These developments created opportunities and dependencies, affecting regions and social groups differently.",
+        "Political participation expanded for many white men as property restrictions declined, while women, many free Black people and Indigenous peoples remained excluded or faced restrictions. Reform movements contested slavery, education and gender roles, often disagreeing about methods and priorities."
+      ],
+      "workedExample": {
+        "prompt": "Explain why a canal could change farming beyond the town where it was built.",
+        "steps": [
+          "Lower transport costs connected inland producers to larger markets.",
+          "Farmers could specialise for sale, increasing dependence on prices and distant demand."
+        ]
+      },
+      "misconception": {
+        "claim": "Expanded white male suffrage meant universal democracy.",
+        "correction": "The expansion was substantial but did not include all groups equally."
+      },
+      "questions": [
+        {
+          "prompt": "How could market expansion affect a household’s work?",
+          "hint": "Consider production for sale.",
+          "answer": "Households might shift from producing mainly for their own use towards specialised goods or wage work tied to markets.",
+          "checkpoints": [
+            "Identify economic change",
+            "Explain household effect"
+          ],
+          "id": "united-states-history-unit-4-q1"
+        },
+        {
+          "prompt": "Why distinguish reformers’ shared goals from their methods?",
+          "hint": "Compare strategies.",
+          "answer": "People could oppose slavery while disagreeing about immediate abolition, political action or other approaches.",
+          "checkpoints": [
+            "Identify common aim",
+            "Identify strategic disagreement"
+          ],
+          "id": "united-states-history-unit-4-q2"
+        }
+      ],
+      "id": "united-states-history-unit-4",
+      "frameworkUnit": "Unit 4"
+    },
+    {
+      "title": "1844–1877: Expansion, slavery and Reconstruction",
+      "focus": "Trace how territorial disputes became a national crisis.",
+      "explanation": [
+        "Territorial expansion intensified conflict over whether slavery would extend into new areas. Political compromises, court decisions and violence failed to resolve the sectional conflict. The Civil War’s causes require attention to slavery’s central place in these disputes.",
+        "Emancipation and Reconstruction changed constitutional citizenship and rights. Freedpeople pursued land, education, family reunification and political participation, while white resistance and uneven enforcement constrained outcomes. Legal change and lived freedom should be analysed together."
+      ],
+      "workedExample": {
+        "prompt": "Explain why admitting a new state could provoke conflict before the Civil War.",
+        "steps": [
+          "Its position on slavery affected the institution’s territorial future.",
+          "Admission also affected political representation and the balance of power in national institutions."
+        ]
+      },
+      "misconception": {
+        "claim": "Reconstruction’s constitutional changes guaranteed equal power in practice.",
+        "correction": "Violence, economic dependence and weak enforcement limited the exercise of rights."
+      },
+      "questions": [
+        {
+          "prompt": "How did the Thirteenth and Fourteenth Amendments address different issues?",
+          "hint": "Separate slavery from citizenship.",
+          "answer": "The Thirteenth abolished slavery except as punishment for crime; the Fourteenth established citizenship and equal-protection guarantees.",
+          "checkpoints": [
+            "Distinguish the subjects",
+            "Identify constitutional change"
+          ],
+          "id": "united-states-history-unit-5-q1"
+        },
+        {
+          "prompt": "Why use freedpeople’s testimony when studying Reconstruction?",
+          "hint": "Consider whose priorities appear.",
+          "answer": "It reveals experiences and goals that official policy documents alone may omit, while still requiring source evaluation.",
+          "checkpoints": [
+            "Identify perspective",
+            "Explain added evidence"
+          ],
+          "id": "united-states-history-unit-5-q2"
+        }
+      ],
+      "id": "united-states-history-unit-5",
+      "frameworkUnit": "Unit 5"
+    },
+    {
+      "title": "1865–1898: Industry, labour and western expansion",
+      "focus": "Connect economic concentration to conflict over power.",
+      "explanation": [
+        "Industrial growth combined technological change, investment, transport networks and labour. Large firms gained scale and market power, while workers organised over pay, hours and conditions. Neither employers nor workers formed a single uniform group.",
+        "Western settlement and federal policy displaced Indigenous peoples and transformed land use. Agricultural expansion also exposed farmers to debt, transport charges and volatile prices. Analyse who controlled land, capital and political decisions when explaining conflict."
+      ],
+      "workedExample": {
+        "prompt": "Explain why falling crop prices could intensify a farmer’s debt burden.",
+        "steps": [
+          "Lower prices reduce revenue from a given harvest.",
+          "A fixed nominal debt then requires selling more output to repay, increasing financial pressure."
+        ]
+      },
+      "misconception": {
+        "claim": "Industrial growth improved every worker’s conditions at the same rate.",
+        "correction": "Income gains, insecurity and working conditions varied across occupations and groups."
+      },
+      "questions": [
+        {
+          "prompt": "Why might railway pricing concern both farmers and regulators?",
+          "hint": "Consider access to markets.",
+          "answer": "Farmers depended on transport to sell crops, so concentrated control of routes could affect costs and bargaining power.",
+          "checkpoints": [
+            "Identify dependence",
+            "Explain market power"
+          ],
+          "id": "united-states-history-unit-6-q1"
+        },
+        {
+          "prompt": "How can a labour strike reveal competing views of industrialisation?",
+          "hint": "Look at demands and responses.",
+          "answer": "Workers’ demands and employers’ responses show disagreement over who should control production and receive its gains.",
+          "checkpoints": [
+            "Use both perspectives",
+            "Connect to economic power"
+          ],
+          "id": "united-states-history-unit-6-q2"
+        }
+      ],
+      "id": "united-states-history-unit-6",
+      "frameworkUnit": "Unit 6"
+    },
+    {
+      "title": "1890–1945: Reform, crisis and expanding federal action",
+      "focus": "Compare reform responses without treating them as identical.",
+      "explanation": [
+        "Progressive reform responded to industrial society through varied efforts involving regulation, political participation and social policy. Reformers disagreed, and some reforms reinforced exclusion. United States involvement abroad also expanded amid debates about power and responsibility.",
+        "The Great Depression prompted New Deal experiments that enlarged federal involvement in relief, recovery and reform. The Second World War further expanded production and mobilisation, while exposing contradictions between democratic ideals and discriminatory practices at home."
+      ],
+      "workedExample": {
+        "prompt": "Compare emergency employment relief with banking regulation during the New Deal.",
+        "steps": [
+          "Employment relief addressed immediate income and work needs.",
+          "Banking regulation sought to change financial rules and reduce future instability; the purposes overlapped but differed."
+        ]
+      },
+      "misconception": {
+        "claim": "All Progressive reforms expanded equality for all groups.",
+        "correction": "Some promoted participation while others excluded or controlled particular communities."
+      },
+      "questions": [
+        {
+          "prompt": "Why distinguish relief from long-term reform?",
+          "hint": "Compare time horizons and mechanisms.",
+          "answer": "Relief addresses immediate hardship; reform changes institutions intended to shape future outcomes.",
+          "checkpoints": [
+            "Identify immediate aid",
+            "Identify institutional change"
+          ],
+          "id": "united-states-history-unit-7-q1"
+        },
+        {
+          "prompt": "How could wartime mobilisation create both opportunities and constraints?",
+          "hint": "Consider work and state power.",
+          "answer": "It opened some jobs while expanding government controls and exposing or intensifying discrimination.",
+          "checkpoints": [
+            "Name an opportunity",
+            "Name a constraint"
+          ],
+          "id": "united-states-history-unit-7-q2"
+        }
+      ],
+      "id": "united-states-history-unit-7",
+      "frameworkUnit": "Unit 7"
+    },
+    {
+      "title": "1945–1980: Cold War, prosperity and rights movements",
+      "focus": "Connect international rivalry with domestic change carefully.",
+      "explanation": [
+        "Cold War rivalry shaped alliances, military commitments and domestic debates about loyalty. Containment took different forms across places and administrations. Avoid assuming every domestic policy resulted solely from international competition.",
+        "Postwar growth expanded consumption and suburbanisation unevenly. Civil rights and other movements challenged legal and social exclusion through litigation, organising and protest. Federal action changed important rules, while conflicts over implementation and economic inequality continued."
+      ],
+      "workedExample": {
+        "prompt": "Explain how suburban growth could be linked to public policy as well as private preference.",
+        "steps": [
+          "Highways and housing finance policies supported movement and construction.",
+          "Unequal access and discriminatory practices shaped who could benefit from those opportunities."
+        ]
+      },
+      "misconception": {
+        "claim": "Postwar prosperity reached all families equally.",
+        "correction": "Access to housing, education and employment remained unequal."
+      },
+      "questions": [
+        {
+          "prompt": "Why can a civil-rights court decision be a turning point without ending discrimination?",
+          "hint": "Separate law and implementation.",
+          "answer": "It changes legal authority and opportunities for action, but enforcement and social practices may continue to resist change.",
+          "checkpoints": [
+            "Identify legal change",
+            "Explain persistence"
+          ],
+          "id": "united-states-history-unit-8-q1"
+        },
+        {
+          "prompt": "How might Cold War concerns affect domestic politics?",
+          "hint": "Consider security and dissent.",
+          "answer": "Fears of subversion could influence investigations and public debate, sometimes restricting dissent and civil liberties.",
+          "checkpoints": [
+            "Connect international rivalry",
+            "Identify a domestic effect"
+          ],
+          "id": "united-states-history-unit-8-q2"
+        }
+      ],
+      "id": "united-states-history-unit-8",
+      "frameworkUnit": "Unit 8"
+    },
+    {
+      "title": "1980–present: Political realignment and a connected economy",
+      "focus": "Use dated evidence to explain continuity and change.",
+      "explanation": [
+        "From the late twentieth century, conservative mobilisation, debates over government’s role and changing party coalitions reshaped politics. Economic globalisation and digital technologies altered production, communication and work, with uneven regional and social effects.",
+        "Historical interpretation of recent events still requires evidence and periodisation. The 2008 financial crisis, for example, can be studied through housing, credit and regulation without treating one cause as sufficient. Distinguish a dated observation from an unsupported claim about the present."
+      ],
+      "workedExample": {
+        "prompt": "Explain why the spread of online communication represents both change and continuity.",
+        "steps": [
+          "It changed the speed, reach and cost of sharing information.",
+          "Political persuasion and unequal access to communication resources continued in new forms."
+        ]
+      },
+      "misconception": {
+        "claim": "A major technological innovation eliminates older inequalities automatically.",
+        "correction": "Access, skills and institutions shape how its benefits and risks are distributed."
+      },
+      "questions": [
+        {
+          "prompt": "Why might deindustrialisation affect regions differently?",
+          "hint": "Consider economic dependence.",
+          "answer": "Places dependent on particular manufacturing industries may face larger employment shocks than more diversified areas.",
+          "checkpoints": [
+            "Identify local specialisation",
+            "Explain uneven effects"
+          ],
+          "id": "united-states-history-unit-9-q1"
+        },
+        {
+          "prompt": "What makes a claim about recent political change historical rather than purely opinion?",
+          "hint": "Look for evidence and comparison.",
+          "answer": "It uses dated sources, specifies the change and compares it with an earlier pattern while considering competing explanations.",
+          "checkpoints": [
+            "Use dated evidence",
+            "Explain comparison"
+          ],
+          "id": "united-states-history-unit-9-q2"
+        }
+      ],
+      "id": "united-states-history-unit-9",
+      "frameworkUnit": "Unit 9"
+    }
+  ]
+}

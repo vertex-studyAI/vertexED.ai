@@ -1,132 +1,49 @@
-import React from "react";
-import Article from "@/components/Article";
-import SEO from "@/components/SEO";
-import { Link } from "react-router";
+import Article from '@/components/Article';
+import SEO from '@/components/SEO';
+import BreadcrumbsJsonLd from '@/components/BreadcrumbsJsonLd';
+import { Link } from 'react-router';
 
 export default function AIChatbotTutorGuide() {
   return (
     <>
-      <SEO
-        title="Using Apex for study help - Socratic AI | VertexED"
-        description="How to use VertexED's Apex chat for explanations, rubric feedback, and exam technique - without outsourcing answers you can't reproduce in the hall."
-        canonical="https://www.vertexed.app/resources/ai-chatbot-tutor"
-        keywords="Apex, study chatbot, Socratic tutoring, IB help, IGCSE revision, AP exam prep, mark scheme feedback, VertexED, exam technique, active recall"
-      />
-      <Article
-        title="Using Apex: Socratic help instead of copy-paste answers"
-        subtitle="Apex is built to ask what you've tried, walk through reasoning, and stress-test essays against rubrics - not to finish homework for you."
-        kicker="Guides"
-      >
-        <p className="lead">
-          Generic chatbots default to giving you the answer.{" "}
-          <Link to="/chatbot">Apex</Link> is tuned for revision: it asks about your attempt first,
-          breaks problems into steps, and respects command words when you mention your board (IB, IGCSE, AP, and others).
-          The quality of the session depends on how specific your question is.
-        </p>
+      <SEO title="Using Apex for study help | VertexED" description="Choose the kind of help you need. Bring an attempt, check the explanation, then try again." canonical="https://www.vertexed.app/resources/ai-chatbot-tutor" ogType="article" />
+      <BreadcrumbsJsonLd />
+      <Article title="Using Apex for study help" subtitle="Choose the kind of help you need. Bring an attempt, check the explanation, then try again." kicker="Study guide">
 
-        <h2>The "Socratic" Method: Don't Ask for Answers</h2>
-        <p>
-          If you ask "What is the answer to 2x + 5 = 15?", you learn nothing.
-          <br />
-          Instead, force the AI to teach you.
-        </p>
-        <div className="article-callout border-l-4 border-blue-500 my-4">
-          <strong>The Golden Prompt:</strong> "I am trying to solve [Problem]. I think the first step is [Your Idea], but I am stuck. Don't give me the answer. Instead, ask me a guiding question to help me figure out the next step myself."
-        </div>
-        <p>
-          <em>Why this works:</em> It forces active recall. You are doing the thinking; the AI is just the guardrail.
-        </p>
-
-        <h2>Roleplay: The Secret Weapon</h2>
-        <p>
-          Context is everything. You can tell the AI <em>who</em> to be.
-        </p>
-
-        <h3>1. The "Strict Examiner"</h3>
-        <p>
-          <em>"Act as a strict IB History examiner. I am going to paste my introduction paragraph. Critique it ruthlessly. Tell me exactly why it would fail to get full marks in Criterion A."</em>
-        </p>
-
-        <h3>2. The "5-Year-Old" Explainer</h3>
-        <p>
-          <em>"I don't understand Quantum Superposition. Explain it to me like I am 5 years old. Use an analogy involving ice cream."</em>
-        </p>
-
-        <h3>3. The "Debate Opponent"</h3>
-        <p>
-          <em>"I believe that Macbeth is a tragic hero. Argue against me. Prove that he is actually a villain with no redeeming qualities."</em>
-        </p>
-
-        <h2>Subject-Specific Workflows</h2>
-
-        <h3>Math & Science: The "Error Check"</h3>
-        <p>
-          You solved the problem, but the answer key says you're wrong. You can't find the mistake.
-          <br />
-          <strong>Action:</strong> Take a photo of your handwritten working. Upload it to the Chatbot.
-          <br />
-          <strong>Prompt:</strong> "Here is my working for this calculus problem. I got the wrong answer. Can you spot the specific line where I made an algebraic error?"
-        </p>
-
-        <h3>Languages: The "Conversation Partner"</h3>
-        <p>
-          You need to practice French, but you have no one to talk to.
-          <br />
-          <strong>Prompt:</strong> "Let's have a conversation in French about my summer holidays. Correct my grammar after every response, but keep the conversation going naturally."
-        </p>
-
-        <h3>Computer Science: The "Code Reviewer"</h3>
-        <p>
-          Your code runs, but it's messy.
-          <br />
-          <strong>Prompt:</strong> "Here is my Python code for a bubble sort. It works, but how can I make it more efficient? Explain Big O notation in the context of my specific code."
-        </p>
-
-        <h2>The "Feynman Technique" Loop</h2>
-        <p>
-          The best way to learn is to teach.
-        </p>
+        <p className="lead"><Link to="/chatbot">Apex</Link> is a text-based AI tutor. Use it to explain a concept, ask for a hint, discuss your working or practise a question. Replies can be wrong, even when they sound confident. Keep your course materials beside you.</p>
+        <h2>Choose how you want to study</h2>
+        <ul>
+          <li><strong>Explain:</strong> request a plain explanation, a concrete example and a check question.</li>
+          <li><strong>Teach:</strong> work through a topic in small steps, starting with what you already know.</li>
+          <li><strong>Hint:</strong> ask for one nudge before trying the next step yourself.</li>
+          <li><strong>Solve With Me:</strong> share an attempt and discuss one step at a time.</li>
+          <li><strong>Quiz:</strong> answer one question before receiving feedback.</li>
+          <li><strong>Challenge Me:</strong> try an original related problem.</li>
+          <li><strong>Exam Mode:</strong> attempt an original practice question without hints until you submit or end the session.</li>
+        </ul>
+        <p>These modes guide the AI response. They do not certify an answer or reproduce an official examination.</p>
+        <h2>A useful first message</h2>
+        <blockquote>For my algebra revision, I am solving 2x + 5 = 15. I subtracted 5 from the left side but kept 15 on the right. Give me one hint about what must happen to both sides. Wait for my next step.</blockquote>
+        <p>This is an illustrative prompt. Include the question, your course or level, your working and the point where you became unsure. You do not need to paste unrelated personal details.</p>
+        <h2>Work from a source</h2>
+        <p>For help with several documents, open <Link to="/study-notebook">Study Notebook</Link>, add the material and enable the sources you want to use. A source reference identifies material included in the request. It does not prove that the explanation follows from that material. Open the passage and compare the claim yourself.</p>
+        <p>If the source does not answer your question, ask what information is missing. A board name alone does not supply a current syllabus or mark scheme.</p>
+        <h2>Check a response before using it</h2>
         <ol>
-          <li><strong>Step 1:</strong> Learn a topic (e.g., The Krebs Cycle).</li>
-          <li><strong>Step 2:</strong> Open the Chatbot.</li>
-          <li><strong>Step 3:</strong> "I am going to explain the Krebs Cycle to you. If I say anything wrong or miss a key detail, stop me and correct me."</li>
-          <li><strong>Step 4:</strong> Type out your explanation.</li>
+          <li>Compare definitions and quotations with the original material.</li>
+          <li>For calculations, check each step, the units and the result in the original equation.</li>
+          <li>For an argument, separate evidence from interpretation and test a counterexample.</li>
+          <li>Close the explanation and try a similar question without help.</li>
         </ol>
+        <h2>Photographed working and feedback</h2>
+        <p>Chat does not accept a photograph of your working. Use <Link to="/answer-reviewer">Answer Reviewer</Link> for a typed or photographed response. Make symbols and line order clear; image reading can miss detail. Feedback and suggested marks still need checking against trusted evidence.</p>
+        <h2>When a reply fails</h2>
+        <p>If generation is unavailable or cannot finish, keep your question and try a narrower request or fewer source passages. A failed request is not a completed explanation. AI replies need a network connection.</p>
+        <h2>Keep the attempt yours</h2>
+        <p>Follow your school and assessment rules. Ask for questions, explanations and critique you can use to revise your own work. Save or export what you need and check the displayed save status before leaving.</p>
+        <div className="not-prose mt-8 flex gap-3 flex-wrap"><Link to="/chatbot" className="neu-button">Open Apex</Link><Link to="/study-notebook" className="neu-button">Study from sources</Link><Link to="/answer-reviewer" className="neu-button">Review an answer</Link></div>
 
-        <h2>FAQ</h2>
-        <p><strong>Is the chatbot available offline?</strong> No. It needs a network connection because responses come from an external AI provider.</p>
-        <p><strong>Can it read an image in chat?</strong> The current chat interface is text-first. Use Answer Reviewer when you need to submit a photographed written response.</p>
-        <p><strong>Does it know the latest syllabus?</strong> Do not assume that it does. Check current curriculum changes, dates, and assessment rules against the official board website.</p>
-
-        <div className="not-prose mt-8 flex gap-3 flex-wrap">
-          <Link to="/chatbot" className="neu-button">Start Chatting</Link>
-          <Link to="/notetaker" className="neu-button">Upload Notes</Link>
-        </div>
-
-        <h2 className="mt-10">Evidence & references</h2>
-        <ul>
-          <li>Chi, M. T. H. et al. (2001): Learning from Human Tutoring - the effectiveness of Socratic dialogue.</li>
-          <li>Sal Khan (2023): Harnessing AI for Education (TED Talk) - the potential of AI as a personalized tutor.</li>
-        </ul>
-
-        <div className="article-footer">
-          Editorial note: Reviewed for clarity and usefulness. Always cross‑check with your official syllabus and teacher guidance.
-          <div className="mt-1">Product walkthrough checked: 6 September 2026 · VertexED Team</div>
-        </div>
-
-        <hr className="article-divider" />
-        <h3>Related guides</h3>
-        <ul>
-          <li><Link to="/resources/how-to-use-ai-for-studying">How to Use AI for Studying</Link></li>
-          <li><Link to="/resources/ib-math-aa-ai-guide">IB Math AA & AI Guide</Link></li>
-          <li><Link to="/resources/igcse-science-revision">IGCSE Science Revision</Link></li>
-        </ul>
-
-        <h2>Bottom line</h2>
-        <p>
-          Apex works when you treat it like office hours - bring your attempt, accept questions before answers, and retry without AI afterward.
-          Generic prompts get generic replies; specific attempts get mark-scheme-aware help.
-        </p>
+        <div className="article-footer">Product guidance checked against the current implementation on 11 October 2026. Examples are illustrative. Educational accuracy and current assessment rules still require source and teacher checks.</div>
       </Article>
     </>
   );

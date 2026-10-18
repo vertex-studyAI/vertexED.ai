@@ -1,17 +1,24 @@
 import React from "react";
 import SEO from "@/components/SEO";
-import { ArrowRight, BookOpenCheck, Linkedin, ShieldCheck, Target } from "lucide-react";
+import { ArrowRight, ArrowUpRight, BookOpenCheck, Linkedin, ShieldCheck, Target } from "lucide-react";
 import PageSection from "@/components/PageSection";
 import { Link } from "react-router";
+import { BU1LD_PROJECT_PAGES, FOUNDER_PROJECT_DESTINATIONS } from "@/content/founderPortfolio";
 import '@/styles/about.css';
 
 interface Person {
   name: string;
   fullName?: string;
   role: string;
-  bio?: string;
+  bio?: React.ReactNode;
   linkedin?: string;
 }
+
+const projectLinkProps = {
+  className: "about-project-link",
+  target: "_blank",
+  rel: "noopener noreferrer",
+} as const;
 
 export default function About(): React.JSX.Element {
   const team: Person[] = [
@@ -23,7 +30,11 @@ export default function About(): React.JSX.Element {
       name: "Ryan",
       fullName: "Ryan Gomez",
       role: "Co-founder",
-      bio: "Ryan Gomez is a 16 year old who likes to larp being a polymath. He's founded the BU1LD; a machine learning institution which has raised over $50 million in computational credits, assets, grants and valuation of projects with researchers at Stanford, MIT, Nvidia (you get the idea). He runs Finance4all across 20 countries in every continent (except Antarctica for now), Obscured Records: A news agency with over 5 millions reads, and has interned at YC backed companies and VC firms. He also plays football having once travelled to Spain for it, and leads the Model UN Club at his school having won Outstanding Delegate at Harvard MUN, alongside quite a few events and roles as well. He loves Math and has qualified for the AIME with distinction He has a life outside this as well; he likes making pizza, playing mariokart and playing the guitar to name a few.",
+      bio: <>
+        <p>Ryan Gomez is 16 and, in his own words, likes to “LARP as a polymath”. He founded <a href="https://thebu1ld.com/" {...projectLinkProps}>the BU1LD</a>, described in the original profile as a machine-learning institution associated with more than $50 million in computational credits, assets, grants and project valuations, alongside researchers at Stanford, MIT and Nvidia.</p>
+        <p>The founder-supplied profile also describes <a href="https://finance4all-global-reach.vercel.app/" {...projectLinkProps}>Finance4all</a> as operating across 20 countries on every continent except Antarctica, and <a href="https://obscured-records-tawny.vercel.app/" {...projectLinkProps}>Obscured Records</a> as a news agency with more than five million reads. It records internships at Y Combinator-backed companies and venture-capital firms.</p>
+        <p>Outside those projects, Ryan plays football, has travelled to Spain for the sport, and leads his school&apos;s Model UN Club. The profile records an Outstanding Delegate award at Harvard Model United Nations and AIME qualification with distinction. He also enjoys making pizza, playing Mario Kart and playing guitar.</p>
+      </>,
       linkedin: "https://www.linkedin.com/in/ryan-gomez-03701b363/?originalSubdomain=in",
     },
     {
@@ -102,10 +113,40 @@ export default function About(): React.JSX.Element {
 
         {team.filter((person) => person.bio).map((person) => (
           <section key={person.name} className="about-founder-note" aria-labelledby={`founder-${person.name}`}>
-            <div><p className="about-kicker">Founder profile</p><h2 id={`founder-${person.name}`}>{person.fullName ?? person.name}</h2><p className="about-profile-source">Founder-supplied profile preserved from the VertexED repository history. The biographical claims below have not been independently verified by VertexED.</p></div>
-            <p>{person.bio}</p>
+            <div><p className="about-kicker">Founder profile</p><h2 id={`founder-${person.name}`}>{person.fullName ?? person.name}</h2><p className="about-profile-source">Edited for readability from a founder-supplied profile in the VertexED repository history. The biographical claims below have not been independently verified by VertexED.</p></div>
+            <div className="about-founder-bio">{person.bio}</div>
           </section>
         ))}
+
+        <section className="about-project-directory" aria-labelledby="project-directory-title">
+          <header>
+            <div><p className="about-kicker">Project webpages</p><h2 id="project-directory-title">Follow the work<br /><em>to its own page.</em></h2></div>
+            <div className="about-project-directory-intro"><p>Public destinations and project records across the organisations named in the founder profile. A listing does not establish personal authorship, production readiness, scientific validity or institutional endorsement.</p><Link to="/projects">Search and filter the complete directory <ArrowRight aria-hidden /></Link></div>
+          </header>
+
+          <div className="about-project-group">
+            <div className="about-project-group-heading"><h3>Products and organisations</h3><span>{FOUNDER_PROJECT_DESTINATIONS.length} webpages</span></div>
+            <ul className="about-project-list">
+              {FOUNDER_PROJECT_DESTINATIONS.map((project) => (
+                <li key={project.href}>
+                  <a href={project.href} target="_blank" rel="noopener noreferrer">
+                    <span><strong>{project.name}</strong><small>{project.descriptor}</small></span>
+                    <ArrowUpRight aria-hidden />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="about-project-group">
+            <div className="about-project-group-heading"><h3>BU1LD project pages</h3><span>{BU1LD_PROJECT_PAGES.length} webpages</span></div>
+            <div className="about-project-feature">
+              <div><strong>Fourteen public research and programme pages</strong><p>Move into the dedicated directory to search the project names, descriptions and destinations without turning the founder story into a second catalog.</p></div>
+              <Link to="/projects?group=bu1ld">Browse all {BU1LD_PROJECT_PAGES.length} project pages <ArrowRight aria-hidden /></Link>
+            </div>
+            <a className="about-project-catalog" href="https://thebu1ld.com/projects" target="_blank" rel="noopener noreferrer">Open the source BU1LD catalog <ArrowUpRight aria-hidden /></a>
+          </div>
+        </section>
       </PageSection>
     </>
   );

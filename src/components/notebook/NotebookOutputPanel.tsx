@@ -66,7 +66,19 @@ export default function NotebookOutputPanel({ output, notebookTitle, onAskQuesti
     output.kind === 'audio-critique' ||
     output.kind === 'audio-debate';
 
-  if (output.kind === 'mind-map') return <ConceptMap source={output.content} />;
+  if (output.kind === 'mind-map') {
+    const sourceNote = output.content.match(/^\s*```mermaid\s*\n[\s\S]*?\n```\s*([\s\S]*)$/)?.[1];
+    const citedIds = new Set([...output.content.matchAll(/\[Source:\s*([^\]\r\n]+)\]/gi)].map(match => match[1].trim()));
+    const citedSources = sources.filter(source => citedIds.has(source.id));
+    return <section className="space-y-4" aria-label={generatedRegionLabel}>
+      <ConceptMap source={output.content} />
+      {sourceNote && <ChatMarkdown>{sourceNote}</ChatMarkdown>}
+      {onPreviewSource && citedSources.length > 0 && <div className="flex flex-wrap gap-2" aria-label="Concept map sources">
+        {citedSources.map(source => <button key={source.id} type="button" className="text-sm text-primary underline underline-offset-4 min-h-11 text-left" onClick={event => onPreviewSource(source.id, event.currentTarget)}>Source: {source.title}</button>)}
+      </div>}
+      <p className="text-sm text-muted-foreground">Source references identify supplied material. Check that each relationship follows from the source.</p>
+    </section>;
+  }
 
   if (output.kind === 'quiz' && output.quiz?.length) {
     return (

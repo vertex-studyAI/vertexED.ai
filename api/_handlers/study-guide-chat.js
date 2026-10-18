@@ -3,7 +3,7 @@ import { rateLimitUserEndpoint } from '../_lib/rateLimit.js';
 import { retrieveStudyGuideContext } from '../_lib/studyGuideRetrieval.js';
 import { fetchProvider } from '../_lib/providerRequest.js';
 import { formatSourcesForPrompt, validateSourceCitations } from '../_lib/grounding.js';
-import { callChatProvider, extractChatAnswer, resolveChatProvider } from '../_lib/aiProviders.js';
+import { callChatProvider, extractGeneratedText, extractGoogleGeneratedText, resolveChatProvider } from '../_lib/aiProviders.js';
 import { routeAiRequest } from '../_lib/aiRouting.js';
 import { VERTEX_AGENTS } from '../_lib/vertexAgents.js';
 
@@ -71,7 +71,7 @@ export default async function handler(req, res) {
         },
       });
       const data = await response.json();
-      answer = data?.candidates?.[0]?.content?.parts?.map((part) => part.text || '').join('').trim();
+      answer = extractGoogleGeneratedText(data);
     } else {
       const route = routeAiRequest({ capability: 'study-guide-chat', provider: openAiConfig.name, text: trimmedQuestion, defaultModel: openAiConfig.primaryModel, maxTokens: 700 });
       const models = [...new Set([route.model, openAiConfig.fallbackModel].filter(Boolean))];
@@ -89,7 +89,7 @@ export default async function handler(req, res) {
         response = result.response;
         if (response.ok) {
           try {
-            answer = extractChatAnswer(JSON.parse(result.raw));
+            answer = extractGeneratedText(JSON.parse(result.raw));
           } catch {
             answer = null;
           }
@@ -103,7 +103,7 @@ export default async function handler(req, res) {
       return res.status(502).json({ error: 'Study guide AI request failed. Please try again shortly.' });
     }
     if (!answer) return res.status(502).json({ error: 'Study guide AI returned no answer.' });
-    const grounding = validateSourceCitations(answer, groundingSources);
+    const grounding = validateSourceCitations(answer, groundingSources, 48_000);
     if (grounding.status !== 'verified') {
       return res.status(502).json({ error: 'Study guide AI returned missing or unverifiable source references. Please retry.' });
     }

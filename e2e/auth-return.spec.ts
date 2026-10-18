@@ -21,7 +21,7 @@ async function harness(page: Page, rejectToken = false) {
     if (path === '/rest/v1/profiles') return route.fulfill({ json: { ...user, full_name: 'Test learner' } });
     return route.fulfill({ status: 400, json: { message: 'Unexpected fixture request' } });
   });
-  await page.route('**/api/**', route => route.fulfill({ json: { ok: true, status: 'approved', items: [] } }));
+  await page.route('**/api/**', route => route.fulfill({ json: { ok: true, status: 'approved', access: true, items: [] } }));
   await page.route('**/_vercel/**', route => route.fulfill({ contentType: 'application/javascript', body: '' }));
 }
 

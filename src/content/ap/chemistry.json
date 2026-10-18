@@ -1,0 +1,398 @@
+{
+  "slug": "chemistry",
+  "title": "AP Chemistry",
+  "category": "Sciences",
+  "summary": "Use particle models, quantitative reactions, equilibrium and energy reasoning.",
+  "officialUrl": "https://apstudents.collegeboard.org/courses/ap-chemistry",
+  "frameworkNote": "Unit map checked against College Board on 15 October 2026 for the 2026-27 course. Each unit has one focused original revision lesson, not exhaustive topic coverage or an official practice paper. Nine-unit map verified at https://apcentral.collegeboard.org/courses/ap-chemistry after the AP Students page timed out. Uses the Fall 2024 framework titles and boundaries; text exercises do not replace laboratory work.",
+  "assessment": "exam",
+  "modules": [
+    {
+      "id": "unit-1",
+      "title": "Atomic masses and electron attraction",
+      "frameworkUnit": "Unit 1",
+      "focus": "Relate isotope composition to an average mass.",
+      "explanation": [
+        "Isotopes of an element share a proton count but differ in neutron count. The periodic-table atomic mass is an abundance-weighted average, not necessarily the mass of any individual atom. Convert percentage abundances to fractions before weighting.",
+        "Electron attraction reflects nuclear charge, distance and shielding. Across a period, increasing effective nuclear attraction often decreases atomic radius. Ionisation-energy trends have exceptions tied to subshell occupancy and electron pairing, so a trend is a reasoned model rather than a substitute for structure."
+      ],
+      "workedExample": {
+        "prompt": "An element has isotopes of mass 10 u and 11 u with abundances 20% and 80%. Find its average mass.",
+        "steps": [
+          "Weight the first isotope: 10(0.20)=2 u.",
+          "Add the second contribution 11(0.80)=8.8 u to obtain 10.8 u."
+        ]
+      },
+      "misconception": {
+        "claim": "Every atom has the decimal mass printed on the periodic table.",
+        "correction": "That value averages isotopic masses across a sample."
+      },
+      "questions": [
+        {
+          "prompt": "A sample contains 75% mass-35 and 25% mass-37 isotopes. Find the weighted mass.",
+          "hint": "Multiply each mass by its fraction.",
+          "answer": "35.5 u.",
+          "checkpoints": [
+            "35(0.75)=26.25.",
+            "37(0.25)=9.25."
+          ],
+          "id": "unit-1-q1"
+        },
+        {
+          "prompt": "Why is a sodium ion smaller than a sodium atom?",
+          "hint": "Consider which shell loses an electron.",
+          "answer": "Na⁺ loses its outer-shell electron, leaving a smaller occupied-shell arrangement.",
+          "checkpoints": [
+            "Identify electron loss.",
+            "Do not describe a change in proton count."
+          ],
+          "id": "unit-1-q2"
+        }
+      ]
+    },
+    {
+      "id": "unit-2",
+      "title": "Molecular geometry and polarity",
+      "frameworkUnit": "Unit 2",
+      "focus": "Combine bond directions with bond dipoles.",
+      "explanation": [
+        "A Lewis structure accounts for valence electrons and bonding. Electron-domain repulsion predicts arrangements around a central atom, counting a multiple bond as one domain. Lone pairs occupy domains and can change molecular shape and bond angles.",
+        "A polar bond does not guarantee a polar molecule. Molecular polarity depends on the vector sum of bond dipoles and the spatial arrangement. Symmetric cancellation can produce a nonpolar molecule containing polar bonds."
+      ],
+      "workedExample": {
+        "prompt": "Compare the molecular polarity of linear CO₂ and bent H₂O.",
+        "steps": [
+          "CO₂ has two opposing C-O bond dipoles that cancel in its linear geometry.",
+          "H₂O is bent, so its O-H dipoles do not cancel and the molecule has a net dipole."
+        ]
+      },
+      "misconception": {
+        "claim": "Any molecule containing polar bonds is polar.",
+        "correction": "Geometry determines whether the bond dipoles cancel."
+      },
+      "questions": [
+        {
+          "prompt": "How many electron domains surround carbon in CH₄, and what is its shape?",
+          "hint": "Count each C-H bond once.",
+          "answer": "Four domains; tetrahedral shape.",
+          "checkpoints": [
+            "There are no central lone pairs.",
+            "Use domain arrangement to identify shape."
+          ],
+          "id": "unit-2-q1"
+        },
+        {
+          "prompt": "Why does a double bond count as one VSEPR domain?",
+          "hint": "A domain is a region of electron density.",
+          "answer": "Its electron density occupies one direction between the same two atoms.",
+          "checkpoints": [
+            "Count regions, not individual electron pairs.",
+            "Keep bond order separate from domain count."
+          ],
+          "id": "unit-2-q2"
+        }
+      ]
+    },
+    {
+      "id": "unit-3",
+      "title": "Intermolecular forces and solution concentration",
+      "frameworkUnit": "Unit 3",
+      "focus": "Use particle interactions to explain bulk properties.",
+      "explanation": [
+        "Intermolecular attractions influence boiling point, viscosity and solubility. London dispersion forces occur in all particles, while permanent dipoles and hydrogen bonding add other interactions when molecular structure permits. Boiling separates particles without normally breaking their covalent bonds.",
+        "Molarity is moles of solute per litre of solution. During dilution, solute amount stays constant if none reacts or is lost, so M₁V₁=M₂V₂. Use solution volume rather than assuming the solvent volume equals the final volume."
+      ],
+      "workedExample": {
+        "prompt": "What volume of 2.0 M stock is needed to prepare 250 mL of 0.40 M solution?",
+        "steps": [
+          "Conserve solute: V₁=(0.40)(250)/2.0 mL.",
+          "Use 50 mL of stock and dilute to a final volume of 250 mL."
+        ]
+      },
+      "misconception": {
+        "claim": "Boiling water breaks its O-H covalent bonds.",
+        "correction": "It primarily overcomes attractions between water molecules."
+      },
+      "questions": [
+        {
+          "prompt": "Find molarity for 0.30 mol solute in 0.50 L solution.",
+          "hint": "Divide moles by solution litres.",
+          "answer": "0.60 mol/L.",
+          "checkpoints": [
+            "Use 0.50 L in the denominator.",
+            "Retain concentration units."
+          ],
+          "id": "unit-3-q1"
+        },
+        {
+          "prompt": "Why can larger nonpolar molecules often have higher boiling points?",
+          "hint": "Consider electron-cloud polarisability.",
+          "answer": "Their more polarisable electron clouds can produce stronger dispersion attractions.",
+          "checkpoints": [
+            "Identify intermolecular forces.",
+            "Do not invent hydrogen bonding in a nonpolar hydrocarbon."
+          ],
+          "id": "unit-3-q2"
+        }
+      ]
+    },
+    {
+      "id": "unit-4",
+      "title": "Stoichiometry and limiting reactants",
+      "frameworkUnit": "Unit 4",
+      "focus": "Use balanced coefficients as mole ratios.",
+      "explanation": [
+        "A balanced chemical equation conserves each element and charge. Its coefficients compare amounts in moles, not masses in grams. Convert measured masses to moles before applying the ratio, then convert back to a requested mass if needed.",
+        "A limiting reactant is consumed first under the reaction model and determines theoretical yield. Excess reactant remains. Actual yield may be lower because of incomplete conversion, competing reactions or product loss; percentage yield compares actual and theoretical amounts."
+      ],
+      "workedExample": {
+        "prompt": "For N₂+3H₂→2NH₃, combine 2 mol N₂ with 3 mol H₂. Find the theoretical ammonia amount.",
+        "steps": [
+          "3 mol H₂ can react with only 1 mol N₂, so hydrogen limits the reaction.",
+          "The ratio 3 H₂:2 NH₃ gives 2 mol NH₃, leaving 1 mol N₂."
+        ]
+      },
+      "misconception": {
+        "claim": "The reactant with fewer moles must be limiting.",
+        "correction": "Compare available amounts with the balanced reaction ratio."
+      },
+      "questions": [
+        {
+          "prompt": "For 2H₂+O₂→2H₂O, how much water forms from 5 mol H₂ and excess oxygen?",
+          "hint": "Use the hydrogen-to-water ratio.",
+          "answer": "5 mol H₂O.",
+          "checkpoints": [
+            "The coefficients give a 1:1 ratio.",
+            "Oxygen is stated to be in excess."
+          ],
+          "id": "unit-4-q1"
+        },
+        {
+          "prompt": "Actual yield is 8 g and theoretical yield is 10 g. Find percentage yield.",
+          "hint": "Divide actual by theoretical.",
+          "answer": "80%.",
+          "checkpoints": [
+            "8/10=0.8.",
+            "Multiply by 100."
+          ],
+          "id": "unit-4-q2"
+        }
+      ]
+    },
+    {
+      "id": "unit-5",
+      "title": "Rate laws from controlled comparisons",
+      "frameworkUnit": "Unit 5",
+      "focus": "Infer exponents from measured changes.",
+      "explanation": [
+        "A rate law relates reaction rate to concentrations through experimentally determined exponents. These exponents cannot generally be read from the balanced overall equation. Hold other reactant concentrations constant when comparing the effect of one concentration.",
+        "Temperature can change the rate constant by changing the fraction of collisions able to cross an activation barrier. A catalyst provides an alternative pathway; it does not change the net stoichiometry or equilibrium constant at a fixed temperature."
+      ],
+      "workedExample": {
+        "prompt": "Doubling [A] at fixed [B] quadruples rate. Doubling [B] at fixed [A] doubles rate. Find the rate law.",
+        "steps": [
+          "For A, 2^m=4 gives m=2; for B, 2^n=2 gives n=1.",
+          "The rate law is rate=k[A]²[B]."
+        ]
+      },
+      "misconception": {
+        "claim": "Overall equation coefficients always equal rate-law exponents.",
+        "correction": "That inference requires an elementary-step model, not merely a balanced overall equation."
+      },
+      "questions": [
+        {
+          "prompt": "For rate=k[A]², what happens to rate when [A] triples?",
+          "hint": "Square the concentration factor.",
+          "answer": "It increases by a factor of 9.",
+          "checkpoints": [
+            "Keep k fixed.",
+            "Use 3²."
+          ],
+          "id": "unit-5-q1"
+        },
+        {
+          "prompt": "A first-order process has half-life 6 minutes. What fraction remains after 18 minutes?",
+          "hint": "Count completed half-lives.",
+          "answer": "1/8.",
+          "checkpoints": [
+            "18/6=3 half-lives.",
+            "Apply (1/2)³."
+          ],
+          "id": "unit-5-q2"
+        }
+      ]
+    },
+    {
+      "id": "unit-6",
+      "title": "Calorimetry and energy accounting",
+      "frameworkUnit": "Unit 6",
+      "focus": "Define the system before assigning a heat sign.",
+      "explanation": [
+        "Heat transfer changes a material’s temperature according to q=mcΔT when the specific heat is approximately constant and no phase change occurs. A positive q means that the named system gains heat. Energy lost by one part must be gained elsewhere in an appropriately isolated model.",
+        "In a solution calorimeter, the measured solution warming usually indicates an exothermic reaction. The reaction heat has the opposite sign to the heat absorbed by solution and apparatus. Ignoring apparatus heat capacity is an approximation that should be stated."
+      ],
+      "workedExample": {
+        "prompt": "100 g of water warms by 5.0°C. Use c=4.18 J/(g°C) to find heat absorbed.",
+        "steps": [
+          "q=100(4.18)(5.0)=2,090 J for the water.",
+          "If only a reaction supplies that heat and apparatus absorption is neglected, the reaction releases 2.09 kJ."
+        ]
+      },
+      "misconception": {
+        "claim": "A temperature increase always means the reaction absorbed heat.",
+        "correction": "The solution may warm because the reaction released heat to it."
+      },
+      "questions": [
+        {
+          "prompt": "Find q for 50 g water cooling by 4°C with c=4.18 J/(g°C).",
+          "hint": "Cooling gives a negative ΔT.",
+          "answer": "-836 J for the water.",
+          "checkpoints": [
+            "Use ΔT=-4°C.",
+            "Keep the system sign consistent."
+          ],
+          "id": "unit-6-q1"
+        },
+        {
+          "prompt": "If a reaction releases 120 kJ per mole, what heat is associated with 0.25 mol reacting?",
+          "hint": "Scale the molar enthalpy.",
+          "answer": "-30 kJ for the reaction.",
+          "checkpoints": [
+            "Release means negative enthalpy change.",
+            "Multiply -120 by 0.25."
+          ],
+          "id": "unit-6-q2"
+        }
+      ]
+    },
+    {
+      "id": "unit-7",
+      "title": "Equilibrium quotients and reaction direction",
+      "frameworkUnit": "Unit 7",
+      "focus": "Compare the present composition with the equilibrium ratio.",
+      "explanation": [
+        "At dynamic equilibrium, forward and reverse rates are equal while reactions continue microscopically. The equilibrium constant expresses a ratio of activities; introductory concentration expressions approximate this using suitable species and powers from stoichiometry.",
+        "The reaction quotient Q uses the current composition. If Q<K, net forward reaction is favoured until equilibrium is approached; if Q>K, the net direction is reverse. Pure solids and pure liquids are omitted from the usual expression because their activities are effectively constant."
+      ],
+      "workedExample": {
+        "prompt": "For A⇌2B, Kc=4. At [A]=0.50 M and [B]=1.0 M, predict net direction.",
+        "steps": [
+          "Qc=[B]²/[A]=1.0²/0.50=2.",
+          "Since Qc<Kc, the reaction proceeds net forward to produce more B."
+        ]
+      },
+      "misconception": {
+        "claim": "Equilibrium means reactant and product concentrations are equal.",
+        "correction": "It means opposing rates are equal; concentrations obey K and can differ greatly."
+      },
+      "questions": [
+        {
+          "prompt": "For the same reaction, [A]=0.25 M and [B]=2 M. Find Qc and direction when Kc=4.",
+          "hint": "Square [B] before dividing.",
+          "answer": "Qc=16; net reverse.",
+          "checkpoints": [
+            "16 exceeds 4.",
+            "Reverse reaction reduces Q."
+          ],
+          "id": "unit-7-q1"
+        },
+        {
+          "prompt": "Does a catalyst change K at fixed temperature?",
+          "hint": "Separate kinetics from equilibrium.",
+          "answer": "No. It speeds approach to equilibrium.",
+          "checkpoints": [
+            "Both directions are accelerated.",
+            "The equilibrium composition is unchanged."
+          ],
+          "id": "unit-7-q2"
+        }
+      ]
+    },
+    {
+      "id": "unit-8",
+      "title": "Acids, bases and buffer ratios",
+      "frameworkUnit": "Unit 8",
+      "focus": "Use equilibrium rather than treating every acid as fully dissociated.",
+      "explanation": [
+        "A strong acid dissociates essentially completely in dilute aqueous solution, while a weak acid establishes an equilibrium. pH=-log₁₀[H₃O⁺] in the usual concentration approximation. A tenfold concentration change shifts pH by one unit.",
+        "A buffer contains a weak acid and its conjugate base in appreciable amounts. The Henderson-Hasselbalch relation pH=pKa+log([base]/[acid]) explains its ratio dependence. Buffer capacity is finite and depends on amounts, not only the ratio."
+      ],
+      "workedExample": {
+        "prompt": "A buffer has pKa=4.8 and equal concentrations of acid and conjugate base. Find pH.",
+        "steps": [
+          "The base-to-acid ratio is 1, whose logarithm is zero.",
+          "The calculated pH is 4.8."
+        ]
+      },
+      "misconception": {
+        "claim": "A buffer prevents every pH change regardless of acid added.",
+        "correction": "It resists limited additions until its reactive components are substantially consumed."
+      },
+      "questions": [
+        {
+          "prompt": "Find the pH of an ideal dilute solution with [H₃O⁺]=1.0×10⁻³ M.",
+          "hint": "Take the negative base-10 logarithm.",
+          "answer": "3.00.",
+          "checkpoints": [
+            "log₁₀(10⁻³)=-3.",
+            "Reverse the sign."
+          ],
+          "id": "unit-8-q1"
+        },
+        {
+          "prompt": "For pKa=5 and [base]/[acid]=10, find buffer pH.",
+          "hint": "The logarithm of 10 is 1.",
+          "answer": "6.",
+          "checkpoints": [
+            "Use pKa+log ratio.",
+            "More conjugate base raises pH above pKa."
+          ],
+          "id": "unit-8-q2"
+        }
+      ]
+    },
+    {
+      "id": "unit-9",
+      "title": "Free energy and electrochemical driving force",
+      "frameworkUnit": "Unit 9",
+      "focus": "Connect thermodynamic favourability with cell potential.",
+      "explanation": [
+        "At constant temperature and pressure, negative reaction Gibbs free-energy change indicates thermodynamic favourability in the stated direction. ΔG=ΔH-TΔS requires consistent units and temperature in kelvin. Favourability does not establish that the reaction occurs quickly.",
+        "For a galvanic cell, oxidation occurs at the anode and reduction at the cathode. The relation ΔG°=-nFE° connects standard free energy with standard cell potential. Electrons travel through the external circuit; ions move in the electrolyte to preserve charge balance."
+      ],
+      "workedExample": {
+        "prompt": "For ΔH=-40 kJ/mol and ΔS=-0.100 kJ/(mol K), calculate ΔG at 300 K.",
+        "steps": [
+          "TΔS=300(-0.100)=-30 kJ/mol.",
+          "ΔG=-40-(-30)=-10 kJ/mol, so the reaction is favourable under these stated conditions."
+        ]
+      },
+      "misconception": {
+        "claim": "A favourable reaction must happen rapidly.",
+        "correction": "Kinetics and activation barriers determine rate independently of the sign of ΔG."
+      },
+      "questions": [
+        {
+          "prompt": "For n=2, E°=1.0 V and F=96,485 C/mol, calculate ΔG°.",
+          "hint": "Use the negative sign in -nFE°.",
+          "answer": "-192,970 J/mol, approximately -193 kJ/mol.",
+          "checkpoints": [
+            "Multiply 2·96,485·1.0.",
+            "Convert joules to kilojoules."
+          ],
+          "id": "unit-9-q1"
+        },
+        {
+          "prompt": "At which electrode does oxidation occur in a galvanic cell?",
+          "hint": "Use the reaction definition of anode.",
+          "answer": "At the anode.",
+          "checkpoints": [
+            "Oxidation releases electrons.",
+            "Electrons leave the anode through the circuit."
+          ],
+          "id": "unit-9-q2"
+        }
+      ]
+    }
+  ]
+}

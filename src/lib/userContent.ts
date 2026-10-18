@@ -48,6 +48,7 @@ export type SaveArtifactResult = {
 };
 
 const ACCOUNT_CHANGED_ERROR = 'Account changed while study work was being processed. Try again in the current account.';
+const INVALID_ACKNOWLEDGEMENT_ERROR = 'Cloud acknowledgement was incomplete or invalid. Check saved work before retrying.';
 const STORED_ARTIFACT_KINDS = new Set<StudyArtifactKind>(['note', 'review', 'paper', 'planner', 'notebook', 'conversation']);
 const CHAT_HANDOFF_LIMITS = {
   source: 100,
@@ -106,6 +107,25 @@ function normalizeStoredArtifact(value: unknown): StudyArtifact | null {
   };
 }
 
+function readArtifactAcknowledgement(
+  value: unknown,
+  expected: { id?: string; kind?: StudyArtifactKind; title?: string | null },
+): StudyArtifact | null {
+  if (!isPlainStoredObject(value) || value.ok !== true || !isPlainStoredObject(value.item)) return null;
+  // The write endpoint intentionally returns metadata without the learner's
+  // payload. A 2xx response alone does not establish that an item was persisted.
+  const item = normalizeStoredArtifact({ ...value.item, payload: {} });
+  if (!item || !item.id.trim() || item.id.startsWith('local-')) return null;
+  if (expected.id !== undefined && item.id !== expected.id) return null;
+  if (expected.kind !== undefined && item.kind !== expected.kind) return null;
+  if (expected.title !== undefined && item.title !== expected.title) return null;
+  return item;
+}
+
+function normalizedArtifactTitle(title: string | null): string | null {
+  return title?.trim().slice(0, 200) || null;
+}
+
 function normalizeChatHandoff(value: unknown): Record<string, string> | null {
   if (!isPlainStoredObject(value)) return null;
   if (Object.keys(value).some((key) => !CHAT_HANDOFF_FIELDS.has(key))) return null;
@@ -145,6 +165,18 @@ function writeLocalArtifacts(items: StudyArtifact[], scope = getUserContentStora
   if (typeof window === 'undefined') return false;
   const { artifacts } = userContentStorageKeys(scope);
   const storage = resolveLocalStorage(window);
+  if (!storage) return false;
+  try {
+    // Filtering malformed records is safe for display, but never authorizes
+    // replacing their original bytes. Export must still be able to recover them.
+    const raw = storage.getItem(artifacts);
+    if (raw !== null) {
+      const existing: unknown = JSON.parse(raw);
+      if (!Array.isArray(existing) || existing.some((item) => !normalizeStoredArtifact(item))) return false;
+    }
+  } catch {
+    return false;
+  }
   const stripped = items.map(({ localOnly: _localOnly, ...rest }) => rest);
   // This is a recovery outbox, not a recent-items cache. Never silently evict
   // unsynced work because a learner crossed an arbitrary item count.
@@ -178,7 +210,9 @@ async function saveLocalArtifact(
   const item: StudyArtifact = {
     id: `local-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
     kind,
-    title: title.trim().slice(0, 200) || kind,
+    // Preserve the server's null-title normalization so retrying an uncertain
+    // write with the original idempotency key does not change its contents.
+    title: normalizedArtifactTitle(title),
     payload,
     created_at: now,
     updated_at: now,
@@ -193,7 +227,7 @@ async function saveLocalArtifact(
     revision: item.localRevision!,
     payload: item,
     updatedAt: now,
-  });
+  }).catch(() => false);
   if (!isCurrentUserContentScope(scope)) return null;
   const mirrored = writeLocalArtifacts([item, ...readRawLocalArtifacts(scope)], scope);
   return durable || mirrored ? item : null;
@@ -316,7 +350,12 @@ export async function updateStudyArtifact(
     if (!res.ok) {
       return { ok: false, error: studySyncError(data?.error || 'Update failed', 'update') };
     }
-    return { ok: true, id: data?.item?.id ?? id };
+    const acknowledged = readArtifactAcknowledgement(data, {
+      id,
+      ...(patch.title !== undefined ? { title: normalizedArtifactTitle(patch.title) } : {}),
+    });
+    if (!acknowledged) return { ok: false, error: INVALID_ACKNOWLEDGEMENT_ERROR };
+    return { ok: true, id: acknowledged.id };
   } catch (err) {
     if (!isCurrentUserContentScope(scope)) return accountChangedSaveResult();
     return { ok: false, error: studySyncError(err, 'update') };
@@ -352,7 +391,12 @@ export async function saveStudyArtifact(
     });
   };
 
+  let recovery: StudyArtifact | null = null;
   try {
+    // Keep new work recoverable while the first request is still in flight.
+    // Refreshing this page must not depend on receiving a failure response.
+    recovery = await saveLocalArtifact(kind, title, payload, idempotencyKey, scope);
+    if (!isCurrentUserContentScope(scope)) return accountChangedSaveResult();
     let res: Response;
     try {
       res = await request();
@@ -364,7 +408,7 @@ export async function saveStudyArtifact(
     const data = await res.json().catch(() => null);
     if (!isCurrentUserContentScope(scope)) return accountChangedSaveResult();
     if (!res.ok) {
-      const local = await saveLocalArtifact(kind, title, payload, idempotencyKey, scope);
+      const local = recovery || await saveLocalArtifact(kind, title, payload, idempotencyKey, scope);
       if (!isCurrentUserContentScope(scope)) return accountChangedSaveResult();
       if (!local) return { ok: false, error: 'Device recovery storage is full or unavailable.' };
       return {
@@ -374,17 +418,31 @@ export async function saveStudyArtifact(
         error: studySyncError(data?.error || 'Saved on this device only', 'local-fallback'),
       };
     }
-    return { ok: true, id: data?.item?.id, replayed: data?.replayed === true };
+    const acknowledged = readArtifactAcknowledgement(data, { kind, title: normalizedArtifactTitle(title) });
+    if (!acknowledged) throw new Error(INVALID_ACKNOWLEDGEMENT_ERROR);
+    if (recovery) {
+      const recoveryId = recovery.id;
+      const attemptedRevision = recovery.localRevision || recovery.idempotencyKey;
+      const mirrorCleared = writeLocalArtifacts(readRawLocalArtifacts(scope).filter((item) =>
+        item.id !== recoveryId || (item.localRevision || item.idempotencyKey) !== attemptedRevision), scope);
+      // Failed cleanup keeps the recovery record available for an idempotent
+      // replay. It does not undo the valid cloud acknowledgement.
+      if (mirrorCleared) await deleteDurableOutboxRecord('artifact', scope, recoveryId, attemptedRevision);
+      if (!isCurrentUserContentScope(scope)) return accountChangedSaveResult();
+    }
+    return { ok: true, id: acknowledged.id, replayed: data?.replayed === true };
   } catch (err) {
     if (!isCurrentUserContentScope(scope)) return accountChangedSaveResult();
-    const local = await saveLocalArtifact(kind, title, payload, idempotencyKey, scope);
+    const local = recovery || await saveLocalArtifact(kind, title, payload, idempotencyKey, scope);
     if (!isCurrentUserContentScope(scope)) return accountChangedSaveResult();
     if (!local) return { ok: false, error: 'Device recovery storage is full or unavailable.' };
     return {
       ok: true,
       id: local.id,
       localOnly: true,
-      error: studySyncError(err, 'local-fallback'),
+      error: err instanceof Error && err.message === INVALID_ACKNOWLEDGEMENT_ERROR
+        ? 'Cloud acknowledgement was incomplete or invalid. Saved on this device only.'
+        : studySyncError(err, 'local-fallback'),
     };
   }
 }
@@ -450,8 +508,16 @@ export async function syncLocalStudyArtifacts(): Promise<ArtifactSyncResult> {
         lastError = data?.error || `Sync failed (${res.status})`;
         continue;
       }
-      writeLocalArtifacts(readRawLocalArtifacts(scope).filter((candidate) =>
+      if (!readArtifactAcknowledgement(data, { kind: item.kind, title: normalizedArtifactTitle(item.title) })) {
+        lastError = INVALID_ACKNOWLEDGEMENT_ERROR;
+        continue;
+      }
+      const mirrorCleared = writeLocalArtifacts(readRawLocalArtifacts(scope).filter((candidate) =>
         candidate.id !== item.id || (candidate.localRevision || candidate.idempotencyKey) !== attemptedRevision), scope);
+      if (!mirrorCleared) {
+        lastError = 'Saved to account, but device recovery storage could not be updated. Export a backup before retrying.';
+        continue;
+      }
       await deleteDurableOutboxRecord('artifact', scope, item.id, attemptedRevision);
       if (!isCurrentUserContentScope(scope)) {
         lastError = ACCOUNT_CHANGED_ERROR;
@@ -490,10 +556,23 @@ export async function deleteStudyArtifact(
   const scope = getUserContentStorageScope();
   if (!scope) return { ok: false, error: 'Sign in before deleting study work.' };
   if (id.startsWith('local-')) {
-    writeLocalArtifacts(readRawLocalArtifacts(scope).filter((item) => item.id !== id), scope);
-    await deleteDurableOutboxRecord('artifact', scope, id);
-    if (!isCurrentUserContentScope(scope)) return { ok: false, error: ACCOUNT_CHANGED_ERROR };
-    return { ok: true };
+    try {
+      // A failed storage read cannot prove a recovery copy is absent.
+      const durable = await listDurableOutboxRecords('artifact', scope, true);
+      if (!isCurrentUserContentScope(scope)) return { ok: false, error: ACCOUNT_CHANGED_ERROR };
+      if (!writeLocalArtifacts(readRawLocalArtifacts(scope).filter((item) => item.id !== id), scope)) {
+        return { ok: false, error: 'Could not update device recovery storage. Your saved work is preserved.' };
+      }
+      if (durable.some((item) => item.logicalKey === id)) {
+        const deleted = await deleteDurableOutboxRecord('artifact', scope, id);
+        if (!isCurrentUserContentScope(scope)) return { ok: false, error: ACCOUNT_CHANGED_ERROR };
+        if (!deleted) return { ok: false, error: 'Could not delete this device recovery copy. Try again before leaving.' };
+      }
+      return { ok: true };
+    } catch {
+      if (!isCurrentUserContentScope(scope)) return { ok: false, error: ACCOUNT_CHANGED_ERROR };
+      return { ok: false, error: 'Could not read device recovery storage. Your saved work is preserved.' };
+    }
   }
 
   try {
@@ -510,6 +589,7 @@ export async function deleteStudyArtifact(
     if (!res.ok) {
       return { ok: false, error: studySyncError(data?.error || 'Delete failed', 'delete') };
     }
+    if (data?.ok !== true) return { ok: false, error: INVALID_ACKNOWLEDGEMENT_ERROR };
     return { ok: true };
   } catch (err) {
     if (!isCurrentUserContentScope(scope)) return { ok: false, error: ACCOUNT_CHANGED_ERROR };
@@ -567,7 +647,15 @@ export async function listStudyArtifactsDetailed(
         error: data?.error || 'Cloud sync unavailable - showing device saves',
       };
     }
-    const cloud = Array.isArray(data?.items) ? (data.items as StudyArtifact[]) : [];
+    if (!Array.isArray(data?.items)) throw new Error('Invalid cloud response. Device saves are preserved.');
+    const cloud: StudyArtifact[] = [];
+    for (const value of data.items) {
+      const item = normalizeStoredArtifact(value);
+      if (!item || item.id.startsWith('local-') || (kind && item.kind !== kind) || (options.id && item.id !== options.id)) {
+        throw new Error('Invalid cloud response. Device saves are preserved.');
+      }
+      cloud.push(item);
+    }
     return {
       ok: true,
       items: mergeArtifacts(cloud, local),

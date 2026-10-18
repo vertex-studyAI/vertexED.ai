@@ -1,0 +1,181 @@
+{
+  "date": "2026-10-14",
+  "status": "LOCAL_PRODUCTION_BUILD_AND_ACCEPTANCE_PASSED",
+  "previous_receipt": "docs/evidence/formula-desk-20261013.json",
+  "scope": [
+    "30 general formula references and 30 original numeric practice questions across five subjects",
+    "Assumptions, worked examples, hints, common mistakes and selected further-reading links",
+    "Temporary per-question working and answer state; no account writes or mastery claims",
+    "Ranked multiword library search, formula deep links and URL-restored filters",
+    "Prevent route focus loss and dropped keystrokes during query changes"
+  ],
+  "runtime": "Node 22.22.0",
+  "changes_this_pass": [
+    "Added production-bundle mode to playwright.reference.config.ts; this mode starts a fresh preview server and cannot reuse a development server.",
+    "Completed the previously deferred production build, frozen bundle budgets, full application tests, production-bundle browser acceptance, full lint and TypeScript."
+  ],
+  "checks": {
+    "production_build": {
+      "status": "passed",
+      "command": "NODE_OPTIONS=--max-old-space-size=768 npm run build",
+      "duration_seconds": 40.2
+    },
+    "bundle_budgets": {
+      "status": "passed",
+      "violations": [],
+      "metrics": {
+        "initialJavaScriptGzipBytes": 204272,
+        "initialCssGzipBytes": 34774,
+        "largestJavaScriptGzipBytes": 130257,
+        "totalJavaScriptGzipBytes": 909005
+      },
+      "limits_unchanged": true
+    },
+    "application_tests": {
+      "status": "passed",
+      "canonical_test_files": 280,
+      "passed": 1374,
+      "failed": 0,
+      "skipped": 0,
+      "duration_ms": 63148.310417,
+      "execution": "Canonical test classification and quarantine guard retained; Node test runner used --experimental-strip-types --test-concurrency=1."
+    },
+    "production_browser_tests": {
+      "status": "passed",
+      "passed": 10,
+      "failed": 0,
+      "duration_seconds": 24.9,
+      "command": "VERTEXED_REFERENCE_BUILT=1 node node_modules/@playwright/test/cli.js test --config=playwright.reference.config.ts",
+      "widths": [
+        1440,
+        1024,
+        390
+      ],
+      "includes": [
+        "dark mode",
+        "reduced motion",
+        "keyboard controls",
+        "numeric answers",
+        "per-question working",
+        "URL history",
+        "continuous typing",
+        "route focus"
+      ],
+      "server": "Local Vite preview serving the newly built dist; server stopped by Playwright after completion."
+    },
+    "lint_ci": {
+      "status": "passed",
+      "errors": 0,
+      "warnings": [
+        {
+          "file": "src/components/ExamBaselinePractice.tsx",
+          "line": 77,
+          "rule": "react-hooks/exhaustive-deps",
+          "detail": "Unnecessary setupRevision dependency; existing file unchanged by this task."
+        },
+        {
+          "file": "src/contexts/AuthContext.tsx",
+          "line": 180,
+          "rule": "react-hooks/exhaustive-deps",
+          "detail": "Missing postAuthUpsertProfile dependency; existing file unchanged by this task."
+        }
+      ],
+      "copy_files": 401,
+      "copy_findings": 0,
+      "copy_rule_tests_passed": 2
+    },
+    "typecheck": {
+      "status": "passed",
+      "command": "NODE_OPTIONS=--max-old-space-size=768 npm run typecheck"
+    },
+    "diff_whitespace": {
+      "status": "passed"
+    },
+    "full_ci": {
+      "status": "not_run_as_aggregate",
+      "note": "No fresh production dependency audit, provider evaluations, database certification or live smoke test is claimed."
+    },
+    "deployment": {
+      "status": "not_attempted",
+      "note": "This completes the local feature implementation and build verification. No production domain update is claimed."
+    }
+  },
+  "content_boundary": "Original general learning material, not official board questions or externally reviewed syllabus coverage. Numeric answer keys checked by independent calculations; reasoning and significant figures are not machine-graded.",
+  "logs_directory": ".tmp/formula-finish-20261014",
+  "screenshots": [
+    "test-results/formula-reference-1440.png",
+    "test-results/formula-reference-1024.png",
+    "test-results/formula-reference-390.png",
+    "test-results/formula-practice-1440.png",
+    "test-results/formula-practice-1024.png",
+    "test-results/formula-practice-390.png",
+    "test-results/formula-dark-reduced-390.png",
+    "test-results/learning-library-1440.png",
+    "test-results/learning-library-1024.png",
+    "test-results/learning-library-390.png"
+  ],
+  "files": [
+    {
+      "path": "src/components/study/FormulaDesk.tsx",
+      "sha256": "718ceb418d531af90e05a6cbaa185a7498fb0e5e22c33bf5d27cb3351ed2c2ea"
+    },
+    {
+      "path": "src/content/formulaReference.ts",
+      "sha256": "75466537430e8698f4a098f74bb4f2557828ab2ddd819e4b81e3641ad6a988f2"
+    },
+    {
+      "path": "src/hooks/useSearchParamDraft.ts",
+      "sha256": "27ec764c01aa1a6db4b64eadc6b84d0c5dfa6389d56cf60784a5d30f8a033fad"
+    },
+    {
+      "path": "src/lib/referencePractice.ts",
+      "sha256": "ea1a252ec72f19c1b92e79ed9f46c0b715bfc90a40fab53886c326eff3a6f91c"
+    },
+    {
+      "path": "src/lib/resourceSearch.ts",
+      "sha256": "53b62469fbfa549c812246dcd37b0338e98cff081534c58a1886f59561627ffc"
+    },
+    {
+      "path": "src/styles/formula-desk.css",
+      "sha256": "ef3bb0e6048c3f53dc5f26cbc3e4add705686130b233efd8d02f8d4ae16e84e0"
+    },
+    {
+      "path": "src/pages/StudyTools.tsx",
+      "sha256": "384e79856c7c378ee7580a9db6ab42e400a9a58aac8cb3f442759773b7e70dd0"
+    },
+    {
+      "path": "src/pages/resources/Index.tsx",
+      "sha256": "5b7e9bd5dc00a3fadb5f85c5b85d0d382771e94e5d29f53e08d106f3ead709d3"
+    },
+    {
+      "path": "src/components/layout/SiteLayout.tsx",
+      "sha256": "a6d14f69d00b5100ee8d46af4b21b0e19c6a589a55b844cba64d794fbc7937b8"
+    },
+    {
+      "path": "src/content/resourceLibrary.ts",
+      "sha256": "91979103ae7938838fc9fdfd29f0285760f95eee447f8f76d3934257e093dc9f"
+    },
+    {
+      "path": "e2e/formula-desk.spec.ts",
+      "sha256": "3930a007b99ade4394635b98f276e0951f40d8d052df7abd1d52ce38d2f5a794"
+    },
+    {
+      "path": "e2e/learning-library.spec.ts",
+      "sha256": "cbd15a6d88ccd24416ef0d98e6cb4eb07cffabf071ddccf56f3fc49861c4b719"
+    },
+    {
+      "path": "tests/formula-reference.test.mjs",
+      "sha256": "e2faa4a41f57eee635ad7007fac81ba4dfa237eac99bdcb0af4a38bc5dcf3f56"
+    },
+    {
+      "path": "tests/resource-search.test.mjs",
+      "sha256": "8d53856c389eecfb28a0ffaf9532a4d882fe99698b894de6b92302adce873e4c"
+    },
+    {
+      "path": "playwright.reference.config.ts",
+      "sha256": "d9b2c26dc805d57d3e1329e164093fa4eb67cd72ae2b22888bcf27f7ae7057ca"
+    }
+  ],
+  "build_index_sha256": "ab58e1f22f94e6218b0fd4df058c2d4f70ffc6e8c46fabd3cd54958d51a1b8f1",
+  "worktree_note": "Extensive pre-existing uncommitted work was present. This receipt identifies relevant final files, not ownership of every pre-existing change in them."
+}

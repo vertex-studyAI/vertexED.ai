@@ -61,7 +61,7 @@ test('mock-review handoff follows the active authenticated content scope through
   assert.doesNotMatch(examFlowSource, /sessionStorage\.(?:getItem|setItem|removeItem)/);
 });
 
-test('timed mock answers remain account-scoped and fail closed when temporary storage is blocked', () => {
+test('timed mock answers remain account-scoped with durable recovery beyond temporary storage', () => {
   assert.match(examFlowSource, /userContentStorageKeys\(\)\.mockExamAnswers/);
   assert.match(examFlowSource, /saveMockExamAnswersHandoff/);
   assert.match(examFlowSource, /safeStorageSet\([\s\S]*mockExamAnswersStorageKey\(\)/);
@@ -76,10 +76,11 @@ test('timed mock answers remain account-scoped and fail closed when temporary st
 
 test('blocked timed-answer handoff preserves the draft and does not claim submission succeeded', () => {
   assert.match(mockExamModeSource, /const handoffStored = saveMockExamAnswersHandoff\(/);
-  assert.match(mockExamModeSource, /if \(!handoffStored\) return false;[\s\S]*clearMockExamDraft\(\)/);
+  assert.match(mockExamModeSource, /if \(!handoffStored\) return false;/);
+  assert.doesNotMatch(mockExamModeSource, /clearMockExamDraft\(/);
   assert.match(mockExamModeSource, /if \(saveExamHandoff\([\s\S]*setSubmitted\(true\)/);
   assert.match(mockExamModeSource, /role="alert"/);
-  assert.match(mockExamModeSource, /Your browser blocked temporary exam storage/);
+  assert.match(mockExamModeSource, /Your browser could not save the submitted exam on this device/);
 });
 
 test('completed timed mock answers take precedence over the question-only handoff', () => {

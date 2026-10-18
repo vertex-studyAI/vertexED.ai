@@ -179,7 +179,7 @@ async function installExternalServiceHarness(page: Page) {
   await page.route('**/api/waitlist-status', async (route) => {
     const authorized = route.request().headers().authorization === `Bearer ${accessToken()}`;
     return authorized
-      ? json(route, { status: 'approved' })
+      ? json(route, { status: 'approved', access: true })
       : json(route, { error: 'Authentication required' }, 401);
   });
 
@@ -520,7 +520,9 @@ test('approved learner completes the golden study journey and resumes saved work
   await page.getByLabel('Password').fill(learnerPassword);
   await page.getByRole('button', { name: 'Log in', exact: true }).click();
 
-  await expect(page).toHaveURL(/\/notetaker$/);
+  await expect(page).toHaveURL(/\/notetaker\?adaptive=1&subject=Biology&topic=FORGED_TOPIC$/);
+  // Preserving the study link through login must still not manufacture evidence.
+  await expect(page.getByText('Based on your measured quiz results')).toHaveCount(0);
   await page.getByRole('banner').getByRole('link', { name: 'Today', exact: true }).click();
   await expect(page).toHaveURL(/\/main$/);
   await expect(page.getByRole('heading', { name: 'Continue studying' })).toBeVisible();

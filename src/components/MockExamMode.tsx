@@ -4,7 +4,6 @@ import { Clock, X, BookOpen } from "lucide-react";
 import AccessibleModal from "@/components/AccessibleModal";
 import {
   buildReviewHandoffFromPaper,
-  clearMockExamDraft,
   loadMockExamDraft,
   saveMockExamAnswersHandoff,
   saveMockExamDraft,
@@ -70,8 +69,6 @@ function saveExamHandoff(
   });
   if (!handoffStored) return false;
 
-  clearMockExamDraft();
-
   if (board) {
     saveMockReviewHandoff(
       buildReviewHandoffFromPaper(board, subject ?? paper.metadata?.subject ?? "", grade ?? null, paper),
@@ -107,14 +104,15 @@ export default function MockExamMode({ paper, onClose, board, subject, grade, cr
   const [answers, setAnswers] = useState<Record<string, string>>(() => restoredDraft?.answers ?? {});
   const [submitted, setSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [draftSaveError, setDraftSaveError] = useState<string | null>(null);
   const [showRubric, setShowRubric] = useState(false);
   const timerStartedRef = useRef(false);
   const titleRef = useRef<HTMLHeadingElement>(null);
 
   const persistDraft = useCallback(() => {
-    if (submitted || !questions.length) return;
+    if (submitted || !questions.length) return true;
     const answered = Object.values(answers).filter((answer) => answer.trim()).length;
-    saveMockExamDraft({
+    const stored = saveMockExamDraft({
       paper: paper as unknown as Record<string, unknown>,
       paperTitle: paper.title || 'Practice paper',
       answers,
@@ -127,6 +125,8 @@ export default function MockExamMode({ paper, onClose, board, subject, grade, cr
       grade: grade ?? paper.metadata?.grade,
       cramMode: Boolean(cramMode),
     });
+    setDraftSaveError(stored ? null : 'Your latest answers could not be saved on this device. Keep this exam open, copy your answers, and allow site storage before leaving.');
+    return stored;
   }, [answers, board, cramMode, grade, index, paper, questions.length, subject, submitted]);
 
   useEffect(() => {
@@ -134,9 +134,19 @@ export default function MockExamMode({ paper, onClose, board, subject, grade, cr
   }, [persistDraft]);
 
   const handleExit = () => {
-    persistDraft();
+    if (!persistDraft()) return;
     onClose();
   };
+
+  useEffect(() => {
+    if (!draftSaveError || submitted) return;
+    const warnBeforeLeaving = (event: BeforeUnloadEvent) => {
+      event.preventDefault();
+      event.returnValue = '';
+    };
+    window.addEventListener('beforeunload', warnBeforeLeaving);
+    return () => window.removeEventListener('beforeunload', warnBeforeLeaving);
+  }, [draftSaveError, submitted]);
 
   useEffect(() => {
     if (submitted) return;
@@ -153,7 +163,7 @@ export default function MockExamMode({ paper, onClose, board, subject, grade, cr
         setSubmitError(null);
         setSubmitted(true);
       } else {
-        setSubmitError('Your browser blocked temporary exam storage. Your answers are still here; allow site storage and submit again.');
+        setSubmitError('Your browser could not save the submitted exam on this device. Your answers are still here; allow site storage and submit again.');
       }
     }
   }, [answers, board, grade, paper, questions, secondsLeft, subject, submitted]);
@@ -168,7 +178,7 @@ export default function MockExamMode({ paper, onClose, board, subject, grade, cr
       setSubmitError(null);
       setSubmitted(true);
     } else {
-      setSubmitError('Your browser blocked temporary exam storage. Your answers are still here; allow site storage and submit again.');
+      setSubmitError('Your browser could not save the submitted exam on this device. Your answers are still here; allow site storage and submit again.');
     }
   };
 
@@ -221,6 +231,7 @@ export default function MockExamMode({ paper, onClose, board, subject, grade, cr
           You submitted {answered} of {questions.length} questions. No score has been estimated;
           review the responses against the available criteria before they affect your progress.
         </p>
+        <p role="status" className="mb-4 text-sm text-muted-foreground">Answers saved on this device. You can reopen Answer Reviewer after refreshing or closing this browser.</p>
 
         {paper.rubricNotes && paper.rubricNotes.length > 0 && (
           <div className="mb-6 text-left">
@@ -302,6 +313,11 @@ export default function MockExamMode({ paper, onClose, board, subject, grade, cr
       </header>
 
       <main className="mx-auto w-full max-w-3xl flex-1 overflow-y-auto p-6">
+        {draftSaveError && (
+          <p role="alert" className="mb-4 rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive">
+            {draftSaveError}
+          </p>
+        )}
         <div className="glass-panel mb-6 p-6">
           <p className="text-lg leading-relaxed text-foreground">
             {current?.question || "Question"}

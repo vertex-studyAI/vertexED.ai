@@ -1,6 +1,7 @@
 import { normalizeExamSession } from '../../src/lib/examSessionHistory.mjs';
 
 import { normalisePracticeAttempt, normaliseMistake } from '../../src/lib/learningModel.mjs';
+import { publishedPracticeQuestions } from './practicePublication.js';
 
 const STATE_TYPES = new Set(['weakness', 'retry', 'mock_draft', 'exam_session', 'practice_attempt', 'practice_mistake']);
 const STATE_KEY = /^[A-Za-z0-9][A-Za-z0-9._:-]{0,159}$/;
@@ -19,7 +20,7 @@ function cleanDate(value) {
   return date.toISOString();
 }
 
-export function normalizeLearnerStateItem(value) {
+export function normalizeLearnerStateItem(value, { practiceQuestions = publishedPracticeQuestions() } = {}) {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return null;
   const stateType = typeof value.stateType === 'string' ? value.stateType : '';
   const stateKey = typeof value.stateKey === 'string' ? value.stateKey : '';
@@ -31,7 +32,7 @@ export function normalizeLearnerStateItem(value) {
   if (Buffer.byteLength(JSON.stringify(payload), 'utf8') > MAX_PAYLOAD_BYTES) return null;
   if (stateType === 'exam_session' && (!normalizeExamSession(payload) || payload.id !== stateKey)) return null;
   if (stateType === 'practice_attempt' || stateType === 'practice_mistake') {
-    payload = stateType === 'practice_attempt' ? normalisePracticeAttempt(payload) : normaliseMistake(payload);
+    payload = stateType === 'practice_attempt' ? normalisePracticeAttempt(payload, { questions: practiceQuestions }) : normaliseMistake(payload);
     if (!payload || payload.id !== stateKey) return null;
   }
   return { stateType, stateKey, payload, clientRevision, clientUpdatedAt };

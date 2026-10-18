@@ -5,7 +5,7 @@ import test from 'node:test';
 const onboardingSource = fs.readFileSync('src/pages/Onboarding.tsx', 'utf8');
 
 test('onboarding cannot report completion when the starter plan failed to persist anywhere', () => {
-  const saveCall = onboardingSource.indexOf('const planResult = await savePlannerSnapshot(');
+  const saveCall = onboardingSource.indexOf('const planResult = await saveInitialStudyPlan(');
   const persistenceGate = onboardingSource.indexOf('if (!planResult.ok) {');
   const profileWrite = onboardingSource.indexOf('const metadata = buildCurriculumMetadata(');
   const completionEvent = onboardingSource.indexOf('trackProductEvent("Onboarding Completed"');
@@ -20,6 +20,6 @@ test('onboarding cannot report completion when the starter plan failed to persis
   assert.ok(dashboardNavigation > persistenceGate, 'dashboard navigation must not precede the persistence gate');
   assert.match(
     onboardingSource,
-    /if \(!planResult\.ok\) \{\s*throw new Error\(planResult\.error \|\| "Could not save your starter plan\."\);\s*\}/,
+    /if \(!planResult\.ok\) \{\s*setError\(planResult\.error \|\| "Could not save your starter plan\."\);\s*return;\s*\}/,
   );
 });

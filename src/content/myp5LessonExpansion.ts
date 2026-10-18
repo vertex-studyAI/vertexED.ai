@@ -19,7 +19,7 @@ const module = (value: Omit<MypLesson, 'contentStatus' | 'curriculumVersion'>): 
 
 export const MYP5_LESSON_EXPANSION: MypLesson[] = [
   module({
-    id: 'myp5-mathematics-geometry', subjectSlug: 'mathematics', topic: 'Geometry',
+    id: 'myp5-mathematics-geometry', prerequisiteIds: ['myp5-mathematics-number'], subjectSlug: 'mathematics', topic: 'Geometry',
     summary: 'Use definitions, diagrams and linked theorems to turn spatial information into a justified argument.',
     objectives: ['Apply angle and polygon relationships.', 'Use similarity and congruence precisely.', 'Build short geometric proofs.'],
     keyIdeas: ['A diagram supports reasoning but does not prove a measurement.', 'Similar figures preserve angles and scale every corresponding length by one factor.', 'Each proof statement needs a stated reason.'],
@@ -32,7 +32,7 @@ export const MYP5_LESSON_EXPANSION: MypLesson[] = [
     sourceIds: ['openstax-algebra-trigonometry'],
   }),
   module({
-    id: 'myp5-physics-forces', subjectSlug: 'physics', topic: 'Forces',
+    id: 'myp5-physics-forces', subjectSlug: 'physics', topic: 'Forces', prerequisiteIds: ['myp5-physics-motion'],
     summary: 'Represent interactions with force diagrams and use resultant force to predict changes in motion.',
     objectives: ['Draw force diagrams.', 'Calculate resultant force.', 'Apply Newtonian reasoning to unfamiliar situations.'],
     keyIdeas: ['A force is an interaction, not a property stored in an object.', 'Balanced forces mean zero acceleration, not necessarily zero velocity.', 'Mass measures inertia while weight is a gravitational force.'],
@@ -45,7 +45,7 @@ export const MYP5_LESSON_EXPANSION: MypLesson[] = [
     sourceIds: ['openstax-physics'],
   }),
   module({
-    id: 'myp5-chemistry-bonding', subjectSlug: 'chemistry', topic: 'Bonding',
+    id: 'myp5-chemistry-bonding', subjectSlug: 'chemistry', topic: 'Bonding', prerequisiteIds: ['myp5-chemistry-atomic-structure'],
     summary: 'Use electrostatic models to connect particle structure with material properties.',
     objectives: ['Compare ionic, covalent and metallic models.', 'Represent electron transfer or sharing.', 'Explain properties from structure.'],
     keyIdeas: ['Bonding models explain attractions between charged particles.', 'Structure extends beyond one bond to a lattice or molecule.', 'Property explanations need particles, attraction and mobility.'],
@@ -58,7 +58,7 @@ export const MYP5_LESSON_EXPANSION: MypLesson[] = [
     sourceIds: ['openstax-chemistry'],
   }),
   module({
-    id: 'myp5-biology-genetics', subjectSlug: 'biology', topic: 'Genetics',
+    id: 'myp5-biology-genetics', subjectSlug: 'biology', topic: 'Genetics', prerequisiteIds: ['myp5-biology-cells'],
     summary: 'Connect DNA, alleles and cell division to patterns of inheritance without treating probability as certainty.',
     objectives: ['Use genetic vocabulary precisely.', 'Model monohybrid inheritance.', 'Evaluate what pedigrees and crosses can establish.'],
     keyIdeas: ['Genes are DNA sequences with roles in biological function.', 'Alleles are alternative versions at the same gene locus.', 'A probability predicts repeated outcomes, not an individual certainty.'],
@@ -71,7 +71,7 @@ export const MYP5_LESSON_EXPANSION: MypLesson[] = [
     sourceIds: ['openstax-biology'],
   }),
   module({
-    id: 'myp5-integrated-sciences-matter-energy', subjectSlug: 'integrated-sciences', topic: 'Matter and energy',
+    id: 'myp5-integrated-sciences-matter-energy', subjectSlug: 'integrated-sciences', topic: 'Matter and energy', prerequisiteIds: ['myp5-integrated-sciences-systems'],
     summary: 'Track matter and energy through physical, chemical and biological systems using explicit boundaries.',
     objectives: ['Define a system boundary.', 'Distinguish matter transfer from energy transfer.', 'Use conservation reasoning across disciplines.'],
     keyIdeas: ['Matter is rearranged in ordinary physical and chemical processes.', 'Energy transfers between stores and tends to spread into surroundings.', 'A conservation claim is meaningful only after the system is defined.'],
@@ -84,33 +84,33 @@ export const MYP5_LESSON_EXPANSION: MypLesson[] = [
     sourceIds: ['openstax-physics', 'openstax-chemistry', 'openstax-biology'],
   }),
   module({
-    id: 'myp5-english-rhetorical-devices', subjectSlug: 'english-language-literature', topic: 'Rhetorical devices',
+    id: 'myp5-english-rhetorical-devices', subjectSlug: 'english-language-literature', topic: 'Rhetorical devices', prerequisiteIds: ['myp5-english-literary-analysis'],
     summary: 'Analyse how patterned language, structure and appeals shape a particular audience response.',
     objectives: ['Identify rhetorical choices in context.', 'Analyse effects without formulaic claims.', 'Evaluate how choices combine across a text.'],
     keyIdeas: ['A device name begins analysis; it does not complete it.', 'Effect depends on wording, placement, audience and purpose.', 'Strong commentary traces a choice through meaning to consequence.'],
     definitions: [{ term: 'Anaphora', meaning: 'Repetition at the beginning of successive clauses or units.' }, { term: 'Antithesis', meaning: 'A balanced contrast between opposing ideas.' }, { term: 'Ethos', meaning: 'An appeal built through the speaker or writer’s credibility and character.' }],
     method: ['Quote the smallest sufficient language choice.', 'Describe its literal or structural operation.', 'Infer a plausible audience effect from context.', 'Connect the effect to purpose and another choice.'],
-    workedExample: { prompt: 'Analyse: “We asked for time; we asked for evidence; we asked to be heard.”', steps: ['The repeated opening “we asked” is anaphora.', 'Its accumulation presents the requests as persistent and reasonable.', 'The final shorter demand intensifies the movement from procedure to recognition.'], conclusion: 'The pattern builds collective credibility while framing the audience’s inaction as increasingly difficult to defend.' },
+    workedExample: { prompt: 'Analyse: “We asked for time; we asked for evidence; we asked to be heard.”', steps: ['The repeated opening “we asked” is anaphora.', 'Its accumulation presents the requests as persistent and reasonable.', 'The final demand intensifies the movement from procedure to recognition.'], conclusion: 'The pattern builds collective credibility while framing the audience’s inaction as increasingly difficult to defend.' },
     misconceptions: [{ mistake: 'Writing that repetition simply emphasises something.', correction: 'Name what is foregrounded and why that matters for this audience and purpose.' }, { mistake: 'Assuming an effect is guaranteed.', correction: 'Use evidence to argue a plausible effect while acknowledging context.' }],
     practice: [practice('rhet-1', 'Foundation', 'Identify', 3, 'Identify and explain the contrast in “not a cost, but an investment”.', ['Name the opposition and reframing.'], ['The antithesis opposes cost with investment.', 'It reframes immediate spending as a source of future value.'], ['Device', 'Meaning', 'Effect']), practice('rhet-2', 'Standard', 'Analyse', 6, 'Analyse how a speaker’s personal anecdote can build ethos and pathos.', ['Separate credibility from emotion.'], ['Specific lived experience can make the speaker appear informed or sincere, building ethos.', 'Sensory or vulnerable detail can invite empathy, building pathos.', 'Its effectiveness depends on relevance and authenticity.'], ['Both appeals', 'Text mechanism', 'Qualified effect']), practice('rhet-3', 'Challenge', 'Evaluate', 8, 'Evaluate whether statistics always make an argument more persuasive.', ['Consider source, framing and audience.'], ['Statistics can provide scale and logos.', 'Unclear sourcing, selective comparison or misleading axes can weaken trust.', 'Persuasiveness depends on reliability, relevance, explanation and audience numeracy.'], ['Benefit', 'Limitation', 'Context', 'Judgement'])],
     checklist: ['I quote precisely.', 'I move beyond device spotting.', 'I connect effect to audience and purpose.', 'I qualify claims about response.'],
     sourceIds: ['ib-myp-programme', 'ib-myp-assessment'],
   }),
   module({
-    id: 'myp5-spanish-past-tenses', subjectSlug: 'spanish', topic: 'Past tenses',
+    id: 'myp5-spanish-past-tenses', prerequisiteIds: ['myp5-spanish-present-tense'], subjectSlug: 'spanish', topic: 'Past tenses',
     summary: 'Choose past forms by meaning: completed events, background description, repeated action and relevance to now.',
     objectives: ['Contrast preterite and imperfect meanings.', 'Use time markers as clues rather than automatic rules.', 'Build a coherent past narrative.'],
     keyIdeas: ['The preterite presents an event as bounded or completed.', 'The imperfect presents background, ongoing or habitual past action.', 'A writer can change tense to change viewpoint.'],
     definitions: [{ term: 'Pretérito', meaning: 'A past tense commonly presenting completed, bounded events.' }, { term: 'Imperfecto', meaning: 'A past tense commonly presenting background, ongoing or habitual situations.' }, { term: 'Marcador temporal', meaning: 'A phrase that locates or sequences an event in time.' }],
     method: ['Decide whether the verb advances events or supplies background.', 'Choose the tense for that meaning.', 'Conjugate for the correct subject.', 'Use connectors to make sequence and contrast explicit.'],
-    workedExample: { prompt: 'Complete: Mientras yo ___ (estudiar), mi amigo me ___ (llamar).', steps: ['Studying is the ongoing background, so use estudiaba.', 'The call is the bounded interrupting event, so use llamó.', 'Full sentence: Mientras yo estudiaba, mi amigo me llamó.'], conclusion: 'The tense contrast shows an action in progress interrupted by a completed event.' },
+    workedExample: { prompt: 'Complete to describe studying in progress interrupted by a completed call: Mientras yo ___ (estudiar), mi amigo me ___ (llamar).', steps: ['Studying is the ongoing background, so use estudiaba.', 'The call is the bounded interrupting event, so use llamó.', 'Full sentence: Mientras yo estudiaba, mi amigo me llamó.'], conclusion: 'The tense contrast shows an action in progress interrupted by a completed event.' },
     misconceptions: [{ mistake: 'Using one past tense for an entire narrative.', correction: 'Choose tense separately for each verb’s role in the scene.' }, { mistake: 'Treating ayer as proof that every verb must be preterite.', correction: 'Time markers help, but aspect and intended viewpoint decide the tense.' }],
-    practice: [practice('past-1', 'Foundation', 'Complete', 3, 'Complete: Cada verano nosotros ___ (visitar) a nuestros abuelos.', ['The action was habitual.'], ['Visitábamos is appropriate because cada verano signals repeated background habit.'], ['Correct tense', 'Correct ending']), practice('past-2', 'Standard', 'Explain', 5, 'Explain the tense contrast in “Hacía sol cuando empezó la tormenta.”', ['Background versus event.'], ['Hacía uses imperfect for background weather.', 'Empezó uses preterite for the bounded event that advances the narrative.'], ['Both forms', 'Meaning contrast']), practice('past-3', 'Advanced', 'Produce', 8, 'Write four connected Spanish sentences about an interrupted journey, using both preterite and imperfect.', ['Establish background, then introduce events.'], ['Example: Viajábamos en tren y todos dormían. De repente, el tren se paró. El conductor anunció un problema. Esperamos una hora antes de continuar.'], ['Four connected sentences', 'Both tenses', 'Accurate agreement', 'Clear sequence'])],
+    practice: [practice('past-1', 'Foundation', 'Complete', 3, 'Complete to describe a repeated childhood habit: Cuando éramos niños, cada verano nosotros ___ (visitar) a nuestros abuelos.', ['The action was habitual.'], ['Visitábamos is appropriate for the repeated childhood habit specified in the prompt.'], ['Correct tense', 'Correct ending']), practice('past-2', 'Standard', 'Explain', 5, 'Explain the tense contrast in “Hacía sol cuando empezó la tormenta.”', ['Background versus event.'], ['Hacía uses imperfect for background weather.', 'Empezó uses preterite for the bounded event that advances the narrative.'], ['Both forms', 'Meaning contrast']), practice('past-3', 'Advanced', 'Produce', 8, 'Write four connected Spanish sentences about an interrupted journey, using both preterite and imperfect.', ['Establish background, then introduce events.'], ['Example: Viajábamos en tren y todos dormían. De repente, el tren se paró. El conductor anunció un problema. Esperamos una hora antes de continuar.'], ['Four connected sentences', 'Both tenses', 'Accurate agreement', 'Clear sequence'])],
     checklist: ['I decide meaning before conjugating.', 'I distinguish background from events.', 'I check subject endings.', 'I connect sentences into a sequence.'],
-    sourceIds: ['ib-myp-programme', 'ib-myp-assessment'],
+    sourceIds: ['spanish-conjugation', 'spanish-haber', 'spanish-accents'],
   }),
   module({
-    id: 'myp5-economics-market-failure', subjectSlug: 'economics', topic: 'Market failure',
+    id: 'myp5-economics-market-failure', prerequisiteIds: ['myp5-economics-supply', 'myp5-economics-demand'], subjectSlug: 'economics', topic: 'Market failure',
     summary: 'Explain when private decisions create wider costs or benefits and evaluate targeted responses.',
     objectives: ['Distinguish private and external effects.', 'Explain over- or under-allocation.', 'Evaluate policy using evidence and trade-offs.'],
     keyIdeas: ['Market prices may omit effects experienced by third parties.', 'A policy should target the mechanism causing the failure.', 'Government action also carries information, enforcement and equity costs.'],
@@ -120,10 +120,10 @@ export const MYP5_LESSON_EXPANSION: MypLesson[] = [
     misconceptions: [{ mistake: 'Calling any undesirable outcome a market failure.', correction: 'Identify the specific mechanism, such as an externality or information gap.' }, { mistake: 'Assuming a tax removes all harmful activity.', correction: 'It changes incentives; the size of response depends on design and elasticity.' }],
     practice: [practice('mf-1', 'Foundation', 'Identify', 3, 'Identify one negative externality from urban car use and the affected third party.', ['Name a cost outside the driver’s decision.'], ['Air pollution can harm residents who are not part of the journey transaction.'], ['External cost', 'Third party']), practice('mf-2', 'Standard', 'Explain', 6, 'Explain why vaccination may be under-consumed in a free market.', ['Separate private and external benefit.'], ['The vaccinated person gains private protection.', 'Others may gain reduced transmission risk.', 'If the buyer considers only private benefit, demand can be below the socially beneficial level.'], ['Private benefit', 'External benefit', 'Under-consumption']), practice('mf-3', 'Challenge', 'Evaluate', 8, 'Evaluate a ban versus a per-unit tax on single-use bags.', ['Compare certainty, flexibility, enforcement and equity.'], ['A ban can sharply reduce use but removes flexibility and needs exemptions or enforcement.', 'A tax preserves choice and raises revenue but may be too low to change behaviour.', 'The better instrument depends on harm, substitutes, enforcement and observed demand response.'], ['Both policies', 'Trade-offs', 'Evidence needs', 'Conditional judgement'])],
     checklist: ['I identify the mechanism.', 'I distinguish private and social effects.', 'I trace quantity consequences.', 'I evaluate implementation and equity.'],
-    sourceIds: ['ib-myp-programme', 'ib-myp-assessment'],
+    sourceIds: ['ib-myp-programme', 'ib-myp-assessment', 'econ-markets', 'econ-externalities'],
   }),
   module({
-    id: 'myp5-geography-climate', subjectSlug: 'geography', topic: 'Climate',
+    id: 'myp5-geography-climate', subjectSlug: 'geography', topic: 'Climate', prerequisiteIds: [],
     summary: 'Interpret climate patterns by connecting energy balance, atmospheric circulation and local geographic controls.',
     objectives: ['Distinguish weather and climate.', 'Interpret climate graphs.', 'Explain patterns across more than one scale.'],
     keyIdeas: ['Climate describes long-term distributions, not a single day.', 'Latitude shapes incoming solar energy while circulation redistributes heat and moisture.', 'Altitude, relief, oceans and land cover modify regional patterns.'],
@@ -136,7 +136,7 @@ export const MYP5_LESSON_EXPANSION: MypLesson[] = [
     sourceIds: ['ib-myp-programme', 'ib-myp-assessment'],
   }),
   module({
-    id: 'myp5-history-causation', subjectSlug: 'history', topic: 'Causation',
+    id: 'myp5-history-causation', prerequisiteIds: ['myp5-history-source-analysis'], subjectSlug: 'history', topic: 'Causation',
     summary: 'Build causal arguments by distinguishing triggers, conditions, motives and relative importance.',
     objectives: ['Construct causal chains.', 'Rank causes using explicit criteria.', 'Use evidence to handle interaction and contingency.'],
     keyIdeas: ['Events usually have multiple interacting causes.', 'A trigger accelerates change but may depend on deeper conditions.', 'Importance must be judged against a criterion such as necessity, reach or timing.'],
@@ -149,7 +149,7 @@ export const MYP5_LESSON_EXPANSION: MypLesson[] = [
     sourceIds: ['loc-primary-sources', 'ib-myp-programme', 'ib-myp-assessment'],
   }),
   module({
-    id: 'myp5-integrated-humanities-source-analysis', subjectSlug: 'integrated-humanities', topic: 'Source analysis',
+    id: 'myp5-integrated-humanities-source-analysis', prerequisiteIds: ['myp5-integrated-humanities-inquiry'], subjectSlug: 'integrated-humanities', topic: 'Source analysis',
     summary: 'Interrogate evidence through historical, geographical and economic lenses, then synthesize what the combined reading can and cannot establish.',
     objectives: ['Distinguish observation, inference and claim.', 'Evaluate provenance in relation to a specific inquiry.', 'Synthesize evidence from different disciplines without flattening their differences.'],
     keyIdeas: ['A source is useful for a purpose, not reliable in the abstract.', 'Maps, statistics, testimony and policy texts make different features visible.', 'Synthesis explains how evidence changes when two disciplinary readings are combined.'],
@@ -162,7 +162,7 @@ export const MYP5_LESSON_EXPANSION: MypLesson[] = [
     sourceIds: ['loc-primary-sources', 'ib-myp-programme', 'ib-myp-assessment'],
   }),
   module({
-    id: 'myp5-design-prototyping', subjectSlug: 'design', topic: 'Prototyping',
+    id: 'myp5-design-prototyping', prerequisiteIds: ['myp5-design-ideation'], subjectSlug: 'design', topic: 'Prototyping',
     summary: 'Choose the smallest prototype that can test the riskiest design assumption, then turn observations into traceable revisions.',
     objectives: ['Match prototype fidelity to a test question.', 'Collect observable evidence against a criterion.', 'Document a justified iteration without rewriting the original result.'],
     keyIdeas: ['A prototype is an experiment, not a miniature final product.', 'High fidelity is useful only when detail is necessary for the decision.', 'A failed test is valuable when it reveals what to change and why.'],
@@ -170,12 +170,12 @@ export const MYP5_LESSON_EXPANSION: MypLesson[] = [
     method: ['Name one uncertain assumption.', 'Choose a prototype that exposes that uncertainty with minimum unnecessary detail.', 'Define task, participant, measure and success threshold before testing.', 'Record observations separately from interpretations.', 'Keep the original result and add a dated revision decision.'],
     workedExample: { prompt: 'A team is unsure whether learners can find homework in a proposed app navigation.', steps: ['The risk is information architecture, not colour or animation.', 'Create a clickable greyscale path with realistic labels.', 'Ask representative learners to find and open a named homework task without coaching.', 'Record completion, route taken, errors and hesitation.', 'Revise labels or grouping only after comparing evidence with the threshold.'], conclusion: 'A focused low-fidelity test answers the navigation question faster and more clearly than polishing the entire interface.' },
     misconceptions: [{ mistake: 'Making every prototype look finished.', correction: 'Use only the fidelity needed to test the current decision.' }, { mistake: 'Asking users whether they like the design instead of observing a task.', correction: 'Pair opinions with behaviour, completion evidence and follow-up questions.' }],
-    practice: [practice('proto-1', 'Foundation', 'Select', 3, 'Select a suitable prototype for testing whether a bottle grip fits different hand sizes.', ['The test concerns dimensions and handling.'], ['Use an adjustable or quickly fabricated physical grip model.', 'A screen drawing cannot provide handling evidence.'], ['Suitable medium', 'Connection to test question']), practice('proto-2', 'Standard', 'Design', 6, 'Design a usability test for a school-library search prototype.', ['Define task, participant, measure and threshold.'], ['Recruit representative learners.', 'Give each learner the same book-finding task without hints.', 'Record completion, time, wrong turns and comments.', 'Set a threshold such as four of five learners completing within two minutes.'], ['Representative participant', 'Standard task', 'Observable measures', 'Threshold']), practice('proto-3', 'Challenge', 'Evaluate', 8, 'A polished prototype receives positive comments, but three of five users fail the core task. Evaluate the next step.', ['Task evidence and appearance feedback answer different questions.'], ['Positive comments support aspects of presentation but do not establish usability.', 'The failure rate misses the core-task threshold.', 'Inspect failure paths, revise the responsible interaction, preserve the test record and rerun the same task before adding polish.'], ['Evidence prioritised', 'Failure diagnosed', 'Specific revision', 'Comparable retest'])],
+    practice: [practice('proto-1', 'Foundation', 'Select', 3, 'Select a suitable prototype for testing whether a bottle grip fits different hand sizes.', ['The test concerns dimensions and handling.'], ['Use an adjustable or quickly fabricated physical grip model.', 'A screen drawing cannot provide handling evidence.'], ['Suitable medium', 'Connection to test question']), practice('proto-2', 'Standard', 'Design', 6, 'Design a usability test for a school-library search prototype.', ['Define task, participant, measure and threshold.'], ['Recruit representative learners.', 'Give each learner the same book-finding task without hints.', 'Record completion, time, wrong turns and comments.', 'Set a threshold such as four of five learners completing within two minutes.'], ['Representative participant', 'Standard task', 'Observable measures', 'Threshold']), practice('proto-3', 'Challenge', 'Evaluate', 8, 'The predeclared target is at least four of five users completing the core task independently. A polished prototype receives positive comments, but three of five users fail the core task. Evaluate the next step.', ['Task evidence and appearance feedback answer different questions.'], ['Positive comments support aspects of presentation but do not establish usability.', 'The failure rate misses the core-task threshold.', 'Inspect failure paths, revise the responsible interaction, preserve the test record and rerun the same task before adding polish.'], ['Evidence prioritised', 'Failure diagnosed', 'Specific revision', 'Comparable retest'])],
     checklist: ['I test one named uncertainty.', 'My prototype has purposeful fidelity.', 'My measure is observable.', 'I preserve failed results.', 'My revision cites the evidence that caused it.'],
-    sourceIds: ['ib-myp-programme', 'ib-myp-assessment'],
+    sourceIds: ['ib-myp-programme', 'ib-myp-assessment', 'design-double-diamond', 'design-usability'],
   }),
   module({
-    id: 'myp5-visual-arts-creative-process', subjectSlug: 'visual-arts', topic: 'Creative process',
+    id: 'myp5-visual-arts-creative-process', prerequisiteIds: ['myp5-visual-arts-analysis'], subjectSlug: 'visual-arts', topic: 'Creative process',
     summary: 'Develop visual work through purposeful research, material experiments, documented decisions and evaluation against an artistic intention.',
     objectives: ['Turn research into visual possibilities.', 'Compare experiments using named artistic aims.', 'Document how feedback and material evidence change the work.'],
     keyIdeas: ['A process journal records thinking and change, not only attractive final pages.', 'Experimentation varies a decision so its effect can be compared.', 'Artistic intention can develop, but each change needs an evidence trail.'],
@@ -185,10 +185,10 @@ export const MYP5_LESSON_EXPANSION: MypLesson[] = [
     misconceptions: [{ mistake: 'Treating copied reference images as research.', correction: 'Record provenance and explain which formal, contextual or conceptual question each reference informs.' }, { mistake: 'Annotating only what materials were used.', correction: 'Explain the decision, observed effect, limitation and next iteration.' }],
     practice: [practice('vproc-1', 'Foundation', 'Document', 4, 'Write a useful process annotation for a charcoal experiment that became too visually uniform.', ['Include observation, interpretation and next action.'], ['Observation: similar pressure made most values mid-grey.', 'Effect: the focal area does not separate from the background.', 'Next test: preserve highlights and compare two darker edge treatments.'], ['Observation', 'Effect', 'Specific next test']), practice('vproc-2', 'Standard', 'Develop', 6, 'Develop three controlled variations for a poster intended to make water scarcity feel immediate.', ['Vary one meaningful choice in each version.'], ['Version one varies scale contrast.', 'Version two varies proximity and cropping.', 'Version three varies the ratio of empty to occupied space.', 'Keep core wording constant so visual effects can be compared.'], ['Three purposeful variations', 'Controlled comparison', 'Intention link']), practice('vproc-3', 'Challenge', 'Evaluate', 8, 'Peer feedback prefers the most decorative version, but it weakens the intended message. Evaluate the decision.', ['Feedback is evidence, not an automatic instruction.'], ['Identify what peers responded to and whether the sample matches the intended audience.', 'Compare message comprehension as well as preference.', 'Retain decorative choices only if they support the intention, or test a new version that preserves clarity while addressing the useful part of the feedback.'], ['Feedback interpreted', 'Intention applied', 'Audience considered', 'Testable revision'])],
     checklist: ['My references have provenance.', 'My experiments answer a question.', 'My annotations explain decisions.', 'I compare evidence across versions.', 'I evaluate against intention.'],
-    sourceIds: ['ib-myp-programme', 'ib-myp-assessment'],
+    sourceIds: ['ib-myp-programme', 'ib-myp-assessment', 'arts-nga-elements', 'arts-getty-analysis', 'arts-vam-sketchbooks'],
   }),
   module({
-    id: 'myp5-music-composition', subjectSlug: 'music', topic: 'Composition',
+    id: 'myp5-music-composition', prerequisiteIds: ['myp5-music-creative-process'], subjectSlug: 'music', topic: 'Composition',
     summary: 'Develop a musical idea through constrained experiments, audible evidence and revision tied to a clear expressive or structural intention.',
     objectives: ['Shape a motif through controlled transformation.', 'Use musical elements to create contrast and coherence.', 'Evaluate a revision using score, recording and listener evidence.'],
     keyIdeas: ['Constraint can make musical decisions more deliberate.', 'Development changes an idea while preserving enough identity to be heard as related.', 'A revision should solve a named musical problem, not merely add complexity.'],
@@ -198,10 +198,10 @@ export const MYP5_LESSON_EXPANSION: MypLesson[] = [
     misconceptions: [{ mistake: 'Adding more instruments whenever a section feels weak.', correction: 'Diagnose whether the issue is material, register, texture, pacing or contrast before orchestrating.' }, { mistake: 'Describing intention without citing audible choices.', correction: 'Name where the relevant pitch, rhythm, texture, timbre or dynamic change occurs.' }],
     practice: [practice('comp-1', 'Foundation', 'Develop', 4, 'Create two transformations of the rhythm short-short-long while keeping its identity audible.', ['Change placement or duration, not every feature at once.'], ['One option is augmentation: double each duration.', 'Another is displacement: begin the same rhythm after a rest or off the beat.', 'Retain the proportional pattern so the relationship can still be heard.'], ['Two transformations', 'Identity preserved', 'Musical explanation']), practice('comp-2', 'Standard', 'Explain', 6, 'Explain how register and texture could distinguish two sections without changing the main motif.', ['Trace the same material through different treatment.'], ['A low, narrow register with thin texture can make the first statement restrained.', 'Moving the motif higher and adding independent layers can expand intensity.', 'Because the motif remains, contrast supports form without losing coherence.'], ['Register', 'Texture', 'Contrast and coherence']), practice('comp-3', 'Challenge', 'Evaluate', 8, 'A listener recognises each section but cannot hear why the final return matters. Evaluate a revision strategy.', ['The form is audible, but the return lacks changed meaning.'], ['Compare the return with its first statement for register, harmony, texture, dynamics and duration.', 'Choose one or two changes linked to the intended transformation.', 'Test whether listeners can identify both the return and its changed role without an explanation.'], ['Problem diagnosed', 'Targeted musical change', 'Intention link', 'Listening test'])],
     checklist: ['My motif remains traceable.', 'My transformations are purposeful.', 'I locate audible evidence.', 'I preserve versions.', 'My evaluation changes a named decision.'],
-    sourceIds: ['ib-myp-programme', 'ib-myp-assessment'],
+    sourceIds: ['ib-myp-programme', 'ib-myp-assessment', 'arts-carnegie-toolbox'],
   }),
   module({
-    id: 'myp5-drama-rehearsal-documentation', subjectSlug: 'drama', topic: 'Rehearsal documentation',
+    id: 'myp5-drama-rehearsal-documentation', prerequisiteIds: ['myp5-drama-creative-process'], subjectSlug: 'drama', topic: 'Rehearsal documentation',
     summary: 'Use rehearsal as evidence: record intention, intervention, observed effect and the next performance decision.',
     objectives: ['Set a testable rehearsal objective.', 'Capture specific performance evidence.', 'Use feedback without surrendering artistic judgement.'],
     keyIdeas: ['A rehearsal log should explain change, not list activities.', 'Performance evidence needs an exact moment and observable choice.', 'Feedback becomes useful when interpreted against intention and audience.'],
@@ -209,25 +209,149 @@ export const MYP5_LESSON_EXPANSION: MypLesson[] = [
     method: ['Name the exact moment and intended audience effect.', 'Choose an exercise that isolates the uncertain choice.', 'Record the starting version before changing it.', 'Capture observable differences and feedback.', 'Decide what to keep, reject or retest, with reasons.'],
     workedExample: { prompt: 'A confrontation scene has clear dialogue but no rising tension.', steps: ['Locate the turn where the power relationship should change.', 'Record a baseline run.', 'Test distance, pause length and vocal pace separately.', 'Compare which change makes the power shift visible without exaggeration.', 'Log the selected choice and one remaining uncertainty.'], conclusion: 'The rehearsal produces a traceable performance decision rather than a vague claim that the scene improved.' },
     misconceptions: [{ mistake: 'Writing “we rehearsed the scene and it went well.”', correction: 'Record the objective, exact change, observed effect and evidence-based next step.' }, { mistake: 'Applying every peer suggestion.', correction: 'Evaluate feedback against intention, feasibility and evidence from the performance.' }],
-    practice: [practice('rehearse-1', 'Foundation', 'Document', 4, 'Turn “worked on movement” into a useful rehearsal-log entry.', ['Name moment, change and effect.'], ['At the entrance, we replaced fast pacing with three measured steps and a pause before speaking.', 'The pause made the status change easier for two observers to identify.', 'Next we will test whether the choice remains clear without the lighting cue.'], ['Exact moment', 'Specific change', 'Observed effect', 'Next test']), practice('rehearse-2', 'Standard', 'Design', 6, 'Design a rehearsal exercise to test whether subtext is clear without dialogue.', ['Isolate physical and spatial choices.'], ['Run the moment silently using only gaze, proxemics and tempo.', 'Ask observers to record the relationship they infer and the evidence they used.', 'Compare responses, adjust one choice and rerun.'], ['Purposeful constraint', 'Observable evidence', 'Audience response', 'Iteration']), practice('rehearse-3', 'Challenge', 'Evaluate', 8, 'A video replay shows the intended focal moment, but live observers watched another actor. Evaluate the next step.', ['Camera framing and live attention are different evidence.'], ['The replay confirms the recorded framing but not the live audience focus.', 'Review sightlines, movement, lighting, contrast and audience position.', 'Test a live run with observers in different seats and record where attention moves before revising.'], ['Evidence limitation', 'Live-performance factors', 'Representative retest', 'Revision logic'])],
+    practice: [practice('rehearse-1', 'Foundation', 'Document', 4, 'Original hypothetical notes: at the entrance, fast pacing was replaced by three measured steps and a pause before speaking. Two observers identified the status change more easily. Turn “worked on movement” into a log entry and name a next test.', ['Name moment, change and effect.'], ['At the entrance, we replaced fast pacing with three measured steps and a pause before speaking.', 'The pause made the status change easier for two observers to identify.', 'Next we will test whether the choice remains clear without the lighting cue.'], ['Exact moment', 'Specific change', 'Observed effect', 'Next test']), practice('rehearse-2', 'Standard', 'Design', 6, 'Design a rehearsal exercise to test whether subtext is clear without dialogue.', ['Isolate physical and spatial choices.'], ['Run the moment silently using only gaze, proxemics and tempo.', 'Ask observers to record the relationship they infer and the evidence they used.', 'Compare responses, adjust one choice and rerun.'], ['Purposeful constraint', 'Observable evidence', 'Audience response', 'Iteration']), practice('rehearse-3', 'Challenge', 'Evaluate', 8, 'A video replay shows the intended focal moment, but live observers watched another actor. Evaluate the next step.', ['Camera framing and live attention are different evidence.'], ['The replay confirms the recorded framing but not the live audience focus.', 'Review sightlines, movement, lighting, contrast and audience position.', 'Test a live run with observers in different seats and record where attention moves before revising.'], ['Evidence limitation', 'Live-performance factors', 'Representative retest', 'Revision logic'])],
     checklist: ['My rehearsal has one objective.', 'I preserve a baseline.', 'I record exact moments.', 'I interpret feedback against intention.', 'I define the next test.'],
-    sourceIds: ['ib-myp-programme', 'ib-myp-assessment'],
+    sourceIds: ['ib-myp-programme', 'ib-myp-assessment', 'arts-rsc-rehearsal'],
   }),
+  {
+  "id": "myp5-phe-training-principles",
+  "subjectSlug": "physical-health-education",
+  "topic": "Training principles",
+  "prerequisiteIds": [
+    "myp5-phe-fitness"
+  ],
+  "contentStatus": "original-editorial-draft",
+  "curriculumVersion": "vertexed-myp5-2026.1",
+  "summary": "Explain specificity, training demand and recovery through fictional plan analysis while keeping individual workload decisions with appropriate guidance.",
+  "objectives": [
+    "Identify frequency, intensity, time and type in a written example.",
+    "Explain specificity and recovery.",
+    "Recognise why a universal progression rule is insufficient."
+  ],
+  "explanation": [
+    "Training principles describe relationships between activity demands, adaptation and recovery. Specificity means that changes depend on what is practised, so an activity should relate to the intended aim. Training load describes demand; it can be represented through measures such as duration or effort, but no single number captures every aspect. Adaptation and recovery differ across people and circumstances, so more demand does not automatically mean better learning or performance.",
+    "Frequency, intensity, time and type provide a way to describe a proposed activity. Identifying these components is a literacy task, not approval to perform the example. A real plan needs a suitable starting point, appropriate instruction, recovery and review of concerns. Progression should not be reduced to one universal percentage or a promise of safety. These original fictional cases teach analysis and clear records. They do not prescribe exercise, diagnose fatigue or certify an individual’s readiness."
+  ],
+  "keyIdeas": [
+    "Activity choices should relate to the aim.",
+    "Demand and recovery both matter.",
+    "Describing a schedule does not establish its suitability."
+  ],
+  "definitions": [
+    {
+      "term": "Specificity",
+      "meaning": "The relationship between the activity practised and the adaptations or skills developed."
+    },
+    {
+      "term": "Training load",
+      "meaning": "The demand created by activity, described using relevant measures."
+    },
+    {
+      "term": "Recovery",
+      "meaning": "Processes and conditions through which fatigue can reduce and adaptation can occur."
+    }
+  ],
+  "method": [
+    "Identify the aim and activity described.",
+    "Label frequency, intensity, time and type.",
+    "Check missing context and review arrangements.",
+    "State limits without prescribing an individual change."
+  ],
+  "workedExample": {
+    "prompt": "Original fictional worksheet: two 15-minute easy cycling sessions each week. Identify FITT and one limit of the record.",
+    "steps": [
+      "Frequency is two sessions each week.",
+      "Intensity is described as easy, but the description is subjective.",
+      "Time is 15 minutes per session; type is cycling.",
+      "These labels do not establish suitability for a particular person or approve the schedule."
+    ],
+    "conclusion": "FITT describes the written example; individual participation needs appropriate guidance and context."
+  },
+  "misconceptions": [
+    {
+      "mistake": "Maximum intensity is always best.",
+      "correction": "The appropriate demand depends on the aim, person, activity and recovery."
+    },
+    {
+      "mistake": "A fixed progression rule applies to every learner.",
+      "correction": "A rule cannot replace relevant context and qualified review."
+    }
+  ],
+  "practice": [
+    {
+      "id": "train-1",
+      "difficulty": "Foundation",
+      "command": "Identify",
+      "marks": 3,
+      "prompt": "In a fictional worksheet, identify FITT in “three 30-minute easy cycling sessions each week”. Do not treat it as a recommended programme.",
+      "hints": [
+        "Match each detail to its category."
+      ],
+      "solution": [
+        "Frequency: three sessions per week.",
+        "Intensity: described as easy.",
+        "Time: 30 minutes per session.",
+        "Type: cycling."
+      ],
+      "successCriteria": [
+        "All four components",
+        "Correct matching"
+      ]
+    },
+    {
+      "id": "train-2",
+      "difficulty": "Standard",
+      "command": "Analyse",
+      "marks": 5,
+      "prompt": "A fictional template increases duration, frequency and intensity together, then attributes the outcome only to duration. Explain the evidence problem.",
+      "hints": [
+        "Several variables changed."
+      ],
+      "solution": [
+        "The changes occur together, so the record cannot isolate duration’s contribution.",
+        "Record the different changes and relevant conditions; do not claim one caused the outcome.",
+        "A qualified review must consider suitability before any real adjustment."
+      ],
+      "successCriteria": [
+        "Multiple changes",
+        "Causal limitation",
+        "Suitability boundary"
+      ]
+    },
+    {
+      "id": "train-3",
+      "difficulty": "Advanced",
+      "command": "Evaluate",
+      "marks": 6,
+      "prompt": "A fictional log records a better score alongside greater effort and poorer sleep. A report concludes the plan is definitely suitable. Evaluate.",
+      "hints": [
+        "A score is not the only relevant evidence."
+      ],
+      "solution": [
+        "A better score alone does not establish the plan’s suitability.",
+        "Effort and sleep changes warrant attention but do not establish their cause; other circumstances may matter.",
+        "Discuss concerns with an appropriate adult or professional and review the plan rather than automatically increasing demand."
+      ],
+      "successCriteria": [
+        "Balanced evidence",
+        "No diagnosis",
+        "Appropriate review"
+      ]
+    }
+  ],
+  "checklist": [
+    "I identify FITT accurately.",
+    "I relate activities to aims.",
+    "I consider recovery and context.",
+    "I distinguish analysis from personal prescription."
+  ],
+  "sourceIds": [
+    "phe-who-activity",
+    "phe-openstax-muscle"
+  ]
+},
   module({
-    id: 'myp5-phe-training-principles', subjectSlug: 'physical-health-education', topic: 'Training principles',
-    summary: 'Design safe, specific training by matching load, progression and recovery to the person, activity and evidence collected.',
-    objectives: ['Apply specificity, overload, progression and recovery.', 'Quantify a training dose using frequency, intensity, time and type.', 'Adapt a plan in response to performance and wellbeing evidence.'],
-    keyIdeas: ['Training adaptation depends on dose and recovery, not effort alone.', 'Progression should respond to baseline and individual response.', 'Pain, illness or persistent decline is a stop signal, not a challenge to ignore.'],
-    definitions: [{ term: 'Specificity', meaning: 'Training adaptations reflect the muscles, movement patterns, energy demands and skills practised.' }, { term: 'Training load', meaning: 'The demand created by a session, estimated through measures such as duration, distance, repetitions or effort.' }, { term: 'Recovery', meaning: 'Time and conditions that allow fatigue to reduce and adaptation to occur.' }],
-    method: ['Define the person, goal and current baseline.', 'Choose activity specific to the performance demand.', 'Specify frequency, intensity, time and type.', 'Progress one important variable gradually.', 'Track performance, effort, recovery and stop signals before the next change.'],
-    workedExample: { prompt: 'A beginner can jog comfortably for 15 minutes twice per week and wants to complete 25 minutes continuously.', steps: ['Keep intensity conversational.', 'Add a third short easy session or extend one session modestly, not both at once.', 'Include rest days and a repeat week if recovery worsens.', 'Retest continuous duration under comparable conditions.'], conclusion: 'The plan is specific, measurable and adjustable, but it is not medical advice and should stop if pain or illness occurs.' },
-    misconceptions: [{ mistake: 'Treating maximum intensity as the fastest route to improvement.', correction: 'Match intensity to the goal and preserve enough recovery for consistent training.' }, { mistake: 'Using one progression rule for every learner.', correction: 'Respond to training history, recovery, performance and relevant professional guidance.' }],
-    practice: [practice('train-1', 'Foundation', 'Identify', 4, 'Identify frequency, intensity, time and type in: three 30-minute easy cycling sessions each week.', ['Match each detail to FITT.'], ['Frequency: three per week.', 'Intensity: easy.', 'Time: 30 minutes.', 'Type: cycling.'], ['All four FITT elements', 'Each detail is assigned to the correct category']), practice('train-2', 'Standard', 'Design', 6, 'Design one measurable progression for a learner completing two sets of eight controlled squats.', ['Change one variable and include recovery.'], ['After technique is stable, add one or two repetitions to each set while keeping range and control.', 'Retain rest between sessions and compare form and effort.', 'Do not add load and volume simultaneously.'], ['Specific progression', 'Technique condition', 'Recovery', 'Comparable monitoring']), practice('train-3', 'Challenge', 'Evaluate', 8, 'Performance improves for two weeks, then effort rises and sleep worsens while the plan continues increasing load. Evaluate the response.', ['Use more than the performance result.'], ['Early improvement supports the initial dose.', 'Rising effort and worsening sleep suggest recovery is no longer matching load.', 'Hold or reduce load, review other stressors and resume progression only after recovery evidence improves.', 'Persistent symptoms or pain require appropriate adult or professional support.'], ['Evidence balanced', 'Load-recovery interpretation', 'Specific adjustment', 'Safety boundary'])],
-    checklist: ['My plan matches the goal.', 'I quantify the dose.', 'I progress one variable deliberately.', 'I monitor recovery.', 'I act on stop signals.'],
-    sourceIds: ['ib-myp-programme', 'ib-myp-assessment'],
-  }),
-  module({
-    id: 'myp5-personal-project-research', subjectSlug: 'personal-project', topic: 'Research planning',
+    id: 'myp5-personal-project-research', prerequisiteIds: ['myp5-personal-project-learning-goal'], subjectSlug: 'personal-project', topic: 'Research planning',
     summary: 'Build an ethical, answerable research plan that connects each question to a source method, quality check and project decision.',
     objectives: ['Prioritise research questions by decision value.', 'Match source methods to the evidence needed.', 'Record provenance, consent and uncertainty throughout the project.'],
     keyIdeas: ['Research is useful when it changes or justifies a project decision.', 'Source quality depends on the question, method and context.', 'A clean evidence trail distinguishes what was found, inferred, created and revised.'],
@@ -237,6 +361,6 @@ export const MYP5_LESSON_EXPANSION: MypLesson[] = [
     misconceptions: [{ mistake: 'Counting sources instead of judging their use.', correction: 'Explain what each source can establish, its limits and which decision it informs.' }, { mistake: 'Treating a search-result snippet as a source.', correction: 'Open the original material, record creator, title, date, publisher and stable location.' }],
     practice: [practice('ppres-1', 'Foundation', 'Develop', 4, 'Write two research questions for a project that creates a quiet study-space guide.', ['One can address evidence; one can address users.'], ['What environmental features are associated with reduced distraction during independent study?', 'Which noise, lighting and seating problems do intended users report in the available spaces?'], ['Focused questions', 'Different evidence needs', 'Project relevance']), practice('ppres-2', 'Standard', 'Justify', 6, 'Justify one secondary and one primary method for testing a beginner cycling-safety booklet.', ['Connect each method to a decision.'], ['Current road-safety guidance can check factual rules and recommended behaviour.', 'A task-based comprehension test with intended readers can reveal unclear diagrams or instructions.', 'Together they test factual basis and usability.'], ['Secondary method', 'Primary method', 'Decision link', 'Combined value']), practice('ppres-3', 'Challenge', 'Evaluate', 8, 'Ten friends praise a product concept in an informal poll. Evaluate what the evidence supports and plan a stronger next step.', ['Consider sampling, question wording and behaviour.'], ['The poll suggests interest among a convenient social group but does not establish wider demand or successful use.', 'Record the questions and sample limits.', 'Recruit intended users beyond close friends and observe completion of representative tasks with a prototype.', 'Compare behaviour with stated preference before deciding.'], ['Bounded interpretation', 'Bias identified', 'Stronger method', 'Decision rule'])],
     checklist: ['Every question informs a decision.', 'My method can answer the question.', 'I record provenance and consent.', 'I separate findings from inference.', 'I preserve uncertainty and negative results.'],
-    sourceIds: ['ib-myp-programme', 'ib-myp-assessment', 'loc-primary-sources'],
+    sourceIds: ['ib-myp-programme', 'ib-myp-assessment', 'loc-primary-sources', 'project-ib-learning'],
   }),
 ];

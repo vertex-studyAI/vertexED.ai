@@ -1,5 +1,9 @@
 # VertexED remaining-work checklist
 
+> 14 October execution: see [current release findings](RELEASE_EXECUTION_2026-10-14.md)
+> for fresh local checks, production TLS/readiness failures, hosted database
+> verification and access blockers. Older counts below remain historical.
+
 27 September 2026. **Production status: NO-GO.**
 
 This is the prioritised execution view of the [complete-product checklist](PUBLISHABLE_COMPLETION_CHECKLIST.md), not a replacement for its acceptance criteria or [gate register](COMPLETION_GATE_REGISTER.json). Every existing gate is mapped below. An unchecked item can mean missing implementation, missing live verification or missing human approval; it does not mean nothing has been built.

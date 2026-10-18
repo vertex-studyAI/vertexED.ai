@@ -1,0 +1,204 @@
+.learning-method-band {
+  width: 100%;
+  margin-top: 64px;
+  border-block: 1px solid hsl(var(--primary) / 0.24);
+  padding: 56px 0 48px;
+  color: hsl(var(--foreground));
+}
+
+.learning-method-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(320px, 1.1fr);
+  gap: 48px;
+  align-items: end;
+}
+
+.learning-method-intro > div > p,
+.learning-method-steps > li > span {
+  margin: 0 0 12px;
+  color: hsl(var(--primary));
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.learning-method-intro h2 {
+  max-width: 680px;
+  margin: 0;
+  font-size: 2.25rem;
+  font-weight: 650;
+  letter-spacing: 0;
+  line-height: 1.12;
+}
+
+.learning-method-intro > p {
+  max-width: 720px;
+  margin: 0;
+  color: hsl(var(--muted-foreground));
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.learning-method-steps {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  margin: 40px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.learning-method-steps > li {
+  min-width: 0;
+  min-height: 320px;
+  border-top: 3px solid hsl(var(--border));
+  border-right: 1px solid hsl(var(--border));
+  padding: 22px 18px 18px;
+  background: hsl(var(--card) / 0.32);
+}
+
+.learning-method-steps > li:first-child {
+  border-left: 1px solid hsl(var(--border));
+}
+
+.learning-method-steps > li[data-current='true'] {
+  border-top-color: hsl(var(--primary));
+  background: hsl(var(--primary) / 0.08);
+}
+
+.learning-method-steps h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1.35;
+}
+
+.learning-method-steps p,
+.learning-method-steps blockquote {
+  color: hsl(var(--muted-foreground));
+  font-size: 0.82rem;
+  line-height: 1.58;
+}
+
+.learning-method-steps p {
+  margin: 12px 0 0;
+}
+
+.learning-method-steps blockquote {
+  margin: 16px 0 0;
+  border-left: 2px solid hsl(var(--primary) / 0.55);
+  padding-left: 10px;
+  color: hsl(var(--foreground) / 0.82);
+}
+
+.learning-method-steps a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 7px;
+  margin-top: 14px;
+  color: hsl(var(--primary));
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.learning-method-steps a svg {
+  width: 15px;
+  height: 15px;
+}
+
+.learning-method-commitments {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px;
+  margin-top: 40px;
+}
+
+.learning-method-commitments > div {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  gap: 8px 10px;
+  align-content: start;
+}
+
+.learning-method-commitments svg {
+  width: 20px;
+  color: hsl(var(--success));
+}
+
+.learning-method-commitments h3 {
+  margin: 0;
+  font-size: 0.9rem;
+  letter-spacing: 0;
+}
+
+.learning-method-commitments p {
+  grid-column: 2;
+  margin: 0;
+  color: hsl(var(--muted-foreground));
+  font-size: 0.78rem;
+  line-height: 1.55;
+}
+
+.learning-method-steps a:focus-visible {
+  border-radius: 4px;
+  outline: 3px solid hsl(var(--ring) / 0.55);
+  outline-offset: 3px;
+}
+
+@media (max-width: 1024px) {
+  .learning-method-steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .learning-method-steps > li:nth-child(odd) {
+    border-left: 1px solid hsl(var(--border));
+  }
+
+  .learning-method-steps > li {
+    min-height: 280px;
+  }
+
+  .learning-method-commitments {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 680px) {
+  .learning-method-band {
+    margin-top: 48px;
+    padding: 40px 0 36px;
+  }
+
+  .learning-method-intro {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .learning-method-intro h2 {
+    font-size: 1.65rem;
+  }
+
+  .learning-method-steps,
+  .learning-method-commitments {
+    grid-template-columns: 1fr;
+  }
+
+  .learning-method-steps > li,
+  .learning-method-steps > li:nth-child(odd) {
+    min-height: 0;
+    border-left: 1px solid hsl(var(--border));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .learning-method-band *,
+  .learning-method-band *::before,
+  .learning-method-band *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

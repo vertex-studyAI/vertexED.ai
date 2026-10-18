@@ -1,5 +1,3 @@
-import { OpenAI } from 'openai';
-import { describeReviewImages, ReviewImageProcessingError } from '../_lib/reviewVision.js';
 import {
   buildAnswerReviewPrompt,
   createAnswerReviewResult,
@@ -13,7 +11,7 @@ import {
   callChatProvider,
   createSafetyIdentifier,
   DEFAULT_OPENAI_PRIMARY_MODEL,
-  extractChatAnswer,
+  extractGeneratedText,
   resolveOpenAiConfig,
 } from '../_lib/aiProviders.js';
 import { VERTEX_AGENTS } from '../_lib/vertexAgents.js';
@@ -69,7 +67,7 @@ async function requestStructuredReview(config: any, prompt: string, userId: stri
     throw error;
   }
   if (!response.ok) throw new Error(`Review provider returned ${response.status}.`);
-  const answer = extractChatAnswer(JSON.parse(raw));
+  const answer = extractGeneratedText(JSON.parse(raw));
   const grade = extractAnswerReviewGrade(answer);
   if (!grade) throw new Error('Review provider returned an invalid structured result.');
   return { grade, model };
@@ -110,42 +108,16 @@ export default async function handler(req: any, res: any) {
 
   let openAiConfig: any = null;
   try { openAiConfig = resolveOpenAiConfig(process.env); } catch { openAiConfig = null; }
-  if (!openAiConfig && (questionCheck.images.length || answerCheck.images.length)) {
+  if (questionCheck.images.length || answerCheck.images.length) {
     return res.status(503).json({
-      error: 'Image review is temporarily unavailable. Type the question and answer to continue.',
-      retryable: true,
+      code: 'AI_MODEL_UNSUPPORTED',
+      error: 'Image review is unavailable under the current AI allowance. Type the question and answer to continue.',
+      retryable: false,
     });
   }
 
   try {
-    let extractedQuestion = '';
-    let extractedAnswer = '';
-    if (openAiConfig && (questionCheck.images.length || answerCheck.images.length)) {
-      const client = new OpenAI({
-        apiKey: openAiConfig.apiKey,
-        project: openAiConfig.projectId || undefined,
-        organization: openAiConfig.organizationId || undefined,
-        timeout: 30_000,
-        maxRetries: 0,
-      });
-      try {
-        [extractedQuestion, extractedAnswer] = await Promise.all([
-          describeReviewImages(client, questionCheck.images, 'question', createSafetyIdentifier(user.id)),
-          describeReviewImages(client, answerCheck.images, 'student answer', createSafetyIdentifier(user.id)),
-        ]);
-      } catch (error) {
-        if (error instanceof ReviewImageProcessingError) {
-          console.error('[review-safe] Attached image preprocessing failed');
-          return res.status(502).json({
-            error: 'We could not read the attached images reliably. Retake the photo or type the content and try again.',
-            retryable: true,
-          });
-        }
-        throw error;
-      }
-    }
-
-    const input = normalizeAnswerReviewInput(body, { question: extractedQuestion, answer: extractedAnswer });
+    const input = normalizeAnswerReviewInput(body, { question: '', answer: '' });
     if (!openAiConfig) return res.status(200).json(createAnswerReviewResult({ input, degraded: true }));
 
     try {

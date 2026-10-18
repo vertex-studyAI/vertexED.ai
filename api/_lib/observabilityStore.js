@@ -1,4 +1,11 @@
-import { getSupabaseAdmin } from './supabaseAdmin.js';
+import { createServerSupabaseClient, getServerSupabaseConfig } from './serverSupabase.js';
+
+function getObservabilityClient() {
+  const { url, key } = getServerSupabaseConfig();
+  // Telemetry follows paid settlement and must not hold a completed response
+  // open. Bound the entire database response and cancel its reader on expiry.
+  return createServerSupabaseClient(url, key, { timeoutMs: 3000, bufferResponses: true, maxResponseBytes: 64 * 1024 });
+}
 
 export function toObservabilityRow(event) {
   return {
@@ -18,7 +25,7 @@ export function toObservabilityRow(event) {
   };
 }
 
-export async function persistObservabilityEvent(event, supabase = getSupabaseAdmin()) {
+export async function persistObservabilityEvent(event, supabase = getObservabilityClient()) {
   const { error } = await supabase.from('observability_events').insert(toObservabilityRow(event));
   return { ok: !error, error: error ?? null };
 }

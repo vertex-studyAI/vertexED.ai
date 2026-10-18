@@ -7,6 +7,7 @@ import './styles/reduced-motion-root.css'
 import { initMonitoring } from '@/lib/monitoring'
 import { initTransientSessionIsolation } from '@/lib/transientSessionIsolation'
 import { authCallbackLocation } from '@/lib/authReturn.mjs'
+import { registerOffline } from '@/lib/registerOffline'
 
 // Providers can return to Site URL instead of redirectTo. Use the same error,
 // recovery and invitation handling there, before mounting the router/analytics.
@@ -15,6 +16,7 @@ if (authReturn) window.history.replaceState(window.history.state, '', authReturn
 
 initMonitoring();
 initTransientSessionIsolation();
+registerOffline();
 
 createRoot(document.getElementById("root")!).render(
   <AppErrorBoundary>

@@ -1,4 +1,5 @@
 import { normalizePlannerTasks } from './plannerTasks.mjs';
+import { validateCoursework } from './coursework.mjs';
 
 const record = value => value !== null && typeof value === 'object' && !Array.isArray(value);
 const text = value => typeof value === 'string';
@@ -49,6 +50,7 @@ export function validateNotebooks(value) {
 
 export function validatePlannerSnapshot(snapshot) {
   if (!record(snapshot) || !['Day', 'Week'].includes(snapshot.mode) || !time(snapshot.updatedAt)) throw new Error('Planner view or revision is invalid. Original data is preserved.');
+  if (snapshot.coursework !== undefined) validateCoursework(snapshot.coursework);
   return { ...snapshot, tasks: normalizePlannerTasks(snapshot.tasks) };
 }
 

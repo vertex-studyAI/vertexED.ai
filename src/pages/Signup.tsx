@@ -1,11 +1,12 @@
 import { Helmet } from "react-helmet-async";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router";
 import PageSection from "@/components/PageSection";
 import { useAuth } from "@/contexts/AuthContext";
 import { authUiError } from "@/lib/authUi.mjs";
 import { trackProductEvent } from "@/lib/productAnalytics.mjs";
 import { shouldOfferInvalidInviteRecovery } from "@/lib/signupInviteRecovery";
+import { requestAccessJson } from '@/lib/accessRequest.mjs';
 
 function normalizeEmailInput(value: string) {
   return value.trim().toLowerCase();
@@ -28,7 +29,7 @@ export default function Signup() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   // Capture invite once, then scrub it from the address bar to limit history/log leakage.
-  const [waitlistInviteToken] = useState(() => searchParams.get("invite")?.trim() || "");
+  const [waitlistInviteToken, setWaitlistInviteToken] = useState(() => searchParams.get("invite")?.trim() || "");
   const hasWaitlistInvite = Boolean(waitlistInviteToken);
   const [useTeamInvite, setUseTeamInvite] = useState(false);
   const isAccountSignup = hasWaitlistInvite || useTeamInvite;
@@ -39,6 +40,23 @@ export default function Signup() {
   const [honeypot, setHoneypot] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [accountCreated, setAccountCreated] = useState(false);
+  const [inviteCheckAttempt, setInviteCheckAttempt] = useState(0);
+  const [retryAt, setRetryAt] = useState(0);
+  const [now, setNow] = useState(Date.now);
+  const requestController = useRef<AbortController | null>(null);
+  const retrySeconds = Math.max(0, Math.ceil((retryAt - now) / 1000));
+  useEffect(() => () => requestController.current?.abort(), []);
+  useEffect(() => {
+    if (!retryAt) return;
+    const timer = window.setInterval(() => setNow(Date.now()), 1000);
+    return () => window.clearInterval(timer);
+  }, [retryAt]);
+  const retainCooldown = (error: unknown) => {
+    const seconds = error && typeof error === 'object' && 'retryAfter' in error ? Number(error.retryAfter) : 0;
+    setNow(Date.now());
+    setRetryAt(Number.isFinite(seconds) ? Date.now() + seconds * 1000 : 0);
+  };
 
   useEffect(() => {
     if (!waitlistInviteToken || typeof window === "undefined") return;
@@ -56,30 +74,32 @@ export default function Signup() {
     if (!waitlistInviteToken) return;
 
     let cancelled = false;
+    const controller = new AbortController();
     setLoading(true);
     setError(null);
-    fetch("/api/signup-invite", {
+    requestAccessJson("/api/signup-invite", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ action: "validateInvite", waitlistInviteToken }),
+      signal: controller.signal,
     })
-      .then(async (res) => {
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.error || "Could not verify this approval link.");
+      .then((data) => {
+        if (!isValidEmail(data.email || '')) throw new Error('Invalid approval response');
         if (!cancelled) setEmail(data.email || "");
       })
       .catch((err) => {
-        if (!cancelled) setError(authUiError(err, "validate-invite"));
+        if (!cancelled) { setError(authUiError(err, "validate-invite")); retainCooldown(err); }
       })
       .finally(() => {
         if (!cancelled) setLoading(false);
       });
 
-    return () => { cancelled = true; };
-  }, [waitlistInviteToken]);
+    return () => { cancelled = true; controller.abort(); };
+  }, [waitlistInviteToken, inviteCheckAttempt]);
 
   const submitWaitlist = async (event: React.FormEvent) => {
     event.preventDefault();
+    if (loading || Date.now() < retryAt) return;
     setError(null);
     setLoading(true);
     const normalizedEmail = normalizeEmailInput(email);
@@ -91,16 +111,18 @@ export default function Signup() {
     }
 
     try {
-      const res = await fetch("/api/waitlist", {
+      requestController.current = new AbortController();
+      const data = await requestAccessJson("/api/waitlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: normalizedEmail, method: "email", website: honeypot, profile: { ...studyProfile, age: Number(studyProfile.age) } }),
+        signal: requestController.current.signal,
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Failed to join waitlist.");
+      if (data.status !== 'pending') throw new Error('Unconfirmed application response');
       setSuccess(true);
       trackProductEvent("Waitlist Joined", { method: "email" });
     } catch (err) {
+      retainCooldown(err);
       setError(authUiError(err, "waitlist"));
     } finally {
       setLoading(false);
@@ -109,6 +131,7 @@ export default function Signup() {
 
   const submitInvite = async (event: React.FormEvent) => {
     event.preventDefault();
+    if (loading || accountCreated || Date.now() < retryAt) return;
     setError(null);
     setLoading(true);
 
@@ -143,7 +166,8 @@ export default function Signup() {
     }
 
     try {
-      const res = await fetch("/api/signup-invite", {
+      requestController.current = new AbortController();
+      const data = await requestAccessJson("/api/signup-invite", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -154,15 +178,8 @@ export default function Signup() {
           waitlistInviteToken: hasWaitlistInvite ? waitlistInviteToken : undefined,
           website: honeypot,
         }),
+        signal: requestController.current.signal,
       });
-      const data = await res.json();
-      if (!res.ok) {
-        if (res.status === 429 && data.retryAfter) {
-          const mins = Math.max(1, Math.ceil(Number(data.retryAfter) / 60));
-          throw new Error(`${data.error || "Too many attempts."} Try again in about ${mins} minute${mins === 1 ? "" : "s"}.`);
-        }
-        throw new Error(data.error || "Could not create account.");
-      }
 
       if (useTeamInvite) {
         // Fail closed if the server ever regresses to immediate account creation.
@@ -178,19 +195,27 @@ export default function Signup() {
       if (data.requiresEmailVerification === true) {
         throw new Error("This approval flow unexpectedly requires another verification step. Please use the latest approval link.");
       }
+      if (data.ok !== true) throw new Error('Unconfirmed account response');
+      setAccountCreated(true);
 
       try {
         await login(normalizedEmail, password);
       } catch (loginErr) {
+        setPassword("");
         setError(authUiError(loginErr, "signup"));
         setLoading(false);
         return;
       }
+      // The learner may have left this form while Auth was finishing. A late
+      // successful login must not redirect the route they chose afterwards.
+      if (requestController.current?.signal.aborted || window.location.pathname.replace(/\/+$/, '') !== '/signup') return;
       trackProductEvent("Account Created", {
         invite_type: "waitlist",
       });
       navigate("/connect-google", { replace: true });
     } catch (err) {
+      retainCooldown(err);
+      setPassword("");
       setError(authUiError(err, "invite-signup"));
     } finally {
       setLoading(false);
@@ -198,6 +223,7 @@ export default function Signup() {
   };
 
   const toggleTeamInvite = () => {
+    if (loading) return;
     setUseTeamInvite((current) => !current);
     setError(null);
     setSuccess(false);
@@ -205,6 +231,8 @@ export default function Signup() {
   };
 
   const recoverFromInvalidInvite = () => {
+    requestController.current?.abort();
+    setWaitlistInviteToken("");
     setEmail("");
     setPassword("");
     setUsername("");
@@ -213,6 +241,8 @@ export default function Signup() {
     setSuccess(false);
     setTeamInviteSent(false);
     setUseTeamInvite(false);
+    setLoading(false);
+    setAccountCreated(false);
     navigate("/signup", { replace: true });
   };
 
@@ -255,7 +285,9 @@ export default function Signup() {
 
           <input type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" value={honeypot} onChange={(event) => setHoneypot(event.target.value)} className="absolute h-0 w-0 opacity-0 pointer-events-none overflow-hidden" />
 
-          {teamInviteSent ? (
+          {accountCreated ? (
+            <div className="alert-success text-center" role="status"><p className="font-medium">Your account was created</p>{loading ? <p className="mt-2 text-sm">Signing you in...</p> : <><p className="mt-2 text-sm">Use sign-in or password recovery to continue. You do not need another account.</p><Link className="mt-4 inline-flex min-h-11 items-center text-primary underline" to="/login">Sign in or reset password</Link></>}</div>
+          ) : teamInviteSent ? (
             <div className="alert-success text-center" role="status">
               <p className="font-medium mb-2">Check your email</p>
               <p className="text-sm text-muted-foreground leading-relaxed">
@@ -315,19 +347,20 @@ export default function Signup() {
                   )}
                 </>
               )}
-              <button className="w-full btn-solid py-3 mt-2 disabled:opacity-60 disabled:cursor-not-allowed transition" disabled={loading || (hasWaitlistInvite && !email)} type="submit">
-                {loading ? loadingLabel : useTeamInvite ? "Email secure invite" : isAccountSignup ? "Create account" : "Join waitlist"}
+              <button className="w-full btn-solid py-3 mt-2 disabled:opacity-60 disabled:cursor-not-allowed transition" disabled={loading || retrySeconds > 0 || (hasWaitlistInvite && !email)} type="submit">
+                {retrySeconds > 0 ? `Try again in ${retrySeconds}s` : loading ? loadingLabel : useTeamInvite ? "Email secure invite" : isAccountSignup ? "Create account" : "Join waitlist"}
               </button>
             </div>
           )}
 
-          {!hasWaitlistInvite && !success && !teamInviteSent && (
-            <button type="button" onClick={toggleTeamInvite} className="mt-5 w-full text-sm text-primary hover:text-primary/80 underline underline-offset-4">
+          {!hasWaitlistInvite && !success && !teamInviteSent && !accountCreated && (
+            <button type="button" disabled={loading} onClick={toggleTeamInvite} className="mt-5 w-full text-sm text-primary hover:text-primary/80 underline underline-offset-4">
               {useTeamInvite ? "Join the waitlist instead" : "Have an invite code? Create your account"}
             </button>
           )}
 
           {error && <div className="mt-4 alert-error text-center" role="alert">{error}</div>}
+          {hasWaitlistInvite && !email && error && <button type="button" className="mt-4 min-h-11 w-full btn-glass py-3" disabled={loading || retrySeconds > 0} onClick={() => { if (Date.now() >= retryAt) setInviteCheckAttempt(attempt => attempt + 1); }}>Check approval link again</button>}
 
           {hasInvalidWaitlistInvite && (
             <button type="button" onClick={recoverFromInvalidInvite} className="mt-4 w-full btn-glass py-3 text-center">

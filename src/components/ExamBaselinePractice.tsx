@@ -59,22 +59,23 @@ export default function ExamBaselinePractice({ subject, programme }: { subject: 
   const scopedKeys = userContentStorageKeys(loading ? undefined : user?.id ?? null);
   const setupKey = scopedKeys.examPrepSetup;
   const baselineKey = `${scopedKeys.examBaseline}:${encodeURIComponent(subject)}`;
-  const [setupRevision, setSetupRevision] = useState(0);
+  const [topics, setTopics] = useState(() => readSavedTopics(setupKey, subject));
 
   useEffect(() => {
+    const readTopics = () => setTopics(readSavedTopics(setupKey, subject));
     const refresh = (event: Event) => {
       const changedKey = event instanceof StorageEvent ? event.key : (event as CustomEvent<string>).detail;
-      if (!changedKey || changedKey === setupKey) setSetupRevision((value) => value + 1);
+      if (!changedKey || changedKey === setupKey) readTopics();
     };
+    readTopics();
     window.addEventListener('storage', refresh);
     window.addEventListener('vertexed:storage-changed', refresh);
     return () => {
       window.removeEventListener('storage', refresh);
       window.removeEventListener('vertexed:storage-changed', refresh);
     };
-  }, [setupKey]);
+  }, [setupKey, subject]);
 
-  const topics = useMemo(() => readSavedTopics(setupKey, subject), [setupKey, setupRevision, subject]);
   const drills = useMemo(() => selectBaselineDrills({
     drills: EXAM_DRILLS,
     programme,
@@ -98,8 +99,8 @@ export default function ExamBaselinePractice({ subject, programme }: { subject: 
   if (drills.length < 3) {
     return <section id="exam-baseline" className="exam-prep-panel scroll-mt-24" aria-labelledby="exam-baseline-title">
       <p className="exam-prep-kicker"><ShieldCheck className="h-4 w-4" aria-hidden /> Optional baseline practice</p>
-      <h2 id="exam-baseline-title">A bounded baseline is not available for {subject} yet</h2>
-      <p className="exam-prep-supporting-copy">VertexED will not substitute unrelated questions or silently send you to a generated paper. Use focused practice until at least three original editorial questions are available for this programme and subject.</p>
+      <h2 id="exam-baseline-title">{EXAM_DRILLS.length ? `A bounded baseline is not available for ${subject} yet` : 'Baseline questions are awaiting subject review'}</h2>
+      <p className="exam-prep-supporting-copy">At least three reviewed questions are needed for this programme and subject. Use your teacher’s approved course materials for now. Existing saved answers remain on this device.</p>
       <a className="exam-prep-action mt-4 inline-flex" href="#exam-practice-lab">Open focused practice <ArrowRight className="h-4 w-4" aria-hidden /></a>
     </section>;
   }

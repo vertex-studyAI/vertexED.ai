@@ -13,6 +13,8 @@ import {
 } from '@/lib/examSetupCore.mjs';
 import { userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
 
+const EXAM_TECHNIQUE: { reading: string[]; assessment: string[] } = {"reading": ["Identify source, purpose, audience, and the evidence each claim uses.", "Annotate command terms before answering.", "Separate what the passage states from your inference."], "assessment": ["Budget roughly {minutes} minutes per mark, then reserve checking time.", "Use the exact command term and make each paragraph earn a mark-scheme point.", "Confirm calculator and material rules before exam day."]};
+
 type Material = {
   id: string;
   kind: string;
@@ -268,8 +270,8 @@ export default function ExamAssessmentSetup({ subject, programme, grade }: { sub
       <p className="exam-boundary-copy"><strong>No score prediction is shown.</strong> A validated method, a minimum evidence rule, relevant grade boundaries, uncertainty intervals, and external review do not yet exist. The average above describes recorded comparable attempts; it is not a predicted grade.</p>
 
       <div className="exam-technique-grid">
-        <article><h4>Reading and review</h4><ul><li>Identify source, purpose, audience, and the evidence each claim uses.</li><li>Annotate command terms before answering.</li><li>Separate what the passage states from your inference.</li></ul>{draft.readingSource && <p><strong>Your source focus:</strong> {draft.readingSource}</p>}</article>
-        <article><h4>Assessment technique</h4><ul><li>Budget roughly {(draft.durationMinutes / Math.max(1, draft.totalMarks)).toFixed(1)} minutes per mark, then reserve checking time.</li><li>Use the exact command term and make each paragraph earn a mark-scheme point.</li><li>Confirm calculator and material rules before exam day.</li></ul></article>
+        <article><h4>Reading and review</h4>{EXAM_TECHNIQUE.reading.length ? <ul>{EXAM_TECHNIQUE.reading.map((item) => <li key={item}>{item}</li>)}</ul> : <p>Reading guidance is awaiting subject review.</p>}{draft.readingSource && <p><strong>Your source focus:</strong> {draft.readingSource}</p>}</article>
+        <article><h4>Assessment technique</h4>{EXAM_TECHNIQUE.assessment.length ? <ul>{EXAM_TECHNIQUE.assessment.map((item) => <li key={item}>{item.replace('{minutes}', (draft.durationMinutes / Math.max(1, draft.totalMarks)).toFixed(1))}</li>)}</ul> : <p>Assessment guidance is awaiting subject review.</p>}</article>
       </div>
     </div>}
   </section>;

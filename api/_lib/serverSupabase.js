@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import { fetchWithTimeout } from './fetchWithTimeout.js';
+import { fetchWithTimeout, fetchBufferedResponseWithTimeout } from './fetchWithTimeout.js';
 
 export const SUPABASE_REQUEST_TIMEOUT_MS = 12_000;
 
@@ -25,7 +25,7 @@ export function hasServerSupabaseConfig(env = process.env) {
 export function createServerSupabaseClient(
   url,
   key,
-  { clientFactory = createClient, timeoutMs = SUPABASE_REQUEST_TIMEOUT_MS } = {},
+  { clientFactory = createClient, timeoutMs = SUPABASE_REQUEST_TIMEOUT_MS, bufferResponses = false, maxResponseBytes = 64 * 1024 } = {},
 ) {
   if (!url || !key) throw new Error('Missing Supabase server credentials');
 
@@ -36,7 +36,9 @@ export function createServerSupabaseClient(
       detectSessionInUrl: false,
     },
     global: {
-      fetch: (input, init) => fetchWithTimeout(input, init, timeoutMs),
+      fetch: (input, init) => bufferResponses
+        ? fetchBufferedResponseWithTimeout(input, init, timeoutMs, fetch, maxResponseBytes)
+        : fetchWithTimeout(input, init, timeoutMs),
     },
   });
 }

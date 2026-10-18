@@ -1,0 +1,269 @@
+{
+  "slug": "microeconomics",
+  "title": "AP Microeconomics",
+  "category": "History and social sciences",
+  "summary": "Use marginal reasoning to analyse markets, firms, labour and policy trade-offs.",
+  "officialUrl": "https://apstudents.collegeboard.org/courses/ap-microeconomics",
+  "frameworkNote": "2026–27 structure checked against College Board on 15 October 2026: 6 units. Original VertexED focused lessons and self-check questions sample each unit; they do not replace the full course framework, required materials or teacher review. ",
+  "assessment": "exam",
+  "modules": [
+    {
+      "title": "Marginal choices and trade-offs",
+      "focus": "Compare additional benefit with additional cost.",
+      "explanation": [
+        "Economic choices depend on the next unit, not only total benefits or past spending. A rational choice expands an activity while marginal benefit exceeds marginal cost, subject to constraints. Sunk costs cannot be recovered and should not determine future incremental choices.",
+        "A production possibilities frontier records feasible combinations. Its slope measures opportunity cost; a bowed-out shape represents increasing opportunity costs as resources move into less suitable uses. Trade can expand consumption possibilities without changing the production frontier."
+      ],
+      "workedExample": {
+        "prompt": "An extra study hour brings a benefit valued at 18 and a cost valued at 12.",
+        "steps": [
+          "Compare incremental values: 18 exceeds 12.",
+          "The additional hour has positive net benefit of 6; earlier study hours are irrelevant to this marginal comparison."
+        ]
+      },
+      "misconception": {
+        "claim": "A large past investment means continuing is always sensible.",
+        "correction": "Past unrecoverable costs do not change the future benefits and costs."
+      },
+      "questions": [
+        {
+          "prompt": "An extra unit brings benefit 9 and cost 13. Should it be added under this rule?",
+          "hint": "Compare marginal values.",
+          "answer": "No. It reduces net benefit by 4.",
+          "checkpoints": [
+            "Compare 9 with 13",
+            "State the net change"
+          ],
+          "id": "microeconomics-unit-1-q1"
+        },
+        {
+          "prompt": "Why can opportunity cost rise along a bowed-out frontier?",
+          "hint": "Consider resource suitability.",
+          "answer": "Resources transferred later may be less suited to the expanding activity, so more of the other good must be forgone.",
+          "checkpoints": [
+            "Explain heterogeneous resources",
+            "Connect to forgone output"
+          ],
+          "id": "microeconomics-unit-1-q2"
+        }
+      ],
+      "id": "microeconomics-unit-1",
+      "frameworkUnit": "Unit 1"
+    },
+    {
+      "title": "Market changes and elasticity",
+      "focus": "Separate movements along curves from shifts.",
+      "explanation": [
+        "Demand describes quantities buyers want at different prices, holding other factors constant. Supply describes sellers’ quantities. A good’s own price causes movement along a curve; income, tastes, input costs and technology can shift curves.",
+        "Price elasticity measures responsiveness using percentage changes. If demand is inelastic, a price rise increases total revenue, other things equal, because the proportional quantity decline is smaller. Tax incidence also depends on relative responsiveness, not who sends the payment."
+      ],
+      "workedExample": {
+        "prompt": "Price rises 10% and quantity demanded falls 4%. Interpret elasticity.",
+        "steps": [
+          "The magnitude is 4 ÷ 10 = 0.4.",
+          "Demand is inelastic over this change, so revenue rises approximately under the stated changes."
+        ]
+      },
+      "misconception": {
+        "claim": "A higher price shifts the demand curve left.",
+        "correction": "It causes a movement along a fixed demand curve; a non-price determinant shifts demand."
+      },
+      "questions": [
+        {
+          "prompt": "What happens to equilibrium price and quantity if production costs fall?",
+          "hint": "Shift supply right while demand stays fixed.",
+          "answer": "Price falls and quantity rises in the standard upward-supply, downward-demand model.",
+          "checkpoints": [
+            "Identify supply shift",
+            "State both outcomes"
+          ],
+          "id": "microeconomics-unit-2-q1"
+        },
+        {
+          "prompt": "Which side bears more tax burden when demand is less elastic than supply?",
+          "hint": "Consider who changes behaviour less.",
+          "answer": "Buyers bear more because their quantity response is relatively smaller.",
+          "checkpoints": [
+            "Identify buyers",
+            "Link burden to elasticity"
+          ],
+          "id": "microeconomics-unit-2-q2"
+        }
+      ],
+      "id": "microeconomics-unit-2",
+      "frameworkUnit": "Unit 2"
+    },
+    {
+      "title": "Costs and competitive production",
+      "focus": "Choose output and shutdown decisions using different comparisons.",
+      "explanation": [
+        "A competitive firm takes market price as given, so marginal revenue equals price. It selects an output with rising marginal cost equal to marginal revenue, provided producing covers variable cost. Profit then depends on the difference between price and average total cost.",
+        "In the short run, fixed costs remain even during shutdown. A firm may operate with losses if revenue covers variable costs; the long-run exit decision considers all costs. Distinguish accounting profit from economic profit, which includes implicit opportunity costs."
+      ],
+      "workedExample": {
+        "prompt": "At the chosen output of 20, price is 8, average variable cost 5 and average total cost 10.",
+        "steps": [
+          "Profit is (8 − 10) × 20 = −40.",
+          "Operating covers variable costs and contributes 60 towards fixed costs, so it can minimise short-run loss."
+        ]
+      },
+      "misconception": {
+        "claim": "Any loss-making firm must shut down immediately.",
+        "correction": "Production can reduce short-run losses when price covers average variable cost."
+      },
+      "questions": [
+        {
+          "prompt": "At output 30, price is 12 and average total cost 9. Calculate profit.",
+          "hint": "Multiply the per-unit margin.",
+          "answer": "(12 − 9) × 30 = 90.",
+          "checkpoints": [
+            "Calculate margin 3",
+            "Multiply by 30"
+          ],
+          "id": "microeconomics-unit-3-q1"
+        },
+        {
+          "prompt": "Why is zero economic profit compatible with staying in business?",
+          "hint": "Remember implicit costs.",
+          "answer": "Revenue covers explicit costs and the opportunity costs of the owner’s resources, including a normal return.",
+          "checkpoints": [
+            "Include opportunity costs",
+            "Distinguish economic profit"
+          ],
+          "id": "microeconomics-unit-3-q2"
+        }
+      ],
+      "id": "microeconomics-unit-3",
+      "frameworkUnit": "Unit 3"
+    },
+    {
+      "title": "Market power and strategic interaction",
+      "focus": "Identify why price can exceed marginal cost.",
+      "explanation": [
+        "A monopolist faces the market demand curve. Selling more generally requires a lower price, so marginal revenue lies below demand. It chooses output where marginal revenue equals marginal cost, then reads price from demand rather than from marginal revenue.",
+        "Oligopoly decisions depend on rivals’ choices. A dominant strategy is best regardless of the other player’s action; a Nash equilibrium is a combination where no player benefits from changing alone. A dominant strategy need not exist."
+      ],
+      "workedExample": {
+        "prompt": "A monopolist’s profit-maximising quantity is 10; demand gives price 15 and average cost is 9.",
+        "steps": [
+          "Read the selling price from demand at quantity 10.",
+          "Profit is (15 − 9) × 10 = 60."
+        ]
+      },
+      "misconception": {
+        "claim": "A monopolist can set any price and sell any quantity.",
+        "correction": "The demand curve constrains the combinations buyers will purchase."
+      },
+      "questions": [
+        {
+          "prompt": "Why can monopoly create deadweight loss relative to competition?",
+          "hint": "Compare marginal benefit and cost.",
+          "answer": "Restricted output leaves some units unproduced even though buyers’ marginal benefit exceeds marginal cost.",
+          "checkpoints": [
+            "Identify lower output",
+            "Explain unrealised gains"
+          ],
+          "id": "microeconomics-unit-4-q1"
+        },
+        {
+          "prompt": "Does a Nash equilibrium guarantee the highest combined payoff?",
+          "hint": "Separate individual incentives from joint results.",
+          "answer": "No. Neither player may gain by changing alone even when coordinated choices would yield greater combined payoff.",
+          "checkpoints": [
+            "Define unilateral change",
+            "Distinguish collective outcome"
+          ],
+          "id": "microeconomics-unit-4-q2"
+        }
+      ],
+      "id": "microeconomics-unit-4",
+      "frameworkUnit": "Unit 4"
+    },
+    {
+      "title": "Labour demand and factor payments",
+      "focus": "Connect a worker’s additional output to revenue.",
+      "explanation": [
+        "Demand for labour is derived from demand for the output workers produce. In a competitive output market, marginal revenue product equals marginal product multiplied by product price. A competitive employer hires until marginal revenue product meets the wage, under standard assumptions.",
+        "Changes in productivity or output price shift labour demand. A monopsonistic employer faces an upward-sloping labour supply and a marginal hiring cost above the wage when raising wages for all workers, leading to different employment and pay outcomes."
+      ],
+      "workedExample": {
+        "prompt": "An additional worker makes 6 extra units sold at 4 each in a competitive product market.",
+        "steps": [
+          "Marginal revenue product is 6 × 4 = 24.",
+          "Hiring is worthwhile at a marginal employment cost below 24, other things equal."
+        ]
+      },
+      "misconception": {
+        "claim": "Labour demand depends only on the number of people seeking work.",
+        "correction": "Employers’ demand reflects productivity and the value of resulting output."
+      },
+      "questions": [
+        {
+          "prompt": "Productivity rises with product price unchanged. What happens to labour demand?",
+          "hint": "Use marginal revenue product.",
+          "answer": "It shifts right because additional workers generate more revenue at each employment level.",
+          "checkpoints": [
+            "Connect productivity to MRP",
+            "Identify the shift"
+          ],
+          "id": "microeconomics-unit-5-q1"
+        },
+        {
+          "prompt": "Why can a monopsonist’s marginal hiring cost exceed the wage?",
+          "hint": "Consider existing employees.",
+          "answer": "Hiring an extra worker may require raising wages for workers already employed as well as paying the new worker.",
+          "checkpoints": [
+            "Include new worker cost",
+            "Include existing wage increases"
+          ],
+          "id": "microeconomics-unit-5-q2"
+        }
+      ],
+      "id": "microeconomics-unit-5",
+      "frameworkUnit": "Unit 5"
+    },
+    {
+      "title": "Externalities, public goods and policy",
+      "focus": "Compare private incentives with social costs and benefits.",
+      "explanation": [
+        "An externality affects people outside a transaction without being fully reflected in its price. Negative production externalities make social marginal cost exceed private marginal cost, so an unregulated market may produce too much relative to the efficient quantity.",
+        "Public goods are non-rival and non-excludable, creating free-rider incentives. Policy may use taxes, subsidies, rules or public provision, but evaluation should include information needs, enforcement costs and distribution rather than assuming every intervention succeeds."
+      ],
+      "workedExample": {
+        "prompt": "A unit costs its producer 5 but imposes external damage of 2.",
+        "steps": [
+          "Social marginal cost is 5 + 2 = 7.",
+          "A corrective charge matching marginal external damage can align incentives in the idealised model."
+        ]
+      },
+      "misconception": {
+        "claim": "Any government-provided service is a public good.",
+        "correction": "The classification depends on rivalry and excludability, not ownership."
+      },
+      "questions": [
+        {
+          "prompt": "Why might a vaccination generate a positive externality?",
+          "hint": "Consider effects on others.",
+          "answer": "Reduced transmission can benefit other people beyond the vaccinated individual, when the vaccine reduces transmission.",
+          "checkpoints": [
+            "Identify third-party benefit",
+            "State the condition"
+          ],
+          "id": "microeconomics-unit-6-q1"
+        },
+        {
+          "prompt": "Why can free riding reduce private provision of a public good?",
+          "hint": "Think about payment incentives.",
+          "answer": "People can benefit without paying, so voluntary revenue may be insufficient to fund the socially valuable quantity.",
+          "checkpoints": [
+            "Explain non-exclusion",
+            "Connect to underprovision"
+          ],
+          "id": "microeconomics-unit-6-q2"
+        }
+      ],
+      "id": "microeconomics-unit-6",
+      "frameworkUnit": "Unit 6"
+    }
+  ]
+}

@@ -135,6 +135,12 @@ export async function authFetch(input: RequestInfo | URL, init?: RequestInit): P
   const deadline = shouldTrackAiRequest ? createRequestDeadline(init?.signal) : null;
   const startedAt = Date.now();
   const headers = await authHeaders(mergedRequestHeaders(input, init));
+  // Capture one operation identity before any token-refresh retry. A new
+  // deliberate submission gets a fresh identity; callers coordinating a
+  // logical operation across requests may supply their existing key.
+  if (shouldTrackAiRequest && !headers.has('Idempotency-Key')) {
+    headers.set('Idempotency-Key', crypto.randomUUID());
+  }
   const hadAuthorization = headers.has('Authorization');
 
   const performRequest = (attemptHeaders: Headers) =>
@@ -169,13 +175,19 @@ export async function authFetch(input: RequestInfo | URL, init?: RequestInit): P
     }
 
     if (shouldTrackAiRequest) {
+      // Keep cancellation active for success and error bodies. Headers alone
+      // do not complete a request, and a body abort must not become success.
+      const resultText = await response.clone().text();
+      let resultBody = null;
+      if (response.ok) {
+        try { resultBody = JSON.parse(resultText); } catch { /* Report invalid JSON below. */ }
+      }
+      assertAccountScope(accountScope);
       const durationMs = Date.now() - startedAt;
       trackAiRequestOutcome(input, {
         status: response.status,
         durationMs,
       });
-      const resultBody = response.ok ? await response.clone().json().catch(() => null) : null;
-      assertAccountScope(accountScope);
       reportAiRun({
         degraded: resultBody?.degraded === true || resultBody?.generation?.degraded === true,
         invalidOutput: response.ok && !resultBody,

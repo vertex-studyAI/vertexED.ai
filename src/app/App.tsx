@@ -17,6 +17,7 @@ const AIChatbot = lazy(() => import("@/pages/AIChatbot"));
 const StudyPlanner = lazy(() => import("@/pages/StudyPlanner"));
 const AnswerReviewer = lazy(() => import("@/pages/AnswerReviewer"));
 const About = lazy(() => import("@/pages/About"));
+const Projects = lazy(() => import("@/pages/Projects"));
 const NotFound = lazy(() => import("@/pages/NotFound"));
 const ArchivesHome = lazy(() => import("@/pages/ArchivesHome"));
 const ArchivesLnL = lazy(() => import("@/pages/ArchivesLnL"));
@@ -61,6 +62,8 @@ const WaitlistAdmin = lazy(() => import("@/pages/admin/WaitlistAdmin"));
 const PrivacyPolicy = lazy(() => import("@/pages/PrivacyPolicy"));
 const TermsOfService = lazy(() => import("@/pages/TermsOfService"));
 const ExamPrep = lazy(() => import("@/pages/ExamPrep"));
+const APLibrary = lazy(() => import("@/pages/APLibrary"));
+const APCourse = lazy(() => import("@/pages/APCourse"));
 const MYPHub = lazy(() => import("@/pages/MYPHub"));
 const MYPSubject = lazy(() => import("@/pages/MYPSubject"));
 const MYPEAssessment = lazy(() => import("@/pages/MYPEAssessment"));
@@ -172,7 +175,10 @@ return (
 						<Route path="resources/college-essays-with-ai" element={<CollegeEssaysWithAI />} />
 						<Route path="curricula" element={<CurriculumToolsIndex />} />
 						<Route path="curricula/:curriculum/:feature" element={<CurriculumFeature />} />
-						<Route path="myp" element={<MYPHub />} />
+						<Route path="ap" element={<APLibrary />} />
+<Route path="ap/:courseSlug" element={<APCourse />} />
+<Route path="ap/:courseSlug/:moduleSlug" element={<APCourse />} />
+<Route path="myp" element={<MYPHub />} />
 						<Route path="myp/eassessment" element={<MYPEAssessment />} />
 						<Route path="myp/subjects/:subjectSlug" element={<MYPSubject />} />
 						<Route path="myp/subjects/:subjectSlug/:topicSlug" element={<MYPSubject />} />
@@ -210,12 +216,13 @@ return (
 						<Route path="archives/geography" element={<Navigate to="/archives-geography" replace />} />
 
 <Route path="about" element={<About />} />
+<Route path="projects" element={<Projects />} />
 <Route path="privacy" element={<PrivacyPolicy />} />
 <Route path="terms" element={<TermsOfService />} />
 <Route path="features" element={<Features />} /> 
 <Route path="study-tools" element={<StudyTools />} />
 <Route path="vertex-ed" element={<Brand />} />
-<Route path="user-settings" element={<ProtectedRoute><UserSettings /></ProtectedRoute>} />
+<Route path="user-settings" element={<ProtectedRoute accountControls><UserSettings /></ProtectedRoute>} />
 <Route path="admin/waitlist" element={<AdminRoute><WaitlistAdmin /></AdminRoute>} />
 <Route path="*" element={<NotFound />} />
   

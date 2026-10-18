@@ -15,7 +15,7 @@ if (supabaseUrl && supabaseKey) {
 		auth: {
 			// AuthCallback owns the one-time code exchange. Implicit token and
 			// recovery returns remain SDK-owned so its verified auth events survive.
-			detectSessionInUrl: !new URLSearchParams(window.location.search).has('code'),
+			detectSessionInUrl: !new URLSearchParams(typeof window === 'undefined' ? '' : window.location.search).has('code'),
 		},
 	});
 	// Subscribe before React/lazy routes mount. This listener never calls the SDK

@@ -13,7 +13,7 @@
   user-select: none;
   -webkit-user-select: none;
 }
-.vee-launcher::before { content:""; position:absolute; z-index:-1; inset:22px 8px 24px; border-radius:50%; background:hsl(var(--primary)/.16); filter:blur(18px); opacity:.55; transition:opacity .25s,transform .25s; }.vee-launcher:is(:hover,:focus-visible)::before { opacity:.9; transform:scale(1.08); }
+.vee-launcher::before { content:""; position:absolute; pointer-events:none; z-index:-1; inset:22px 8px 24px; border-radius:50%; background:hsl(var(--primary)/.16); filter:blur(18px); opacity:.55; transition:opacity .25s,transform .25s; }.vee-launcher:is(:hover,:focus-visible)::before { opacity:.9; transform:scale(1.08); }
 .vee-launcher:active { cursor: grabbing; }
 .vee-sprite { width: 96px; height: 96px; object-fit: contain; transform-origin: 50% 90%; }
 .vee-name {
@@ -108,7 +108,7 @@
 .vee-tutor { display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%; min-height: 46px; margin-top: 20px; border-radius: 8px; background: hsl(var(--primary)); color: hsl(var(--primary-foreground)); font-size: 14px; font-weight: 600; }
 .vee-sheet-footer { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 4px 12px; margin-top: 16px; font-size: 12px; color: hsl(var(--muted-foreground)); }
 .vee-sheet-footer button { min-height: 44px; font-size: 14px; text-decoration: underline; text-underline-offset: 4px; }
-.vee-launcher:focus-visible, .vee-visibility:focus-visible, .vee-sheet :is(a, button):focus-visible { outline: 2px solid hsl(var(--ring)); outline-offset: 4px; }
+.vee-launcher:focus, .vee-launcher:focus-visible, .vee-visibility:focus-visible, .vee-sheet :is(a, button):focus-visible { outline: 2px solid hsl(var(--ring)); outline-offset: 4px; }
 @media (prefers-reduced-motion: no-preference) {
   .vee-launcher:not(.vee-still):is(:hover, :focus-visible) .vee-sprite { animation: vee-greeting 460ms ease-out 1; }
   .vee-sheet:not(.vee-still) .vee-reaction-sprite[data-reaction="greeting"] { animation: vee-greeting 460ms ease-out 1; }
@@ -211,3 +211,10 @@
 .agent-network-grid.account article { border-color:hsl(var(--primary)/.25); }
 .agent-network-status { padding:18px; border-left:3px solid hsl(var(--primary)); border-radius:0 10px 10px 0; background:hsl(var(--primary)/.07); color:hsl(var(--muted-foreground)); font-size:14px; line-height:1.6; }
 @media(max-width:639px) { .agent-network-intro { grid-template-columns:1fr; padding:20px; }.agent-network-grid { grid-template-columns:1fr; } }
+
+/* A stable host preserves focus while the launcher moves into the visible footer. */
+.vee-launcher-host { display: contents; }
+.vee-dock-slot:not([hidden]) { display: flex; }
+.vee-dock-slot[hidden] { display: none; }
+.vee-launcher.vee-docked { position: relative; inset: auto; margin: 8px; cursor: pointer; touch-action: manipulation; }
+.vee-launcher.vee-docked:active { cursor: pointer; }

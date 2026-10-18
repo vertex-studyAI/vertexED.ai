@@ -16,12 +16,27 @@ function isAvailable(element) {
   if (!element || typeof element.focus !== 'function') return false;
   if (element.hasAttribute('hidden') || element.getAttribute('aria-hidden') === 'true') return false;
   if (element.closest('[hidden], [aria-hidden="true"], [inert]')) return false;
+  if (element.matches?.(':disabled, input[type="hidden"]')) return false;
+  const view = element.ownerDocument?.defaultView;
+  if (view?.getComputedStyle) {
+    const visibility = view.getComputedStyle(element).visibility;
+    if (visibility === 'hidden' || visibility === 'collapse') return false;
+    for (let parent = element; parent; parent = parent.parentElement) {
+      if (view.getComputedStyle(parent).display === 'none') return false;
+    }
+  }
   return element.tabIndex >= 0;
 }
 
 export function getModalFocusableElements(container) {
   if (!container || typeof container.querySelectorAll !== 'function') return [];
-  return Array.from(container.querySelectorAll(MODAL_FOCUSABLE_SELECTOR)).filter(isAvailable);
+  return Array.from(container.querySelectorAll(MODAL_FOCUSABLE_SELECTOR))
+    .filter(isAvailable)
+    .sort((left, right) => {
+      const leftOrder = left.tabIndex > 0 ? left.tabIndex : Infinity;
+      const rightOrder = right.tabIndex > 0 ? right.tabIndex : Infinity;
+      return leftOrder === rightOrder ? 0 : leftOrder - rightOrder;
+    });
 }
 
 export function focusInitialModalElement(container, preferredElement) {
@@ -35,7 +50,7 @@ export function focusInitialModalElement(container, preferredElement) {
 }
 
 export function trapModalFocus(event, container) {
-  if (!event || event.key !== 'Tab' || !container) return false;
+  if (!event || event.key !== 'Tab' || event.defaultPrevented || !container) return false;
   const focusables = getModalFocusableElements(container);
   if (focusables.length === 0) {
     event.preventDefault();
@@ -43,23 +58,16 @@ export function trapModalFocus(event, container) {
     return true;
   }
 
-  const first = focusables[0];
-  const last = focusables[focusables.length - 1];
   const active = container.ownerDocument?.activeElement;
-
-  if (event.shiftKey && (active === first || !container.contains(active))) {
-    event.preventDefault();
-    last.focus();
-    return true;
-  }
-
-  if (!event.shiftKey && (active === last || !container.contains(active))) {
-    event.preventDefault();
-    first.focus();
-    return true;
-  }
-
-  return false;
+  const activeIndex = focusables.indexOf(active);
+  const nextIndex = activeIndex < 0
+    ? (event.shiftKey ? focusables.length - 1 : 0)
+    : (activeIndex + (event.shiftKey ? -1 : 1) + focusables.length) % focusables.length;
+  // WebKit can omit buttons from native Tab navigation. Own every step of the
+  // dialog's sequence so leaving a text field cannot escape into browser chrome.
+  event.preventDefault();
+  focusables[nextIndex].focus();
+  return true;
 }
 
 export function restoreModalFocus(element) {

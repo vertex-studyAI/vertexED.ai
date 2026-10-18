@@ -1,3 +1,4 @@
+import { extractGeneratedText } from '../_lib/aiProviders.js';
 // api/note.js
 
 import { verifyAuthUser, readJsonBody, rejectOversizedJsonBody } from '../_lib/auth.js';
@@ -11,7 +12,7 @@ import { fetchProvider } from '../_lib/providerRequest.js';
 import { routeAiRequest } from '../_lib/aiRouting.js';
 import { VERTEX_AGENTS } from '../_lib/vertexAgents.js';
 
-const PRIMARY_NOTE_MODEL = process.env.NOTE_MODEL || 'ft:gpt-4o-mini-2024-07-18:verteded:notes:CRuakY3O';
+const PRIMARY_NOTE_MODEL = process.env.NOTE_MODEL || 'gpt-4.1-mini';
 const FALLBACK_NOTE_MODEL = process.env.NOTE_FALLBACK_MODEL || 'gpt-4o-mini';
 
 async function extractResponsesText(response) {
@@ -19,18 +20,7 @@ async function extractResponsesText(response) {
     throw new Error(`Note provider returned ${response.status}.`);
   }
   const data = await response.json();
-  let raw = '';
-  if (Array.isArray(data.output)) {
-    for (const item of data.output) {
-      if (item.content) {
-        for (const block of item.content) {
-          if (block.type === 'output_text' && block.text) {
-            raw += block.text;
-          }
-        }
-      }
-    }
-  }
+  const raw = extractGeneratedText(data) || '';
   if (!raw.trim()) throw new Error('Empty model output');
   return raw;
 }
@@ -78,7 +68,7 @@ async function callNotesChatFallback(apiKey, systemMessage, userMessage) {
     throw new Error(`Note fallback provider returned ${response.status}.`);
   }
   const data = await response.json();
-  const raw = data.choices?.[0]?.message?.content ?? '';
+  const raw = extractGeneratedText(data) || '';
   if (!raw.trim()) throw new Error('Empty fallback model output');
   return raw;
 }
@@ -193,7 +183,8 @@ ${String(text).slice(0, 10000)}`;
       if (!flashResponse.ok) return res.status(200).json(deterministicFlashcards());
 
       const flashData = await flashResponse.json();
-      const rawFlash = flashData.choices?.[0]?.message?.content ?? "{}";
+      const rawFlash = extractGeneratedText(flashData);
+      if (!rawFlash) return res.status(200).json(deterministicFlashcards());
       let parsedFlash = { flashcards: [] };
       try {
         parsedFlash = JSON.parse(rawFlash);

@@ -177,6 +177,9 @@ export function AuthProvider({ children }: PropsWithChildren) {
       clearLoadingSafetyTimer();
       sub.subscription.unsubscribe();
     };
+    // Profile helpers close over module constants, refs, and stable React setters.
+    // Re-subscribing on each render would create overlapping auth listeners.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bindProfileIdentity]);
 
   /**

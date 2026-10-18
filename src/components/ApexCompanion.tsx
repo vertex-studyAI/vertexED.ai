@@ -1,5 +1,6 @@
 import {
   useEffect,
+  useLayoutEffect,
   useRef,
   useState,
   type CSSProperties,
@@ -13,10 +14,12 @@ import AccessibleModal from '@/components/AccessibleModal';
 import ApexCommandBar from '@/components/chat/ApexCommandBar';
 import { useAppPreferences } from '@/contexts/AppPreferencesContext';
 import { APEX_APPEARANCES, getApexAppearance } from '@/lib/apexAppearance';
+import { moveCompanionHost } from '@/lib/companionDock.mjs';
 import '@/styles/vee.css';
 
 type ApexCompanionProps = {
   suspended: boolean;
+  docked?: boolean;
   onOpenTutor?: () => void;
 };
 
@@ -53,13 +56,20 @@ function clamp(value: number, minimum: number, maximum: number) {
 }
 
 /** Workbook companion for explicit app actions and labelled study drafts. */
-export default function ApexCompanion({ suspended, onOpenTutor }: ApexCompanionProps) {
+export default function ApexCompanion({ suspended, onOpenTutor, docked = false }: ApexCompanionProps) {
   const { settings, update } = useAppPreferences();
   const [open, setOpen] = useState(false);
   const [imageFailed, setImageFailed] = useState(false);
   const [reaction, setReaction] = useState<{ name: Reaction; take: number }>({ name: 'rest', take: 0 });
   const [pixelPosition, setPixelPosition] = useState<PixelPosition | null>(null);
   const launcherRef = useRef<HTMLButtonElement>(null);
+  const launcherSlotRef = useRef<HTMLSpanElement>(null);
+  const [launcherHost] = useState(() => {
+    if (typeof document === 'undefined') return null;
+    const host = document.createElement('span');
+    host.className = 'vee-launcher-host';
+    return host;
+  });
   const dragRef = useRef<{
     pointerId: number;
     offsetX: number;
@@ -76,6 +86,16 @@ export default function ApexCompanion({ suspended, onOpenTutor }: ApexCompanionP
     : reaction.name === 'page-turn'
       ? `/companions/apex-${settings.apexAppearance}-page-turn-v4.png`
       : restSpriteSrc;
+
+  useLayoutEffect(() => {
+    // A stable portal target keeps the launcher and the modal's opener intact.
+    // Do not reparent an inert background control while the modal is open.
+    if (open) return;
+    dragRef.current = null;
+    moveCompanionHost(launcherHost, docked ? launcherSlotRef.current : document.body);
+  }, [docked, launcherHost, open]);
+
+  useLayoutEffect(() => () => { launcherHost?.remove(); }, [launcherHost]);
 
   const getBounds = () => {
     const rect = launcherRef.current?.getBoundingClientRect();
@@ -164,7 +184,7 @@ export default function ApexCompanion({ suspended, onOpenTutor }: ApexCompanionP
   };
 
   const dragStart = (event: ReactPointerEvent<HTMLButtonElement>) => {
-    if (event.button !== 0) return;
+    if (docked || event.button !== 0) return;
     const rect = event.currentTarget.getBoundingClientRect();
     dragRef.current = {
       pointerId: event.pointerId,
@@ -205,6 +225,7 @@ export default function ApexCompanion({ suspended, onOpenTutor }: ApexCompanionP
   };
 
   const moveWithKeyboard = (event: KeyboardEvent<HTMLButtonElement>) => {
+    if (docked) return;
     const offsets: Record<string, [number, number]> = {
       ArrowLeft: [-1, 0],
       ArrowRight: [1, 0],
@@ -236,13 +257,15 @@ export default function ApexCompanion({ suspended, onOpenTutor }: ApexCompanionP
       }}>
         {settings.simpleMode ? 'Apex is off in Simple Mode' : visible ? 'Hide Apex' : 'Show Apex'}
       </button>
-      {visible && !suspended && createPortal(
+      <span ref={launcherSlotRef} className="vee-dock-slot" hidden={!docked || !visible || suspended} />
+      {visible && !suspended && launcherHost && createPortal(
         <button ref={launcherRef} id="vee-launcher" type="button"
-          className={`vee-launcher ${settings.reducedMotion ? 'vee-still' : ''}`}
-          style={launcherStyle}
+          className={`vee-launcher ${docked ? 'vee-docked' : ''} ${settings.reducedMotion ? 'vee-still' : ''}`}
+          data-docked={docked}
+          style={docked ? undefined : launcherStyle}
           aria-label="Open Apex study shortcuts"
           aria-describedby="vee-drag-instructions"
-          aria-keyshortcuts="ArrowUp ArrowDown ArrowLeft ArrowRight"
+          aria-keyshortcuts={docked ? undefined : "ArrowUp ArrowDown ArrowLeft ArrowRight"}
           aria-haspopup="dialog"
           aria-expanded={open}
           onPointerDown={dragStart}
@@ -261,11 +284,11 @@ export default function ApexCompanion({ suspended, onOpenTutor }: ApexCompanionP
           {!imageFailed && <img className="vee-sprite" src={restSpriteSrc} alt="" width="96" height="96"
             decoding="async" fetchPriority="low" draggable={false} onError={() => setImageFailed(true)} />}
           <span className="vee-name"><span>Apex<small>Open · change look</small></span><span aria-hidden="true">↗</span></span>
-          <span id="vee-drag-instructions" className="vee-sr-only">Drag to move Apex, or use the arrow keys while focused.</span>
-        </button>, document.body,
+          <span id="vee-drag-instructions" className="vee-sr-only">{docked ? 'Apex stays below the page content to keep your work clear.' : 'Drag to move Apex, or use the arrow keys while focused.'}</span>
+        </button>, launcherHost,
       )}
       {open && visible && !suspended && (
-        <AccessibleModal titleId="vee-title" descriptionId="vee-description" onClose={() => setOpen(false)}
+        <AccessibleModal titleId="vee-title" descriptionId="vee-description" openerRef={launcherRef} onClose={() => setOpen(false)}
           overlayClassName="vee-overlay" className={`vee-sheet ${settings.reducedMotion ? 'vee-still' : ''}`}>
           <button className="vee-close" type="button" aria-label="Close Apex study shortcuts" onClick={() => setOpen(false)}>
             <X size={18} aria-hidden="true" />
@@ -315,7 +338,7 @@ export default function ApexCompanion({ suspended, onOpenTutor }: ApexCompanionP
             {settings.reducedMotion && <p>Animations are off with reduced motion.</p>}
           </div>}
           <div className="vee-position">
-            <p>Drag Apex anywhere on screen. Arrow keys move him when the launcher is focused.</p>
+            <p>{docked ? 'Apex stays below this page so it does not cover your work. Your floating position is used on other pages.' : 'Drag Apex anywhere on screen. Arrow keys move him when the launcher is focused.'}</p>
             <button type="button" disabled={!isSavedPosition(settings.apexPosition)} onClick={() => {
               setPixelPosition(null);
               update({ apexPosition: null });

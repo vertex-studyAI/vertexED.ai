@@ -12,10 +12,14 @@ const isSameCalendarDay = (left: Date, right: Date) => (
   && left.getMonth() === right.getMonth()
   && left.getDate() === right.getDate()
 );
+const dateInputDay = (date: Date) => new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
 
 const Calendar: React.FC<CalendarProps> = ({ selectedDate, onDateChange, mode }) => {
   const [currentDate, setCurrentDate] = useState(selectedDate);
   const today = new Date();
+  const weekEnd = new Date(currentDate);
+  weekEnd.setDate(weekEnd.getDate() + 7);
+  const inWeek = (date: Date) => mode === 'Week' && dateInputDay(date) >= dateInputDay(currentDate) && dateInputDay(date) < dateInputDay(weekEnd);
 
   useEffect(() => {
     setCurrentDate(selectedDate);
@@ -27,7 +31,11 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDate, onDateChange, mode })
 
   const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
   const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
-  const lastDayOfMonth = new Date(currentYear, currentMonth, daysInMonth).getDay();
+  // Keep the whole selected week visible, including an extra row when a
+  // month ends on Saturday and the agenda continues into the next month.
+  const lastVisibleDay = Math.max(daysInMonth, mode === 'Week' ? currentDay + 6 : currentDay);
+  const visibleCells = Math.ceil((firstDayOfMonth + lastVisibleDay) / 7) * 7;
+  const trailingDays = visibleCells - firstDayOfMonth - daysInMonth;
 
   const previousMonth = currentMonth === 0 ? 11 : currentMonth - 1;
   const previousMonthYear = currentMonth === 0 ? currentYear - 1 : currentYear;
@@ -44,7 +52,7 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDate, onDateChange, mode })
       <button
         key={"prev" + i}
         type="button"
-        className="calendar-day previous-month"
+        className={`calendar-day previous-month ${inWeek(dayDate) ? 'highlight' : ''}`}
         aria-current={isSameCalendarDay(dayDate, today) ? 'date' : undefined}
         aria-pressed={isSameCalendarDay(dayDate, currentDate)}
         aria-label={`Select ${dayDate.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric', year:'numeric' })}`}
@@ -58,8 +66,8 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDate, onDateChange, mode })
     );
   }
   for (let i = 1; i <= daysInMonth; i++) {
-    const isHighlighted = mode === "Week" && i > currentDay && i <= currentDay + 4;
     const dayDate = new Date(currentYear, currentMonth, i);
+    const isHighlighted = inWeek(dayDate);
     days.push(
       <button
         key={i}
@@ -77,13 +85,13 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDate, onDateChange, mode })
       </button>
     );
   }
-  for (let i = 1; i < 7 - lastDayOfMonth; i++) {
+  for (let i = 1; i <= trailingDays; i++) {
     const dayDate = new Date(nextMonthYear, nextMonth, i);
     days.push(
       <button
         key={"next" + i}
         type="button"
-        className="calendar-day next-month"
+        className={`calendar-day next-month ${inWeek(dayDate) ? 'highlight' : ''}`}
         aria-current={isSameCalendarDay(dayDate, today) ? 'date' : undefined}
         aria-pressed={isSameCalendarDay(dayDate, currentDate)}
         aria-label={`Select ${dayDate.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric', year:'numeric' })}`}
@@ -125,6 +133,7 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDate, onDateChange, mode })
             </svg>
           </button>
         </div>
+        <div className="calendar-weekdays" aria-hidden="true">{['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => <span key={day}>{day}</span>)}</div>
         <div className="calendar-grid" role="group" aria-label="Choose a date">
           {days}
         </div>

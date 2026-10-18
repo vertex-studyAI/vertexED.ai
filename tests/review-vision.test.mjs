@@ -1,93 +1,21 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { describeReviewImages } from '../api/_lib/reviewVision.js';
 
-import {
-  describeReviewImages,
-  ReviewImageProcessingError,
-} from '../api/_lib/reviewVision.js';
-import { DEFAULT_OPENAI_PRIMARY_MODEL } from '../api/_lib/aiProviders.js';
-
-function mockClient(create) {
-  return { responses: { create } };
-}
-
-test('describeReviewImages returns trimmed evidence and forwards every image', async () => {
-  let captured;
-  const client = mockClient(async (request) => {
-    captured = request;
-    return { output_text: '  Question: solve x. Answer: x = 2.  ' };
-  });
-
-  const images = [
-    'data:image/png;base64,AAAA',
-    'data:image/jpeg;base64,BBBB',
-  ];
-  const result = await describeReviewImages(client, images);
-
-  assert.equal(result, 'Question: solve x. Answer: x = 2.');
-  assert.equal(captured.model, DEFAULT_OPENAI_PRIMARY_MODEL);
-  assert.equal(captured.store, false);
-  assert.equal(captured.input[0].content.length, 3);
-  assert.equal(captured.input[0].content[1].image_url, images[0]);
-  assert.equal(captured.input[0].content[2].image_url, images[1]);
+test('unpriced review image requests fail before any SDK provider call', async () => {
+  let calls = 0;
+  const client = { responses: { create: async () => { calls++; return { output_text: 'unsafe paid request' }; } } };
+  await assert.rejects(describeReviewImages(client, ['data:image/png;base64,AAAA']), { code: 'AI_MODEL_UNSUPPORTED' });
+  assert.equal(calls, 0);
 });
 
-test('describeReviewImages forwards a hashed safety identifier when supplied', async () => {
-  let captured;
-  const client = mockClient(async (request) => {
-    captured = request;
-    return { output_text: 'evidence' };
-  });
-
-  await describeReviewImages(client, ['data:image/png;base64,AAAA'], 'question', 'abc123hash');
-  assert.equal(captured.safety_identifier, 'abc123hash');
-});
-
-test('describeReviewImages supports a review-specific vision model override', async () => {
-  const previous = process.env.OPENAI_REVIEW_VISION_MODEL;
-  process.env.OPENAI_REVIEW_VISION_MODEL = 'review-vision-model';
-  let captured;
-  const client = mockClient(async (request) => {
-    captured = request;
-    return { output_text: 'evidence' };
-  });
-
-  try {
-    await describeReviewImages(client, ['data:image/png;base64,AAAA']);
-    assert.equal(captured.model, 'review-vision-model');
-  } finally {
-    if (previous === undefined) delete process.env.OPENAI_REVIEW_VISION_MODEL;
-    else process.env.OPENAI_REVIEW_VISION_MODEL = previous;
-  }
-});
-
-test('describeReviewImages fails closed on provider errors', async () => {
-  const client = mockClient(async () => {
-    throw new Error('provider unavailable');
-  });
-
-  await assert.rejects(
-    () => describeReviewImages(client, ['data:image/png;base64,AAAA']),
-    (error) => error instanceof ReviewImageProcessingError && error.retryable === true,
-  );
-});
-
-test('describeReviewImages fails closed on empty vision output', async () => {
-  const client = mockClient(async () => ({ output_text: '   ' }));
-
-  await assert.rejects(
-    () => describeReviewImages(client, ['data:image/png;base64,AAAA']),
-    (error) => error instanceof ReviewImageProcessingError,
-  );
+test('model overrides cannot enable unpriced image dispatch', async t => {
+  const original = process.env.OPENAI_REVIEW_VISION_MODEL;
+  process.env.OPENAI_REVIEW_VISION_MODEL = 'gpt-4.1-mini';
+  t.after(() => { if (original === undefined) delete process.env.OPENAI_REVIEW_VISION_MODEL; else process.env.OPENAI_REVIEW_VISION_MODEL = original; });
+  await assert.rejects(describeReviewImages({ responses: { create: () => assert.fail('must not dispatch') } }, ['data:image/jpeg;base64,AAAA']), { code: 'AI_MODEL_UNSUPPORTED' });
 });
 
 test('describeReviewImages is a no-op for text-only reviews', async () => {
-  let calls = 0;
-  const client = mockClient(async () => {
-    calls += 1;
-    return { output_text: '' };
-  });
-
-  assert.equal(await describeReviewImages(client, []), '');
-  assert.equal(calls, 0);
+  assert.equal(await describeReviewImages({ responses: { create: () => assert.fail('must not dispatch') } }, []), '');
 });

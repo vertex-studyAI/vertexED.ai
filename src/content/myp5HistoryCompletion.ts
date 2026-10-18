@@ -1,0 +1,1059 @@
+import type { MypLesson } from './myp5Lessons';
+
+const history = (value: Omit<MypLesson, 'subjectSlug' | 'contentStatus' | 'curriculumVersion'>): MypLesson => ({
+  ...value, subjectSlug: 'history', contentStatus: 'original-editorial-draft',
+  curriculumVersion: 'vertexed-myp5-2026.1',
+});
+
+export const MYP5_HISTORY_COMPLETION: MypLesson[] = [
+  history({
+  "id": "myp5-history-origin-purpose-value-limitation",
+  "topic": "Origin, purpose, value and limitation",
+  "prerequisiteIds": [
+    "myp5-history-source-analysis"
+  ],
+  "summary": "Evaluate a source for a particular historical question by connecting what it says with how and why it was produced.",
+  "objectives": [
+    "Link provenance to a specific evidential use.",
+    "Distinguish stated purpose from inferred purpose.",
+    "Explain value and limitation without automatic reliability labels."
+  ],
+  "explanation": [
+    "Origin concerns a source’s creator, date, place and circumstances; purpose concerns what it was intended to do and for whom. These features matter through the historical question. A campaign leaflet may reveal the public case a candidate chose to make, while providing weaker evidence about how residents privately felt. Read the content alongside the provenance so that an evaluation explains a specific connection rather than treating a source type as inherently trustworthy or useless.",
+    "Value and limitation can coexist. A source close to an event may record immediate concerns but have a restricted viewpoint. A later account may use additional evidence while also reflecting hindsight. Where purpose is inferred, identify the cue and qualify the inference. Corroboration requires more than counting similar accounts: several publications may repeat the same report. The fictional teaching extracts below practise these distinctions; they are not archival documents or evidence of real events."
+  ],
+  "keyIdeas": [
+    "Value depends on the question.",
+    "Provenance supports reasoning, not a fixed score.",
+    "Agreement is stronger when sources are independent."
+  ],
+  "definitions": [
+    {
+      "term": "Origin",
+      "meaning": "The creator, time, place and circumstances of a source’s production."
+    },
+    {
+      "term": "Purpose",
+      "meaning": "What the creator sought to achieve through the source, when supported by evidence."
+    },
+    {
+      "term": "Limitation",
+      "meaning": "A reason a source cannot securely answer some part of the chosen question."
+    }
+  ],
+  "method": [
+    "State the historical question.",
+    "Identify relevant content and supplied provenance.",
+    "Explain one specific value and one specific limitation.",
+    "Identify independent evidence that could check the claim."
+  ],
+  "workedExample": {
+    "prompt": "Fictional teaching case: a ferry company’s launch leaflet promises “A reliable crossing for every worker”. Evaluate it for a question about the company’s public priorities.",
+    "steps": [
+      "The company is the creator and the launch leaflet addresses potential users.",
+      "The promise foregrounds reliability and workers as an intended market, directly supporting a claim about public priorities.",
+      "A promotional promise does not show actual punctuality or equal access; service logs and user accounts would address those questions."
+    ],
+    "conclusion": "The leaflet is useful evidence of how the company presented its service. Its claim about performance requires separate evidence."
+  },
+  "misconceptions": [
+    {
+      "mistake": "Writing “biased, therefore useless”.",
+      "correction": "Explain what the perspective reveals and which question it limits."
+    },
+    {
+      "mistake": "Calling two copied reports independent corroboration.",
+      "correction": "Check whether they rely on a common source."
+    }
+  ],
+  "practice": [
+    {
+      "id": "hist-origin-purpose-value-limitation-1",
+      "difficulty": "Foundation",
+      "command": "Identify",
+      "marks": 3,
+      "prompt": "Fictional teaching source: a town clerk writes meeting minutes the day after a council vote. Identify two supplied features of its origin.",
+      "hints": [
+        "Use the creator and timing."
+      ],
+      "solution": [
+        "The creator is the town clerk.",
+        "The minutes were written the day after the vote."
+      ],
+      "successCriteria": [
+        "Creator identified",
+        "Timing accurate"
+      ]
+    },
+    {
+      "id": "hist-origin-purpose-value-limitation-2",
+      "difficulty": "Standard",
+      "command": "Evaluate",
+      "marks": 5,
+      "prompt": "Fictional teaching case: a worker’s letter to a friend describes one noisy factory shift. Evaluate its use for investigating that worker’s experience and all factories in the region.",
+      "hints": [
+        "Compare the narrow and broad questions."
+      ],
+      "solution": [
+        "The letter can reveal the worker’s reported experience of that shift.",
+        "Its recipient and circumstances may shape what the worker selects or leaves out.",
+        "One worker and shift cannot establish conditions across every regional factory."
+      ],
+      "successCriteria": [
+        "Specific value",
+        "Provenance linked to selection",
+        "Representativeness limit"
+      ]
+    },
+    {
+      "id": "hist-origin-purpose-value-limitation-3",
+      "difficulty": "Advanced",
+      "command": "Evaluate",
+      "marks": 6,
+      "prompt": "Fictional teaching case: three newspapers print an identical station-opening report supplied by the railway company. Does agreement independently verify the claimed punctual service?",
+      "hints": [
+        "Track the shared origin."
+      ],
+      "solution": [
+        "The accounts repeat one company report, so they are not three independent observations.",
+        "They show circulation of the company’s claim.",
+        "Independent running records or passenger evidence would be needed to check punctuality."
+      ],
+      "successCriteria": [
+        "Common source recognised",
+        "Limited evidential use",
+        "Suitable corroboration"
+      ]
+    }
+  ],
+  "checklist": [
+    "I state the question.",
+    "I link provenance and content.",
+    "I explain both value and limit.",
+    "I check independence."
+  ],
+  "sourceIds": [
+    "archives-document-analysis",
+    "history-primary-evidence"
+  ]
+}),
+  history({
+  "id": "myp5-history-consequence",
+  "topic": "Consequence",
+  "prerequisiteIds": [
+    "myp5-history-causation"
+  ],
+  "summary": "Explain consequences through mechanisms, time frames and uneven effects while separating intended aims from observed outcomes.",
+  "objectives": [
+    "Distinguish an aim from an outcome.",
+    "Trace a supported chain of consequences.",
+    "Evaluate differences across groups and time periods."
+  ],
+  "explanation": [
+    "A consequence is an outcome linked to an event, decision or process. A sequence alone does not establish the link: explain the mechanism and consider other influences. Distinguish what decision-makers intended from what evidence shows happened. An outcome can affect groups differently or become visible only later, so state the people, place and period covered by the judgement. A beneficial result for one group need not be beneficial for everyone.",
+    "Organise an account around supported relationships rather than a list of everything that happened afterwards. Direct consequences may lead to further effects, but each link needs evidence. An unintended consequence is one not part of the stated aim; it is not necessarily unpredictable or harmful. Where the records do not establish intentions, leave them uncertain. Use a conclusion that acknowledges missing observations and avoids turning a plausible explanation into a claim of inevitability."
+  ],
+  "keyIdeas": [
+    "Later events are not automatically consequences.",
+    "Aims and outcomes need different evidence.",
+    "Effects differ across groups and times."
+  ],
+  "definitions": [
+    {
+      "term": "Consequence",
+      "meaning": "An outcome connected to an event or process by a supported causal relationship."
+    },
+    {
+      "term": "Intended outcome",
+      "meaning": "A result an actor aimed to produce."
+    },
+    {
+      "term": "Indirect consequence",
+      "meaning": "A further outcome operating through an intervening effect."
+    }
+  ],
+  "method": [
+    "Define the event and period examined.",
+    "Separate stated aims from recorded outcomes.",
+    "Trace mechanisms and alternative influences.",
+    "Compare effects across groups and state limits."
+  ],
+  "workedExample": {
+    "prompt": "Fictional teaching case: a council opens an evening market to extend trading hours. Shop records describe later closing; residents’ letters complain of nighttime noise. What consequences are supported?",
+    "steps": [
+      "Later closing is consistent with the stated aim of extending trading hours.",
+      "The letters support complaints by their writers about noise, a different type of effect.",
+      "The evidence does not establish whether total trade increased or whether all residents objected."
+    ],
+    "conclusion": "The records support changed hours and reported disturbance, with different implications for traders and letter writers. Wider economic and community effects remain unmeasured."
+  },
+  "misconceptions": [
+    {
+      "mistake": "Treating a policy announcement as proof of success.",
+      "correction": "Look for outcome evidence distinct from the announcement."
+    },
+    {
+      "mistake": "Calling every unintended effect harmful.",
+      "correction": "Judge its nature separately from whether it was intended."
+    }
+  ],
+  "practice": [
+    {
+      "id": "hist-consequence-1",
+      "difficulty": "Foundation",
+      "command": "Distinguish",
+      "marks": 3,
+      "prompt": "Fictional teaching case: a notice says a bridge aims to shorten journeys; a later diary says one journey took less time. Distinguish aim and reported outcome.",
+      "hints": [
+        "Which source announces and which reports?"
+      ],
+      "solution": [
+        "The notice states the intended shorter journeys.",
+        "The diary reports one traveller’s shorter journey, which supports a limited outcome claim."
+      ],
+      "successCriteria": [
+        "Aim identified",
+        "Outcome scope retained"
+      ]
+    },
+    {
+      "id": "hist-consequence-2",
+      "difficulty": "Standard",
+      "command": "Explain",
+      "marks": 5,
+      "prompt": "Fictional teaching case: a closed road redirects carts past a bakery; its records then show more passing customers. Explain a possible mechanism and a limitation.",
+      "hints": [
+        "Trace access before inferring profit."
+      ],
+      "solution": [
+        "The diversion brings cart traffic past the bakery and may increase potential customers.",
+        "Recorded passing customers support that intermediate effect.",
+        "They do not alone establish sales or profit, and other changes could also affect demand."
+      ],
+      "successCriteria": [
+        "Mechanism",
+        "Evidence linked",
+        "Further outcome not assumed"
+      ]
+    },
+    {
+      "id": "hist-consequence-3",
+      "difficulty": "Advanced",
+      "command": "Evaluate",
+      "marks": 6,
+      "prompt": "Fictional teaching case: after a new town hall opens, school attendance rises. No connecting evidence is supplied. Evaluate the claim that the hall caused the rise.",
+      "hints": [
+        "Chronology does not supply the mechanism."
+      ],
+      "solution": [
+        "The sequence is compatible with many explanations.",
+        "No evidence links the hall to attendance through a particular action or process.",
+        "Check school rules, transport, records and other contemporaneous changes before attributing the rise to the hall."
+      ],
+      "successCriteria": [
+        "Chronology/causation distinction",
+        "Missing mechanism",
+        "Alternative evidence plan"
+      ]
+    }
+  ],
+  "checklist": [
+    "I separate aim and result.",
+    "I explain causal links.",
+    "I compare affected groups.",
+    "I limit conclusions to evidence."
+  ],
+  "sourceIds": [
+    "history-cause-consequence"
+  ]
+}),
+  history({
+  "id": "myp5-history-continuity",
+  "topic": "Continuity",
+  "prerequisiteIds": [
+    "myp5-history-source-analysis"
+  ],
+  "summary": "Identify what persists across a defined period while testing whether apparent stability conceals changes in experience or evidence.",
+  "objectives": [
+    "Compare like evidence at different points in time.",
+    "Distinguish stable institutions from stable lived experience.",
+    "Explain limits caused by gaps or changing records."
+  ],
+  "explanation": [
+    "Continuity means persistence in a specified feature across time, rather than an absence of history. Define the feature and compare evidence from more than one point. A town may keep the same council structure while its membership or powers change. Be precise about what remains: the name, rule, practice or distribution of authority. A conclusion about one dimension should not become a claim that every aspect of life stayed the same.",
+    "The evidence itself can create misleading appearances. Repeated wording in an official register may reflect a fixed recording format, not identical experience. A gap in surviving records cannot establish uninterrupted stability, and two matching endpoints do not exclude changes between them. Examine intermediate evidence when available and compare what different groups experienced. Explain persistence alongside change, using time boundaries that the sources actually support."
+  ],
+  "keyIdeas": [
+    "Continuity is a claim about a defined feature.",
+    "Stable labels can conceal changed practice.",
+    "Missing records do not prove no change."
+  ],
+  "definitions": [
+    {
+      "term": "Continuity",
+      "meaning": "Persistence of a specified feature over a defined period."
+    },
+    {
+      "term": "Endpoint comparison",
+      "meaning": "Comparison of observations at the beginning and end of a period."
+    },
+    {
+      "term": "Evidence gap",
+      "meaning": "Missing or unavailable material that limits what can be established."
+    }
+  ],
+  "method": [
+    "Specify the feature and period.",
+    "Compare equivalent evidence at separate dates.",
+    "Check intermediate records and changing definitions.",
+    "State the extent and limits of persistence."
+  ],
+  "workedExample": {
+    "prompt": "Fictional teaching case: registers from Year A and Year C use the same market-stall categories. No Year B register survives. Evaluate a claim that market life was completely unchanged.",
+    "steps": [
+      "The endpoints show continuity in the recorded category labels.",
+      "The missing middle record leaves intervening changes unknown.",
+      "Even matching labels cannot establish unchanged goods, prices or traders’ experiences."
+    ],
+    "conclusion": "The strongest supported conclusion concerns the recording categories at the two endpoints. Complete continuity of market life goes beyond the evidence."
+  },
+  "misconceptions": [
+    {
+      "mistake": "Saying nothing happened because an institution survived.",
+      "correction": "Ask how its operation and people may have changed."
+    },
+    {
+      "mistake": "Using absent evidence as proof of stability.",
+      "correction": "Treat gaps as limits unless evidence of expected recording supports a narrower inference."
+    }
+  ],
+  "practice": [
+    {
+      "id": "hist-continuity-1",
+      "difficulty": "Foundation",
+      "command": "Identify",
+      "marks": 3,
+      "prompt": "Fictional teaching case: before and after a workshop expansion, the rules still require a morning safety check. Identify the specific continuity.",
+      "hints": [
+        "Name the requirement, not all working conditions."
+      ],
+      "solution": [
+        "The written requirement for a morning safety check persists.",
+        "The rules alone do not establish whether workers consistently performed it."
+      ],
+      "successCriteria": [
+        "Specific continuity",
+        "Rule/practice distinction"
+      ]
+    },
+    {
+      "id": "hist-continuity-2",
+      "difficulty": "Standard",
+      "command": "Analyse",
+      "marks": 5,
+      "prompt": "Fictional teaching case: a school keeps the title “head teacher” while transferring budget decisions from the head teacher to a committee. Explain continuity and change.",
+      "hints": [
+        "Compare the title with authority."
+      ],
+      "solution": [
+        "The title continues.",
+        "Budget authority changes from the individual role to the committee.",
+        "Continuity in naming therefore coexists with change in governance."
+      ],
+      "successCriteria": [
+        "Continuity identified",
+        "Change identified",
+        "Relationship explained"
+      ]
+    },
+    {
+      "id": "hist-continuity-3",
+      "difficulty": "Advanced",
+      "command": "Evaluate",
+      "marks": 6,
+      "prompt": "Fictional teaching case: a historian has identical rent amounts in two surviving ledgers ten years apart. Evaluate “rents never changed during the decade”.",
+      "hints": [
+        "Do endpoints establish every intervening year?"
+      ],
+      "solution": [
+        "The ledgers show the same recorded amount at the two observed dates, assuming comparable properties and definitions.",
+        "They do not establish every intervening rent.",
+        "Seek intermediate records and comparable tenancy details before claiming uninterrupted stability."
+      ],
+      "successCriteria": [
+        "Comparable evidence condition",
+        "Endpoint limit",
+        "Relevant additional evidence"
+      ]
+    }
+  ],
+  "checklist": [
+    "I define what persists.",
+    "I compare equivalent records.",
+    "I check gaps and intermediate years.",
+    "I allow continuity and change together."
+  ],
+  "sourceIds": [
+    "history-continuity-change"
+  ]
+}),
+  history({
+  "id": "myp5-history-change",
+  "topic": "Change",
+  "prerequisiteIds": [
+    "myp5-history-continuity",
+    "myp5-history-causation"
+  ],
+  "summary": "Explain the extent, pace and unevenness of change using defined comparisons and supported turning points.",
+  "objectives": [
+    "Compare a feature across a stated period.",
+    "Distinguish extent from pace.",
+    "Evaluate turning points using evidence before and after them."
+  ],
+  "explanation": [
+    "A claim of change compares a specified feature across time. Extent concerns how much altered; pace concerns how quickly. Define the period and group so that a large shift for one population is not assumed to apply to everyone. Changes in law, infrastructure or membership can occur at different rates from changes in everyday practice. Use comparable evidence and explain what each source actually measures.",
+    "A turning point is an event or interval argued to redirect a longer pattern. Its importance needs evidence from before and after, rather than only a memorable date. A new policy may announce a change whose implementation is delayed or uneven. Describing change as progress or decline introduces a judgement that depends on criteria and perspective. State the relevant standard, consider those who experienced different effects and avoid treating later outcomes as inevitable."
+  ],
+  "keyIdeas": [
+    "Extent and pace answer different questions.",
+    "An announcement and implementation are distinct.",
+    "Turning points require a surrounding pattern."
+  ],
+  "definitions": [
+    {
+      "term": "Extent",
+      "meaning": "The degree or reach of change in a specified feature."
+    },
+    {
+      "term": "Pace",
+      "meaning": "The speed at which change occurs."
+    },
+    {
+      "term": "Turning point",
+      "meaning": "An event or interval supported as redirecting a broader pattern."
+    }
+  ],
+  "method": [
+    "Define the feature, population and period.",
+    "Compare suitable before-and-after evidence.",
+    "Examine pace, unevenness and continuities.",
+    "Justify any turning-point or progress judgement."
+  ],
+  "workedExample": {
+    "prompt": "Fictional teaching case: a town implements a change from paid to free library entry in Year B. Entry registers show more visits in Year C, but the distant district still has no transport link. Evaluate the change.",
+    "steps": [
+      "The rule changes access charges at the library.",
+      "More recorded visits in Year C are consistent with increased use, but do not by themselves establish the policy as the only cause.",
+      "The transport gap shows that removing a fee does not remove every barrier."
+    ],
+    "conclusion": "Access changed in one important respect, with evidence of later increased use. The evidence does not establish equally improved access for every district."
+  },
+  "misconceptions": [
+    {
+      "mistake": "Assuming a legal change instantly changes all behaviour.",
+      "correction": "Examine implementation and lived experience."
+    },
+    {
+      "mistake": "Calling all change progress.",
+      "correction": "Specify a criterion and whose experience is judged."
+    }
+  ],
+  "practice": [
+    {
+      "id": "hist-change-1",
+      "difficulty": "Foundation",
+      "command": "Distinguish",
+      "marks": 3,
+      "prompt": "Fictional teaching case: one village replaces its footbridge in a week; another replaces several bridges over years. Explain why pace and extent should be distinguished.",
+      "hints": [
+        "Speed and number of changed sites are different measures."
+      ],
+      "solution": [
+        "The first replacement occurs quickly at one site.",
+        "The second process takes longer but covers several sites.",
+        "Neither description alone establishes which project better met local needs."
+      ],
+      "successCriteria": [
+        "Pace distinction",
+        "Extent distinction"
+      ]
+    },
+    {
+      "id": "hist-change-2",
+      "difficulty": "Standard",
+      "command": "Analyse",
+      "marks": 5,
+      "prompt": "Fictional teaching case: new voting rules admit an additional group, but its turnout is initially low. Analyse what changed and what remains uncertain.",
+      "hints": [
+        "Compare eligibility with participation."
+      ],
+      "solution": [
+        "Formal eligibility expands.",
+        "Low initial turnout limits a claim of immediate broad participation.",
+        "Further evidence is needed about registration, access, choice and later turnout; low participation does not erase the eligibility change."
+      ],
+      "successCriteria": [
+        "Formal change",
+        "Participation distinction",
+        "Relevant uncertainties"
+      ]
+    },
+    {
+      "id": "hist-change-3",
+      "difficulty": "Advanced",
+      "command": "Evaluate",
+      "marks": 6,
+      "prompt": "Fictional teaching case: a new port opens, but trade had already grown for several years. Evaluate the claim that opening day alone was the turning point.",
+      "hints": [
+        "Examine the earlier trend and later direction."
+      ],
+      "solution": [
+        "The prior growth challenges a claim that the opening initiated all expansion.",
+        "Compare growth, routes or trading relationships before and after opening to identify any redirection.",
+        "The port may accelerate an existing process; a turning-point judgement needs a stated dimension and supporting pattern."
+      ],
+      "successCriteria": [
+        "Earlier trend used",
+        "Comparison proposed",
+        "Qualified turning-point claim"
+      ]
+    }
+  ],
+  "checklist": [
+    "I specify the comparison.",
+    "I separate pace and extent.",
+    "I test implementation.",
+    "I justify turning points."
+  ],
+  "sourceIds": [
+    "history-continuity-change"
+  ]
+}),
+  history({
+  "id": "myp5-history-perspectives",
+  "topic": "Perspectives",
+  "prerequisiteIds": [
+    "myp5-history-origin-purpose-value-limitation"
+  ],
+  "summary": "Reconstruct supported viewpoints in context while distinguishing understanding, agreement and invented inner thoughts.",
+  "objectives": [
+    "Connect a viewpoint to supplied circumstances.",
+    "Compare perspectives without treating groups as uniform.",
+    "Recognise limits of surviving accounts."
+  ],
+  "explanation": [
+    "Historical perspective involves understanding how people’s circumstances, available knowledge and values shaped their views. It requires evidence, not an imagined diary written from a modern standpoint. Distinguish what an actor could know then from what later outcomes make visible now. Explaining a belief in context does not require agreeing with it, and disagreement does not remove the need to understand its sources.",
+    "People in the same place or social group can hold conflicting views. Use actual statements or documented actions to support a perspective, and explain where inference begins. Public speech, private correspondence and retrospective memory may reveal different aspects of a viewpoint. Surviving records are uneven: an absent account is not evidence that a person lacked a view. Identify whose perspectives are represented and what further material could broaden the inquiry without inventing missing testimony."
+  ],
+  "keyIdeas": [
+    "Context helps explain a view without endorsing it.",
+    "Groups contain differences.",
+    "Missing voices must not be filled with invented testimony."
+  ],
+  "definitions": [
+    {
+      "term": "Perspective",
+      "meaning": "A viewpoint shaped by position, experience, values and available knowledge."
+    },
+    {
+      "term": "Hindsight",
+      "meaning": "Knowledge of later outcomes applied when looking back."
+    },
+    {
+      "term": "Presentism",
+      "meaning": "Interpreting the past as if people shared present-day knowledge or assumptions without examining context."
+    }
+  ],
+  "method": [
+    "Identify the speaker and supplied circumstances.",
+    "Separate their known information from later knowledge.",
+    "Compare supported priorities or interpretations.",
+    "State whose viewpoint is missing and avoid invention."
+  ],
+  "workedExample": {
+    "prompt": "Fictional teaching case: a trader’s petition supports a new road because it shortens deliveries; a farmer’s letter opposes the route because it divides a field. Compare perspectives.",
+    "steps": [
+      "The trader foregrounds delivery access, while the farmer foregrounds the use of a particular field.",
+      "Their interests help explain different responses to the same route.",
+      "Neither source represents every trader or farmer, and the farmer need not oppose roads in general."
+    ],
+    "conclusion": "The accounts reveal different local stakes. Understanding those stakes does not establish which proposal is best or justify treating either group as unanimous."
+  },
+  "misconceptions": [
+    {
+      "mistake": "Inventing thoughts to make an account feel empathetic.",
+      "correction": "Reconstruct only what evidence can support and mark uncertainty."
+    },
+    {
+      "mistake": "Treating a whole group as one voice.",
+      "correction": "Identify the particular people and evidence represented."
+    }
+  ],
+  "practice": [
+    {
+      "id": "hist-perspectives-1",
+      "difficulty": "Foundation",
+      "command": "Explain",
+      "marks": 3,
+      "prompt": "Fictional teaching case: an apprentice writes that evening classes conflict with a work shift. Explain the supported concern.",
+      "hints": [
+        "Keep the inference tied to the stated conflict."
+      ],
+      "solution": [
+        "The apprentice is concerned about the overlap between class and work time.",
+        "The statement does not prove opposition to education itself."
+      ],
+      "successCriteria": [
+        "Specific concern",
+        "Unsupported generalisation avoided"
+      ]
+    },
+    {
+      "id": "hist-perspectives-2",
+      "difficulty": "Standard",
+      "command": "Compare",
+      "marks": 5,
+      "prompt": "Fictional teaching case: a council notice calls a square renovation “renewal”; a stallholder’s letter says it removes a trading place. Compare the framing.",
+      "hints": [
+        "Connect labels with stated interests."
+      ],
+      "solution": [
+        "“Renewal” frames the work as improvement in the council’s public notice.",
+        "The letter foregrounds loss of trading space for that stallholder.",
+        "The contrast supports differing priorities; it does not establish the views of all residents or the final balance of effects."
+      ],
+      "successCriteria": [
+        "Both perspectives",
+        "Language and interests linked",
+        "Scope limited"
+      ]
+    },
+    {
+      "id": "hist-perspectives-3",
+      "difficulty": "Advanced",
+      "command": "Evaluate",
+      "marks": 6,
+      "prompt": "A response claims people should have predicted a later flood, but the fictional source packet supplies no warning or contemporary forecast. Evaluate the reasoning.",
+      "hints": [
+        "Separate later outcome from information then available."
+      ],
+      "solution": [
+        "Knowledge that a flood later occurred does not establish that those people could predict it.",
+        "Investigate warnings, local knowledge and available information at the time.",
+        "Judging decisions requires that context rather than assuming later knowledge was already available."
+      ],
+      "successCriteria": [
+        "Hindsight identified",
+        "Contextual evidence needed",
+        "Qualified judgement"
+      ]
+    }
+  ],
+  "checklist": [
+    "I establish available knowledge.",
+    "I connect evidence and viewpoint.",
+    "I allow disagreement within groups.",
+    "I do not invent missing voices."
+  ],
+  "sourceIds": [
+    "history-perspectives"
+  ]
+}),
+  history({
+  "id": "myp5-history-significance",
+  "topic": "Significance",
+  "prerequisiteIds": [
+    "myp5-history-consequence",
+    "myp5-history-perspectives"
+  ],
+  "summary": "Justify historical significance through explicit criteria, supported effects and the inquiry being pursued.",
+  "objectives": [
+    "Define a criterion for significance.",
+    "Use evidence to compare importance.",
+    "Distinguish significance, fame and moral approval."
+  ],
+  "explanation": [
+    "Historical significance is an argued judgement about why something matters to an inquiry. Criteria might include the reach, duration or depth of consequences, or what a particular case reveals about a wider process. State the criterion and connect it to evidence. Fame, textbook space or personal interest can prompt a question, but none alone demonstrates significance. A local event may matter greatly for a focused inquiry even if it affected few people.",
+    "Significance can be assessed differently for different questions and communities. Compare candidates using a consistent criterion, and explain trade-offs when one had wider reach while another produced deeper local effects. Historical significance does not mean moral approval: harmful actions can have major consequences. A later commemoration is evidence of how people remembered an event, but does not by itself establish the original event’s impact or every person’s view of it."
+  ],
+  "keyIdeas": [
+    "Criteria make significance arguable.",
+    "Importance depends partly on the inquiry.",
+    "Significance is separate from approval or fame."
+  ],
+  "definitions": [
+    {
+      "term": "Significance",
+      "meaning": "Argued importance in relation to a historical question and stated criteria."
+    },
+    {
+      "term": "Reach",
+      "meaning": "The breadth of people, places or activities affected."
+    },
+    {
+      "term": "Commemoration",
+      "meaning": "An act or practice of remembering a person or event publicly."
+    }
+  ],
+  "method": [
+    "Specify the inquiry and criterion.",
+    "Select evidence of effects or what the case reveals.",
+    "Compare alternatives using the same standard.",
+    "Qualify the judgement and separate memory from original impact."
+  ],
+  "workedExample": {
+    "prompt": "Fictional teaching case: a one-day parade drew a large crowd; a small evening school operated for decades. Compare their significance for an inquiry into sustained access to education.",
+    "steps": [
+      "The inquiry makes duration and educational access relevant criteria.",
+      "The school’s continued operation is more directly relevant to that criterion than the parade’s crowd size.",
+      "Operation alone does not establish who attended or what they learned, so enrolment and experience records would strengthen the judgement."
+    ],
+    "conclusion": "The school is the stronger candidate for this inquiry, with important evidential limits. Another inquiry into public celebrations could reasonably prioritise the parade."
+  },
+  "misconceptions": [
+    {
+      "mistake": "Equating significance with being admirable.",
+      "correction": "Judge impact or explanatory value separately from moral approval."
+    },
+    {
+      "mistake": "Calling something important only because it is famous.",
+      "correction": "Support a relevant criterion with evidence."
+    }
+  ],
+  "practice": [
+    {
+      "id": "hist-significance-1",
+      "difficulty": "Foundation",
+      "command": "Identify",
+      "marks": 3,
+      "prompt": "For a fictional inquiry into a water service’s long-term effects, propose a relevant significance criterion and matching evidence.",
+      "hints": [
+        "Link the criterion to a record."
+      ],
+      "solution": [
+        "Duration of reliable access is a relevant criterion.",
+        "Maintenance and service records across the period could help assess it, alongside users’ accounts."
+      ],
+      "successCriteria": [
+        "Relevant criterion",
+        "Matching evidence"
+      ]
+    },
+    {
+      "id": "hist-significance-2",
+      "difficulty": "Standard",
+      "command": "Compare",
+      "marks": 5,
+      "prompt": "Fictional teaching case: one reform changes rules across a region; another changes daily routines in one town. Explain why a significance ranking needs more than place count.",
+      "hints": [
+        "Consider depth as well as breadth."
+      ],
+      "solution": [
+        "Regional scope indicates wider formal reach.",
+        "A local reform may have deeper effects on everyday experience.",
+        "Choose and justify a criterion for the inquiry, then obtain evidence about implementation and duration before ranking overall importance."
+      ],
+      "successCriteria": [
+        "Reach/depth distinction",
+        "Explicit criterion",
+        "Evidence requirement"
+      ]
+    },
+    {
+      "id": "hist-significance-3",
+      "difficulty": "Advanced",
+      "command": "Evaluate",
+      "marks": 6,
+      "prompt": "Fictional teaching case: a monument was built long after an event. Evaluate “the monument proves everyone at the time thought the event important”.",
+      "hints": [
+        "Whose time and whose decision does it directly record?"
+      ],
+      "solution": [
+        "The monument directly records a later commemorative decision.",
+        "It does not establish unanimous opinion when the original event happened.",
+        "Contemporary accounts and the monument’s commissioning records answer different questions about original response and later memory."
+      ],
+      "successCriteria": [
+        "Chronology distinction",
+        "Universal claim rejected",
+        "Suitable evidence"
+      ]
+    }
+  ],
+  "checklist": [
+    "I state my criterion.",
+    "I connect it to evidence.",
+    "I compare consistently.",
+    "I distinguish impact and memory."
+  ],
+  "sourceIds": [
+    "history-significance"
+  ]
+}),
+  history({
+  "id": "myp5-history-essay-construction",
+  "topic": "Essay construction",
+  "prerequisiteIds": [
+    "myp5-history-causation",
+    "myp5-history-change",
+    "myp5-history-significance"
+  ],
+  "summary": "Build a historical argument whose claims, evidence and qualifications answer a defined question.",
+  "objectives": [
+    "Develop a thesis with clear scope.",
+    "Organise paragraphs around reasoning rather than chronology alone.",
+    "Use counterevidence to refine a conclusion."
+  ],
+  "explanation": [
+    "A historical essay answers a question through an argument supported by evidence. Begin by identifying the task, period and terms that require definition, such as success or importance. A thesis should offer a defensible answer and indicate its limits. A chronological account may establish sequence, but it becomes an argument only when it explains how events relate to the question and why the evidence supports the judgement.",
+    "Give each paragraph a claim, relevant evidence and reasoning that connects them. Evaluate source limitations where they affect the inference instead of inserting a generic reliability paragraph unrelated to the argument. Counterevidence can qualify a claim without destroying it. A conclusion should weigh the established reasoning rather than add unexamined material. When a task restricts you to a supplied packet, do not fill gaps with invented dates, quotations or outcomes."
+  ],
+  "keyIdeas": [
+    "A thesis answers a scoped question.",
+    "Evidence needs an explained connection.",
+    "Counterevidence can refine rather than erase a claim."
+  ],
+  "definitions": [
+    {
+      "term": "Thesis",
+      "meaning": "The essay’s central, supported answer to its question."
+    },
+    {
+      "term": "Counterargument",
+      "meaning": "A reasoned challenge to part of the argument."
+    },
+    {
+      "term": "Qualification",
+      "meaning": "A stated limit on the scope or certainty of a claim."
+    }
+  ],
+  "method": [
+    "Define the question, period and judgement criteria.",
+    "Draft a qualified thesis from available evidence.",
+    "Plan claims with evidence and reasoning.",
+    "Weigh counterevidence and conclude within the scope."
+  ],
+  "workedExample": {
+    "prompt": "Fictional teaching packet: after a ferry opens, dock records show regular crossings, while island letters report unaffordable fares. Plan an answer to “How far did access improve?”",
+    "steps": [
+      "Define access to include service availability and affordability.",
+      "Argue that availability improved for potential travellers, while affordability remained a barrier for the letter writers.",
+      "Use one paragraph on crossings and another on fares, then explain why the evidence does not support equal benefit for everyone."
+    ],
+    "conclusion": "A qualified thesis is that the ferry improved the opportunity to cross while leaving a documented cost barrier. The packet cannot establish every household’s experience."
+  },
+  "misconceptions": [
+    {
+      "mistake": "Retelling events without answering the question.",
+      "correction": "Make each paragraph advance a claim relevant to the judgement."
+    },
+    {
+      "mistake": "Adding invented details to make an argument sound complete.",
+      "correction": "State the evidential gap and keep the answer appropriately narrow."
+    }
+  ],
+  "practice": [
+    {
+      "id": "hist-essay-construction-1",
+      "difficulty": "Foundation",
+      "command": "Construct",
+      "marks": 3,
+      "prompt": "Fictional teaching packet: a new school building has more classrooms but no additional teachers yet. Write a qualified thesis about expanded teaching capacity.",
+      "hints": [
+        "Distinguish space from staffing."
+      ],
+      "solution": [
+        "Physical capacity expanded, but the packet does not establish whether staffing and timetabling allow increased teaching provision.",
+        "The claim recognises the additional rooms without assuming an immediate increase in teaching provision."
+      ],
+      "successCriteria": [
+        "Both facts used",
+        "Qualified answer"
+      ]
+    },
+    {
+      "id": "hist-essay-construction-2",
+      "difficulty": "Standard",
+      "command": "Develop",
+      "marks": 5,
+      "prompt": "Fictional teaching case: a paragraph claims a library served the whole town, but its cited register covers only members who could pay a fee. Explain a revision.",
+      "hints": [
+        "Does membership evidence cover everyone?"
+      ],
+      "solution": [
+        "Narrow the claim to the recorded paying membership.",
+        "Explain how the fee and register scope limit conclusions about access by non-members.",
+        "Identify additional evidence needed about excluded groups instead of asserting universal service."
+      ],
+      "successCriteria": [
+        "Scope corrected",
+        "Evidence limitation explained",
+        "Further inquiry"
+      ]
+    },
+    {
+      "id": "hist-essay-construction-3",
+      "difficulty": "Advanced",
+      "command": "Evaluate",
+      "marks": 6,
+      "prompt": "Fictional teaching packet: a leader’s speech promises jobs; no employment record is supplied. Evaluate an essay conclusion claiming the promise was fulfilled.",
+      "hints": [
+        "A statement of intent is not an outcome record."
+      ],
+      "solution": [
+        "The speech supports a claim about the leader’s public promise.",
+        "It does not establish that jobs were created.",
+        "Revise the conclusion to distinguish the promise from an unverified result and identify outcome records needed."
+      ],
+      "successCriteria": [
+        "Source use accurate",
+        "Outcome not invented",
+        "Responsible conclusion"
+      ]
+    }
+  ],
+  "checklist": [
+    "I define the task.",
+    "I argue through evidence.",
+    "I address counterevidence.",
+    "I keep the conclusion within scope."
+  ],
+  "sourceIds": [
+    "archives-document-analysis",
+    "history-primary-evidence"
+  ]
+}),
+  history({
+  "id": "myp5-history-source-based-questions",
+  "topic": "Source-based questions",
+  "prerequisiteIds": [
+    "myp5-history-origin-purpose-value-limitation",
+    "myp5-history-perspectives",
+    "myp5-history-essay-construction"
+  ],
+  "summary": "Answer source tasks by matching the command to a clear inference, comparison or evaluation grounded in the supplied material.",
+  "objectives": [
+    "Distinguish inference, comparison and evaluation tasks.",
+    "Integrate content and provenance where relevant.",
+    "Synthesize a qualified answer across a source packet."
+  ],
+  "explanation": [
+    "A source-based question may ask you to infer, compare, evaluate or use a packet to answer a broader question. Identify the command before writing. An inference moves from a detail to a supported conclusion; comparison relates sources on the same point; evaluation explains what evidence can establish for a specified purpose. None is completed by paraphrasing every source without explaining its relevance to the task.",
+    "Read provenance and content together, keeping each source’s date, viewpoint and scope visible. Two sources can agree about one detail while differing about its meaning, and agreement may depend on a shared origin. In a packet-based judgement, use both supporting and complicating material, stating what remains unknown. Refer to supplied labels accurately and never attribute a quotation to a historical person when it is a fictional teaching extract. Alternative answers can be defensible when they account for the same evidence."
+  ],
+  "keyIdeas": [
+    "The command determines the reasoning needed.",
+    "Agreement and difference can coexist.",
+    "A packet supports a bounded judgement, not every possible claim."
+  ],
+  "definitions": [
+    {
+      "term": "Inference",
+      "meaning": "A conclusion drawn from specified evidence rather than merely copied from it."
+    },
+    {
+      "term": "Comparison",
+      "meaning": "An explanation of a meaningful relationship between sources."
+    },
+    {
+      "term": "Synthesis",
+      "meaning": "A judgement that brings relevant evidence together while accounting for differences and limits."
+    }
+  ],
+  "method": [
+    "Identify command, focus and source labels.",
+    "Select precise content and relevant provenance.",
+    "Explain the inference, relationship or limitation.",
+    "Form a qualified answer that accounts for competing evidence."
+  ],
+  "workedExample": {
+    "prompt": "Fictional teaching packet: A, a council notice, announces a free well; B, a resident’s letter, says “The well is free, but the queue makes me late.” Compare their evidence about access.",
+    "steps": [
+      "Both present use of the well as free of charge.",
+      "A foregrounds provision; B reports a time cost for one resident.",
+      "The sources are compatible about price but differ in their view of practical access."
+    ],
+    "conclusion": "The packet supports free-of-charge access while preserving evidence of another barrier. The letter cannot establish the length or effect of every queue."
+  },
+  "misconceptions": [
+    {
+      "mistake": "Writing the same answer for infer, compare and evaluate.",
+      "correction": "Match the reasoning to the actual command."
+    },
+    {
+      "mistake": "Treating different emphasis as proof one source is false.",
+      "correction": "Check whether their claims contradict or describe different dimensions."
+    }
+  ],
+  "practice": [
+    {
+      "id": "hist-source-based-questions-1",
+      "difficulty": "Foundation",
+      "command": "Infer",
+      "marks": 3,
+      "prompt": "Fictional teaching source A is a petition requesting lamps on an unlit route used after evening work. Infer one concern, using a detail.",
+      "hints": [
+        "Connect the request with the route’s use."
+      ],
+      "solution": [
+        "The petitioners are concerned about travelling along the route after dark.",
+        "The request for lamps on a route used after evening work supports that inference; it does not establish a specific accident."
+      ],
+      "successCriteria": [
+        "Supported inference",
+        "Precise detail"
+      ]
+    },
+    {
+      "id": "hist-source-based-questions-2",
+      "difficulty": "Standard",
+      "command": "Compare",
+      "marks": 5,
+      "prompt": "Fictional teaching packet: A, a station notice, says the waiting room closes at dusk. B, a traveller’s diary, describes waiting outside after dusk. Compare the accounts.",
+      "hints": [
+        "Are these contradictory?"
+      ],
+      "solution": [
+        "Both are consistent with the indoor waiting area being unavailable after dusk.",
+        "A states a rule; B describes one traveller’s experience compatible with it.",
+        "The diary does not establish that every traveller waited outside or that the rule was enforced on every evening."
+      ],
+      "successCriteria": [
+        "Shared point",
+        "Different evidential roles",
+        "Scope limited"
+      ]
+    },
+    {
+      "id": "hist-source-based-questions-3",
+      "difficulty": "Advanced",
+      "command": "Evaluate",
+      "marks": 6,
+      "prompt": "Fictional teaching packet: A is a mayor’s claim that a new hall welcomes all clubs; B is a booking record showing only two clubs used it in its first week. Evaluate whether the packet proves exclusion of other clubs.",
+      "hints": [
+        "Distinguish use, eligibility and a short observation window."
+      ],
+      "solution": [
+        "The claim concerns intended or stated access, while the record shows actual bookings in one week.",
+        "Limited use does not by itself prove other clubs were barred; demand, awareness or scheduling could differ.",
+        "Eligibility rules, rejected requests and a longer booking record would help evaluate exclusion."
+      ],
+      "successCriteria": [
+        "Claim/use distinction",
+        "Unsupported inference avoided",
+        "Targeted additional evidence"
+      ]
+    }
+  ],
+  "checklist": [
+    "I follow the command.",
+    "I cite the right source.",
+    "I explain relationships.",
+    "I state packet limits."
+  ],
+  "sourceIds": [
+    "archives-document-analysis",
+    "history-primary-evidence"
+  ]
+}),
+];

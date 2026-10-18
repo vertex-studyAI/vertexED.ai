@@ -1,0 +1,441 @@
+{
+  "slug": "art-history",
+  "title": "AP Art History",
+  "category": "Arts",
+  "summary": "Connect visual evidence, materials, patronage and cultural context across ten historical regions and periods.",
+  "officialUrl": "https://apstudents.collegeboard.org/courses/ap-art-history",
+  "frameworkNote": "Checked against the official ten-unit sequence on 15 October 2026 for 2026-27. These original analytical lessons use clearly hypothetical visual scenarios. They supplement, and do not reproduce or replace, the required image set, identification study and close viewing of actual works.",
+  "assessment": "exam",
+  "modules": [
+    {
+      "title": "Separate observation from inference",
+      "focus": "Global prehistory: use material evidence cautiously.",
+      "explanation": [
+        "Prehistoric art often survives without written explanations from its makers. Begin with observations such as material, scale, placement and repeated forms. An interpretation proposes why those features mattered. Several interpretations may fit the same evidence, so distinguish a plausible claim from a demonstrated fact.",
+        "Archaeological context changes interpretation. An object recovered from a burial has different evidential relationships from an unprovenanced object in a collection. Survival is selective: durable stone may remain where fibre or wood has disappeared. Absence of surviving objects is not proof that a community lacked artistic activity."
+      ],
+      "workedExample": {
+        "prompt": "Hypothetical example: carved animal figures are found deep inside a cave. What can be concluded?",
+        "steps": [
+          "Record observable evidence: animal forms, carving and interior placement.",
+          "Suggest that location affected access, but do not claim a specific ritual without additional contextual evidence."
+        ]
+      },
+      "misconception": {
+        "claim": "An unknown maker means an object has no cultural context.",
+        "correction": "Materials, archaeological setting and comparison can provide context even without an artist’s name."
+      },
+      "questions": [
+        {
+          "prompt": "Why is “this carving is a hunting charm” an interpretation?",
+          "hint": "Ask what the object directly demonstrates.",
+          "answer": "Its purpose is inferred; animal imagery alone does not establish how people used it.",
+          "checkpoints": [
+            "Separates image from function",
+            "Acknowledges missing evidence"
+          ],
+          "id": "art-history-1-q1"
+        },
+        {
+          "prompt": "How can survival bias affect a prehistoric survey?",
+          "hint": "Compare stone with perishable materials.",
+          "answer": "Durable objects may be overrepresented, making the surviving record narrower than the original range of practices.",
+          "checkpoints": [
+            "Names durability",
+            "Limits the conclusion"
+          ],
+          "id": "art-history-1-q2"
+        }
+      ],
+      "frameworkUnit": "Unit 1",
+      "id": "art-history-1"
+    },
+    {
+      "title": "Analyse authority through form",
+      "focus": "Ancient Mediterranean: link scale and display to power.",
+      "explanation": [
+        "A public image of a ruler is both a representation and a claim about authority. Idealised bodies, elevated placement and hierarchical scale can make rank visible. Identify the formal device first, then explain how it might shape a viewer’s encounter in its original setting.",
+        "Patronage and function matter alongside style. A funerary object, a temple dedication and a civic monument may use similar materials for different audiences. Avoid treating the ancient Mediterranean as one uniform culture. Comparison should identify a shared visual mechanism and a specific difference in political or religious use."
+      ],
+      "workedExample": {
+        "prompt": "Hypothetical relief: a ruler is twice as tall as attendants in a public court.",
+        "steps": [
+          "Identify hierarchical scale rather than assuming realistic body size.",
+          "Connect the size difference and public placement to a claim of superior status."
+        ]
+      },
+      "misconception": {
+        "claim": "Naturalistic appearance means an image is politically neutral.",
+        "correction": "A convincing body can still be selected and idealised to support authority."
+      },
+      "questions": [
+        {
+          "prompt": "Why include original placement in an analysis of a ruler’s statue?",
+          "hint": "Think about audience and access.",
+          "answer": "Placement affects who encounters the statue, from what angle and in what civic or sacred setting.",
+          "checkpoints": [
+            "Names audience",
+            "Links setting to function"
+          ],
+          "id": "art-history-2-q1"
+        },
+        {
+          "prompt": "What evidence distinguishes idealisation from simple description?",
+          "hint": "Look for selective emphasis.",
+          "answer": "Consistent youthful features or an unusually perfected body may support idealisation when compared with context and other evidence.",
+          "checkpoints": [
+            "Uses specific features",
+            "Avoids unsupported biography"
+          ],
+          "id": "art-history-2-q2"
+        }
+      ],
+      "frameworkUnit": "Unit 2",
+      "id": "art-history-2"
+    },
+    {
+      "title": "Connect patronage and sacred space",
+      "focus": "Early Europe and colonial Americas: analyse audience and exchange.",
+      "explanation": [
+        "Religious images and buildings organise encounters through scale, light, movement and placement. A work’s function may include instruction, devotion, commemoration or display of patronage. Explain how a formal feature serves one of these purposes rather than listing decorative features separately.",
+        "Colonial settings involve unequal power as well as exchange. Materials or visual conventions may be adapted by local makers for new patrons, but adaptation does not erase local agency or coercion. Identify whose commission, labour and audience are documented before attributing one fixed meaning to a hybrid form."
+      ],
+      "workedExample": {
+        "prompt": "Hypothetical chapel: a patron’s small portrait appears beside a large sacred figure.",
+        "steps": [
+          "Describe the difference in scale and placement.",
+          "Explain how the portrait can record patronage while the hierarchy preserves devotional emphasis."
+        ]
+      },
+      "misconception": {
+        "claim": "A shared religious subject makes two works function identically.",
+        "correction": "Setting, patron, ritual use and audience can produce different functions."
+      },
+      "questions": [
+        {
+          "prompt": "How could coloured light contribute to a sacred interior?",
+          "hint": "Link a sensory feature to experience.",
+          "answer": "It can alter the atmosphere and draw attention toward selected spaces, though the precise meaning needs contextual evidence.",
+          "checkpoints": [
+            "Names a spatial effect",
+            "Limits the claim"
+          ],
+          "id": "art-history-3-q1"
+        },
+        {
+          "prompt": "Why is “European style replaced local art” an inadequate colonial claim?",
+          "hint": "Consider makers and adaptation.",
+          "answer": "It ignores surviving local practices, selective adaptation and unequal relations that must be studied in specific evidence.",
+          "checkpoints": [
+            "Recognises agency",
+            "Recognises power"
+          ],
+          "id": "art-history-3-q2"
+        }
+      ],
+      "frameworkUnit": "Unit 3",
+      "id": "art-history-3"
+    },
+    {
+      "title": "Explain a modern break with convention",
+      "focus": "Later Europe and Americas: relate technique to changing audiences.",
+      "explanation": [
+        "Modern artistic experiments often change how a work represents space, labour, daily life or the act of seeing. Visible brushwork, fragmented forms and unconventional subjects do different jobs in different works. A departure from naturalism should be analysed as a choice, not automatically dismissed as lack of skill.",
+        "Industrialisation, urban growth, photography, exhibitions and new markets changed the conditions of making and viewing art. Historical context can support an interpretation, but it should not replace visual evidence. State a causal connection carefully: a work can respond to urban experience without representing every urban resident’s experience."
+      ],
+      "workedExample": {
+        "prompt": "Hypothetical painting: a crowded station is built from cropped figures and rapid marks.",
+        "steps": [
+          "Identify cropping and broken contours as visible features.",
+          "Explain how those features can suggest hurried perception and congestion, then connect the claim to the station setting."
+        ]
+      },
+      "misconception": {
+        "claim": "All modern art rejects the past completely.",
+        "correction": "Artists can revise, quote or contest older conventions while developing new approaches."
+      },
+      "questions": [
+        {
+          "prompt": "Why is “it reflects industrialisation” insufficient analysis?",
+          "hint": "Ask which feature does the reflecting.",
+          "answer": "It needs a specific formal or material feature and an explanation of its relationship to industrial life.",
+          "checkpoints": [
+            "Requires visual evidence",
+            "Explains the link"
+          ],
+          "id": "art-history-4-q1"
+        },
+        {
+          "prompt": "How might photography affect a painter’s composition?",
+          "hint": "Consider framing and captured moments.",
+          "answer": "Unusual cropping or off-centre figures could suggest engagement with photographic framing, if historical evidence supports that connection.",
+          "checkpoints": [
+            "Names a compositional device",
+            "Avoids assuming influence"
+          ],
+          "id": "art-history-4-q2"
+        }
+      ],
+      "frameworkUnit": "Unit 4",
+      "id": "art-history-4"
+    },
+    {
+      "title": "Read material and ceremonial function",
+      "focus": "Indigenous Americas: distinguish specific communities and uses.",
+      "explanation": [
+        "Art from the Indigenous Americas includes diverse architectural, textile, ceramic and sculptural traditions. A useful analysis names the specific community and period when known, rather than treating a continent as a single style. Materials can connect an object to resources, skilled production, exchange and status.",
+        "Function may depend on performance, clothing, political ceremony or a built setting. A museum display can preserve an object while separating it from these relationships. Describe what the current view reveals and what it leaves out. Contemporary Indigenous practice also continues and changes; Indigenous art is not confined to the distant past."
+      ],
+      "workedExample": {
+        "prompt": "Hypothetical ceremonial garment uses laborious weaving and a restricted colour pattern.",
+        "steps": [
+          "Identify the technical investment and repeated design.",
+          "Ask who could wear it and in which setting before concluding that it signified rank or ritual status."
+        ]
+      },
+      "misconception": {
+        "claim": "An object made for use cannot also be art.",
+        "correction": "Function, technical skill and aesthetic decisions can operate together."
+      },
+      "questions": [
+        {
+          "prompt": "Why is community identification essential in comparison?",
+          "hint": "Avoid a continental stereotype.",
+          "answer": "It prevents distinct histories and practices from being collapsed into one supposed Indigenous style.",
+          "checkpoints": [
+            "Recognises diversity",
+            "Supports precise context"
+          ],
+          "id": "art-history-5-q1"
+        },
+        {
+          "prompt": "What is lost when a garment is shown flat?",
+          "hint": "Consider the moving body.",
+          "answer": "Its relationship to movement, scale, wearer and ceremony may be harder to understand.",
+          "checkpoints": [
+            "Names embodied context",
+            "Distinguishes display from original use"
+          ],
+          "id": "art-history-5-q2"
+        }
+      ],
+      "frameworkUnit": "Unit 5",
+      "id": "art-history-5"
+    },
+    {
+      "title": "Analyse art in performance",
+      "focus": "Africa: connect an object to action and community.",
+      "explanation": [
+        "Many African works acquire meaning through movement, dress, music, speech or restricted settings. A carved component shown alone may represent only part of a performance. Analyse its form while asking how it interacted with bodies, other materials and participants.",
+        "Africa contains many distinct societies and histories. Attribute practices specifically and distinguish an outsider’s interpretation from community knowledge. Colonial collecting also affects provenance and current display. Discuss documented collection history without assuming that every object has the same legal or cultural circumstances."
+      ],
+      "workedExample": {
+        "prompt": "Hypothetical mask has an elongated face and attachments for a full costume.",
+        "steps": [
+          "Describe the carved proportions and attachment points.",
+          "Explain that the complete performance could change scale, motion and meaning beyond what the isolated carving shows."
+        ]
+      },
+      "misconception": {
+        "claim": "A mask’s meaning can be read fully from its face alone.",
+        "correction": "Performance, audience and cultural knowledge may be essential to interpretation."
+      },
+      "questions": [
+        {
+          "prompt": "What evidence would improve analysis of a performance object?",
+          "hint": "Think beyond another front photograph.",
+          "answer": "Documented accounts or authorised recordings of use, with community context and the associated costume.",
+          "checkpoints": [
+            "Includes use context",
+            "Respects source specificity"
+          ],
+          "id": "art-history-6-q1"
+        },
+        {
+          "prompt": "Why distinguish provenance from iconography?",
+          "hint": "One concerns history of ownership; the other imagery.",
+          "answer": "Provenance tracks an object’s ownership or movement, while iconography studies subjects and symbols.",
+          "checkpoints": [
+            "Defines both",
+            "Does not conflate them"
+          ],
+          "id": "art-history-6-q2"
+        }
+      ],
+      "frameworkUnit": "Unit 6",
+      "id": "art-history-6"
+    },
+    {
+      "title": "Relate pattern, text and place",
+      "focus": "West and Central Asia: interpret media in context.",
+      "explanation": [
+        "Calligraphy, geometric pattern, vegetal ornament and figural imagery have varied roles across West and Central Asian traditions. Their presence depends on period, place, patron and function. Avoid a blanket rule that a region or religion never uses figures.",
+        "A surface design can organise a viewer’s attention while communicating text, luxury or patronage. Architecture adds orientation, movement and communal use. Materials also move through trade and skilled workshops, so a local work may participate in wider networks without losing its particular setting."
+      ],
+      "workedExample": {
+        "prompt": "Hypothetical courtyard combines a repeated tile pattern with a band of writing.",
+        "steps": [
+          "Separate the visual rhythm of the pattern from the textual band’s content.",
+          "Explain how both organise the surface, then seek a translation and building context before interpreting the inscription."
+        ]
+      },
+      "misconception": {
+        "claim": "Ornament is decoration without meaning.",
+        "correction": "Pattern, text and materials can convey value, identity and spatial organisation."
+      },
+      "questions": [
+        {
+          "prompt": "Why should an inscription be translated before interpreting its message?",
+          "hint": "Distinguish visual form from semantic content.",
+          "answer": "Its appearance alone cannot establish whether it is devotional, commemorative or administrative.",
+          "checkpoints": [
+            "Recognises limits of appearance",
+            "Seeks textual evidence"
+          ],
+          "id": "art-history-7-q1"
+        },
+        {
+          "prompt": "How can repeated pattern affect a large interior?",
+          "hint": "Consider continuity and scale.",
+          "answer": "It can unify surfaces and guide the eye across architectural divisions, depending on placement and contrast.",
+          "checkpoints": [
+            "Names a spatial effect",
+            "Connects effect to form"
+          ],
+          "id": "art-history-7-q2"
+        }
+      ],
+      "frameworkUnit": "Unit 7",
+      "id": "art-history-7"
+    },
+    {
+      "title": "Follow movement through sacred architecture",
+      "focus": "South, East and Southeast Asia: connect route and encounter.",
+      "explanation": [
+        "A sacred structure can organise movement as part of its function. Paths, thresholds, repeated images and changes in height shape the sequence of encounter. Analyse the building as an arrangement of actions and views, not only a silhouette.",
+        "Religious traditions and artistic practices vary across this broad region and change through travel, patronage and local adaptation. Identify the tradition and setting of a particular work before explaining a symbol. A similar form can have different meanings or uses in different communities."
+      ],
+      "workedExample": {
+        "prompt": "Hypothetical monument has a circular path around a central structure and reliefs along the route.",
+        "steps": [
+          "Describe how the route controls the order of viewing.",
+          "Explain how repeated movement and sequential images could support devotional activity, subject to documented context."
+        ]
+      },
+      "misconception": {
+        "claim": "A plan tells everything about a building’s experience.",
+        "correction": "A plan must be combined with elevation, scale, material, light and use."
+      },
+      "questions": [
+        {
+          "prompt": "Why record the direction of a viewer’s route?",
+          "hint": "Consider image sequence.",
+          "answer": "It can explain which images are encountered first and how a narrative or ritual unfolds.",
+          "checkpoints": [
+            "Links movement to sequence",
+            "Connects route to function"
+          ],
+          "id": "art-history-8-q1"
+        },
+        {
+          "prompt": "What is wrong with assigning one meaning to every lotus image?",
+          "hint": "Think about contextual variation.",
+          "answer": "Meaning depends on tradition, figure, medium and setting; visual similarity is not sufficient proof.",
+          "checkpoints": [
+            "Requires specific context",
+            "Avoids universal symbolism"
+          ],
+          "id": "art-history-8-q2"
+        }
+      ],
+      "frameworkUnit": "Unit 8",
+      "id": "art-history-8"
+    },
+    {
+      "title": "Connect objects to exchange and ancestry",
+      "focus": "The Pacific: interpret relationships beyond the display case.",
+      "explanation": [
+        "Pacific art includes objects and environments linked to navigation, genealogy, ceremony and exchange across distinct island communities. Materials and forms can carry relationships among people, places and ancestors. A small portable work may have significance far beyond its physical size.",
+        "Documentation should distinguish community accounts from later collecting labels. An object’s movement into a museum can change who may see it and how it is interpreted. Avoid assuming that geographical distance means cultural isolation; ocean routes can connect communities through travel and exchange."
+      ],
+      "workedExample": {
+        "prompt": "Hypothetical carved object is presented during a documented exchange ceremony.",
+        "steps": [
+          "Identify its material, workmanship and the circumstances of transfer.",
+          "Explain how the transfer may establish a relationship, using the ceremony’s documentation rather than guessing from appearance."
+        ]
+      },
+      "misconception": {
+        "claim": "The ocean only separates Pacific communities.",
+        "correction": "It can also provide routes through which people, knowledge and objects move."
+      },
+      "questions": [
+        {
+          "prompt": "Why might an object’s biography matter?",
+          "hint": "Trace creation, use and movement.",
+          "answer": "Its changing owners, settings and uses can explain meanings that its form alone does not reveal.",
+          "checkpoints": [
+            "Includes historical movement",
+            "Connects history to interpretation"
+          ],
+          "id": "art-history-9-q1"
+        },
+        {
+          "prompt": "What should a comparison of two island traditions avoid?",
+          "hint": "Think about naming and evidence.",
+          "answer": "Treating them as interchangeable; identify each community and compare specific documented practices.",
+          "checkpoints": [
+            "Names distinct contexts",
+            "Uses a precise comparison"
+          ],
+          "id": "art-history-9-q2"
+        }
+      ],
+      "frameworkUnit": "Unit 9",
+      "id": "art-history-9"
+    },
+    {
+      "title": "Analyse installation and participation",
+      "focus": "Global contemporary: consider site, medium and audience.",
+      "explanation": [
+        "Contemporary art can involve installation, video, performance, found material and audience participation. The work may include an experience or a rule for action rather than a single permanent object. Describe what the viewer actually encounters before making a thematic claim.",
+        "Site and distribution can alter meaning. A work in a commercial gallery, a public square and an online setting reaches different audiences under different conditions. Global circulation does not make context irrelevant. Record material, duration, location and viewer role so that interpretation remains tied to evidence."
+      ],
+      "workedExample": {
+        "prompt": "Hypothetical installation asks visitors to rearrange labelled empty boxes.",
+        "steps": [
+          "Identify participation and changing arrangement as part of the work.",
+          "Explain how the action might raise questions about classification or ownership, while acknowledging that the precise claim needs supporting context."
+        ]
+      },
+      "misconception": {
+        "claim": "Any unusual object is self-explanatory contemporary art.",
+        "correction": "Interpretation still requires attention to form, context, intention and audience."
+      },
+      "questions": [
+        {
+          "prompt": "Why document an installation’s dimensions and site?",
+          "hint": "Think about bodily encounter.",
+          "answer": "They establish how viewers move around or through it and how it relates to its surroundings.",
+          "checkpoints": [
+            "Includes scale",
+            "Includes site relationship"
+          ],
+          "id": "art-history-10-q1"
+        },
+        {
+          "prompt": "How does participation complicate authorship?",
+          "hint": "Consider rules and visitor decisions.",
+          "answer": "The artist may set conditions while participants produce changing outcomes; analysis should distinguish those roles.",
+          "checkpoints": [
+            "Identifies artist’s role",
+            "Identifies participant’s role"
+          ],
+          "id": "art-history-10-q2"
+        }
+      ],
+      "frameworkUnit": "Unit 10",
+      "id": "art-history-10"
+    }
+  ]
+}

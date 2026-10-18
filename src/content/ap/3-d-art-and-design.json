@@ -1,0 +1,183 @@
+{
+  "slug": "3-d-art-and-design",
+  "title": "AP 3-D Art and Design",
+  "category": "Arts",
+  "summary": "Study mass, space, material behaviour and the evidence needed to present three-dimensional work.",
+  "officialUrl": "https://apstudents.collegeboard.org/courses/ap-3-d-art-and-design",
+  "frameworkNote": "Checked against the official course page on 15 October 2026 for 2026-27. This is an original four-part portfolio skill sequence across inquiry, making and presentation, not prescribed College Board units. Text exercises support planning and reflection; they do not create, assess or certify a portfolio. Check current submission and AI rules with your teacher.",
+  "assessment": "portfolio",
+  "modules": [
+    {
+      "title": "Investigate occupied and empty space",
+      "focus": "Develop a spatial inquiry that needs more than one view.",
+      "explanation": [
+        "Three-dimensional design organises volume and the space around or within it. A void can carry as much meaning as a solid mass. A tunnel, opening or repeated gap changes what a viewer can see and how the eye or body moves through the work.",
+        "Start from a question that requires spatial decisions, such as how a narrow opening can suggest protection and restriction at once. Make small safe models, turn them, and record how the relationship changes. A front photograph alone may hide the most important opening, so observation and documentation should include several angles."
+      ],
+      "workedExample": {
+        "prompt": "Investigate a shelter made from folded card.",
+        "steps": [
+          "Make one model with a broad entrance and another with a narrow entrance.",
+          "Compare the interior view and surrounding negative space before choosing what to develop."
+        ]
+      },
+      "misconception": {
+        "claim": "Empty space is simply unused material.",
+        "correction": "A deliberately shaped void is an active part of a spatial composition."
+      },
+      "questions": [
+        {
+          "prompt": "How could a hollow form communicate fragility?",
+          "hint": "Connect an opening to the remaining structure.",
+          "answer": "Large openings and thin connecting walls can make support visibly delicate, provided the model remains safely stable.",
+          "checkpoints": [
+            "Names a spatial choice",
+            "Connects form to meaning"
+          ],
+          "id": "3-d-art-and-design-1-q1"
+        },
+        {
+          "prompt": "Why compare the side and front views?",
+          "hint": "Think about hidden relationships.",
+          "answer": "A solid-looking front may conceal a hollow interior or uneven balance visible from the side.",
+          "checkpoints": [
+            "Explains changing evidence",
+            "Uses more than one viewpoint"
+          ],
+          "id": "3-d-art-and-design-1-q2"
+        }
+      ],
+      "frameworkUnit": "Portfolio skill 1",
+      "id": "3-d-art-and-design-1"
+    },
+    {
+      "title": "Test structure and material behaviour",
+      "focus": "Choose joints and supports that serve the form.",
+      "explanation": [
+        "A material has properties as well as associations. Card folds, wire bends and clay changes as it dries. The connection between parts affects both structural reliability and appearance. Plan safe tools and teacher-supervised processes appropriate to the material before working.",
+        "A model that stands still can still be unstable if its centre of mass lies near the edge of its support area. Test small versions on a level surface and document how added height or an overhang changes balance. Artistic tension can be suggested through form without making a dangerous object."
+      ],
+      "workedExample": {
+        "prompt": "A tall card tower leans after an upper platform is attached.",
+        "steps": [
+          "Locate how the platform shifts weight toward one side.",
+          "Widen the base or reposition the platform, then compare stability and the intended silhouette."
+        ]
+      },
+      "misconception": {
+        "claim": "If a sculpture stands once, its structure is resolved.",
+        "correction": "Stability depends on support, joints and expected handling conditions, not one photograph."
+      },
+      "questions": [
+        {
+          "prompt": "Why test a joint before making the full work?",
+          "hint": "Think about force and process.",
+          "answer": "A small test shows whether the joint holds the chosen materials and whether its appearance fits the work.",
+          "checkpoints": [
+            "Tests structure",
+            "Tests visual consequence"
+          ],
+          "id": "3-d-art-and-design-2-q1"
+        },
+        {
+          "prompt": "How can visible bracing support an inquiry about dependence?",
+          "hint": "Treat support as a visual element.",
+          "answer": "Repeated braces can reveal how each section relies on another, making structural support part of the idea.",
+          "checkpoints": [
+            "Links process to idea",
+            "Names a visible relationship"
+          ],
+          "id": "3-d-art-and-design-2-q2"
+        }
+      ],
+      "frameworkUnit": "Portfolio skill 2",
+      "id": "3-d-art-and-design-2"
+    },
+    {
+      "title": "Revise scale, rhythm and surface",
+      "focus": "Change spatial relationships with a clear purpose.",
+      "explanation": [
+        "Repetition creates rhythm across a structure, but exact repetition is only one possibility. Increasing gaps or changing the size of repeated units can direct a viewer around a form. Scale also changes how an object relates to a hand, room or body.",
+        "Surface and mass interact. A smooth surface can unify a fragmented form; a rough surface can interrupt a continuous volume. Compare changes in a model before committing to a final material. Record the original decision, the effect you observed and the revised relationship so that development remains visible."
+      ],
+      "workedExample": {
+        "prompt": "A ring of identical modules feels static.",
+        "steps": [
+          "Keep the circular arrangement while gradually increasing the gaps.",
+          "Inspect whether the changing rhythm directs the eye, then revise one abrupt jump that distracts from the intended progression."
+        ]
+      },
+      "misconception": {
+        "claim": "Revision means covering mistakes with decoration.",
+        "correction": "Revision may change proportion, space, structure or process rather than adding surface detail."
+      },
+      "questions": [
+        {
+          "prompt": "How would doubling a wearable object’s scale change its meaning?",
+          "hint": "Consider its relationship to the body.",
+          "answer": "It may become restrictive or theatrical rather than practical; explain the effect using its actual position and weight.",
+          "checkpoints": [
+            "Connects scale to experience",
+            "Avoids assuming one fixed meaning"
+          ],
+          "id": "3-d-art-and-design-3-q1"
+        },
+        {
+          "prompt": "What evidence could show a rhythm revision?",
+          "hint": "Compare arrangements.",
+          "answer": "Photograph two models from the same angle and annotate how changing intervals alters movement around the form.",
+          "checkpoints": [
+            "Uses comparable views",
+            "Names the altered relationship"
+          ],
+          "id": "3-d-art-and-design-3-q2"
+        }
+      ],
+      "frameworkUnit": "Portfolio skill 3",
+      "id": "3-d-art-and-design-3"
+    },
+    {
+      "title": "Document a spatial work",
+      "focus": "Represent volume, scale and process accurately.",
+      "explanation": [
+        "Documentation translates a physical work into images. Choose views that reveal mass, voids, surface and important connections. Consistent lighting helps viewers distinguish a shadow from a dark material. Include detail views only when they clarify something the overall view cannot show.",
+        "Dimensions and material descriptions establish scale more reliably than a dramatic camera angle. Preserve photographs of significant changes and identify what each one demonstrates. A strong presentation is selective but honest: do not use cropping or digital alteration to conceal a structural or material feature relevant to the work."
+      ],
+      "workedExample": {
+        "prompt": "Plan documentation for a hollow woven form.",
+        "steps": [
+          "Use an overall three-quarter view to show volume and openings.",
+          "Add a detail of the weaving connection and a second view that reveals the interior; record dimensions and materials."
+        ]
+      },
+      "misconception": {
+        "claim": "One dramatic photograph is always sufficient.",
+        "correction": "Spatial relationships often require several complementary views."
+      },
+      "questions": [
+        {
+          "prompt": "Why might a low camera angle misrepresent a small model?",
+          "hint": "Think about apparent size.",
+          "answer": "It can make the model appear monumental while hiding its actual scale and top surfaces.",
+          "checkpoints": [
+            "Identifies distortion",
+            "Suggests dimensions or another view"
+          ],
+          "id": "3-d-art-and-design-4-q1"
+        },
+        {
+          "prompt": "Write a concrete revision note for a widened base.",
+          "hint": "Connect structure and intention.",
+          "answer": "I widened the base to support the offset upper mass, keeping the asymmetry while reducing tipping.",
+          "checkpoints": [
+            "Names the change",
+            "Explains its purpose"
+          ],
+          "id": "3-d-art-and-design-4-q2"
+        }
+      ],
+      "frameworkUnit": "Portfolio skill 4",
+      "id": "3-d-art-and-design-4"
+    }
+  ]
+}

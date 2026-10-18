@@ -136,6 +136,51 @@
 .popup.planner-task-dialog, .planner-task-dialog input, .planner-task-dialog select, .planner-task-dialog button { font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
 .planner-task-dialog button { min-height: 44px; font-size: 14px; border-radius: 8px; }
 .planner-task-dialog .planner-new { background: hsl(var(--primary)); color: hsl(var(--primary-foreground)); }
+.calendar-import-dialog .planner-new { order: 0; width: auto; min-height: 44px; font-size: 14px; }
+.calendar-import-dialog button { max-width: 100%; overflow-wrap: anywhere; }
+.popup.planner-task-dialog.calendar-import-dialog { display: flex; flex-direction: column; overflow: hidden; padding: 0; width: min(600px, calc(100vw - 32px)); }
+.calendar-import-header, .calendar-import-body, .calendar-import-actions { padding: 24px; }
+.calendar-import-header { flex: none; padding-bottom: 16px; border-bottom: 1px solid hsl(var(--border)); }
+.calendar-import-header p { margin: 12px 0 16px; color: hsl(var(--muted-foreground)); }
+.calendar-import-steps { display: flex; gap: 24px; margin: 0; padding: 0; list-style: none; font-size: 14px; color: hsl(var(--muted-foreground)); }
+.calendar-import-steps li { padding-bottom: 8px; border-bottom: 2px solid transparent; }
+.calendar-import-steps [aria-current="step"] { color: hsl(var(--primary)); border-color: hsl(var(--primary)); font-weight: 650; }
+.calendar-import-body { min-height: 0; overflow-y: auto; overscroll-behavior: contain; gap: 16px; overflow-wrap: anywhere; }
+.calendar-choose-fields:not([hidden]) { display: flex; flex-direction: column; gap: 8px; }
+.calendar-import-dialog .planner-form-hint { margin: 0 0 12px; font-weight: 400; font-size: 14px; color: hsl(var(--muted-foreground)); }
+.calendar-import-dialog .calendar-import-privacy { margin: 8px 0; padding-left: 12px; border-left: 2px solid hsl(var(--primary)); }
+.calendar-import-dialog .calendar-disclosure { width: 100%; min-height: 44px; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 8px 0; background: transparent; color: hsl(var(--foreground)); text-align: left; box-shadow: none; }
+.calendar-import-help p { margin: 0 0 12px; color: hsl(var(--muted-foreground)); font-size: 14px; }
+.calendar-import-actions { flex: none; display: flex; gap: 12px; align-items: center; justify-content: space-between; border-top: 1px solid hsl(var(--border)); background: hsl(var(--background)); padding-top: 16px; padding-bottom: 16px; }
+.calendar-import-actions .planner-form-hint { margin: 0; flex: 1; }
+.calendar-step-title { margin: 0 0 8px; font-size: 20px; font-weight: 650; overflow-wrap: anywhere; }
+.calendar-review-counts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; padding: 16px 0; margin: 0 0 8px; border-block: 1px solid hsl(var(--border)); }
+.calendar-review-counts dt { font-size: 12px; color: hsl(var(--muted-foreground)); }
+.calendar-review-counts dd { margin: 4px 0 0; font-size: 24px; font-weight: 650; color: hsl(var(--foreground)); }
+.calendar-review-counts div:first-child dd { color: hsl(var(--primary)); }
+.calendar-event-list { list-style: none; padding: 0; margin: 0; }
+.calendar-event-list li { display: flex; flex-direction: column; gap: 4px; padding: 12px 0; overflow-wrap: anywhere; }
+.calendar-event-list li + li { border-top: 1px solid hsl(var(--border)); }
+.calendar-event-list strong { font-weight: 600; }
+.calendar-event-list span, .calendar-source-row span { color: hsl(var(--muted-foreground)); font-size: 14px; }
+.calendar-import-conflicts { margin-top: 16px; border-left: 2px solid hsl(var(--border)); padding-left: 12px; }
+.calendar-import-conflicts h4 { margin: 0; font-weight: 600; font-size: 14px; }
+.calendar-import-success { text-align: center; padding: 16px 0; }
+.calendar-success-mark { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; margin-bottom: 16px; border-radius: 50%; background: hsl(var(--primary) / .1); color: hsl(var(--primary)); font-size: 24px; }
+.calendar-source-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px 0; border-top: 1px solid hsl(var(--border)); }
+.calendar-source-row > div { display: flex; flex-direction: column; gap: 4px; min-width: 0; overflow-wrap: anywhere; }
+.calendar-remove-confirm { padding: 12px; background: hsl(var(--muted)); border: 1px solid hsl(var(--border)); border-radius: 8px; }
+.calendar-remove-confirm p { margin: 0 0 12px; overflow-wrap: anywhere; }
+.calendar-confirm-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.calendar-import-dialog :is(summary, h3, p):focus-visible { outline: 2px solid hsl(var(--primary)); outline-offset: 3px; }
+@media (max-width: 480px) {
+  .calendar-import-header, .calendar-import-body, .calendar-import-actions { padding: 16px; }
+  .calendar-import-header .planner-dialog-heading h2 { font-size: 20px; }
+  .calendar-import-actions { flex-wrap: wrap; }
+  .calendar-import-actions .planner-form-hint { flex-basis: 100%; }
+  .calendar-import-actions .planner-new { flex: 1; }
+  .calendar-review-counts dt { min-height: 36px; line-height: 18px; }
+}
 .planner-task-dialog button:disabled { opacity: .55; cursor: not-allowed; }
 .dark .planner-task-dialog :is(input, select) { color-scheme: dark; }
 .light .planner-task-dialog :is(input, select) { color-scheme: light; }
@@ -183,3 +228,36 @@
 @media(prefers-reduced-motion:reduce) { .popup.planner-task-dialog, .planner-root * { animation:none!important; transition:none!important; } }
 body:has(.planner-root) .vee-launcher { position:relative!important; inset:auto!important; transform:none!important; margin:16px 24px 16px auto; display:flex; max-width:130px; }
 body:has(.planner-root) .feedback-launcher { position:static!important; }
+
+/* Date navigation stays separate from actions that change a learner's plan. */
+.planner-root .planner-header { grid-template-columns: minmax(0, 1fr) auto; gap: 16px; font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
+.planner-heading > p { margin: 0 0 4px; color: hsl(var(--muted-foreground)); font-size: 14px; }
+.planner-root .planner-title { background: none; color: hsl(var(--foreground)); font: inherit; font-size: 28px; font-weight: 650; line-height: 1.25; letter-spacing: 0; }
+.planner-root .planner-controls { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 12px; padding-block: 16px; border-block: 1px solid hsl(var(--border)); }
+.planner-date-navigation { display: contents; }
+.planner-date-arrows { display: flex; gap: 8px; }
+.planner-root .planner-date-arrows button { min-width: 44px; display: inline-flex; align-items: center; justify-content: center; padding: 8px; }
+.planner-date-jump { display: flex; align-items: center; gap: 8px; order: 2; margin-left: auto; }
+.planner-date-jump label { font-size: 14px; white-space: nowrap; }
+.planner-date-jump input { min-width: 0; min-height: 44px; padding: 8px; border-radius: 8px; border: 1px solid hsl(var(--border)); color: hsl(var(--foreground)); background: hsl(var(--background)); font: inherit; font-size: 16px; }
+.planner-date-jump input:focus-visible { outline: 2px solid hsl(var(--primary)); outline-offset: 3px; }
+.dark .planner-date-jump input { color-scheme: dark; }
+.planner-root .planner-header :is(.planner-new, .planner-today, .planner-select) { border-radius: 8px; font-family: inherit; transform: none; letter-spacing: 0; }
+.planner-root .planner-header .planner-new { order: 0; width: auto; background: hsl(var(--primary)); color: hsl(var(--primary-foreground)); }
+.planner-root .planner-header .planner-actions { gap: 8px; }
+.calendar-weekdays { display: grid; grid-template-columns: repeat(7,minmax(0,1fr)); gap: 2px; padding: 8px 8px 0; font-size: 12px; font-weight: 600; text-align: center; color: hsl(var(--muted-foreground)); }
+.planner-root .calendar-arrow { min-width: 44px; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
+.planner-empty-day { padding-block: 8px; }
+.planner-empty-day button { margin-top: 16px; }
+@media(max-width: 900px) {
+  .planner-root .planner-header { grid-template-columns: minmax(0, 1fr); }
+  .planner-root .planner-title { font-size: 24px; }
+  .planner-date-jump { margin-left: 0; }
+}
+@media(max-width: 480px) {
+  .planner-date-jump { flex-basis: 100%; display: grid; grid-template-columns: minmax(0, 1fr) auto; }
+  .planner-date-jump label { grid-column: 1 / -1; }
+  .planner-root .planner-header .planner-actions { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .planner-root .planner-header .planner-new { grid-column: 1 / -1; width: 100%; }
+  .planner-root .planner-header .planner-actions button { width: 100%; }
+}

@@ -1,0 +1,2002 @@
+{
+  "recordedAt": "2026-10-15T16:30:23.446292+00:00",
+  "status": "LOCAL_AP_IMPLEMENTATION_COMPLETE_RELEASE_VALIDATION_PENDING",
+  "baseHead": "e28f24ff1c051eaa91b5443a79fe392987d0c688",
+  "checkoutBoundary": "Existing uncommitted work preserved. This is a working-tree receipt, not a committed, deployed or clean release candidate.",
+  "academicYear": "2026-27",
+  "totals": {
+    "courses": 42,
+    "modules": 274,
+    "questions": 548,
+    "publicContentBytes": 520771
+  },
+  "categoryCounts": {
+    "Arts": {
+      "courses": 5,
+      "modules": 30,
+      "questions": 60
+    },
+    "History and social sciences": {
+      "courses": 10,
+      "modules": 65,
+      "questions": 130
+    },
+    "Sciences": {
+      "courses": 7,
+      "modules": 54,
+      "questions": 108
+    },
+    "Career Kickstart": {
+      "courses": 2,
+      "modules": 11,
+      "questions": 22
+    },
+    "Maths and computer science": {
+      "courses": 6,
+      "modules": 36,
+      "questions": 72
+    },
+    "World languages": {
+      "courses": 8,
+      "modules": 50,
+      "questions": 100
+    },
+    "English": {
+      "courses": 2,
+      "modules": 18,
+      "questions": 36
+    },
+    "Capstone": {
+      "courses": 2,
+      "modules": 10,
+      "questions": 20
+    }
+  },
+  "scope": "All 42 courses currently listed in AP Students have original focused lessons. Numbered units and themes use current frameworks; art portfolios and Capstone use labelled original skill sequences. This is not exhaustive syllabus coverage, teacher approval, official AP scoring or College Board endorsement.",
+  "officialCatalogue": "https://apstudents.collegeboard.org/courses",
+  "excludedFuturePilot": "AP Networking is not in the current public AP Students catalogue; no current course is fabricated for that future pilot.",
+  "implemented": [
+    "Public /ap catalogue, /ap/:courseSlug outlines and /ap/:courseSlug/:moduleSlug lessons",
+    "URL-backed search and subject filters; all 42 courses discoverable while signed out",
+    "Explanations, worked examples, misconception corrections, hints, original prompts and self-review checkpoints",
+    "Temporary per-question working across module navigation and course working text download",
+    "Dedicated AP collection in the learning library and all 42 curriculum preference options",
+    "Deterministic public JSON assets, exact-content SHA-256 validation, failed-load retry and public offline-bundle inclusion",
+    "Seven AP Playwright cases added to the existing release CI matrix"
+  ],
+  "validation": {
+    "focusedTests": {
+      "status": "PASS",
+      "tests": 33,
+      "failures": 0
+    },
+    "copyLint": {
+      "status": "PASS",
+      "files": 454,
+      "findings": 0
+    },
+    "targetedEslint": {
+      "status": "PASS",
+      "fullRepositoryLint": false
+    },
+    "typescriptSyntax": {
+      "status": "PASS",
+      "files": 17,
+      "semanticTypecheck": false
+    },
+    "generatedContent": {
+      "status": "PASS",
+      "courseAssets": 42
+    },
+    "browserDiscovery": {
+      "status": "PASS",
+      "tests": 7,
+      "browserExecution": false
+    },
+    "diffWhitespace": {
+      "status": "PASS"
+    },
+    "fullBuild": "NOT_RUN_RESOURCE",
+    "semanticTypecheck": "NOT_RUN_RESOURCE",
+    "fullAppTests": "NOT_RUN_RESOURCE",
+    "bundleBudgets": "NOT_RUN_RESOURCE",
+    "browserTests": "NOT_RUN_RESOURCE",
+    "visualReview1440_1024_390": "NOT_RUN_RESOURCE",
+    "keyboardAndReducedMotionBrowserReview": "NOT_RUN_RESOURCE",
+    "deployment": "NOT_PERFORMED",
+    "subjectExpertAndNativeSpeakerReview": "PENDING"
+  },
+  "resourceAdmission": {
+    "minimumFreePlusSpeculativeMiB": 512,
+    "samples": [
+      {
+        "recordedAt": "2026-10-15T16:08:12.475683+00:00",
+        "freePlusSpeculativeMiB": 88.02,
+        "pageouts": 676226,
+        "heavyCheckFloorMiB": 512
+      },
+      {
+        "recordedAt": "2026-10-15T16:17:02.083329+00:00",
+        "freePlusSpeculativeMiB": 143.61,
+        "pageouts": 680532,
+        "heavyCheckFloorMiB": 512
+      },
+      {
+        "at": "2026-10-15T16:23:29.082928+00:00",
+        "free_plus_speculative_mib": 82.61,
+        "pageouts": 682786,
+        "heavy_work_admitted": false
+      },
+      {
+        "at": "2026-10-15T16:28:02.435928+00:00",
+        "free_plus_speculative_mib": 195.95,
+        "pageouts": 684966,
+        "heavy_work_admitted": false
+      }
+    ],
+    "reason": "Free plus speculative memory stayed below the admission floor; pageouts increased. No unrelated process was stopped."
+  },
+  "retainedCorrections": [
+    {
+      "path": ".tmp/ap-expansion-20261015/copy-all-initial.log",
+      "result": "Initial copy scan found one microeconomics phrase matching the generic where-X-meets-Y heuristic. Replaced with precise economic wording. Final zero findings."
+    },
+    {
+      "path": ".tmp/ap-expansion-20261015/generated-check-before-final-correction.log",
+      "result": "Consistency check correctly failed after a final Chinese wording edit. Regenerated assets and catalogue; all current-content tests and generator check now pass."
+    }
+  ],
+  "remaining": [
+    "Run semantic typecheck, full app/CI checks, build and performance budgets with adequate compute.",
+    "Execute and inspect the seven AP browser cases, including all 42 course routes, 1440/1024/390 screenshots, keyboard/reduced motion and offline navigation; correct any visual or runtime defects.",
+    "Obtain subject-expert, native-speaker and current assessment review. Expand beyond focused modules for exhaustive syllabus preparation.",
+    "Audio, speaking, laboratory/studio work, required source readings and supervised portfolio/project assessment remain outside these text lessons.",
+    "Current hosting, domain and service acceptance remain separate release gates; this pass does not update production.",
+    "245 imported guides remain held; no publication approval was added."
+  ],
+  "contentReviews": {
+    "stem-review.json": {
+      "date": "2026-10-15",
+      "scope": "13 AP STEM courses; focused original revision content per current official unit or Big Idea",
+      "courses": [
+        {
+          "slug": "calculus-ab",
+          "moduleCount": 8,
+          "questionCount": 16,
+          "expectedFrameworkLabels": [
+            "Unit 1",
+            "Unit 2",
+            "Unit 3",
+            "Unit 4",
+            "Unit 5",
+            "Unit 6",
+            "Unit 7",
+            "Unit 8"
+          ],
+          "moduleWordCountRange": [
+            157,
+            219
+          ],
+          "sha256": "3e6cd68f0cea8e489802739ba97d86a016b7c4d6cf75fca6ac8a57a117a4f301",
+          "source": "https://apstudents.collegeboard.org/courses/ap-calculus-ab"
+        },
+        {
+          "slug": "calculus-bc",
+          "moduleCount": 10,
+          "questionCount": 20,
+          "expectedFrameworkLabels": [
+            "Unit 1",
+            "Unit 2",
+            "Unit 3",
+            "Unit 4",
+            "Unit 5",
+            "Unit 6",
+            "Unit 7",
+            "Unit 8",
+            "Unit 9",
+            "Unit 10"
+          ],
+          "moduleWordCountRange": [
+            159,
+            203
+          ],
+          "sha256": "388868395de38dfddce158112a59a8f50bab8cc00d8e3a6f313959297dd8b9d6",
+          "source": "https://apstudents.collegeboard.org/courses/ap-calculus-bc"
+        },
+        {
+          "slug": "precalculus",
+          "moduleCount": 4,
+          "questionCount": 8,
+          "expectedFrameworkLabels": [
+            "Unit 1",
+            "Unit 2",
+            "Unit 3",
+            "Unit 4"
+          ],
+          "moduleWordCountRange": [
+            164,
+            177
+          ],
+          "sha256": "cc53298af7c4fe1d52478c6cb946b04b01c58b81faefce9902a905cdd673962a",
+          "source": "https://apstudents.collegeboard.org/courses/ap-precalculus"
+        },
+        {
+          "slug": "statistics",
+          "moduleCount": 5,
+          "questionCount": 10,
+          "expectedFrameworkLabels": [
+            "Unit 1",
+            "Unit 2",
+            "Unit 3",
+            "Unit 4",
+            "Unit 5"
+          ],
+          "moduleWordCountRange": [
+            185,
+            238
+          ],
+          "sha256": "caec0d26f9edc59b8fb706618627afe6f5a18de657b868aa1cc96d8ac21c888a",
+          "source": "https://apstudents.collegeboard.org/courses/ap-statistics"
+        },
+        {
+          "slug": "computer-science-a",
+          "moduleCount": 4,
+          "questionCount": 8,
+          "expectedFrameworkLabels": [
+            "Unit 1",
+            "Unit 2",
+            "Unit 3",
+            "Unit 4"
+          ],
+          "moduleWordCountRange": [
+            180,
+            240
+          ],
+          "sha256": "0e5133c35d76d56d8e2a8a2bb19b2edfc98c8596e6546a10098da703f47c2791",
+          "source": "https://apstudents.collegeboard.org/courses/ap-computer-science-a"
+        },
+        {
+          "slug": "computer-science-principles",
+          "moduleCount": 5,
+          "questionCount": 10,
+          "expectedFrameworkLabels": [
+            "Big Idea 1",
+            "Big Idea 2",
+            "Big Idea 3",
+            "Big Idea 4",
+            "Big Idea 5"
+          ],
+          "moduleWordCountRange": [
+            201,
+            241
+          ],
+          "sha256": "6705d615c1bc3b65d72ec429758357a4a5fd979ce20b8c88960ad0319ac06316",
+          "source": "https://apstudents.collegeboard.org/courses/ap-computer-science-principles"
+        },
+        {
+          "slug": "biology",
+          "moduleCount": 8,
+          "questionCount": 16,
+          "expectedFrameworkLabels": [
+            "Unit 1",
+            "Unit 2",
+            "Unit 3",
+            "Unit 4",
+            "Unit 5",
+            "Unit 6",
+            "Unit 7",
+            "Unit 8"
+          ],
+          "moduleWordCountRange": [
+            188,
+            271
+          ],
+          "sha256": "8d011ea79991dba10e19a624d73e9b1f1ba388a413e92ffce69ddebe53d2a17f",
+          "source": "https://apstudents.collegeboard.org/courses/ap-biology"
+        },
+        {
+          "slug": "chemistry",
+          "moduleCount": 9,
+          "questionCount": 18,
+          "expectedFrameworkLabels": [
+            "Unit 1",
+            "Unit 2",
+            "Unit 3",
+            "Unit 4",
+            "Unit 5",
+            "Unit 6",
+            "Unit 7",
+            "Unit 8",
+            "Unit 9"
+          ],
+          "moduleWordCountRange": [
+            179,
+            220
+          ],
+          "sha256": "c9865d4859879e56573b4d7b06ac7ad06d26bc4f5d06462ee387975c83a581e9",
+          "source": "https://apstudents.collegeboard.org/courses/ap-chemistry"
+        },
+        {
+          "slug": "environmental-science",
+          "moduleCount": 9,
+          "questionCount": 18,
+          "expectedFrameworkLabels": [
+            "Unit 1",
+            "Unit 2",
+            "Unit 3",
+            "Unit 4",
+            "Unit 5",
+            "Unit 6",
+            "Unit 7",
+            "Unit 8",
+            "Unit 9"
+          ],
+          "moduleWordCountRange": [
+            192,
+            233
+          ],
+          "sha256": "4fdb3cf68d73c0419eea87ff7cf53fadc7104fafc6fb7dd39ad8688fa8d5d62a",
+          "source": "https://apstudents.collegeboard.org/courses/ap-environmental-science"
+        },
+        {
+          "slug": "physics-1-algebra-based",
+          "moduleCount": 8,
+          "questionCount": 16,
+          "expectedFrameworkLabels": [
+            "Unit 1",
+            "Unit 2",
+            "Unit 3",
+            "Unit 4",
+            "Unit 5",
+            "Unit 6",
+            "Unit 7",
+            "Unit 8"
+          ],
+          "moduleWordCountRange": [
+            165,
+            215
+          ],
+          "sha256": "9bd43c4c6683c5acc338919f9a14324bef97f9a5987032e43abb4b9e1b92fb53",
+          "source": "https://apstudents.collegeboard.org/courses/ap-physics-1-algebra-based"
+        },
+        {
+          "slug": "physics-2-algebra-based",
+          "moduleCount": 7,
+          "questionCount": 14,
+          "expectedFrameworkLabels": [
+            "Unit 9",
+            "Unit 10",
+            "Unit 11",
+            "Unit 12",
+            "Unit 13",
+            "Unit 14",
+            "Unit 15"
+          ],
+          "moduleWordCountRange": [
+            182,
+            211
+          ],
+          "sha256": "fa5ea1367176b28df8fb9ef69892b045ef8431397afce4127ed0e964c24f3eb5",
+          "source": "https://apstudents.collegeboard.org/courses/ap-physics-2-algebra-based"
+        },
+        {
+          "slug": "physics-c-mechanics",
+          "moduleCount": 7,
+          "questionCount": 14,
+          "expectedFrameworkLabels": [
+            "Unit 1",
+            "Unit 2",
+            "Unit 3",
+            "Unit 4",
+            "Unit 5",
+            "Unit 6",
+            "Unit 7"
+          ],
+          "moduleWordCountRange": [
+            174,
+            226
+          ],
+          "sha256": "189dfc516fac4aa46a5e56f29b9e983caabbb12638432b331d2ea9afe59ef397",
+          "source": "https://apstudents.collegeboard.org/courses/ap-physics-c-mechanics"
+        },
+        {
+          "slug": "physics-c-electricity-and-magnetism",
+          "moduleCount": 6,
+          "questionCount": 12,
+          "expectedFrameworkLabels": [
+            "Unit 8",
+            "Unit 9",
+            "Unit 10",
+            "Unit 11",
+            "Unit 12",
+            "Unit 13"
+          ],
+          "moduleWordCountRange": [
+            181,
+            230
+          ],
+          "sha256": "b135acd53842c23c96d1a3d830ce55b122fb61ca83de1242ed00b3ed063a018e",
+          "source": "https://apstudents.collegeboard.org/courses/ap-physics-c-electricity-and-magnetism"
+        }
+      ],
+      "totals": {
+        "courses": 13,
+        "modules": 90,
+        "questions": 180
+      },
+      "structuralValidation": "PASS",
+      "calculationChecks": [
+        {
+          "check": "AB related sphere volume rate",
+          "computed": -25.132741228718345,
+          "expected": -25.132741228718345,
+          "pass": true
+        },
+        {
+          "check": "AB bounded area",
+          "computed": 10.666666666666668,
+          "expected": 10.666666666666666,
+          "pass": true
+        },
+        {
+          "check": "AB rate accumulation final volume",
+          "computed": 22,
+          "expected": 22,
+          "pass": true
+        },
+        {
+          "check": "BC motion acceleration at 3",
+          "computed": 6,
+          "expected": 6,
+          "pass": true
+        },
+        {
+          "check": "BC Euler logistic step",
+          "computed": 2.8,
+          "expected": 2.8,
+          "pass": true
+        },
+        {
+          "check": "BC geometric sum",
+          "computed": 6.0,
+          "expected": 6,
+          "pass": true
+        },
+        {
+          "check": "Precalculus exponential time",
+          "computed": 3.0,
+          "expected": 3,
+          "pass": true
+        },
+        {
+          "check": "Statistics one-proportion margin",
+          "computed": 0.048009998958550286,
+          "expected": 0.04800999895855029,
+          "pass": true
+        },
+        {
+          "check": "Statistics binomial probability",
+          "computed": 0.25,
+          "expected": 0.25,
+          "pass": true
+        },
+        {
+          "check": "Statistics t interval lower",
+          "computed": -0.1280000000000001,
+          "expected": -0.128,
+          "pass": true
+        },
+        {
+          "check": "Statistics mean time",
+          "computed": 6.0,
+          "expected": 6,
+          "pass": true
+        },
+        {
+          "check": "CS parallel time",
+          "computed": 4.0,
+          "expected": 4,
+          "pass": true
+        },
+        {
+          "check": "Biology heterozygosity",
+          "computed": 0.42,
+          "expected": 0.42,
+          "pass": true
+        },
+        {
+          "check": "Biology surface-volume ratio",
+          "computed": 3.0,
+          "expected": 3,
+          "pass": true
+        },
+        {
+          "check": "Biology ecological transfer",
+          "computed": 200.0,
+          "expected": 200,
+          "pass": true
+        },
+        {
+          "check": "Chem isotope mass",
+          "computed": 35.5,
+          "expected": 35.5,
+          "pass": true
+        },
+        {
+          "check": "Chem calorimetry",
+          "computed": 2090.0,
+          "expected": 2090,
+          "pass": true
+        },
+        {
+          "check": "Chem free energy",
+          "computed": -10.0,
+          "expected": -10,
+          "pass": true
+        },
+        {
+          "check": "Chem cell free energy",
+          "computed": -192970,
+          "expected": -192970,
+          "pass": true
+        },
+        {
+          "check": "Environmental irrigation saving",
+          "computed": 450.0,
+          "expected": 450,
+          "pass": true
+        },
+        {
+          "check": "Environmental load",
+          "computed": 1.5,
+          "expected": 1.5,
+          "pass": true
+        },
+        {
+          "check": "Environmental light saving",
+          "computed": 0.24999999999999997,
+          "expected": 0.25,
+          "pass": true
+        },
+        {
+          "check": "Physics1 displacement",
+          "computed": 32.0,
+          "expected": 32,
+          "pass": true
+        },
+        {
+          "check": "Physics1 collision speed",
+          "computed": 2.0,
+          "expected": 2,
+          "pass": true
+        },
+        {
+          "check": "Physics1 spring energy",
+          "computed": 2.0000000000000004,
+          "expected": 2,
+          "pass": true
+        },
+        {
+          "check": "Physics1 buoyancy",
+          "computed": 30.0,
+          "expected": 30,
+          "pass": true
+        },
+        {
+          "check": "Physics2 lens distance",
+          "computed": 14.999999999999996,
+          "expected": 15,
+          "pass": true
+        },
+        {
+          "check": "Physics2 parallel resistance",
+          "computed": 2.0,
+          "expected": 2,
+          "pass": true
+        },
+        {
+          "check": "Physics2 thermodynamics",
+          "computed": 320,
+          "expected": 320,
+          "pass": true
+        },
+        {
+          "check": "Physics2 standing wave",
+          "computed": 25.0,
+          "expected": 25,
+          "pass": true
+        },
+        {
+          "check": "PhysicsC mechanics variable work",
+          "computed": 18,
+          "expected": 18,
+          "pass": true
+        },
+        {
+          "check": "PhysicsC mechanics end inertia",
+          "computed": 4.0,
+          "expected": 4,
+          "pass": true
+        },
+        {
+          "check": "PhysicsC mechanics impulse",
+          "computed": 12,
+          "expected": 12,
+          "pass": true
+        },
+        {
+          "check": "PhysicsC E&M potential",
+          "computed": -60.0,
+          "expected": -60,
+          "pass": true
+        },
+        {
+          "check": "PhysicsC E&M capacitor energy",
+          "computed": 4.9999999999999996e-05,
+          "expected": 5e-05,
+          "pass": true
+        },
+        {
+          "check": "PhysicsC E&M time constant",
+          "computed": 1.0,
+          "expected": 1,
+          "pass": true
+        },
+        {
+          "check": "PhysicsC E&M induction",
+          "computed": 0.1,
+          "expected": 0.1,
+          "pass": true
+        },
+        {
+          "check": "PhysicsC E&M inductor energy",
+          "computed": 4.0,
+          "expected": 4,
+          "pass": true
+        }
+      ],
+      "additionalSources": [
+        "https://apcentral.collegeboard.org/courses/ap-statistics/future-revisions",
+        "https://apcentral.collegeboard.org/courses/how-ap-develops-courses-and-exams/course-changes-overview",
+        "https://apcentral.collegeboard.org/courses/ap-chemistry"
+      ],
+      "reviewNotes": [
+        "Statistics is the five-unit Fall 2026 framework.",
+        "CSA uses four revised units.",
+        "Physics 2 uses official Units 9-15; Physics C E&M uses Units 8-13.",
+        "Precalculus Unit 4 is explicitly marked not assessed.",
+        "Biology osmosis prompt revised after parent review to fix pressure and temperature conditions."
+      ],
+      "limitations": [
+        "Unit representation does not establish exhaustive AP topic coverage.",
+        "The 38 numerical recalculations are targeted arithmetic checks, not independent subject-expert certification.",
+        "No live exam items copied; all worked examples and practice questions authored for this revision pack.",
+        "Laboratory, portfolio, Create task and official exam requirements are not completed by using these lessons."
+      ],
+      "copyLint": {
+        "command": "node scripts/lint-copy.mjs --files [13 owned AP STEM JSON files]",
+        "filesScanned": 13,
+        "findings": 0,
+        "exitCode": 0
+      }
+    },
+    "humanities-review.json": {
+      "checkedDate": "2026-10-15",
+      "scope": "Original humanities AP content authored in this iteration; all listed course structures checked using official College Board pages.",
+      "status": "LOCAL_CONTENT_STRUCTURE_CHECKED_SUBJECT_REVIEW_OUTSTANDING",
+      "courseCount": 12,
+      "moduleCount": 83,
+      "questionCount": 166,
+      "courses": [
+        {
+          "slug": "african-american-studies",
+          "title": "AP African American Studies",
+          "officialUrl": "https://apstudents.collegeboard.org/courses/ap-african-american-studies",
+          "expectedUnitCount": 4,
+          "observedUnitCount": 4,
+          "questionCount": 8,
+          "moduleWordCountRange": [
+            210,
+            216
+          ]
+        },
+        {
+          "slug": "comparative-government-and-politics",
+          "title": "AP Comparative Government and Politics",
+          "officialUrl": "https://apstudents.collegeboard.org/courses/ap-comparative-government-and-politics",
+          "expectedUnitCount": 5,
+          "observedUnitCount": 5,
+          "questionCount": 10,
+          "moduleWordCountRange": [
+            188,
+            210
+          ]
+        },
+        {
+          "slug": "human-geography",
+          "title": "AP Human Geography",
+          "officialUrl": "https://apstudents.collegeboard.org/courses/ap-human-geography",
+          "expectedUnitCount": 7,
+          "observedUnitCount": 7,
+          "questionCount": 14,
+          "moduleWordCountRange": [
+            185,
+            207
+          ]
+        },
+        {
+          "slug": "macroeconomics",
+          "title": "AP Macroeconomics",
+          "officialUrl": "https://apstudents.collegeboard.org/courses/ap-macroeconomics",
+          "expectedUnitCount": 6,
+          "observedUnitCount": 6,
+          "questionCount": 12,
+          "moduleWordCountRange": [
+            202,
+            210
+          ]
+        },
+        {
+          "slug": "microeconomics",
+          "title": "AP Microeconomics",
+          "officialUrl": "https://apstudents.collegeboard.org/courses/ap-microeconomics",
+          "expectedUnitCount": 6,
+          "observedUnitCount": 6,
+          "questionCount": 12,
+          "moduleWordCountRange": [
+            206,
+            225
+          ]
+        },
+        {
+          "slug": "psychology",
+          "title": "AP Psychology",
+          "officialUrl": "https://apstudents.collegeboard.org/courses/ap-psychology",
+          "expectedUnitCount": 5,
+          "observedUnitCount": 5,
+          "questionCount": 10,
+          "moduleWordCountRange": [
+            190,
+            205
+          ]
+        },
+        {
+          "slug": "english-language-and-composition",
+          "title": "AP English Language and Composition",
+          "officialUrl": "https://apstudents.collegeboard.org/courses/ap-english-language-and-composition",
+          "expectedUnitCount": 9,
+          "observedUnitCount": 9,
+          "questionCount": 18,
+          "moduleWordCountRange": [
+            194,
+            223
+          ]
+        },
+        {
+          "slug": "english-literature-and-composition",
+          "title": "AP English Literature and Composition",
+          "officialUrl": "https://apstudents.collegeboard.org/courses/ap-english-literature-and-composition",
+          "expectedUnitCount": 9,
+          "observedUnitCount": 9,
+          "questionCount": 18,
+          "moduleWordCountRange": [
+            201,
+            225
+          ]
+        },
+        {
+          "slug": "united-states-government-and-politics",
+          "title": "AP United States Government and Politics",
+          "officialUrl": "https://apstudents.collegeboard.org/courses/ap-united-states-government-and-politics",
+          "expectedUnitCount": 5,
+          "observedUnitCount": 5,
+          "questionCount": 10,
+          "moduleWordCountRange": [
+            206,
+            215
+          ]
+        },
+        {
+          "slug": "united-states-history",
+          "title": "AP United States History",
+          "officialUrl": "https://apstudents.collegeboard.org/courses/ap-united-states-history",
+          "expectedUnitCount": 9,
+          "observedUnitCount": 9,
+          "questionCount": 18,
+          "moduleWordCountRange": [
+            201,
+            214
+          ]
+        },
+        {
+          "slug": "european-history",
+          "title": "AP European History",
+          "officialUrl": "https://apstudents.collegeboard.org/courses/ap-european-history",
+          "expectedUnitCount": 9,
+          "observedUnitCount": 9,
+          "questionCount": 18,
+          "moduleWordCountRange": [
+            200,
+            215
+          ]
+        },
+        {
+          "slug": "world-history-modern",
+          "title": "AP World History: Modern",
+          "officialUrl": "https://apstudents.collegeboard.org/courses/ap-world-history-modern",
+          "expectedUnitCount": 9,
+          "observedUnitCount": 9,
+          "questionCount": 18,
+          "moduleWordCountRange": [
+            197,
+            224
+          ]
+        }
+      ],
+      "checks": {
+        "jsonParsing": "passed",
+        "uniqueModuleAndQuestionIds": "passed",
+        "numberedUnitsAgainstOfficialCounts": "passed",
+        "twoExplanationParagraphs": "passed",
+        "twoWorkedStepsMinimum": "passed",
+        "twoOriginalQuestionsPerModule": "passed",
+        "twoQuestionCheckpointsMinimum": "passed",
+        "moduleWordRange150To250": "passed",
+        "independentArithmeticChecks": 18
+      },
+      "arithmeticCases": [
+        {
+          "case": "geography population example",
+          "result": 250
+        },
+        {
+          "case": "geography population question",
+          "result": -15
+        },
+        {
+          "case": "macro opportunity cost",
+          "result": 4.0
+        },
+        {
+          "case": "macro inflation",
+          "result": 4.0
+        },
+        {
+          "case": "macro unemployment",
+          "result": 5.0
+        },
+        {
+          "case": "macro multiplier example",
+          "result": 80.0
+        },
+        {
+          "case": "macro multiplier question",
+          "result": 5.000000000000001
+        },
+        {
+          "case": "macro bond yield",
+          "result": 6.25
+        },
+        {
+          "case": "macro real-rate approximation",
+          "result": 4
+        },
+        {
+          "case": "micro elasticity",
+          "result": 0.4
+        },
+        {
+          "case": "micro loss",
+          "result": -40
+        },
+        {
+          "case": "micro variable contribution",
+          "result": 60
+        },
+        {
+          "case": "micro profit",
+          "result": 90
+        },
+        {
+          "case": "micro monopoly profit",
+          "result": 60
+        },
+        {
+          "case": "micro labour product",
+          "result": 24
+        },
+        {
+          "case": "micro social cost",
+          "result": 7
+        },
+        {
+          "case": "government eligible turnout",
+          "result": 60.0
+        },
+        {
+          "case": "government registered turnout",
+          "result": 75.0
+        }
+      ],
+      "frameworkNotes": [
+        "Psychology uses the revised five-unit structure.",
+        "English Language has nine numbered skill cycles; descriptive module titles are original.",
+        "English Literature follows three repeated fiction, poetry and longer narrative cycles.",
+        "African American Studies also includes an individual student project, so assessment is mixed.",
+        "The three history courses have May 2027 short-answer and long-essay updates without a change to course content."
+      ],
+      "additionalOfficialSources": [
+        "https://apcentral.collegeboard.org/courses/ap-psychology",
+        "https://apcentral.collegeboard.org/courses/ap-european-history",
+        "https://apcentral.collegeboard.org/courses/ap-united-states-history",
+        "https://apcentral.collegeboard.org/courses/ap-world-history"
+      ],
+      "limitations": [
+        "One focused lesson per official unit is coverage of unit entry points, not complete syllabus coverage.",
+        "Source checking establishes framework organisation; it is not independent expert approval of every lesson or answer.",
+        "No official exam questions, protected passages, historical quotations or proprietary scoring rubrics were reproduced.",
+        "No browser, build, deployment or live-service verification was performed by this content subtask."
+      ]
+    },
+    "arts-languages-review.json": {
+      "reviewedAt": "2026-10-15",
+      "academicYear": "2026-27",
+      "courseCount": 17,
+      "moduleCount": 101,
+      "questionCount": 202,
+      "status": "ORIGINAL_PRACTICE_AUTHORED_STRUCTURALLY_CHECKED_SUBJECT_REVIEW_PENDING",
+      "scope": "One original focused module per official unit/theme, with distinct original four-part arts portfolio and five-part Capstone skill sequences. This is not exhaustive syllabus coverage or College Board approval.",
+      "structureChecks": {
+        "jsonParse": "PASS",
+        "courseSlugIdentity": "PASS",
+        "twoExplanationParagraphs": "PASS",
+        "twoWorkedSteps": "PASS",
+        "twoQuestionsPerModule": "PASS",
+        "twoCheckpointsPerQuestion": "PASS",
+        "moduleWordRangeWhitespace": [
+          159,
+          244
+        ]
+      },
+      "sourceChecks": [
+        "Each listed official AP Students URL opened or resolved through official search on 15 October 2026.",
+        "Modern languages use the six revised 2026-27 themes. AP Central explicitly confirms fall 2026 effective date and January 2027 release of project packet.",
+        "Latin uses the current six-unit Pliny/Vergil sequence, revised for fall 2025. Original Latin exercises are not assigned passages.",
+        "Business has five numbered units, with separate part 1 and part 2 within Unit 3, producing six modules. Correct official slug is business-personal-finance.",
+        "Cybersecurity has five current units. Exercises are fictional and defensive; no operational probing is required.",
+        "Art portfolios use an original skill sequence rather than invented official units. Current 2026-27 submission and AI requirements are deferred to official guidance.",
+        "Music has eight units; Art History ten; Spanish Literature eight. Capstone pages describe five big ideas, mapped here to original skill sequences."
+      ],
+      "additionalOfficialSources": [
+        "https://apcentral.collegeboard.org/courses/ap-world-languages-revisions",
+        "https://apcentral.collegeboard.org/courses/how-ap-develops-courses-and-exams/course-changes-overview",
+        "https://apcentral.collegeboard.org/help-center/what-project-theme-2026-27"
+      ],
+      "contentBoundaries": [
+        "Subject-expert and native-speaker review remains pending; structural validation is not subject approval.",
+        "No authentic audio, speech recording, score rendering, studio work or portfolio assessment is implemented by these JSON lessons.",
+        "Art History hypothetical scenarios teach analytical methods but do not supply the required image set.",
+        "Spanish Literature and Latin original passages do not replace required readings.",
+        "Modern-language fictional scenarios are not authentic sources for the required project.",
+        "Capstone exercises do not collect participants, perform studies or fabricate findings.",
+        "Financial examples are hypothetical arithmetic, not personalised financial advice.",
+        "No deployment or full build performed by this content worker."
+      ],
+      "courses": [
+        {
+          "slug": "2-d-art-and-design",
+          "officialUrl": "https://apstudents.collegeboard.org/courses/ap-2-d-art-and-design",
+          "frameworkUnits": [
+            "Portfolio skill 1",
+            "Portfolio skill 2",
+            "Portfolio skill 3",
+            "Portfolio skill 4"
+          ],
+          "moduleCount": 4,
+          "questionCount": 8,
+          "sha256": "de9201ec1d40adb70c0a83b36953670d2d46dce5306c856f631a5e0e002f6ce5"
+        },
+        {
+          "slug": "3-d-art-and-design",
+          "officialUrl": "https://apstudents.collegeboard.org/courses/ap-3-d-art-and-design",
+          "frameworkUnits": [
+            "Portfolio skill 1",
+            "Portfolio skill 2",
+            "Portfolio skill 3",
+            "Portfolio skill 4"
+          ],
+          "moduleCount": 4,
+          "questionCount": 8,
+          "sha256": "7ddc4a6b490faa0e60375b9a82eb17bdc9c22c1f01b0d77205b5ebc537f6c8a0"
+        },
+        {
+          "slug": "drawing",
+          "officialUrl": "https://apstudents.collegeboard.org/courses/ap-drawing",
+          "frameworkUnits": [
+            "Portfolio skill 1",
+            "Portfolio skill 2",
+            "Portfolio skill 3",
+            "Portfolio skill 4"
+          ],
+          "moduleCount": 4,
+          "questionCount": 8,
+          "sha256": "f2acf947d53eb36c06de08c235774d512643a730182490c43e5c4fa939262e52"
+        },
+        {
+          "slug": "art-history",
+          "officialUrl": "https://apstudents.collegeboard.org/courses/ap-art-history",
+          "frameworkUnits": [
+            "Unit 1",
+            "Unit 2",
+            "Unit 3",
+            "Unit 4",
+            "Unit 5",
+            "Unit 6",
+            "Unit 7",
+            "Unit 8",
+            "Unit 9",
+            "Unit 10"
+          ],
+          "moduleCount": 10,
+          "questionCount": 20,
+          "sha256": "f8b7d62a0543b8b02760e941f8bf91d233513cdb2fe0f8e8c298f4caaa9a2b53"
+        },
+        {
+          "slug": "music-theory",
+          "officialUrl": "https://apstudents.collegeboard.org/courses/ap-music-theory",
+          "frameworkUnits": [
+            "Unit 1",
+            "Unit 2",
+            "Unit 3",
+            "Unit 4",
+            "Unit 5",
+            "Unit 6",
+            "Unit 7",
+            "Unit 8"
+          ],
+          "moduleCount": 8,
+          "questionCount": 16,
+          "sha256": "273927002c62e21980966cc143405c989974fa538039418781cbd13b34ad8e3a"
+        },
+        {
+          "slug": "chinese-language-and-culture",
+          "officialUrl": "https://apstudents.collegeboard.org/courses/ap-chinese-language-and-culture",
+          "frameworkUnits": [
+            "Unit 1",
+            "Unit 2",
+            "Unit 3",
+            "Unit 4",
+            "Unit 5",
+            "Unit 6"
+          ],
+          "moduleCount": 6,
+          "questionCount": 12,
+          "sha256": "b1d2034d4988ed72d58386159f1916d4f4b1ada60896c4629862e7602252ab5a"
+        },
+        {
+          "slug": "french-language-and-culture",
+          "officialUrl": "https://apstudents.collegeboard.org/courses/ap-french-language-and-culture",
+          "frameworkUnits": [
+            "Unit 1",
+            "Unit 2",
+            "Unit 3",
+            "Unit 4",
+            "Unit 5",
+            "Unit 6"
+          ],
+          "moduleCount": 6,
+          "questionCount": 12,
+          "sha256": "71b42d89333e3a9ba4b8d474ebed9117a7da2c6f752b0fc727ae358183bff398"
+        },
+        {
+          "slug": "german-language-and-culture",
+          "officialUrl": "https://apstudents.collegeboard.org/courses/ap-german-language-and-culture",
+          "frameworkUnits": [
+            "Unit 1",
+            "Unit 2",
+            "Unit 3",
+            "Unit 4",
+            "Unit 5",
+            "Unit 6"
+          ],
+          "moduleCount": 6,
+          "questionCount": 12,
+          "sha256": "cb6fbcea41d0fb4c37777bf06e9d16d2bec3fe8cce3f45fe948f868ef25b641f"
+        },
+        {
+          "slug": "italian-language-and-culture",
+          "officialUrl": "https://apstudents.collegeboard.org/courses/ap-italian-language-and-culture",
+          "frameworkUnits": [
+            "Unit 1",
+            "Unit 2",
+            "Unit 3",
+            "Unit 4",
+            "Unit 5",
+            "Unit 6"
+          ],
+          "moduleCount": 6,
+          "questionCount": 12,
+          "sha256": "b5809faf9f2b1edc4f1fbe5edbfb79642fb17b3bb4f56437c59b39a9b958163b"
+        },
+        {
+          "slug": "japanese-language-and-culture",
+          "officialUrl": "https://apstudents.collegeboard.org/courses/ap-japanese-language-and-culture",
+          "frameworkUnits": [
+            "Unit 1",
+            "Unit 2",
+            "Unit 3",
+            "Unit 4",
+            "Unit 5",
+            "Unit 6"
+          ],
+          "moduleCount": 6,
+          "questionCount": 12,
+          "sha256": "92392fb666ec84db475f1a3fbcfb72752300def379c272fba684085509d7d2df"
+        },
+        {
+          "slug": "latin",
+          "officialUrl": "https://apstudents.collegeboard.org/courses/ap-latin",
+          "frameworkUnits": [
+            "Unit 1",
+            "Unit 2",
+            "Unit 3",
+            "Unit 4",
+            "Unit 5",
+            "Unit 6"
+          ],
+          "moduleCount": 6,
+          "questionCount": 12,
+          "sha256": "051c323bdee3c22b9854b5b7968aef1b69eed6cd9de19424335b15e4a7600532"
+        },
+        {
+          "slug": "spanish-language-and-culture",
+          "officialUrl": "https://apstudents.collegeboard.org/courses/ap-spanish-language-and-culture",
+          "frameworkUnits": [
+            "Unit 1",
+            "Unit 2",
+            "Unit 3",
+            "Unit 4",
+            "Unit 5",
+            "Unit 6"
+          ],
+          "moduleCount": 6,
+          "questionCount": 12,
+          "sha256": "dd4b2cd6ab4a94bcae0a9d59a50eb5d4c4f76cddad61bb7ec17da71db210458d"
+        },
+        {
+          "slug": "spanish-literature-and-culture",
+          "officialUrl": "https://apstudents.collegeboard.org/courses/ap-spanish-literature-and-culture",
+          "frameworkUnits": [
+            "Unit 1",
+            "Unit 2",
+            "Unit 3",
+            "Unit 4",
+            "Unit 5",
+            "Unit 6",
+            "Unit 7",
+            "Unit 8"
+          ],
+          "moduleCount": 8,
+          "questionCount": 16,
+          "sha256": "aa3016a146ecf467bd5374b5c2bd2a3ac13c20cd075bc1c4825347f83f81b59a"
+        },
+        {
+          "slug": "research",
+          "officialUrl": "https://apstudents.collegeboard.org/courses/ap-research",
+          "frameworkUnits": [
+            "Research skill 1",
+            "Research skill 2",
+            "Research skill 3",
+            "Research skill 4",
+            "Research skill 5"
+          ],
+          "moduleCount": 5,
+          "questionCount": 10,
+          "sha256": "55255ce809178af604e0e76722c452180c9edb52f5fc91e3487353412c22adef"
+        },
+        {
+          "slug": "seminar",
+          "officialUrl": "https://apstudents.collegeboard.org/courses/ap-seminar",
+          "frameworkUnits": [
+            "Seminar skill 1",
+            "Seminar skill 2",
+            "Seminar skill 3",
+            "Seminar skill 4",
+            "Seminar skill 5"
+          ],
+          "moduleCount": 5,
+          "questionCount": 10,
+          "sha256": "1cb7e9da381f5b51c0a03d369a0b5889f2e47aa4815e2c190fbee0556aaaf257"
+        },
+        {
+          "slug": "business-personal-finance",
+          "officialUrl": "https://apstudents.collegeboard.org/courses/ap-business-personal-finance",
+          "frameworkUnits": [
+            "Unit 1",
+            "Unit 2",
+            "Unit 3, part 1",
+            "Unit 3, part 2",
+            "Unit 4",
+            "Unit 5"
+          ],
+          "moduleCount": 6,
+          "questionCount": 12,
+          "sha256": "1e8e1504836c0888d47c0395b94d97f5c47f6124d7d7d3192bb9f259750dcd92"
+        },
+        {
+          "slug": "cybersecurity",
+          "officialUrl": "https://apstudents.collegeboard.org/courses/ap-cybersecurity",
+          "frameworkUnits": [
+            "Unit 1",
+            "Unit 2",
+            "Unit 3",
+            "Unit 4",
+            "Unit 5"
+          ],
+          "moduleCount": 5,
+          "questionCount": 10,
+          "sha256": "7c5f9308754fa6a39564cd48cc935ee745e2e61c7c35ced41374382daf9f98c5"
+        }
+      ]
+    },
+    "career-cross-review.json": {
+      "reviewDate": "2026-10-15",
+      "reviewType": "Bounded read-only cross-review by STEM content agent",
+      "sourceFiles": [
+        {
+          "path": "src/content/ap/business-personal-finance.json",
+          "sha256": "1e8e1504836c0888d47c0395b94d97f5c47f6124d7d7d3192bb9f259750dcd92",
+          "modules": 6,
+          "questions": 12,
+          "frameworkLabels": [
+            "Unit 1",
+            "Unit 2",
+            "Unit 3, part 1",
+            "Unit 3, part 2",
+            "Unit 4",
+            "Unit 5"
+          ],
+          "assessment": "mixed"
+        },
+        {
+          "path": "src/content/ap/cybersecurity.json",
+          "sha256": "7c5f9308754fa6a39564cd48cc935ee745e2e61c7c35ced41374382daf9f98c5",
+          "modules": 5,
+          "questions": 10,
+          "frameworkLabels": [
+            "Unit 1",
+            "Unit 2",
+            "Unit 3",
+            "Unit 4",
+            "Unit 5"
+          ],
+          "assessment": "exam"
+        }
+      ],
+      "officialSources": [
+        "https://apstudents.collegeboard.org/courses/ap-business-personal-finance",
+        "https://apstudents.collegeboard.org/courses/ap-cybersecurity",
+        "https://apstudents.collegeboard.org/courses/ap-cybersecurity/assessment"
+      ],
+      "frameworkReview": {
+        "business": "PASS: official Units 1-5, with separate Unit 3 parts. Mixed assessment is appropriate; official Unit 5 is assessed by Financial Advisor Project.",
+        "cybersecurity": "PASS: all five current units represented; exam classification matches current official MCQ/FRQ assessment."
+      },
+      "numericalChecks": [
+        {
+          "case": "loan interest",
+          "computed": 60.0,
+          "expected": 60,
+          "pass": true
+        },
+        {
+          "case": "loan total",
+          "computed": 560.0,
+          "expected": 560,
+          "pass": true
+        },
+        {
+          "case": "one year interest",
+          "computed": 40.0,
+          "expected": 40,
+          "pass": true
+        },
+        {
+          "case": "one year total",
+          "computed": 840.0,
+          "expected": 840,
+          "pass": true
+        },
+        {
+          "case": "repayment difference",
+          "computed": 60,
+          "expected": 60,
+          "pass": true
+        },
+        {
+          "case": "unit contribution",
+          "computed": 4,
+          "expected": 4,
+          "pass": true
+        },
+        {
+          "case": "break-even quantity",
+          "computed": 30.0,
+          "expected": 30,
+          "pass": true
+        },
+        {
+          "case": "profit at forty units",
+          "computed": 40,
+          "expected": 40,
+          "pass": true
+        },
+        {
+          "case": "practice break-even",
+          "computed": 30.0,
+          "expected": 30,
+          "pass": true
+        },
+        {
+          "case": "unallocated monthly income",
+          "computed": 550,
+          "expected": 550,
+          "pass": true
+        },
+        {
+          "case": "net income",
+          "computed": 1360,
+          "expected": 1360,
+          "pass": true
+        }
+      ],
+      "technicalReview": [
+        "Authentication versus authorisation, factor categories and social engineering statements are accurate at the stated introductory level.",
+        "Segmentation, least privilege, firewall limitations, denied-connection evidence and server-side ownership checks are accurately distinguished.",
+        "Encryption, hashing and backup restoration concepts do not claim guarantees or unsafe operational requirements.",
+        "Business arithmetic and cash-flow/profit distinctions are correct under the stated simplified assumptions."
+      ],
+      "actionableErrors": [],
+      "optionalClarifications": [
+        "Business frameworkNote could state explicitly that Unit 5 is assessed in the Financial Advisor Project; the existing mixed assessment and project boundary are already accurate."
+      ],
+      "limitations": [
+        "Focused qualitative review, not exhaustive curriculum approval or independent subject-expert certification.",
+        "No browser, build, deployment or host-heavy checks performed.",
+        "No source files modified."
+      ]
+    }
+  },
+  "logs": [
+    {
+      "path": ".tmp/ap-expansion-20261015/final-tests.log",
+      "bytes": 7171,
+      "sha256": "8bd895c69f67ea488e404e8fe380e0157171ed191838a3ec12109b589222540e",
+      "text": "TAP version 13\n# Subtest: AP loading refuses unknown routes before issuing a request\nok 1 - AP loading refuses unknown routes before issuing a request\n  ---\n  duration_ms: 113.673291\n  type: 'test'\n  ...\n# Subtest: failed AP download can retry and successful public content is reused\nok 2 - failed AP download can retry and successful public content is reused\n  ---\n  duration_ms: 65.868167\n  type: 'test'\n  ...\n# Subtest: truncated or wrong-course responses never render as a successful AP lesson\nok 3 - truncated or wrong-course responses never render as a successful AP lesson\n  ---\n  duration_ms: 6.521209\n  type: 'test'\n  ...\n# Subtest: all 42 current AP courses have original study content and exact official identities\nok 4 - all 42 current AP courses have original study content and exact official identities\n  ---\n  duration_ms: 2.895667\n  type: 'test'\n  ...\n# Subtest: public downloads preserve every lesson and answer from the source library\nok 5 - public downloads preserve every lesson and answer from the source library\n  ---\n  duration_ms: 25.988375\n  type: 'test'\n  ...\n# Subtest: content validation rejects missing answers, duplicate identities and unsafe source links\nok 6 - content validation rejects missing answers, duplicate identities and unsafe source links\n  ---\n  duration_ms: 0.761\n  type: 'test'\n  ...\n# Subtest: new framework structures and portfolio boundaries are explicit\nok 7 - new framework structures and portfolio boundaries are explicit\n  ---\n  duration_ms: 0.795\n  type: 'test'\n  ...\n# Subtest: copy rules detect punctuation, phrases, placeholders and unsupported-looking claims\nok 8 - copy rules detect punctuation, phrases, placeholders and unsupported-looking claims\n  ---\n  duration_ms: 3.746209\n  type: 'test'\n  ...\n# Subtest: copy scan reads JSX and strings, ignores comments, and detects repeated generic headings\nok 9 - copy scan reads JSX and strings, ignores comments, and detects repeated generic headings\n  ---\n  duration_ms: 6.073417\n  type: 'test'\n  ...\n# Subtest: copy scan covers nested JSON lesson text\nok 10 - copy scan covers nested JSON lesson text\n  ---\n  duration_ms: 1.554792\n  type: 'test'\n  ...\n# Subtest: every AP course can be discovered without an account\nok 11 - every AP course can be discovered without an account\n  ---\n  duration_ms: 129.883541\n  type: 'test'\n  ...\n# Subtest: signed-out search hides account-scoped study tools\nok 12 - signed-out search hides account-scoped study tools\n  ---\n  duration_ms: 6.583875\n  type: 'test'\n  ...\n# Subtest: public pages remain searchable without an account\nok 13 - public pages remain searchable without an account\n  ---\n  duration_ms: 3.247625\n  type: 'test'\n  ...\n# Subtest: numeric limit arity remains supported\nok 14 - numeric limit arity remains supported\n  ---\n  duration_ms: 3.1805\n  type: 'test'\n  ...\n# Subtest: search tolerates missing letters and transpositions without losing exact ranking\nok 15 - search tolerates missing letters and transpositions without losing exact ranking\n  ---\n  duration_ms: 13.418375\n  type: 'test'\n  ...\n# Subtest: private saved work is ranked with the catalogue but filtered when signed out\nok 16 - private saved work is ranked with the catalogue but filtered when signed out\n  ---\n  duration_ms: 6.425834\n  type: 'test'\n  ...\n# Subtest: the learning library central registries cover every publishable content surface\nok 17 - the learning library central registries cover every publishable content surface\n  ---\n  duration_ms: 0.70275\n  type: 'test'\n  ...\n# Subtest: the public learning library exposes coverage and keeps imported guides held\nok 18 - the public learning library exposes coverage and keeps imported guides held\n  ---\n  duration_ms: 0.754542\n  type: 'test'\n  ...\n# Subtest: global search is generated from the same curriculum and resource registries\nok 19 - global search is generated from the same curriculum and resource registries\n  ---\n  duration_ms: 0.205583\n  type: 'test'\n  ...\n# Subtest: every editorial guide registry route remains mounted\nok 20 - every editorial guide registry route remains mounted\n  ---\n  duration_ms: 1.04875\n  type: 'test'\n  ...\n# Subtest: offline bundle is deterministic, content-versioned and excludes arbitrary public files\nok 21 - offline bundle is deterministic, content-versioned and excludes arbitrary public files\n  ---\n  duration_ms: 14.901125\n  type: 'test'\n  ...\n# Subtest: offline navigation and lessons work without caching API, credentials or foreign requests\nok 22 - offline navigation and lessons work without caching API, credentials or foreign requests\n  ---\n  duration_ms: 39.003917\n  type: 'test'\n  ...\n# Subtest: AP lessons join the integrity-checked public bundle without admitting private files\nok 23 - AP lessons join the integrity-checked public bundle without admitting private files\n  ---\n  duration_ms: 6.31475\n  type: 'test'\n  ...\n# Subtest: failed install removes only the incomplete version and retains the working cache\nok 24 - failed install removes only the incomplete version and retains the working cache\n  ---\n  duration_ms: 5.239167\n  type: 'test'\n  ...\n# Subtest: status detects eviction and repair restores the public copy; disable bypasses interception\nok 25 - status detects eviction and repair restores the public copy; disable bypasses interception\n  ---\n  duration_ms: 5.687584\n  type: 'test'\n  ...\n# Subtest: offline status is based on worker cache confirmation, not just registration presence\nok 26 - offline status is based on worker cache confirmation, not just registration presence\n  ---\n  duration_ms: 36.066708\n  type: 'test'\n  ...\n# Subtest: removal opts out, disables the active worker and preserves unrelated caches and private stores\nok 27 - removal opts out, disables the active worker and preserves unrelated caches and private stores\n  ---\n  duration_ms: 2.216584\n  type: 'test'\n  ...\n# Subtest: downloads require connectivity and explicitly reverse opt-out\nok 28 - downloads require connectivity and explicitly reverse opt-out\n  ---\n  duration_ms: 1.205584\n  type: 'test'\n  ...\n# Subtest: resource search matches multiple words across fields regardless of order\nok 29 - resource search matches multiple words across fields regardless of order\n  ---\n  duration_ms: 2.765542\n  type: 'test'\n  ...\n# Subtest: exact titles rank first and accents, case and punctuation are normalised\nok 30 - exact titles rank first and accents, case and punctuation are normalised\n  ---\n  duration_ms: 0.234083\n  type: 'test'\n  ...\n# Subtest: ranking is stable and does not mutate the input registry\nok 31 - ranking is stable and does not mutate the input registry\n  ---\n  duration_ms: 0.302709\n  type: 'test'\n  ...\n# Subtest: sitemap does not manufacture per-build content modification dates\nok 32 - sitemap does not manufacture per-build content modification dates\n  ---\n  duration_ms: 0.7195\n  type: 'test'\n  ...\n# Subtest: unverified detailed guide claims are not promoted in the public sitemap\nok 33 - unverified detailed guide claims are not promoted in the public sitemap\n  ---\n  duration_ms: 0.13\n  type: 'test'\n  ...\n1..33\n# tests 33\n# suites 0\n# pass 33\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 1950.859875\n"
+    },
+    {
+      "path": ".tmp/ap-expansion-20261015/copy-final.log",
+      "bytes": 85,
+      "sha256": "ab8e44f793ff9c1e6786bda8b713ad3484a16ffcd89e07b33d2b074c5f73cfa2",
+      "text": "[copy] 454 files scanned; 0 findings. Review claims manually; no text was rewritten.\n"
+    },
+    {
+      "path": ".tmp/ap-expansion-20261015/lint-final.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "text": ""
+    },
+    {
+      "path": ".tmp/ap-expansion-20261015/syntax-final.log",
+      "bytes": 111,
+      "sha256": "def0b7f503fdbd649c556053f43ba7759fdbb32bb2d00b1a5e736cd21e230f27",
+      "text": "{\n  \"check\": \"TypeScript syntax transpilation only; not semantic typecheck\",\n  \"files\": 17,\n  \"failures\": []\n}\n"
+    },
+    {
+      "path": ".tmp/ap-expansion-20261015/generated-check.log",
+      "bytes": 61,
+      "sha256": "694a56c8df7b04c837c8449368572cb362806b99497be444e830f875e7037305",
+      "text": "AP content verified: 42 courses, 274 modules, 548 questions.\n"
+    },
+    {
+      "path": ".tmp/ap-expansion-20261015/browser-discovery.log",
+      "bytes": 657,
+      "sha256": "63edda3791a9b306ec6d0ca152adc15990c971500899d7b581e88da4aae63ed7",
+      "text": "Listing tests:\n  ap-library.spec.ts:5:3 › AP catalogue, practice and temporary working at 1440px\n  ap-library.spec.ts:5:3 › AP catalogue, practice and temporary working at 1024px\n  ap-library.spec.ts:5:3 › AP catalogue, practice and temporary working at 390px\n  ap-library.spec.ts:49:1 › every current AP course has a working course and module route\n  ap-library.spec.ts:59:1 › AP library filters, exact search and missing routes are honest\n  ap-library.spec.ts:76:1 › failed AP content load can retry without rendering another course\n  ap-library.spec.ts:87:1 › installed AP content opens an unvisited course offline\nTotal: 7 tests in 1 file\n"
+    },
+    {
+      "path": ".tmp/ap-expansion-20261015/diff-check.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "text": ""
+    },
+    {
+      "path": ".tmp/ap-expansion-20261015/sitemap-generation.log",
+      "bytes": 107,
+      "sha256": "815d7bd7497348dcc8902bb46d18dcbc659f84f9b9e64bc99ec192b14fb4e99f",
+      "text": "Generated 89 public sitemap URLs, including 48 curriculum-tool URLs and 0 editorially approved guide URLs.\n"
+    }
+  ],
+  "files": [
+    {
+      "path": "src/content/apTypes.ts",
+      "bytes": 988,
+      "sha256": "5902775bd9c20ef03c3608d54833e75d748e9042fab504d90c97e64cba612dc4"
+    },
+    {
+      "path": "src/content/apCatalogue.ts",
+      "bytes": 97408,
+      "sha256": "d8857fc07109eac84fee4528500fc4d3c7e0764ed053d712950d53e13ed67989"
+    },
+    {
+      "path": "src/content/apContentClient.ts",
+      "bytes": 1814,
+      "sha256": "3238a465304465c6c81458006e79d68dbaec1e614d01fe16293f61bb7de07e67"
+    },
+    {
+      "path": "contracts/apContent.js",
+      "bytes": 1918,
+      "sha256": "c668de7fcfe63f43b3c6b4f81eec9ff4f18e8041fc534ff6b85bfe45385c00ac"
+    },
+    {
+      "path": "scripts/generate-ap-content.mjs",
+      "bytes": 2459,
+      "sha256": "fedc0aaf21204a5e4fb23927e4e592c60cac058625a338b130a59ec13f292c12"
+    },
+    {
+      "path": "src/pages/APLibrary.tsx",
+      "bytes": 4475,
+      "sha256": "a0157387c89023829556b8091bb5197a4e17655483fdfd6085b9cc692e511860"
+    },
+    {
+      "path": "src/pages/APCourse.tsx",
+      "bytes": 7589,
+      "sha256": "46bb2289d2118c03ae18d6b533d7fd4843092ff9db932bfd668848f04a7e54a6"
+    },
+    {
+      "path": "src/styles/ap-library.css",
+      "bytes": 6084,
+      "sha256": "9c524004632939a442728d37ba6f4842d4a97804e4848f03bb51442e44b69509"
+    },
+    {
+      "path": "src/app/App.tsx",
+      "bytes": 14322,
+      "sha256": "84665b0f594bb1f411d544881cea0415e648443c61c28dfac288ce2b05a46c0a"
+    },
+    {
+      "path": "src/lib/curriculum.ts",
+      "bytes": 14080,
+      "sha256": "e1399baae55f65e6025c857f671bf679b91ca4346739bcba9eae72fd2b4f89be"
+    },
+    {
+      "path": "src/lib/globalSearchIndex.ts",
+      "bytes": 8972,
+      "sha256": "9f6ca61ffc4094666349539071a8b756b59171e5b9425737fc7ea01abe3059aa"
+    },
+    {
+      "path": "src/components/curriculum/CurriculumSelector.tsx",
+      "bytes": 7189,
+      "sha256": "090e9b5035b8ae5b77cc6f3b568d5792f8f774295d318880684e9d3bd7c8ff25"
+    },
+    {
+      "path": "src/pages/CurriculumToolsIndex.tsx",
+      "bytes": 5882,
+      "sha256": "a4ea990ba23e10b224a03ffd2ea72f46d85f138f2e9ea60a2489414fde09476b"
+    },
+    {
+      "path": "src/pages/CurriculumFeature.tsx",
+      "bytes": 4165,
+      "sha256": "c1dc9171b2fa5c0cf8df3f0009bfe437615bca62fe8ee6463b13b80e7f723ba9"
+    },
+    {
+      "path": "src/pages/resources/Index.tsx",
+      "bytes": 11756,
+      "sha256": "d326ff788d2f7c975b4bcf301455d051a9a535ae75499121066b67a565bfd0c9"
+    },
+    {
+      "path": "src/styles/learning-library.css",
+      "bytes": 8337,
+      "sha256": "57180d939769b85ec128772acb0f8c8056c9023e89c8f80ff6388d889e174b1d"
+    },
+    {
+      "path": "package.json",
+      "bytes": 5655,
+      "sha256": "3ab17c71239291c95d9eb9df92c9cdd25678d322e4148ac99c3684951fbb2b99"
+    },
+    {
+      "path": "scripts/generate-offline-bundle.mjs",
+      "bytes": 1965,
+      "sha256": "3410e45c9ac7f92c88f7854fc7259bc73dd01b37b91597743bdefa80fda21943"
+    },
+    {
+      "path": "src/components/OfflineSettings.tsx",
+      "bytes": 7953,
+      "sha256": "e5701fb6a4b8cd3b52bdffaae6fa5270b44edc5295dbefc9aa86295e40b7881c"
+    },
+    {
+      "path": "scripts/lint-copy.mjs",
+      "bytes": 3895,
+      "sha256": "de0b2bd0d70580fa69903e0875e485b0c76469f7a4157ca3ac695e94dce5f1b4"
+    },
+    {
+      "path": "scripts/generate-study-guide-sitemap.mjs",
+      "bytes": 4447,
+      "sha256": "3d92f1f09320ea84dcc313420987bc5710bfef8304fd604862d19a0755cd97fb"
+    },
+    {
+      "path": "public/sitemap.xml",
+      "bytes": 13359,
+      "sha256": "56f13d0514173297ecf58de6fc9bccd7f0f06a2f33c732f69583dfdbbeb3fc39"
+    },
+    {
+      "path": "src/components/layout/SiteLayout.tsx",
+      "bytes": 20096,
+      "sha256": "ccb4dcd59d48eee31c96e54756d4b52ef1b60195b345dd909671748d7e770f8c"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "bytes": 15714,
+      "sha256": "b243dd3a6905ee885d6086cb37ffda8fb3ff1a4fe1b4c2edb6f18e97739e9731"
+    },
+    {
+      "path": "tests/ap-content.test.mjs",
+      "bytes": 4427,
+      "sha256": "9ca647e9c7c394aa204bdcacd888962f0ae8533f16953b7da02850f89ae193cd"
+    },
+    {
+      "path": "tests/ap-content-client.test.mjs",
+      "bytes": 1969,
+      "sha256": "bc2f0745643ae2cc19a66b38d2f9295acb2eb821374f164e85c1969282e63a31"
+    },
+    {
+      "path": "tests/copy-lint.test.mjs",
+      "bytes": 1196,
+      "sha256": "c0a4fbfb85bc707a0b92abeac3fc3e49cb7a7cb1bceac029ffa85a08fee7278e"
+    },
+    {
+      "path": "tests/offline-bundle.test.mjs",
+      "bytes": 7370,
+      "sha256": "0b4c6237cf03f78eedf188e561fc2ebd38e80afcc39a44d3cc3b119154ed6e6a"
+    },
+    {
+      "path": "tests/global-search-index.test.mjs",
+      "bytes": 2339,
+      "sha256": "00621a2221aa5654e70ec4868510a1ca5b8e7f496505808370fd998f04ea0b8f"
+    },
+    {
+      "path": "e2e/ap-library.spec.ts",
+      "bytes": 6550,
+      "sha256": "33335c091a23ebd2c756947d223c94fcbf32ed8443bcca57ba93fd8c8d6cc401"
+    },
+    {
+      "path": "e2e/offline-study.spec.ts",
+      "bytes": 5075,
+      "sha256": "9c0f2b8fc174fc32a0da9b68f75d3a8b184620b3e0d2f44ef3894f571f42fcbd"
+    },
+    {
+      "path": "playwright.ap.config.ts",
+      "bytes": 220,
+      "sha256": "b2731531678ff3c4afad30e60ecc09da1fe1addd52c8e2d309fb7f517025285c"
+    },
+    {
+      "path": "src/content/ap/2-d-art-and-design.json",
+      "bytes": 10182,
+      "sha256": "de9201ec1d40adb70c0a83b36953670d2d46dce5306c856f631a5e0e002f6ce5"
+    },
+    {
+      "path": "src/content/ap/3-d-art-and-design.json",
+      "bytes": 9886,
+      "sha256": "7ddc4a6b490faa0e60375b9a82eb17bdc9c22c1f01b0d77205b5ebc537f6c8a0"
+    },
+    {
+      "path": "src/content/ap/african-american-studies.json",
+      "bytes": 10341,
+      "sha256": "579e19a15bdb47fe304c6a5ecd0e3086e0313485b410cb99b10ac8b0ed91eb04"
+    },
+    {
+      "path": "src/content/ap/art-history.json",
+      "bytes": 24274,
+      "sha256": "f8b7d62a0543b8b02760e941f8bf91d233513cdb2fe0f8e8c298f4caaa9a2b53"
+    },
+    {
+      "path": "src/content/ap/biology.json",
+      "bytes": 18979,
+      "sha256": "8d011ea79991dba10e19a624d73e9b1f1ba388a413e92ffce69ddebe53d2a17f"
+    },
+    {
+      "path": "src/content/ap/business-personal-finance.json",
+      "bytes": 14886,
+      "sha256": "1e8e1504836c0888d47c0395b94d97f5c47f6124d7d7d3192bb9f259750dcd92"
+    },
+    {
+      "path": "src/content/ap/calculus-ab.json",
+      "bytes": 15572,
+      "sha256": "3e6cd68f0cea8e489802739ba97d86a016b7c4d6cf75fca6ac8a57a117a4f301"
+    },
+    {
+      "path": "src/content/ap/calculus-bc.json",
+      "bytes": 19411,
+      "sha256": "388868395de38dfddce158112a59a8f50bab8cc00d8e3a6f313959297dd8b9d6"
+    },
+    {
+      "path": "src/content/ap/chemistry.json",
+      "bytes": 19149,
+      "sha256": "c9865d4859879e56573b4d7b06ac7ad06d26bc4f5d06462ee387975c83a581e9"
+    },
+    {
+      "path": "src/content/ap/chinese-language-and-culture.json",
+      "bytes": 14515,
+      "sha256": "b1d2034d4988ed72d58386159f1916d4f4b1ada60896c4629862e7602252ab5a"
+    },
+    {
+      "path": "src/content/ap/comparative-government-and-politics.json",
+      "bytes": 12427,
+      "sha256": "f73debf1c8e5dd29ddff9ecf808628f94805b0fa066ed485eb5dc1cbf02631d6"
+    },
+    {
+      "path": "src/content/ap/computer-science-a.json",
+      "bytes": 8732,
+      "sha256": "0e5133c35d76d56d8e2a8a2bb19b2edfc98c8596e6546a10098da703f47c2791"
+    },
+    {
+      "path": "src/content/ap/computer-science-principles.json",
+      "bytes": 11673,
+      "sha256": "6705d615c1bc3b65d72ec429758357a4a5fd979ce20b8c88960ad0319ac06316"
+    },
+    {
+      "path": "src/content/ap/cybersecurity.json",
+      "bytes": 12868,
+      "sha256": "7c5f9308754fa6a39564cd48cc935ee745e2e61c7c35ced41374382daf9f98c5"
+    },
+    {
+      "path": "src/content/ap/drawing.json",
+      "bytes": 9670,
+      "sha256": "f2acf947d53eb36c06de08c235774d512643a730182490c43e5c4fa939262e52"
+    },
+    {
+      "path": "src/content/ap/english-language-and-composition.json",
+      "bytes": 21724,
+      "sha256": "b3b10b729ed25fc8f57734934f2142cb5e670064875a8022da24d87ef88b157c"
+    },
+    {
+      "path": "src/content/ap/english-literature-and-composition.json",
+      "bytes": 21653,
+      "sha256": "51c6047c247f77c073968adfac7727564dcbed6b065eeaf6dc2acfb36c057774"
+    },
+    {
+      "path": "src/content/ap/environmental-science.json",
+      "bytes": 20230,
+      "sha256": "4fdb3cf68d73c0419eea87ff7cf53fadc7104fafc6fb7dd39ad8688fa8d5d62a"
+    },
+    {
+      "path": "src/content/ap/european-history.json",
+      "bytes": 22462,
+      "sha256": "c8e2d7b096f9264f16d4f8514c7ab96c65a558b2a833fdd1afaaa1addcf0dffe"
+    },
+    {
+      "path": "src/content/ap/french-language-and-culture.json",
+      "bytes": 14749,
+      "sha256": "71b42d89333e3a9ba4b8d474ebed9117a7da2c6f752b0fc727ae358183bff398"
+    },
+    {
+      "path": "src/content/ap/german-language-and-culture.json",
+      "bytes": 14189,
+      "sha256": "cb6fbcea41d0fb4c37777bf06e9d16d2bec3fe8cce3f45fe948f868ef25b641f"
+    },
+    {
+      "path": "src/content/ap/human-geography.json",
+      "bytes": 16068,
+      "sha256": "01ce58ef7f20ad6fc82d61f67af2c6e574e1487b126c4b8dcfa0a299830b3550"
+    },
+    {
+      "path": "src/content/ap/italian-language-and-culture.json",
+      "bytes": 14156,
+      "sha256": "b5809faf9f2b1edc4f1fbe5edbfb79642fb17b3bb4f56437c59b39a9b958163b"
+    },
+    {
+      "path": "src/content/ap/japanese-language-and-culture.json",
+      "bytes": 14282,
+      "sha256": "92392fb666ec84db475f1a3fbcfb72752300def379c272fba684085509d7d2df"
+    },
+    {
+      "path": "src/content/ap/latin.json",
+      "bytes": 14336,
+      "sha256": "051c323bdee3c22b9854b5b7968aef1b69eed6cd9de19424335b15e4a7600532"
+    },
+    {
+      "path": "src/content/ap/macroeconomics.json",
+      "bytes": 13661,
+      "sha256": "535ccaf701388810cf9b14786d33fdff0b20968e9679ae901c06d0bac539a959"
+    },
+    {
+      "path": "src/content/ap/microeconomics.json",
+      "bytes": 13961,
+      "sha256": "617cadc4646d7ee1e7b005fffb351bd1b065a6a96bdf494afea8cc184322113a"
+    },
+    {
+      "path": "src/content/ap/music-theory.json",
+      "bytes": 16988,
+      "sha256": "273927002c62e21980966cc143405c989974fa538039418781cbd13b34ad8e3a"
+    },
+    {
+      "path": "src/content/ap/physics-1-algebra-based.json",
+      "bytes": 15985,
+      "sha256": "9bd43c4c6683c5acc338919f9a14324bef97f9a5987032e43abb4b9e1b92fb53"
+    },
+    {
+      "path": "src/content/ap/physics-2-algebra-based.json",
+      "bytes": 14666,
+      "sha256": "fa5ea1367176b28df8fb9ef69892b045ef8431397afce4127ed0e964c24f3eb5"
+    },
+    {
+      "path": "src/content/ap/physics-c-electricity-and-magnetism.json",
+      "bytes": 12827,
+      "sha256": "b135acd53842c23c96d1a3d830ce55b122fb61ca83de1242ed00b3ed063a018e"
+    },
+    {
+      "path": "src/content/ap/physics-c-mechanics.json",
+      "bytes": 14506,
+      "sha256": "189dfc516fac4aa46a5e56f29b9e983caabbb12638432b331d2ea9afe59ef397"
+    },
+    {
+      "path": "src/content/ap/precalculus.json",
+      "bytes": 7931,
+      "sha256": "cc53298af7c4fe1d52478c6cb946b04b01c58b81faefce9902a905cdd673962a"
+    },
+    {
+      "path": "src/content/ap/psychology.json",
+      "bytes": 12109,
+      "sha256": "d93945cf933844d4eec79f23355c1ccb87ba86c04424e3f57d3155d55927db80"
+    },
+    {
+      "path": "src/content/ap/research.json",
+      "bytes": 12617,
+      "sha256": "55255ce809178af604e0e76722c452180c9edb52f5fc91e3487353412c22adef"
+    },
+    {
+      "path": "src/content/ap/seminar.json",
+      "bytes": 12184,
+      "sha256": "1cb7e9da381f5b51c0a03d369a0b5889f2e47aa4815e2c190fbee0556aaaf257"
+    },
+    {
+      "path": "src/content/ap/spanish-language-and-culture.json",
+      "bytes": 14605,
+      "sha256": "dd4b2cd6ab4a94bcae0a9d59a50eb5d4c4f76cddad61bb7ec17da71db210458d"
+    },
+    {
+      "path": "src/content/ap/spanish-literature-and-culture.json",
+      "bytes": 19605,
+      "sha256": "aa3016a146ecf467bd5374b5c2bd2a3ac13c20cd075bc1c4825347f83f81b59a"
+    },
+    {
+      "path": "src/content/ap/statistics.json",
+      "bytes": 11555,
+      "sha256": "caec0d26f9edc59b8fb706618627afe6f5a18de657b868aa1cc96d8ac21c888a"
+    },
+    {
+      "path": "src/content/ap/united-states-government-and-politics.json",
+      "bytes": 13048,
+      "sha256": "f181229d9ec31473f7e9e77605936d398eef9880f44debb62cac6382dc21e351"
+    },
+    {
+      "path": "src/content/ap/united-states-history.json",
+      "bytes": 22514,
+      "sha256": "f95bf22e3369d514a69d134b9b780e2749474fbdfe6df99000cb64f54520273a"
+    },
+    {
+      "path": "src/content/ap/world-history-modern.json",
+      "bytes": 22535,
+      "sha256": "473268dfdb78b8267d17d989a421e58a12108bf8d9217e87fc7e6a1caec7bf7a"
+    },
+    {
+      "path": "public/ap-content/2-d-art-and-design.json",
+      "bytes": 8462,
+      "sha256": "bc212d36e0ba8387d64e862f9fceaeab81dd0265cedda9fbfdf76e5e63ff26fa"
+    },
+    {
+      "path": "public/ap-content/3-d-art-and-design.json",
+      "bytes": 8166,
+      "sha256": "14723e0cfc633a6a766534b95ca53a44ad5e0eb1c5dd7f1cb7c4768a408beb20"
+    },
+    {
+      "path": "public/ap-content/african-american-studies.json",
+      "bytes": 8621,
+      "sha256": "66979f8e43bd6dbf2892d24f789de5e101142a97f98f241b3f238140ded414e3"
+    },
+    {
+      "path": "public/ap-content/art-history.json",
+      "bytes": 20028,
+      "sha256": "6fc1e2e5c682e6ca18f387399e57cbb093de6bb6ad8720ea0f6861ff4562782c"
+    },
+    {
+      "path": "public/ap-content/biology.json",
+      "bytes": 15575,
+      "sha256": "a9a3fa6ec260bdcc9cf2f02ff1efd1e429f4ab7f8e645944f340aef8c0934358"
+    },
+    {
+      "path": "public/ap-content/business-personal-finance.json",
+      "bytes": 12324,
+      "sha256": "1906fdaeea3ec46b5e2ea707479cec5f90c6334fd04cb30fad87c0e55867df27"
+    },
+    {
+      "path": "public/ap-content/calculus-ab.json",
+      "bytes": 12146,
+      "sha256": "6daba022285783e0252e0792dc2479f6b6b20a2f6ab88b0a90c007e5630e0d03"
+    },
+    {
+      "path": "public/ap-content/calculus-bc.json",
+      "bytes": 15139,
+      "sha256": "2c58e8957dc8b4355febf940900067e6e2d20f5e95bddde22e1f181dcd94d150"
+    },
+    {
+      "path": "public/ap-content/chemistry.json",
+      "bytes": 15324,
+      "sha256": "0aeca8f7a098d684b8b3cd0af222c70d9616636c41917c9627cbbccc8bead787"
+    },
+    {
+      "path": "public/ap-content/chinese-language-and-culture.json",
+      "bytes": 11953,
+      "sha256": "a3fdb82af49f29242754c14845d3be1b923672d7658c636a53f1a00c2a127ece"
+    },
+    {
+      "path": "public/ap-content/comparative-government-and-politics.json",
+      "bytes": 10286,
+      "sha256": "c129b591ebdf8f06ec6b1308f49f47360426a069de3764007e937c0cb94b2039"
+    },
+    {
+      "path": "public/ap-content/computer-science-a.json",
+      "bytes": 7012,
+      "sha256": "d0beb54028c781fe7585b0978c98a5bfc64dbc75ac6efe997c9a128e64744988"
+    },
+    {
+      "path": "public/ap-content/computer-science-principles.json",
+      "bytes": 9532,
+      "sha256": "7c230d41e5f016e8b945c0ec5dfb21851cfcf4e4ae58d1fe54502076d7c93055"
+    },
+    {
+      "path": "public/ap-content/cybersecurity.json",
+      "bytes": 10727,
+      "sha256": "7e9edbb0d52cefd1663872610eff2fc0baeb1c03ddff4fe920a9ee2a7f10972d"
+    },
+    {
+      "path": "public/ap-content/drawing.json",
+      "bytes": 7950,
+      "sha256": "c928ab7a045bf6964f6ba01c7283574a8e16e217a79f3bc9c5e72f578322f7f1"
+    },
+    {
+      "path": "public/ap-content/english-language-and-composition.json",
+      "bytes": 17899,
+      "sha256": "e8cde5001b7c3e96c6f11f2c49dacdd38a5abecb20c57f47958f88f23cb6952d"
+    },
+    {
+      "path": "public/ap-content/english-literature-and-composition.json",
+      "bytes": 17828,
+      "sha256": "319d7eb1b114bb9965c8c89000d4c3726d0b596358db58d9d51a3e26730a2ddc"
+    },
+    {
+      "path": "public/ap-content/environmental-science.json",
+      "bytes": 16405,
+      "sha256": "02d8e23ac089df37ecbca3850c97c71edb68de4ec4bd144f0bbf2cf04d878f0e"
+    },
+    {
+      "path": "public/ap-content/european-history.json",
+      "bytes": 18637,
+      "sha256": "cee7bf467181d80cf734355dec2ac5d94d08b2775ef588cf2369a9fa45138562"
+    },
+    {
+      "path": "public/ap-content/french-language-and-culture.json",
+      "bytes": 12187,
+      "sha256": "8e62b7e9a595297a1046638c257eb1affa65f6379cce162afc2e07ebb3cc2b73"
+    },
+    {
+      "path": "public/ap-content/german-language-and-culture.json",
+      "bytes": 11627,
+      "sha256": "9dcffa1987503fb3ce30636318b67c57b0133c632f43057e062d041425cf6275"
+    },
+    {
+      "path": "public/ap-content/human-geography.json",
+      "bytes": 13085,
+      "sha256": "878abf5c1b1521432018e29e0a63d24ba25fc1bb94d5e33c75befbddb1ac3dc1"
+    },
+    {
+      "path": "public/ap-content/italian-language-and-culture.json",
+      "bytes": 11594,
+      "sha256": "b6398f7f6a5d5eba3cad35715ed9cc322621dcdaa0c98f9fc2fab1f551b336bc"
+    },
+    {
+      "path": "public/ap-content/japanese-language-and-culture.json",
+      "bytes": 11720,
+      "sha256": "38733f65b74ea155f0c938aa5c6d5e6554c77b50a7ea9060d5eea8b0eaa93b0c"
+    },
+    {
+      "path": "public/ap-content/latin.json",
+      "bytes": 11774,
+      "sha256": "c6a715929c1241dcfa1c7df88b5523ca4b0cc7b39b4444cc8c188e66998d7c80"
+    },
+    {
+      "path": "public/ap-content/macroeconomics.json",
+      "bytes": 11099,
+      "sha256": "af928059333de7b181883bae0855eb300c744c8995eed7549dea26f369400dd0"
+    },
+    {
+      "path": "public/ap-content/microeconomics.json",
+      "bytes": 11399,
+      "sha256": "2d875b0fb3d7a2bfc4bb983e4e314044deef79ae61e3288bbe2be06cf8d6d9a6"
+    },
+    {
+      "path": "public/ap-content/music-theory.json",
+      "bytes": 13584,
+      "sha256": "16ef35ade671e04c060e9457645eb9d8b00aa54a002f9b7458784493e6a1e493"
+    },
+    {
+      "path": "public/ap-content/physics-1-algebra-based.json",
+      "bytes": 12581,
+      "sha256": "1892fa19661ae4192be2e551f6c92676a7d62038f552650e831737048645a662"
+    },
+    {
+      "path": "public/ap-content/physics-2-algebra-based.json",
+      "bytes": 11657,
+      "sha256": "3450b0581672d7233aa71cc5b022ff1fea0498883d9219874faf169a06580678"
+    },
+    {
+      "path": "public/ap-content/physics-c-electricity-and-magnetism.json",
+      "bytes": 10265,
+      "sha256": "c9959851f81d2dfc5cacf1e38552875b53a779d62d04b30669a211bfabc73e1d"
+    },
+    {
+      "path": "public/ap-content/physics-c-mechanics.json",
+      "bytes": 11523,
+      "sha256": "b98efa58bd8d508bcb777a9e1ba213134635a85ce88ce93e75912fbcd3f09398"
+    },
+    {
+      "path": "public/ap-content/precalculus.json",
+      "bytes": 6211,
+      "sha256": "e247256cfbcd621ac38d1e2d302c5e7b8e48a319eab3439ef79ee7fa82a44790"
+    },
+    {
+      "path": "public/ap-content/psychology.json",
+      "bytes": 9968,
+      "sha256": "72ed293e9d36fe4ae6dbafbcd0ef4c24d1c19359bfd4d652101c96a16cfbef99"
+    },
+    {
+      "path": "public/ap-content/research.json",
+      "bytes": 10476,
+      "sha256": "3231e7514bac28c1448427fd9cec73c027098c01c23702962c9cceab392dfae4"
+    },
+    {
+      "path": "public/ap-content/seminar.json",
+      "bytes": 10043,
+      "sha256": "3a369c08f2ca7acb99c913b15426f46767b2843bf1d8520e258631b81dafa21e"
+    },
+    {
+      "path": "public/ap-content/spanish-language-and-culture.json",
+      "bytes": 12043,
+      "sha256": "fa37780eedd8102546d46259bd360479fa17db6800135c9164b35c5717f78cec"
+    },
+    {
+      "path": "public/ap-content/spanish-literature-and-culture.json",
+      "bytes": 16201,
+      "sha256": "1cdd017363153afec64b03c8871a0511c4b53dac2c9617bec3a1c34dc86648e6"
+    },
+    {
+      "path": "public/ap-content/statistics.json",
+      "bytes": 9414,
+      "sha256": "0dba812a436742ee02271eaa2840bd3705c75843d95065f89c97d2ea04fd509f"
+    },
+    {
+      "path": "public/ap-content/united-states-government-and-politics.json",
+      "bytes": 10907,
+      "sha256": "1dc59b100949880c12cee64223d95d91a0de434f602b6e433ac4336dae6f1c7f"
+    },
+    {
+      "path": "public/ap-content/united-states-history.json",
+      "bytes": 18689,
+      "sha256": "70304efe80521b1e2178274d9f596d48c0182ffc42cef82aeb889ccf7c3e856e"
+    },
+    {
+      "path": "public/ap-content/world-history-modern.json",
+      "bytes": 18710,
+      "sha256": "ed37f1e97a42d2ba8be145bb4d9f0cfffd0ab2c488a0c833add4225eefa37928"
+    }
+  ]
+}

@@ -1,0 +1,183 @@
+{
+  "slug": "2-d-art-and-design",
+  "title": "AP 2-D Art and Design",
+  "category": "Arts",
+  "summary": "Investigate composition, visual relationships and documented revision in two-dimensional work.",
+  "officialUrl": "https://apstudents.collegeboard.org/courses/ap-2-d-art-and-design",
+  "frameworkNote": "Checked against the official course page on 15 October 2026 for 2026-27. This is an original four-part portfolio skill sequence across inquiry, making and presentation, not prescribed College Board units. Text exercises support planning and reflection; they do not create, assess or certify a portfolio. Check current submission and AI rules with your teacher.",
+  "assessment": "portfolio",
+  "modules": [
+    {
+      "title": "Turn an observation into an inquiry",
+      "focus": "Ask a question that can change through visual experiments.",
+      "explanation": [
+        "A subject names what appears in an image; an inquiry asks what you want to discover by making it. “Bus stops” is a subject. “How can repeated rectangles suggest waiting?” connects observation to a visual decision and leaves room for different answers.",
+        "Collect your own observational sketches and note where, when and why you made them. Separate an influence from a source image. If you use another person’s material, record its origin and permissions, then follow current portfolio rules. A visual inquiry should develop through your decisions rather than a prewritten explanation pasted onto finished work."
+      ],
+      "workedExample": {
+        "prompt": "Develop an inquiry from three sketches of an empty station.",
+        "steps": [
+          "Identify a recurring relationship: large gaps between small figures.",
+          "Ask how changing scale and negative space affects the sense of isolation. Plan two compositions to compare."
+        ]
+      },
+      "misconception": {
+        "claim": "A portfolio needs one unchanging answer.",
+        "correction": "An inquiry can become more specific as experiments reveal new visual possibilities."
+      },
+      "questions": [
+        {
+          "prompt": "Rewrite “I like flowers” as a testable visual inquiry.",
+          "hint": "Choose a relationship such as repetition or scale.",
+          "answer": "One possibility: How can repeated petal shapes create movement across a static page?",
+          "checkpoints": [
+            "Names a visual variable",
+            "Allows more than one experiment"
+          ],
+          "id": "2-d-art-and-design-1-q1"
+        },
+        {
+          "prompt": "Why retain a rejected thumbnail?",
+          "hint": "Consider what a later viewer could learn from it.",
+          "answer": "It can show a compositional decision and why the next version changed, if the annotation identifies that change.",
+          "checkpoints": [
+            "Connects evidence to revision",
+            "Does not call every sketch successful"
+          ],
+          "id": "2-d-art-and-design-1-q2"
+        }
+      ],
+      "frameworkUnit": "Portfolio skill 1",
+      "id": "2-d-art-and-design-1"
+    },
+    {
+      "title": "Organise hierarchy and balance",
+      "focus": "Use scale, value and placement to direct attention.",
+      "explanation": [
+        "Visual hierarchy is the order in which elements attract attention. Contrast, size, isolation and directional lines can make one shape dominant. Balance describes how visual weight is distributed; an asymmetrical arrangement can feel stable without matching shapes on each side.",
+        "Make small thumbnails before polishing detail. Reduce a composition to three values and inspect whether the intended focal area still reads. A bright colour may dominate because of saturation, while a dark shape may dominate because of area. Explain the actual relationship in your image rather than treating a principle as a universal recipe."
+      ],
+      "workedExample": {
+        "prompt": "A poster has three equally large, dark circles. Make one the focal point.",
+        "steps": [
+          "Keep two circles smaller and closer together.",
+          "Separate the third circle with more surrounding light space, then compare where the eye lands first."
+        ]
+      },
+      "misconception": {
+        "claim": "Balance requires mirror symmetry.",
+        "correction": "Unequal shapes can balance through placement, contrast and visual weight."
+      },
+      "questions": [
+        {
+          "prompt": "A tiny red square competes with a large grey rectangle. Name two variables to test.",
+          "hint": "Think beyond size alone.",
+          "answer": "Test saturation and isolation, keeping other features constant enough to compare the effect.",
+          "checkpoints": [
+            "Names two visual properties",
+            "Describes a comparison"
+          ],
+          "id": "2-d-art-and-design-2-q1"
+        },
+        {
+          "prompt": "How could a crop change emphasis without adding anything?",
+          "hint": "Consider the frame edge.",
+          "answer": "Cropping away empty space can enlarge a subject relative to the frame and remove competing detail.",
+          "checkpoints": [
+            "Links crop to hierarchy",
+            "Explains a visible effect"
+          ],
+          "id": "2-d-art-and-design-2-q2"
+        }
+      ],
+      "frameworkUnit": "Portfolio skill 2",
+      "id": "2-d-art-and-design-2"
+    },
+    {
+      "title": "Revise a material experiment",
+      "focus": "Connect process changes to a visual purpose.",
+      "explanation": [
+        "Experimentation compares possibilities. Revision uses what the comparison reveals to change a work. In a collage, transparent paper, torn edges and repeated photocopies affect layering in different ways. Document which materials you tested and why their behaviour matters to your inquiry.",
+        "Avoid changing every feature at once if you need to understand a particular effect. You might hold the arrangement constant while varying opacity. Later, combine useful discoveries in a new composition. A failed transfer can become evidence of learning, but merely labelling it “experimental” does not explain what you discovered."
+      ],
+      "workedExample": {
+        "prompt": "A layered street collage looks flat despite five paper layers.",
+        "steps": [
+          "Compare opaque and translucent versions of the same overlap.",
+          "Keep the version that reveals depth and revise edge contrast so the foreground remains legible."
+        ]
+      },
+      "misconception": {
+        "claim": "More materials automatically demonstrate more skill.",
+        "correction": "Material choices matter when their properties contribute to the intended visual relationship."
+      },
+      "questions": [
+        {
+          "prompt": "What should an annotation say about a smudged print?",
+          "hint": "Describe cause and consequence.",
+          "answer": "The wet ink spread into the next shape; letting the plate dry longer made the boundary clearer in the next print.",
+          "checkpoints": [
+            "Names the process",
+            "Connects revision to observation"
+          ],
+          "id": "2-d-art-and-design-3-q1"
+        },
+        {
+          "prompt": "Design a fair comparison of two textures.",
+          "hint": "Keep the surrounding arrangement similar.",
+          "answer": "Use the same shape, scale and light-dark relationship, then compare rough and smooth surfaces for the intended emphasis.",
+          "checkpoints": [
+            "Holds useful variables steady",
+            "States the purpose"
+          ],
+          "id": "2-d-art-and-design-3-q2"
+        }
+      ],
+      "frameworkUnit": "Portfolio skill 3",
+      "id": "2-d-art-and-design-3"
+    },
+    {
+      "title": "Present evidence of decisions",
+      "focus": "Sequence work and write concrete process statements.",
+      "explanation": [
+        "A presentation should let a viewer inspect relationships between works, not just read claims about them. Select images that show development, including a meaningful detail or intermediate state when it explains a change. Photograph flat work evenly so shadows and colour casts do not misrepresent it.",
+        "A process statement connects an intention, a choice and an observed result. “I moved the darkest shape to the edge to make the route feel interrupted” is more useful than “I used contrast well.” Keep authorship and source records clear. These text exercises cannot substitute for the actual images or your own required written responses."
+      ],
+      "workedExample": {
+        "prompt": "Improve the statement “My collage is about memory and is effective.”",
+        "steps": [
+          "Identify a visible choice: repeated fragments become less legible across the page.",
+          "Explain how fading and overlap suggest incomplete recall, then name the revision that strengthened that effect."
+        ]
+      },
+      "misconception": {
+        "claim": "A strong statement can compensate for missing visual evidence.",
+        "correction": "The images must show the decisions the statement describes."
+      },
+      "questions": [
+        {
+          "prompt": "Which image belongs beside a final collage: an unrelated sketch or an opacity test? Why?",
+          "hint": "Ask what demonstrates development.",
+          "answer": "The opacity test belongs if its result explains the layering used in the final collage.",
+          "checkpoints": [
+            "Selects relevant evidence",
+            "Explains the connection"
+          ],
+          "id": "2-d-art-and-design-4-q1"
+        },
+        {
+          "prompt": "Name two checks before photographing a flat work.",
+          "hint": "Consider distortion and illumination.",
+          "answer": "Keep the camera parallel to the surface and use even lighting that avoids glare or strong shadows.",
+          "checkpoints": [
+            "Checks alignment",
+            "Checks lighting"
+          ],
+          "id": "2-d-art-and-design-4-q2"
+        }
+      ],
+      "frameworkUnit": "Portfolio skill 4",
+      "id": "2-d-art-and-design-4"
+    }
+  ]
+}

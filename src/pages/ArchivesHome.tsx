@@ -5,20 +5,18 @@ import { motion, useReducedMotion } from "framer-motion";
 import {
   ArrowRight,
   BookOpen,
-  Clock,
+  Library,
   Layers,
   UploadCloud,
 } from "lucide-react";
 
+import { ARCHIVE_COLLECTIONS } from '@/content/resourceLibrary';
+
 import PageSection from "@/components/PageSection";
 import NeumorphicCard from "@/components/NeumorphicCard";
-import { useAuth } from "@/contexts/AuthContext";
 
 export default function ArchivesHome() {
   const reduceMotion = useReducedMotion();
-  const { isAuthenticated } = useAuth();
-  const hubTarget = isAuthenticated ? "/main" : "/signup";
-  const hubLabel = isAuthenticated ? "study dashboard" : "sign up for the study dashboard";
 
   return (
     <>
@@ -26,7 +24,7 @@ export default function ArchivesHome() {
         <title>Archives - VertexED</title>
         <meta
           name="description"
-          content="A curated, subject-wise archive of IB MYP notes, exemplars, and study material."
+          content="Three legacy starter collections for English Language and Literature, History and Geography."
         />
       </Helmet>
 
@@ -37,28 +35,23 @@ export default function ArchivesHome() {
             Archives
           </h1>
           <p className="text-sm text-muted-foreground mt-1 max-w-4xl leading-relaxed">
-            Subject-wise notes, exemplars, and study material - English Language &amp; Literature, History, and Geography.
-            Built to reference during revision, not replace your own notes or teacher feedback.
+            A directory of legacy English Language &amp; Literature, History and Geography collections.
+            Materials awaiting subject review are labelled and unavailable.
           </p>
         </header>
 
         <NeumorphicCard className="p-5 mb-8 border border-primary/20 bg-primary/5">
           <div className="flex items-start gap-3">
-            <Clock className="h-5 w-5 text-primary shrink-0 mt-0.5" aria-hidden />
+            <Library className="h-5 w-5 text-primary shrink-0 mt-0.5" aria-hidden />
             <p className="text-sm text-muted-foreground">
-              Starter guides and exemplars are live for LnL, History, and Geography - with more subjects on the way. Browse below, explore the{" "}
-              <Link to={hubTarget} className="text-primary hover:underline">
-                {hubLabel}
+              {ARCHIVE_COLLECTIONS.length} reviewed collections are available. Browse subject directories in the{" "}
+              <Link to="/myp" className="text-primary hover:underline">
+                MYP 5 learning hub
               </Link>
-              , or try{" "}
-              <Link to="/paper-maker" className="text-primary hover:underline">
-                Paper Maker
-              </Link>{" "}
-              and{" "}
-              <Link to="/answer-reviewer" className="text-primary hover:underline">
-                Answer Reviewer
-              </Link>{" "}
-              for custom practice.
+              . For available resources and study workflows, open the{" "}
+              <Link to="/resources" className="text-primary hover:underline">
+                Learning library
+              </Link>.
             </p>
           </div>
         </NeumorphicCard>
@@ -71,18 +64,9 @@ export default function ArchivesHome() {
             </h2>
 
             <ul className="list-disc pl-5 space-y-4 text-sm text-muted-foreground leading-relaxed">
-              <li>
-                <span className="text-foreground font-medium">Exam-aligned notes</span>, exemplar
-                answers, and explanations you can actually learn from.
-              </li>
-              <li>
-                A <span className="text-foreground font-medium">reference library</span>, not a scroll feed.
-                Every piece is added on purpose.
-              </li>
-              <li>
-                Shows you <span className="text-foreground font-medium">how strong answers are built</span>,
-                not just what to memorize.
-              </li>
+              <li>Collection names remain available while their material is reviewed.</li>
+              <li>Content, sources and permissions must be checked before publication.</li>
+              <li>Use your teacher’s approved materials for current exam preparation.</li>
             </ul>
 
             <div className="mt-6 pt-4 border-t border-border/60">
@@ -138,6 +122,10 @@ type ArchiveCardProps = {
 };
 
 function ArchiveCard({ to, title, description, reduceMotion }: ArchiveCardProps) {
+  if (!ARCHIVE_COLLECTIONS.some((entry) => entry.to === to)) return <NeumorphicCard className="p-6">
+    <h3 className="text-base font-medium mb-1">{title}</h3>
+    <p className="text-sm text-muted-foreground">Awaiting subject review. This collection is not available yet.</p>
+  </NeumorphicCard>;
   return (
     <motion.div
       initial={reduceMotion ? false : { opacity: 0, y: 8 }}

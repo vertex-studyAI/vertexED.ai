@@ -1,0 +1,190 @@
+{
+  "recordedAt": "2026-10-14T15:57:29.164845+00:00",
+  "scope": "Local offline UI and calendar file interoperability",
+  "status": "LOCAL_CHECKS_PASSED",
+  "baseCommit": "e28f24ff1c051eaa91b5443a79fe392987d0c688",
+  "applicationTests": {
+    "passed": 1386,
+    "failed": 0,
+    "skipped": 0
+  },
+  "lint": {
+    "errors": 0,
+    "existingWarnings": 2
+  },
+  "copy": {
+    "files": 406,
+    "findings": 0
+  },
+  "typecheck": "PASS",
+  "productionBuild": "PASS",
+  "bundleBudgets": "PASS",
+  "browser": {
+    "offlineCalendarPassed": 11,
+    "referencePassed": 10,
+    "viewportWidths": [
+      1440,
+      1024,
+      390
+    ],
+    "screenshotsInspected": true
+  },
+  "verificationNote": "Build and browser checks precede the semantically equivalent ref-object capture used solely to resolve a lint warning in OfflineSettings effect cleanup. Full lint, app tests and TypeScript passed after that correction.",
+  "boundaries": [
+    "Public offline resources only; private save state remains separate.",
+    "Calendar file import/export, not live provider sync or server background scheduling.",
+    "No deployment."
+  ],
+  "files": [
+    {
+      "path": "src/main.tsx",
+      "sha256": "13a9136fdf04a19589511ae448683e0c0e14723a8ed8aba9da4b6de767cee689"
+    },
+    {
+      "path": "src/lib/registerOffline.ts",
+      "sha256": "b73673a27794466ffa9fa4c53268f71067cf74d5a5d53e90a010e4060fd47458"
+    },
+    {
+      "path": "scripts/generate-offline-bundle.mjs",
+      "sha256": "31fb505689f7090261aa08513f02c181116f581e8cbc03680f043b427a0cc08c"
+    },
+    {
+      "path": "scripts/offline-worker.js",
+      "sha256": "a65eaec4e17ea59716628346c8d1a06b870299c243beff7973cf3c471bd0c8b8"
+    },
+    {
+      "path": "scripts/run-test-scope.mjs",
+      "sha256": "770d12d3dfdd4490451aa3562aab830a97f6597137cc840328282ec7146b58da"
+    },
+    {
+      "path": "tests/offline-bundle.test.mjs",
+      "sha256": "5f1a073c24d57c314bd75b32f8de8a963ecff79c99a165bc1ab6b02f401dde3b"
+    },
+    {
+      "path": "e2e/offline-study.spec.ts",
+      "sha256": "865c011eb182b920f200318b1dc0d7d16bcda435f139407a8dac9bf3fe9ebb4a"
+    },
+    {
+      "path": "playwright.offline.config.ts",
+      "sha256": "04ab484cef7afde61af50df79e7534fb3161f2b5cd49eb39e2d3fe8b01bbee12"
+    },
+    {
+      "path": "vite.config.ts",
+      "sha256": "692d1daf96b6758ef5f7c42793cf51702cb8c84786d8305c724fd98f31f5e5ad"
+    },
+    {
+      "path": "vercel.json",
+      "sha256": "62f2475eaecb87f91616633b227d01f63ac95cf68f8c139493692f43a5d4b5f3"
+    },
+    {
+      "path": "eslint.config.js",
+      "sha256": "2d7d32262cde07725434cbec577e7c6d123084973b229602c222f5cf16a5d132"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "sha256": "ad8dcbd29c51a977b9a4c2b29f99dffb85be11b0c9328dea78beabaea15eacda"
+    },
+    {
+      "path": "src/components/OfflineSettings.tsx",
+      "sha256": "2642f651393efc5c5e84a3a6e853f2a780154a727712f821ff99b5eb464265d6"
+    },
+    {
+      "path": "src/lib/offlineControls.mjs",
+      "sha256": "84624786c690ba4bd18e64134f204ecf89e16c89b7947e22350e3616d3157013"
+    },
+    {
+      "path": "src/lib/calendarImport.mjs",
+      "sha256": "80c01ce07a217c40ecd733ba72a28569e0ade2e4b2816f48dcf1e80fb7291423"
+    },
+    {
+      "path": "src/features/study-calendar/components/CalendarImport.tsx",
+      "sha256": "e4f5206ef4a3c11939a51ac33dc656e6a7dc1dad5609d449dceae559b2bd3602"
+    },
+    {
+      "path": "src/features/study-calendar/PlannerView.tsx",
+      "sha256": "fa2233ccbfa59c1bcdde8bd58b758884891dca86e848b6430e54042a3ee858ec"
+    },
+    {
+      "path": "src/features/study-calendar/styles/planner.css",
+      "sha256": "bdd71c8bdfb1f81b0f306817049b6ace8b945a8575869e42bc31fac278e0be36"
+    },
+    {
+      "path": "e2e/learning-os.spec.ts",
+      "sha256": "7393d61dd5c0400bee00dad4a75803af52fa047793a7fa81e57952e378ec14a0"
+    },
+    {
+      "path": "tests/calendar-import.test.mjs",
+      "sha256": "403e7ede0dd65dbc1565cd0358377adae40a53c93cb5fdb99fd5a0efa672ad8f"
+    },
+    {
+      "path": "tests/offline-controls.test.mjs",
+      "sha256": "f99d8651a501da969fa742ebe1f7e433936af47819ae61ceff749fbc8f95fac5"
+    },
+    {
+      "path": "playwright.offline-calendar.config.ts",
+      "sha256": "2a3e508cb90d180aa4aba4e1fb3eab69d7a36b623264d192b5438a90aa1f28da"
+    }
+  ],
+  "logs": [
+    {
+      "path": ".tmp/offline-calendar-20261014/app-tests.log",
+      "sha256": "6cf2e60e3db54f5c256bc19ecb055df2afe2a83dd3aefa233f0a7ae99d2fe516"
+    },
+    {
+      "path": ".tmp/offline-calendar-20261014/browser-correction.log",
+      "sha256": "931ea089dcdceaabe634c0a3aa633de53970243014cb63b2cce70618d18e98e0"
+    },
+    {
+      "path": ".tmp/offline-calendar-20261014/browser-network.log",
+      "sha256": "abe6c4850f5fc3b37fc45e1917f54fdbba8f0ffddcfb25bd251eb1e6b0b935ef"
+    },
+    {
+      "path": ".tmp/offline-calendar-20261014/browser.log",
+      "sha256": "1c23a873bb7e95bcffd676cb297bfecddcac0c689cc791a5bbeefbb9b8e6015b"
+    },
+    {
+      "path": ".tmp/offline-calendar-20261014/budget.log",
+      "sha256": "3353ac3af8ee17ad58904974190a54328dbb68d99c8857524ffe6623de67e114"
+    },
+    {
+      "path": ".tmp/offline-calendar-20261014/build-correction.log",
+      "sha256": "aaee1acc0104bd31540590dd46caaa576685962b57f16a0e6383f609815f7c34"
+    },
+    {
+      "path": ".tmp/offline-calendar-20261014/build.log",
+      "sha256": "f3a7f7e96fcea5dedc1705abbf3008b0b946d9bba0b9486e2a915ffff3cdfb71"
+    },
+    {
+      "path": ".tmp/offline-calendar-20261014/bundle.log",
+      "sha256": "d01869c7c55aa57d23980b063adfb3080e10801b2cb04e9a20b09e618a5e7b99"
+    },
+    {
+      "path": ".tmp/offline-calendar-20261014/focused-final.log",
+      "sha256": "21a0a98ccc65abb5248ac69ecf3f272e7133a411256d3cf64ae649274f857d2c"
+    },
+    {
+      "path": ".tmp/offline-calendar-20261014/focused.log",
+      "sha256": "83acf80a14c2e51d2097b4a61b1a693dadf3fb8127bd18d9034ea9c57342f3c7"
+    },
+    {
+      "path": ".tmp/offline-calendar-20261014/lint-final.log",
+      "sha256": "3a5107b8f5303521e7d1d9e02ff8b695521d10924051b110f460b845a1658e25"
+    },
+    {
+      "path": ".tmp/offline-calendar-20261014/lint.log",
+      "sha256": "1b83c6d7fb152c57d22ea75bbb9e90fce5425f6804164f4ffa3ca3490cb159e2"
+    },
+    {
+      "path": ".tmp/offline-calendar-20261014/reference-browser.log",
+      "sha256": "7146e9adf2cbaa54ad4a6211279d6e693815bc5bc78e55af2588a4e88e4d911e"
+    },
+    {
+      "path": ".tmp/offline-calendar-20261014/typecheck-final.log",
+      "sha256": "18613ddbee6bb1383ee22d4a41b90885223169ef27a680cb63aac1cdd738279f"
+    },
+    {
+      "path": ".tmp/offline-calendar-20261014/typecheck.log",
+      "sha256": "18613ddbee6bb1383ee22d4a41b90885223169ef27a680cb63aac1cdd738279f"
+    }
+  ]
+}

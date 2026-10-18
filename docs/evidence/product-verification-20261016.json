@@ -1,0 +1,1510 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-16T07:59:12.469195+00:00",
+  "decision": "BLOCKED",
+  "evidenceClass": "local application build and static checks; final-artifact browser status NOT_RUN_FINAL_ARTIFACT; synthetic Auth/API/provider fixtures and historical browser evidence remain separately scoped; live acceptance not established",
+  "finalArtifactBrowserStatus": "NOT_RUN_FINAL_ARTIFACT",
+  "candidate": {
+    "repository": "https://github.com/vertex-studyAI/vertexED.ai.git",
+    "checkout": "/Volumes/PRO-BLADE/GitHubRepos/vertexED.ai",
+    "branch": "main",
+    "baseCommit": "e28f24ff1c051eaa91b5443a79fe392987d0c688",
+    "committedCandidate": false,
+    "sourceInputManifest": ".tmp/product-verification-20261016/source-manifest.json",
+    "sourceInputCount": 1501,
+    "sourceTreeSha256": "5312eead5bd6086c02905ee55a74c88ed87c9b80b6b1f6bfbcd33ed4b498697d",
+    "sourceInputManifestSha256": "b574722a3e9994a438ee9781f09c97cac0b980b404bd1e15281cceeb80520b4f",
+    "quarantinedPathsExcluded": [
+      ".github/workflows/darcy-v2-learned-operator-ci.yml",
+      ".github/workflows/obscured-records-certification.yml",
+      ".github/workflows/space-jepa-esa-metadata-provenance.yml",
+      "tests/test_ngmt_v01.py"
+    ],
+    "warning": "Dirty preserved working tree. The build revision stamp identifies the base commit, not these uncommitted inputs or a deployed release."
+  },
+  "artifacts": {
+    "standard": {
+      "directory": "dist",
+      "fileCount": 258,
+      "treeSha256": "1be89dac17cbcda08a16617e0f61ccb1ff6b49ed542090f0b5c73fdb321c5df8",
+      "manifestSha256": "cf123ca0ef48bd0eb29c05d0fcd2c51b25bf1b3cc83b084a0dc9797e8378b5d9",
+      "manifest": ".tmp/product-verification-20261016/standard-artifact-manifest.json"
+    },
+    "syntheticBrowserFixture": {
+      "directory": ".vertexed-product-final-dist",
+      "fileCount": 259,
+      "treeSha256": "db0110da4db74a040a2005b3993db05d3901860d515e6b8408aad59cc21d0edc",
+      "manifestSha256": "207a15e06c1cfa3aa95a10ee81a76dadc73cc8d7e2a69026622e40af57251507",
+      "manifest": ".tmp/product-verification-20261016/fixture-artifact-manifest.json",
+      "mustNotDeploy": true
+    }
+  },
+  "verification": {
+    "recordedAt": "2026-10-16T07:57:01.306861+00:00",
+    "localCommandExecution": {
+      "path": ".tmp/product-verification-20261016/final-local-checks.json",
+      "sha256": "4aae2d2e364cc786820b923c8156f964995e0901c089e77bd0742ec36131fc61",
+      "completedAtUtc": "2026-10-16T07:51:09.610757+00:00",
+      "schemaVersion": 1,
+      "runId": "20261016T074840.600232Z-757a79b4",
+      "status": "PASS",
+      "startedAtUtc": "2026-10-16T07:48:40.601780+00:00",
+      "cwd": "/Volumes/PRO-BLADE/GitHubRepos/vertexED.ai",
+      "stopOnFailure": true,
+      "temporaryDirectory": "/Volumes/PRO-BLADE/GitHubRepos/vertexED.ai/.tmp/bt",
+      "commands": [
+        {
+          "logPath": ".tmp/product-verification-20261016/build-standard-release-candidate.log",
+          "archivedLogPath": ".tmp/product-verification-20261016/local-check-runs/20261016T074840.600232Z-757a79b4/build-standard-release-candidate.log",
+          "command": [
+            "rtk",
+            "proxy",
+            "npm",
+            "run",
+            "build"
+          ],
+          "environmentOverrides": {},
+          "status": "PASS",
+          "exitCode": 0,
+          "startedAtUtc": "2026-10-16T07:48:40.603429+00:00",
+          "completedAtUtc": "2026-10-16T07:48:57.384045+00:00",
+          "durationSeconds": 16.779343,
+          "logSha256": "1182ca3c9499a3a11ce4dc5932d838ce42fe2c7db4950872f0544417762755a7",
+          "logBytes": 17641
+        },
+        {
+          "logPath": ".tmp/product-verification-20261016/build-fixture-release-candidate.log",
+          "archivedLogPath": ".tmp/product-verification-20261016/local-check-runs/20261016T074840.600232Z-757a79b4/build-fixture-release-candidate.log",
+          "command": [
+            "rtk",
+            "proxy",
+            "npm",
+            "run",
+            "build",
+            "--",
+            "--outDir",
+            ".vertexed-product-final-dist"
+          ],
+          "environmentOverrides": {
+            "VITE_SUPABASE_URL": "https://vertexed-e2e.supabase.co",
+            "VITE_SUPABASE_PUBLISHABLE_KEY": "sb_publishable_vertexed_local_fixture"
+          },
+          "status": "PASS",
+          "exitCode": 0,
+          "startedAtUtc": "2026-10-16T07:48:57.385665+00:00",
+          "completedAtUtc": "2026-10-16T07:49:10.450458+00:00",
+          "durationSeconds": 13.064101,
+          "logSha256": "a58d703e284022513a6848ca624b1bdbecbfd32864f92f6c8b4313c3fd155a09",
+          "logBytes": 22875
+        },
+        {
+          "logPath": ".tmp/product-verification-20261016/app-tests-release-candidate.log",
+          "archivedLogPath": ".tmp/product-verification-20261016/local-check-runs/20261016T074840.600232Z-757a79b4/app-tests-release-candidate.log",
+          "command": [
+            "rtk",
+            "proxy",
+            "npm",
+            "run",
+            "test:app"
+          ],
+          "environmentOverrides": {},
+          "status": "PASS",
+          "exitCode": 0,
+          "startedAtUtc": "2026-10-16T07:49:10.452325+00:00",
+          "completedAtUtc": "2026-10-16T07:50:07.766635+00:00",
+          "durationSeconds": 57.312474,
+          "logSha256": "d33373152fced2b66f789997a55ea648bf895832f79d6956dcba3e9fa1758d32",
+          "logBytes": 399113
+        },
+        {
+          "logPath": ".tmp/product-verification-20261016/lint-release-candidate.log",
+          "archivedLogPath": ".tmp/product-verification-20261016/local-check-runs/20261016T074840.600232Z-757a79b4/lint-release-candidate.log",
+          "command": [
+            "rtk",
+            "proxy",
+            "npm",
+            "run",
+            "lint:ci"
+          ],
+          "environmentOverrides": {},
+          "status": "PASS",
+          "exitCode": 0,
+          "startedAtUtc": "2026-10-16T07:50:07.769171+00:00",
+          "completedAtUtc": "2026-10-16T07:50:32.560308+00:00",
+          "durationSeconds": 24.789875,
+          "logSha256": "0298d272d5dce34784fb7ab72ee9ec093868b6773fbdf827b8111f4744235c0f",
+          "logBytes": 1608
+        },
+        {
+          "logPath": ".tmp/product-verification-20261016/typecheck-release-candidate.log",
+          "archivedLogPath": ".tmp/product-verification-20261016/local-check-runs/20261016T074840.600232Z-757a79b4/typecheck-release-candidate.log",
+          "command": [
+            "rtk",
+            "proxy",
+            "npm",
+            "run",
+            "typecheck"
+          ],
+          "environmentOverrides": {},
+          "status": "PASS",
+          "exitCode": 0,
+          "startedAtUtc": "2026-10-16T07:50:32.562682+00:00",
+          "completedAtUtc": "2026-10-16T07:51:06.458729+00:00",
+          "durationSeconds": 33.894701,
+          "logSha256": "18613ddbee6bb1383ee22d4a41b90885223169ef27a680cb63aac1cdd738279f",
+          "logBytes": 77
+        },
+        {
+          "logPath": ".tmp/product-verification-20261016/bundle-budget-release-candidate.log",
+          "archivedLogPath": ".tmp/product-verification-20261016/local-check-runs/20261016T074840.600232Z-757a79b4/bundle-budget-release-candidate.log",
+          "command": [
+            "rtk",
+            "proxy",
+            "npm",
+            "run",
+            "performance:bundle"
+          ],
+          "environmentOverrides": {},
+          "status": "PASS",
+          "exitCode": 0,
+          "startedAtUtc": "2026-10-16T07:51:06.459992+00:00",
+          "completedAtUtc": "2026-10-16T07:51:06.883519+00:00",
+          "durationSeconds": 0.422259,
+          "logSha256": "cc45ae47a1a8e3b561a898c2ba84b09493422fa504f8389b1a62456e130c5eb7",
+          "logBytes": 1327
+        },
+        {
+          "logPath": ".tmp/product-verification-20261016/publication-built-release-candidate.json",
+          "archivedLogPath": ".tmp/product-verification-20261016/local-check-runs/20261016T074840.600232Z-757a79b4/publication-built-release-candidate.json",
+          "command": [
+            "rtk",
+            "proxy",
+            "node",
+            "scripts/verify-published-content.mjs",
+            "dist"
+          ],
+          "environmentOverrides": {},
+          "status": "PASS",
+          "exitCode": 0,
+          "startedAtUtc": "2026-10-16T07:51:06.884512+00:00",
+          "completedAtUtc": "2026-10-16T07:51:09.608542+00:00",
+          "durationSeconds": 2.723316,
+          "logSha256": "2dda482d437b57a2012856e09a89acb299e6e0ba693280c92aa062fd5648baaa",
+          "logBytes": 248
+        }
+      ]
+    },
+    "environment": {
+      "node": "22.22.0",
+      "npm": "10.9.4",
+      "host": "macOS local",
+      "browserRunner": "Playwright 1.64.1, single worker, all engines installed from its matching browser registry; Chromium channel uses the full browser in new headless mode",
+      "browsers": {
+        "chromium": "156.0.8078.4 (revision 1248)",
+        "firefox": "157.0 (revision 1555)",
+        "webkit": "27.2 (revision 2370)"
+      },
+      "viewportWidths": [
+        1440,
+        1024,
+        390
+      ],
+      "themes": [
+        "light",
+        "dark"
+      ],
+      "reducedMotion": true,
+      "browserExecutionStatus": "NOT_RUN_FINAL_ARTIFACT",
+      "browserConfigurationBoundary": "Engine/version/viewport entries describe the configured matrix; current-artifact execution is determined only by verification.browser.status.",
+      "integrationBoundary": "Built application UI and real local Node API adapter; authenticated browser cases mock Auth/API/provider services. Offline case uses the actual service worker. No staging or production certification."
+    },
+    "application": {
+      "path": ".tmp/product-verification-20261016/app-tests-release-candidate.log",
+      "sha256": "d33373152fced2b66f789997a55ea648bf895832f79d6956dcba3e9fa1758d32",
+      "completedAtUtc": "2026-10-16T07:50:07.766227+00:00",
+      "tests": 1736,
+      "pass": 1736,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0,
+      "result": "PASS",
+      "command": "Node 22.22.0: npm run test:app"
+    },
+    "browser": {
+      "path": ".tmp/product-verification-20261016/final-browser-status.json",
+      "sha256": "931c8841abde5ded8a78964a3785abbbb6d38effffee5289d5a5df881a7eff5e",
+      "completedAtUtc": "2026-10-16T07:56:53.531761+00:00",
+      "status": "NOT_RUN_FINAL_ARTIFACT",
+      "currentArtifactVerified": false,
+      "stats": null,
+      "blocker": {
+        "schemaVersion": 1,
+        "recordedAt": "2026-10-16T07:56:53.529301+00:00",
+        "status": "NOT_RUN_FINAL_ARTIFACT",
+        "reason": "Final rebuilt artifact has no completed browser acceptance. Two retained Chromium launches failed with ENOSPC before application assertions; browser attempts stopped pending internal disk capacity. Earlier full and focused runs belong to prior artifacts.",
+        "buildRunId": "20261016T074840.600232Z-757a79b4",
+        "applicationAssertionsExecuted": 0,
+        "finalVisualStatus": "NOT_VERIFIED",
+        "artifactIdentity": {
+          "standardIndexSha256": "29c37a98e589e526324c230be350d73d0314f96c6778729fa1d19002f491758f",
+          "fixtureIndexSha256": "5c6f17ea6ba372832c0b92d7be88eed7cdb401edc5a68b6746bd3017cbba0317"
+        },
+        "infrastructureReceipts": [
+          {
+            "path": ".tmp/product-verification-20261016/focus-equals-infrastructure-failure.json",
+            "sha256": "ee941226aba61359f31e67a8f6a624c6056d7703092ef0131c3441a9f5d5db49"
+          },
+          {
+            "path": ".tmp/product-verification-20261016/focus-equals-diagnostic-red.log",
+            "sha256": "a60c4d4f056836c8d6d4717aa36bca1d605fee300ad190e34b7a54f6aaae12d3"
+          },
+          {
+            "path": ".tmp/product-verification-20261016/focus-equals-diagnostic-red-retry.log",
+            "sha256": "f598ca387da067132b5d53fe7cc6c3fa802cd4989b8de2c5ae373a63ecf93d71"
+          },
+          {
+            "path": ".tmp/product-verification-20261016/host-capacity-final.json",
+            "sha256": "d360ea5737ddd38079d292d7c06436662a676f393a7f5cb90b458212342568fa"
+          }
+        ],
+        "requiredAction": "Free at least 2 GB of internal disk capacity, confirm this source/artifact identity, then run the focused9, combined153 and supplemental9 browser cases sequentially and inspect final captures.",
+        "resumeConfigurations": [
+          ".tmp/product-verification-20261016/playwright-focus-final.config.ts",
+          ".tmp/product-verification-20261016/playwright-combined.config.ts",
+          ".tmp/product-verification-20261016/playwright-access-visual-final.config.ts"
+        ],
+        "environment": {
+          "PLAYWRIGHT_BROWSERS_PATH": "/Volumes/PRO-BLADE/GitHubRepos/vertexED.ai/.tmp/product-verification-20261016/matched-browsers",
+          "TMPDIR": "/Volumes/PRO-BLADE/GitHubRepos/vertexED.ai/.tmp/bt",
+          "node": "22.22.0",
+          "baseURL": "http://127.0.0.1:14218",
+          "workers": 1
+        }
+      },
+      "screenshots": 0,
+      "screenshotDirectory": null,
+      "visualInspection": {
+        "status": "NOT_VERIFIED",
+        "currentArtifactVerified": false,
+        "reason": "No current-artifact visual acceptance; any historical captures remain prior-artifact evidence.",
+        "historicalSummaryReceipt": {
+          "path": ".tmp/product-verification-20261016/visual-inspection-final.json",
+          "sha256": "d3528bb251879c3c938809a19993f5d0381c2d9113086001390b921f65d76ac8",
+          "completedAtUtc": "2026-10-16T07:54:07.867161+00:00"
+        },
+        "historicalSummary": {
+          "status": "NOT_VERIFIED_FINAL_ARTIFACT",
+          "recordedAt": "2026-10-16T07:54:07.866113+00:00",
+          "reason": "Final equals-key correction rebuilt successfully; subsequent final browser captures and inspection are blocked by internal disk exhaustion before browser startup.",
+          "finalArtifactIndexHashes": {
+            "standard": "29c37a98e589e526324c230be350d73d0314f96c6778729fa1d19002f491758f",
+            "syntheticFixture": "5c6f17ea6ba372832c0b92d7be88eed7cdb401edc5a68b6746bd3017cbba0317"
+          },
+          "historicalInspections": [
+            {
+              "path": ".tmp/product-verification-20261016/visual-inspection-chromium-before-focus-correction.json",
+              "sha256": "335021309e9827890f34642d04ce67989078037355d78a1263655701372b6b86",
+              "statusAtInspection": "PASS_BOUNDED_VISUAL_REVIEW",
+              "imageCount": 19,
+              "finalArtifactAcceptance": false
+            },
+            {
+              "path": ".tmp/product-verification-20261016/visual-inspection-firefox-before-focus-correction.json",
+              "sha256": "39c79f250a64a5c29ea91ae7f5fadee90ac8fc986d2d9f3c39ee603f051efa37",
+              "statusAtInspection": "PASS_BOUNDED_VISUAL_REVIEW",
+              "imageCount": 19,
+              "finalArtifactAcceptance": false
+            },
+            {
+              "path": ".tmp/product-verification-20261016/visual-inspection-webkit-before-focus-correction.json",
+              "sha256": "01e06a2b6f8fc754ea5127d28a679c2fd40564bab490dd9c868ffa6b4b493f46",
+              "statusAtInspection": "PASS_BOUNDED_PRE_FOCUS_CORRECTION_BASELINE",
+              "imageCount": 19,
+              "finalArtifactAcceptance": false
+            },
+            {
+              "path": ".tmp/product-verification-20261016/visual-inspection-usage-firefox-before-focus-correction.json",
+              "sha256": "990d0a7d0474f846fac60098c7324b23dd4463a2cc39f41d6c6fbe2944e952a2",
+              "statusAtInspection": "PASS_WITH_CAPTURE_LIMITATIONS",
+              "imageCount": 15,
+              "finalArtifactAcceptance": false
+            },
+            {
+              "path": ".tmp/product-verification-20261016/visual-inspection-workflows-before-focus-correction.json",
+              "sha256": "dc414b67785a2331d95b3add99f6e36f3eb929cd0f50946bd07b4ee2607f06a6",
+              "statusAtInspection": "REVIEW_REQUIRED_FOCUS_CORRECTION",
+              "imageCount": 13,
+              "finalArtifactAcceptance": false
+            },
+            {
+              "path": ".tmp/product-verification-20261016/visual-inspection-access-before-auth-correction.json",
+              "sha256": "8b5bf1dc5dcdb924ed227892588169400b0810bb24f1338f28d7eda59be48120",
+              "statusAtInspection": "PASS_WITH_CAPTURE_LIMITATIONS",
+              "imageCount": 27,
+              "finalArtifactAcceptance": false
+            },
+            {
+              "path": ".tmp/product-verification-20261016/visual-inspection-root-focus-before-equals.json",
+              "sha256": "43e3f2686d8168d21fff60f596d722524fb1a71ec1120d8900b93f70fabe93ae",
+              "statusAtInspection": "HISTORICAL_CORRECTION_INSPECTION",
+              "imageCount": 4,
+              "finalArtifactAcceptance": false
+            }
+          ],
+          "historicalUniqueImagePathsHashVerified": 116,
+          "finalArtifactScreenshotsInspected": 0,
+          "historicalCoverage": {
+            "widths": [
+              1440,
+              1024,
+              390
+            ],
+            "themes": [
+              "light",
+              "dark"
+            ],
+            "engines": [
+              "Chromium",
+              "Firefox",
+              "WebKit"
+            ],
+            "boundary": "See individual receipts for inspected surfaces and capture limitations. Coverage is historical and bounded, not exhaustive final-route acceptance."
+          },
+          "notRun": [
+            "Final canonical Focus contrast/hit/footer cases",
+            "Final combined153 browser matrix",
+            "Supplemental9 access-control viewport captures",
+            "Real-device visual/accessibility checks"
+          ],
+          "sourceArtifactBoundary": "No historical capture has been relabeled as a final-artifact inspection. PNG hashes were revalidated; the final artifact hashes identify the uninspected successor only."
+        }
+      }
+    },
+    "historicalBrowserEvidence": {
+      "currentArtifactVerified": false,
+      "beforeFocusCorrection": {
+        "path": ".tmp/product-verification-20261016/browser-built-before-focus-correction-results.json",
+        "sha256": "4c378a0e854060642103e343519a708710b44256f779f8a5b27e7b66790b5115",
+        "completedAtUtc": "2026-10-16T07:29:58.851985+00:00",
+        "stats": {
+          "startTime": "2026-10-16T07:17:41.635Z",
+          "duration": 737164.352,
+          "expected": 152,
+          "skipped": 0,
+          "unexpected": 1,
+          "flaky": 0
+        },
+        "artifactScope": "Before Focus/shared-modal/equals successor; retained 152-pass/1-fail matrix."
+      },
+      "delAndClearCorrectionBeforeEquals": {
+        "path": ".tmp/product-verification-20261016/focus-visual-diagnostic-green-results.json",
+        "sha256": "f4c07b41cf27f45692e2146dc343c36a0c0fb238187bacefe070af54ce839ff3",
+        "completedAtUtc": "2026-10-16T07:44:05.453630+00:00",
+        "stats": {
+          "startTime": "2026-10-16T07:42:31.412Z",
+          "duration": 93910.82,
+          "expected": 9,
+          "skipped": 0,
+          "unexpected": 0,
+          "flaky": 0
+        },
+        "artifactScope": "Historical nine-case Del/C-only green; does not verify the later equals-key fix or final artifact."
+      },
+      "visualReceipts": [
+        {
+          "path": ".tmp/product-verification-20261016/visual-inspection-access-before-auth-correction.json",
+          "sha256": "8b5bf1dc5dcdb924ed227892588169400b0810bb24f1338f28d7eda59be48120",
+          "completedAtUtc": "2026-10-16T06:54:35.634111+00:00",
+          "artifactScope": "PRIOR_ARTIFACT_ONLY",
+          "currentArtifactVerified": false
+        },
+        {
+          "path": ".tmp/product-verification-20261016/visual-inspection-chromium-before-focus-correction.json",
+          "sha256": "335021309e9827890f34642d04ce67989078037355d78a1263655701372b6b86",
+          "completedAtUtc": "2026-10-16T07:31:26.834609+00:00",
+          "artifactScope": "PRIOR_ARTIFACT_ONLY",
+          "currentArtifactVerified": false
+        },
+        {
+          "path": ".tmp/product-verification-20261016/visual-inspection-firefox-before-auth-correction.json",
+          "sha256": "468eb075f58cbac960ad4945c363d38413d4f3ad46129912e5a4ce609af394c3",
+          "completedAtUtc": "2026-10-16T06:54:35.635087+00:00",
+          "artifactScope": "PRIOR_ARTIFACT_ONLY",
+          "currentArtifactVerified": false
+        },
+        {
+          "path": ".tmp/product-verification-20261016/visual-inspection-firefox-before-focus-correction.json",
+          "sha256": "39c79f250a64a5c29ea91ae7f5fadee90ac8fc986d2d9f3c39ee603f051efa37",
+          "completedAtUtc": "2026-10-16T07:18:59.192816+00:00",
+          "artifactScope": "PRIOR_ARTIFACT_ONLY",
+          "currentArtifactVerified": false
+        },
+        {
+          "path": ".tmp/product-verification-20261016/visual-inspection-root-focus-before-equals.json",
+          "sha256": "43e3f2686d8168d21fff60f596d722524fb1a71ec1120d8900b93f70fabe93ae",
+          "completedAtUtc": "2026-10-16T07:54:07.779941+00:00",
+          "artifactScope": "PRIOR_ARTIFACT_ONLY",
+          "currentArtifactVerified": false
+        },
+        {
+          "path": ".tmp/product-verification-20261016/visual-inspection-usage-firefox-before-focus-correction.json",
+          "sha256": "990d0a7d0474f846fac60098c7324b23dd4463a2cc39f41d6c6fbe2944e952a2",
+          "completedAtUtc": "2026-10-16T07:15:59.666508+00:00",
+          "artifactScope": "PRIOR_ARTIFACT_ONLY",
+          "currentArtifactVerified": false
+        },
+        {
+          "path": ".tmp/product-verification-20261016/visual-inspection-webkit-before-focus-correction.json",
+          "sha256": "01e06a2b6f8fc754ea5127d28a679c2fd40564bab490dd9c868ffa6b4b493f46",
+          "completedAtUtc": "2026-10-16T07:32:05.012036+00:00",
+          "artifactScope": "PRIOR_ARTIFACT_ONLY",
+          "currentArtifactVerified": false
+        },
+        {
+          "path": ".tmp/product-verification-20261016/visual-inspection-workflows-before-focus-correction.json",
+          "sha256": "dc414b67785a2331d95b3add99f6e36f3eb929cd0f50946bd07b4ee2607f06a6",
+          "completedAtUtc": "2026-10-16T07:31:26.833446+00:00",
+          "artifactScope": "PRIOR_ARTIFACT_ONLY",
+          "currentArtifactVerified": false
+        }
+      ]
+    },
+    "lint": {
+      "path": ".tmp/product-verification-20261016/lint-release-candidate.log",
+      "sha256": "0298d272d5dce34784fb7ab72ee9ec093868b6773fbdf827b8111f4744235c0f",
+      "completedAtUtc": "2026-10-16T07:50:32.560076+00:00",
+      "result": "PASS_WITH_LEGACY_WARNINGS",
+      "command": "npm run lint:ci",
+      "execution": {
+        "logPath": ".tmp/product-verification-20261016/lint-release-candidate.log",
+        "archivedLogPath": ".tmp/product-verification-20261016/local-check-runs/20261016T074840.600232Z-757a79b4/lint-release-candidate.log",
+        "command": [
+          "rtk",
+          "proxy",
+          "npm",
+          "run",
+          "lint:ci"
+        ],
+        "environmentOverrides": {},
+        "status": "PASS",
+        "exitCode": 0,
+        "startedAtUtc": "2026-10-16T07:50:07.769171+00:00",
+        "completedAtUtc": "2026-10-16T07:50:32.560308+00:00",
+        "durationSeconds": 24.789875,
+        "logSha256": "0298d272d5dce34784fb7ab72ee9ec093868b6773fbdf827b8111f4744235c0f",
+        "logBytes": 1608
+      },
+      "errors": 0,
+      "warnings": [
+        "77:68  warning  React Hook useMemo has an unnecessary dependency: 'setupRevision'. Either exclude it or remove the dependency array  react-hooks/exhaustive-deps",
+        "180:6  warning  React Hook useEffect has a missing dependency: 'postAuthUpsertProfile'. Either include it or remove the dependency array  react-hooks/exhaustive-deps"
+      ],
+      "copyFiles": 471,
+      "copyFindings": 0,
+      "copyRuleTests": 3
+    },
+    "typecheck": {
+      "path": ".tmp/product-verification-20261016/typecheck-release-candidate.log",
+      "sha256": "18613ddbee6bb1383ee22d4a41b90885223169ef27a680cb63aac1cdd738279f",
+      "completedAtUtc": "2026-10-16T07:51:06.458535+00:00",
+      "result": "PASS",
+      "command": "npm run typecheck",
+      "execution": {
+        "logPath": ".tmp/product-verification-20261016/typecheck-release-candidate.log",
+        "archivedLogPath": ".tmp/product-verification-20261016/local-check-runs/20261016T074840.600232Z-757a79b4/typecheck-release-candidate.log",
+        "command": [
+          "rtk",
+          "proxy",
+          "npm",
+          "run",
+          "typecheck"
+        ],
+        "environmentOverrides": {},
+        "status": "PASS",
+        "exitCode": 0,
+        "startedAtUtc": "2026-10-16T07:50:32.562682+00:00",
+        "completedAtUtc": "2026-10-16T07:51:06.458729+00:00",
+        "durationSeconds": 33.894701,
+        "logSha256": "18613ddbee6bb1383ee22d4a41b90885223169ef27a680cb63aac1cdd738279f",
+        "logBytes": 77
+      }
+    },
+    "builds": [
+      {
+        "path": ".tmp/product-verification-20261016/build-standard-release-candidate.log",
+        "sha256": "1182ca3c9499a3a11ce4dc5932d838ce42fe2c7db4950872f0544417762755a7",
+        "completedAtUtc": "2026-10-16T07:48:57.383872+00:00",
+        "result": "PASS",
+        "command": "npm run build",
+        "execution": {
+          "logPath": ".tmp/product-verification-20261016/build-standard-release-candidate.log",
+          "archivedLogPath": ".tmp/product-verification-20261016/local-check-runs/20261016T074840.600232Z-757a79b4/build-standard-release-candidate.log",
+          "command": [
+            "rtk",
+            "proxy",
+            "npm",
+            "run",
+            "build"
+          ],
+          "environmentOverrides": {},
+          "status": "PASS",
+          "exitCode": 0,
+          "startedAtUtc": "2026-10-16T07:48:40.603429+00:00",
+          "completedAtUtc": "2026-10-16T07:48:57.384045+00:00",
+          "durationSeconds": 16.779343,
+          "logSha256": "1182ca3c9499a3a11ce4dc5932d838ce42fe2c7db4950872f0544417762755a7",
+          "logBytes": 17641
+        },
+        "output": "dist"
+      },
+      {
+        "path": ".tmp/product-verification-20261016/build-fixture-release-candidate.log",
+        "sha256": "a58d703e284022513a6848ca624b1bdbecbfd32864f92f6c8b4313c3fd155a09",
+        "completedAtUtc": "2026-10-16T07:49:10.450199+00:00",
+        "result": "PASS",
+        "command": "VITE_SUPABASE_URL=https://vertexed-e2e.supabase.co VITE_SUPABASE_PUBLISHABLE_KEY=sb_publishable_vertexed_local_fixture npm run build -- --outDir .vertexed-product-final-dist",
+        "execution": {
+          "logPath": ".tmp/product-verification-20261016/build-fixture-release-candidate.log",
+          "archivedLogPath": ".tmp/product-verification-20261016/local-check-runs/20261016T074840.600232Z-757a79b4/build-fixture-release-candidate.log",
+          "command": [
+            "rtk",
+            "proxy",
+            "npm",
+            "run",
+            "build",
+            "--",
+            "--outDir",
+            ".vertexed-product-final-dist"
+          ],
+          "environmentOverrides": {
+            "VITE_SUPABASE_URL": "https://vertexed-e2e.supabase.co",
+            "VITE_SUPABASE_PUBLISHABLE_KEY": "sb_publishable_vertexed_local_fixture"
+          },
+          "status": "PASS",
+          "exitCode": 0,
+          "startedAtUtc": "2026-10-16T07:48:57.385665+00:00",
+          "completedAtUtc": "2026-10-16T07:49:10.450458+00:00",
+          "durationSeconds": 13.064101,
+          "logSha256": "a58d703e284022513a6848ca624b1bdbecbfd32864f92f6c8b4313c3fd155a09",
+          "logBytes": 22875
+        },
+        "output": ".vertexed-product-final-dist",
+        "mustNotDeploy": true
+      }
+    ],
+    "bundleBudget": {
+      "path": ".tmp/product-verification-20261016/bundle-budget-release-candidate.log",
+      "sha256": "cc45ae47a1a8e3b561a898c2ba84b09493422fa504f8389b1a62456e130c5eb7",
+      "completedAtUtc": "2026-10-16T07:51:06.883405+00:00",
+      "metrics": {
+        "initialJavaScriptGzipBytes": 212593,
+        "initialCssGzipBytes": 35033,
+        "largestJavaScriptGzipBytes": 130146,
+        "totalJavaScriptGzipBytes": 850679
+      },
+      "budgets": {
+        "initialJavaScriptGzipBytes": 275000,
+        "initialCssGzipBytes": 45000,
+        "largestJavaScriptGzipBytes": 240000,
+        "totalJavaScriptGzipBytes": 1000000
+      },
+      "initialAssets": [
+        {
+          "path": "/assets/ecosystem-DtmF1wLG.js",
+          "type": "js",
+          "rawBytes": 77416,
+          "gzipBytes": 23937
+        },
+        {
+          "path": "/assets/index-BoseZ4qi.js",
+          "type": "js",
+          "rawBytes": 155558,
+          "gzipBytes": 50461
+        },
+        {
+          "path": "/assets/index-DuFNlwAw.css",
+          "type": "css",
+          "rawBytes": 203295,
+          "gzipBytes": 35033
+        },
+        {
+          "path": "/assets/supabase-BXl3LOEh.js",
+          "type": "js",
+          "rawBytes": 1110,
+          "gzipBytes": 650
+        },
+        {
+          "path": "/assets/ui-BmPY-y1w.js",
+          "type": "js",
+          "rawBytes": 139625,
+          "gzipBytes": 45724
+        },
+        {
+          "path": "/assets/vendor-DiRmXliV.js",
+          "type": "js",
+          "rawBytes": 285602,
+          "gzipBytes": 91821
+        }
+      ],
+      "violations": [],
+      "result": "PASS",
+      "limitsRaised": false
+    },
+    "publication": {
+      "path": ".tmp/product-verification-20261016/publication-built-release-candidate.json",
+      "sha256": "2dda482d437b57a2012856e09a89acb299e6e0ba693280c92aa062fd5648baaa",
+      "completedAtUtc": "2026-10-16T07:51:09.608227+00:00",
+      "status": "PASS",
+      "javaScriptFiles": 135,
+      "checkedStrings": 47150,
+      "heldAdaptiveQuestions": 35,
+      "approvedStaticAssets": 0,
+      "heldLegacyModules": 29,
+      "heldTeachingSections": 10,
+      "checkedLegacyBodyStrings": 536,
+      "violations": [],
+      "command": "node scripts/verify-published-content.mjs dist"
+    },
+    "contentAudit": {
+      "path": ".tmp/product-verification-20261016/content-audit-frozen.log",
+      "sha256": "67a3b21a81567f5dd640ec663b3cf7b318e1188f58cf9c7de78c9ccc9a59c956",
+      "completedAtUtc": "2026-10-16T05:47:22.726422+00:00",
+      "inventoriedFiles": 245,
+      "approved": 0,
+      "flaggedForReview": 53,
+      "evidenceBasis": "Parsed retained log; command exit was not recorded for this earlier check.",
+      "result": "PASS_BOUNDED",
+      "command": "npm run content:audit",
+      "claimBoundary": "Provenance consistency only; no independent editorial approval."
+    },
+    "evaluations": {
+      "contracts": {
+        "path": ".tmp/product-verification-20261016/eval-tests-frozen.log",
+        "sha256": "116eb06d0b1da2cd82bcc5a8c70f8b1cf3e8ee06ea0faa37f41f623f575d3de3",
+        "completedAtUtc": "2026-10-16T05:53:50.880851+00:00",
+        "tests": 25,
+        "pass": 25,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0,
+        "result": "PASS",
+        "evidenceBasis": "Parsed retained TAP totals; command exit was not recorded for this earlier check."
+      },
+      "ask": {
+        "path": ".tmp/product-verification-20261016/eval-ask-frozen.log",
+        "sha256": "c2a41c59262396e42477394f745d7306bcd5256bb2d06bdf1c6c54f463e282be",
+        "completedAtUtc": "2026-10-16T05:53:50.739067+00:00",
+        "mode": "fixture",
+        "prompts": 13,
+        "passed": 13,
+        "failed": 0,
+        "averageScore": 4.38,
+        "evidenceBasis": "Parsed retained fixture summary; command exit was not recorded for this earlier check."
+      },
+      "grading": {
+        "path": ".tmp/product-verification-20261016/eval-grading-frozen.log",
+        "sha256": "b9c7d89d95b076c7a2c318f576c50c4679090ab53712c8e5e7b0ff4f6a1e1412",
+        "completedAtUtc": "2026-10-16T05:53:50.742468+00:00",
+        "mode": "synthetic contracts",
+        "passed": true,
+        "fixtures": 6,
+        "parsedResult": {
+          "datasetVersion": "vertexed-grading-synthetic-v2",
+          "thresholdVersion": "vertexed-grading-thresholds-v2",
+          "measuredAt": "2026-10-16T05:53:50.737Z",
+          "fixtureCount": 6,
+          "metrics": {
+            "reviewDecisionAccuracy": 1,
+            "falseVerifiedRate": 0,
+            "acceptedEvidencePrecision": 1,
+            "evidenceAcceptanceRate": 0.6,
+            "severeFalseVerifiedRate": 0,
+            "groundingFailureCaptureRate": 1,
+            "remediationChoiceAccuracy": 1,
+            "normalizationFailureRate": 0,
+            "normalizationLatencyMs": 1.867
+          },
+          "baselines": {
+            "alwaysGrade": {
+              "falseVerifiedRate": 1,
+              "reviewDecisionAccuracy": 0.3333333333333333
+            },
+            "simpleRules": {
+              "reviewDecisionAccuracy": 0.6666666666666666,
+              "falseVerifiedRate": 0.5
+            },
+            "retrievalRules": {
+              "reviewDecisionAccuracy": 0.8333333333333334,
+              "falseVerifiedRate": 0.25
+            },
+            "currentLiveModel": {
+              "status": "NOT_RUN",
+              "reason": "No authorized isolated provider evaluation environment."
+            }
+          },
+          "decisions": [
+            {
+              "id": "exact-high-confidence",
+              "expectedReview": false,
+              "actualReview": false,
+              "correct": true,
+              "scoreStatus": "EVIDENCE_LINKED",
+              "severity": "none",
+              "actualErrorCodes": [],
+              "expectedErrorCodes": [],
+              "remediationCorrect": true
+            },
+            {
+              "id": "hallucinated-evidence",
+              "expectedReview": true,
+              "actualReview": true,
+              "correct": true,
+              "scoreStatus": "PROVISIONAL",
+              "severity": "severe",
+              "actualErrorCodes": [
+                "EVIDENCE_GAP"
+              ],
+              "expectedErrorCodes": [
+                "EVIDENCE_GAP"
+              ],
+              "remediationCorrect": true
+            },
+            {
+              "id": "low-confidence",
+              "expectedReview": true,
+              "actualReview": true,
+              "correct": true,
+              "scoreStatus": "PROVISIONAL",
+              "severity": "moderate",
+              "actualErrorCodes": [],
+              "expectedErrorCodes": [],
+              "remediationCorrect": true
+            },
+            {
+              "id": "empty-answer",
+              "expectedReview": true,
+              "actualReview": true,
+              "correct": true,
+              "scoreStatus": "PROVISIONAL",
+              "severity": "severe",
+              "actualErrorCodes": [
+                "INCOMPLETE"
+              ],
+              "expectedErrorCodes": [
+                "INCOMPLETE"
+              ],
+              "remediationCorrect": true
+            },
+            {
+              "id": "zero-credit-concept-gap",
+              "expectedReview": false,
+              "actualReview": false,
+              "correct": true,
+              "scoreStatus": "EVIDENCE_LINKED",
+              "severity": "moderate",
+              "actualErrorCodes": [
+                "CONCEPT_GAP"
+              ],
+              "expectedErrorCodes": [
+                "CONCEPT_GAP"
+              ],
+              "remediationCorrect": true
+            },
+            {
+              "id": "criterion-mixed-evidence",
+              "expectedReview": true,
+              "actualReview": true,
+              "correct": true,
+              "scoreStatus": "PROVISIONAL",
+              "severity": "severe",
+              "actualErrorCodes": [
+                "EVIDENCE_GAP"
+              ],
+              "expectedErrorCodes": [
+                "EVIDENCE_GAP"
+              ],
+              "remediationCorrect": true
+            }
+          ],
+          "passed": true,
+          "claimBoundary": "Synthetic contract validation only; latency covers local normalization, not provider latency. Live model quality and failure rate were not measured.",
+          "datasetSha256": "8e788d33ec1b2c8204962de9e850fea09dcc73af6e750246960dd582c5e0a85a",
+          "thresholdsSha256": "434c6d2b805be402ece9a223f51552bf9c9624f2b65d53a361f5a99b9a6ecf60",
+          "graderImplementationSha256": "468ae125e51bee7fedaf4eada81c00667f90ed9490485a6fd5f6b8f790e31d96"
+        },
+        "evidenceBasis": "Parsed retained JSON; command exit was not recorded for this earlier check."
+      },
+      "liveProviders": "NOT_RUN"
+    },
+    "anonymousLocalApi": {
+      "timestamp": "2026-10-16T07:51:27.868445+00:00",
+      "environment": "local-real final preview Node API adapter; anonymous; no mocked API",
+      "cases": [
+        {
+          "method": "GET",
+          "path": "/api/ai-usage",
+          "expected": 401,
+          "status": 401,
+          "json": {
+            "code": "AUTH_REQUIRED",
+            "error": "Authentication required. Please log in."
+          },
+          "contentType": "application/json",
+          "cacheControl": "private, no-store",
+          "pass": true
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai-usage",
+          "expected": 405,
+          "status": 405,
+          "json": {
+            "error": "Method not allowed"
+          },
+          "contentType": "application/json",
+          "cacheControl": "private, no-store",
+          "pass": true
+        },
+        {
+          "method": "GET",
+          "path": "/api/waitlist-status",
+          "expected": 401,
+          "status": 401,
+          "json": {
+            "code": "AUTH_REQUIRED",
+            "error": "Authentication required. Please log in."
+          },
+          "contentType": "application/json",
+          "cacheControl": "private, no-store",
+          "pass": true
+        },
+        {
+          "method": "POST",
+          "path": "/api/ask",
+          "expected": 401,
+          "status": 401,
+          "json": {
+            "code": "AUTH_REQUIRED",
+            "error": "Authentication required. Please log in."
+          },
+          "contentType": "application/json",
+          "cacheControl": "private, no-store",
+          "pass": true
+        },
+        {
+          "method": "POST",
+          "path": "/api/user-content",
+          "expected": 401,
+          "status": 401,
+          "json": {
+            "code": "AUTH_REQUIRED",
+            "error": "Authentication required. Please log in."
+          },
+          "contentType": "application/json",
+          "cacheControl": "private, no-store",
+          "pass": true
+        },
+        {
+          "method": "GET",
+          "path": "/api/account-export",
+          "expected": 401,
+          "status": 401,
+          "json": {
+            "code": "AUTH_REQUIRED",
+            "error": "Authentication required. Please log in."
+          },
+          "contentType": "application/json",
+          "cacheControl": "private, no-store",
+          "pass": true
+        },
+        {
+          "method": "GET",
+          "path": "/api/ask",
+          "expected": 405,
+          "status": 405,
+          "json": {
+            "error": "Method not allowed"
+          },
+          "contentType": "application/json",
+          "cacheControl": "private, no-store",
+          "pass": true
+        }
+      ],
+      "result": "PASS"
+    },
+    "dependencyAudit": {
+      "path": ".tmp/product-verification-20261016/npm-audit-final-lockfile.json",
+      "sha256": "a890a5391cae58a4930690cfa207a6fe27f9966c4073f08be71ae046babbd76d",
+      "completedAtUtc": "2026-10-16T07:07:10.393927+00:00",
+      "result": "PASS_BOUNDED",
+      "vulnerabilities": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 0,
+        "critical": 0,
+        "total": 0
+      },
+      "command": "npm audit --omit=dev --package-lock-only --audit-level=high --json",
+      "previous": "npm-audit/attempt-1.stdout.json retained: four low entries from GHSA-238p-pmpm-9mq7",
+      "upgrade": "All direct/transitive KaTeX resolutions are 0.18.2. Playwright development dependency is pinned to 1.64.1 to fix the reproduced offline emulation defect. See katex-installed-tree.json, katex-lock-delta.json and playwright-upgrade-delta.json."
+    },
+    "builtSecretScan": {
+      "scope": "Exact known server-secret values in the local process and local environment files only; no repository-history or unknown-secret certification.",
+      "filesScanned": 164,
+      "knownServerValuesChecked": 0,
+      "matches": [],
+      "result": "NOT_ESTABLISHED_NO_KNOWN_VALUES"
+    },
+    "patternSecretScan": {
+      "path": ".tmp/product-verification-20261016/secret-scan-after-equals/receipt.json",
+      "sha256": "164e19ccd09a1f4bb9aa26a7e54f9b47d8f32cea34a96a9730848182c1bbb4d8",
+      "completedAtUtc": "2026-10-16T07:54:16.095900+00:00",
+      "tool": "Gitleaks 8.30.1",
+      "result": "BOUNDED_LOCAL_SCAN_COMPLETED_WITH_TRIAGED_FINDINGS",
+      "selectedInputs": 1489,
+      "sourceFindings": 4,
+      "historyFindings": 17,
+      "historyDetectorReportedCommits": 2696,
+      "historyRerun": false,
+      "standardBuildFindings": 0,
+      "syntheticBuildFindings": 0,
+      "triage": ".tmp/product-verification-20261016/secret-scan-after-equals/triage.json",
+      "fullReceipt": {
+        "schemaVersion": 1,
+        "status": "BOUNDED_LOCAL_SCAN_COMPLETED_WITH_TRIAGED_FINDINGS",
+        "tool": {
+          "path": "/opt/homebrew/bin/gitleaks",
+          "version": "8.30.1"
+        },
+        "baseHead": "e28f24ff1c051eaa91b5443a79fe392987d0c688",
+        "scopePath": ".tmp/product-verification-20261016/secret-scan-after-equals/scope.json",
+        "triagePath": ".tmp/product-verification-20261016/secret-scan-after-equals/triage.json",
+        "source": {
+          "selectedFiles": 1489,
+          "bytes": 22299863,
+          "manifestSha256": "06c389ad3650b45acb6e921cd14458539c2ee6896364f709787d3aacef3470f5",
+          "rawFindings": 4,
+          "changedDuringFinalScan": [],
+          "triageFingerprintSetUnchanged": true,
+          "changesSincePriorFinalScan": {
+            "added": [],
+            "removed": [],
+            "changed": [
+              "e2e/focus-session.spec.ts",
+              "e2e/focus-visual-checks.ts",
+              "src/styles/study-zone.css"
+            ]
+          },
+          "sizeCapSkips": []
+        },
+        "history": {
+          "status": "PRIOR_BOUNDED_REPORT_REUSED_NOT_RERUN",
+          "receipt": ".tmp/product-verification-20261016/secret-scan/receipt.json",
+          "report": ".tmp/product-verification-20261016/secret-scan/canonical-history-corrected-redacted.json",
+          "reportSha256": "065d1e062e192ef8003f723ecc107b9f1e0075669485ddd7a99cb41b4394da83",
+          "baseHeadMatches": true,
+          "locallyReachableCommitCount": 6452,
+          "reachableCommitCountMatches": true,
+          "limits": "Same HEAD and reachable count checked; history detector was not rerun and no complete original ref-tip snapshot existed. Prior canonical path-filter boundary and all 17 historical findings remain."
+        },
+        "reports": [
+          {
+            "name": "candidate-inputs-final",
+            "command": "rtk proxy /opt/homebrew/bin/gitleaks dir --follow-symlinks /Volumes/PRO-BLADE/GitHubRepos/vertexED.ai/.tmp/product-verification-20261016/secret-scan-after-equals/candidate-input-links --config /Volumes/PRO-BLADE/GitHubRepos/vertexED.ai/.tmp/product-verification-20261016/secret-scan-after-equals/default-rules.toml --gitleaks-ignore-path /Volumes/PRO-BLADE/GitHubRepos/vertexED.ai/.tmp/product-verification-20261016/secret-scan-after-equals/empty.gitleaksignore --ignore-gitleaks-allow --redact=100 --no-banner --no-color --max-target-megabytes 8 --max-archive-depth 0 --max-decode-depth 5 --report-format json --timeout 60 --report-path /Volumes/PRO-BLADE/GitHubRepos/vertexED.ai/.tmp/product-verification-20261016/secret-scan-after-equals/candidate-inputs-final-redacted.json",
+            "environment": {
+              "GOMAXPROCS": "2"
+            },
+            "seconds": 19.821,
+            "exitCode": 1,
+            "findingCount": 4,
+            "report": ".tmp/product-verification-20261016/secret-scan-after-equals/candidate-inputs-final-redacted.json",
+            "log": ".tmp/product-verification-20261016/secret-scan-after-equals/candidate-inputs-final.log",
+            "reportSha256": "108f30c712e0af660d7cf9510cd74b9a0ae4100347aab23f9bf2a831dcdb5854",
+            "logSha256": "877198dbe376c31f4c00fe2dacf463143b5904bd6541faa7d20828a154d65147"
+          },
+          {
+            "name": "standard-dist",
+            "command": "rtk proxy /opt/homebrew/bin/gitleaks dir /Volumes/PRO-BLADE/GitHubRepos/vertexED.ai/dist --config /Volumes/PRO-BLADE/GitHubRepos/vertexED.ai/.tmp/product-verification-20261016/secret-scan-after-equals/default-rules.toml --gitleaks-ignore-path /Volumes/PRO-BLADE/GitHubRepos/vertexED.ai/.tmp/product-verification-20261016/secret-scan-after-equals/empty.gitleaksignore --ignore-gitleaks-allow --redact=100 --no-banner --no-color --max-target-megabytes 8 --max-archive-depth 0 --max-decode-depth 5 --report-format json --timeout 60 --report-path /Volumes/PRO-BLADE/GitHubRepos/vertexED.ai/.tmp/product-verification-20261016/secret-scan-after-equals/standard-dist-redacted.json",
+            "environment": {
+              "GOMAXPROCS": "2"
+            },
+            "seconds": 3.944,
+            "exitCode": 0,
+            "findingCount": 0,
+            "report": ".tmp/product-verification-20261016/secret-scan-after-equals/standard-dist-redacted.json",
+            "log": ".tmp/product-verification-20261016/secret-scan-after-equals/standard-dist.log",
+            "reportSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+            "logSha256": "1475bfb72d61fc916b40ef8e68755cb5753b63171d5588341e7fb0782e0bc6db"
+          },
+          {
+            "name": "synthetic-dist",
+            "command": "rtk proxy /opt/homebrew/bin/gitleaks dir /Volumes/PRO-BLADE/GitHubRepos/vertexED.ai/.vertexed-product-final-dist --config /Volumes/PRO-BLADE/GitHubRepos/vertexED.ai/.tmp/product-verification-20261016/secret-scan-after-equals/default-rules.toml --gitleaks-ignore-path /Volumes/PRO-BLADE/GitHubRepos/vertexED.ai/.tmp/product-verification-20261016/secret-scan-after-equals/empty.gitleaksignore --ignore-gitleaks-allow --redact=100 --no-banner --no-color --max-target-megabytes 8 --max-archive-depth 0 --max-decode-depth 5 --report-format json --timeout 60 --report-path /Volumes/PRO-BLADE/GitHubRepos/vertexED.ai/.tmp/product-verification-20261016/secret-scan-after-equals/synthetic-dist-redacted.json",
+            "environment": {
+              "GOMAXPROCS": "2"
+            },
+            "seconds": 3.061,
+            "exitCode": 0,
+            "findingCount": 0,
+            "report": ".tmp/product-verification-20261016/secret-scan-after-equals/synthetic-dist-redacted.json",
+            "log": ".tmp/product-verification-20261016/secret-scan-after-equals/synthetic-dist.log",
+            "reportSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+            "logSha256": "09b5d7fb7cb5044c63e4c98fcb008ec481b11c76798f6a8733be2d6cfedacb9d"
+          }
+        ],
+        "conclusion": "Final current input scan retains the same four triaged findings; canonical history is the unchanged prior bounded report with 17 triaged findings, not a new scan. No privileged production credential was confirmed. This is not proof of absence or a zero-findings source/history scan. Artifact detector results are listed separately; synthetic fixture MUST NOT DEPLOY.",
+        "limitations": [
+          "Only canonical VertexED prefixes and named root runtime/build configuration are scanned; unrelated portfolio trees and mixed top-level historical reports are excluded.",
+          "No node_modules, browser profiles, screenshots, traces, test-results, .tmp receipts, or deployment credentials outside this checkout are scanned.",
+          "Files above 8MiB are skipped; archives are not traversed; decoding depth is 5; detector default-rule allowlists remain part of the upstream rule set.",
+          "No project allowlists, baseline or gitleaks:allow comments suppress findings. Reports are redacted; no credential validity or revocation is tested.",
+          "History scope covers locally reachable refs only, without network fetch, unreachable objects or reflogs.",
+          "No secret values were printed, uploaded or probed. No source, history, credentials or remote configuration were changed.",
+          "This post-equals scan began after both builds were frozen. All selected source and artifact hashes remained stable. Earlier intermediate build-overlap evidence remains in preserved predecessor receipts."
+        ],
+        "artifacts": [
+          {
+            "directory": "dist",
+            "label": "standard production build; not deployed",
+            "files": 258,
+            "bytes": 10445510,
+            "rawFindings": 0,
+            "changedDuringScan": [],
+            "sizeCapSkips": []
+          },
+          {
+            "directory": ".vertexed-product-final-dist",
+            "label": "synthetic authentication fixture; MUST NOT DEPLOY",
+            "files": 259,
+            "bytes": 10592265,
+            "rawFindings": 0,
+            "changedDuringScan": [],
+            "sizeCapSkips": []
+          }
+        ],
+        "successorOf": ".tmp/product-verification-20261016/secret-scan-after-focus/receipt.json",
+        "scopeSha256": "6ce345e2f3320322e348afe2787c4737a4691d92408b43a2af87f008d43f42e6",
+        "triageSha256": "1af327cae7abb837630b6410188dde9deac4fdc7e1eafcf03f9ec80866e71605"
+      },
+      "validation": "Result, report/log hashes, selected source and complete artifact inventories rechecked at assembly.",
+      "claimBoundary": "No privileged production credential confirmed by the retained triage. Source/history findings are retained, not suppressed or reported as zero. The successor explicitly excludes the unrelated Space-JEPA workflow; the prior 1,489-input scan and scope clarification remain preserved. The current selectedInputs count comes from the validated successor receipt and covers only its enumerated VertexED paths. Deployed environment scopes, unreachable objects and out-of-scope history are not certified. Final source/build hashes were rechecked at assembly; previous history report is reused with its documented identity limits."
+    },
+    "webkitMinimalDiagnostic": {
+      "path": ".tmp/product-verification-20261016/webkit-offline-diagnostic-1.64.1/diagnostic.json",
+      "sha256": "b8a9400ef6471775824348985bfd12cff2f5d14311dea481679f3d7ba047a48c",
+      "completedAtUtc": "2026-10-16T07:08:43.729746+00:00",
+      "result": "PASS_BOUNDED",
+      "cases": 4,
+      "boundary": "Literal service-worker response under offline emulation and separately stopped origin; no-worker negative controls. Independent tooling diagnostic, not a substitute for the real application offline test."
+    },
+    "focusedBrowserCorrections": [
+      {
+        "path": ".tmp/product-verification-20261016/browser-correction-firefox.log",
+        "sha256": "16d7818971da3b77703ff30425c772fe6fc8ef0a365794d23b8c6dbdc5206ff8",
+        "completedAtUtc": "2026-10-16T07:14:22.449484+00:00",
+        "tests": 21,
+        "passed": 21,
+        "failed": 0,
+        "currentArtifactVerified": false,
+        "scope": "Historical rebuilt Firefox usage, content boundary, math/focus and actual offline bundle; before later Focus/equals changes"
+      },
+      {
+        "path": ".tmp/product-verification-20261016/webkit-offline-corrected.log",
+        "sha256": "ba12aadd903e5a16e1e57c2df2cabfe09ae4e5b32ceae75075c650afee3eb0f3",
+        "completedAtUtc": "2026-10-16T07:14:48.168113+00:00",
+        "tests": 1,
+        "passed": 1,
+        "failed": 0,
+        "currentArtifactVerified": false,
+        "scope": "Historical actual service-worker test after runner/browser upgrade; before later Focus/equals changes"
+      }
+    ],
+    "finalTransportReadback": {
+      "timestamp": "2026-10-16T06:44:24.230395+00:00",
+      "scope": "read-only unauthenticated local-network HTTPS GET, normal TLS verification, response body discarded; not independent-network or authenticated acceptance",
+      "results": [
+        {
+          "url": "https://www.vertexed.app/api/waitlist-status",
+          "exitCode": 35,
+          "statusTlsRemoteIp": "000 1 104.219.250.37",
+          "stderr": "curl: (35) LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to www.vertexed.app:443"
+        },
+        {
+          "url": "https://vertexed.app/",
+          "exitCode": 35,
+          "statusTlsRemoteIp": "000 1 104.219.250.37",
+          "stderr": "curl: (35) LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to vertexed.app:443"
+        }
+      ]
+    },
+    "schema": {
+      "staticLedgerContracts": 21,
+      "actualSqlReplay": "NOT_RUN",
+      "pgTap": "NOT_RUN",
+      "databaseContention": "NOT_RUN",
+      "reason": "Docker unavailable and native PostgreSQL tools absent; no shared/live target substituted."
+    },
+    "negativeEvidence": {
+      "preserved": true,
+      "beforeFocusCorrection": {
+        "log": "browser-built-before-focus-correction.log",
+        "json": "browser-built-before-focus-correction-results.json",
+        "stats": {
+          "startTime": "2026-10-16T07:17:41.635Z",
+          "duration": 737164.352,
+          "expected": 152,
+          "skipped": 0,
+          "unexpected": 1,
+          "flaky": 0
+        },
+        "reason": "152 passed and one WebKit390 coursework dialog Escape focus-return failure. Separate visual inspection identified calculator clear/delete contrast and possible floating-widget interference; focused diagnostic and successor corrections are retained separately."
+      },
+      "chromiumHeadlessShellPackaging": {
+        "log": "browser-built-chromium-shell-red.log",
+        "json": "browser-built-chromium-shell-red-results.json",
+        "stats": {
+          "startTime": "2026-10-16T07:15:33.265Z",
+          "duration": 70384.195,
+          "expected": 0,
+          "skipped": 146,
+          "unexpected": 7,
+          "flaky": 0
+        },
+        "result": "FAILED_AND_INTERRUPTED",
+        "reason": "Downloaded standalone headless-shell1248 could not load icudtl.dat and its GPU process crashed. Matching full Chromium1248 passes the focused smoke in documented channel=chromium mode. Original failing traces retained; no test assertion changed."
+      },
+      "firefoxRunnerProtocolMismatch": {
+        "log": "browser-correction-firefox-protocol-red.log",
+        "result": "FAILED_AND_INTERRUPTED",
+        "reason": "The prior cached Firefox155 rejected Playwright1.64.1 Network.setRequestInterception bypassServiceWorker protocol argument. Installed matching Firefox1555 and Chromium1248 as well as WebKit2370. No application assertion changed."
+      },
+      "previousCompleteBrowserMatrix": {
+        "log": "browser-built-cross-browser-red.log",
+        "json": "browser-built-cross-browser-red-results.json",
+        "tests": 153,
+        "pass": 145,
+        "fail": 8,
+        "skipped": 0,
+        "flaky": 0,
+        "reason": "Six Firefox cases exposed native auth-lock callback rejections, one account-switch fixture discarded the return route through redundant document navigation, and WebKit offline emulation failed with an internal browser error. Auth-lock cross-tab exclusion and all assertions were retained; fixture now proves same-document account switching."
+      },
+      "firefoxVisibleFocus": {
+        "log": "focus-visible-red.log",
+        "result": "FAIL",
+        "reason": "Escape returned focus to Apex but Firefox showed no visible outline. Added the existing focus ring to :focus as well as :focus-visible and assert the computed outline in every math/footer viewport case."
+      },
+      "webkitOfflineTooling": {
+        "logs": [
+          "webkit-offline-matched.log",
+          "webkit-matched-install.log"
+        ],
+        "result": "FAIL_WITH_OLD_RUNNER",
+        "upstreamIssue": "https://github.com/microsoft/playwright/issues/42775",
+        "upstreamFix": "https://github.com/microsoft/playwright/pull/42894",
+        "correction": "Stable Playwright 1.64.1 and matching WebKit2370, with the original offline assertion preserved. No skip or expected-failure relabeling."
+      },
+      "authLockRegression": {
+        "red": [
+          "auth-lock-red.log",
+          "auth-lock-grant-race-red.log"
+        ],
+        "green": "auth-lock-grant-race-green.log",
+        "focusedTests": 30,
+        "reason": "Native Web Locks still exclude concurrent clients. Expected busy and operation failures leave the native callback fulfilled, then propagate unchanged through the outer SDK promise; queued timeout cannot replace an acquired operation error."
+      },
+      "intermediateFullSuite": {
+        "log": "app-tests-frozen.log",
+        "tests": 1692,
+        "pass": 1689,
+        "fail": 3,
+        "reason": "Stale exact-source assertions after full-body cancellation and docked-widget changes; corrected assertions retain safeguards and add response-stream account-switch/actual-selector regressions."
+      },
+      "buildStampRace": {
+        "log": "app-tests-release-candidate-build-race.log",
+        "tests": 1705,
+        "pass": 1704,
+        "fail": 1,
+        "reason": "Concurrent build stamped generated revision while neutral-source test read it. Repeated sequentially after build: 1705/1705 passed; final run also executes after both builds."
+      },
+      "footerContrastAndOfflineFailure": {
+        "log": "browser-built-footer-contrast-red.log",
+        "artifacts": "browser-built-footer-contrast-red",
+        "result": "FAILED_AND_INTERRUPTED",
+        "reason": "Notebook footer controls were covered by floating Apex; rejected math had low dark-theme contrast. Offline installation rejected a one-byte preview JSON/SRI mismatch. Corrected source and exact-byte/runtime regressions; incomplete browser run has no complete JSON."
+      },
+      "toastFooterFailure": {
+        "log": "visual-offline-toast-red.log",
+        "artifacts": "visual-offline-toast-red",
+        "tests": 4,
+        "pass": 1,
+        "fail": 3,
+        "reason": "Real offline install passed after serializer correction. Math/footer checks exposed toast viewport empty-area pointer capture and an incorrect feedback-role test selector. Actual hit targets and selectors corrected, no integrity or hit assertions removed."
+      },
+      "builtDashboardFailure": {
+        "log": "browser-built-frozen.log",
+        "artifacts": "browser-built-dashboard-red",
+        "result": "FAILED_AND_INTERRUPTED",
+        "reason": "Today command-word drill dereferenced empty publication-filtered bank. Full run interrupted for correction; no complete JSON was produced."
+      },
+      "otherRetainedFailures": [
+        "literal-invite-before.log",
+        "strict-approval-before.log",
+        "learning-empty-storage-red.log",
+        "learning-timestamp-red.log",
+        "client-body-cancel-red.log",
+        "conversation-empty-storage-red.log",
+        "modal-focus-before.log",
+        "footer-hit-diagnostic.log",
+        "account-widget-correction-dev.log",
+        "portal-command-terms-red.log",
+        "provider-body-deadline-red.log",
+        "provider-telemetry-deadline-red.log",
+        "review-image-spend-red.log",
+        "katex-default-model-red.log",
+        "browser-runtime-install.log",
+        "math-error-colour-red.log",
+        "offline-publication-integrity-red.log"
+      ],
+      "olderReceipts": "Older successful and unsuccessful logs are preserved; overlapping focused counts are not summed into the final application total."
+    },
+    "notRunOrNotEstablished": [
+      "Final-artifact browser and visual verification: NOT_RUN_FINAL_ARTIFACT",
+      "Independent subject/rights approval; complete mandatory curriculum and subject-specific assessment coverage.",
+      "Actual SQL replay, pgTAP, concurrent ledger admission/settlement and production-shaped legacy reconciliation.",
+      "Real permitted invitation/email/OAuth recovery and retained-token/account lifecycle acceptance.",
+      "Live paid provider quality, latency, pricing/usage settlement and unsupported image/audio/provider contracts.",
+      "Real mobile devices, following-day/two-device recovery and continuous two-hour learner journey.",
+      "Canonical HTTPS ownership correction, exact-candidate hosted CI, deployment, backup restore/rollback and live monitoring.",
+      "Deployed environment-scope and whole-repository/unreachable-history secret certification. Gitleaks canonical source/history and both builds were scanned with explicit limitations; exact-known-value scan had no known server values."
+    ]
+  },
+  "content": {
+    "reviewPacket": "docs/evidence/content-coverage-20261016.json",
+    "approvalRegister": "contracts/content-publication-approvals.json",
+    "coverageRows": 874,
+    "authoringInventory": {
+      "AP": {
+        "courses": 42,
+        "modules": 274,
+        "questions": 551
+      },
+      "MYP": {
+        "subjects": 17,
+        "lessons": 205,
+        "questions": 616
+      },
+      "guides": {
+        "total": 245,
+        "unreviewed": 192,
+        "quarantined": 53,
+        "approved": 0
+      },
+      "adaptiveQuestions": 35,
+      "formulaReferences": 30,
+      "examDrills": 25,
+      "complexDefinitions": 5,
+      "approvalEntries": 0,
+      "legacyEditorialArticles": 23,
+      "archiveSamples": 21,
+      "additionalTeachingModules": 5,
+      "teachingSections": 10,
+      "approvedLegacyUnits": 0
+    },
+    "mandatoryCourseGaps": {
+      "IB_DP": 18,
+      "GCSE": 10,
+      "IGCSE": 10,
+      "IB_MYP": 2,
+      "total": 40
+    },
+    "remaining": [
+      "No independent subject/rights approval exists for the authored inventory. All mandatory programme completion gates remain OPEN.",
+      "Official IB pages returned 403 during this pass; full syllabus/component mappings remain unverified. Official AP overview and Cambridge subject directory checks are bounded in the review packet.",
+      "Adaptive saved-history and session UI acceptance is owned by security/root lanes and must be included in the combined evidence.",
+      "Production-domain and live authenticated checks require separate evidence; local screenshots do not update production."
+    ],
+    "publicationScope": {
+      "historicalLaneSnapshot": {
+        "path": ".tmp/product-verification-20261016/content-lane-receipt.json",
+        "sha256": "b60865e21075dc6b5a36ba68865b541c70ebf910762f2ca5d7bb6d51b3e33e18",
+        "snapshot": {
+          "scope": "Finite known static teaching-body extension; no exhaustive global or future publication claim.",
+          "wholeModules": 29,
+          "teachingSections": 10,
+          "archiveSamples": 21,
+          "editorialArticles": 23,
+          "approvalEntries": 0,
+          "moduleInventory": "docs/evidence/content-coverage-20261016.json deliverySurfaceInventory",
+          "focusedTests": {
+            "log": ".tmp/product-verification-20261016/content-legacy-tests.log",
+            "status": "PASS",
+            "passed": 21,
+            "failed": 0,
+            "initialFixtureCorrection": "Initial run 12/13: test expected bare hex but contract requires sha256: prefix. Corrected test expectation, no approval contract relaxation."
+          },
+          "typecheck": {
+            "log": ".tmp/product-verification-20261016/content-legacy-typecheck.log",
+            "project": "tsconfig.app.json",
+            "status": "PASS"
+          },
+          "lint": {
+            "errors": 0,
+            "warnings": 0,
+            "log": ".tmp/product-verification-20261016/content-legacy-lint.log"
+          },
+          "copyLint": {
+            "filesScanned": 466,
+            "findings": 0,
+            "log": ".tmp/product-verification-20261016/content-legacy-copy.log"
+          },
+          "browser": {
+            "owner": "root final combined browser pass",
+            "test": "e2e/content-review-boundary.spec.ts held legacy teaching routes and landing examples",
+            "widths": [
+              1440,
+              1024,
+              390
+            ],
+            "themes": [
+              "light",
+              "dark"
+            ],
+            "status": "pending-final-combined-run",
+            "keyboard": "Concept Lens dialog name, Tab, Escape and focus return; no fake approval fixtures"
+          },
+          "builtArtifactVerification": "Root final standard and fixture builds required after source freeze; existing pre-legacy built receipt does not cover this change.",
+          "persistentData": "No persistence keys, normalizers, stored attempts or assessment result structures changed. ExamAssessmentSetup changes only extracted teaching constants and review copy.",
+          "finalDeltaLint": {
+            "errors": 0,
+            "warnings": 0,
+            "log": ".tmp/product-verification-20261016/content-legacy-final-lint.log"
+          },
+          "revocationRetest": {
+            "passed": 6,
+            "failed": 0,
+            "log": ".tmp/product-verification-20261016/content-legacy-revocation-test.log"
+          },
+          "sourceFreeze": "Final requested finite source scope complete; root owns subsequent final production build and browser receipts.",
+          "finalAdditionalSurfaces": "RevisionTrace stages preserve logo, tabs and workflow copy; ToolGallery replaces only the illustrative ToolPreview function and preserves all tool links and modal controls. No source draft deletion.",
+          "sitemap": {
+            "publicUrls": 63,
+            "curriculumToolUrls": 48,
+            "approvedGuideUrls": 0,
+            "heldArticleAndArchiveRoutesExcluded": 26
+          },
+          "verifierRouteCorrection": {
+            "originalReceipt": ".tmp/product-verification-20261016/publication-built-candidate.json",
+            "originalStatus": "FAIL preserved",
+            "matchedLiteral": "/resources/active-recall-spaced-repetition",
+            "authoringField": "src/pages/StudyTools.tsx TECHNIQUES.to",
+            "remainingRouteMetadata": "src/lib/learnerProfile.ts:301",
+            "diagnosis": "A navigation identifier matched the generic section string collector. The destination article is held; no article body was emitted.",
+            "correction": "Only structural to/href properties are excluded when deriving section body strings. Teaching prose still checked; held sitemap URLs and public search are tested separately.",
+            "regressionLog": ".tmp/product-verification-20261016/content-verifier-route-regression.log",
+            "lintLog": ".tmp/product-verification-20261016/content-verifier-route-lint.log",
+            "correctedBuildReceipt": ".tmp/product-verification-20261016/publication-built-route-correction.json",
+            "runtimeChanges": false,
+            "rebuildRequiredForCorrection": false
+          }
+        },
+        "interpretation": "Preserved lane-stage record. Its pending final browser/build statements describe that earlier stage, not current verification."
+      },
+      "currentVerification": {
+        "recordedAt": "2026-10-16T07:57:01.306861+00:00",
+        "publication": {
+          "path": ".tmp/product-verification-20261016/publication-built-release-candidate.json",
+          "sha256": "2dda482d437b57a2012856e09a89acb299e6e0ba693280c92aa062fd5648baaa",
+          "status": "PASS"
+        },
+        "browser": {
+          "path": ".tmp/product-verification-20261016/final-browser-status.json",
+          "sha256": "931c8841abde5ded8a78964a3785abbbb6d38effffee5289d5a5df881a7eff5e",
+          "stats": null,
+          "status": "NOT_RUN_FINAL_ARTIFACT",
+          "currentArtifactVerified": false
+        },
+        "details": {
+          "publication": "#/verification/publication",
+          "browser": "#/verification/browser"
+        },
+        "supersedesOnly": [
+          "legacyPublicationFollowUp.builtArtifactVerification"
+        ],
+        "claimBoundary": "Current built-body exclusion supersedes only its earlier pending build check. Final browser/visual acceptance remains unverified or failed; historical browser results do not verify this artifact. These engineering results do not approve content, establish complete curriculum coverage, verify live services, or supersede the preserved editorial and course gaps."
+      }
+    }
+  },
+  "gateRegister": {
+    "path": "docs/COMPLETION_GATE_REGISTER.json",
+    "total": 112,
+    "newFullGateClosures": 0,
+    "historicalPasses": [
+      "SRC-01",
+      "SRC-04",
+      "DB-01"
+    ],
+    "warning": "Historical PASS receipts are for older candidates; no complete gate is newly certified for this dirty candidate."
+  },
+  "externalReadback": ".tmp/product-verification-20261016/external-readback.json",
+  "schema": {
+    "liveMutation": false,
+    "preparedMigrations": [
+      "supabase/migrations/20261016093000_artifacts_service_only_access.sql",
+      "supabase/migrations/20261016123000_ai_usage_service_only.sql"
+    ],
+    "sqlTests": [
+      "supabase/tests/database/artifact_access.test.sql",
+      "supabase/tests/database/ai_usage.test.sql"
+    ],
+    "replay": "NOT_RUN: disposable Docker database unavailable; native PostgreSQL binaries also absent",
+    "runbook": "docs/BETA_ACCESS_RECONCILIATION_2026-10-16.md"
+  },
+  "requirementMap": "docs/COMPLETION_GATE_REGISTER.json",
+  "traceabilitySource": ".tmp/product-verification-20261016/requirement-map.json",
+  "reviewDocumentHashes": [
+    {
+      "path": "docs/BETA_ACCESS_RECONCILIATION_2026-10-16.md",
+      "bytes": 22087,
+      "sha256": "c8780af85827188302e8daa70301e9cb4c6e880b34cefc6b24515730f0dba97d"
+    },
+    {
+      "path": "docs/COMPLETION_GATE_REGISTER.json",
+      "bytes": 380128,
+      "sha256": "84dc9175ff3909a4e454430500926f3173867acf016a2ad274cf60a3c860206f"
+    },
+    {
+      "path": "docs/FULL_SITE_FINISH_2026-10-16.md",
+      "bytes": 25554,
+      "sha256": "5f84b1041dfda8b6c8ed4c0f7c25cbc59f0c057e392db9a7a0f0d94c436ab80c"
+    },
+    {
+      "path": "docs/PUBLISHABLE_COMPLETION_CHECKLIST.md",
+      "bytes": 35786,
+      "sha256": "bd69f559fcce2a550267ca8beef6609cf575b13b67ae1ce9711bf9b4738d991c"
+    },
+    {
+      "path": "docs/evidence/content-coverage-20261016.json",
+      "bytes": 1920243,
+      "sha256": "d22f8c6e77fbb0a33f39de85ba8cd79fab48ae720f6dde5633c585df4be1dd46"
+    }
+  ],
+  "rawEvidence": {
+    "directory": ".tmp/product-verification-20261016",
+    "manifest": ".tmp/product-verification-20261016/receipt-manifest.json",
+    "fileCount": 2603,
+    "treeSha256": "3dc9045fd5db9c99fba27a900afb3df736dd10714fb3ed441a0811856bf1c96c",
+    "manifestSha256": "0e1e6262ae8acbdc460ba4f60cb8bae7076b2e2a3915d41fb56d853611bab302",
+    "negativeEvidencePreserved": true
+  },
+  "unchangedExternalState": {
+    "committed": false,
+    "pushed": false,
+    "deployed": false,
+    "dnsChanged": false,
+    "databaseMutated": false,
+    "externalMessagesSent": false,
+    "editorialApprovalInvented": false
+  }
+}

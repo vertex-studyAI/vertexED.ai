@@ -1,176 +1,137 @@
-import { useMemo, useState } from "react";
-import { Link } from "react-router";
+import { useEffect, useRef } from 'react';
+import { Link, useLocation } from "react-router";
 import {
   BookOpen,
   Brain,
-  Calculator,
   Clock,
   FileText,
-  FlaskConical,
-  Sigma,
   Sparkles,
   Target,
-  Zap,
+  ArrowUpRight,
+  CheckCircle2,
 } from "lucide-react";
 
 import SEO from "@/components/SEO";
 import PageSection from "@/components/PageSection";
 import NeumorphicCard from "@/components/NeumorphicCard";
+import FormulaDesk from "@/components/study/FormulaDesk";
+import OfflineSettings from '@/components/OfflineSettings';
 import CommandTermsGlossary from "@/components/curriculum/CommandTermsGlossary";
-
-type FormulaTab = "math" | "physics" | "chemistry" | "biology" | "economics";
-
-const FORMULAS: Record<FormulaTab, { name: string; expr: string }[]> = {
-  math: [
-    { name: "Quadratic formula", expr: "x = (−b ± √(b²−4ac)) / 2a" },
-    { name: "Derivative of xⁿ", expr: "d/dx (xⁿ) = n·xⁿ⁻¹" },
-    { name: "Integration by parts", expr: "∫u dv = uv − ∫v du" },
-    { name: "Pythagoras", expr: "a² + b² = c²" },
-    { name: "Arithmetic sequence", expr: "aₙ = a₁ + (n−1)d" },
-    { name: "Geometric sequence", expr: "aₙ = a₁ · rⁿ⁻¹" },
-  ],
-  physics: [
-    { name: "Newton's 2nd law", expr: "F = ma" },
-    { name: "Kinetic energy", expr: "KE = ½mv²" },
-    { name: "Gravitational PE", expr: "PE = mgh" },
-    { name: "Ohm's law", expr: "V = IR" },
-    { name: "Power", expr: "P = IV = I²R" },
-    { name: "Wave equation", expr: "v = fλ" },
-  ],
-  chemistry: [
-    { name: "Moles", expr: "n = m / M" },
-    { name: "Concentration", expr: "c = n / V" },
-    { name: "Ideal gas", expr: "PV = nRT" },
-    { name: "pH", expr: "pH = −log₁₀[H⁺]" },
-    { name: "Percent yield", expr: "% yield = (actual / theoretical) × 100" },
-    { name: "Avogadro", expr: "N = n × 6.02×10²³" },
-  ],
-  biology: [
-    { name: "Photosynthesis", expr: "6CO₂ + 6H₂O → C₆H₁₂O₆ + 6O₂" },
-    { name: "Respiration", expr: "C₆H₁₂O₆ + 6O₂ → 6CO₂ + 6H₂O + ATP" },
-    { name: "Magnification", expr: "M = image size / actual size" },
-    { name: "Population growth", expr: "Nₜ = N₀ × rᵗ" },
-    { name: "Hardy-Weinberg", expr: "p² + 2pq + q² = 1" },
-    { name: "Water potential", expr: "Ψ = Ψₛ + Ψₚ" },
-  ],
-  economics: [
-    { name: "Price elasticity of demand", expr: "PED = %ΔQd / %ΔP" },
-    { name: "GDP", expr: "GDP = C + I + G + (X − M)" },
-    { name: "Multiplier", expr: "k = 1 / (1 − MPC)" },
-    { name: "Opportunity cost", expr: "Value of next best alternative foregone" },
-    { name: "Real GDP growth", expr: "%Δ real GDP = %Δ nominal GDP − inflation" },
-    { name: "Balance of payments", expr: "CA + KA + FA = 0" },
-  ],
-};
+import { LEARNING_DESIGN_COMMITMENTS, STUDY_LOOP_STAGES } from '@/content/learningFoundations';
+import '@/styles/study-tools-hub.css';
 
 const TECHNIQUES = [
-  { title: "Active Recall", desc: "Test yourself before re-reading. Use flashcards and quizzes.", to: "/resources/active-recall-spaced-repetition" },
-  { title: "Spaced Practice", desc: "Rate each card and let Study Mode calculate when it is due again.", to: "/notetaker" },
-  { title: "Pomodoro", desc: "25 min focus + 5 min break. Built into Study Zone timer.", to: "/study-zone" },
-  { title: "Feynman Technique", desc: "Explain a concept in simple words to find gaps.", to: "/chatbot" },
-  { title: "Practice Papers", desc: "Generate extra practice, then check your answers against trusted material.", to: "/paper-maker" },
-  { title: "Answer Review", desc: "Get evidence-linked AI feedback, then verify any score you plan to track.", to: "/answer-reviewer" },
+  { title: "Active recall", desc: "Close the explanation and reconstruct the idea first. The difficulty of retrieval is information about what needs another pass.", to: "/resources/active-recall-spaced-repetition" },
+  { title: "Spaced practice", desc: "Return after a delay instead of repeating everything at once. Rate the attempt so the next review has a reason and a date.", to: "/notetaker" },
+  { title: "Timed focus", desc: "Set one concrete output for a bounded block, then take a real break. The timer supports the task; it is not the task itself.", to: "/study-zone" },
+  { title: "Explanation check", desc: "Explain the mechanism in plain language, define each term and test the explanation with a counterexample or follow-up question.", to: "/chatbot" },
+  { title: "Mixed practice", desc: "Combine question forms so you must select the method rather than copy the last example. Check each response against trusted material.", to: "/paper-maker" },
+  { title: "Answer review", desc: "Trace feedback to the exact line or missing relationship, then attempt a focused retry. Verify any mark you plan to record.", to: "/answer-reviewer" },
 ];
 
 const EXAM_CHECKLIST = [
-  "Skim the full paper and mark high-mark questions first",
-  "Leave 5 minutes at the end to check units and significant figures",
+  "Read the paper instructions and allocate time in proportion to marks",
+  "Reserve checking time appropriate to the paper length; check units and significant figures",
   "Underline command terms: explain, evaluate, justify, discuss",
-  "For essays: plan 2 minutes, write, then add a one-line conclusion",
-  "After the exam, paste one answer into Answer Reviewer for targeted fixes",
+  "For essays: plan the argument, support it with evidence and answer the question in your conclusion",
+  "After practice, review one answer and schedule a retry for the gap you found",
 ];
 
 const QUICK_TOOLS = [
-  { title: "Exam Prep", desc: "Countdown + next session", to: "/exam-prep", icon: Target },
-  { title: "Study Zone", desc: "Timer, calculator, Desmos, habits", to: "/study-zone", icon: Clock },
-  { title: "AI Notes", desc: "Notes → flashcards → quiz", to: "/notetaker", icon: FileText },
-  { title: "Paper Maker", desc: "AI-generated practice", to: "/paper-maker", icon: BookOpen },
-  { title: "Planner", desc: "Calendar + editable suggestions", to: "/planner", icon: Sparkles },
+  { title: "Planner", intent: 'Make time to study', desc: 'Reserve a study block or add a commitment.', to: "/planner", icon: Sparkles },
+  { title: "Study Zone", intent: 'Start a focus session', desc: 'Use a timer, calculator and study breaks.', to: "/study-zone", icon: Clock },
+  { title: "AI Notes", intent: 'Practise from your notes', desc: 'Turn your material into flashcards and quizzes.', to: "/notetaker", icon: FileText },
+  { title: "Paper Maker", intent: 'Attempt a practice paper', desc: 'Generate extra practice for your topic.', to: "/paper-maker", icon: BookOpen },
+  { title: "Answer Reviewer", intent: 'Review an answer', desc: 'Compare AI feedback with your course material.', to: "/answer-reviewer", icon: CheckCircle2 },
+  { title: "Exam Prep", intent: 'Prepare for an exam', desc: 'Choose an exam target and your next session.', to: "/exam-prep", icon: Target },
+];
+const SECTIONS = [
+  ['tools', 'Choose a tool'], ['cycle', 'Study cycle'], ['formulas', 'Formulas'], ['methods', 'Study methods'],
+  ['checklist', 'Exam checklist'], ['terms', 'Command terms'], ['offline', 'Offline study'],
 ];
 
 export default function StudyTools() {
-  const [tab, setTab] = useState<FormulaTab>("math");
-  const formulas = useMemo(() => FORMULAS[tab], [tab]);
-
+  const location = useLocation();
+  const initialLocation = useRef(location);
+  useEffect(() => {
+    const initial = initialLocation.current;
+    const params = new URLSearchParams(initial.search);
+    const section = SECTIONS.find(([id]) => initial.hash === `#study-tools-${id}`);
+    const target = section ? `study-tools-${section[0]}`
+      : !initial.hash && ['formula', 'subject', 'fq'].some(key => params.has(key)) ? 'study-tools-formulas' : null;
+    if (!target) return;
+    // Wait for the route's normal scroll reset, then honour an incoming
+    // reference link. Search edits and practice drafts never trigger this.
+    let secondFrame = 0;
+    const frame = window.requestAnimationFrame(() => {
+      secondFrame = window.requestAnimationFrame(() => document.getElementById(target)?.scrollIntoView({ block: 'start', behavior: 'instant' }));
+    });
+    return () => { window.cancelAnimationFrame(frame); window.cancelAnimationFrame(secondFrame); };
+  }, []);
   return (
     <>
       <SEO
         title="Study Tools & Formula Reference | VertexED"
-        description="Quick-reference formulas, study techniques, and one-click access to VertexED tools."
+        description="Choose study tools and browse available references. Materials awaiting subject review are labelled."
         canonical="https://www.vertexed.app/study-tools"
       />
 
-      <PageSection className="max-w-5xl">
+      <PageSection className="max-w-5xl study-tools-hub">
         <div className="mb-8">
-          <span className="text-xs uppercase tracking-widest text-primary/80">Reference Hub</span>
-          <h1 className="text-3xl md:text-4xl font-semibold brand-text-gradient inline-block mt-2">
+          <span className="block text-xs uppercase tracking-widest text-primary/80">Your revision desk</span>
+          <h1 className="text-3xl md:text-4xl font-semibold mt-2">
             Study Tools & Resources
           </h1>
           <p className="text-muted-foreground mt-3 max-w-2xl leading-relaxed">
-            A compact reference for common formulas, study methods, command terms, and the tools you may need during a revision block.
+            Choose your next study task. References, methods and command terms are available only after subject review.
           </p>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-10">
+        <nav className="study-tools-jumps" aria-label="Study tools sections">
+          {SECTIONS.map(([id, label]) => <a key={id} href={`#study-tools-${id}`} onClick={() => document.getElementById(`study-tools-${id}`)?.focus({ preventScroll: true })}>{label}</a>)}
+        </nav>
+        <section id="study-tools-tools" tabIndex={-1} className="study-tools-section study-tools-directory" aria-labelledby="study-tools-directory-title">
+          <div className="study-tools-section-heading"><h2 id="study-tools-directory-title">What’s your next task?</h2><p>Choose a tool for the work you want to do.</p></div>
+          <div className="study-tools-grid">
           {QUICK_TOOLS.map((tool) => (
-            <Link key={tool.to} to={tool.to} className="group">
-              <NeumorphicCard className="p-5 h-full hover:border-primary/30 transition">
-                <tool.icon className="h-6 w-6 text-primary mb-3" />
-                <h2 className="font-semibold text-foreground group-hover:text-primary transition">{tool.title}</h2>
-                <p className="text-sm text-muted-foreground mt-1">{tool.desc}</p>
-              </NeumorphicCard>
+            <Link key={tool.to} to={tool.to} className="study-tools-choice">
+              <div className="study-tools-choice-top"><tool.icon aria-hidden="true" size={20} /><ArrowUpRight aria-hidden="true" size={18} /></div>
+              <p className="study-tools-intent">{tool.intent}</p><h3>{tool.title}</h3><p>{tool.desc}</p>
             </Link>
           ))}
-        </div>
-
-        <NeumorphicCard className="p-6 mb-10">
-          <div className="flex items-center gap-2 mb-4">
-            <Sigma className="h-5 w-5 text-primary" />
-            <h2 className="text-xl font-semibold">Formula Reference</h2>
           </div>
+        </section>
 
-          <div className="flex flex-wrap gap-2 mb-6">
-            {(["math", "physics", "chemistry", "biology", "economics"] as FormulaTab[]).map((key) => (
-              <button
-                key={key}
-                type="button"
-                onClick={() => setTab(key)}
-                className={`rounded-full px-4 py-1.5 text-sm capitalize transition ${
-                  tab === key
-                    ? "bg-primary/20 text-primary border border-primary/30"
-                    : "bg-foreground/[0.04] text-muted-foreground border border-border/60 hover:text-foreground"
-                }`}
-              >
-                {key === "math" && <Calculator className="inline h-3.5 w-3.5 mr-1 -mt-0.5" />}
-                {key === "physics" && <Zap className="inline h-3.5 w-3.5 mr-1 -mt-0.5" />}
-                {key === "chemistry" && <FlaskConical className="inline h-3.5 w-3.5 mr-1 -mt-0.5" />}
-                {key === "biology" && <BookOpen className="inline h-3.5 w-3.5 mr-1 -mt-0.5" />}
-                {key}
-              </button>
+        <section id="study-tools-cycle" tabIndex={-1} className="study-tools-section study-tools-cycle" aria-labelledby="study-tools-cycle-title">
+          <div className="study-tools-section-heading">
+            <h2 id="study-tools-cycle-title">Choose the tool by the learning job.</h2>
+            <p>A productive session moves through a sequence. It does not need every tool, but each tool should have a clear job.</p>
+          </div>
+          <ol>
+            {STUDY_LOOP_STAGES.map((item, index) => (
+              <li key={item.id}>
+                <span>{String(index + 1).padStart(2, '0')} / {item.label}</span>
+                <h3>{item.heading}</h3>
+                <p>{item.summary}</p>
+                <strong>{item.question}</strong>
+                <Link to={item.href}>Open {item.label.toLowerCase()} tools <ArrowUpRight aria-hidden /></Link>
+              </li>
             ))}
+          </ol>
+          <div className="study-tools-commitments">
+            {LEARNING_DESIGN_COMMITMENTS.map((item) => <div key={item.title}><h3>{item.title}</h3><p>{item.copy}</p></div>)}
           </div>
+        </section>
 
-          <div className="grid sm:grid-cols-2 gap-3">
-            {formulas.map((f) => (
-              <div
-                key={f.name}
-                className="rounded-xl border border-border/60 bg-foreground/[0.04] px-4 py-3"
-              >
-                <p className="text-xs text-muted-foreground mb-1">{f.name}</p>
-                <p className="font-mono text-sm text-foreground">{f.expr}</p>
-              </div>
-            ))}
-          </div>
-          <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
-            This is a general reference, not a board-specific formula sheet. Check notation, permitted formulas, and constants against your current course materials.
-          </p>
-        </NeumorphicCard>
+        <div id="study-tools-formulas" tabIndex={-1} className="study-tools-section"><FormulaDesk /></div>
 
+        <div id="study-tools-methods" tabIndex={-1} className="study-tools-section">
         <NeumorphicCard className="p-6 mb-10">
           <div className="flex items-center gap-2 mb-4">
             <Brain className="h-5 w-5 text-primary" />
             <h2 className="text-xl font-semibold">Study Techniques</h2>
           </div>
+          {!TECHNIQUES.length && <p className="text-sm text-muted-foreground">Study methods are awaiting subject review.</p>}
           <div className="grid md:grid-cols-2 gap-4">
             {TECHNIQUES.map((t) => (
               <Link
@@ -184,12 +145,15 @@ export default function StudyTools() {
             ))}
           </div>
         </NeumorphicCard>
+        </div>
 
+        <div id="study-tools-checklist" tabIndex={-1} className="study-tools-section">
         <NeumorphicCard className="p-6 mb-10">
           <div className="flex items-center gap-2 mb-4">
             <Clock className="h-5 w-5 text-primary" />
             <h2 className="text-xl font-semibold">Exam Day Checklist</h2>
           </div>
+          {!EXAM_CHECKLIST.length && <p className="text-sm text-muted-foreground">The exam checklist is awaiting subject review.</p>}
           <ol className="space-y-2 text-sm text-muted-foreground list-decimal list-inside">
             {EXAM_CHECKLIST.map((item) => (
               <li key={item} className="leading-relaxed">
@@ -198,7 +162,9 @@ export default function StudyTools() {
             ))}
           </ol>
         </NeumorphicCard>
+        </div>
 
+        <div id="study-tools-terms" tabIndex={-1} className="study-tools-section">
         <NeumorphicCard className="p-6 mb-10">
           <div className="flex items-center gap-2 mb-4">
             <BookOpen className="h-5 w-5 text-primary" />
@@ -206,6 +172,8 @@ export default function StudyTools() {
           </div>
           <CommandTermsGlossary />
         </NeumorphicCard>
+        </div>
+        <div id="study-tools-offline" tabIndex={-1} className="study-tools-section mb-8"><OfflineSettings /></div>
 
         <div className="text-center">
           <p className="text-sm text-muted-foreground mb-4">Want deeper guides?</p>

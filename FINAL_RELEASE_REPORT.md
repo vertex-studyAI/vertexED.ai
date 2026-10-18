@@ -1,5 +1,9 @@
 # Final Release Report
 
+> Latest execution: [14 October release findings](docs/RELEASE_EXECUTION_2026-10-14.md).
+> Local verification has advanced; production remains NO-GO. The September
+> checkpoint below is retained and must not be read as a fresh test result.
+
 > Updated 27 September: this is the retained 25 September checkpoint. Current integration, verification and incomplete release status are recorded in [the checklist execution report](docs/CHECKLIST_EXECUTION_2026-09-27.md) and its evidence index. Historical pending statements below are not the current test result. Production remains NO-GO.
 
 ## Status

@@ -11,6 +11,7 @@ import {
 } from '../../contracts/studyArtifact.js';
 
 import { validateConversations } from '../../contracts/apexConversation.js';
+import { validatePlannerSnapshot } from '../../src/lib/snapshotValidation.mjs';
 
 const ALLOWED_KINDS = new Set(STUDY_ARTIFACT_KINDS);
 const MAX_PAYLOAD_BYTES = 256 * 1024;
@@ -78,6 +79,17 @@ export default async function handler(req, res) {
       const parsed = parseStudyArtifactCreate(body);
       if (!parsed.ok) return res.status(400).json({ error: parsed.error });
       const { kind, title, payload: payloadValue, idempotencyKey } = parsed.value;
+      if (kind === 'planner' && body.replace === true) {
+        // A v1 client drops coursework even after reading the current cloud
+        // revision. Refuse that schema downgrade before any replacement write.
+        if (payloadValue.version !== 2) return res.status(409).json({ error: 'Reload the planner before saving. This version cannot preserve coursework records.' });
+        if (!Array.isArray(payloadValue.coursework)) return res.status(400).json({ error: 'Invalid planner coursework records.' });
+        try {
+          validatePlannerSnapshot({ ...payloadValue, updatedAt: new Date().toISOString() });
+        } catch {
+          return res.status(400).json({ error: 'Invalid planner snapshot. Your previous saved work is unchanged.' });
+        }
+      }
       if (kind === 'conversation') {
         if (body.replace !== true) return res.status(400).json({ error: 'Conversation writes require revision-checked replacement.' });
         try { validateConversations(payloadValue); } catch { return res.status(400).json({ error: 'Invalid conversation history or storage limit exceeded.' }); }

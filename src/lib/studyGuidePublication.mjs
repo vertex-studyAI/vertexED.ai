@@ -1,11 +1,7 @@
+import { hasPublicationEvidence } from '../../contracts/contentPublication.js';
+
 export function isPublishableGuide(entry) {
-  return entry?.editorialStatus === 'approved'
-    && entry?.publicationStatus === 'published'
-    && typeof entry.source === 'string' && entry.source.trim().length > 0
-    && typeof entry.factualReviewer === 'string' && entry.factualReviewer.trim().length > 0
-    && typeof entry.reviewedAt === 'string' && Number.isFinite(Date.parse(entry.reviewedAt))
-    && typeof entry.license === 'string' && !['', 'unknown'].includes(entry.license.trim().toLowerCase())
-    && typeof entry.permittedUse === 'string' && !['', 'not-yet-determined'].includes(entry.permittedUse.trim().toLowerCase());
+  return hasPublicationEvidence(entry);
 }
 
 export function publicationFilteredManifest(manifest, entries) {

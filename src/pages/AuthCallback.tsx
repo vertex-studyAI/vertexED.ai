@@ -6,7 +6,7 @@ import { supabase, authRecoveryEvent } from "@/lib/supabaseClient";
 import { isOnboardingComplete } from "@/lib/onboardingStatus.js";
 import { isVerifiedInviteSession } from "@/lib/inviteAcceptance.mjs";
 import { markPasswordRecoveryVerified } from "@/lib/passwordRecovery";
-import { consumeGoogleLinkReturn } from "@/lib/authReturn.mjs";
+import { clearGoogleLoginReturn, consumeGoogleLinkReturn, consumeGoogleLoginReturn } from "@/lib/authReturn.mjs";
 import ResetPassword from "@/pages/ResetPassword";
 import SetInitialPassword from "@/pages/SetInitialPassword";
 
@@ -34,6 +34,7 @@ export default function AuthCallback() {
       searchParams.get("invite") === "1" ||
       searchParams.get("type") === "invite" ||
       hashParams.get("type") === "invite";
+    if (recoveryHint || inviteHint) clearGoogleLoginReturn(window);
 
     // OAuth codes, provider errors, and access tokens must not remain in browser
     // history while the callback performs network work or renders an error.
@@ -45,6 +46,7 @@ export default function AuthCallback() {
     window.history.replaceState({}, document.title, safeCallbackPath);
 
     if (!supabase) {
+      clearGoogleLoginReturn(window);
       setError("Sign-in is unavailable because this deployment is missing its authentication configuration.");
       return;
     }
@@ -60,6 +62,7 @@ export default function AuthCallback() {
     // Fail before subscribing: an existing cached session must not turn a
     // rejected provider return into an apparent successful sign-in.
     if (authError) {
+      clearGoogleLoginReturn(window);
       setError("Authentication could not be completed. Return to login and try again.");
       return;
     }
@@ -76,6 +79,7 @@ export default function AuthCallback() {
       completed = true;
       clearCallbackTimeout();
       unsubscribeRef.current?.();
+      clearGoogleLoginReturn(window);
       setError(message);
     };
 
@@ -127,6 +131,7 @@ export default function AuthCallback() {
       unsubscribeRef.current?.();
 
       if (event === "PASSWORD_RECOVERY") {
+        clearGoogleLoginReturn(window);
         try {
           markPasswordRecoveryVerified(session.user.id);
         } catch {
@@ -140,10 +145,12 @@ export default function AuthCallback() {
 
       const returnAfterGoogleLink = consumeGoogleLinkReturn(window);
       if (returnAfterGoogleLink) {
+        clearGoogleLoginReturn(window);
         navigate(returnAfterGoogleLink, { replace: true });
         return;
       }
-      navigate(isOnboardingComplete(session.user) ? "/main" : "/onboarding", { replace: true });
+      const returnAfterGoogleLogin = consumeGoogleLoginReturn(window);
+      navigate(isOnboardingComplete(session.user) ? returnAfterGoogleLogin ?? "/main" : "/onboarding", { replace: true });
     };
 
     const { data: authSubscription } = supabase.auth.onAuthStateChange((event, session) => {

@@ -1,0 +1,831 @@
+{
+  "recordedAt": "2026-10-16T03:29:39.420164+00:00",
+  "scope": "Local code improvements and verification; hosting recovery explicitly excluded by the user",
+  "baseHead": "e28f24ff1c051eaa91b5443a79fe392987d0c688",
+  "workingTreeIsDirty": true,
+  "sourceFingerprint": {
+    "sha256": "601510121826c5606115d94f6ff2e86f9b2d3ad9cb7276fc8bc1832a6e7cc8a5",
+    "files": 985,
+    "scope": [
+      "src",
+      "api",
+      "contracts",
+      "scripts",
+      "e2e",
+      "tests",
+      "root JS/TS/JSON configs",
+      ".github/workflows/ci.yml"
+    ],
+    "note": "Final local content fingerprint. Includes preserved pre-existing work; not an ownership claim or immutable deployed revision."
+  },
+  "checks": {
+    "application": {
+      "passed": 1448,
+      "failed": 0,
+      "skipped": 0,
+      "note": "Full suite before final additional coursework boundary cases and UI corrections."
+    },
+    "finalCourseworkAndSync": {
+      "passed": 22,
+      "failed": 0,
+      "note": "Overlaps full-suite cases."
+    },
+    "browser": {
+      "workflowMatrix": {
+        "passed": 36,
+        "failed": 0,
+        "engines": [
+          "chromium",
+          "firefox",
+          "webkit"
+        ]
+      },
+      "regression": {
+        "passed": 60,
+        "failed": 0,
+        "engine": "chromium"
+      },
+      "finalFocusLayoutCorrection": {
+        "passed": 9,
+        "failed": 0,
+        "engines": [
+          "chromium",
+          "firefox",
+          "webkit"
+        ],
+        "note": "Repeats nine cases after final CSS correction."
+      },
+      "fixtureBoundary": "Synthetic account/provider responses; real public offline caching covered separately with workers enabled."
+    },
+    "typecheck": "PASS",
+    "standardBuild": "PASS",
+    "fixtureBuild": "PASS",
+    "node": "22.22.0",
+    "bundle": {
+      "metrics": {
+        "initialJavaScriptGzipBytes": 226413,
+        "initialCssGzipBytes": 34764,
+        "largestJavaScriptGzipBytes": 130257,
+        "totalJavaScriptGzipBytes": 953851
+      },
+      "budgets": {
+        "initialJavaScriptGzipBytes": 275000,
+        "initialCssGzipBytes": 45000,
+        "largestJavaScriptGzipBytes": 240000,
+        "totalJavaScriptGzipBytes": 1000000
+      },
+      "initialAssets": [
+        {
+          "path": "/assets/ecosystem-CiahOYNx.js",
+          "type": "js",
+          "rawBytes": 132599,
+          "gzipBytes": 38761
+        },
+        {
+          "path": "/assets/index-Bapyq7O3.css",
+          "type": "css",
+          "rawBytes": 202070,
+          "gzipBytes": 34764
+        },
+        {
+          "path": "/assets/index-Cn55KsLF.js",
+          "type": "js",
+          "rawBytes": 152700,
+          "gzipBytes": 49201
+        },
+        {
+          "path": "/assets/supabase-BXl3LOEh.js",
+          "type": "js",
+          "rawBytes": 1110,
+          "gzipBytes": 650
+        },
+        {
+          "path": "/assets/ui-B265UcXe.js",
+          "type": "js",
+          "rawBytes": 140671,
+          "gzipBytes": 45980
+        },
+        {
+          "path": "/assets/vendor-DiRmXliV.js",
+          "type": "js",
+          "rawBytes": 285602,
+          "gzipBytes": 91821
+        }
+      ],
+      "violations": []
+    },
+    "copy": {
+      "files": 460,
+      "findings": 0,
+      "ruleTestsPassed": 3
+    },
+    "eslint": {
+      "errors": 0,
+      "legacyWarnings": [
+        "src/components/ExamBaselinePractice.tsx:77",
+        "src/contexts/AuthContext.tsx:180"
+      ]
+    },
+    "evaluationTestsPassed": 25,
+    "askFixturePassed": 13,
+    "gradingContract": "PASS",
+    "diffCheck": "PASS"
+  },
+  "visualReview": {
+    "widths": [
+      1440,
+      1024,
+      390
+    ],
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "reducedMotion": true,
+    "keyboard": true,
+    "correctionPass": "PASS",
+    "reviewed": [
+      "Coursework and milestone dialogs",
+      "Saved work and exact source previews",
+      "Focus and Quick Notes"
+    ],
+    "retainedObservation": "Floating Apex may overlap footer links at some mobile scroll positions; saved-result controls remain unobscured."
+  },
+  "releaseBoundary": {
+    "deployed": false,
+    "committed": false,
+    "pushed": false,
+    "databaseMutated": false,
+    "liveServiceAcceptance": false,
+    "note": "Existing master acceptance gates remain documented; no production readiness claim."
+  },
+  "logs": [
+    {
+      "path": ".tmp/full-site-20261016/app-tests.log",
+      "bytes": 334299,
+      "sha256": "f1e9797b445755e3bc4243e1fcb5e43a7f56c42e525bf6dbb79b99e2ea1926d4"
+    },
+    {
+      "path": ".tmp/full-site-20261016/ask-eval.log",
+      "bytes": 534,
+      "sha256": "c2a41c59262396e42477394f745d7306bcd5256bb2d06bdf1c6c54f463e282be"
+    },
+    {
+      "path": ".tmp/full-site-20261016/browser-corrected.log",
+      "bytes": 6560,
+      "sha256": "d6d218b22646e24eaa76b8b9058e24e1ad0d28248ced70078caf5c8c5cbe641b"
+    },
+    {
+      "path": ".tmp/full-site-20261016/browser-focus-complete.log",
+      "bytes": 3000,
+      "sha256": "7ac372c4b9a48fbc109b7a6b17449145320c816577d4b7dfef8d7f022bbcd6dd"
+    },
+    {
+      "path": ".tmp/full-site-20261016/browser-matrix-correction.log",
+      "bytes": 33449,
+      "sha256": "075f513626a5a486f339f9e542060cdfb3970ec72767c6685d2a02f73fd91932"
+    },
+    {
+      "path": ".tmp/full-site-20261016/browser-matrix-final.log",
+      "bytes": 41759,
+      "sha256": "3982b0738a5304d1464767434f79fe087addb176ead3b27e067d781374dfc25d"
+    },
+    {
+      "path": ".tmp/full-site-20261016/browser-matrix-run.log",
+      "bytes": 8839,
+      "sha256": "cc031f913d8dc878627450dcc549689cab02bb2860717eadcf6062c288b7692d"
+    },
+    {
+      "path": ".tmp/full-site-20261016/browser-matrix.log",
+      "bytes": 5604,
+      "sha256": "1a691a2da4edf4515f38db12d2be26f5baf5f05c71423f806a908e31eab30faa"
+    },
+    {
+      "path": ".tmp/full-site-20261016/browser-regression.log",
+      "bytes": 7870,
+      "sha256": "b6de67ea415f0f992d4db012e8599bd93b88a2bf79762eb7348a365afd881c7a"
+    },
+    {
+      "path": ".tmp/full-site-20261016/copy.log",
+      "bytes": 155,
+      "sha256": "5713379b88aa78a849784e20867508fd945dc645dcd4ee5490b590789fd53871"
+    },
+    {
+      "path": ".tmp/full-site-20261016/coursework-final.log",
+      "bytes": 5346,
+      "sha256": "d78adafc1aa618eb4298a48eb10cdb361cee58fbad1a30f57a1093704b7bc491"
+    },
+    {
+      "path": ".tmp/full-site-20261016/coursework-lint.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".tmp/full-site-20261016/coursework-unit.log",
+      "bytes": 1217,
+      "sha256": "b5cf8b20f71bc524c5ab9551cc6d1d50060829c47ac148fd1e362f9ff4a6b23c"
+    },
+    {
+      "path": ".tmp/full-site-20261016/eval-tests.log",
+      "bytes": 4774,
+      "sha256": "0eb47d8e845eb226323f097c4bdce06606bd17ad5fcbea97b1ed06edacd9beb1"
+    },
+    {
+      "path": ".tmp/full-site-20261016/grading-eval.log",
+      "bytes": 3567,
+      "sha256": "4b1219dd73c98a656c5b4b3745a557c03e952d84b0b49996aebdb1070033a395"
+    },
+    {
+      "path": ".tmp/full-site-20261016/lint-complete.log",
+      "bytes": 1608,
+      "sha256": "c9a03744771c1d40b5712fd121f6efad572c405ca2fcc3850d98b0fffe4ceaab"
+    },
+    {
+      "path": ".tmp/full-site-20261016/lint.log",
+      "bytes": 1605,
+      "sha256": "57e13304a0dea27f0171a3898fc8b994a96a516419792f4bbd22d4491cc6f34e"
+    },
+    {
+      "path": ".tmp/full-site-20261016/performance-complete.log",
+      "bytes": 1328,
+      "sha256": "51479d4130a0c5022ce7429b5141c07fbe4bd255c1720925688861e3e8b16d8d"
+    },
+    {
+      "path": ".tmp/full-site-20261016/performance-final.log",
+      "bytes": 1328,
+      "sha256": "a0bdcc5bf28ef99f9db2325e08980168b7be81a986597e4b9e1178e181d05e55"
+    },
+    {
+      "path": ".tmp/full-site-20261016/production-build-complete.log",
+      "bytes": 17641,
+      "sha256": "3bafb252300b9cbdc50cba10713b9a88c99129743b7be5958b6c019da0e1cc85"
+    },
+    {
+      "path": ".tmp/full-site-20261016/production-build.log",
+      "bytes": 17641,
+      "sha256": "5c88e3364346b782ac5fddc4cfb9eeb7158909ff0e45b0f8e9f59f0c4d984ba5"
+    },
+    {
+      "path": ".tmp/full-site-20261016/typecheck-complete.log",
+      "bytes": 77,
+      "sha256": "18613ddbee6bb1383ee22d4a41b90885223169ef27a680cb63aac1cdd738279f"
+    },
+    {
+      "path": ".tmp/full-site-20261016/typecheck-correction.log",
+      "bytes": 77,
+      "sha256": "18613ddbee6bb1383ee22d4a41b90885223169ef27a680cb63aac1cdd738279f"
+    },
+    {
+      "path": ".tmp/full-site-20261016/typecheck-final.log",
+      "bytes": 198,
+      "sha256": "05f29a7fd709b839567735a6e87f36edb2eb97188ecf80a5cbe26704f69ceaf2"
+    },
+    {
+      "path": ".tmp/full-site-20261016/typecheck-initial.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".tmp/full-site-20261016/typecheck.log",
+      "bytes": 77,
+      "sha256": "18613ddbee6bb1383ee22d4a41b90885223169ef27a680cb63aac1cdd738279f"
+    },
+    {
+      "path": ".tmp/full-site-20261016/webkit-fixture.log",
+      "bytes": 4516,
+      "sha256": "f4d290955857622158911b1df26fc0709207eeddfe4a4ea7c5216df9fcefa8e1"
+    }
+  ],
+  "screenshots": [
+    {
+      "path": "test-results/full-site-20261016-corrected/coursework-coursework-evid-0a0c3-covery-and-keyboard-at-1024-chromium/coursework-1024-dark.png",
+      "bytes": 470186,
+      "sha256": "104ef1d36ee5d5091374f857625b43105b1b1469f4b899c9f804f329c9eaa281"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/coursework-coursework-evid-0a0c3-covery-and-keyboard-at-1024-chromium/coursework-1024-light.png",
+      "bytes": 396230,
+      "sha256": "7687ff1ece5b50284148a07b779956256875e65b40042c0f35366d6120082c5e"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/coursework-coursework-evid-0a0c3-covery-and-keyboard-at-1024-chromium/milestone-dialog-1024.png",
+      "bytes": 165704,
+      "sha256": "0e39b05617bd3e490f1bd8774c33681047cde9a7f5e9cb01991a944383643ddf"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/coursework-coursework-evid-0a0c3-covery-and-keyboard-at-1024-firefox/coursework-1024-dark.png",
+      "bytes": 467735,
+      "sha256": "d183b4229b1fedac9b62445dd80aa81bed28f8e0706a643a0b8bd370b7ecc766"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/coursework-coursework-evid-0a0c3-covery-and-keyboard-at-1024-firefox/coursework-1024-light.png",
+      "bytes": 415381,
+      "sha256": "154695e96b487c55f17db87153e68ade78b2745a7c749740c314c329747a84cd"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/coursework-coursework-evid-0a0c3-covery-and-keyboard-at-1024-firefox/milestone-dialog-1024.png",
+      "bytes": 182760,
+      "sha256": "ab0d696b084c2166afb3d3cbb12e3ab80ffcbb80d749d8526316f667123781f1"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/coursework-coursework-evid-0a0c3-covery-and-keyboard-at-1024-webkit/coursework-1024-dark.png",
+      "bytes": 778872,
+      "sha256": "0f68ee940d4408288c2766dacd0604f61fb5fe956220fc2019f9f15dd54b89d1"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/coursework-coursework-evid-0a0c3-covery-and-keyboard-at-1024-webkit/coursework-1024-light.png",
+      "bytes": 818428,
+      "sha256": "015a3c3c1612d912930e1a6060dd0935944c984b5519d8db684d4c8d42505f32"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/coursework-coursework-evid-0a0c3-covery-and-keyboard-at-1024-webkit/milestone-dialog-1024.png",
+      "bytes": 280184,
+      "sha256": "533cd83eef8ba35ca54058e74031a958ebdd474f5ad81736ce8343b47da0d1e3"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/coursework-coursework-evid-90ae1-covery-and-keyboard-at-1440-chromium/coursework-1440-dark.png",
+      "bytes": 546853,
+      "sha256": "ae9ad61a06f3cfad954ed54e233af24cd6dac53303f663bf67565dc43c697ef0"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/coursework-coursework-evid-90ae1-covery-and-keyboard-at-1440-chromium/coursework-1440-light.png",
+      "bytes": 457365,
+      "sha256": "be95346e0fefa0891a099b33990562ab1ef9bfbeec03a18b5f6392f472a55610"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/coursework-coursework-evid-90ae1-covery-and-keyboard-at-1440-chromium/milestone-dialog-1440.png",
+      "bytes": 230520,
+      "sha256": "b5bfd830ca70004f1099cf789dce2de214d0fd84002befd317d1208c98b4e364"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/coursework-coursework-evid-90ae1-covery-and-keyboard-at-1440-firefox/coursework-1440-dark.png",
+      "bytes": 520375,
+      "sha256": "88ffd313cf854fa3da38d5715a0aee3f0f9d29bca495a2a4be8b482160145a97"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/coursework-coursework-evid-90ae1-covery-and-keyboard-at-1440-firefox/coursework-1440-light.png",
+      "bytes": 465778,
+      "sha256": "5db32e4d1ac92ad6a47d0798311eb547b8f82a8b99bd737bd5ae7c164fa2cf08"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/coursework-coursework-evid-90ae1-covery-and-keyboard-at-1440-firefox/milestone-dialog-1440.png",
+      "bytes": 252487,
+      "sha256": "3cb1f1a8c3ecef982bf0fa213cd2dbc328724249d927fc00d65208d6c5f533e1"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/coursework-coursework-evid-90ae1-covery-and-keyboard-at-1440-webkit/coursework-1440-dark.png",
+      "bytes": 1066254,
+      "sha256": "6e3329947a0dde005aba0222431bf386255bdae046fcf5f1cdb1e5e40616b89e"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/coursework-coursework-evid-90ae1-covery-and-keyboard-at-1440-webkit/coursework-1440-light.png",
+      "bytes": 1039055,
+      "sha256": "ac33aa1859eb6845566ad4964de6a30b5379d8699718615698131057774798d7"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/coursework-coursework-evid-90ae1-covery-and-keyboard-at-1440-webkit/milestone-dialog-1440.png",
+      "bytes": 445470,
+      "sha256": "9437305f26df1b768947e6d5bd9a65b06a35624daa51caf004a280b6959e0b8f"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/coursework-coursework-evid-aa463-ecovery-and-keyboard-at-390-chromium/coursework-390-dark.png",
+      "bytes": 344976,
+      "sha256": "5e1bbacc8532fc65a51909f12b170994218903f520ea4409bac7221a98f2112b"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/coursework-coursework-evid-aa463-ecovery-and-keyboard-at-390-chromium/coursework-390-light.png",
+      "bytes": 297077,
+      "sha256": "ec7878ac369a134d4e9e4c9da08b8ffc001950370f2076c2a4efe4ae1733a3a2"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/coursework-coursework-evid-aa463-ecovery-and-keyboard-at-390-chromium/milestone-dialog-390.png",
+      "bytes": 75947,
+      "sha256": "4d47ae2444bdcc7b4e80f091f6d6231d001efc325287d5dfba88929c4a3b69dc"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/coursework-coursework-evid-aa463-ecovery-and-keyboard-at-390-firefox/coursework-390-dark.png",
+      "bytes": 375566,
+      "sha256": "2c73b06d95443f93119be316d3b5fe43a7460998a9f2938d1e26f6a1a4e6b7e9"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/coursework-coursework-evid-aa463-ecovery-and-keyboard-at-390-firefox/coursework-390-light.png",
+      "bytes": 333051,
+      "sha256": "99ada723f2bf69def565dd3c874c3df27b32476d9141e23e0ccf250005117921"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/coursework-coursework-evid-aa463-ecovery-and-keyboard-at-390-firefox/milestone-dialog-390.png",
+      "bytes": 86746,
+      "sha256": "caece12d9b93a33a74280f66e41feb228c5ef6daa62a1d245603b7918cefce8a"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/coursework-coursework-evid-aa463-ecovery-and-keyboard-at-390-webkit/coursework-390-dark.png",
+      "bytes": 483635,
+      "sha256": "d7b673449a3d8a8db3a1128ce2962cc0842df057ad8253c5c820d31977eea594"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/coursework-coursework-evid-aa463-ecovery-and-keyboard-at-390-webkit/coursework-390-light.png",
+      "bytes": 492097,
+      "sha256": "d11bd6b75c8e3837dfd3879f1a94554cfebffb496cabd3f3497d16c80c53f441"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/coursework-coursework-evid-aa463-ecovery-and-keyboard-at-390-webkit/milestone-dialog-390.png",
+      "bytes": 109492,
+      "sha256": "89738a31596d80172b1f3f3771960fc464e4cd97514d1167460029f604c3f09a"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/focus-session-focus-task-p-e2375--and-completion-work-at-390-chromium/focus-390-dark.png",
+      "bytes": 643642,
+      "sha256": "e202609e5aff878a090acc070844cb2bdbf381d432863c086ccb4d907a10b63f"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/focus-session-focus-task-p-e2375--and-completion-work-at-390-chromium/focus-390-light.png",
+      "bytes": 584699,
+      "sha256": "3c46672f0a6c80748da6a32b265d7d412597aa3cfe88aa0ae0251b1a8ae5e064"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/focus-session-focus-task-p-e2375--and-completion-work-at-390-firefox/focus-390-dark.png",
+      "bytes": 714822,
+      "sha256": "16624c8b68e85c14c8d426f2e7a1f564f95dee528250c36c85148bbd613a69d7"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/focus-session-focus-task-p-e2375--and-completion-work-at-390-firefox/focus-390-light.png",
+      "bytes": 678678,
+      "sha256": "d47d52e2be253e16626574c19bd1e78389d6fed747df5f72bb1c350bb8e8de43"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/focus-session-focus-task-p-e2375--and-completion-work-at-390-webkit/focus-390-dark.png",
+      "bytes": 875490,
+      "sha256": "af50319a0218bd59995940df465ef9636fb2fdf7268a538bf74e1f1ca915cb22"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/focus-session-focus-task-p-e2375--and-completion-work-at-390-webkit/focus-390-light.png",
+      "bytes": 894059,
+      "sha256": "659f73a9b301e53da9f3815708387e6d775b7c69b39046b6e1207c78da36acc9"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/focus-session-focus-task-p-f809b-and-completion-work-at-1440-chromium/focus-1440-dark.png",
+      "bytes": 854130,
+      "sha256": "3cc9e27c2a838c39c846efb3b3dde7e2b68fde6b7f2bde934bdbc673acfbbac2"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/focus-session-focus-task-p-f809b-and-completion-work-at-1440-chromium/focus-1440-light.png",
+      "bytes": 742541,
+      "sha256": "606bdb9fcaad0925eaa1fde80cc915bdafbbee06773911ad9ed7eb9bc87b087f"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/focus-session-focus-task-p-f809b-and-completion-work-at-1440-firefox/focus-1440-dark.png",
+      "bytes": 912197,
+      "sha256": "aefa42dc204f59e2149c2f3ba9cabe1780987a5785d7539ede6fd861ab16f4ef"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/focus-session-focus-task-p-f809b-and-completion-work-at-1440-firefox/focus-1440-light.png",
+      "bytes": 866086,
+      "sha256": "9e85b18f14b63c76e59351a3f76bfe18598d79d1b137777320035c0e9fd2b055"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/focus-session-focus-task-p-f809b-and-completion-work-at-1440-webkit/focus-1440-dark.png",
+      "bytes": 1461710,
+      "sha256": "739b453989579071dd7776b8020d8abd10bc6dfbc9d0d257d9a14fe1ae93e1c0"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/focus-session-focus-task-p-f809b-and-completion-work-at-1440-webkit/focus-1440-light.png",
+      "bytes": 1462082,
+      "sha256": "c86b3671230a81f910b71d6d242160b5b9b9d9e207fc1959f83e641365581172"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/focus-session-focus-task-p-ff8c4-and-completion-work-at-1024-chromium/focus-1024-dark.png",
+      "bytes": 793364,
+      "sha256": "0e760f08c09b8dbd111c1c38d3f974c8748364ba803312fbc45a00b265bc1321"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/focus-session-focus-task-p-ff8c4-and-completion-work-at-1024-chromium/focus-1024-light.png",
+      "bytes": 696400,
+      "sha256": "80bbe5ee09b6f9b295a7470a6eef706b79760c9ecb3e585c521d730a06d7811f"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/focus-session-focus-task-p-ff8c4-and-completion-work-at-1024-firefox/focus-1024-dark.png",
+      "bytes": 863076,
+      "sha256": "d518709fb390350608a5dd8ac72e2b8a95ac8bf0a2e949afa9aa262990e1d0e3"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/focus-session-focus-task-p-ff8c4-and-completion-work-at-1024-firefox/focus-1024-light.png",
+      "bytes": 821037,
+      "sha256": "1f07e3b2d35e68304088a465da87ded88ad9be6efce7cbd240ed056daae6f806"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/focus-session-focus-task-p-ff8c4-and-completion-work-at-1024-webkit/focus-1024-dark.png",
+      "bytes": 1252657,
+      "sha256": "58e8df90e6557fabf299a077b48e81be38b0f2ca728bd35c714db1be380c4d9e"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/focus-session-focus-task-p-ff8c4-and-completion-work-at-1024-webkit/focus-1024-light.png",
+      "bytes": 1282833,
+      "sha256": "ec8954610166c1fee84dbd47d820ee493721d1305c5c46b481dcbe3d3efe06bb"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/saved-work-search-private--df245-s-the-exact-source-at-390px-chromium/saved-search-390-dark.png",
+      "bytes": 170697,
+      "sha256": "3ecac27b62295558f42df80b796825230a047ac9d0abcfb6b1c0ac43cf4c2406"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/saved-work-search-private--df245-s-the-exact-source-at-390px-chromium/saved-search-390-light.png",
+      "bytes": 133277,
+      "sha256": "611591858357822664f2124f251f52863a83c3d9af99eadbb244fcef2e4463bd"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/saved-work-search-private--df245-s-the-exact-source-at-390px-chromium/saved-search-results-390-dark.png",
+      "bytes": 121997,
+      "sha256": "5d18559452810c4079912ac226989a1eadc21bf3ed7b73ecb71ab0d4bf58b5f6"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/saved-work-search-private--df245-s-the-exact-source-at-390px-chromium/saved-search-results-390-light.png",
+      "bytes": 111439,
+      "sha256": "c7b3aafcd21b5521452dc366b80c45529f50d66bc52815320c75a7f206643f59"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/saved-work-search-private--df245-s-the-exact-source-at-390px-chromium/source-search-390-dark.png",
+      "bytes": 13243,
+      "sha256": "9a490b2144be1743ac6920096feefd2efcf0e6456723a6e0493e3ed9451c920e"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/saved-work-search-private--df245-s-the-exact-source-at-390px-chromium/source-search-390-light.png",
+      "bytes": 14104,
+      "sha256": "af292a1acd6a25b81c6fe60b4f928c7ae1db115b1cdc9c05c9a8217274673327"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/saved-work-search-private--df245-s-the-exact-source-at-390px-firefox/saved-search-390-dark.png",
+      "bytes": 150238,
+      "sha256": "363260b94ddf8937e62742439c5ea9bf2eb646c27f9ac7bb8ffe897752290ef5"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/saved-work-search-private--df245-s-the-exact-source-at-390px-firefox/saved-search-390-light.png",
+      "bytes": 132692,
+      "sha256": "57fc4154ab222a1b47922f254c6d3d55de04b02763570a8962a5fc3894da5222"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/saved-work-search-private--df245-s-the-exact-source-at-390px-firefox/saved-search-results-390-dark.png",
+      "bytes": 131827,
+      "sha256": "e8387ef46deb3ab446c80deafd2e971fb1b1ac6141843816c81f41ea48414322"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/saved-work-search-private--df245-s-the-exact-source-at-390px-firefox/saved-search-results-390-light.png",
+      "bytes": 120757,
+      "sha256": "95d63c76b3aad07b3fa04a23f9663622203351a3c0f1bee9a6f2501ef077b633"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/saved-work-search-private--df245-s-the-exact-source-at-390px-firefox/source-search-390-dark.png",
+      "bytes": 165073,
+      "sha256": "5ee10220cff77b12b2e9f301f546d219afa0e4ee14b312c800b4fa11bfd7b5db"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/saved-work-search-private--df245-s-the-exact-source-at-390px-firefox/source-search-390-light.png",
+      "bytes": 157325,
+      "sha256": "15c0de2c4b4edc1ff435b184e4aa8677dc96f0110d0555da26bb4801b7336ebf"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/saved-work-search-private--df245-s-the-exact-source-at-390px-webkit/saved-search-390-dark.png",
+      "bytes": 278228,
+      "sha256": "c6b718352fa43cb94cb814526bd2f11c8d5d51a893e5960f1b0c18b92c186d0b"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/saved-work-search-private--df245-s-the-exact-source-at-390px-webkit/saved-search-390-light.png",
+      "bytes": 297131,
+      "sha256": "4081e6df62dd248a3feed2106aabf27a7ea0b4d3b6134a957673a785fc7bc90a"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/saved-work-search-private--df245-s-the-exact-source-at-390px-webkit/saved-search-results-390-dark.png",
+      "bytes": 224319,
+      "sha256": "67ba70d08adb105db59afd0701006875eb92cb9129d7e23d466e73cf4532a908"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/saved-work-search-private--df245-s-the-exact-source-at-390px-webkit/saved-search-results-390-light.png",
+      "bytes": 246505,
+      "sha256": "a05a7f81bbfe07d5bc34f6ecb2a161865888a05f3da6edea5ad76b8d675bcf62"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/saved-work-search-private--df245-s-the-exact-source-at-390px-webkit/source-search-390-dark.png",
+      "bytes": 95732,
+      "sha256": "b591774e0db54f4e3bdea5cbf9c16a70fe1fe5fd88925cf44a3cb9a9caad32fd"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/saved-work-search-private--df245-s-the-exact-source-at-390px-webkit/source-search-390-light.png",
+      "bytes": 94184,
+      "sha256": "87a048e5388025e4648f740a113181588e80f180aaf00dfc1f9c20640b6b38e8"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/saved-work-search-private--e21f2--the-exact-source-at-1440px-chromium/saved-search-1440-dark.png",
+      "bytes": 408344,
+      "sha256": "ad5660d2d019fd95130eae6e74108ccf228cabb7d36942699d41e14cc10a451c"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/saved-work-search-private--e21f2--the-exact-source-at-1440px-chromium/saved-search-1440-light.png",
+      "bytes": 312517,
+      "sha256": "1c5ad1c5c148506b234e5537d6f979e597c8ee63db5b8e3ad8f826a5421fa63d"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/saved-work-search-private--e21f2--the-exact-source-at-1440px-chromium/source-search-1440-dark.png",
+      "bytes": 255415,
+      "sha256": "5f0ccbc0371cd950537f580e8b53789460aee7057eda6af2d3ea9b526881eae2"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/saved-work-search-private--e21f2--the-exact-source-at-1440px-chromium/source-search-1440-light.png",
+      "bytes": 247287,
+      "sha256": "390c02a4f4eac403ef23c0e263a6ac749c7971b6e9cc7e98a27ebde5c652417e"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/saved-work-search-private--e21f2--the-exact-source-at-1440px-firefox/saved-search-1440-dark.png",
+      "bytes": 338100,
+      "sha256": "1d8577ce6afc57fd6f8253ef6fffc285931db5d788a84a28945b7d5ec41eb82e"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/saved-work-search-private--e21f2--the-exact-source-at-1440px-firefox/saved-search-1440-light.png",
+      "bytes": 309871,
+      "sha256": "3572445ee6c2b8778e26d29b507368bbc2d452d4a965687dd91b0d990488ac46"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/saved-work-search-private--e21f2--the-exact-source-at-1440px-firefox/source-search-1440-dark.png",
+      "bytes": 368331,
+      "sha256": "ba0b40e599b0b2539cb0dca6dc8cbe4d1cf81f8520b77bb79b714a5584fae603"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/saved-work-search-private--e21f2--the-exact-source-at-1440px-firefox/source-search-1440-light.png",
+      "bytes": 358015,
+      "sha256": "b67f8bd8d9bac17b3c1d6388329ebedb27fe78e0e8d967a1de332a51539832f0"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/saved-work-search-private--e21f2--the-exact-source-at-1440px-webkit/saved-search-1440-dark.png",
+      "bytes": 889333,
+      "sha256": "349bacf6d9448e480491db653898297104b7eb1f9ae2e1634b577ed319ffdf90"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/saved-work-search-private--e21f2--the-exact-source-at-1440px-webkit/saved-search-1440-light.png",
+      "bytes": 923358,
+      "sha256": "d96aac564515ee8f6dd07bff41e5216b8257d27018eb7b58382189db4aa0e366"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/saved-work-search-private--e21f2--the-exact-source-at-1440px-webkit/source-search-1440-dark.png",
+      "bytes": 405587,
+      "sha256": "f0e285ad9162f843eea95ca73fa9de393ba2a8dbc1441b571230d82496cb10f5"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/saved-work-search-private--e21f2--the-exact-source-at-1440px-webkit/source-search-1440-light.png",
+      "bytes": 425014,
+      "sha256": "9db7eef65bbbfab03c59a27e2811e47e169577bc2958cbb043df44889efe75f3"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/saved-work-search-private--f80bd--the-exact-source-at-1024px-chromium/saved-search-1024-dark.png",
+      "bytes": 340137,
+      "sha256": "4ad3d74175573ccf77f0ae6373606ce5f091df623d5c93447519662d795c4727"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/saved-work-search-private--f80bd--the-exact-source-at-1024px-chromium/saved-search-1024-light.png",
+      "bytes": 259433,
+      "sha256": "944d7b0c3c41166193092a05c051b49f2955f41bbab5cd63d3491b72e80e084e"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/saved-work-search-private--f80bd--the-exact-source-at-1024px-chromium/source-search-1024-dark.png",
+      "bytes": 197332,
+      "sha256": "df27206b2524dc4c309da71f70ae69ce0a49bd36a9909cb0c265e2e1f09e0933"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/saved-work-search-private--f80bd--the-exact-source-at-1024px-chromium/source-search-1024-light.png",
+      "bytes": 193533,
+      "sha256": "72bbc306b7ebb897ac8262c2ea899ed136eca404a4b152bdd2d4daa8d94ca4bc"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/saved-work-search-private--f80bd--the-exact-source-at-1024px-firefox/saved-search-1024-dark.png",
+      "bytes": 293786,
+      "sha256": "94982b2298e0b172130be4ffffc18420dbde69e7c829fa0c34224604f6f27ba4"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/saved-work-search-private--f80bd--the-exact-source-at-1024px-firefox/saved-search-1024-light.png",
+      "bytes": 266480,
+      "sha256": "4a7db9c5c8a586a4ff3a6b369412a918522a1c127ab8c88f18a65a32c4336923"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/saved-work-search-private--f80bd--the-exact-source-at-1024px-firefox/source-search-1024-dark.png",
+      "bytes": 315946,
+      "sha256": "8444728390f5e0d0a28a1f913bbbee4fd3b80b5eebc0e816e47f9da090ed9f6b"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/saved-work-search-private--f80bd--the-exact-source-at-1024px-firefox/source-search-1024-light.png",
+      "bytes": 307060,
+      "sha256": "0743deb3af078133aa82766bc0538c33f53759b010d226df0b28e6b4896c4696"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/saved-work-search-private--f80bd--the-exact-source-at-1024px-webkit/saved-search-1024-dark.png",
+      "bytes": 675570,
+      "sha256": "6f03051efcf3e3fcbdae9a4b509d1a68776c513a5095efd2d6d940d7ca8dd8e3"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/saved-work-search-private--f80bd--the-exact-source-at-1024px-webkit/saved-search-1024-light.png",
+      "bytes": 735440,
+      "sha256": "e78053bb55a1337e8920ef62c9b3861888c472b94f4e3149a18fe3b80dd22e76"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/saved-work-search-private--f80bd--the-exact-source-at-1024px-webkit/source-search-1024-dark.png",
+      "bytes": 287094,
+      "sha256": "dd383dd0666c898623b220b87cf3b717a81fda80d4e19980e7a5294c9837a6a9"
+    },
+    {
+      "path": "test-results/full-site-20261016-corrected/saved-work-search-private--f80bd--the-exact-source-at-1024px-webkit/source-search-1024-light.png",
+      "bytes": 303287,
+      "sha256": "03ce4331cbd71b77b6b7c445454e09522f6dc2580f9dfe776a94afc2a45efb03"
+    },
+    {
+      "path": "test-results/full-site-20261016-focus-complete/focus-session-focus-task-p-e2375--and-completion-work-at-390-chromium/focus-390-dark.png",
+      "bytes": 643376,
+      "sha256": "27e89b2dc1d9a6561bc6c2c6da9c9ee110cf87137523e4f095e4b63e90ac116a"
+    },
+    {
+      "path": "test-results/full-site-20261016-focus-complete/focus-session-focus-task-p-e2375--and-completion-work-at-390-chromium/focus-390-light.png",
+      "bytes": 584581,
+      "sha256": "cfe5585798afd5dbc916f9c5ae511870a7bdc8efafa782ee1e30acd5d37db8b2"
+    },
+    {
+      "path": "test-results/full-site-20261016-focus-complete/focus-session-focus-task-p-e2375--and-completion-work-at-390-firefox/focus-390-dark.png",
+      "bytes": 715025,
+      "sha256": "18df99c7186ccc09955a7827354cbe1cc2d146725d1d9d76d35b49cdd4ac8041"
+    },
+    {
+      "path": "test-results/full-site-20261016-focus-complete/focus-session-focus-task-p-e2375--and-completion-work-at-390-firefox/focus-390-light.png",
+      "bytes": 678845,
+      "sha256": "9c746df591d5c17df5f0198e5966006348d344997a4d3f90072a85d10ed6e0ea"
+    },
+    {
+      "path": "test-results/full-site-20261016-focus-complete/focus-session-focus-task-p-e2375--and-completion-work-at-390-webkit/focus-390-dark.png",
+      "bytes": 875751,
+      "sha256": "442cd5b99aeb850d60c0ee717fe514b1e0090d18234dc3e53d11f2d914a6650a"
+    },
+    {
+      "path": "test-results/full-site-20261016-focus-complete/focus-session-focus-task-p-e2375--and-completion-work-at-390-webkit/focus-390-light.png",
+      "bytes": 894772,
+      "sha256": "562d688a2b089da0547d7263ecab95a3f92b64219d1cf265d93a9de6e8fb0920"
+    },
+    {
+      "path": "test-results/full-site-20261016-focus-complete/focus-session-focus-task-p-f809b-and-completion-work-at-1440-chromium/focus-1440-dark.png",
+      "bytes": 854632,
+      "sha256": "ca50c1fc25516d4181d69aec29d5794fadbce3d29f1b149aa34bbc41245b8d40"
+    },
+    {
+      "path": "test-results/full-site-20261016-focus-complete/focus-session-focus-task-p-f809b-and-completion-work-at-1440-chromium/focus-1440-light.png",
+      "bytes": 743168,
+      "sha256": "5223ea789da7e51dc96e084350cf5e67c114c995684ecbe9720d67ece90d9fef"
+    },
+    {
+      "path": "test-results/full-site-20261016-focus-complete/focus-session-focus-task-p-f809b-and-completion-work-at-1440-firefox/focus-1440-dark.png",
+      "bytes": 912654,
+      "sha256": "9e35d74a57e28d5c5c76ef16536eb30dfa3b5436c5616b764a88a01063886457"
+    },
+    {
+      "path": "test-results/full-site-20261016-focus-complete/focus-session-focus-task-p-f809b-and-completion-work-at-1440-firefox/focus-1440-light.png",
+      "bytes": 866726,
+      "sha256": "110afc6dce6ac874c852c4e2d86a6fc3fa21743296ed39412d03af24a5ce3df8"
+    },
+    {
+      "path": "test-results/full-site-20261016-focus-complete/focus-session-focus-task-p-f809b-and-completion-work-at-1440-webkit/focus-1440-dark.png",
+      "bytes": 1463182,
+      "sha256": "52b74eb37144d1cd974a9d988d375ccefefd6297547e1e92ca928a55e51efc41"
+    },
+    {
+      "path": "test-results/full-site-20261016-focus-complete/focus-session-focus-task-p-f809b-and-completion-work-at-1440-webkit/focus-1440-light.png",
+      "bytes": 1463879,
+      "sha256": "8c160db0f948eade0b60c60daaa7bd15208737e6f92cfb37619ed6f31efef336"
+    },
+    {
+      "path": "test-results/full-site-20261016-focus-complete/focus-session-focus-task-p-ff8c4-and-completion-work-at-1024-chromium/focus-1024-dark.png",
+      "bytes": 793364,
+      "sha256": "0e760f08c09b8dbd111c1c38d3f974c8748364ba803312fbc45a00b265bc1321"
+    },
+    {
+      "path": "test-results/full-site-20261016-focus-complete/focus-session-focus-task-p-ff8c4-and-completion-work-at-1024-chromium/focus-1024-light.png",
+      "bytes": 696400,
+      "sha256": "80bbe5ee09b6f9b295a7470a6eef706b79760c9ecb3e585c521d730a06d7811f"
+    },
+    {
+      "path": "test-results/full-site-20261016-focus-complete/focus-session-focus-task-p-ff8c4-and-completion-work-at-1024-firefox/focus-1024-dark.png",
+      "bytes": 863076,
+      "sha256": "d518709fb390350608a5dd8ac72e2b8a95ac8bf0a2e949afa9aa262990e1d0e3"
+    },
+    {
+      "path": "test-results/full-site-20261016-focus-complete/focus-session-focus-task-p-ff8c4-and-completion-work-at-1024-firefox/focus-1024-light.png",
+      "bytes": 821037,
+      "sha256": "1f07e3b2d35e68304088a465da87ded88ad9be6efce7cbd240ed056daae6f806"
+    },
+    {
+      "path": "test-results/full-site-20261016-focus-complete/focus-session-focus-task-p-ff8c4-and-completion-work-at-1024-webkit/focus-1024-dark.png",
+      "bytes": 1251921,
+      "sha256": "a25630f1dc1629babfc6e4e12ac56ddb8b50c1f3efb8936b204b387c08ddd8fc"
+    },
+    {
+      "path": "test-results/full-site-20261016-focus-complete/focus-session-focus-task-p-ff8c4-and-completion-work-at-1024-webkit/focus-1024-light.png",
+      "bytes": 1282404,
+      "sha256": "6aec40711f8522e45dc69231f14d90706f6c914ffd48344fa3a5a891344e7975"
+    }
+  ],
+  "report": {
+    "path": "docs/FULL_SITE_FINISH_2026-10-16.md",
+    "bytes": 7541,
+    "sha256": "1c141381e47df17460c57a7fe06acc61bdbdd2b8a4910ccd0abe220955aac910"
+  }
+}

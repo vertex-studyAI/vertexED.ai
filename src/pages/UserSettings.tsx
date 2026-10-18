@@ -1,5 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import NeumorphicCard from "@/components/NeumorphicCard";
+import OfflineSettings from '@/components/OfflineSettings';
+import AiUsageSettings from '@/components/AiUsageSettings';
 import SavedWorkList, { ArtifactKindFilter } from "@/components/SavedWorkList";
 import CurriculumSelector from "@/components/curriculum/CurriculumSelector";
 import BoardBadge from "@/components/curriculum/BoardBadge";
@@ -382,7 +384,7 @@ export default function UserSettings() {
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
 
-      <PageSection className="max-w-2xl">
+      <PageSection className="user-settings-page max-w-2xl">
         <h1 className="text-3xl font-semibold mb-6 flex items-center gap-3 brand-text-gradient">
           <Settings className="h-8 w-8" />
           Account Settings
@@ -574,6 +576,8 @@ export default function UserSettings() {
             </button>
           </NeumorphicCard>
 
+          <AiUsageSettings key={user?.id ?? 'signed-out'} accountId={user?.id ?? null} />
+          <OfflineSettings />
           <NeumorphicCard className="p-8" title="Appearance & Accessibility">
             <div className="space-y-6">
               <div>
@@ -690,7 +694,7 @@ export default function UserSettings() {
 
               <button
                 onClick={handleLogout}
-                className="w-full neu-button text-left justify-start gap-3 py-4 border border-destructive/25 bg-destructive/10 hover:bg-destructive/15 text-destructive"
+                className="w-full neu-button text-left justify-start gap-3 py-4 border border-destructive/25 bg-destructive/10 hover:bg-destructive/15 text-destructive dark:text-destructive-foreground"
               >
                 <LogOut className="h-4 w-4" />
                 Sign Out
@@ -717,7 +721,7 @@ export default function UserSettings() {
               <button
                 onClick={() => void handleDeleteAccount()}
                 disabled={deletingAccount}
-                className="w-full neu-button text-left justify-start gap-3 py-4 border border-destructive/25 bg-destructive/10 hover:bg-destructive/15 text-destructive disabled:opacity-60"
+                className="w-full neu-button text-left justify-start gap-3 py-4 border border-destructive/25 bg-destructive/10 hover:bg-destructive/15 text-destructive dark:text-destructive-foreground disabled:opacity-60"
               >
                 <Trash2 className="h-4 w-4" />
                 {deletingAccount ? "Deleting account…" : "Delete Account"}

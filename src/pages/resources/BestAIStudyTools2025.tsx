@@ -7,18 +7,18 @@ export default function BestAIStudyTools2025() {
   return (
     <>
       <SEO
-        title="Choosing AI study tools in 2025 | VertexED"
+        title="Choosing AI study tools | VertexED"
         description="What to look for in AI study tools - rubric feedback, board-shaped mocks, spaced retrieval, and Socratic help - plus how VertexED fits into a real revision week."
         canonical="https://www.vertexed.app/resources/best-ai-study-tools-2025"
-        keywords="AI study tools 2025, exam preparation, study planner, flashcards, rubric feedback, IB IGCSE AP, VertexED"
+        keywords="AI study tools, exam preparation, study planner, flashcards, rubric feedback, IB IGCSE AP, VertexED"
       />
       <Article
         title="Choosing AI study tools that actually help with exams"
-        subtitle="A practical checklist for 2025 - accuracy, syllabus shape, and whether the tool closes the loop from practice to feedback to retrieval."
+        subtitle="A practical checklist for accuracy, syllabus shape, and whether a tool closes the loop from practice to feedback to retrieval."
         kicker="Guides"
       >
         <p className="lead">
-          AI study tools are everywhere in 2025. Most add a chat box to an existing app. Fewer help you
+          Many AI study tools add a chat box to an existing app. Fewer help you
           plan a realistic week, sit a mock under time, read mark-scheme feedback, and retrieve weak topics on schedule.
           This guide separates what matters for exam prep from what sounds impressive in a product demo.
         </p>
@@ -65,7 +65,7 @@ export default function BestAIStudyTools2025() {
           <strong>Best for:</strong> Heavy lecture loads - university seminars, long science units, humanities blocks.
         </p>
         <p>
-          Otter and similar tools excel at meeting transcription. For revision, the question is what happens after capture:
+          Transcription tools can reduce the effort of capturing a lecture. For revision, the question is what happens after capture:
           do definitions and formulas get extracted, or do you still re-read a 40-minute transcript? VertexED&apos;s notetaker
           is aimed at condensation into notes, then cards and quizzes - the step most students skip.
         </p>
@@ -78,7 +78,7 @@ export default function BestAIStudyTools2025() {
           <strong>Best for:</strong> Biology definitions, history dates, language vocabulary, formula recall.
         </p>
         <p>
-          Anki remains the standard for manual decks. AI tools that generate cards from PDFs can save time - if you edit
+          Manual spaced-repetition tools give you precise control over every card. AI tools that generate cards from PDFs can save time - if you edit
           cards for clarity and connect them to past-paper command words. VertexED schedules due cards on the dashboard
           and links weak decks to Paper Maker topics.
         </p>
@@ -97,7 +97,7 @@ export default function BestAIStudyTools2025() {
           <strong>Best for:</strong> Step two of a proof, essay thesis checks, explaining a mark-scheme phrase at 10 p.m.
         </p>
         <p>
-          Khanmigo and Apex both bias toward questions before answers. The useful pattern: state your attempt, ask for one
+          A useful tutoring pattern is to ask questions before giving an answer. State your attempt, ask for one
           guiding question, then retry. See our{" "}
           <Link to="/resources/ai-chatbot-tutor">Apex guide</Link> for prompt examples.
         </p>
@@ -140,7 +140,7 @@ export default function BestAIStudyTools2025() {
 
         <div className="article-footer">
           Cross-check all advice against your official syllabus and teacher feedback.
-          <div className="mt-1">Last updated: 2025-12-24 · VertexED team</div>
+          <div className="mt-1">Last updated: 2026-10-11 · VertexED team</div>
         </div>
 
         <hr className="article-divider" />

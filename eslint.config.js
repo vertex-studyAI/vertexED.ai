@@ -18,6 +18,11 @@ export default tseslint.config(
     },
   },
   {
+    files: ["scripts/offline-worker.js"],
+    languageOptions: { ecmaVersion: 2022, globals: globals.serviceworker, sourceType: "script" },
+    rules: { ...js.configs.recommended.rules },
+  },
+  {
     files: ["src/**/*.{js,mjs}"],
     languageOptions: { ecmaVersion: 2022, globals: globals.browser, sourceType: "module" },
     rules: { ...js.configs.recommended.rules },

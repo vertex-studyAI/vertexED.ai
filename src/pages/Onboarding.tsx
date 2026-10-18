@@ -7,13 +7,13 @@ import CurriculumSelector from "@/components/curriculum/CurriculumSelector";
 import { supabase } from "@/lib/supabaseClient";
 import { buildCurriculumMetadata, boardFromApiLabel, getGradesForBoard } from "@/lib/curriculum";
 import { authFetch } from "@/lib/apiAuth";
-import { createFirstStudyPlan } from "@/lib/onboardingPlan";
 import { isOnboardingComplete } from "@/lib/onboardingStatus.js";
-import { savePlannerSnapshot } from "@/lib/plannerSync";
+import { saveInitialStudyPlan } from "@/lib/onboardingPlanner";
+import { clearOnboardingDraft, readOnboardingDraft, writeOnboardingDraft } from "@/lib/onboardingRecovery.mjs";
 import { buildCurriculumProfileUpsert } from "@/lib/profileRecovery.mjs";
 import { trackProductEvent } from "@/lib/productAnalytics.mjs";
 import { markFirstSessionSyncNotice, markFirstSessionWelcome } from "@/lib/firstSessionHandoff.mjs";
-import { resolveSessionStorage } from "@/lib/browserStorage.mjs";
+import { resolveLocalStorage, resolveSessionStorage } from "@/lib/browserStorage.mjs";
 import { onboardingError } from "@/lib/onboardingError.mjs";
 import type { CurriculumPreference } from "@/types/curriculum";
 
@@ -27,27 +27,42 @@ const emptyCurriculum: CurriculumPreference = {
 };
 
 export default function Onboarding() {
+  const { user } = useAuth();
+  return <OnboardingForm key={user?.id ?? 'signed-out'} />;
+}
+
+function OnboardingForm() {
   const { user, session, profile } = useAuth();
   const navigate = useNavigate();
+  const [restoredSetup] = useState(() => readOnboardingDraft(
+    typeof window === 'undefined' ? null : resolveLocalStorage(window), user?.id,
+  ));
   const savedUsername = typeof user?.user_metadata?.username === "string"
     ? user.user_metadata.username.trim()
     : "";
   const hasSavedUsername = USERNAME_REGEX.test(savedUsername);
-  const [step, setStep] = useState(() => hasSavedUsername ? 2 : 1);
-  const [username, setUsername] = useState(savedUsername);
-  const [schoolName, setSchoolName] = useState(() => typeof profile?.school_name === 'string' ? profile.school_name : '');
-  const [curriculum, setCurriculum] = useState<CurriculumPreference>(emptyCurriculum);
+  const [step, setStep] = useState(() => restoredSetup.draft?.step ?? (hasSavedUsername ? 2 : 1));
+  const [username, setUsername] = useState(restoredSetup.draft?.username ?? savedUsername);
+  const [schoolName, setSchoolName] = useState(() => restoredSetup.draft?.schoolName ?? (typeof profile?.school_name === 'string' ? profile.school_name : ''));
+  const [curriculum, setCurriculum] = useState<CurriculumPreference>(restoredSetup.draft?.curriculum ?? emptyCurriculum);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [redirecting, setRedirecting] = useState(false);
   const [touched, setTouched] = useState(false);
-  const curriculumEdited = useRef(false);
+  const curriculumEdited = useRef(Boolean(restoredSetup.draft));
+  const draftRevisionRef = useRef(restoredSetup.revision);
+  const setupCompletedRef = useRef(false);
+  const [draftNotice, setDraftNotice] = useState<string | null>(restoredSetup.error);
   const saveRequestIdRef = useRef(0);
   const saveAccountIdRef = useRef<string | null>(user?.id ?? null);
   const [applicationNotice, setApplicationNotice] = useState('');
 
   useEffect(() => {
     if (!user?.id) return;
+    if (restoredSetup.draft) {
+      setApplicationNotice('Restored your unfinished setup saved on this device. Check your choices before continuing.');
+      return;
+    }
     const controller = new AbortController();
     curriculumEdited.current = false;
     setCurriculum(emptyCurriculum);
@@ -64,7 +79,16 @@ export default function Onboarding() {
       setApplicationNotice(board ? 'We brought your curriculum across from your application. Check your year and choose your subjects below.' : 'Your requested curriculum is recorded. Choose an available programme only if it matches your course.');
     }).catch(() => { /* Application prefill is optional. Manual setup remains available. */ });
     return () => controller.abort();
-  }, [user?.id]);
+  }, [user?.id, restoredSetup.draft]);
+
+  useEffect(() => {
+    if (!user?.id || loading || redirecting || setupCompletedRef.current) return;
+    const result = writeOnboardingDraft(resolveLocalStorage(window), user.id, {
+      version: 1, username, schoolName, curriculum, step,
+    }, draftRevisionRef.current);
+    if (result.ok) draftRevisionRef.current = result.revision;
+    setDraftNotice(result.ok ? null : result.error);
+  }, [user?.id, username, schoolName, curriculum, step, loading, redirecting]);
 
   useEffect(() => {
     const nextAccountId = user?.id ?? null;
@@ -150,14 +174,15 @@ export default function Onboarding() {
       // Persist while the existing session is stable. Supabase serializes auth
       // mutations, so starting an authenticated API request after updateUser can
       // otherwise wait behind the metadata refresh lock.
-      const planResult = await savePlannerSnapshot(
-        createFirstStudyPlan(curriculum),
+      const planResult = await saveInitialStudyPlan(
+        curriculum,
         initiatingAccountId,
         initiatingAccessToken,
       );
       if (!isCurrentSave() || !(await stillOwnsAuthSession())) return;
       if (!planResult.ok) {
-        throw new Error(planResult.error || "Could not save your starter plan.");
+        setError(planResult.error || "Could not save your starter plan.");
+        return;
       }
 
       const metadata = buildCurriculumMetadata(curriculum, {
@@ -184,6 +209,8 @@ export default function Onboarding() {
       const { error: updateError } = await supabase.auth.updateUser({ data: metadata });
       if (!isCurrentSave()) return;
       if (updateError) throw updateError;
+      setupCompletedRef.current = true;
+      clearOnboardingDraft(resolveLocalStorage(window), initiatingAccountId, draftRevisionRef.current);
 
       // These markers only drive optional dashboard messaging. Once planner,
       // profile, and auth state are durable, blocked session storage must not
@@ -232,6 +259,7 @@ export default function Onboarding() {
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,hsl(var(--primary)/0.12),transparent_35%),radial-gradient(circle_at_80%_20%,hsl(var(--accent)/0.08),transparent_30%)]" />
         <div className="relative mx-auto w-full max-w-2xl">
           <div className="glass-panel p-6 md:p-10">
+            {draftNotice && <p role="alert" className="alert-error mb-6">{draftNotice}</p>}
             <div className="mb-6 flex items-center justify-center gap-2" role="progressbar" aria-valuenow={step} aria-valuemin={1} aria-valuemax={2} aria-label="Onboarding progress">
               {[1, 2].map((currentStep) => <div key={currentStep} className={`h-1.5 w-12 rounded-full transition-colors duration-300 ${step >= currentStep ? "bg-primary" : "bg-foreground/15"}`} aria-hidden />)}
             </div>
@@ -246,7 +274,7 @@ export default function Onboarding() {
                 <form className="space-y-6" onSubmit={(event) => { event.preventDefault(); if (canAdvanceStep1) setStep(2); }}>
                   <div>
                     <label htmlFor="username" className="mb-2 block text-sm font-medium text-foreground/90">Username</label>
-                    <div className="neu-input"><input id="username" aria-label="Username" aria-invalid={touched && !usernameValid} aria-describedby="username-help username-error" autoComplete="username" autoCapitalize="none" autoCorrect="off" spellCheck={false} placeholder="Pick a username" className="neu-input-el" value={username} onChange={(event) => setUsername(event.target.value)} onBlur={() => setTouched(true)} maxLength={20} /></div>
+                    <div className="neu-input"><input id="username" aria-label="Username" aria-invalid={touched && !usernameValid} aria-describedby="username-help username-error" autoComplete="username" autoCapitalize="none" autoCorrect="off" spellCheck={false} placeholder="Pick a username" className="neu-input-el" value={username} onChange={(event) => { curriculumEdited.current = true; setUsername(event.target.value); }} onBlur={() => setTouched(true)} maxLength={20} /></div>
                     <div className="mt-2 flex items-center justify-between gap-3 text-xs text-muted-foreground" id="username-help"><span>{helperText}</span><span>{usernameLength}/20</span></div>
                     {touched && !usernameValid && trimmedUsername.length > 0 && <p id="username-error" className="mt-2 text-sm text-destructive" role="alert">Usernames must be 3–20 characters and may include letters, numbers, underscores, dots, and hyphens.</p>}
                   </div>
@@ -269,7 +297,7 @@ export default function Onboarding() {
                       id="school-name"
                       className="neu-input-el w-full"
                       value={schoolName}
-                      onChange={(event) => setSchoolName(event.target.value.slice(0, 160))}
+                      onChange={(event) => { curriculumEdited.current = true; setSchoolName(event.target.value.slice(0, 160)); }}
                       placeholder="Type your school name"
                       autoComplete="organization"
                       maxLength={160}
@@ -287,7 +315,7 @@ export default function Onboarding() {
                     <button type="submit" disabled={!canSave} className="w-full btn-solid py-3 disabled:cursor-not-allowed disabled:opacity-50">{loading ? "Creating your plan…" : "Create my study plan"}</button>
                   </div>
                   {loading && <p role="status" aria-live="polite" className="text-center text-sm leading-relaxed text-muted-foreground">Saving your starter plan. On a slow connection this can take a moment; keep this page open.</p>}
-                  <p className="text-center text-xs leading-relaxed text-muted-foreground">Your curriculum and plan are saved to your account. You can update them anytime in settings and the planner.</p>
+                  <p className="text-center text-xs leading-relaxed text-muted-foreground">Unfinished choices are saved on this device when storage is available. Creating your plan saves your curriculum to your account and reports if the planner still needs cloud sync.</p>
                 </form>
               </>
             )}

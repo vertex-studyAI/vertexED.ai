@@ -1,5 +1,28 @@
 # VertexED: the revision trace
 
+## Shared glass and radius hierarchy, 18 October 2026
+
+Blue liquid glass is restored to navigation, dialogs and bounded interactive
+panels. Reading and editing surfaces remain opaque enough for sustained work.
+Controls use 8px corners, paper uses 12px corners and glass shells use 24px
+corners. The material uses a static highlight, one blue-grey elevation recipe
+and a solid fallback for reduced transparency, forced colours and browsers
+without backdrop filtering. It adds no idle animation and keeps both themes in
+the established dark-blue family.
+
+## Offline and calendar journeys, 15 October 2026
+
+Calendar import separates file selection from event review. Keep the title and
+actions visible while the event list scrolls. Back preserves the chosen file;
+review and completion receive keyboard focus. Format details are optional
+disclosures. Show actual addition, duplicate and conflict counts, and require
+an explicit confirmation before removing an imported calendar.
+
+Offline study uses a device status, a short included/connection-required list
+and one cobalt primary action. Download removal is confirmed inline and keeps
+private work intact. Technical storage details belong in a disclosure. Reuse
+the workbook palette, native controls and existing modal; add no idle animation.
+
 ## Application mark, 21 September 2026
 
 The product rebuild explicitly requests a clearer favicon and installed-app mark.
@@ -123,3 +146,21 @@ New learners get one notebook entry point with a source, attempt, review and
 scheduled-retry guide. Saved-work filters cover the loaded collection and say
 when more pages remain. Shared save labels distinguish account, device, saving
 and failed states. A scheduled practice task does not establish measured mastery.
+
+## Study tools and planner navigation, 15 October 2026
+
+Study Tools starts with the learner's next task and six existing tools. A compact
+section index leads to formulas, methods, the exam checklist, command terms and
+offline controls. These are native links with visible keyboard focus; changing
+sections keeps formula working mounted. Incoming reference links open the relevant
+section after the route loads.
+
+On the study-tools page, Apex and feedback launchers follow the page content so
+they cannot cover reference text or task links on smaller screens.
+
+The planner puts the chosen date and agenda before workload totals. Previous and
+next controls follow the selected day or week view; a labelled native date input
+allows a direct jump. An empty day offers a task action for that specific date.
+Keep calendar import, export, save status and recovery controls available. Preserve
+blue and white surfaces, the original logo and the distinction between scheduled
+duration and measured study time.

@@ -1,8 +1,12 @@
 import { defineConfig, loadEnv, type ViteDevServer, type PreviewServer } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
+import { generateOfflineBundle } from './scripts/generate-offline-bundle.mjs';
+import { contentPublicationMiddleware, enforcePublishedContent } from './scripts/content-publication.mjs';
+import { contentPublicationModulesPlugin } from './scripts/content-publication-modules.mjs';
 
 function attachLocalApi(server: ViteDevServer | PreviewServer) {
+  server.middlewares.use(contentPublicationMiddleware());
   server.middlewares.use('/api', (req, res, next) => {
     void import('./api/_lib/nodeAdapter.js').then(({ nodeApiMiddleware }) => {
       return nodeApiMiddleware(req, res);
@@ -30,7 +34,16 @@ export default defineConfig(({ mode }) => {
     },
     preview: { cors: false },
     plugins: [
+      contentPublicationModulesPlugin(),
       react(),
+      {
+        name: 'public-offline-bundle',
+        apply: 'build',
+        async writeBundle(options) {
+          await enforcePublishedContent(options.dir || 'dist');
+          await generateOfflineBundle(options.dir || 'dist');
+        },
+      },
       {
         name: 'api-middleware',
         configureServer: attachLocalApi,

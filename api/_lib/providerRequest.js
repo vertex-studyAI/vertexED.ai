@@ -1,11 +1,11 @@
-import { fetchWithTimeout } from './fetchWithTimeout.js';
+import { fetchPaidProviderResponse } from './aiUsage.js';
 import { logProviderRun } from './providerTelemetry.js';
 
 /** Provider request wrapper with a hard deadline and fixed-field telemetry only. */
 export async function fetchProvider({ capability, provider, model, url, options, timeoutMs = 30_000 }) {
   const startedAt = Date.now();
   try {
-    const response = await fetchWithTimeout(url, options, timeoutMs);
+    const response = await fetchPaidProviderResponse({ capability, provider, model, url, options, timeoutMs });
     await logProviderRun({
       capability,
       provider,

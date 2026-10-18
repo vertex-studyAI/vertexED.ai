@@ -85,21 +85,26 @@ export const fetchChatbotAnswer = async (
   });
 
 	const endpoints = isStudyGuideChat ? [STUDY_GUIDE_ENDPOINT] : buildEndpoints();
+	const operationId = crypto.randomUUID();
 	let lastError: unknown = null;
 
 	for (const endpoint of endpoints) {
-		try {
 			const response = await authFetch(endpoint, {
 				method: "POST",
-				headers: { "Content-Type": "application/json" },
+				headers: { "Content-Type": "application/json", "Idempotency-Key": operationId },
 				body: payload,
         signal: request.signal,
 			});
 
 			const data = await parseJsonSafe(response);
-			if (!data) {
-				lastError = new Error(`Empty response from ${endpoint}`);
+			// Only a missing route is safe to try elsewhere automatically. A
+			// timeout, quota response or malformed success may follow paid work.
+			if (response.status === 404 || response.status === 405) {
+				lastError = new ChatbotApiError('The chatbot route is unavailable.', response.status);
 				continue;
+			}
+			if (!data) {
+				throw new Error('The chatbot service returned an empty response.');
 			}
 
 			if (!response.ok) {
@@ -107,23 +112,14 @@ export const fetchChatbotAnswer = async (
 					(typeof data.error === "string" && data.error.trim())
 						? data.error
 						: `Request failed with status ${response.status}`;
-				lastError = new ChatbotApiError(message, response.status);
-				continue;
+				throw new ChatbotApiError(message, response.status);
 			}
 
 			if (typeof data.error === "string" && data.error.trim()) {
-				lastError = new ChatbotApiError(data.error, response.status);
-				continue;
+				throw new ChatbotApiError(data.error, response.status);
 			}
 
 			return data;
-		} catch (error) {
-			lastError = error;
-			console.warn(
-				`Chatbot request to ${endpoint} failed`,
-				error instanceof Error ? error.name : 'UnknownError',
-			);
-		}
 	}
 
 	throw lastError ?? new Error("Unable to reach chatbot API");

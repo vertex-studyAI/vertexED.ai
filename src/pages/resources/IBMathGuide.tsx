@@ -113,7 +113,7 @@ export default function IBMathGuide() {
         <h2>FAQ</h2>
         <p><strong>Can I use AI for my IA?</strong> Brainstorming, maths checks, and structural feedback - yes. Writing the IA text - no. That is plagiarism.</p>
         <p><strong>Does VertexED support HL and SL?</strong> Yes - Paper Maker and Apex distinguish Standard and Higher Level content.</p>
-        <p><strong>How accurate is the mark scheme generator?</strong> It follows IB-style phrasing and point allocation, but always compare against official mark schemes for calibration.</p>
+        <p><strong>How accurate is the mark scheme generator?</strong> It produces provisional practice guidance. Check phrasing, point allocation and mathematical reasoning against the current official mark scheme or your teacher; generated material is not an official standard.</p>
 
         <div className="not-prose mt-8 flex gap-3 flex-wrap">
           <Link to="/paper-maker" className="neu-button">Generate math papers</Link>

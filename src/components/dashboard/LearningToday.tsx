@@ -10,6 +10,7 @@ import { plannerStorageKeys } from '@/lib/plannerStorageScope.mjs';
 import { normalizePlannerTasks, plannerDateToInput } from '@/lib/plannerTasks.mjs';
 import { getCurriculumPreference } from '@/lib/curriculum';
 import { localDayKey } from '@/lib/studyDates.mjs';
+import { courseworkDeadlines, validateCoursework } from '@/lib/coursework.mjs';
 import { getDueFlashcardCount } from '@/lib/srDeck';
 import '@/styles/learning-workspace.css';
 export default function LearningToday() {
@@ -17,6 +18,7 @@ export default function LearningToday() {
   const [minutes, setMinutes] = useState(15);
   const [resume, setResume] = useState<ReturnType<typeof parsePracticeSession>>(null);
   const [assessments, setAssessments] = useState<Array<{ subject: string; date: string }>>([]);
+  const [coursework, setCoursework] = useState<ReturnType<typeof courseworkDeadlines>>([]);
   const [plan, setPlan] = useState<ReturnType<typeof buildLearningPlan> | null>(null);
   const [error, setError] = useState('');
   const [saveError, setSaveError] = useState('');
@@ -31,6 +33,7 @@ export default function LearningToday() {
     try {
       const pref = getCurriculumPreference(user);
       const tasks = normalizePlannerTasks(JSON.parse(localStorage.getItem(plannerStorageKeys().tasks) || '[]'));
+      setCoursework(courseworkDeadlines(validateCoursework(JSON.parse(localStorage.getItem(plannerStorageKeys().coursework) || '[]')), localDayKey()).slice(0, 3));
       const exams = pref.examTargets.length ? pref.examTargets : pref.examDate ? pref.subjects.map(subject => ({ subject, date: pref.examDate })) : [];
       setResume(parsePracticeSession(localStorage.getItem(userContentStorageKeys().practiceSession)));
       setAssessments(exams.filter(e => e.date >= localDayKey()).sort((a, b) => a.date.localeCompare(b.date)).slice(0, 3));
@@ -65,6 +68,7 @@ export default function LearningToday() {
       {plan.backlog.length > 0 && <details><summary>{plan.backlog.length} items outside today's time budget</summary><ul>{plan.backlog.map(item => <li key={item.id}><Link to={item.to}>{item.title}</Link> · {item.minutes} min<p>{item.reason}</p></li>)}</ul></details>}
       {plan.model.some(n => n.status === 'weak' || n.reviewDue) && <section aria-label="Needs attention"><h3>Needs attention</h3><ul>{plan.model.filter(n => n.status === 'weak' || n.reviewDue).slice(0, 3).map(n => <li key={n.id}><Link to={'/learn?tab=knowledge&concept=' + encodeURIComponent(n.id)}>{n.label}</Link> · {n.status === 'weak' ? 'Recent errors' : 'Review due'}</li>)}</ul></section>}
       {assessments.length > 0 && <section aria-label="Upcoming assessments"><h3>Upcoming assessments</h3><ul>{assessments.map(e => <li key={e.subject + e.date}>{e.subject} · {new Date(e.date + 'T12:00:00').toLocaleDateString()} · <Link to="/exam-prep">Prepare</Link></li>)}</ul><p className="learning-meta">Dates from your profile. No readiness prediction.</p></section>}
+      {coursework.length > 0 && <section aria-label="Coursework deadlines"><h3>Coursework deadlines</h3><ul>{coursework.map(item => <li key={item.milestoneId}><Link to="/planner#coursework">{item.title}</Link> · {item.date}{item.overdue ? ' · Overdue' : ''}</li>)}</ul><p className="learning-meta">Your recorded deadlines. Open the planner to reserve study time.</p></section>}
       <p className="learning-meta">Suggestions use your saved attempts, deadlines and due reviews. Choose any item. Completing a task does not establish mastery.</p>
     </>}
   </section>;

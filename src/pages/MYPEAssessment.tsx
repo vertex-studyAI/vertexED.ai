@@ -1,62 +1,24 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router';
 import { ArrowLeft, ArrowRight, SlidersHorizontal } from 'lucide-react';
 import SEO from '@/components/SEO';
 import { MYP5_SUBJECTS, topicSlug } from '@/content/myp5';
-import { MYP5_LESSONS } from '@/content/myp5Lessons';
+import {
+  loadMypSubjectContent,
+  MYP5_CONTENT_TOTALS,
+  MYP5_SUBJECT_TOTALS,
+  type MypQuestionEntry,
+} from '@/content/myp5ContentClient';
 import '@/styles/myp5.css';
 
-const difficulties = ['All levels', 'Foundation', 'Standard', 'Advanced', 'Challenge'];
-const subjectNames = new Map(MYP5_SUBJECTS.map((subject) => [subject.slug, subject.name]));
-const questionBank = MYP5_LESSONS.flatMap((lesson) => lesson.practice.map((question) => ({
-  ...question,
-  lessonId: lesson.id,
-  topic: lesson.topic,
-  subjectSlug: lesson.subjectSlug,
-  subject: subjectNames.get(lesson.subjectSlug) ?? lesson.subjectSlug,
-})));
-
-export default function MYPEAssessment() {
-  const [difficulty, setDifficulty] = useState('All levels');
-  const [subject, setSubject] = useState('All subjects');
-  const subjects = ['All subjects', ...new Set(questionBank.map((question) => question.subject))];
-  const questions = useMemo(() => questionBank.filter((question) => (
-    (difficulty === 'All levels' || question.difficulty === difficulty)
-    && (subject === 'All subjects' || question.subject === subject)
-  )), [difficulty, subject]);
-
-  return (
-    <>
-      <SEO
-        title="MYP 5 eAssessment practice hub | VertexED"
-        description="Original MYP 5 eAssessment-style practice with command terms, timing, data response, source analysis and review strategies."
-        canonical="https://www.vertexed.app/myp/eassessment"
-      />
-      <div className="myp-page assessment-page">
-        <header className="assessment-hero">
-          <Link to="/myp" className="myp-back"><ArrowLeft aria-hidden /> MYP 5 hub</Link>
-          <p className="myp-kicker">VertexED Original Practice</p>
-          <h1>Read the task.<br /><em>Show the thinking.</em></h1>
-          <p>Practise unfamiliar contexts, command terms and sustained reasoning. These independently written questions are not official, confidential or reproduced IB examination material.</p>
-          <div className="myp-lesson-meta"><span>{questionBank.length} original questions</span><span>{MYP5_LESSONS.length} detailed modules</span><span>Solutions and success criteria</span></div>
-        </header>
-
-        <section className="assessment-technique" aria-labelledby="technique-title">
-          <div><p className="myp-kicker">01 / Exam technique</p><h2 id="technique-title">A repeatable review process.</h2></div>
-          <ol>
-            {[
+const ASSESSMENT_TECHNIQUE: string[][] = [
               ['Read', 'Mark the command term, context and number of marks.'],
               ['Plan', 'Choose the evidence, relationship or method before writing.'],
               ['Build', 'Make every step of the reasoning visible.'],
               ['Check', 'Return to the command term and test whether the conclusion answers it.'],
-            ].map(([name, copy], index) => <li key={name}><span>0{index + 1}</span><h3>{name}</h3><p>{copy}</p></li>)}
-          </ol>
-        </section>
+            ];
 
-        <section className="assessment-guides">
-          <p className="myp-kicker">02 / What to demonstrate</p>
-          <div>
-            {[
+const ASSESSMENT_GUIDANCE: string[][] = [
               ['Command terms', 'Translate the command term into an observable action before planning the answer.'],
               ['Timing', 'Use marks as a rough guide to depth and reserve time to check every part.'],
               ['Data response', 'Read title, axes, units and scale before describing or explaining a pattern.'],
@@ -65,20 +27,96 @@ export default function MYPEAssessment() {
               ['Calculation', 'Record the relationship and substitution before the final value and unit.'],
               ['Interdisciplinary thinking', 'Use more than one lens, then explain what their combination reveals.'],
               ['Final review', 'Check unsupported claims, skipped working, missing units and incomplete task parts.'],
-            ].map(([title, copy]) => <div key={title}><h3>{title}</h3><p>{copy}</p></div>)}
+            ];
+
+const difficulties = ['All levels', 'Foundation', 'Standard', 'Advanced', 'Challenge'];
+const subjectNames = new Map(MYP5_SUBJECTS.map((subject) => [subject.slug, subject.name]));
+const availableSubjects = MYP5_SUBJECTS.filter((subject) => MYP5_SUBJECT_TOTALS[subject.slug]?.questions > 0);
+
+export default function MYPEAssessment() {
+  const [difficulty, setDifficulty] = useState('All levels');
+  const [subject, setSubject] = useState('All subjects');
+  const [questionBank, setQuestionBank] = useState<MypQuestionEntry[]>([]);
+  const [contentError, setContentError] = useState('');
+  const [requestVersion, setRequestVersion] = useState(0);
+  const [reviewRequired, setReviewRequired] = useState(false);
+  const heldByCatalogue = Number(MYP5_CONTENT_TOTALS.questions) === 0;
+  const contentHeld = heldByCatalogue || reviewRequired;
+  const contentLoading = !contentHeld && questionBank.length === 0 && !contentError;
+  const subjects = ['All subjects', ...availableSubjects.map((entry) => entry.name)];
+
+  useEffect(() => {
+    let cancelled = false;
+    setQuestionBank([]);
+    setContentError('');
+    setReviewRequired(false);
+    if (heldByCatalogue) return () => { cancelled = true; };
+    Promise.all(availableSubjects.map((entry) => loadMypSubjectContent(entry.slug))).then((payloads) => {
+      if (cancelled) return;
+      const questions = payloads.flatMap((payload) => payload.lessons.flatMap((lesson) => lesson.practice.map((question) => ({
+        ...question,
+        lessonId: lesson.id,
+        topic: lesson.topic,
+        subjectSlug: lesson.subjectSlug,
+        subject: subjectNames.get(lesson.subjectSlug) ?? lesson.subjectSlug,
+      }))));
+      setQuestionBank(questions);
+    }).catch((error) => {
+      if (cancelled) return;
+      if (error?.code === 'CONTENT_REVIEW_REQUIRED') setReviewRequired(true);
+      else setContentError('The question bank could not be loaded. Check your connection and try again.');
+    });
+    return () => { cancelled = true; };
+  }, [heldByCatalogue, requestVersion]);
+  const questions = useMemo(() => questionBank.filter((question) => (
+    (difficulty === 'All levels' || question.difficulty === difficulty)
+    && (subject === 'All subjects' || question.subject === subject)
+  )), [difficulty, questionBank, subject]);
+
+  return (
+    <>
+      <SEO
+        title="MYP 5 eAssessment practice hub | VertexED"
+        description={contentHeld ? 'MYP 5 assessment overview. Original practice questions are awaiting subject review and are not available yet.' : 'Original MYP 5 eAssessment-style practice with command terms, timing, data response, source analysis and review strategies.'}
+        canonical="https://www.vertexed.app/myp/eassessment"
+      />
+      <div className="myp-page assessment-page">
+        <header className="assessment-hero">
+          <Link to="/myp" className="myp-back"><ArrowLeft aria-hidden /> MYP 5 hub</Link>
+          <p className="myp-kicker">{contentHeld ? 'Practice awaiting subject review' : 'VertexED Original Practice'}</p>
+          <h1>Read the task.<br /><em>Show the thinking.</em></h1>
+          <p>{contentHeld ? 'Practice questions are not available until subject review is complete. Use your teacher’s approved materials for current exam preparation.' : 'Practise unfamiliar contexts, command terms and sustained reasoning. These independently written questions are not official, confidential or reproduced IB examination material.'}</p>
+          <div className="myp-lesson-meta"><span>{MYP5_CONTENT_TOTALS.questions} available questions</span><span>{MYP5_CONTENT_TOTALS.lessons} available modules</span>{!contentHeld && <span>Solutions and success criteria</span>}</div>
+        </header>
+
+        <section className="assessment-technique" aria-labelledby="technique-title">
+          <div><p className="myp-kicker">01 / Exam technique</p><h2 id="technique-title">A repeatable review process.</h2></div>
+          <ol>
+            {!ASSESSMENT_TECHNIQUE.length && <li>Exam technique guidance is awaiting subject review.</li>}
+            {ASSESSMENT_TECHNIQUE.map(([name, copy], index) => <li key={name}><span>0{index + 1}</span><h3>{name}</h3><p>{copy}</p></li>)}
+          </ol>
+        </section>
+
+        <section className="assessment-guides">
+          <p className="myp-kicker">02 / What to demonstrate</p>
+          <div>
+            {!ASSESSMENT_GUIDANCE.length && <p>Assessment guidance is awaiting subject review.</p>}
+            {ASSESSMENT_GUIDANCE.map(([title, copy]) => <div key={title}><h3>{title}</h3><p>{copy}</p></div>)}
           </div>
         </section>
 
         <section className="assessment-bank" aria-labelledby="question-bank-title">
           <div className="assessment-bank-head">
-            <div><p className="myp-kicker">03 / Question bank</p><h2 id="question-bank-title">Choose the next attempt.</h2></div>
+            <div><p className="myp-kicker">03 / Question bank</p><h2 id="question-bank-title">{contentHeld ? 'Questions are awaiting subject review.' : 'Choose the next attempt.'}</h2></div>
             <SlidersHorizontal aria-hidden />
           </div>
-          <div className="assessment-filters">
+          {!contentHeld && <div className="assessment-filters">
             <label>Subject<select value={subject} onChange={(event) => setSubject(event.target.value)}>{subjects.map((entry) => <option key={entry}>{entry}</option>)}</select></label>
             <label>Difficulty<select value={difficulty} onChange={(event) => setDifficulty(event.target.value)}>{difficulties.map((entry) => <option key={entry}>{entry}</option>)}</select></label>
-          </div>
-          <p className="assessment-result-count" aria-live="polite">{questions.length} questions match these filters.</p>
+          </div>}
+          <p className="assessment-result-count" role="status">{contentHeld ? 'Reviewed practice is not available yet. You can browse the MYP subject directory while review is in progress.' : contentLoading ? 'Loading the question bank…' : contentError || `${questions.length} questions match these filters.`}</p>
+          {contentHeld && <Link to="/myp">Browse the MYP subject directory</Link>}
+          {contentError && <button type="button" onClick={() => setRequestVersion((version) => version + 1)}>Try again</button>}
           <div className="assessment-questions">
             {questions.map((question) => (
               <details className="assessment-question" key={question.id}>
@@ -103,7 +141,7 @@ export default function MYPEAssessment() {
               </details>
             ))}
           </div>
-          {questions.length === 0 && <p className="myp-empty">No questions match both filters.</p>}
+          {!contentHeld && !contentLoading && !contentError && questions.length === 0 && <p className="myp-empty">No questions match both filters.</p>}
         </section>
       </div>
     </>

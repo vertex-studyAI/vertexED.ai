@@ -1,0 +1,245 @@
+{
+  "recordedAt": "2026-10-15T15:06:08.199264+00:00",
+  "scope": "Local study-tools navigation and planner UX improvements",
+  "implemented": [
+    "Task-based directory for six existing study tools, followed by accessible section links and the formula desk",
+    "Section navigation preserves formula drafts; incoming formula and section links scroll correctly after lazy route mounting",
+    "Planner day/week stepping, direct native date input and keyboard submission",
+    "Empty-day task creation uses that specific day; complete seven-day calendar highlighting across month and year boundaries",
+    "Agenda precedes workload totals; compact phone controls and labelled calendar weekdays",
+    "Companion and feedback controls follow study-tools content to prevent overlap",
+    "New browser journeys included in reference and planner CI coverage"
+  ],
+  "checks": {
+    "applicationTests": {
+      "passed": 1386,
+      "failed": 0,
+      "skipped": 0
+    },
+    "focusedPlannerTests": {
+      "passed": 20,
+      "failed": 0
+    },
+    "browserInitial": {
+      "passed": 19,
+      "failed": 1,
+      "failure": "Formula section was not scrolled into view after reload with a URL hash; corrected and retained in initial log."
+    },
+    "browserCorrection": {
+      "passed": 20,
+      "failed": 0
+    },
+    "browserFinalPresentation": {
+      "passed": 9,
+      "failed": 0,
+      "note": "Affected study-tools, formula keyboard and offline journeys rerun after companion placement correction; overlaps the 20-case suite."
+    },
+    "typecheck": "PASS",
+    "build": "PASS",
+    "bundleBudgets": "PASS",
+    "lint": {
+      "errors": 0,
+      "legacyWarnings": 2,
+      "legacyWarningFiles": [
+        "src/components/ExamBaselinePractice.tsx:77",
+        "src/contexts/AuthContext.tsx:180"
+      ]
+    },
+    "copy": {
+      "files": 407,
+      "findings": 0,
+      "ruleTestsPassed": 2
+    },
+    "diffCheck": "PASS"
+  },
+  "visualReview": {
+    "widths": [
+      1440,
+      1024,
+      390
+    ],
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "keyboard": true,
+    "reducedMotion": true,
+    "corrections": [
+      "Restored section scrolling after reload",
+      "Moved workload summary below agenda",
+      "Kept complete selected weeks visible at month end",
+      "Prevented Apex overlap with tool cards"
+    ]
+  },
+  "verificationNote": "Full application suite passed after implementation. Subsequent presentation and calendar corrections were checked with focused planner tests, TypeScript/lint, fresh builds and browser journeys. Browser accounts and backend responses are synthetic local fixtures. No deployment performed.",
+  "files": [
+    {
+      "path": "src/pages/StudyTools.tsx",
+      "sha256": "1fb00eb4b67a059ed19463f53d92662567ea6f9d1df790eb7ae9c7fb6cbee848"
+    },
+    {
+      "path": "src/styles/study-tools-hub.css",
+      "sha256": "556472511ec9bc7238a9a0827c919213e1c373e2dbd55f750ce898d2c7eca3af"
+    },
+    {
+      "path": "src/features/study-calendar/PlannerView.tsx",
+      "sha256": "3cd49cc297d576584438f6cfe24e3acc6beafb979f1c72c9b8a5a4033cce1429"
+    },
+    {
+      "path": "src/features/study-calendar/components/DateNavigation.tsx",
+      "sha256": "59aa1eaf876d40ec87fc2c90ac2f0ee4f0ee9e496e91d2af452ba89c531b3320"
+    },
+    {
+      "path": "src/features/study-calendar/components/Calendar.tsx",
+      "sha256": "0b4839dd6a7eecb085931587fa3be3eb5f0709758b939ffca8e2de921cc497a4"
+    },
+    {
+      "path": "src/features/study-calendar/components/Schedule.tsx",
+      "sha256": "587767776a2721bdcb03af9aadb1909f02f556bcf15ccf7c797d904a0f5fbd9d"
+    },
+    {
+      "path": "src/features/study-calendar/styles/planner.css",
+      "sha256": "1fa1d87b1d5a501be34f12b29f9026dd928e7aeb6a108f9fec71701af3eb1590"
+    },
+    {
+      "path": "e2e/study-tools-hub.spec.ts",
+      "sha256": "b1684a2b19014603aad1774ad4a2da11a98d1c77e5d4dcadf909b1a6dde2b427"
+    },
+    {
+      "path": "e2e/learning-os.spec.ts",
+      "sha256": "d3b4dfbbb7b61217b938febb15662457b79c5fcad1d0374d2fcfe5c9c7d980c7"
+    },
+    {
+      "path": "playwright.navigation-ux.config.ts",
+      "sha256": "d2fdef9c8bbf9cc6bded962d8616b733f773ca4c67d328a7ff22086a6871d147"
+    },
+    {
+      "path": "playwright.reference.config.ts",
+      "sha256": "7d63ad0c1d6020fa91d603b29873db01c3c1c6b653194dd8d4f14264b9d24246"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "sha256": "2cd52ce0da33f12877bf22a59cd7a7a38a357ef5d30bf60a9135ed683d6a296a"
+    },
+    {
+      "path": "brand/DESIGN.md",
+      "sha256": "d821d41c49a89abbb15bfcbdd95224074589e486344aab9136b86db9900296e7"
+    }
+  ],
+  "logs": [
+    {
+      "path": ".tmp/ux-navigation-20261015/app-tests.log",
+      "sha256": "8ef381b4d08d139dd8f241e7709f4cb226342dc7bbbdf03c11db6cfd3848f7b5"
+    },
+    {
+      "path": ".tmp/ux-navigation-20261015/browser-correction.log",
+      "sha256": "e7897e18da891ab5d0996ec9e0c81f75bbf7fe94a8bab5398929aeab2a862b18"
+    },
+    {
+      "path": ".tmp/ux-navigation-20261015/browser-final.log",
+      "sha256": "76e4dd7a3f05a248dfbcd2ef7b0c80f7636b4caa5f764ad48798593051c6c3f7"
+    },
+    {
+      "path": ".tmp/ux-navigation-20261015/browser.log",
+      "sha256": "53e28183d048c240d7f801efd5bb6f891e9ed25c530c573de3dcba3ca80ff21c"
+    },
+    {
+      "path": ".tmp/ux-navigation-20261015/build-correction.log",
+      "sha256": "c4c2efb262664e450dad2d6df148b2a6843d8603911212b03355f800f0f69303"
+    },
+    {
+      "path": ".tmp/ux-navigation-20261015/build-final.log",
+      "sha256": "e9bd9a56624d0ed0021e93997186a31c84d1424ae4bf016996b7e2f9c8c9092e"
+    },
+    {
+      "path": ".tmp/ux-navigation-20261015/build.log",
+      "sha256": "1ea0558c5c2b2fde2bcdee0c9ceaae04697bffb5ed5d4d73a5a633cb0550d237"
+    },
+    {
+      "path": ".tmp/ux-navigation-20261015/bundle-final.log",
+      "sha256": "acc024f50f63c77f3f64ab068804fa83f422d0aef590f15abe75e212f4c4ec0a"
+    },
+    {
+      "path": ".tmp/ux-navigation-20261015/bundle.log",
+      "sha256": "6382dbfb63207c1a77fefc35fdf5c20cde4f88fb6822b7585cc710e2a6f7e64b"
+    },
+    {
+      "path": ".tmp/ux-navigation-20261015/lint-correction.log",
+      "sha256": "d8dc564fd78ac8691f28eb415110e0f3282ff114f5416083838592dd942ed780"
+    },
+    {
+      "path": ".tmp/ux-navigation-20261015/lint-final.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".tmp/ux-navigation-20261015/lint.log",
+      "sha256": "824845fdac92e04ff9807e7eaf56e0792562959061639552930469ef4f841d46"
+    },
+    {
+      "path": ".tmp/ux-navigation-20261015/planner-final.log",
+      "sha256": "ee9826129b42849b36e7ce49504fa26e7a5c477dea51e4a32c92d8a71f09b0bd"
+    },
+    {
+      "path": ".tmp/ux-navigation-20261015/typecheck-correction.log",
+      "sha256": "18613ddbee6bb1383ee22d4a41b90885223169ef27a680cb63aac1cdd738279f"
+    },
+    {
+      "path": ".tmp/ux-navigation-20261015/typecheck-final.log",
+      "sha256": "18613ddbee6bb1383ee22d4a41b90885223169ef27a680cb63aac1cdd738279f"
+    },
+    {
+      "path": ".tmp/ux-navigation-20261015/typecheck.log",
+      "sha256": "18613ddbee6bb1383ee22d4a41b90885223169ef27a680cb63aac1cdd738279f"
+    }
+  ],
+  "screenshots": [
+    {
+      "path": "test-results/navigation-ux-correction/learning-os-planner-naviga-4d331-s-to-the-chosen-day-at-1440/planner-navigation-1440-dark.png",
+      "sha256": "cabfa8c589fe7fb0d820f2256556f2be34fb1efa1a73d63e57fdbb819deed964"
+    },
+    {
+      "path": "test-results/navigation-ux-correction/learning-os-planner-naviga-4d331-s-to-the-chosen-day-at-1440/planner-navigation-1440-light.png",
+      "sha256": "383ed9a36798d687c8be497cb0840975fb40c3952e8fd247eba3187ee0251111"
+    },
+    {
+      "path": "test-results/navigation-ux-correction/learning-os-planner-naviga-a4f42-ds-to-the-chosen-day-at-390/planner-navigation-390-dark.png",
+      "sha256": "9618da7af17a7fa4549bd3b8d1262ed32e5f3aae45ad42f79720445a7fbe30c4"
+    },
+    {
+      "path": "test-results/navigation-ux-correction/learning-os-planner-naviga-a4f42-ds-to-the-chosen-day-at-390/planner-navigation-390-light.png",
+      "sha256": "2671c9f57b2f8a043a0bff70be8466acb7ebf2360451a4445324d037135b6968"
+    },
+    {
+      "path": "test-results/navigation-ux-correction/learning-os-planner-naviga-f092c-s-to-the-chosen-day-at-1024/planner-navigation-1024-dark.png",
+      "sha256": "d59b76e7fb120c27b536bdac90f8e7b6c582dace67d6bfdc6e57be3ba36fa0dc"
+    },
+    {
+      "path": "test-results/navigation-ux-correction/learning-os-planner-naviga-f092c-s-to-the-chosen-day-at-1024/planner-navigation-1024-light.png",
+      "sha256": "8da661585bfeedddb07a4cf58996b1f892f7edd683cacc5d4ccf2f109ad1a6a7"
+    },
+    {
+      "path": "test-results/navigation-ux-final/study-tools-hub-study-tool-566c0-s-section-shortcuts-at-1024/study-tools-hub-1024-dark.png",
+      "sha256": "c174bc221aba3e949d55ecdb29df0225ca4416078498a98c57a48ca00427e55f"
+    },
+    {
+      "path": "test-results/navigation-ux-final/study-tools-hub-study-tool-566c0-s-section-shortcuts-at-1024/study-tools-hub-1024-light.png",
+      "sha256": "26baa1574a216eee03740d54aa27b0a2e5e96362de30720705f87f4e9e0e9957"
+    },
+    {
+      "path": "test-results/navigation-ux-final/study-tools-hub-study-tool-7cc47-s-section-shortcuts-at-1440/study-tools-hub-1440-dark.png",
+      "sha256": "ce12ffec75d436d2915bc9c93e5a28560ba29de3b2d83ddca2304d41127d6fbc"
+    },
+    {
+      "path": "test-results/navigation-ux-final/study-tools-hub-study-tool-7cc47-s-section-shortcuts-at-1440/study-tools-hub-1440-light.png",
+      "sha256": "7b4ad356c744c40c55334368711094c493774cc2780995a37c9f2253d201961a"
+    },
+    {
+      "path": "test-results/navigation-ux-final/study-tools-hub-study-tool-e893d-ts-section-shortcuts-at-390/study-tools-hub-390-dark.png",
+      "sha256": "3898621d030ab01cf73f4fc22c9383104a68d6274b7ff1e4d487d696ecabd0ed"
+    },
+    {
+      "path": "test-results/navigation-ux-final/study-tools-hub-study-tool-e893d-ts-section-shortcuts-at-390/study-tools-hub-390-light.png",
+      "sha256": "6f153dd37007ae1d4297bfde56ffa9821db818908381e9d1f61ed73032b62a6f"
+    }
+  ]
+}

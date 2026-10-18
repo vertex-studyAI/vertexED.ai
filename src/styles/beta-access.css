@@ -1,0 +1,7 @@
+/* Recovery and study controls stay clear of optional floating launchers. */
+body:has(.beta-access-state, .user-settings-page, .study-zone-page, .saved-work-page, .site-shell[data-footer-visible="true"]) .feedback-launcher { position: static !important; margin: 16px 24px; color: hsl(var(--foreground)); }
+@media (max-width: 700px) {
+  body:has(.learning-bottom-nav):has(.beta-access-state, .user-settings-page, .study-zone-page, .saved-work-page, .site-shell[data-footer-visible="true"]) .feedback-launcher { margin-bottom: max(92px, calc(env(safe-area-inset-bottom) + 84px)); }
+}
+.beta-access-state :is(button, a).neu-button { color: hsl(var(--foreground)); background: hsl(var(--card)); border: 1px solid hsl(var(--border)); }
+.beta-access-state :is(button, a):focus-visible { outline: 2px solid hsl(var(--primary)); outline-offset: 4px; }

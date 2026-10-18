@@ -69,6 +69,7 @@ export default function MypPracticeWorkspace({
   const storageScope = authLoading ? undefined : user?.id ?? null;
   const [questionIndex, setQuestionIndex] = useState(0);
   const question = lesson.practice[questionIndex];
+  const usesModelResponse = ['english-language-literature', 'history', 'integrated-humanities', 'spanish', 'design', 'visual-arts', 'music', 'drama', 'personal-project', 'physical-health-education'].includes(lesson.subjectSlug);
   const restoredDraft = useMemo(() => readDraft(question.id, storageScope), [question.id, storageScope]);
   const [answer, setAnswer] = useState(restoredDraft?.answer ?? '');
   const [showHints, setShowHints] = useState(false);
@@ -98,7 +99,7 @@ export default function MypPracticeWorkspace({
 
   const scheduleRetry = (retryDays: 1 | 3 | 7) => {
     if (!showSolution) {
-      setStatus('Compare your attempt with the worked solution before recording a review.');
+      setStatus(usesModelResponse ? 'Compare your attempt with a model response before recording a review.' : 'Compare your attempt with the worked solution before recording a review.');
       return;
     }
     if (!confidence) {
@@ -145,6 +146,15 @@ export default function MypPracticeWorkspace({
         </div>
       </div>
 
+      <p className="myp-note">Question labels are editorial guidance, not calibrated difficulty or a measure of your proficiency.</p>
+      {lesson.subjectSlug === 'english-language-literature' && <p className="myp-note">The model response is one supported reading. Other interpretations can meet the criteria when supported by precise textual evidence.</p>}
+      {lesson.subjectSlug === 'history' && <p className="myp-note">History exercises use illustrative teaching cases. Newly written extracts are labelled fictional and are not archival documents. The model response is one supported approach; alternatives can meet the criteria with precise evidence. Apply these methods to your school’s sourced case studies.</p>}
+      {lesson.subjectSlug === 'integrated-humanities' && <p className="myp-note">New Integrated Humanities cases use hypothetical data and fictional source statements. The model response is one supported approach; alternatives can meet the criteria when they use the supplied evidence and preserve its limits.</p>}
+      {lesson.subjectSlug === 'spanish' && <p className="myp-note">Model responses show one valid approach. Accept other accurate wording and regional variants when meaning, register and the task criteria are met. Written speaking and listening rehearsals do not measure pronunciation or listening proficiency.</p>}
+      {['visual-arts', 'music', 'drama'].includes(lesson.subjectSlug) && <p className="myp-note">Arts model responses show one supported approach. These text-only exercises use original descriptions, fictional cases and dialogue; they do not supply images, audio or recordings, or assess making, listening or live performance. Use actual appropriately sourced work and your teacher’s guidance for practical assessment. Other interpretations can meet the practice criteria when supported by specific evidence.</p>}
+      {lesson.subjectSlug === 'physical-health-education' && <p className="myp-note">PHE examples and model responses practise educational reasoning. They are not personal medical, nutrition or exercise advice, and completing written tasks does not certify fitness or practical technique. Real activity needs appropriate guidance and accessible choices.</p>}
+      {lesson.subjectSlug === 'personal-project' && <p className="myp-note">Personal Project cases and model responses are original editorial practice. They do not report your own project experience or replace your school’s current requirements, supervisor guidance or assessment. Use actual dated evidence, credit assistance and retain unmet or untested criteria.</p>}
+      {lesson.subjectSlug === 'design' && <p className="myp-note">Design model responses show one supported approach. Other solutions can meet the brief when justified against the stated specifications and evidence. Criterion A–D headings are editorial practice within this topic map, not official rubric descriptors; use your teacher’s current assessment guidance.</p>}
       <div className="myp-question-picker" role="group" aria-label="Choose practice question">
         {lesson.practice.map((entry, index) => (
           <button
@@ -161,7 +171,7 @@ export default function MypPracticeWorkspace({
       <div className="myp-active-question">
         <div className="myp-question-line">
           <span>{question.command}</span>
-          <span>{question.marks} marks</span>
+          <span>Suggested practice marks: {question.marks}</span>
         </div>
         <h3>{question.prompt}</h3>
         <label htmlFor={`answer-${question.id}`}>Your answer</label>
@@ -193,7 +203,7 @@ export default function MypPracticeWorkspace({
       <div className="myp-self-review">
         <div>
           <h3>Check the evidence in your answer</h3>
-          <p>Reveal the worked solution, then mark only criteria you can point to in your own response.</p>
+          <p>Reveal {usesModelResponse ? 'the model response' : 'the worked solution'}, then mark only criteria you can point to in your own response.</p>
           <ul>{question.successCriteria.map((criterion, index) => {
             const checked = checkedCriteria.includes(criterion);
             return <li key={criterion}><input id={`${question.id}-criterion-${index}`} type="checkbox" checked={checked} disabled={!showSolution} onChange={() => setCheckedCriteria((current) => checked ? current.filter((item) => item !== criterion) : [...current, criterion])} /><label htmlFor={`${question.id}-criterion-${index}`}>{criterion}</label></li>;
@@ -201,7 +211,9 @@ export default function MypPracticeWorkspace({
         </div>
         <div>
           <button type="button" onClick={() => setShowSolution((value) => !value)} aria-expanded={showSolution}>
-            {showSolution ? 'Hide worked solution' : 'Compare with the worked solution'}
+            {usesModelResponse
+              ? (showSolution ? 'Hide model response' : 'Compare with a model response')
+              : (showSolution ? 'Hide worked solution' : 'Compare with the worked solution')}
           </button>
           {showSolution && <ol className="myp-solution">{question.solution.map((step) => <li key={step}>{step}</li>)}</ol>}
         </div>

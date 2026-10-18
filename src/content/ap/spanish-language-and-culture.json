@@ -1,0 +1,269 @@
+{
+  "slug": "spanish-language-and-culture",
+  "title": "AP Spanish Language and Culture",
+  "category": "World languages",
+  "summary": "Build source-based arguments and clear interpersonal responses in Spanish across six themes.",
+  "officialUrl": "https://apstudents.collegeboard.org/courses/ap-spanish-language-and-culture",
+  "frameworkNote": "Checked against the revised 2026-27 framework on 15 October 2026: six thematic units and a course project supporting exam speaking tasks. The 2027 project packet is due for release in January 2027. These original fictional text scenarios are practice, not authentic cultural sources or a completed project. Add authentic target-language research, listening, conversation and teacher feedback; text answers do not assess pronunciation or oral proficiency.",
+  "assessment": "mixed",
+  "modules": [
+    {
+      "title": "Read a community notice precisely",
+      "focus": "Families and communities: identify obligations and reply appropriately.",
+      "explanation": [
+        "A community notice often combines an invitation with practical restrictions. “Se requiere inscripción previa” means advance registration is required. “Se recomienda” only recommends an action. Distinguishing these expressions matters more than guessing from the general topic.",
+        "A response should answer the sender’s questions and add a relevant request. Use usted consistently in a formal exchange. Discuss the particular organisation described in the source rather than assuming that one notice represents every Spanish-speaking family or community."
+      ],
+      "workedExample": {
+        "prompt": "Reply formally to a fictional invitation that requires registration.",
+        "steps": [
+          "Confirm interest: “Me gustaría participar en el taller del sábado.”",
+          "Ask “¿Podría indicarme cómo debo inscribirme y si hay plazas disponibles?”"
+        ]
+      },
+      "misconception": {
+        "claim": "Recomendar and requerir express the same level of obligation.",
+        "correction": "A recommendation suggests; a requirement makes an action necessary."
+      },
+      "questions": [
+        {
+          "prompt": "What does “Se recomienda llegar diez minutos antes” require?",
+          "hint": "Read the level of obligation carefully.",
+          "answer": "It recommends arriving ten minutes early; the sentence does not make that timing an explicit requirement.",
+          "checkpoints": [
+            "Distinguishes recommendation",
+            "Keeps the time detail"
+          ],
+          "id": "spanish-language-and-culture-1-q1"
+        },
+        {
+          "prompt": "Ask formally whether materials are included.",
+          "hint": "Use podría or a courteous question.",
+          "answer": "“¿Podría decirme si los materiales están incluidos?”",
+          "checkpoints": [
+            "Uses formal register",
+            "Asks about the specified detail"
+          ],
+          "id": "spanish-language-and-culture-1-q2"
+        }
+      ],
+      "frameworkUnit": "Unit 1",
+      "id": "spanish-language-and-culture-1"
+    },
+    {
+      "title": "Trace identity and language choices",
+      "focus": "Language and culture: attribute perspectives and qualify claims.",
+      "explanation": [
+        "Speakers adjust language to audience, medium and purpose. A change between formal and informal wording may signal relationship or context; it does not by itself prove that one variety is inferior. Analyse a specific expression within the situation in which it appears.",
+        "Use attribution when summarising debate. “Según la autora” identifies a source’s claim, while “sin embargo” introduces a contrast. Avoid “todos” and “siempre” unless the evidence supports them. A few online comments can reveal viewpoints but cannot establish their prevalence across a population."
+      ],
+      "workedExample": {
+        "prompt": "Interpret “Muchos lectores usan la palabra; sin embargo, la autora prefiere otra expresión.”",
+        "steps": [
+          "Separate observed usage among readers from the author’s preference.",
+          "Explain that sin embargo marks a contrast, not a causal relationship."
+        ]
+      },
+      "misconception": {
+        "claim": "A frequent expression must be suitable in every context.",
+        "correction": "Frequency does not determine register, audience or appropriateness."
+      },
+      "questions": [
+        {
+          "prompt": "Attribute the claim “La expresión facilita la comunicación.”",
+          "hint": "Make the source visible.",
+          "answer": "“Según el autor, la expresión facilita la comunicación.”",
+          "checkpoints": [
+            "Names attribution",
+            "Preserves the claim"
+          ],
+          "id": "spanish-language-and-culture-2-q1"
+        },
+        {
+          "prompt": "Revise “Todos los jóvenes escriben así” using limited evidence.",
+          "hint": "Name the actual source set.",
+          "answer": "“En los mensajes analizados, varios jóvenes escriben así.”",
+          "checkpoints": [
+            "Limits the population",
+            "Avoids a universal stereotype"
+          ],
+          "id": "spanish-language-and-culture-2-q2"
+        }
+      ],
+      "frameworkUnit": "Unit 2",
+      "id": "spanish-language-and-culture-2"
+    },
+    {
+      "title": "Research music without inventing a culture",
+      "focus": "Art and creativity: support an interpretation with authentic sources.",
+      "explanation": [
+        "A musical work, its performance and the meanings listeners describe are distinct kinds of evidence. Identify the creator, community, occasion and source date. A recording may show musical features; an interview may explain a participant’s purpose. Neither should be stretched into a claim about every speaker of Spanish.",
+        "For project preparation, write notes in your own words and retain a traceable source reference. Compare more than one viewpoint where relevant. The 2027 official packet is not reproduced here, and fictional practice statements are not authentic research sources. Listening and speaking practice remain necessary."
+      ],
+      "workedExample": {
+        "prompt": "A fictional performer says “Adaptamos la canción para que los niños puedan participar.”",
+        "steps": [
+          "Identify the action: adapting a song.",
+          "Explain the stated aim: allowing children to participate. “Para que” introduces purpose and puedan uses the subjunctive."
+        ]
+      },
+      "misconception": {
+        "claim": "A cultural product automatically reveals a shared national perspective.",
+        "correction": "Interpretation needs context and evidence from the people and setting involved."
+      },
+      "questions": [
+        {
+          "prompt": "Paraphrase the performer’s purpose in Spanish.",
+          "hint": "Keep the focus on participation.",
+          "answer": "“El grupo modifica la canción con el fin de incluir a los niños.”",
+          "checkpoints": [
+            "Preserves purpose",
+            "Does not invent the musical change"
+          ],
+          "id": "spanish-language-and-culture-3-q1"
+        },
+        {
+          "prompt": "What source could show how the adaptation sounds?",
+          "hint": "Seek direct evidence of the product.",
+          "answer": "An authorised recording of the adapted performance, compared with a relevant earlier version if available.",
+          "checkpoints": [
+            "Uses audio evidence",
+            "Does not infer sound from text alone"
+          ],
+          "id": "spanish-language-and-culture-3-q2"
+        }
+      ],
+      "frameworkUnit": "Unit 3",
+      "id": "spanish-language-and-culture-3"
+    },
+    {
+      "title": "Use data in a technology argument",
+      "focus": "Science and technology: distinguish a result from a prediction.",
+      "explanation": [
+        "A chart needs a population, measure and timeframe. If fictional app use rises from 25% to 40%, the change is fifteen percentage points. The relative increase is 15/25 = 60%. These are different statements about the same values.",
+        "Use language that matches certainty. “Podría mejorar el acceso” suggests a possible benefit; “mejoró el acceso” claims an observed change. Support the latter with evidence and consider who might still be excluded. Convenience for connected users does not establish access for everyone."
+      ],
+      "workedExample": {
+        "prompt": "Describe the fictional change from 25% to 40% without overstating its scope.",
+        "steps": [
+          "Write “El uso aumentó quince puntos porcentuales entre los participantes.”",
+          "Add a limit: “Los datos no indican si la aplicación resulta accesible para quienes no tienen conexión.”"
+        ]
+      },
+      "misconception": {
+        "claim": "An increase of fifteen percentage points is always a 15% relative increase.",
+        "correction": "Relative increase divides the change by the initial value."
+      },
+      "questions": [
+        {
+          "prompt": "Calculate the relative increase from 20% to 30%.",
+          "hint": "Divide ten by twenty.",
+          "answer": "50%, while the absolute change is ten percentage points.",
+          "checkpoints": [
+            "Calculates correctly",
+            "Separates the two measures"
+          ],
+          "id": "spanish-language-and-culture-4-q1"
+        },
+        {
+          "prompt": "Make a cautious prediction about a translation tool.",
+          "hint": "Use podría and a defined use.",
+          "answer": "“La herramienta podría facilitar la lectura de instrucciones breves, aunque habría que comprobar su precisión.”",
+          "checkpoints": [
+            "Uses possibility",
+            "Includes a relevant limitation"
+          ],
+          "id": "spanish-language-and-culture-4-q2"
+        }
+      ],
+      "frameworkUnit": "Unit 4",
+      "id": "spanish-language-and-culture-4"
+    },
+    {
+      "title": "Explain a changed routine",
+      "focus": "Contemporary life: distinguish background and bounded events.",
+      "explanation": [
+        "The imperfect commonly describes repeated past activity or an ongoing background. The preterite commonly presents a bounded event. “Estudiaba en la biblioteca cuando empezó la tormenta” frames study as background and the storm’s beginning as an event.",
+        "A clear account also explains consequences. Use “desde entonces” to connect an event to a later routine, and distinguish your experience from a broader social claim. Tense choices express how the story is organised, not a rule that one tense is always for distant events."
+      ],
+      "workedExample": {
+        "prompt": "Describe a routine changed by a library’s relocation.",
+        "steps": [
+          "Set the background: “Antes, iba a la biblioteca después de clase.”",
+          "Add the change: “La biblioteca se trasladó y, desde entonces, estudio en otro lugar.”"
+        ]
+      },
+      "misconception": {
+        "claim": "The imperfect is used only for events that lasted a long time.",
+        "correction": "It presents background or habitual aspect; duration alone does not decide the tense."
+      },
+      "questions": [
+        {
+          "prompt": "Why use imperfect in “Cada domingo visitábamos a nuestros abuelos” ?",
+          "hint": "Notice cada domingo.",
+          "answer": "It describes a repeated past routine.",
+          "checkpoints": [
+            "Identifies repeated action",
+            "Connects tense to framing"
+          ],
+          "id": "spanish-language-and-culture-5-q1"
+        },
+        {
+          "prompt": "Complete a sentence with an interrupting event: “Leía cuando...”",
+          "hint": "Use a bounded event in the preterite.",
+          "answer": "“Leía cuando llegó mi amiga.”",
+          "checkpoints": [
+            "Maintains background",
+            "Adds a bounded arrival"
+          ],
+          "id": "spanish-language-and-culture-5-q2"
+        }
+      ],
+      "frameworkUnit": "Unit 5",
+      "id": "spanish-language-and-culture-5"
+    },
+    {
+      "title": "Defend a feasible local proposal",
+      "focus": "Global contexts: combine recommendation and condition.",
+      "explanation": [
+        "An argument should connect an action to a mechanism and a defined outcome. “Es importante que” commonly takes the subjunctive when it evaluates a proposed action: “Es importante que el proyecto incluya a los vecinos.” This expresses a recommendation, not proof that inclusion has occurred.",
+        "Compare options using the same criteria, such as cost, access and waste reduction. Explain a trade-off and identify the evidence needed to evaluate a trial. A fictional proposal can practise reasoning, but its predicted effects must not be reported as measured achievements."
+      ],
+      "workedExample": {
+        "prompt": "Recommend a fictional school refill station with a condition.",
+        "steps": [
+          "State “Propongo instalar una fuente para rellenar botellas y reducir los envases desechables.”",
+          "Add “Es importante que la escuela mantenga la fuente limpia y accesible.”"
+        ]
+      },
+      "misconception": {
+        "claim": "An argument is more persuasive when it guarantees success.",
+        "correction": "A defensible argument states what is expected, why, and under which conditions."
+      },
+      "questions": [
+        {
+          "prompt": "Why is mantenga used after “Es importante que” ?",
+          "hint": "The phrase evaluates a desired action.",
+          "answer": "The evaluative expression introduces a subjunctive clause about what should happen.",
+          "checkpoints": [
+            "Identifies subjunctive",
+            "Connects form to evaluation"
+          ],
+          "id": "spanish-language-and-culture-6-q1"
+        },
+        {
+          "prompt": "Name evidence that could test the refill proposal.",
+          "hint": "Measure an outcome before and after.",
+          "answer": "Comparable counts of disposable containers, alongside station use and maintenance records.",
+          "checkpoints": [
+            "Names a relevant measure",
+            "Includes implementation evidence"
+          ],
+          "id": "spanish-language-and-culture-6-q2"
+        }
+      ],
+      "frameworkUnit": "Unit 6",
+      "id": "spanish-language-and-culture-6"
+    }
+  ]
+}

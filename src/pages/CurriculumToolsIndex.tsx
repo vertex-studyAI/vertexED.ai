@@ -3,7 +3,7 @@ import { Link } from "react-router";
 import { ArrowRight, BookOpenCheck, Check, ChevronRight } from "lucide-react";
 
 import SEO from "@/components/SEO";
-import { CURRICULA, FEATURES } from "@/pages/CurriculumFeature";
+import { CURRICULA, FEATURES } from '@/content/curriculumDirectory';
 import { BOARD_CONFIGS } from "@/lib/curriculum";
 import type { ExamBoard } from "@/types/curriculum";
 import "@/styles/curriculum-directory.css";
@@ -75,6 +75,7 @@ export default function CurriculumToolsIndex() {
         </aside>
 
         <div className="curriculum-tool-list">
+          {selectedBoardId === "AP" && <Link to="/ap"><span>AP</span><div><h3>AP course library</h3><p>Explore every current AP course with original study modules, worked reasoning and practice.</p></div><ChevronRight aria-hidden /></Link>}
           {Object.entries(FEATURES).map(([featureSlug, feature], index) => <Link key={featureSlug} to={`/curricula/${selectedEntry[0]}/${featureSlug}`}>
             <span>{String(index + 1).padStart(2, "0")}</span>
             <div><h3>{feature.name}</h3><p>{feature.focus}</p></div>

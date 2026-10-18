@@ -1,0 +1,33 @@
+import assert from 'node:assert/strict';
+import test from 'node:test';
+import { readFile } from 'node:fs/promises';
+import { buildContentCoverage } from '../scripts/generate-content-coverage.mjs';
+
+test('coverage and review packet retain prepared assets without converting them to approval', async () => {
+  const report = await buildContentCoverage();
+  const persisted = JSON.parse(await readFile('docs/evidence/content-coverage-20261016.json', 'utf8'));
+  assert.deepEqual(report, persisted);
+  assert.deepEqual(report.summary.ap, { courses: 42, modules: 274, questions: 551 });
+  assert.deepEqual(report.summary.myp, { subjects: 17, lessons: 205, questions: 616 });
+  assert.equal(report.summary.guides.files, 245);
+  assert.equal(report.summary.guides.quarantined, 53);
+  assert.equal(report.summary.guides.approved, 0);
+  assert.equal(report.summary.approvedStaticAssets, 0);
+  assert.equal(report.summary.adaptiveQuestions, 35);
+  assert.equal(report.summary.formulaReferences, 30);
+  assert.equal(report.summary.examDrills, 25);
+  assert.equal(new Set(report.rows.map((row) => row.id)).size, report.rows.length);
+  assert.ok(report.rows.every((row) => row.reviewStatus !== 'approved'));
+  assert.ok(report.rows.every((row) => row.sourceFile && row.contentVersion && row.gaps.length));
+  assert.ok(report.mandatoryGaps.every((gap) => gap.status === 'OPEN'));
+  assert.deepEqual(new Set(report.mandatoryGaps.map((gap) => gap.programme)), new Set(['IB_DP', 'GCSE', 'IGCSE', 'IB_MYP']));
+  assert.ok(report.mandatoryGaps.some((gap) => gap.programme === 'IB_DP' && gap.subject === 'Computer Science'));
+  assert.equal(report.adaptiveHistoryBoundary.activeQuestions, 0);
+  assert.equal(report.summary.complexDefinitions, 5);
+  assert.ok(report.rows.filter((item) => item.id.startsWith('adaptive:')).every((item) => item.publicationStatus === 'held'));
+  assert.equal(report.summary.legacyEditorialArticles, 23);
+  assert.equal(report.summary.archiveSamples, 21);
+  assert.equal(report.summary.approvedLegacyUnits, 0);
+  assert.equal(report.deliverySurfaceInventory.staticTeachingBoundaries.length, 39);
+  assert.ok(report.rows.filter((item) => item.id.startsWith('legacy-module:') || item.id.startsWith('archive:')).every((item) => item.publicationStatus === 'held'));
+});

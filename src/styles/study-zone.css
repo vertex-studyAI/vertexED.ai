@@ -1,6 +1,13 @@
 /* Study Zone widget utilities — imported by index.css */
 
 @layer components {
+  .study-zone-page {
+    --zone-danger-text: 0 73.7% 41.8%;
+    --zone-calculator-action-text: 216 28% 12%;
+  }
+  .dark .study-zone-page {
+    --zone-danger-text: 0 93.5% 81.8%;
+  }
   .zone-stack {
     @apply grid gap-[18px];
   }
@@ -39,7 +46,7 @@
     background: hsl(var(--foreground) / 0.08);
     color: hsl(var(--foreground));
   }
-  .zone-pill[data-active] {
+  .zone-pill[data-active="true"] {
     border-color: var(--widget-accent, hsl(var(--primary)));
     background: var(--widget-accent, hsl(var(--primary)));
     color: hsl(var(--primary-foreground));
@@ -79,7 +86,7 @@
     @apply mt-1.5 min-h-[18px] text-sm text-muted-foreground;
   }
   .zone-calc-result.is-error {
-    color: hsl(var(--destructive));
+    color: hsl(var(--zone-danger-text, var(--destructive)));
   }
   .zone-keypad {
     @apply grid gap-2.5;
@@ -98,14 +105,14 @@
   .zone-key-primary {
     @apply zone-key border-none;
     background: var(--widget-accent, hsl(var(--primary)));
-    color: hsl(var(--primary-foreground));
+    color: hsl(var(--zone-calculator-action-text, 216 28% 12%));
     box-shadow: 0 14px 28px hsl(var(--foreground) / 0.12);
   }
   .zone-key-danger {
     @apply zone-key;
     border-color: hsl(var(--destructive) / 0.4);
     background: hsl(var(--destructive) / 0.12);
-    color: hsl(var(--destructive));
+    color: hsl(var(--zone-danger-text, var(--destructive)));
   }
   .zone-key:focus-visible,
   .zone-key-primary:focus-visible,
@@ -214,7 +221,7 @@
   .zone-note-btn:hover {
     border-color: hsl(var(--primary) / 0.28);
   }
-  .zone-note-btn[data-active] {
+  .zone-note-btn[data-active="true"] {
     border-color: var(--widget-accent, hsl(var(--primary)));
     background: hsl(var(--primary) / 0.12);
   }
@@ -231,6 +238,9 @@
 
   .zone-note-layout {
     @apply grid gap-6 items-start;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  }
+  .zone-note-layout > * {
+    min-width: 0;
   }
 }

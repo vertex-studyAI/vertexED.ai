@@ -40,9 +40,13 @@ export default async function handler(req, res) {
     const ip = getClientIp(req);
     const rate = await checkDbRateLimit('signup-invite', ip, 20, 60 * 60 * 1000);
     if (!rate.allowed) {
-      return res.status(429).json({
-        error: 'Too many signup attempts from this network. Wait a few minutes and try again.',
-        retryAfter: rate.retryAfterSec,
+      const retryAfter = rate.configurationError ? 30 : rate.retryAfterSec;
+      res.setHeader('Retry-After', String(retryAfter));
+      return res.status(rate.configurationError ? 503 : 429).json({
+        error: rate.configurationError
+          ? 'Account creation is temporarily unavailable. Please try again later.'
+          : 'Too many signup attempts from this network. Please wait and try again.',
+        retryAfter,
       });
     }
 

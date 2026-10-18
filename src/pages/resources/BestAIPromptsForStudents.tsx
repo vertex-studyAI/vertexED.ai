@@ -31,7 +31,7 @@ export default function BestAIPromptsForStudents() {
               }
             },
             datePublished: "2025-12-24",
-            dateModified: "2025-12-24"
+            dateModified: "2026-10-11"
           },
           {
             "@context": "https://schema.org",
@@ -50,7 +50,7 @@ export default function BestAIPromptsForStudents() {
                 name: "Why does AI sometimes ignore constraints?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "Models drop instructions on long threads. Reply with: 'You forgot the constraint: [constraint]. Try again.'"
+                  text: "AI may miss a constraint. Restate the question, the relevant source and the constraint: 'You forgot the constraint: [constraint]. Try again.'"
                 }
               },
               {
@@ -58,7 +58,7 @@ export default function BestAIPromptsForStudents() {
                 name: "Which model is best?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "For logic and maths, use a stronger model (GPT-4o or Claude 3.5, both available in VertexED). For vocabulary swaps or brainstorming, lighter models are usually fine."
+                  text: "Choose the study interaction you need in Apex. The server selects the configured provider and model; a model name is not a guarantee of a correct answer. Check the working and sources."
                 }
               }
             ]
@@ -71,9 +71,8 @@ export default function BestAIPromptsForStudents() {
         kicker="Guides"
       >
         <p className="lead">
-          Most students ask AI like a search engine: &ldquo;What is mitochondria?&rdquo; That gets you a paragraph you
-          will not remember. Better prompts treat AI like a tutor who asks first, grades against a rubric, or
-          generates practice - then you retry without help. Here are prompts that fit a real revision week.
+          Give the AI your question, relevant source and current attempt. Ask for one next step, an explanation
+          or a practice question, then check the response and retry without help. Here are prompts that fit a real revision week.
         </p>
 
         <h2>General study prompts</h2>
@@ -85,7 +84,7 @@ export default function BestAIPromptsForStudents() {
             <strong>Core links:</strong> &ldquo;What are the three ideas I need to connect to understand [subject]? How do they link?&rdquo;
           </li>
           <li className="article-callout">
-            <strong>High-yield triage:</strong> &ldquo;I have an exam on [subject] in ten days. Which topics appear most often on [board] past papers? Rank the top five.&rdquo;
+            <strong>High-yield triage:</strong> &ldquo;I have an exam on [subject] in ten days. Here is my topic checklist and the questions I missed: [material]. Help me prioritise revision using only this evidence. Do not predict exam topics or invent past-paper frequencies.&rdquo;
           </li>
         </ul>
 
@@ -95,7 +94,7 @@ export default function BestAIPromptsForStudents() {
             <strong>Socratic solver:</strong> &ldquo;I am stuck on this problem: [insert problem]. Don&apos;t give the answer. Ask me one question that helps me find the first step.&rdquo;
           </li>
           <li className="article-callout">
-            <strong>Error check:</strong> &ldquo;Here is my working for a physics problem. I got the wrong answer. Find my mistake and explain why I made it.&rdquo;
+            <strong>Error check:</strong> &ldquo;Here is my working for a physics problem. I got the wrong answer. Check each step against the question and supplied answer key. Identify the first supported error, or say if you cannot locate one. Do not guess why I made it.&rdquo;
           </li>
           <li className="article-callout">
             <strong>Real-world link:</strong> &ldquo;Give one engineering example of [calculus concept] so I understand why we use it on [board] papers.&rdquo;
@@ -108,7 +107,7 @@ export default function BestAIPromptsForStudents() {
             <strong>Counter-argument drill:</strong> &ldquo;Here is my thesis: [thesis]. Argue against it. Give me three strong counter-arguments.&rdquo;
           </li>
           <li className="article-callout">
-            <strong>Rubric grader:</strong> &ldquo;Act as an IB/AP examiner. Grade this paragraph against the criterion &lsquo;Critical Analysis&rsquo;. Name what is missing.&rdquo;
+            <strong>Rubric grader:</strong> &ldquo;Here is the task, my paragraph and the exact marking criterion: [material]. Quote evidence from my paragraph, identify missing support and suggest one revision. Keep any mark provisional.&rdquo;
           </li>
           <li className="article-callout">
             <strong>Precision upgrade:</strong> &ldquo;Rewrite this sentence to sound more academic, but keep the meaning exactly the same: [sentence].&rdquo;
@@ -127,30 +126,30 @@ export default function BestAIPromptsForStudents() {
           A useful prompt has three parts:
         </p>
         <ol>
-          <li><strong>Persona:</strong> &ldquo;Act as a&hellip;&rdquo; (examiner, tutor, peer).</li>
-          <li><strong>Task:</strong> &ldquo;Explain / grade / quiz&hellip;&rdquo;</li>
+          <li><strong>Context:</strong> Give your course, the question, the source and what you have tried.</li>
+          <li><strong>Task:</strong> Ask for an explanation, a hint or one practice question.</li>
           <li><strong>Constraint:</strong> &ldquo;In under 100 words&rdquo;, &ldquo;using an analogy&rdquo;, &ldquo;strictly following the rubric&rdquo;.</li>
         </ol>
 
         <h2>FAQ</h2>
         <p><strong>Can I save these prompts?</strong> Yes - keep a small library in your notes app, or use VertexED&apos;s built-in templates in Apex.</p>
-        <p><strong>Why does AI sometimes ignore constraints?</strong> Models drop instructions on long threads. Reply with: &ldquo;You forgot the constraint: [constraint]. Try again.&rdquo;</p>
-        <p><strong>Which model is best?</strong> For logic and maths, use a stronger model (GPT-4o or Claude 3.5, both available in VertexED). For vocabulary swaps or brainstorming, lighter models are usually fine.</p>
+        <p><strong>Why does AI sometimes ignore constraints?</strong> AI may miss a constraint. Restate the question, the relevant source and the constraint: &ldquo;You forgot the constraint: [constraint]. Try again.&rdquo;</p>
+        <p><strong>Which model is best?</strong> Choose the study interaction you need in Apex. The server selects the configured provider and model; a model name is not a guarantee of a correct answer. Check the working and sources.</p>
 
         <div className="not-prose mt-8 flex gap-3 flex-wrap">
           <Link to="/chatbot" className="neu-button">Try these in Apex</Link>
           <Link to="/notetaker" className="neu-button">Summarize notes</Link>
         </div>
 
-        <h2 className="mt-10">Evidence &amp; references</h2>
+        <h2 className="mt-10">Using these prompts in VertexED</h2>
         <ul>
-          <li>Mollick, E. (2024): Co-Intelligence - working with AI as a study partner.</li>
-          <li>OpenAI (2023): Prompt Engineering Guide.</li>
+          <li><Link to="/resources/ai-chatbot-tutor">Using Apex: interaction modes, source checks and retries.</Link></li>
+          <li><Link to="/resources/ai-answer-reviewer">Answer Reviewer: checking provisional feedback.</Link></li>
         </ul>
 
         <div className="article-footer">
           Editorial note: Prompts are tools. You still have to do the retrieval and the exam write-up yourself.
-          <div className="mt-1">Last updated: 2025-12-24 · Author: VertexED Team</div>
+          <div className="mt-1">Last updated: 11 October 2026 · Author: VertexED Team</div>
         </div>
 
         <hr className="article-divider" />

@@ -1,4 +1,5 @@
 import type { BoardConfig, CurriculumPreference, ExamBoard } from '@/types/curriculum';
+import { AP_COURSES } from '../content/apCatalogue.ts';
 import { normalizeExamTargets } from './examTargets.mjs';
 
 function range(start: number, end: number): number[] {
@@ -86,13 +87,9 @@ export const BOARD_CONFIGS: Record<ExamBoard, BoardConfig> = {
     label: 'AP',
     shortLabel: 'AP',
     gradeRange: [10, 12],
-    subjects: [
-      'Calculus AB', 'Calculus BC', 'Biology', 'Chemistry', 'Physics 1',
-      'Physics C', 'US History', 'World History', 'Psychology', 'Statistics',
-      'English Language', 'English Literature', 'Economics',
-    ],
+    subjects: AP_COURSES.map((course) => course.title.replace(/^AP /, '')),
     commandTerms: ['Analyze', 'Calculate', 'Compare', 'Define', 'Describe', 'Evaluate', 'Explain', 'Identify', 'Justify', 'Predict'],
-    features: ['FRQ vs MCQ modes', 'Unit-based paths', 'AP scoring rubrics'],
+    features: ['Course-specific study modules', 'Original practice and self-review', 'Official course references'],
   },
   CBSE: {
     id: 'CBSE',
@@ -341,11 +338,11 @@ export const BOARD_LEARNING_TRACKS: BoardLearningTrack[] = [
     ],
   },
   {
-    title: 'AP Unit Practice',
-    to: '/paper-maker',
+    title: 'AP course library',
+    to: '/ap',
     boards: ['AP'],
     tools: [
-      { label: 'FRQ practice', to: '/paper-maker' },
+      { label: 'Course modules', to: '/ap' },
       { label: 'MCQ drill', to: '/notetaker' },
       { label: 'Answer review', to: '/answer-reviewer' },
     ],

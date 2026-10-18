@@ -75,6 +75,9 @@ export async function getAccountWaitlistEntry(supabase, user) {
   if (error) throw error;
   if (entry) return entry;
 
+  // Email ownership is proven only by the Auth server, never by editable
+  // metadata. An unverified shared-project identity cannot claim an invite.
+  if (!user.email_confirmed_at || user.is_anonymous) return null;
   const email = normalizeEmail(user.email);
   if (!email) return null;
 

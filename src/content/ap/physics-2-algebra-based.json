@@ -1,0 +1,314 @@
+{
+  "slug": "physics-2-algebra-based",
+  "title": "AP Physics 2: Algebra-Based",
+  "category": "Sciences",
+  "summary": "Explore thermal physics, fields, circuits, optics, waves and modern physics.",
+  "officialUrl": "https://apstudents.collegeboard.org/courses/ap-physics-2-algebra-based",
+  "frameworkNote": "Unit map checked against College Board on 15 October 2026 for the 2026-27 course. Each unit has one focused original revision lesson, not exhaustive topic coverage or an official practice paper. Preserves official Units 9–15, continuing Physics 1 numbering. Fluids belong to Physics 1 in the current framework, not this course.",
+  "assessment": "exam",
+  "modules": [
+    {
+      "id": "unit-9",
+      "title": "Thermodynamic energy accounting",
+      "frameworkUnit": "Unit 9",
+      "focus": "State the work convention before applying the first law.",
+      "explanation": [
+        "Internal energy changes through heat transfer and work. With W defined as work done by a gas, the first law is ΔU=Q-W. Heat entering the gas is positive and expansion work is positive under this convention.",
+        "An ideal gas satisfies PV=nRT using absolute temperature. Temperature measures a property related to average particle kinetic energy, whereas heat describes energy transfer. A cyclic process returns internal energy to its starting value but can still transfer heat and perform net work."
+      ],
+      "workedExample": {
+        "prompt": "A gas absorbs 500 J and does 180 J of work. Find its internal-energy change.",
+        "steps": [
+          "Use Q=+500 J and W=+180 J with work-by-gas positive.",
+          "ΔU=500-180=+320 J."
+        ]
+      },
+      "misconception": {
+        "claim": "Heat and internal energy are interchangeable names.",
+        "correction": "Heat is energy transferred because of temperature difference; internal energy is a system property."
+      },
+      "questions": [
+        {
+          "prompt": "At constant volume, an ideal gas’s kelvin temperature doubles. What happens to pressure?",
+          "hint": "Use P proportional to T at fixed n and V.",
+          "answer": "Pressure doubles.",
+          "checkpoints": [
+            "Use absolute temperature.",
+            "Keep amount and volume fixed."
+          ],
+          "id": "unit-9-q1"
+        },
+        {
+          "prompt": "Over a complete cycle, a gas does 90 J net work. Find net heat absorbed.",
+          "hint": "The internal-energy change over a cycle is zero.",
+          "answer": "90 J.",
+          "checkpoints": [
+            "Set 0=Q-W.",
+            "Use the stated work convention."
+          ],
+          "id": "unit-9-q2"
+        }
+      ]
+    },
+    {
+      "id": "unit-10",
+      "title": "Electric fields and potential differences",
+      "frameworkUnit": "Unit 10",
+      "focus": "Distinguish force per charge from energy per charge.",
+      "explanation": [
+        "Electric field is force per positive test charge, and electric potential difference is potential-energy change per charge. Field is a vector, while potential is a scalar. A negative charge experiences force opposite to the field direction.",
+        "For an isolated point charge, field magnitude varies as 1/r² and potential relative to infinity varies as 1/r. Superpose field vectors or potential scalars appropriately. Moving along an equipotential changes no electric potential energy for a fixed charge."
+      ],
+      "workedExample": {
+        "prompt": "A +2 microcoulomb charge moves through a potential increase of 30 V. Find its electric potential-energy change.",
+        "steps": [
+          "Use ΔU=qΔV with q=2×10⁻⁶ C.",
+          "ΔU=6×10⁻⁵ J=60 microjoules, a positive increase."
+        ]
+      },
+      "misconception": {
+        "claim": "A zero potential necessarily means zero electric field.",
+        "correction": "Potential depends on a reference; field depends on spatial changes in potential."
+      },
+      "questions": [
+        {
+          "prompt": "A -3 microcoulomb charge is in a 200 N/C field to the right. Find force.",
+          "hint": "Use F=qE and the charge sign.",
+          "answer": "6×10⁻⁴ N to the left.",
+          "checkpoints": [
+            "Magnitude uses ",
+            "q",
+            ".",
+            "Negative charge reverses direction."
+          ],
+          "id": "unit-10-q1"
+        },
+        {
+          "prompt": "Distance from a point charge doubles. How does field magnitude change?",
+          "hint": "Use the inverse-square relation.",
+          "answer": "It becomes one quarter.",
+          "checkpoints": [
+            "Hold source charge fixed.",
+            "Square the distance factor."
+          ],
+          "id": "unit-10-q2"
+        }
+      ]
+    },
+    {
+      "id": "unit-11",
+      "title": "Circuits and conserved current",
+      "frameworkUnit": "Unit 11",
+      "focus": "Combine resistors according to their connections.",
+      "explanation": [
+        "In a steady circuit, charge conservation requires current entering a junction to equal current leaving it. Series components carry the same current, while parallel branches share the same potential difference between common nodes.",
+        "Ohm’s law V=IR applies to an ohmic resistor under its operating conditions. Power can be written IV, I²R or V²/R. A battery supplies energy per charge; current is not consumed as it passes through a resistor."
+      ],
+      "workedExample": {
+        "prompt": "Find equivalent resistance and battery current for 6 Ω and 3 Ω resistors in parallel across 12 V.",
+        "steps": [
+          "1/Req=1/6+1/3=1/2, so Req=2 Ω.",
+          "Total current is 12/2=6 A; branches carry 2 A and 4 A."
+        ]
+      },
+      "misconception": {
+        "claim": "Current is used up by the first resistor in a series circuit.",
+        "correction": "Charge is conserved, so steady current is the same throughout that series path."
+      },
+      "questions": [
+        {
+          "prompt": "A 4 Ω resistor carries 3 A. Find dissipated power.",
+          "hint": "Use I²R.",
+          "answer": "36 W.",
+          "checkpoints": [
+            "Square the current.",
+            "Multiply by resistance."
+          ],
+          "id": "unit-11-q1"
+        },
+        {
+          "prompt": "What is the equivalent resistance of 2 Ω and 5 Ω in series?",
+          "hint": "Series voltage drops add for a shared current.",
+          "answer": "7 Ω.",
+          "checkpoints": [
+            "Add the resistances.",
+            "Do not use the parallel reciprocal rule."
+          ],
+          "id": "unit-11-q2"
+        }
+      ]
+    },
+    {
+      "id": "unit-12",
+      "title": "Magnetic force and changing flux",
+      "frameworkUnit": "Unit 12",
+      "focus": "Use direction as well as magnitude.",
+      "explanation": [
+        "A moving charge in a magnetic field experiences force qv×B. Its magnitude is |q|vB sin θ, so motion parallel to the field produces no magnetic force. The force is perpendicular to velocity and does no work on a point charge by itself.",
+        "A changing magnetic flux through a loop can induce an electromotive force. Lenz’s law gives a response opposing the change in flux, not necessarily opposing the existing field. Changes in field, area or orientation can all alter flux."
+      ],
+      "workedExample": {
+        "prompt": "A +2 C charge moves at 3 m/s perpendicular to a 4 T magnetic field. Find force magnitude.",
+        "steps": [
+          "The angle is 90°, so sin θ=1.",
+          "Force magnitude is 2(3)(4)=24 N, perpendicular to both velocity and field."
+        ]
+      },
+      "misconception": {
+        "claim": "A magnetic force always increases a particle’s kinetic energy.",
+        "correction": "Its perpendicular direction changes motion direction without directly doing work."
+      },
+      "questions": [
+        {
+          "prompt": "What magnetic force acts on a charge moving parallel to a uniform field?",
+          "hint": "Evaluate sin 0.",
+          "answer": "Zero.",
+          "checkpoints": [
+            "The velocity-field angle is zero.",
+            "Charge and speed alone are insufficient."
+          ],
+          "id": "unit-12-q1"
+        },
+        {
+          "prompt": "Flux into a page is increasing through a loop. Which way is the induced field?",
+          "hint": "Oppose the change in flux.",
+          "answer": "Out of the page.",
+          "checkpoints": [
+            "Identify the increasing into-page flux.",
+            "Use Lenz’s law."
+          ],
+          "id": "unit-12-q2"
+        }
+      ]
+    },
+    {
+      "id": "unit-13",
+      "title": "Thin lenses and image signs",
+      "frameworkUnit": "Unit 13",
+      "focus": "Use one consistent lens convention.",
+      "explanation": [
+        "For a thin lens, 1/f=1/do+1/di under the usual real-is-positive convention. A converging lens has positive f; a real object has positive do. Positive di locates a real image on the opposite side of the lens.",
+        "Magnification is -di/do. Its sign indicates orientation and its magnitude indicates size ratio. A negative image distance instead describes a virtual image under this convention. Draw principal rays to check the algebraic prediction."
+      ],
+      "workedExample": {
+        "prompt": "A converging lens has f=10 cm and an object at do=30 cm. Find image distance and magnification.",
+        "steps": [
+          "1/di=1/10-1/30=1/15, so di=15 cm.",
+          "m=-15/30=-0.5: the real image is inverted and half as tall."
+        ]
+      },
+      "misconception": {
+        "claim": "A negative magnification means an impossible image.",
+        "correction": "It means the image is inverted relative to the object."
+      },
+      "questions": [
+        {
+          "prompt": "An object is 20 cm from a lens with f=10 cm. Find di.",
+          "hint": "Subtract 1/do from 1/f.",
+          "answer": "20 cm.",
+          "checkpoints": [
+            "1/di=1/20.",
+            "The image is real."
+          ],
+          "id": "unit-13-q1"
+        },
+        {
+          "prompt": "Light passes from air into glass of larger refractive index at an oblique angle. Which way does it bend?",
+          "hint": "Use Snell’s law.",
+          "answer": "Toward the normal.",
+          "checkpoints": [
+            "The larger index requires a smaller sine of the refracted angle.",
+            "Measure angles from the normal."
+          ],
+          "id": "unit-13-q2"
+        }
+      ]
+    },
+    {
+      "id": "unit-14",
+      "title": "Wave speed and interference",
+      "frameworkUnit": "Unit 14",
+      "focus": "Keep source frequency separate from medium speed.",
+      "explanation": [
+        "Wave speed satisfies v=fλ. When a wave enters a different medium, its source frequency normally stays fixed while speed and wavelength can change. Amplitude describes oscillation size and is distinct from wavelength.",
+        "For coherent waves, path difference controls interference. Integer multiples of wavelength give constructive interference when sources begin in phase; half-integer multiples give destructive interference for equal-amplitude waves. Boundary conditions also determine standing-wave frequencies."
+      ],
+      "workedExample": {
+        "prompt": "A sound wave travels at 340 m/s with frequency 170 Hz. Find wavelength.",
+        "steps": [
+          "Use λ=v/f.",
+          "The wavelength is 340/170=2 m."
+        ]
+      },
+      "misconception": {
+        "claim": "Crossing a medium boundary necessarily changes the source frequency.",
+        "correction": "Frequency remains set by the source; speed and wavelength adjust."
+      },
+      "questions": [
+        {
+          "prompt": "Two in-phase waves have path difference 1.5 wavelengths. What interference occurs?",
+          "hint": "Express the difference as a half-integer.",
+          "answer": "Destructive interference; complete cancellation requires equal amplitudes.",
+          "checkpoints": [
+            "1.5 is an odd half-integer.",
+            "State the amplitude condition."
+          ],
+          "id": "unit-14-q1"
+        },
+        {
+          "prompt": "A string fixed at both ends has length 0.8 m and wave speed 40 m/s. Find fundamental frequency.",
+          "hint": "The fundamental wavelength is 2L.",
+          "answer": "25 Hz.",
+          "checkpoints": [
+            "λ=1.6 m.",
+            "Use v/λ."
+          ],
+          "id": "unit-14-q2"
+        }
+      ]
+    },
+    {
+      "id": "unit-15",
+      "title": "Photons and radioactive half-life",
+      "frameworkUnit": "Unit 15",
+      "focus": "Distinguish energy per photon from photon number.",
+      "explanation": [
+        "A photon has energy hf. In the photoelectric effect, electrons are emitted only when individual photons supply enough energy to exceed the work function. Above threshold, the maximum kinetic energy is hf-φ; intensity mainly changes the arrival rate of photons at fixed frequency.",
+        "Radioactive decay is probabilistic for an individual nucleus but follows a predictable exponential pattern for a large population. After each half-life, the expected remaining undecayed fraction halves. Nuclear reactions must conserve charge and nucleon number in the usual reaction bookkeeping."
+      ],
+      "workedExample": {
+        "prompt": "Photons of energy 5 eV strike a material with work function 2 eV. Find maximum photoelectron kinetic energy.",
+        "steps": [
+          "Each photon supplies 5 eV and 2 eV is required for escape.",
+          "The maximum remaining kinetic energy is 3 eV."
+        ]
+      },
+      "misconception": {
+        "claim": "Increasing intensity below threshold guarantees photoemission in the basic model.",
+        "correction": "More low-energy photons still do not supply sufficient energy per photon."
+      },
+      "questions": [
+        {
+          "prompt": "A sample has 800 undecayed nuclei initially. What expected number remains after three half-lives?",
+          "hint": "Halve three times.",
+          "answer": "100.",
+          "checkpoints": [
+            "800×(1/2)³=100.",
+            "This is an expected population value."
+          ],
+          "id": "unit-15-q1"
+        },
+        {
+          "prompt": "Photon frequency doubles. How does energy per photon change?",
+          "hint": "Use E=hf.",
+          "answer": "It doubles.",
+          "checkpoints": [
+            "Planck’s constant stays fixed.",
+            "Distinguish photon energy from beam intensity."
+          ],
+          "id": "unit-15-q2"
+        }
+      ]
+    }
+  ]
+}

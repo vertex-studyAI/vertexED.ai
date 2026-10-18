@@ -2,7 +2,11 @@
 export function parseConceptMap(source) {
   const nodes = new Map();
   const edges = [];
-  const text = String(source).replace(/```(?:mermaid)?/g, '').trim();
+  // Source notes belong outside the diagram and must not be parsed as nodes.
+  const raw = String(source).trim();
+  if (raw.length > 20_000) return null;
+  const fenced = raw.match(/^```mermaid\s*\n([\s\S]*?)\n```(?:\s|$)/);
+  const text = fenced ? fenced[1].trim() : raw.replace(/```(?:mermaid)?/g, '').trim();
   if (text.length > 20_000) return null;
   const lines = text.split(/[\n;]/).map(line => line.trim()).filter(Boolean);
   if (!/^(flowchart|graph)\s+(TD|TB|LR)$/.test(lines.shift() || '')) return null;

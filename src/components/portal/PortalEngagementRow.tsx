@@ -26,7 +26,7 @@ export default function PortalEngagementRow({ profile }: Props) {
   const terms = getCommandTermsForBoard(profile.curriculum.board);
   const [drillIndex, setDrillIndex] = useState(0);
   const [drillRevealed, setDrillRevealed] = useState(false);
-  const term = terms[drillIndex % terms.length];
+  const term = terms.length ? terms[drillIndex % terms.length] : null;
 
   const sendToApex = () => {
     const text = capture.trim();
@@ -43,6 +43,7 @@ export default function PortalEngagementRow({ profile }: Props) {
   };
 
   const nextDrill = () => {
+    if (!terms.length) return;
     setDrillRevealed(false);
     setDrillIndex((i) => (i + 1) % terms.length);
   };
@@ -55,9 +56,11 @@ export default function PortalEngagementRow({ profile }: Props) {
           <p className="text-sm font-semibold">Quick Capture</p>
         </div>
         <p className="text-xs text-muted-foreground mb-3">
-          Jot a doubt mid-session - Apex opens with your question ready.
+          Keep a question beside your session. Apex opens with your draft ready.
         </p>
+        <label htmlFor="member-quick-capture" className="sr-only">Question for Apex</label>
         <textarea
+          id="member-quick-capture"
           value={capture}
           onChange={(e) => setCapture(e.target.value)}
           placeholder="What's confusing you right now?"
@@ -76,7 +79,7 @@ export default function PortalEngagementRow({ profile }: Props) {
       </PortalWidget>
 
       <PortalWidget id="confidence-checkin" span={1}>
-        <p className="text-sm font-semibold mb-1">Confidence Check-in</p>
+        <p className="text-sm font-semibold mb-1">Confidence check-in</p>
         <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-2">
           How confident do you feel in each subject today?
         </p>
@@ -91,19 +94,24 @@ export default function PortalEngagementRow({ profile }: Props) {
           <div className="space-y-3">
             {confidence.map((row) => (
               <div key={row.subject}>
-                <p className="text-xs text-muted-foreground mb-1.5 truncate">{row.subject}</p>
-                <div className="flex gap-1">
+                <div className="portal-confidence-heading">
+                  <p>{row.subject}</p>
+                  <span>{row.rating === null ? 'Not set' : CONFIDENCE_LABELS[row.rating - 1]}</span>
+                </div>
+                <div className="portal-confidence-scale" role="radiogroup" aria-label={`${row.subject} confidence`}>
                   {([1, 2, 3, 4, 5] as const).map((n) => (
                     <button
                       key={n}
                       type="button"
+                      role="radio"
+                      aria-checked={row.rating === n}
                       aria-label={`${row.subject} confidence ${n} of 5 - ${CONFIDENCE_LABELS[n - 1]}`}
                       onClick={() => {
                         setConfidenceRating(row.subject, n);
                         setConfidence(getConfidenceRatings(subjects));
                       }}
-                      className={`portal-confidence-dot ${row.rating >= n ? 'portal-confidence-dot-active' : ''}`}
-                    />
+                      className={`portal-confidence-dot ${row.rating === n ? 'portal-confidence-dot-active' : ''}`}
+                    >{n}</button>
                   ))}
                 </div>
               </div>
@@ -112,7 +120,7 @@ export default function PortalEngagementRow({ profile }: Props) {
         ) : (
           <div className="rounded-xl border border-border/60 bg-foreground/[0.03] p-4 text-center">
             <p className="text-xs text-muted-foreground mb-3">
-              Add your subjects in settings to rate confidence per subject - we use this in your adaptive plan.
+              Add subjects in settings to record a confidence check-in. Apex can use a saved low-confidence subject when you ask for help.
             </p>
             <Link to="/user-settings" className="btn-glass text-xs inline-flex items-center gap-1.5">
               <Settings className="h-3 w-3" />
@@ -124,33 +132,42 @@ export default function PortalEngagementRow({ profile }: Props) {
 
       <PortalWidget id="command-drill" span={1}>
         <div className="flex items-center justify-between gap-2 mb-2">
-          <p className="text-sm font-semibold">Command Word Drill</p>
-          <button
+          <p className="text-sm font-semibold">Command word drill</p>
+          {term && <button
             type="button"
             onClick={nextDrill}
             className="text-muted-foreground hover:text-primary transition"
             aria-label="Next term"
           >
             <RefreshCw className="h-3.5 w-3.5" />
-          </button>
+          </button>}
         </div>
-        <p className="text-xs text-muted-foreground mb-3">
-          {profile.curriculum.board
-            ? 'Mark-scheme verbs for your board - tap to reveal, then try using it in an answer.'
-            : 'Set your exam board in settings for board-specific command terms.'}
-        </p>
-        <button
-          type="button"
-          onClick={() => setDrillRevealed((r) => !r)}
-          className="w-full text-left portal-drill-card"
-        >
-          <p className="text-lg font-bold text-primary">{term.term}</p>
-          {drillRevealed ? (
-            <p className="text-sm text-muted-foreground mt-2 leading-relaxed">{term.definition}</p>
-          ) : (
-            <p className="text-xs text-muted-foreground mt-2 italic">Tap to reveal mark-scheme meaning</p>
-          )}
-        </button>
+        {term ? (
+          <>
+            <p className="text-xs text-muted-foreground mb-3">
+              {profile.curriculum.board
+                ? 'Review a board command word, then try using it in an answer.'
+                : 'Set your exam board in settings for board-specific command terms.'}
+            </p>
+            <button
+              type="button"
+              onClick={() => setDrillRevealed((r) => !r)}
+              className="w-full text-left portal-drill-card"
+              aria-expanded={drillRevealed}
+            >
+              <p className="text-lg font-bold text-primary">{term.term}</p>
+              {drillRevealed ? (
+                <p className="text-sm text-muted-foreground mt-2 leading-relaxed">{term.definition}</p>
+              ) : (
+                <p className="text-xs text-muted-foreground mt-2">Show meaning</p>
+              )}
+            </button>
+          </>
+        ) : (
+          <p className="text-sm text-muted-foreground">
+            Command term definitions are awaiting subject review. Check your course’s current official guidance.
+          </p>
+        )}
       </PortalWidget>
     </div>
   );

@@ -1,162 +1,45 @@
-import React from "react";
-import Article from "@/components/Article";
-import SEO from "@/components/SEO";
-import { Link } from "react-router";
+import Article from '@/components/Article';
+import SEO from '@/components/SEO';
+import BreadcrumbsJsonLd from '@/components/BreadcrumbsJsonLd';
+import { Link } from 'react-router';
 
 export default function AutomatedNoteTakingGuide() {
   return (
     <>
-      <SEO
-        title="Automated note taking for revision | VertexED"
-        description="When AI handles capture, you can listen in class and turn lectures into summaries, flashcards, and quizzes the same evening - without transcribing word for word."
-        canonical="https://www.vertexed.app/resources/automated-note-taking-guide"
-        keywords="automated note taking, AI note taker, summarize lecture notes, convert notes to flashcards, study efficiency, VertexED"
-      />
-      <Article
-        title="Automated note taking: capture, then actually learn"
-        subtitle="Offload transcription so you can listen in class - then turn material into retrieval the same evening."
-        kicker="Guides"
-      >
-        <p className="lead">
-          Writing everything the teacher says feels productive. Often it is not. Splitting attention between
-          listening and transcribing means you capture words without encoding meaning - a notebook full of
-          lines you will not revisit before the mock.
-        </p>
-        <p>
-          <strong>Automated note taking</strong> moves capture to AI so your working memory stays on the
-          explanation. The catch: a transcript alone is not revision. This guide covers when automation helps,
-          how it works, and the workflow that turns notes into flashcards and quizzes.
-        </p>
+      <SEO title="Automated note taking: capture, then review | VertexED" description="Keep the original material beside the draft. Check it before turning it into practice." canonical="https://www.vertexed.app/resources/automated-note-taking-guide" ogType="article" />
+      <BreadcrumbsJsonLd />
+      <Article title="Automated note taking: capture, then review" subtitle="Keep the original material beside the draft. Check it before turning it into practice." kicker="Study guide">
 
-        <h2>Why manual transcription often fails</h2>
-        <p>
-          The forgetting curve is steep - you lose a large share of new information within an hour. Notes
-          are meant to slow that loss. But if you are focused on <em>transcribing</em> (word-for-word), you
-          are not engaging in <em>encoding</em> (processing what it means).
-        </p>
-        <p>
-          <strong>Where AI helps:</strong> Speech-to-text and summarization handle capture. That frees you
-          to ask questions, spot links, and note what confused you while the lecture is still fresh.
-        </p>
-
-        <h2>How automated note taking works</h2>
-        <p>
-          Most tools combine two steps:
-        </p>
+        <p className="lead">AI can help organise study material, but a readable summary can still omit an important condition or misread a term. Use <Link to="/notetaker">AI Notes and Quiz</Link> for editable notes and recordings, or <Link to="/study-notebook">Study Notebook</Link> to work with a set of sources.</p>
+        <h2>Choose the right input</h2>
+        <ul>
+          <li><strong>Existing notes:</strong> paste the relevant text and choose the note format you want.</li>
+          <li><strong>Audio:</strong> use the recording controls only when you have permission to record and share the material. Review the transcript before relying on the summary.</li>
+          <li><strong>Documents:</strong> use Study Notebook&apos;s source import and check the extracted text. Scans or complex layouts may not provide usable text.</li>
+          <li><strong>Photographed answers:</strong> use Answer Reviewer. The note workflow does not promise handwriting OCR.</li>
+        </ul>
+        <h2>Separate capture from interpretation</h2>
+        <p>A transcript records recognised speech. A summary selects and rewrites it. Check both against the original when a quotation, equation, date or technical term matters. If audio is unclear, keep that uncertainty visible instead of filling it with a plausible answer.</p>
+        <h2>Review a draft in four passes</h2>
         <ol>
-          <li><strong>ASR (Automatic Speech Recognition):</strong> Converts spoken audio into text.</li>
-          <li><strong>NLP (Natural Language Processing):</strong> Identifies themes, definitions, and action items, then structures a summary.</li>
+          <li><strong>Meaning:</strong> check that the central explanation matches the source.</li>
+          <li><strong>Conditions:</strong> restore assumptions, exceptions and qualifications that were lost.</li>
+          <li><strong>Detail:</strong> inspect notation, units, names and examples.</li>
+          <li><strong>Practice:</strong> turn one checked idea into a question you can answer without the notes.</li>
         </ol>
+        <h2>Use several sources carefully</h2>
+        <p>In Study Notebook, select the sources you want the AI to use. Ask it to identify agreements, disagreements and gaps. When sources differ, return to the passages and explain the difference; do not assume a fluent combined summary has resolved it.</p>
+        <p>A citation points back to supplied material. It does not confirm that a claim is true or that the source is current. Keep the original available for comparison.</p>
+        <h2>From corrected notes to recall</h2>
+        <p>Create a few focused flashcards or a short quiz from corrected notes. Answer before revealing the key. Check unexpected answers against the source, then choose what to practise again. See <Link to="/resources/notes-to-flashcards">the flashcard and quiz workflow</Link> for the next steps.</p>
+        <h2>When processing fails</h2>
+        <p>Keep your original text or recording. Follow the displayed error and retry with a smaller input when appropriate. If only the transcript is available, you can still review it yourself. A fallback or partial result should not be mistaken for completed AI notes.</p>
+        <h2>Handle source material deliberately</h2>
+        <p>Use material you are permitted to share and follow your school&apos;s rules. AI requests send the selected material to a configured external provider. Check VertexED&apos;s <Link to="/privacy">privacy information</Link> before sending sensitive information.</p>
+        <p>Check whether your work is saved to your account or only on this device. Export important notes before clearing browser storage.</p>
+        <div className="not-prose mt-8 flex gap-3 flex-wrap"><Link to="/notetaker" className="neu-button">Open AI Notes and Quiz</Link><Link to="/study-notebook" className="neu-button">Import study sources</Link><Link to="/resources/notes-to-flashcards" className="neu-button">Plan a retrieval session</Link></div>
 
-        <hr className="article-divider" />
-
-        <h2>The VertexED workflow: from audio to active recall</h2>
-        <p>
-          A transcript sitting in a folder is not studying. You need a loop. Here is a practical method
-          using <Link to="/notetaker">VertexED&apos;s Notetaker</Link>:
-        </p>
-
-        <h3>Step 1: Capture</h3>
-        <p>
-          Record the lecture or upload reading material (PDFs, articles) into the Notetaker.
-          Processing usually takes seconds, not a full revision block.
-        </p>
-
-        <h3>Step 2: Synthesize</h3>
-        <p>
-          Do not just read the summary. Restructure it while you still remember what confused you.
-          <br />
-          <em>Prompt idea: &ldquo;Rewrite these notes as a bulleted list of cause-and-effect relationships.&rdquo;</em>
-        </p>
-
-        <h3>Step 3: Active recall</h3>
-        <p>
-          Passive re-reading trains recognition; exams test recall under time. VertexED lets you click
-          <strong> &ldquo;Generate Quiz&rdquo;</strong> to turn notes into practice questions the same session.
-        </p>
-        <ul>
-          <li><strong>Flashcards:</strong> Definitions and dates.</li>
-          <li><strong>Multiple choice:</strong> Quick concept checks.</li>
-          <li><strong>Short answer:</strong> Deeper understanding.</li>
-        </ul>
-
-        <h2>Manual vs. automated: a comparison</h2>
-        <div className="overflow-x-auto my-6">
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="border-b border-border/60">
-                <th className="py-2 font-semibold text-foreground">Feature</th>
-                <th className="py-2 font-semibold text-foreground">Manual notes</th>
-                <th className="py-2 font-semibold text-foreground">AI automated notes</th>
-              </tr>
-            </thead>
-            <tbody className="text-muted-foreground text-sm">
-              <tr className="border-b border-border/60">
-                <td className="py-2">Speed</td>
-                <td className="py-2">Slow (avg 30 wpm)</td>
-                <td className="py-2">Near-instant capture</td>
-              </tr>
-              <tr className="border-b border-border/60">
-                <td className="py-2">Attention</td>
-                <td className="py-2">Split between listening and writing</td>
-                <td className="py-2">More focus on listening</td>
-              </tr>
-              <tr className="border-b border-border/60">
-                <td className="py-2">Completeness</td>
-                <td className="py-2">Often misses details</td>
-                <td className="py-2">Captures most of the audio</td>
-              </tr>
-              <tr className="border-b border-border/60">
-                <td className="py-2">Review ready?</td>
-                <td className="py-2">Usually needs re-reading first</td>
-                <td className="py-2">Can move to quizzes same session</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <h2>Best practices for students</h2>
-        <ul>
-          <li><strong>Edit the AI output:</strong> Add your own examples or mnemonics. Touching the material aids memory.</li>
-          <li><strong>Tag and organize:</strong> Use folders (e.g., &ldquo;Biology &gt; Unit 4 &gt; Genetics&rdquo;) so you can find topics before mocks.</li>
-          <li><strong>Combine sources:</strong> Upload lecture notes and the textbook chapter on the same topic. Ask the AI to merge them into one summary.</li>
-        </ul>
-
-        <h2>FAQ</h2>
-        <p><strong>Does taking notes by hand help memory more?</strong> Handwriting can aid encoding. But automated capture frees time for active recall, which matters more for exam day. A common split: AI for initial capture, handwriting for revision (e.g., mind maps from the summary).</p>
-        <p><strong>Can I upload handwritten notes?</strong> Yes - VertexED&apos;s Notetaker includes OCR to convert photos of handwriting into text for summarization.</p>
-        <p><strong>Is it safe to upload my textbook?</strong> Yes, for personal study use. VertexED does not train public models on your private uploads.</p>
-
-        <div className="not-prose mt-8 flex gap-3 flex-wrap">
-          <Link to="/notetaker" className="neu-button">Open Notetaker</Link>
-          <Link to="/study-zone" className="neu-button">Create flashcards</Link>
-        </div>
-
-        <h2 className="mt-10">Evidence &amp; references</h2>
-        <ul>
-          <li>Mueller, P. A., &amp; Oppenheimer, D. M. (2014): The Pen Is Mightier Than the Keyboard - advantages of longhand over laptop note taking.</li>
-          <li>Dunlosky et al. (2013): Improving Students&apos; Learning with Effective Learning Techniques - summarization alone scores low; practice testing scores high.</li>
-        </ul>
-
-        <div className="article-footer">
-          Editorial note: Reviewed for clarity and usefulness. Always cross‑check with your official syllabus and teacher guidance.
-          <div className="mt-1">Last updated: 2025-12-24 · Author: VertexED Team</div>
-        </div>
-
-        <hr className="article-divider" />
-        <h3>Related guides</h3>
-        <ul>
-          <li><Link to="/resources/notes-to-flashcards">From Notes to Flashcards</Link></li>
-          <li><Link to="/resources/active-recall-spaced-repetition">Active Recall &amp; Spaced Repetition</Link></li>
-          <li><Link to="/resources/best-ai-study-tools-2025">Best AI Study Tools 2025</Link></li>
-        </ul>
-
-        <h2>Conclusion</h2>
-        <p>
-          Automated note taking is not a shortcut around thinking. It moves low-value transcription off your
-          plate so you can spend revision blocks on analysis, retrieval, and timed practice. Start with one
-          lecture and run the full loop - capture, trim, quiz - in <Link to="/signup">VertexED</Link>.
-        </p>
+        <div className="article-footer">Product guidance checked against the current implementation on 11 October 2026. Examples are illustrative. Educational accuracy and current assessment rules still require source and teacher checks.</div>
       </Article>
     </>
   );

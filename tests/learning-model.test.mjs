@@ -1,14 +1,22 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { LEARNING_QUESTIONS, CONCEPT_GRAPH, buildKnowledgeModel, selectLearningQuestion, buildLearningPlan, normalisePracticeAttempt, parseLearningRecords, mergeLearningRecord } from '../src/lib/learningModel.mjs';
+import { createHash } from 'node:crypto';
+import { LEARNING_QUESTIONS, CONCEPT_GRAPH, buildKnowledgeModel as buildModel, selectLearningQuestion, buildLearningPlan as buildPlan, normalisePracticeAttempt as assessAttempt, parseLearningRecords, mergeLearningRecord } from '../src/lib/learningModel.mjs';
 import { classifyPracticeAnswer } from '../src/lib/adaptivePractice.mjs';
-import { normalizeLearnerStateItem } from '../api/_lib/learnerStateStore.js';
+import { normalizeLearnerStateItem as normalizeState } from '../api/_lib/learnerStateStore.js';
 import { buildAskMessages } from '../api/_lib/askPrompt.js';
 import { TUTOR_MODES } from '../src/lib/tutorModes.mjs';
 import { slideTiles, addTile } from '../src/lib/breakGames.mjs';
 const now = Date.parse('2026-09-21T12:00:00Z');
-const q = LEARNING_QUESTIONS.find(q => q.id === 'physics-forces-01');
-const attempt = (n, correct = false, patch = {}) => ({ id: `attempt:abcdefgh-${n}`, questionId: q.id, answer: correct ? String(q.answer.value) : '-1234', confidence: 4, hinted: false, seconds: 45, at: new Date(now - n * 86400000).toISOString(), mode: 'diagnostic', ...patch });
+// Synthetic approved revisions exercise scoring without granting publication
+// approval to the authoring bank or weakening the forged-score assertions.
+const questions = LEARNING_QUESTIONS.map(q => ({ ...q, contentRevision: `sha256:${createHash('sha256').update(JSON.stringify(q)).digest('hex')}` }));
+const q = questions.find(q => q.id === 'physics-forces-01');
+const buildKnowledgeModel = (attempts, at) => buildModel(attempts, at, questions);
+const buildLearningPlan = options => buildPlan({ ...options, questions });
+const normalisePracticeAttempt = value => assessAttempt(value, { questions });
+const normalizeLearnerStateItem = value => normalizeState(value, { practiceQuestions: questions });
+const attempt = (n, correct = false, patch = {}) => ({ id: `attempt:abcdefgh-${n}`, questionId: q.id, contentRevision: q.contentRevision, answer: correct ? String(q.answer.value) : '-1234', confidence: 4, hinted: false, seconds: 45, at: new Date(now - n * 86400000).toISOString(), mode: 'diagnostic', ...patch });
 test('numeric blank, comma ambiguity, NaN and infinity cannot pass as numeric answers', () => {
   const zero = { ...q, answer: { value: 0 } };
   for (const value of ['', ' ', null, 'NaN', 'Infinity', '1,2']) assert.equal(classifyPracticeAnswer(zero, value).correct, false);
@@ -42,6 +50,16 @@ test('local records preserve corrupt data and merge idempotent retries without d
   assert.throws(() => parseLearningRecords('[{}]', 'practice_attempt'), /preserved/);
   const a = normalisePracticeAttempt(attempt(1));
   assert.equal(mergeLearningRecord([a], a, 'practice_attempt').length, 1);
+});
+test('only absent learning storage is empty; malformed existing bytes require recovery', () => {
+  for (const type of ['practice_attempt', 'practice_mistake']) {
+    assert.deepEqual(parseLearningRecords(null, type), []);
+    assert.deepEqual(parseLearningRecords(undefined, type), []);
+    assert.deepEqual(parseLearningRecords('[]', type), []);
+    for (const raw of ['', ' ', '{broken']) {
+      assert.throws(() => parseLearningRecords(raw, type), /Original data is preserved; export account data/);
+    }
+  }
 });
 test('diagnostic scope honours subject, curriculum and exhausted pools', () => {
   const selected = selectLearningQuestion({ subject: 'Physics', mode: 'diagnostic' });

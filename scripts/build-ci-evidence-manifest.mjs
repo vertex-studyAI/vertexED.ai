@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import { createHash } from 'node:crypto';
+import { execFileSync } from 'node:child_process';
 import { readdir, readFile, writeFile } from 'node:fs/promises';
 import { relative, resolve } from 'node:path';
 import process from 'node:process';
@@ -18,15 +19,32 @@ async function filesUnder(root, directory = root) {
   return files;
 }
 
-export async function buildCiEvidenceManifest({ evidenceDir, env = process.env }) {
+export async function buildCiEvidenceManifest({ evidenceDir, env = process.env, checkoutDir = process.cwd() }) {
   const root = resolve(evidenceDir);
-  const sourceSha = String(env.GITHUB_SHA ?? '').trim();
+  // Pull-request workflows check out the PR head; GITHUB_SHA identifies the
+  // synthetic merge commit. Bind receipts to the checkout being tested.
+  const sourceVariable = env.SOURCE_SHA === undefined ? 'GITHUB_SHA' : 'SOURCE_SHA';
+  const sourceSha = String(env[sourceVariable] ?? '').trim().toLowerCase();
+  const workflowSha = String(env.GITHUB_SHA ?? '').trim().toLowerCase();
   const runId = String(env.GITHUB_RUN_ID ?? '').trim();
   const repository = String(env.GITHUB_REPOSITORY ?? '').trim();
   const serverUrl = String(env.GITHUB_SERVER_URL ?? 'https://github.com').replace(/\/$/, '');
-  if (!/^[0-9a-f]{40}$/i.test(sourceSha)) throw new Error('GITHUB_SHA must be a full 40-character commit');
+  if (!/^[0-9a-f]{40}$/.test(sourceSha)) throw new Error(`${sourceVariable} must be a full 40-character commit`);
+  if (workflowSha && !/^[0-9a-f]{40}$/.test(workflowSha)) throw new Error('GITHUB_SHA must be a full 40-character commit');
   if (!/^\d+$/.test(runId)) throw new Error('GITHUB_RUN_ID must be numeric');
   if (!/^[^/]+\/[^/]+$/.test(repository)) throw new Error('GITHUB_REPOSITORY must be owner/name');
+
+  let checkoutSha;
+  try {
+    checkoutSha = execFileSync('git', ['rev-parse', '--verify', 'HEAD'], {
+      cwd: checkoutDir,
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'pipe'],
+    }).trim().toLowerCase();
+  } catch {
+    throw new Error('Cannot determine the checked-out source commit');
+  }
+  if (checkoutSha !== sourceSha) throw new Error(`${sourceVariable} does not match the checked-out source commit`);
 
   const files = [];
   for (const path of await filesUnder(root)) {
@@ -41,7 +59,8 @@ export async function buildCiEvidenceManifest({ evidenceDir, env = process.env }
 
   const manifest = {
     schema_version: 1,
-    source_sha: sourceSha.toLowerCase(),
+    source_sha: sourceSha,
+    workflow_sha: workflowSha || null,
     run_id: runId,
     run_attempt: String(env.GITHUB_RUN_ATTEMPT ?? ''),
     workflow: String(env.GITHUB_WORKFLOW ?? ''),

@@ -76,7 +76,7 @@ async function installAccountHarness(page: Page, empty = false) {
     const url = new URL(route.request().url());
     let body: unknown = {};
     let status = 200;
-    if (url.pathname === '/api/waitlist-status') body = { status: 'approved' };
+    if (url.pathname === '/api/waitlist-status') body = { status: 'approved', access: true };
     else if (url.pathname === '/api/admin-status') body = { isAdmin: false };
     else if (url.pathname === '/api/learner-state') {
       if (route.request().method() === 'POST') {
@@ -332,7 +332,7 @@ for (const width of [1440, 1024, 390]) {
     await page.setViewportSize({ width, height: 900 });
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await installAccountHarness(page);
-    await expect(page.getByRole('link', { name: 'Continue your latest work', exact: true })).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Start next step', exact: true })).toBeVisible();
     await expect(page.getByRole('link', { name: 'View all saved work', exact: true })).toHaveCount(1);
     await page.screenshot({ path: info.outputPath(`dashboard-${width}.png`), fullPage: true });
     await page.getByRole('link', { name: 'View all saved work', exact: true }).click();

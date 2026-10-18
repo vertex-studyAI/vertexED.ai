@@ -23,6 +23,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
+import { KATEX_RENDER_OPTIONS } from "@/lib/mathRendering";
 import MarkdownLink from "@/components/markdown/MarkdownLink";
 import { sanitizeMarkdown } from "@/lib/sanitize";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
@@ -1544,7 +1545,7 @@ export default function NotetakerQuiz(): React.JSX.Element {
                           <div className="text-xs text-muted-foreground">Rendered Markdown and LaTeX</div>
                         </div>
                         <div className="max-h-[28rem] overflow-auto rounded-2xl border border-border/60 bg-muted/40 p-4 text-foreground">
-                          <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]} components={markdownComponents as any}>
+                          <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[[rehypeKatex, KATEX_RENDER_OPTIONS]]} components={markdownComponents as any}>
                             {sanitizeMarkdown(notes || "_No content yet_")}
                           </ReactMarkdown>
                         </div>

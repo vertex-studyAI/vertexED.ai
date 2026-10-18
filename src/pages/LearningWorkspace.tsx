@@ -3,10 +3,10 @@ import { Link, useSearchParams } from 'react-router';
 import { Helmet } from 'react-helmet-async';
 import { useAuth } from '@/contexts/AuthContext';
 import RichMarkdown from '@/components/RichMarkdown';
-import { LEARNING_QUESTIONS, CONCEPT_GRAPH, CURRICULUM_CATALOG, PRACTICE_MODES, MISTAKE_CAUSES, buildKnowledgeModel, selectLearningQuestion } from '@/lib/learningModel.mjs';
+import { LEARNING_QUESTIONS, LEARNING_QUESTION_METADATA, CONCEPT_GRAPH, CURRICULUM_CATALOG, PRACTICE_MODES, MISTAKE_CAUSES, buildKnowledgeModel, selectLearningQuestion } from '@/lib/learningModel.mjs';
 import { answerLabel, classifyPracticeAnswer } from '@/lib/adaptivePractice.mjs';
 import { readLearningState, saveLearningRecord, type PracticeAttempt, type PracticeMistake } from '@/lib/learningStore';
-import { parsePracticeSession, advancePracticeSession, writePracticeSession } from '@/lib/practiceSession.mjs';
+import { parsePracticeSession, advancePracticeSession, writePracticeSession, practiceSessionNeedsReview, archiveHeldPracticeSession } from '@/lib/practiceSession.mjs';
 import { userContentStorageKeys, getUserContentStorageScope } from '@/lib/userContentStorageScope.mjs';
 import { getPendingLearnerStateCount, initializeLearnerStateSync } from '@/lib/learnerStateSync';
 import { fitPracticeQuestions, practiceHint, sessionEvidenceChanges } from '@/lib/learningJourney.mjs';
@@ -19,7 +19,7 @@ import '@/styles/learning-workspace.css';
 
 type Question = typeof LEARNING_QUESTIONS[number];
 type Response = { answer: string; confidence: number | null; hinted: boolean; hintLevel?: number; seconds: number; flagged: boolean; submitted?: string };
-type Session = { budgetMinutes?: number; id: string; ids: string[]; index: number; mode: string; startedAt: number; deadline: number | null; finished: boolean; responses: Record<string, Response>; subject: string; topic: string; concept: string; curriculum: string };
+type Session = { contentRevisions?: Record<string, string>; budgetMinutes?: number; id: string; ids: string[]; index: number; mode: string; startedAt: number; deadline: number | null; finished: boolean; responses: Record<string, Response>; subject: string; topic: string; concept: string; curriculum: string };
 const modeNames: Record<string, string> = { diagnostic: 'Diagnostic', targeted: 'Targeted weakness', mixed: 'Mixed review', exam: 'Exam simulation', rapid: 'Rapid recall', prerequisites: 'Prerequisite repair', challenge: 'Challenge' };
 const emptyResponse = (): Response => ({ answer: '', confidence: null, hinted: false, seconds: 0, flagged: false });
 export default function LearningWorkspace() {
@@ -82,6 +82,16 @@ function Workspace() {
   }, [sessionKey]);
   const sessionId = session?.id;
   const sessionFinished = session?.finished;
+  const sessionHeld = Boolean(session && practiceSessionNeedsReview(session));
+  const archiveHeldSession = () => {
+    if (!session || !sessionHeld || !ready || getUserContentStorageScope() !== user?.id) return;
+    try {
+      archiveHeldPracticeSession(localStorage, sessionKey, savedSessionRaw.current, session);
+      setSession(null);
+      setNotice('Your previous session is archived on this device and included in account data export. Choose a new practice scope.');
+      setError('');
+    } catch (cause) { setError(cause instanceof Error ? cause.message : 'The session could not be archived. Your saved answers are unchanged.'); }
+  };
   useEffect(() => {
     if (focusNewSession.current && activeQuestionRef.current) {
       activeQuestionRef.current.focus();
@@ -89,7 +99,7 @@ function Workspace() {
     }
   }, [sessionId]);
   useEffect(() => {
-    if (!ready || !sessionId || sessionFinished) return;
+    if (!ready || !sessionId || sessionFinished || sessionHeld) return;
     const timer = window.setInterval(() => {
       setNow(Date.now());
       if (document.visibilityState === 'visible') setSession(s => {
@@ -101,9 +111,9 @@ function Workspace() {
       });
     }, 1000);
     return () => clearInterval(timer);
-  }, [ready, sessionId, sessionFinished]);
+  }, [ready, sessionId, sessionFinished, sessionHeld]);
   useEffect(() => {
-    if (!ready || !session) return;
+    if (!ready || !session || sessionHeld) return;
     try {
       if (getUserContentStorageScope() !== user?.id) return;
       savedSessionRaw.current = writePracticeSession(localStorage, sessionKey, savedSessionRaw.current, session);
@@ -112,7 +122,7 @@ function Workspace() {
       setSessionSaved(false); setReady(false);
       setError(e instanceof Error && e.message.includes('another tab') ? e.message : 'This session could not be saved on your device. Keep this page open and copy your answer before reloading.');
     }
-  }, [session, ready, sessionKey, user?.id]);
+  }, [session, ready, sessionHeld, sessionKey, user?.id]);
   const model = useMemo(() => buildKnowledgeModel(attempts), [attempts]);
   const q = LEARNING_QUESTIONS.find(q => q.id === session?.ids[session.index]);
   const response = q && session ? session.responses[q.id] || emptyResponse() : emptyResponse();
@@ -120,7 +130,7 @@ function Workspace() {
   const expired = Boolean(session?.deadline && now >= session.deadline);
   const updateResponse = (patch: Partial<Response>) => setSession(s => !s || !q ? s : ({ ...s, responses: { ...s.responses, [q.id]: { ...(s.responses[q.id] || emptyResponse()), ...patch } } }));
   const start = (targetId = '', nextMode = mode) => {
-    if (!ready || invalidLink || getUserContentStorageScope() !== user?.id) return;
+    if (!ready || sessionHeld || !LEARNING_QUESTIONS.length || invalidLink || getUserContentStorageScope() !== user?.id) return;
     const target = LEARNING_QUESTIONS.find(q => q.id === targetId);
     if (target && timeBudget && target.estimatedSeconds + 60 > Number(timeBudget) * 60) {
       setNotice('This question needs about ' + Math.ceil((target.estimatedSeconds + 60) / 60) + ' minutes including feedback. Increase the time budget or choose by question count.');
@@ -130,7 +140,7 @@ function Workspace() {
     const ids = fitPracticeQuestions({ minutes: timeBudget, count, select: (exclude: string[]) => selectLearningQuestion({ ...filters, attempts, mode: nextMode, exclude, targetId: exclude.length === 0 ? targetId : '' }) }) as string[];
     if (!ids.length) { setNotice('No original question matches this scope. Choose another scope or use your course materials in Study notebook.'); return; }
     focusNewSession.current = true;
-    setSession({ ...(timeBudget ? { budgetMinutes: Number(timeBudget) } : {}), id: crypto.randomUUID(), ids, index: 0, mode: nextMode, startedAt: Date.now(), deadline: nextMode === 'exam' ? Date.now() + ids.reduce((sum, id) => sum + LEARNING_QUESTIONS.find(q => q.id === id)!.estimatedSeconds * 1000, 0) : null, responses: {}, finished: false, ...filters });
+    setSession({ ...(timeBudget ? { budgetMinutes: Number(timeBudget) } : {}), id: crypto.randomUUID(), ids, contentRevisions: Object.fromEntries(ids.map(id => [id, LEARNING_QUESTIONS.find(q => q.id === id)!.contentRevision])), index: 0, mode: nextMode, startedAt: Date.now(), deadline: nextMode === 'exam' ? Date.now() + ids.reduce((sum, id) => sum + LEARNING_QUESTIONS.find(q => q.id === id)!.estimatedSeconds * 1000, 0) : null, responses: {}, finished: false, ...filters });
     trackProductEvent('Learning practice started', { mode: nextMode, count: ids.length, minutes: Number(timeBudget) || null });
     setTab('practice'); setNotice('Each submitted answer joins your practice history.'); setError('');
   };
@@ -141,12 +151,12 @@ function Workspace() {
     return { ...value, submitted: id };
   };
   const check = () => {
-    if (!ready || !q || !session || getUserContentStorageScope() !== user?.id) return;
+    if (!ready || sessionHeld || !q || !session || getUserContentStorageScope() !== user?.id) return;
     try { updateResponse(submitOne(q, response, session)); refresh(); setNotice('Answer saved on this device. Account sync queued.'); }
     catch (e) { setError((e as Error).message); }
   };
   const finish = () => {
-    if (!ready || !session || getUserContentStorageScope() !== user?.id) return;
+    if (!ready || sessionHeld || !session || getUserContentStorageScope() !== user?.id) return;
     try {
       const responses = { ...session.responses };
       for (const id of session.ids) responses[id] = submitOne(LEARNING_QUESTIONS.find(q => q.id === id)!, responses[id] || emptyResponse(), session);
@@ -155,7 +165,7 @@ function Workspace() {
     } catch (e) { setError((e as Error).message); }
   };
   const next = () => {
-    if (!ready || !session || getUserContentStorageScope() !== user?.id) return;
+    if (!ready || sessionHeld || !session || getUserContentStorageScope() !== user?.id) return;
     activeQuestionRef.current?.focus();
     setSession(advancePracticeSession(session, attempts)); setReflection(''); setCorrection(''); setCause('unclassified');
   };
@@ -169,21 +179,31 @@ function Workspace() {
   };
   const personalSubjects = Array.isArray(user?.user_metadata?.subjects) ? user.user_metadata.subjects : [];
   const subjects = [...new Set([...LEARNING_QUESTIONS.map(q => q.subject), ...personalSubjects])] as string[];
-  const evidenceChanges = session?.finished ? sessionEvidenceChanges(session, attempts) : [];
+  const evidenceChanges = session?.finished && !sessionHeld ? sessionEvidenceChanges(session, attempts) : [];
   const historyAttempts = attempts.filter(a => !historyRange || Date.parse(a.at) >= Date.now() - historyRange * 86400000);
-  const score = session?.ids.filter(id => session.responses[id]?.answer.trim() && classifyPracticeAnswer(LEARNING_QUESTIONS.find(q => q.id === id), session.responses[id].answer).correct).length || 0;
-  return <div className={session && !session.finished ? "learning-workspace is-solving" : "learning-workspace"}>
+  const verifiedHistory = historyAttempts.filter(a => a.assessmentStatus === 'verified');
+  const heldMistakes = mistakes.filter(m => !attempts.some(a => a.questionId === m.questionId && a.assessmentStatus === 'verified'));
+  const score = !sessionHeld && session?.ids.filter(id => session.responses[id]?.answer.trim() && classifyPracticeAnswer(LEARNING_QUESTIONS.find(q => q.id === id), session.responses[id].answer).correct).length || 0;
+  return <div className={session && !session.finished && !sessionHeld ? "learning-workspace is-solving" : "learning-workspace"}>
     <Helmet><title>Learn and practise | VertexED</title><meta name="robots" content="noindex" /></Helmet>
-    <header className="learning-heading"><div><p className="dashboard-kicker">Attempt → feedback → return</p><h1>Your learning record</h1><p>Original questions, visible evidence, and a next step you can explain.</p></div><Link to="/main">Back to Today</Link></header>
-    <nav className="learning-tabs" aria-label="Learning views">{['practice', 'knowledge', 'mistakes', 'progress'].map(name => <button key={name} disabled={session?.mode === "exam" && !session.finished && name !== "practice"} aria-pressed={tab === name} onClick={() => setTab(name)}>{name === 'practice' ? 'Practise' : name[0].toUpperCase() + name.slice(1)}</button>)}</nav>
+    <header className="learning-heading"><div><p className="dashboard-kicker">Attempt → feedback → return</p><h1>Your learning record</h1><p>Your attempts, saved reflections, and a next step you can explain.</p></div><Link to="/main">Back to Today</Link></header>
+    <nav className="learning-tabs" aria-label="Learning views">{['practice', 'knowledge', 'mistakes', 'progress'].map(name => <button key={name} disabled={!sessionHeld && session?.mode === "exam" && !session.finished && name !== "practice"} aria-pressed={tab === name} onClick={() => setTab(name)}>{name === 'practice' ? 'Practise' : name[0].toUpperCase() + name.slice(1)}</button>)}</nav>
     {invalidLink && <p role="alert" className="learning-notice">This practice link refers to a question or concept that is no longer available or does not match. <Link to="/learn">Choose a new practice scope</Link>.</p>}
     {error && <p role="alert" className="learning-notice">{error} {!ready && <Link to="/user-settings">Account data and recovery</Link>}</p>}
     {!ready && session && <section className="learning-paper" aria-label="Paused practice recovery"><h2>Keep your answer before reloading</h2><p>The saved copy has not been replaced. Copy any answers you need from this tab, then reload to continue from the saved session.</p><label htmlFor="paused-practice-answers">Answers in this tab</label><textarea id="paused-practice-answers" readOnly value={session.ids.map((id, index) => `${index + 1}. ${session.responses[id]?.answer || '(No answer)'}`).join('\n')} /><button onClick={() => window.location.reload()}>Reload saved session</button></section>}
+    {sessionHeld && session && <section className="learning-paper" aria-labelledby="held-practice-title">
+      <h2 id="held-practice-title">Saved session awaiting content review</h2>
+      <p>This session uses material that is unavailable or has changed since your attempt. Your saved answers are preserved. The timer and marking are paused, and this session does not contribute to assessed progress.</p>
+      <label htmlFor="held-practice-answers">Your saved answers</label>
+      <textarea id="held-practice-answers" readOnly value={session.ids.map((id, index) => `${index + 1}. ${id}: ${session.responses[id]?.answer || '(No answer)'}`).join('\n')} />
+      <Link to="/user-settings">Export your account data</Link>
+      {LEARNING_QUESTIONS.length > 0 && <button disabled={!ready} onClick={archiveHeldSession}>Keep a copy and choose new practice</button>}
+    </section>}
     {notice && <p role="status" className="learning-notice">{notice}</p>}
     <details className="learning-sync"><summary>Device storage and account sync</summary><p className="learning-meta">{getPendingLearnerStateCount() ? `${getPendingLearnerStateCount()} account updates pending. Device copies retained.` : 'Practice records are stored under your account on this device.'} <button onClick={() => void initializeLearnerStateSync().then(() => { refresh(); setNotice('Account sync checked. Pending items remain saved on this device.'); }).catch(() => setError('Account sync is unavailable. Device records are preserved.'))}>Retry account sync</button></p></details>
     {tab === 'practice' && <>
-      <details className="learning-paper learning-setup" open={!session || session.finished}><summary>Practice setup</summary><h2 id="practice-setup">Choose your next attempt</h2>
-        <div className="learning-fields">
+      <details className="learning-paper learning-setup" open={!session || session.finished || sessionHeld}><summary>Practice setup</summary><h2 id="practice-setup">{LEARNING_QUESTIONS.length ? 'Choose your next attempt' : 'Practice availability'}</h2>
+        {LEARNING_QUESTIONS.length > 0 && <div className="learning-fields">
           <label>Curriculum scope<select value={curriculum} onChange={e => setCurriculum(e.target.value)}><option value="">General original bank</option>{CURRICULUM_CATALOG.map(c => <option key={c.id} value={c.bankLabel}>{c.label}</option>)}</select></label>
           <label>Subject<select value={subject} onChange={e => { setSubject(e.target.value); setTopic(''); setConcept(''); }}>{subjects.map(s => <option key={s}>{s}</option>)}</select></label>
           <label>Unit / topic<select value={topic} onChange={e => { setTopic(e.target.value); setConcept(''); }}><option value="">All available topics</option>{(Array.from(new Set(LEARNING_QUESTIONS.filter(q => q.subject === subject).map(q => q.topic))) as string[]).map(t => <option key={t}>{t}</option>)}</select></label>
@@ -191,13 +211,13 @@ function Workspace() {
           <label>Practice mode<select value={mode} onChange={e => setMode(e.target.value)}>{PRACTICE_MODES.map(m => <option key={m} value={m}>{modeNames[m]}</option>)}</select></label>
           <label>Time budget<select value={timeBudget} onChange={e => setTimeBudget(e.target.value)}><option value="">Choose by question count</option>{[5,10,15,30,60].map(n => <option key={n} value={n}>{n} minutes</option>)}</select></label>
           <label>Questions<select disabled={Boolean(timeBudget)} value={count} onChange={e => setCount(Number(e.target.value))}>{[3,5,10,20].map(n => <option key={n}>{n}</option>)}</select></label>
-        </div><p>Limited original bank: {LEARNING_QUESTIONS.length} questions. This is not a complete syllabus, official paper or predicted grade. Fewer questions appear when your scope is narrow.</p>
-        {timeBudget && <p>Up to {timeBudget} minutes of estimated work, including feedback. The bank may have fewer questions than this budget allows.</p>}
-        {mode === 'exam' && <p className="learning-notice">Exam simulation: one mark per question, calculator optional, hints and tutor hidden, feedback after finishing. The timer uses the selected questions’ suggested durations. This is an original practice set, not an official paper.</p>}
-        <button className="learning-primary" disabled={!ready || invalidLink || Boolean(session && !session.finished)} onClick={() => start(selectedQuestion && selectedQuestion.subject === subject && (!topic || selectedQuestion.topic === topic) && (!concept || selectedQuestion.conceptIds.includes(concept)) && (!curriculum || selectedQuestion.curriculum.includes(curriculum)) ? selectedQuestion.id : '')}>Start practice</button>
-        {session && !session.finished && <p>Resume the saved session below or finish it before starting another.</p>}
+        </div>}{!LEARNING_QUESTIONS.length && <p role="status" className="learning-notice">Practice questions are awaiting subject review. New practice is unavailable. Your previous answers and reflections remain in your learning record. Continue with your own course materials in <Link to="/study-notebook">Study notebook</Link>.</p>}{LEARNING_QUESTIONS.length > 0 && <p>Limited original bank: {LEARNING_QUESTIONS.length} questions. This is not a complete syllabus, official paper or predicted grade. Fewer questions appear when your scope is narrow.</p>}
+        {LEARNING_QUESTIONS.length > 0 && timeBudget && <p>Up to {timeBudget} minutes of estimated work, including feedback. The bank may have fewer questions than this budget allows.</p>}
+        {LEARNING_QUESTIONS.length > 0 && mode === 'exam' && <p className="learning-notice">Exam simulation: one mark per question, calculator optional, hints and tutor hidden, feedback after finishing. The timer uses the selected questions’ suggested durations. This is an original practice set, not an official paper.</p>}
+        <button className="learning-primary" disabled={!ready || sessionHeld || !LEARNING_QUESTIONS.length || invalidLink || Boolean(session && !session.finished)} onClick={() => start(selectedQuestion && selectedQuestion.subject === subject && (!topic || selectedQuestion.topic === topic) && (!concept || selectedQuestion.conceptIds.includes(concept)) && (!curriculum || selectedQuestion.curriculum.includes(curriculum)) ? selectedQuestion.id : '')}>Start practice</button>
+        {session && !session.finished && !sessionHeld && <p>Resume the saved session below or finish it before starting another.</p>}
       </details>
-      {session && <section className="learning-paper learning-session" aria-labelledby="active-question">
+      {session && !sessionHeld && <section className="learning-paper learning-session" aria-labelledby="active-question">
         <div className="learning-session-context"><p className="dashboard-kicker">{session.subject} · {session.curriculum || 'Original question bank'}</p><p className="learning-meta">{sessionSaved ? 'Session saved on this device' : 'Session changes are not saved'} · {session.ids.filter(id => session.responses[id]?.submitted).length} / {session.ids.length} answers recorded</p></div>
         <fieldset disabled={!ready} className="learning-session-controls"><legend className="sr-only">Current practice session</legend>
         <div className="learning-heading"><h2 id="active-question" ref={activeQuestionRef} tabIndex={-1}>{session.finished ? 'Session review' : modeNames[session.mode]} · {session.index + 1} / {session.ids.length}</h2>
@@ -243,9 +263,10 @@ function Workspace() {
         </fieldset>
       </section>}
     </>}
-    {tab === 'knowledge' && <Suspense fallback={<p role="status">Loading concept evidence…</p>}><KnowledgeExplorer model={model} attempts={attempts} subject={subject} subjects={subjects} onSubject={setSubject} initialConcept={selectedConcept?.id} onPractice={n => { setSubject(n.subject); setConcept(n.id); setTopic(''); setTab('practice'); }} /></Suspense>}
-    {tab === 'mistakes' && <Suspense fallback={<p role="status">Loading mistakes…</p>}><MistakeNotebook attempts={attempts} mistakes={mistakes} busy={!ready || Boolean(session && !session.finished)} onSaved={refresh} onRepair={id => { const origin = LEARNING_QUESTIONS.find(q => q.id === id)!; const transfer = LEARNING_QUESTIONS.find(q => q.id !== id && q.conceptIds.some(c => origin.conceptIds.includes(c))); start(transfer?.id || id, 'targeted'); }} /></Suspense>}
+    {tab === 'knowledge' && <Suspense fallback={<p role="status">Loading concept evidence…</p>}><KnowledgeExplorer model={model} attempts={attempts.filter(a => a.assessmentStatus === 'verified')} subject={subject} subjects={subjects} onSubject={setSubject} initialConcept={selectedConcept?.id} onPractice={n => { setSubject(n.subject); setConcept(n.id); setTopic(''); setTab('practice'); }} /></Suspense>}
+    {tab === 'mistakes' && <Suspense fallback={<p role="status">Loading mistakes…</p>}><MistakeNotebook attempts={attempts} mistakes={mistakes} busy={!ready || Boolean(session && !session.finished)} onSaved={refresh} onRepair={id => { const origin = LEARNING_QUESTIONS.find(q => q.id === id); if (!origin) return; const transfer = LEARNING_QUESTIONS.find(q => q.id !== id && q.conceptIds.some(c => origin.conceptIds.includes(c))); start(transfer?.id || id, 'targeted'); }} /></Suspense>}
+    {tab === 'mistakes' && heldMistakes.length > 0 && <section className="learning-paper"><h2>Saved reflections awaiting content review</h2><p>These personal reflections are preserved. Their question versions cannot currently be checked, so they do not establish a learning result.</p>{heldMistakes.map(m => <details key={m.id}><summary>{LEARNING_QUESTION_METADATA.find(q => q.id === m.questionId)?.topic || m.questionId}</summary><p>Your recorded cause: {m.cause}</p><p>{m.reflection}</p><p>{m.correction}</p></details>)}</section>}
     {tutorOpen && q && session?.mode !== 'exam' && <Suspense fallback={<p role="status">Opening tutor…</p>}><PracticeTutor key={q.id} question={q} answer={response.answer} attempts={attempts} onClose={() => setTutorOpen(false)} openerRef={tutorOpener} /></Suspense>}
-    {tab === 'progress' && <section className="learning-paper"><h2>What has changed</h2><label>Date range<select value={historyRange} onChange={e => setHistoryRange(Number(e.target.value))}><option value={7}>Last 7 days</option><option value={30}>Last 30 days</option><option value={0}>All recorded history</option></select></label>{!historyAttempts.length ? <p>No practice evidence yet. Complete a diagnostic to begin. Opening a lesson does not count as mastery.</p> : <><div className="learning-summary"><p><strong>{historyAttempts.length}</strong> submitted attempts</p><p><strong>{historyAttempts.filter(a => a.correct).length}</strong> correct answers</p><p><strong>{Math.round(historyAttempts.reduce((n, a) => n + a.seconds, 0) / 60)}</strong> active-page minutes</p><p><strong>{model.filter(n => n.status === 'unassessed').length}</strong> unassessed bank concepts</p></div><p>Accuracy includes repeated questions. Active-page time is not verified attention. No predicted grade or exam-readiness percentage is inferred.</p><div className="learning-table"><table><caption>Recent practice evidence</caption><thead><tr><th>When</th><th>Topic</th><th>Difficulty</th><th>Result</th><th>Confidence</th><th>Support</th></tr></thead><tbody>{[...historyAttempts].sort((a,b) => b.at.localeCompare(a.at)).slice(0, 30).map(a => { const question = LEARNING_QUESTIONS.find(q => q.id === a.questionId)!; return <tr key={a.id}><td>{new Date(a.at).toLocaleDateString()}</td><td>{question.topic}</td><td>{question.difficulty}</td><td>{a.correct ? 'Correct' : 'Incorrect'}</td><td>{a.confidence === null ? 'Not recorded' : `${a.confidence}/5`}</td><td>{a.hinted ? 'Hint used' : 'Unassisted'}</td></tr>; })}</tbody></table></div></>}</section>}
+    {tab === 'progress' && <section className="learning-paper"><h2>What has changed</h2><label>Date range<select value={historyRange} onChange={e => setHistoryRange(Number(e.target.value))}><option value={7}>Last 7 days</option><option value={30}>Last 30 days</option><option value={0}>All recorded history</option></select></label>{!historyAttempts.length ? <p>{LEARNING_QUESTIONS.length ? 'No practice evidence yet. Complete a diagnostic to begin.' : 'No practice evidence yet. New diagnostics are awaiting subject review.'} Opening a lesson does not count as mastery.</p> : <><div className="learning-summary"><p><strong>{historyAttempts.length}</strong> submitted attempts</p><p><strong>{verifiedHistory.filter(a => a.correct).length} / {verifiedHistory.length}</strong> answer-key checks correct</p><p><strong>{historyAttempts.length - verifiedHistory.length}</strong> attempts awaiting content review</p><p><strong>{Math.round(historyAttempts.reduce((n, a) => n + a.seconds, 0) / 60)}</strong> active-page minutes</p><p><strong>{model.filter(n => n.status === 'unassessed').length}</strong> unassessed bank concepts</p></div><p>Checked accuracy includes repeated questions and excludes held or changed question versions. Active-page time is not verified attention. No predicted grade or exam-readiness percentage is inferred.</p><div className="learning-table"><table><caption>Recent practice evidence</caption><thead><tr><th>When</th><th>Topic</th><th>Difficulty</th><th>Result</th><th>Saved answer</th><th>Confidence</th><th>Support</th></tr></thead><tbody>{[...historyAttempts].sort((a,b) => Date.parse(b.at) - Date.parse(a.at)).slice(0, 30).map(a => { const question = LEARNING_QUESTION_METADATA.find(q => q.id === a.questionId); return <tr key={a.id}><td>{new Date(a.at).toLocaleDateString()}</td><td>{question?.topic || a.questionId}</td><td>{question?.difficulty || 'Not available'}</td><td>{a.assessmentStatus === 'verified' ? (a.correct ? 'Correct' : 'Incorrect') : 'Awaiting content review'}</td><td>{a.answer}</td><td>{a.confidence === null ? 'Not recorded' : `${a.confidence}/5`}</td><td>{a.hinted ? 'Hint used' : 'Unassisted'}</td></tr>; })}</tbody></table></div></>}</section>}
   </div>;
 }

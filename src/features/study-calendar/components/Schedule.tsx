@@ -10,12 +10,13 @@ const taskName = (task: TaskItem) => String(task['task name'] || task.taskName |
 
 // A normal-flow agenda keeps short tasks, long names and keyboard controls
 // readable. Calendar hours no longer create a page-sized pointer overlay.
-export default function Schedule({ mode, selectedDate, tasks, onTaskComplete, onEditTask }: {
+export default function Schedule({ mode, selectedDate, tasks, onTaskComplete, onEditTask, onAddTask }: {
   mode: string;
   selectedDate: Date;
   tasks: TaskItem[];
   onTaskComplete: (id: string) => void;
   onEditTask: (task: TaskItem) => void;
+  onAddTask?: (date: Date) => void;
 }) {
   const dates = Array.from({ length: mode === 'Week' ? 7 : 1 }, (_, index) => {
     const date = new Date(selectedDate);
@@ -29,7 +30,7 @@ export default function Schedule({ mode, selectedDate, tasks, onTaskComplete, on
       const dayTasks = tasks.filter(task => !task.completed && task.date === key).sort((a, b) => plannerTimeToMinutes(a['start time']) - plannerTimeToMinutes(b['start time']));
       return <section key={key} className="planner-agenda-day" aria-label={date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}>
         <h2>{date.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}</h2>
-        {dayTasks.length === 0 ? <p className="text-muted-foreground">No tasks scheduled. Use New Task to reserve a study block or commitment.</p> : <ul>
+        {dayTasks.length === 0 ? <div className="planner-empty-day"><p className="text-muted-foreground">No tasks scheduled. Reserve time for a study block or commitment.</p>{onAddTask && <button type="button" className="planner-today" onClick={() => onAddTask(date)}>Add a task for this day</button>}</div> : <ul>
           {dayTasks.map(task => {
             const name = taskName(task), duration = task['task duration'], startTime = task['start time'];
             return <li key={task.id} className="planner-agenda-task" role="group" aria-label={`${name} actions`}>

@@ -1,165 +1,307 @@
-import { useMemo, useState } from "react";
-import SEO from "@/components/SEO";
-import PageSection from "@/components/PageSection";
-import { Link } from "react-router";
-import { BookOpen, Brain, GraduationCap, Heart, Search, Wrench } from "lucide-react";
+import { AP_COURSES } from '@/content/apCatalogue';
+import { useMemo } from 'react';
+import { Link, useSearchParams } from 'react-router';
+import { Archive, ArrowRight, BookOpen, GraduationCap, Library, Search, Wrench } from 'lucide-react';
+import SEO from '@/components/SEO';
+import PageSection from '@/components/PageSection';
+import { MYP5_SUBJECTS, topicSlug } from '@/content/myp5';
+import { MYP5_CONTENT_TOTALS, MYP5_SUBJECT_TOTALS } from '@/content/myp5ContentClient';
+import { CURRICULA, FEATURES } from '@/content/curriculumDirectory';
+import { ARCHIVE_COLLECTIONS, ARCHIVE_DIRECTORY, LIBRARY_TOOLS, RESOURCE_ARTICLES, RESOURCE_ARTICLE_DIRECTORY } from '@/content/resourceLibrary';
+import { BOARD_CONFIGS } from '@/lib/curriculum';
+import { FORMULA_REFERENCE, FORMULA_SUBJECTS } from '@/content/formulaReference';
+import { searchResources } from '@/lib/resourceSearch';
+import { useSearchParamDraft } from '@/hooks/useSearchParamDraft';
+import { LIBRARY_STUDY_MOVES } from '@/content/learningFoundations';
+import '@/styles/learning-library.css';
 
-type Article = {
+type LibraryCategory = 'ap' | 'myp' | 'curricula' | 'guides' | 'tools' | 'archives';
+
+type LibraryEntry = {
   to: string;
   title: string;
-  blurb: string;
-  category: "tools" | "methods" | "subjects" | "wellness";
+  description: string;
+  category: LibraryCategory;
+  meta: string;
+  keywords: string;
 };
 
-const ARTICLES: Article[] = [
-  { to: "/resources/best-ai-study-tools-2025", title: "Choosing AI study tools in 2025", blurb: "What to look for in a study stack - rubric feedback, board-shaped mocks, and retrieval - not feature count.", category: "tools" },
-  { to: "/resources/automated-note-taking-guide", title: "Automated note taking: capture, then learn", blurb: "Turn lectures and PDFs into summaries you review the same day - then flashcards, not a highlight graveyard.", category: "tools" },
-  { to: "/resources/how-to-use-ai-for-studying", title: "How to use AI for studying", blurb: "Five-step framework - plan, learn, retrieve, mock, review - without outsourcing answers you can't reproduce.", category: "tools" },
-  { to: "/resources/ai-chatbot-tutor", title: "Using Apex for study help", blurb: "How to get Socratic explanations, rubric sense, and exam technique - without outsourcing your thinking.", category: "tools" },
-  { to: "/resources/ai-study-planner", title: "AI study planner and calendar", blurb: "Block mocks, retrieval, and focus sessions around school, sport, and sleep - tasks link to the right tool.", category: "tools" },
-  { to: "/resources/ib-igcse-paper-maker", title: "IB/IGCSE Paper Maker", blurb: "Generate syllabus-aligned mocks with command words, mark totals, and topics you choose - then sit them under time.", category: "tools" },
-  { to: "/resources/notes-to-flashcards", title: "From Notes to Flashcards (and Quizzes)", blurb: "Same source material → notes → spaced cards → short quizzes. Built for retrieval, not re-reading.", category: "tools" },
-  { to: "/resources/ai-answer-reviewer", title: "AI Answer Reviewer", blurb: "Paste or photograph answers; get feedback aligned to mark schemes - structure, evidence, command terms.", category: "tools" },
-  { to: "/resources/active-recall-spaced-repetition", title: "Active Recall & Spaced Repetition", blurb: "Why testing beats highlighting, how intervals work, and how VertexED schedules cards before you forget.", category: "methods" },
-  { to: "/resources/exam-strategy-time-management", title: "Exam Strategy & Time Management", blurb: "Skim the paper, allocate by marks, watch command terms - routines that survive in the hall.", category: "methods" },
-  { to: "/resources/how-to-cram-effectively", title: "How to cram when the exam is tomorrow", blurb: "High-mark topics, timed questions, and sleep - not one more unread chapter.", category: "methods" },
-  { to: "/resources/how-to-memorize-anything-fast", title: "Memory techniques for exam revision", blurb: "Memory palace for one-off lists vs spaced repetition for syllabus content - when each earns its time.", category: "methods" },
-  { to: "/resources/best-ai-prompts-for-students", title: "AI prompts that help with revision", blurb: "Maths working, essay structure, mark-scheme gaps - prompts that critique your attempt, not copy-paste answers.", category: "methods" },
-  { to: "/resources/ib-math-aa-ai-guide", title: "IB Math AA and AI: revision guide", blurb: "Calculus, statistics, and proofs - show-your-working practice and IB command words.", category: "subjects" },
-  { to: "/resources/ib-myp-humanities-guide", title: "IB MYP Humanities answer studio", blurb: "Shape research questions, evaluate sources with OPVL, and plan short and extended History or Geography responses.", category: "subjects" },
-  { to: "/resources/igcse-science-revision", title: "IGCSE Sciences Revision", blurb: "Biology, Chemistry, and Physics - practicals, definitions, and structured answers for top-band marks.", category: "subjects" },
-  { to: "/resources/essay-writing-with-ai", title: "Essay writing with AI", blurb: "History, English, Psychology - thesis, evidence, and conclusion under time without losing your voice.", category: "subjects" },
-  { to: "/resources/alevel-ap-exam-prep", title: "A-Level and AP exam prep", blurb: "What each qualification demands - FRQs, essays, synoptic questions, and mark-scheme habits.", category: "subjects" },
-  { to: "/resources/subject-guides-common-mistakes", title: "Common exam mistakes", blurb: "Repeated mark losses in maths working, science units, and humanities analysis - and how to fix them.", category: "subjects" },
-  { to: "/resources/ib-tok-guide-ai", title: "Using AI for IB TOK", blurb: "Brainstorm RLS and knowledge questions for the essay and exhibition - without letting AI write the argument.", category: "subjects" },
-  { to: "/resources/is-using-ai-cheating", title: "Is using AI cheating?", blurb: "School policies, Turnitin, and where AI support crosses into work you can't defend orally or in the hall.", category: "wellness" },
-  { to: "/resources/academic-burnout-guide", title: "Academic burnout: signs and recovery", blurb: "When you're depleted - minimum viable studying, sleep, and when to stop for the night.", category: "wellness" },
-  { to: "/resources/college-essays-with-ai", title: "College Essays with AI", blurb: "Brainstorm Common App angles and structure drafts - keep the story yours for admissions readers.", category: "wellness" },
+const CATEGORY_DETAILS: Array<{
+  id: LibraryCategory;
+  label: string;
+  description: string;
+  icon: typeof BookOpen;
+}> = [
+  { id: 'myp', label: 'MYP 5', description: 'Subject directory', icon: BookOpen },
+  { id: 'curricula', label: 'Curriculum desks', description: 'Board-shaped workflows', icon: GraduationCap },
+  { id: 'ap', label: 'AP courses', description: 'Course references', icon: BookOpen },
+  { id: 'guides', label: 'Editorial guides', description: 'Methods and subject help', icon: Library },
+  { id: 'tools', label: 'Study tools', description: 'Practice and planning', icon: Wrench },
+  { id: 'archives', label: 'Archives', description: 'Legacy starter collections', icon: Archive },
 ];
 
-const CATEGORIES = [
-  { id: "all" as const, label: "All", icon: BookOpen },
-  { id: "tools" as const, label: "Vertex Tools", icon: Wrench },
-  { id: "methods" as const, label: "Study Methods", icon: Brain },
-  { id: "subjects" as const, label: "Subject Guides", icon: GraduationCap },
-  { id: "wellness" as const, label: "Wellness & Ethics", icon: Heart },
+const MYP_ENTRIES: LibraryEntry[] = MYP5_SUBJECTS.map((subject) => {
+  const totals = MYP5_SUBJECT_TOTALS[subject.slug];
+  return {
+    to: `/myp/subjects/${subject.slug}`,
+    title: subject.name,
+    description: subject.summary,
+    category: 'myp',
+    meta: totals.lessons ? `${totals.lessons} modules · ${totals.questions} questions` : 'Awaiting subject review',
+    keywords: `${subject.group} ${subject.skills.join(' ')} ${subject.topics.join(' ')}`,
+  };
+});
+
+const MYP_TOPIC_ENTRIES: LibraryEntry[] = MYP5_SUBJECTS.filter((subject) => MYP5_SUBJECT_TOTALS[subject.slug]?.lessons > 0).flatMap((subject) =>
+  subject.topics.map((topic) => ({
+    to: `/myp/subjects/${subject.slug}/${topicSlug(topic)}`,
+    title: topic,
+    description: `${subject.name}: explanation, worked reasoning, original practice and retrieval.`,
+    category: 'myp' as const,
+    meta: `${subject.name} · Original module`,
+    keywords: `${subject.group} ${subject.skills.join(' ')}`,
+  })),
+);
+
+const CURRICULUM_ENTRIES: LibraryEntry[] = Object.entries(CURRICULA).flatMap(([curriculumSlug, board]) => {
+  const config = BOARD_CONFIGS[board];
+  return Object.entries(FEATURES).map(([featureSlug, feature]) => ({
+    to: `/curricula/${curriculumSlug}/${featureSlug}`,
+    title: `${config.shortLabel} ${feature.name}`,
+    description: feature.focus,
+    category: 'curricula' as const,
+    meta: config.label,
+    keywords: `${feature.searchName} ${config.subjects.join(' ')} ${config.commandTerms.join(' ')}`,
+  }));
+});
+
+const GUIDE_ENTRIES: LibraryEntry[] = RESOURCE_ARTICLES.map((article) => ({
+  to: article.to,
+  title: article.title,
+  description: article.blurb,
+  category: 'guides',
+  meta: article.category === 'wellness' ? 'Wellbeing and integrity' : `Guide · ${article.category}`,
+  keywords: article.keywords,
+}));
+
+const TOOL_ENTRIES: LibraryEntry[] = LIBRARY_TOOLS.map((tool) => ({
+  to: tool.to,
+  title: tool.title,
+  description: tool.blurb,
+  category: 'tools',
+  meta: tool.account ? 'Account workspace' : 'Public reference',
+  keywords: tool.keywords,
+}));
+
+const ARCHIVE_ENTRIES: LibraryEntry[] = ARCHIVE_COLLECTIONS.map((archive) => ({
+  to: archive.to,
+  title: archive.title,
+  description: archive.blurb,
+  category: 'archives',
+  meta: 'Legacy starter collection',
+  keywords: archive.keywords,
+}));
+
+const AP_ENTRIES: LibraryEntry[] = AP_COURSES.map((course) => ({
+  to: `/ap/${course.slug}`, title: course.title, description: course.summary, category: 'ap', meta: course.modules.length ? `${course.modules.length} modules · ${course.questionCount} prompts` : 'Awaiting subject review', keywords: course.category,
+}));
+const AP_TOPIC_ENTRIES: LibraryEntry[] = AP_COURSES.flatMap((course) => course.modules.map((unit) => ({
+  to: `/ap/${course.slug}/${unit.id}`, title: `${course.title}: ${unit.title}`, description: unit.focus, category: 'ap' as const, meta: `${course.title} · ${unit.frameworkUnit}`, keywords: course.category,
+})));
+
+const LIBRARY_ENTRIES = [
+  ...AP_ENTRIES,
+  ...MYP_ENTRIES,
+  ...CURRICULUM_ENTRIES,
+  ...GUIDE_ENTRIES,
+  ...TOOL_ENTRIES,
+  ...ARCHIVE_ENTRIES,
 ];
+
+const FORMULA_ENTRIES: LibraryEntry[] = FORMULA_REFERENCE.map((entry) => ({
+  to: `/study-tools?formula=${entry.id}`,
+  title: entry.title,
+  description: entry.description,
+  category: 'tools',
+  meta: `${FORMULA_SUBJECTS.find(({ id }) => id === entry.subject)?.label} · Worked reference and practice`,
+  keywords: `${entry.keywords} ${entry.conditions}`,
+}));
+
+const CATEGORY_COUNTS: Record<LibraryCategory, number> = {
+  ap: AP_ENTRIES.length,
+  myp: MYP_ENTRIES.length,
+  curricula: CURRICULUM_ENTRIES.length,
+  guides: GUIDE_ENTRIES.length,
+  tools: TOOL_ENTRIES.length,
+  archives: ARCHIVE_ENTRIES.length,
+};
 
 export default function ResourcesIndex() {
-  const [query, setQuery] = useState("");
-  const [category, setCategory] = useState<(typeof CATEGORIES)[number]["id"]>("all");
+  const [params, setParams] = useSearchParams();
+  const [query, setQueryDraft] = useSearchParamDraft(params.get('q') ?? '');
+  const category = CATEGORY_DETAILS.find(({ id }) => id === params.get('category'))?.id ?? 'myp';
+  const hasQuery = Boolean(query.trim());
+
+  function setQuery(value: string) {
+    setQueryDraft(value);
+    setParams((previous) => {
+      const next = new URLSearchParams(previous);
+      if (value) next.set('q', value); else next.delete('q');
+      return next;
+    }, { replace: true, preventScrollReset: true });
+  }
+
+  function setCategory(value: LibraryCategory) {
+    setQueryDraft('');
+    setParams((previous) => {
+      const next = new URLSearchParams(previous);
+      next.delete('q');
+      next.set('category', value);
+      return next;
+    }, { preventScrollReset: true });
+  }
 
   const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    return ARTICLES.filter((a) => {
-      const matchCat = category === "all" || a.category === category;
-      const matchQ =
-        !q ||
-        a.title.toLowerCase().includes(q) ||
-        a.blurb.toLowerCase().includes(q);
-      return matchCat && matchQ;
-    });
-  }, [query, category]);
+    if (query.trim()) {
+      return searchResources([...LIBRARY_ENTRIES, ...MYP_TOPIC_ENTRIES, ...AP_TOPIC_ENTRIES, ...FORMULA_ENTRIES], query);
+    }
+    return LIBRARY_ENTRIES.filter((entry) => entry.category === category);
+  }, [category, query]);
+
+  const activeCategory = CATEGORY_DETAILS.find((entry) => entry.id === category) ?? CATEGORY_DETAILS[0];
 
   return (
     <>
       <SEO
-        title="Resources · VertexED AI Study Tools"
-        description="Guides and deep dives on VertexED features: AI study planner, paper maker, flashcards, answer reviewer, and study techniques."
+        title="Learning library | VertexED"
+        description="Browse MYP and AP course directories, available study materials, curriculum desks, editorial guides, study tools and legacy archives."
         canonical="https://www.vertexed.app/resources"
         jsonLd={{
-          "@context": "https://schema.org",
-          "@type": "CollectionPage",
-          name: "VertexED Resources",
-          url: "https://www.vertexed.app/resources",
-          description: "Guides and deep dives on VertexED features.",
+          '@context': 'https://schema.org',
+          '@type': 'CollectionPage',
+          name: 'VertexED learning library',
+          url: 'https://www.vertexed.app/resources',
+          description: 'Course directories, available learning material and study tools, with review holds labelled.',
         }}
       />
 
-      <PageSection className="max-w-5xl">
-        <h1 className="text-3xl md:text-4xl font-semibold brand-text-gradient inline-block mb-4">
-          Resources
-        </h1>
-        <p className="text-muted-foreground mb-6 max-w-2xl leading-relaxed">
-          Guides written for real exam prep - tool walkthroughs, study methods, subject specifics, and integrity.
-          Search by topic or filter by category; each article links back into the matching VertexED tool where it applies.
-        </p>
-
-        <div className="flex flex-col sm:flex-row gap-3 mb-6">
-          <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <label htmlFor="resource-search" className="sr-only">Search study guides</label>
-            <input
-              id="resource-search"
-              type="search"
-              className="neu-input-el w-full pl-10"
-              placeholder="Search guides…"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-            />
+      <PageSection className="learning-library">
+        <header className="library-hero">
+          <div>
+            <p className="library-kicker">VertexED learning library</p>
+            <h1>Find your topic. Take the next step.</h1>
+            <p className="library-intro">
+              Browse MYP and AP course directories, available study materials, curriculum desks, editorial guides,
+              practice tools and legacy archives. Lessons awaiting subject review are labelled and unavailable.
+            </p>
+            <div className="library-actions">
+              <Link to="/myp">Open MYP 5 <ArrowRight aria-hidden /></Link>
+              <Link to="/ap">Explore all AP courses</Link>
+              <Link to="/curricula">Browse curricula</Link>
+            </div>
           </div>
-          <Link to="/study-tools" className="neu-button px-4 py-2 text-sm text-center shrink-0">
-            Formula & Tools Hub →
-          </Link>
-        </div>
+          <dl className="library-stats" aria-label="Library coverage">
+            <div><dt>MYP modules</dt><dd>{MYP5_CONTENT_TOTALS.lessons}</dd></div>
+            <div><dt>MYP questions</dt><dd>{MYP5_CONTENT_TOTALS.questions}</dd></div>
+            <div><dt>Curriculum desks</dt><dd>{CURRICULUM_ENTRIES.length}</dd></div>
+            <div><dt>Editorial guides</dt><dd>{RESOURCE_ARTICLES.length}</dd></div>
+          </dl>
+        </header>
 
-        <div className="flex flex-wrap gap-2 mb-8">
-          {CATEGORIES.map((cat) => (
-            <button
-              key={cat.id}
-              type="button"
-              onClick={() => setCategory(cat.id)}
-              className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm transition ${
-                category === cat.id
-                  ? "bg-primary/20 text-primary border border-primary/30"
-                  : "surface-chip text-muted-foreground hover:text-foreground"
-              }`}
-              aria-pressed={category === cat.id}
-            >
-              <cat.icon className="h-3.5 w-3.5" />
-              {cat.label}
-            </button>
-          ))}
-        </div>
+        <section className="library-method" aria-labelledby="library-method-title">
+          <header>
+            <p className="library-kicker">Use the library deliberately</p>
+            <h2 id="library-method-title">Turn a resource into an attempt, not another open tab.</h2>
+            <p>Start with the course boundary, retrieve before reading, produce a response and verify it. The directory helps you find material; the study move determines what you do with it.</p>
+          </header>
+          <ol>
+            {LIBRARY_STUDY_MOVES.map((item, index) => (
+              <li key={item.label}>
+                <span>{String(index + 1).padStart(2, '0')} / {item.label}</span>
+                <h3>{item.title}</h3>
+                <p>{item.copy}</p>
+              </li>
+            ))}
+          </ol>
+        </section>
 
-        <p className="text-sm text-muted-foreground mb-4">
-          {filtered.length} guide{filtered.length === 1 ? "" : "s"}
-        </p>
-
-        <div className="grid md:grid-cols-2 gap-5">
-          {filtered.map((article) => (
-            <ArticleLink key={article.to} {...article} />
-          ))}
-        </div>
-
-        {filtered.length === 0 && (
-          <p className="text-center text-muted-foreground py-12">No guides match your search.</p>
-        )}
-
-        <div className="mt-10 glass-panel p-5 rounded-2xl">
-          <p className="text-sm font-medium text-foreground mb-2">Jump into tools</p>
-          <div className="flex flex-wrap gap-3 text-sm">
-            <Link className="text-primary hover:underline" to="/planner">Planner</Link>
-            <Link className="text-primary hover:underline" to="/paper-maker">Paper Maker</Link>
-            <Link className="text-primary hover:underline" to="/notetaker">AI Notes</Link>
-            <Link className="text-primary hover:underline" to="/answer-reviewer">Answer Reviewer</Link>
-            <Link className="text-primary hover:underline" to="/study-zone">Study Zone</Link>
+        <section className="library-browser" aria-labelledby="library-browser-title">
+          <div className="library-browser-head">
+            <div>
+              <p className="library-kicker">Browse and search</p>
+              <h2 id="library-browser-title">Find the exact next step.</h2>
+            </div>
+            <label className="library-search">
+              <Search aria-hidden />
+              <span className="sr-only">Search the learning library</span>
+              <input
+                type="search"
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder="Search subjects, available topics and resources"
+              />
+            </label>
           </div>
-        </div>
+
+          <div className="library-tabs" role="group" aria-label="Filter the learning library">
+            {CATEGORY_DETAILS.map((entry) => {
+              const Icon = entry.icon;
+              return (
+                <button
+                  type="button"
+                  key={entry.id}
+                  aria-pressed={!hasQuery && category === entry.id}
+                  onClick={() => setCategory(entry.id)}
+                >
+                  <Icon aria-hidden />
+                  <span><strong>{entry.label}</strong><small>{CATEGORY_COUNTS[entry.id]} · {entry.description}</small></span>
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="library-results-head" aria-live="polite">
+            <p>{filtered.length} {hasQuery ? `search ${filtered.length === 1 ? 'result' : 'results'} across all collections` : `${activeCategory.label.toLowerCase()} ${filtered.length === 1 ? 'entry' : 'entries'}`}</p>
+            {query && <button type="button" onClick={() => setQuery('')}>Clear search</button>}
+          </div>
+
+          {!hasQuery && (category === 'guides' || category === 'archives') && <section className="mb-6 rounded-xl border border-border p-5" aria-label="Materials awaiting review">
+            <h3 className="font-semibold">Materials awaiting subject review</h3>
+            <p className="mt-2 text-sm text-muted-foreground">These titles remain in the directory for reference. Their teaching material is not available yet.</p>
+            <ul className="mt-3 grid gap-2 text-sm md:grid-cols-2">
+              {(category === 'guides' ? RESOURCE_ARTICLE_DIRECTORY : ARCHIVE_DIRECTORY).filter((entry) => !entry.available).map((entry) => <li key={entry.title}>{entry.title} · Awaiting review</li>)}
+            </ul>
+          </section>}
+
+          <div className="library-grid">
+            {filtered.map((entry) => (
+              <Link className="library-card" data-testid="library-item" to={entry.to} key={`${entry.category}-${entry.to}`}>
+                <p>{entry.meta}</p>
+                <h3>{entry.title}</h3>
+                <span>{entry.description}</span>
+                <strong>Open resource <ArrowRight aria-hidden /></strong>
+              </Link>
+            ))}
+          </div>
+
+          {filtered.length === 0 && (hasQuery || !['guides', 'archives'].includes(category)) && (
+            <div className="library-empty">
+              <Search aria-hidden />
+              <h3>No library result matches that search.</h3>
+              <p>Try a subject, concept, exam board or tool name.</p>
+            </div>
+          )}
+        </section>
+
+        <aside className="library-boundary" aria-labelledby="library-boundary-title">
+          <div><Library aria-hidden /><h2 id="library-boundary-title">Imported guide boundary</h2></div>
+          <p>
+            245 imported guide files remain held from the public index while source rights, factual review and
+            publication approval are unresolved. They are not counted as finished learning content. MYP and AP
+            lessons also require subject review before they become available. Use your teacher’s approved materials for current study.
+          </p>
+        </aside>
       </PageSection>
     </>
-  );
-}
-
-function ArticleLink({ to, title, blurb }: Pick<Article, "to" | "title" | "blurb">) {
-  return (
-    <Link
-      to={to}
-      className="block p-5 rounded-2xl surface-tile hover:bg-foreground/[0.06] hover:border-primary/20 transition-colors"
-    >
-      <h2 className="text-lg font-medium text-foreground">{title}</h2>
-      <p className="text-muted-foreground mt-2 text-sm">{blurb}</p>
-      <div className="mt-3 text-xs text-primary">Read more →</div>
-    </Link>
   );
 }

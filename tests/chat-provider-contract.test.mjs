@@ -6,6 +6,7 @@ import {
   extractChatAnswer,
   resolveChatProvider,
 } from '../api/_lib/aiProviders.js';
+import { usageFixture, paidResponse } from './helpers/ai-usage-fixture.mjs';
 
 test('OpenAI remains the default provider with a generally available model', () => {
   const config = resolveChatProvider({ ChatbotKey: 'legacy-key' });
@@ -53,41 +54,11 @@ test('provider base URLs are normalized and unsupported providers fail closed', 
   );
 });
 
-test('chat provider call uses OpenAI-compatible request shape without switching providers', async () => {
-  const calls = [];
-  const fetchImpl = async (url, options) => {
-    calls.push({ url, options });
-    return {
-      ok: true,
-      status: 200,
-      text: async () => JSON.stringify({ choices: [{ message: { content: 'ok' } }] }),
-    };
-  };
-
-  const config = resolveChatProvider({
-    CHATBOT_PROVIDER: 'nvidia',
-    NVIDIA_API_KEY: 'nv-key',
-    NVIDIA_CHATBOT_MODEL: 'example/model',
-  });
-
-  const result = await callChatProvider({
-    config,
-    model: config.primaryModel,
-    messages: [{ role: 'user', content: 'hello' }],
-    fetchImpl,
-  });
-
-  assert.equal(result.provider, 'nvidia');
-  assert.equal(result.model, 'example/model');
-  assert.equal(calls.length, 1);
-  assert.equal(calls[0].url, 'https://integrate.api.nvidia.com/v1/chat/completions');
-  assert.equal(calls[0].options.headers.Authorization, 'Bearer nv-key');
-
-  const payload = JSON.parse(calls[0].options.body);
-  assert.equal(payload.model, 'example/model');
-  assert.deepEqual(payload.messages, [{ role: 'user', content: 'hello' }]);
-  assert.equal(payload.temperature, 0.4);
-  assert.equal(payload.max_tokens, 1200);
+test('unpriced opt-in provider cannot dispatch under the finite cost policy', async () => {
+  let calls = 0;
+  const config = resolveChatProvider({ CHATBOT_PROVIDER: 'nvidia', NVIDIA_API_KEY: 'nv-key', NVIDIA_CHATBOT_MODEL: 'example/model' });
+  await assert.rejects(usageFixture().run(() => callChatProvider({ config, model: config.primaryModel, messages: [{ role: 'user', content: 'hello' }], fetchImpl: async () => { calls++; return paidResponse(); } })), { code: 'AI_MODEL_UNSUPPORTED' });
+  assert.equal(calls, 0);
 });
 
 test('OpenAI chat requests use the Responses API with output token limits', async () => {
@@ -97,20 +68,16 @@ test('OpenAI chat requests use the Responses API with output token limits', asyn
     OPENAI_PROJECT_ID: 'proj_test',
     OPENAI_ORGANIZATION_ID: 'org_test',
   });
-  await callChatProvider({
+  await usageFixture().run(() => callChatProvider({
     config,
     model: config.primaryModel,
     messages: [{ role: 'user', content: 'hello' }],
     safetyIdentifier: 'hashed-user',
     fetchImpl: async (url, options) => {
       captured = { url, payload: JSON.parse(options.body), headers: options.headers };
-      return {
-        ok: true,
-        status: 200,
-        text: async () => JSON.stringify({ output_text: 'ok' }),
-      };
+      return paidResponse({ output_text: 'ok' });
     },
-  });
+  }));
 
   assert.match(captured.url, /\/responses$/);
   assert.equal(captured.payload.max_output_tokens, 1200);

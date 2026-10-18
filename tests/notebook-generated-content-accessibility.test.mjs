@@ -6,7 +6,7 @@ const panel = readFileSync(new URL('../src/components/notebook/NotebookOutputPan
 
 test('generated notebook outputs expose a stable accessible region name', () => {
   assert.match(panel, /const generatedRegionLabel = `Generated \$\{outputKindLabel\(output\.kind\)\}`;/);
-  assert.equal((panel.match(/aria-label=\{generatedRegionLabel\}/g) ?? []).length, 3);
+  assert.equal((panel.match(/aria-label=\{generatedRegionLabel\}/g) ?? []).length, 4);
 });
 
 test('generated quiz cards bind each question to its disclosure control and answer', () => {

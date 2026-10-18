@@ -25,7 +25,7 @@ async function installAccountHarness(page: Page, empty = false, examDate: string
     const url = new URL(route.request().url());
     let body: unknown = {};
     let status = 200;
-    if (url.pathname === '/api/waitlist-status') body = { status: 'approved' };
+    if (url.pathname === '/api/waitlist-status') body = { status: 'approved', access: true };
     else if (url.pathname === '/api/admin-status') body = { isAdmin: false };
     else if (url.pathname === '/api/learner-state') {
       if (route.request().method() === 'POST') {
@@ -82,6 +82,65 @@ async function installAccountHarness(page: Page, empty = false, examDate: string
   await page.getByRole('button', { name: 'Log in', exact: true }).click();
   await expect(page).toHaveURL(/\/main$/);
   return state;
+}
+
+for (const width of [1440, 1024, 390]) {
+  test(`planner navigation jumps dates, crosses month boundaries and adds to the chosen day at ${width}`, async ({ page }, info) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    const state = await installAccountHarness(page, true);
+    await page.goto('/planner');
+    const navigation = page.getByRole('group', { name: 'Browse your plan', exact: true });
+    const jump = navigation.getByLabel('Jump to date', { exact: true });
+    await jump.fill('2028-02-28');
+    await navigation.getByRole('button', { name: 'Go', exact: true }).focus();
+    await page.keyboard.press('Enter');
+    await expect(navigation.getByRole('button', { name: 'Go', exact: true })).toBeFocused();
+    await expect(page.getByRole('region', { name: 'Day planner schedule for February 28, 2028' })).toBeVisible();
+    await navigation.getByRole('button', { name: 'Next day', exact: true }).click();
+    await expect(jump).toHaveValue('2028-02-29');
+    await navigation.getByRole('button', { name: 'Next day', exact: true }).click();
+    await expect(jump).toHaveValue('2028-03-01');
+    await navigation.getByRole('button', { name: 'Previous day', exact: true }).click();
+    await expect(jump).toHaveValue('2028-02-29');
+    await page.getByRole('button', { name: 'Add a task for this day', exact: true }).click();
+    const dialog = page.getByRole('dialog', { name: 'Add a study task' });
+    await expect(dialog.getByLabel('Date', { exact: true })).toHaveValue('2028-02-29');
+    await dialog.getByLabel('Task name', { exact: true }).fill('Leap day revision');
+    await dialog.getByRole('button', { name: 'Add task', exact: true }).click();
+    await expect.poll(() => JSON.stringify(state.planner)).toContain('Leap day revision');
+    await expect(page.getByRole('heading', { name: 'Leap day revision', exact: true })).toBeVisible();
+    if (width > 900) {
+      await jump.fill('2028-12-29');
+      await navigation.getByRole('button', { name: 'Go', exact: true }).click();
+      await navigation.getByLabel('Planner view', { exact: true }).selectOption('Week');
+      await expect(page.locator('.calendar-day.highlight')).toHaveCount(7);
+      await navigation.getByRole('button', { name: 'Next week', exact: true }).click();
+      await expect(jump).toHaveValue('2029-01-05');
+      await navigation.getByRole('button', { name: 'Previous week', exact: true }).click();
+      await expect(jump).toHaveValue('2028-12-29');
+      await jump.fill('2026-01-31');
+      await navigation.getByRole('button', { name: 'Go', exact: true }).click();
+      await expect(page.locator('.calendar-day.highlight')).toHaveCount(7);
+      await expect(page.getByRole('button', { name: 'Select Friday, February 6, 2026', exact: true })).toHaveClass(/highlight/);
+      await jump.fill('2028-12-29');
+      await navigation.getByRole('button', { name: 'Go', exact: true }).click();
+      await navigation.getByLabel('Planner view', { exact: true }).selectOption('Day');
+    } else {
+      await page.getByRole('button', { name: 'Show calendar', exact: true }).click();
+      await expect(page.getByRole('group', { name: 'Calendar date picker', exact: true })).toBeVisible();
+      await page.getByRole('button', { name: 'Hide calendar', exact: true }).click();
+    }
+    for (const theme of ['light', 'dark'] as const) {
+      await selectTheme(page, theme);
+      await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
+      await page.screenshot({ path: info.outputPath(`planner-navigation-${width}-${theme}.png`), animations: 'disabled' });
+    }
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width + 1);
+    await navigation.getByRole('button', { name: 'Today', exact: true }).click();
+    const today = await page.evaluate(() => { const date = new Date(); return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`; });
+    await expect(jump).toHaveValue(today);
+  });
 }
 
 for (const width of [1440, 1024, 390]) {
@@ -527,6 +586,88 @@ for (const width of [1440, 1024, 390]) {
     await expect(open).toBeFocused();
   });
 }
+
+for (const width of [1440, 1024, 390]) {
+  test(`planner calendar import reviews conflicts, avoids duplicates and removes its own commitments at ${width}`, async ({ page }, info) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    const state = await installAccountHarness(page, true);
+    await page.goto('/planner');
+    const open = page.getByRole('button', { name: 'Import calendar', exact: true });
+    await open.click();
+    const dialog = page.getByRole('dialog', { name: 'Reserve calendar time' });
+    await expect(dialog.getByLabel('Calendar name', { exact: true })).toBeFocused();
+    const data = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'BEGIN:VEVENT', 'UID:class-1', 'SUMMARY:Physics class', 'DTSTART:20900928T100000Z', 'DTEND:20900928T110000Z', 'END:VEVENT', 'BEGIN:VEVENT', 'UID:class-conflict', 'SUMMARY:Overlapping class', 'DTSTART:20900928T103000Z', 'DTEND:20900928T113000Z', 'END:VEVENT', 'END:VCALENDAR'].join('\r\n');
+    const file = { name: 'school.ics', mimeType: 'text/calendar', buffer: Buffer.from(data) };
+    await dialog.getByLabel('Calendar name', { exact: true }).fill('School');
+    await dialog.getByLabel('Calendar file', { exact: true }).setInputFiles(file);
+    await dialog.getByRole('button', { name: 'Review calendar file', exact: true }).click();
+    const preview = dialog.getByRole('region', { name: 'Calendar import preview' });
+    await expect(preview.getByRole('heading', { name: 'Review School' })).toBeFocused();
+    await expect(preview.locator('dd')).toHaveText(['1', '0', '1']);
+    await expect(dialog.getByLabel('Calendar file', { exact: true })).toBeHidden();
+    const addCommitment = dialog.getByRole('button', { name: 'Add 1 commitment', exact: true });
+    await expect(addCommitment).toBeInViewport();
+    await page.screenshot({ path: info.outputPath(`calendar-import-${width}-light.png`), animations: 'disabled' });
+    await dialog.getByRole('button', { name: 'Back', exact: true }).click();
+    await expect(dialog.getByLabel('Calendar name', { exact: true })).toBeFocused();
+    expect(await dialog.getByLabel('Calendar file', { exact: true }).evaluate((element: HTMLInputElement) => element.files?.[0]?.name)).toBe('school.ics');
+    await dialog.getByRole('button', { name: 'Review calendar file', exact: true }).focus();
+    await page.keyboard.press('Enter');
+    await expect(preview.getByRole('heading', { name: 'Review School' })).toBeFocused();
+    await addCommitment.focus();
+    await page.keyboard.press('Tab');
+    await expect(dialog.getByRole('button', { name: 'Close', exact: true })).toBeFocused();
+    await addCommitment.click();
+    await expect(dialog.getByRole('heading', { name: '1 commitment added', exact: true })).toBeFocused();
+    await expect(dialog.getByRole('button', { name: 'Done', exact: true })).toBeInViewport();
+    await page.screenshot({ path: info.outputPath(`calendar-import-${width}-complete.png`), animations: 'disabled' });
+    await expect.poll(() => JSON.stringify(state.planner)).toContain('Physics class');
+    expect(JSON.stringify(state.planner)).not.toContain('Overlapping class');
+    await dialog.getByRole('button', { name: 'Import another file', exact: true }).click();
+    await dialog.getByLabel('Calendar file', { exact: true }).setInputFiles(file);
+    await dialog.getByRole('button', { name: 'Review calendar file', exact: true }).click();
+    await expect(preview.locator('dd')).toHaveText(['0', '1', '1']);
+    await expect(dialog.getByRole('button', { name: 'Add 0 commitments' })).toBeDisabled();
+    await page.keyboard.press('Escape');
+    await expect(open).toBeFocused();
+    await selectTheme(page, 'dark');
+    await open.click();
+    await dialog.getByRole('button', { name: 'Manage imported calendars (1)' }).click();
+    await expect(dialog.getByRole('button', { name: 'Remove School', exact: true })).toBeVisible();
+    await page.screenshot({ path: info.outputPath(`calendar-import-${width}-dark.png`), animations: 'disabled' });
+    expect(await dialog.evaluate(element => element.scrollWidth <= element.clientWidth + 1)).toBe(true);
+    await dialog.getByRole('button', { name: 'Remove School', exact: true }).click();
+    await expect(dialog.getByRole('button', { name: 'Keep commitments' })).toBeFocused();
+    await dialog.getByRole('button', { name: 'Keep commitments' }).click();
+    expect(JSON.stringify(state.planner)).toContain('Physics class');
+    await dialog.getByRole('button', { name: 'Remove School', exact: true }).click();
+    await dialog.getByRole('button', { name: 'Confirm removal', exact: true }).click();
+    await expect.poll(() => JSON.stringify(state.planner)).not.toContain('Physics class');
+    await page.keyboard.press('Escape');
+    await page.reload();
+    await open.click();
+    await expect(dialog.getByRole('button', { name: 'Remove School', exact: true })).toHaveCount(0);
+  });
+}
+
+test('planner calendar import keeps errors actionable and primary actions visible on a short screen', async ({ page }, info) => {
+  await page.setViewportSize({ width: 390, height: 640 });
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await installAccountHarness(page, true);
+  await page.goto('/planner');
+  await page.getByRole('button', { name: 'Import calendar', exact: true }).click();
+  const dialog = page.getByRole('dialog', { name: 'Reserve calendar time' });
+  await dialog.getByLabel('Calendar name', { exact: true }).fill('School');
+  await dialog.getByLabel('Calendar file', { exact: true }).setInputFiles({ name: 'invalid.ics', mimeType: 'text/calendar', buffer: Buffer.from('not a calendar') });
+  await dialog.getByRole('button', { name: 'Review calendar file', exact: true }).click();
+  await expect(dialog.getByRole('alert')).toBeFocused();
+  await expect(dialog.getByRole('alert')).toContainText('valid .ics');
+  await expect(dialog.getByRole('button', { name: 'Review calendar file', exact: true })).toBeInViewport();
+  await page.screenshot({ path: info.outputPath('calendar-import-390-error.png'), animations: 'disabled' });
+  await page.keyboard.press('Escape');
+  await expect(page.getByRole('button', { name: 'Import calendar', exact: true })).toBeFocused();
+});
 
 test('planner calendar cancellation discards an in-flight file', async ({ page }) => {
   await installAccountHarness(page, true);

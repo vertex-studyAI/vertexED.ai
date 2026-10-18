@@ -21,10 +21,10 @@ test('shared ask prompt keeps context, bounded history, sources, and one current
   });
 
   assert.equal(messages.at(-1).content, 'What is mitosis?');
-  assert.equal(messages.filter((message) => message.role === 'user').length, 1);
-  assert.match(messages[0].content, /Biology/);
-  assert.match(messages[0].content, /Course notes/);
-  assert.match(messages[0].content, /SOURCE \[s1\]/);
+  assert.equal(messages.filter((message) => message.role === 'user' && message.content === 'What is mitosis?').length, 1);
+  assert.match(messages[1].content, /Biology/);
+  assert.match(messages[1].content, /Course notes/);
+  assert.match(messages[1].content, /SOURCE \[s1\]/);
   assert.match(messages[0].content, /\[Source: id\]/);
 });
 

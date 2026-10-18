@@ -1,0 +1,269 @@
+{
+  "slug": "physics-c-electricity-and-magnetism",
+  "title": "AP Physics C: Electricity and Magnetism",
+  "category": "Sciences",
+  "summary": "Apply calculus to electric fields, potential, capacitors, circuits and induction.",
+  "officialUrl": "https://apstudents.collegeboard.org/courses/ap-physics-c-electricity-and-magnetism",
+  "frameworkNote": "Unit map checked against College Board on 15 October 2026 for the 2026-27 course. Each unit has one focused original revision lesson, not exhaustive topic coverage or an official practice paper. Preserves official Units 8–13, continuing Physics C: Mechanics numbering. Idealised field and circuit models are revision exercises, not laboratory completion evidence.",
+  "assessment": "exam",
+  "modules": [
+    {
+      "id": "unit-8",
+      "title": "Gauss’s law with cylindrical symmetry",
+      "frameworkUnit": "Unit 8",
+      "focus": "Use symmetry to turn flux into a field magnitude.",
+      "explanation": [
+        "Gauss’s law states that net electric flux through a closed surface equals enclosed charge divided by ε₀. It is always valid, but directly solving for E requires enough symmetry to know the field direction and constancy on useful surface sections.",
+        "For an ideal infinitely long uniform line charge, choose a coaxial cylinder. The field is radial and constant on its curved surface, while end-cap flux is zero. An arbitrary finite rod does not have the same symmetry near its ends."
+      ],
+      "workedExample": {
+        "prompt": "Derive the field a distance r from an ideal long line with charge density λ.",
+        "steps": [
+          "A Gaussian cylinder of length L encloses λL, and curved area is 2πrL.",
+          "Gauss’s law gives E(2πrL)=λL/ε₀, so E=λ/(2πε₀r), outward for positive λ."
+        ]
+      },
+      "misconception": {
+        "claim": "Gauss’s law always lets E be pulled outside the flux integral.",
+        "correction": "That step needs a justified symmetry argument."
+      },
+      "questions": [
+        {
+          "prompt": "The radius from an infinite line charge triples. How does field magnitude change?",
+          "hint": "Use its 1/r dependence.",
+          "answer": "It becomes one third.",
+          "checkpoints": [
+            "Keep λ fixed.",
+            "Do not substitute the point-charge inverse-square law."
+          ],
+          "id": "unit-8-q1"
+        },
+        {
+          "prompt": "A closed surface encloses zero net charge. Must E be zero everywhere on it?",
+          "hint": "Net flux can cancel.",
+          "answer": "No. Zero net flux can coexist with nonzero fields entering and leaving.",
+          "checkpoints": [
+            "Distinguish a flux integral from local field.",
+            "Consider an external charge or uniform field."
+          ],
+          "id": "unit-8-q2"
+        }
+      ]
+    },
+    {
+      "id": "unit-9",
+      "title": "Potential from an electric field",
+      "frameworkUnit": "Unit 9",
+      "focus": "Integrate the field with its sign and reference.",
+      "explanation": [
+        "Electric potential difference is minus the line integral of electric field along displacement. In one dimension, Ex=-dV/dx. Only differences in potential affect the potential-energy change qΔV; an additive constant changes no electric field.",
+        "Potential contributions add as scalars. Electric fields add as vectors, so cancellation conditions can differ. At a point where potential happens to be zero, its spatial derivative may still be nonzero."
+      ],
+      "workedExample": {
+        "prompt": "A uniform electric field is 200 N/C in the positive x direction. Find V(0.30 m)-V(0).",
+        "steps": [
+          "Integrate with the negative sign: ΔV=-integral from 0 to 0.30 of 200 dx.",
+          "The difference is -60 V; potential decreases along the field."
+        ]
+      },
+      "misconception": {
+        "claim": "A positive field means potential increases in the positive direction.",
+        "correction": "The field points toward decreasing potential."
+      },
+      "questions": [
+        {
+          "prompt": "For V(x)=5x² volts with x in metres, find Ex at x=2 m.",
+          "hint": "Take -dV/dx.",
+          "answer": "-20 N/C.",
+          "checkpoints": [
+            "Ex=-10x.",
+            "Apply the negative gradient sign."
+          ],
+          "id": "unit-9-q1"
+        },
+        {
+          "prompt": "A +3 microcoulomb charge moves through ΔV=-10 V. Find ΔU.",
+          "hint": "Use qΔV.",
+          "answer": "-30 microjoules.",
+          "checkpoints": [
+            "Positive charge retains the potential-difference sign.",
+            "Convert microcoulombs consistently."
+          ],
+          "id": "unit-9-q2"
+        }
+      ]
+    },
+    {
+      "id": "unit-10",
+      "title": "Capacitors with an isolated charge",
+      "frameworkUnit": "Unit 10",
+      "focus": "Identify what stays fixed during a dielectric change.",
+      "explanation": [
+        "Capacitance relates charge magnitude to potential difference through C=Q/V. For ideal parallel plates, C=εA/d, neglecting edge effects. A dielectric increases capacitance by changing the field response within the material.",
+        "Energy can be written Q²/(2C) or CV²/2. Which expression is most useful depends on the constraint. A disconnected isolated capacitor keeps charge fixed; one still connected to an ideal battery keeps potential difference fixed and can exchange charge and energy."
+      ],
+      "workedExample": {
+        "prompt": "An isolated capacitor has C=2 microfarads and Q=12 microcoulombs. A dielectric doubles C. Find initial and final voltage.",
+        "steps": [
+          "Initially V=Q/C=12/2=6 V.",
+          "Charge stays 12 microcoulombs, so with C=4 microfarads the final voltage is 3 V."
+        ]
+      },
+      "misconception": {
+        "claim": "Inserting a dielectric always leaves voltage unchanged.",
+        "correction": "That applies to a capacitor held at fixed voltage by a battery, not an isolated charged capacitor."
+      },
+      "questions": [
+        {
+          "prompt": "For C=4 microfarads and V=5 V, find stored energy.",
+          "hint": "Use CV²/2.",
+          "answer": "50 microjoules.",
+          "checkpoints": [
+            "Square 5 V.",
+            "Use C=4×10⁻⁶ F."
+          ],
+          "id": "unit-10-q1"
+        },
+        {
+          "prompt": "What is the electric field inside the material of an ideal conductor at electrostatic equilibrium?",
+          "hint": "Free charges have finished redistributing.",
+          "answer": "Zero.",
+          "checkpoints": [
+            "Specify electrostatic equilibrium.",
+            "Distinguish the conducting material from a charged cavity."
+          ],
+          "id": "unit-10-q2"
+        }
+      ]
+    },
+    {
+      "id": "unit-11",
+      "title": "RC discharge from a loop equation",
+      "frameworkUnit": "Unit 11",
+      "focus": "Connect a circuit law with exponential decay.",
+      "explanation": [
+        "Kirchhoff’s junction rule expresses charge conservation, and the loop rule expresses energy accounting in a lumped circuit. For a discharging capacitor through a resistor, the charge magnitude satisfies dQ/dt=-Q/(RC).",
+        "The solution Q=Q₀e^(-t/(RC)) has time constant τ=RC. After one time constant, the remaining charge is e⁻¹ of the initial amount, not zero. Ideal wires and components are assumptions; practical leakage and resistance can alter behaviour."
+      ],
+      "workedExample": {
+        "prompt": "A capacitor of 20 microfarads discharges through 50 kilohms. Find τ and the fraction of charge after 2 seconds.",
+        "steps": [
+          "τ=(50,000)(20×10⁻⁶)=1 s.",
+          "At t=2 s, Q/Q₀=e⁻²≈0.1353."
+        ]
+      },
+      "misconception": {
+        "claim": "One time constant means the capacitor is fully discharged.",
+        "correction": "About 36.8% remains in the ideal model after one time constant."
+      },
+      "questions": [
+        {
+          "prompt": "If R doubles and C stays fixed, how does the discharge time constant change?",
+          "hint": "Use τ=RC.",
+          "answer": "It doubles.",
+          "checkpoints": [
+            "Capacitance is unchanged.",
+            "The decay becomes slower."
+          ],
+          "id": "unit-11-q1"
+        },
+        {
+          "prompt": "A 10 V battery drives series resistors 2 Ω and 3 Ω. Find current and the 3 Ω voltage drop.",
+          "hint": "Add series resistance first.",
+          "answer": "Current 2 A; voltage drop 6 V.",
+          "checkpoints": [
+            "Total resistance is 5 Ω.",
+            "Use V=IR for the individual resistor."
+          ],
+          "id": "unit-11-q2"
+        }
+      ]
+    },
+    {
+      "id": "unit-12",
+      "title": "Magnetic fields from symmetric currents",
+      "frameworkUnit": "Unit 12",
+      "focus": "Choose an Ampèrian path suited to the field.",
+      "explanation": [
+        "Ampère’s law for steady currents relates the closed line integral of B to μ₀ times enclosed current. For an ideal long straight wire, cylindrical symmetry makes B tangent to a circular path and constant in magnitude at fixed radius.",
+        "A magnetic force on a moving charge is perpendicular to velocity. For perpendicular motion in a uniform field, it can provide the centripetal force, giving r=mv/(|q|B). The sign of charge determines curvature direction, while magnitude sets the radius."
+      ],
+      "workedExample": {
+        "prompt": "Derive the field at radius r from a long straight wire carrying current I.",
+        "steps": [
+          "On a circular path, the integral becomes B(2πr).",
+          "Set B(2πr)=μ₀I, giving B=μ₀I/(2πr), with direction from the right-hand rule."
+        ]
+      },
+      "misconception": {
+        "claim": "A magnetic field does work to maintain uniform circular speed.",
+        "correction": "Its force turns velocity without changing kinetic energy in this ideal case."
+      },
+      "questions": [
+        {
+          "prompt": "Current doubles and radius doubles around a long wire. What happens to B?",
+          "hint": "Compare I/r.",
+          "answer": "It is unchanged.",
+          "checkpoints": [
+            "Both numerator and denominator double.",
+            "Keep the long-wire approximation."
+          ],
+          "id": "unit-12-q1"
+        },
+        {
+          "prompt": "A particle’s speed doubles at fixed m, |q| and perpendicular B. How does orbit radius change?",
+          "hint": "Use r=mv/(|q|B).",
+          "answer": "It doubles.",
+          "checkpoints": [
+            "The force model is nonrelativistic.",
+            "Radius is proportional to speed."
+          ],
+          "id": "unit-12-q2"
+        }
+      ]
+    },
+    {
+      "id": "unit-13",
+      "title": "Induction and an inductor’s response",
+      "frameworkUnit": "Unit 13",
+      "focus": "Differentiate magnetic flux rather than field alone.",
+      "explanation": [
+        "Faraday’s law gives induced emf as minus the time rate of change of magnetic flux linkage. For N identical turns, emf=-N dΦB/dt. Flux depends on field, area and orientation, so any of these can drive induction.",
+        "An inductor resists change in current through its induced emf, not the existence of current itself. In an ideal series RL circuit, the growth time constant is L/R and the eventual current for a constant source is V/R. Stored magnetic energy is LI²/2."
+      ],
+      "workedExample": {
+        "prompt": "A 20-turn coil has area 0.010 m² normal to a uniform field increasing at 0.5 T/s. Find induced emf magnitude.",
+        "steps": [
+          "The flux rate per turn is A(dB/dt)=0.010(0.5)=0.005 Wb/s.",
+          "Multiply by 20 turns to obtain 0.10 V; the direction opposes increasing flux."
+        ]
+      },
+      "misconception": {
+        "claim": "A steady magnetic field can never induce emf.",
+        "correction": "Motion or changing loop area or orientation can change flux even when the field itself is steady."
+      },
+      "questions": [
+        {
+          "prompt": "An inductor has L=0.4 H in series with R=2 Ω. Find the RL time constant.",
+          "hint": "Use L/R.",
+          "answer": "0.2 s.",
+          "checkpoints": [
+            "Divide inductance by resistance.",
+            "Do not use the RC formula."
+          ],
+          "id": "unit-13-q1"
+        },
+        {
+          "prompt": "For L=0.5 H and I=4 A, find stored magnetic energy.",
+          "hint": "Use LI²/2.",
+          "answer": "4 J.",
+          "checkpoints": [
+            "Square the current.",
+            "Multiply by half the inductance."
+          ],
+          "id": "unit-13-q2"
+        }
+      ]
+    }
+  ]
+}

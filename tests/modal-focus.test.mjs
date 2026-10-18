@@ -75,3 +75,54 @@ test('closing a modal restores focus to the connected invoking control', () => {
   assert.equal(restoreModalFocus(opener), true);
   assert.equal(document.activeElement, opener);
 });
+
+test('Tab from an answer field explicitly reaches buttons even when the browser would skip them', () => {
+  const dom = new JSDOM('<div id="dialog"><button id="exit">Exit</button><textarea id="answer"></textarea><button id="submit">Submit</button></div>');
+  const document = dom.window.document;
+  const dialog = document.getElementById('dialog');
+  const answer = document.getElementById('answer');
+  const submit = document.getElementById('submit');
+  let prevented = false;
+  answer.focus();
+  assert.equal(trapModalFocus({ key: 'Tab', preventDefault: () => { prevented = true; } }, dialog), true);
+  assert.equal(prevented, true, 'native WebKit tab filtering must not move focus outside the dialog');
+  assert.equal(document.activeElement, submit);
+  trapModalFocus({ key: 'Tab', shiftKey: true, preventDefault() {} }, dialog);
+  assert.equal(document.activeElement, answer);
+});
+
+test('explicit tab navigation skips CSS-hidden and disabled controls with a tab index', () => {
+  const dom = new JSDOM('<div id="dialog"><input id="answer"><div style="display:none"><button>Collapsed</button></div><button style="visibility:hidden">Hidden</button><button disabled tabindex="0">Disabled</button><button id="save">Save</button></div>');
+  const document = dom.window.document;
+  const answer = document.getElementById('answer');
+  const save = document.getElementById('save');
+  const dialog = document.getElementById('dialog');
+  assert.deepEqual(getModalFocusableElements(dialog), [answer, save]);
+  answer.focus();
+  trapModalFocus({ key: 'Tab', preventDefault() {} }, dialog);
+  assert.equal(document.activeElement, save);
+});
+
+test('explicit tab navigation preserves positive tab index order before ordinary controls', () => {
+  const dom = new JSDOM('<div id="dialog"><button id="ordinary">Ordinary</button><button id="second" tabindex="2">Second</button><button id="first" tabindex="1">First</button></div>');
+  const document = dom.window.document;
+  const dialog = document.getElementById('dialog');
+  const first = document.getElementById('first');
+  const second = document.getElementById('second');
+  const ordinary = document.getElementById('ordinary');
+  assert.deepEqual(getModalFocusableElements(dialog), [first, second, ordinary]);
+  first.focus();
+  trapModalFocus({ key: 'Tab', preventDefault() {} }, dialog);
+  assert.equal(document.activeElement, second);
+});
+
+test('a consumed Tab and non-Tab editing keys keep their existing focus behavior', () => {
+  const { document, dialog, first } = fixture();
+  first.focus();
+  let prevented = false;
+  for (const event of [{ key: 'Tab', defaultPrevented: true }, { key: 'ArrowRight' }]) {
+    assert.equal(trapModalFocus({ ...event, preventDefault: () => { prevented = true; } }, dialog), false);
+    assert.equal(document.activeElement, first);
+  }
+  assert.equal(prevented, false);
+});

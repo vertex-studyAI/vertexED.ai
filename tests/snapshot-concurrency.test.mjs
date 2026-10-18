@@ -88,10 +88,12 @@ test('device collection and cleanup cover all stores for exactly one account', (
 });
 
 test('editorial quarantine and missing provenance cannot enter approved retrieval', () => {
- const approved = { editorialStatus: 'approved', source: 'Official source', factualReviewer: 'Reviewer', reviewedAt: newTime, license: 'permitted', permittedUse: 'study' };
+ const approved = { editorialStatus: 'approved', publicationStatus: 'published', source: 'Official source', factualReviewer: 'Reviewer', reviewedAt: newTime, license: 'permitted', permittedUse: 'study' };
  assert.equal(isApprovedGuide(approved), true);
  assert.equal(isApprovedGuide({ ...approved, editorialStatus: 'quarantined' }), false);
  assert.equal(isApprovedGuide({ ...approved, source: null }), false);
+ assert.equal(isApprovedGuide({ ...approved, publicationStatus: 'held-from-index' }), false);
+ assert.equal(isApprovedGuide({ ...approved, reviewedAt: 'not-a-date' }), false);
 });
 
 test('another tab cannot advance this tab’s comparison revision through shared storage', async () => {

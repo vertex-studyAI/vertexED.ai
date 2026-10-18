@@ -16,7 +16,7 @@ async function login(page: Page, cloud: Cloud, id = learner) {
   await page.route('**/api/**', async route => {
     const url = new URL(route.request().url());
     let body: unknown = {}; let status = 200;
-    if (url.pathname === '/api/waitlist-status') body = { status: 'approved' };
+    if (url.pathname === '/api/waitlist-status') body = { status: 'approved', access: true };
     else if (url.pathname === '/api/admin-status') body = { isAdmin: false };
     else if (url.pathname === '/api/learner-state') body = { contractVersion: 'vertexed.learner-state.v1', items: [] };
     else if (url.pathname === '/api/user-content') {

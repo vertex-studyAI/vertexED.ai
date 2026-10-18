@@ -1,8 +1,9 @@
 import ConversationStatus from '@/components/chat/ConversationStatus';
+import { resolveNotebookSearchLocation } from '@/lib/savedWorkText.mjs';
 import '@/styles/learning-workspace.css';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useNavigate, useSearchParams } from 'react-router';
+import { useLocation, useNavigate, useSearchParams } from 'react-router';
 import {
   BookMarked,
   BookOpen,
@@ -79,6 +80,7 @@ type StudioTab = 'chat' | NotebookOutputKind;
 export default function StudyNotebook() {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const [searchParams] = useSearchParams();
   const guidedStart = searchParams.get('start') === '1';
   const studyContext = useMemo(() => getStudyContext('/study-notebook', user), [user]);
@@ -87,6 +89,9 @@ export default function StudyNotebook() {
   const [activeId, setActiveId] = useState<string | null>(() => listNotebooks()[0]?.id ?? null);
   const [notebookCloudSynced, setNotebookCloudSynced] = useState(true);
   const [notebookHydrated, setNotebookHydrated] = useState(false);
+  const hydratedAccountRef = useRef<string | null>(null);
+  const openedSearchLocationRef = useRef('');
+  const [searchLocationError, setSearchLocationError] = useState<string | null>(null);
   const [notebookSaving, setNotebookSaving] = useState(false);
   const [notebookSyncError, setNotebookSyncError] = useState<string | null>(null);
   const notebookSaveTimerRef = useRef<number | null>(null);
@@ -104,16 +109,12 @@ export default function StudyNotebook() {
   const importableRequestScopeRef = useRef<string | null>(null);
   const [previewSourceId, setPreviewSourceId] = useState<string | null>(null);
   const sourcePreviewOpenerRef = useRef<HTMLButtonElement | null>(null);
+  const sourcePreviewButtonsRef = useRef(new Map<string, HTMLButtonElement>());
   const openSourcePreview = (sourceId: string, opener: HTMLButtonElement) => {
     sourcePreviewOpenerRef.current = opener;
     setPreviewSourceId(sourceId);
   };
   const chatScrollRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const requested = searchParams.get('notebook');
-    if (requested && notebooks.some(notebook => notebook.id === requested)) setActiveId(requested);
-  }, [searchParams, notebooks]);
 
   const active = activeId ? getNotebook(activeId) : null;
   const previewSource = active?.sources.find((s) => s.id === previewSourceId) ?? null;
@@ -139,6 +140,7 @@ export default function StudyNotebook() {
 
   useEffect(() => {
     let cancelled = false;
+    hydratedAccountRef.current = null;
     setNotebookHydrated(false);
     void loadNotebookSnapshot(user?.id).then(({ snapshot, cloudSynced, error, readOnly }) => {
       if (cancelled) return;
@@ -146,6 +148,7 @@ export default function StudyNotebook() {
       setActiveId(snapshot.notebooks[0]?.id ?? null);
       setNotebookCloudSynced(cloudSynced);
       setNotebookSyncError(error ?? null);
+      hydratedAccountRef.current = user?.id ?? null;
       setNotebookHydrated(!readOnly);
     });
     return () => {
@@ -154,6 +157,25 @@ export default function StudyNotebook() {
   }, [user?.id]);
 
   useEffect(() => {
+    if (!notebookHydrated || !user?.id || hydratedAccountRef.current !== user.id
+      || getUserContentStorageScope() !== user.id) return;
+    const locationKey = `${user.id}:${location.key}`;
+    if (openedSearchLocationRef.current === locationKey) return;
+    const destination = resolveNotebookSearchLocation(notebooks, searchParams.get('notebook'), searchParams.get('source'));
+    if (destination.notebookId && activeId !== destination.notebookId) {
+      setActiveId(destination.notebookId);
+      return;
+    }
+    openedSearchLocationRef.current = locationKey;
+    setSearchLocationError(destination.error);
+    sourcePreviewOpenerRef.current = destination.sourceId ? sourcePreviewButtonsRef.current.get(destination.sourceId) ?? null : null;
+    setPreviewSourceId(destination.sourceId);
+  }, [activeId, location.key, notebookHydrated, notebooks, searchParams, user?.id]);
+
+  useEffect(() => {
+    setPreviewSourceId(null);
+    setSearchLocationError(null);
+    openedSearchLocationRef.current = '';
     setShowImport(false);
     setImportable([]);
     setImportableLoading(false);
@@ -286,7 +308,7 @@ export default function StudyNotebook() {
         quiz: result.quiz,
         suggestedQuestions: result.suggestedQuestions,
         isAudioScript: result.isAudioScript,
-        sourceIds: sources.map(source => source.id),
+        sourceIds: (result.sources ?? []).map(source => source.id),
       });
       setSelectedQuizId(null);
       refresh();
@@ -424,7 +446,7 @@ export default function StudyNotebook() {
         <meta name="robots" content="noindex, follow" />
       </Helmet>
 
-      <div className="notebook-shell px-4 md:px-6 py-6 md:py-8 max-w-[90rem] mx-auto">
+      <div className="notebook-shell text-foreground px-4 md:px-6 py-6 md:py-8 max-w-[90rem] mx-auto">
         <header className="notebook-hero portal-rise mb-6">
           <LiquidGlass variant="hero" className="px-6 py-8 md:px-10">
             <p className="portal-eyebrow mb-2">
@@ -438,6 +460,7 @@ export default function StudyNotebook() {
             </p>
           </LiquidGlass>
         </header>
+        {searchLocationError && <p role="status" className="surface-tile p-4 mb-6">{searchLocationError}</p>}
 
         {guidedStart && <section className="surface-tile p-5 mb-6" aria-labelledby="first-session-heading">
           <h2 id="first-session-heading" className="text-xl font-semibold">Your first saved attempt</h2>
@@ -532,6 +555,10 @@ export default function StudyNotebook() {
                       </div>
                       <button
                         type="button"
+                        ref={button => {
+                          if (button) sourcePreviewButtonsRef.current.set(src.id, button);
+                          else sourcePreviewButtonsRef.current.delete(src.id);
+                        }}
                         onClick={event => openSourcePreview(src.id, event.currentTarget)}
                         className="text-muted-foreground hover:text-primary p-1"
                         aria-label={`Preview ${src.title}`}
@@ -631,7 +658,7 @@ export default function StudyNotebook() {
             </LiquidGlass>
           </aside>
 
-          <main className="notebook-studio portal-rise portal-stagger-3 min-h-[36rem]">
+          <main className="notebook-studio portal-rise portal-stagger-3 min-w-0 min-h-[36rem]">
             <LiquidGlass variant="panel" className="h-full flex flex-col min-h-[36rem]">
               {active && (
                 <div className="p-4 border-b border-border/50 flex flex-wrap items-center gap-3">

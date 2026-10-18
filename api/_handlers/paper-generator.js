@@ -1,3 +1,4 @@
+import { extractGeneratedText } from '../_lib/aiProviders.js';
 import { verifyAuthUser, rejectOversizedJsonBody } from '../_lib/auth.js';
 import { rateLimitUserEndpoint } from '../_lib/rateLimit.js';
 import {
@@ -11,7 +12,7 @@ import { VERTEX_AGENTS } from '../_lib/vertexAgents.js';
 import { isBlockedImageHostname } from '../../src/lib/safeImageSrc.mjs';
 
 const OPENAI_URL = "https://api.openai.com/v1/chat/completions";
-const DEFAULT_MODEL = "gpt-4.1";
+const DEFAULT_MODEL = "gpt-4.1-mini";
 const MAX_BASE64_BYTES = 3 * 1024 * 1024;
 const MAX_IMAGES = 10;
 const REQUEST_TIMEOUT_MS = 30_000;
@@ -351,7 +352,7 @@ export default async function handler(req, res) {
     } catch {
       return res.status(200).json(fallbackPaperResponse(data, 'malformed_provider_response'));
     }
-    const rawPaper = result?.choices?.[0]?.message?.content;
+    const rawPaper = extractGeneratedText(result);
 
     if (!rawPaper) {
       return res.status(200).json(fallbackPaperResponse(data, 'empty_model_output'));

@@ -1,0 +1,269 @@
+{
+  "slug": "latin",
+  "title": "AP Latin",
+  "category": "World languages",
+  "summary": "Read Latin syntax and develop evidence-based interpretations alongside the current Pliny and Vergil sequence.",
+  "officialUrl": "https://apstudents.collegeboard.org/courses/ap-latin",
+  "frameworkNote": "Checked on 15 October 2026 against the six-unit framework revised for 2025-26 and current in 2026-27. It includes Pliny, Vergil, teacher-selected texts and an annual course project. All Latin sentences here are original teaching examples, not quotations from required texts. Study the assigned passages and current project materials with your teacher.",
+  "assessment": "mixed",
+  "modules": [
+    {
+      "title": "Build a sentence from its inflections",
+      "focus": "Unit 1 prose: identify relationships before translating.",
+      "explanation": [
+        "Latin word order is flexible because endings carry much of the grammatical information. Identify the finite verb, then look for a subject that agrees in number and a direct object in the accusative when the verb takes one. Case forms can be ambiguous, so use syntax and meaning together.",
+        "A translation should preserve relationships without mechanically copying Latin order. In “puellam poeta laudat”, puellam is accusative and poeta is nominative: the poet praises the girl. Poeta is a first-declension noun referring here to a male poet; a noun’s ending alone does not settle its natural gender."
+      ],
+      "workedExample": {
+        "prompt": "Translate the original sentence “servum domina vocat”.",
+        "steps": [
+          "Identify vocat as “calls” and domina as the nominative subject.",
+          "Identify servum as the accusative object: “The mistress calls the enslaved man.”"
+        ]
+      },
+      "misconception": {
+        "claim": "The first Latin word is always the subject.",
+        "correction": "Case and syntax determine grammatical roles; position can instead contribute emphasis."
+      },
+      "questions": [
+        {
+          "prompt": "Translate “agricolam puer videt”.",
+          "hint": "Find the accusative ending.",
+          "answer": "The boy sees the farmer.",
+          "checkpoints": [
+            "Makes puer the subject",
+            "Makes agricolam the object"
+          ],
+          "id": "latin-1-q1"
+        },
+        {
+          "prompt": "What should you do when a case ending is ambiguous?",
+          "hint": "Use more than a dictionary gloss.",
+          "answer": "Check the verb, agreement and surrounding construction before deciding the word’s function.",
+          "checkpoints": [
+            "Uses syntax",
+            "Checks agreement"
+          ],
+          "id": "latin-1-q2"
+        }
+      ],
+      "frameworkUnit": "Unit 1",
+      "id": "latin-1"
+    },
+    {
+      "title": "Trace viewpoint in an event narrative",
+      "focus": "Unit 2 Pliny context: distinguish observation, report and sequence.",
+      "explanation": [
+        "An eyewitness narrative can combine what a writer saw, what others reported and what the writer later inferred. Identify the grammatical signals of each layer before discussing reliability. A vivid account is still a constructed narrative with a recipient, purpose and selected details.",
+        "Latin indirect statement commonly uses an accusative subject and infinitive after a verb of saying or thinking. In the original example “dicit nautam venire”, nautam is the subject of venire: “He says that the sailor is coming.” The infinitive’s tense expresses time relative to the reporting verb."
+      ],
+      "workedExample": {
+        "prompt": "Translate “dixit amicos advenisse”, an original practice sentence.",
+        "steps": [
+          "Dixit introduces reported speech; amicos is the accusative subject.",
+          "Advenisse is a perfect infinitive, so the arrival precedes the saying: “He said that the friends had arrived.”"
+        ]
+      },
+      "misconception": {
+        "claim": "A perfect infinitive always refers directly to the present speaker’s past.",
+        "correction": "Its time is normally understood relative to the main reporting verb."
+      },
+      "questions": [
+        {
+          "prompt": "Translate “credit urbem tutam esse”.",
+          "hint": "Treat urbem as the indirect statement’s subject.",
+          "answer": "He or she believes that the city is safe.",
+          "checkpoints": [
+            "Identifies indirect statement",
+            "Preserves the state of safety"
+          ],
+          "id": "latin-2-q1"
+        },
+        {
+          "prompt": "What evidence separates observation from hearsay in analysis?",
+          "hint": "Look for reporting language.",
+          "answer": "A verb identifying what someone said or reported marks a different evidential layer from the narrator’s direct observation.",
+          "checkpoints": [
+            "Names a textual signal",
+            "Limits the reliability claim"
+          ],
+          "id": "latin-2-q2"
+        }
+      ],
+      "frameworkUnit": "Unit 2",
+      "id": "latin-2"
+    },
+    {
+      "title": "Read purpose and social relationship",
+      "focus": "Unit 3 letters: connect syntax, recipient and tone.",
+      "explanation": [
+        "A letter addresses a particular recipient and may request, reassure, justify or advise. Tone arises from the combination of vocabulary, sentence structure and social relationship. Do not assume that a private-sounding letter has no concern for later readers.",
+        "A purpose clause with ut commonly takes the subjunctive. In “epistulam scripsit ut amicum moneret”, the imperfect subjunctive moneret follows a past main verb and gives the aim: “He wrote a letter to warn his friend.” Purpose describes intention, not proof that the friend was successfully warned."
+      ],
+      "workedExample": {
+        "prompt": "Translate the original sentence “venit ut auxilium peteret”.",
+        "steps": [
+          "Identify venit as “he came” in this context and peteret as imperfect subjunctive.",
+          "Translate ut as purpose: “He came to ask for help.” Do not turn the purpose into an achieved result."
+        ]
+      },
+      "misconception": {
+        "claim": "An ut clause always gives the same relationship.",
+        "correction": "Purpose and result clauses must be distinguished through syntax and context."
+      },
+      "questions": [
+        {
+          "prompt": "What is the purpose in “misit nuntium ut cives moneret” ?",
+          "hint": "Focus on the ut clause.",
+          "answer": "He sent a messenger to warn the citizens.",
+          "checkpoints": [
+            "Identifies warning as the aim",
+            "Does not assert the citizens obeyed"
+          ],
+          "id": "latin-3-q1"
+        },
+        {
+          "prompt": "Why consider a letter’s recipient when analysing tone?",
+          "hint": "Think about relationship and purpose.",
+          "answer": "A request to an official and reassurance to a close relation may use different strategies even on a similar topic.",
+          "checkpoints": [
+            "Connects audience to choices",
+            "Avoids treating tone as isolated vocabulary"
+          ],
+          "id": "latin-3-q2"
+        }
+      ],
+      "frameworkUnit": "Unit 3",
+      "id": "latin-3"
+    },
+    {
+      "title": "Read poetry through syntax and metre",
+      "focus": "Unit 4 poetry: distinguish word placement from grammatical connection.",
+      "explanation": [
+        "Latin poetry can separate words that belong together. Agreement in case, number and gender helps connect an adjective to its noun across intervening words. Translate the grammatical relationship first, then ask how the separation directs attention or creates emphasis.",
+        "Dactylic hexameter organises syllable quantities into six feet. A dactyl contains one long and two short syllables; a spondee contains two long syllables. Quantity is not identical to English stress. Accurate scansion also requires attention to vowel length, syllable closure and elision in the actual assigned verse."
+      ],
+      "workedExample": {
+        "prompt": "Interpret the original prose-order variation “magnam poeta narrat cladem”.",
+        "steps": [
+          "Connect magnam to cladem through feminine accusative singular agreement.",
+          "Translate “The poet recounts a great disaster”; then describe how separation delays completion of the noun phrase."
+        ]
+      },
+      "misconception": {
+        "claim": "Poetic word order makes case endings optional.",
+        "correction": "Inflection remains essential for connecting separated words."
+      },
+      "questions": [
+        {
+          "prompt": "Represent a dactyl using long and short labels.",
+          "hint": "It has three syllables.",
+          "answer": "Long-short-short.",
+          "checkpoints": [
+            "Begins with a long",
+            "Ends with two shorts"
+          ],
+          "id": "latin-4-q1"
+        },
+        {
+          "prompt": "What links “saeva” and “ira” if other words intervene?",
+          "hint": "Check agreement rather than proximity.",
+          "answer": "Their matching feminine nominative singular forms can identify the adjective-noun relationship, subject to the full sentence.",
+          "checkpoints": [
+            "Uses agreement",
+            "Checks context"
+          ],
+          "id": "latin-4-q2"
+        }
+      ],
+      "frameworkUnit": "Unit 4",
+      "id": "latin-4"
+    },
+    {
+      "title": "Support an interpretation of epic choice",
+      "focus": "Unit 5 Vergil: connect action, language and competing obligations.",
+      "explanation": [
+        "An epic character can face obligations that pull in different directions. Analysis should show how a passage presents that conflict through action, speech, imagery or narrative framing. A thematic label such as duty is a starting point; it is not evidence by itself.",
+        "Participles and ablative absolutes often compress background circumstances. In the original example “urbe relicta, cives fugerunt”, urbe relicta is an ablative absolute: “After the city had been abandoned, the citizens fled.” Context may support temporal, causal or concessive nuance, but do not add a motive that the grammar alone cannot establish."
+      ],
+      "workedExample": {
+        "prompt": "Translate “hostibus visis, dux constitit”, an original exercise.",
+        "steps": [
+          "Identify hostibus visis as an ablative absolute: “when the enemies had been seen”.",
+          "Translate dux constitit as “the leader stopped”; the sentence does not itself explain whether fear or strategy caused the stop."
+        ]
+      },
+      "misconception": {
+        "claim": "A character’s action proves one fixed motive.",
+        "correction": "Motives need support from language and context, and a passage may sustain tension."
+      },
+      "questions": [
+        {
+          "prompt": "What two components form “urbe relicta” ?",
+          "hint": "Identify case and agreement.",
+          "answer": "An ablative noun and agreeing perfect passive participle, forming an ablative absolute.",
+          "checkpoints": [
+            "Names both components",
+            "Identifies ablative agreement"
+          ],
+          "id": "latin-5-q1"
+        },
+        {
+          "prompt": "How would you support a claim about conflicting obligations?",
+          "hint": "Move from theme to textual evidence.",
+          "answer": "Identify two demands in the passage and explain how specific language or actions place them in tension.",
+          "checkpoints": [
+            "Uses two demands",
+            "Explains textual support"
+          ],
+          "id": "latin-5-q2"
+        }
+      ],
+      "frameworkUnit": "Unit 5",
+      "id": "latin-5"
+    },
+    {
+      "title": "Prepare a passage-based project argument",
+      "focus": "Unit 6 project: distinguish translation, context and interpretation.",
+      "explanation": [
+        "A project argument should begin with accurate comprehension of the assigned passages. Record difficult forms, resolve syntax and keep a literal translation beside interpretive notes. A broad historical idea cannot repair a mistranslated verb or an incorrectly identified speaker.",
+        "Use contextual sources to clarify the text, while distinguishing established information from your own inference. Organise each claim around a passage feature and explain its effect. The annual project passages are selected for that year; these original exercises do not reproduce them or complete the required project."
+      ],
+      "workedExample": {
+        "prompt": "Evaluate “The narrator approves because the event is described vividly.”",
+        "steps": [
+          "Identify the unsupported leap: vivid description does not establish approval.",
+          "Seek evaluative wording, reported reactions or framing that supports the claimed attitude, and revise the claim if evidence remains ambiguous."
+        ]
+      },
+      "misconception": {
+        "claim": "A fluent English paraphrase proves every Latin detail is understood.",
+        "correction": "A paraphrase can conceal errors in tense, agency, negation or reported speech."
+      },
+      "questions": [
+        {
+          "prompt": "Name two grammatical details to verify before interpreting a passage.",
+          "hint": "Consider who acts and when.",
+          "answer": "Check the subject or agent and the tense or temporal relationship of the main verbs.",
+          "checkpoints": [
+            "Checks agency",
+            "Checks time"
+          ],
+          "id": "latin-6-q1"
+        },
+        {
+          "prompt": "How should a project handle two plausible interpretations?",
+          "hint": "Compare support rather than forcing certainty.",
+          "answer": "State the alternatives, weigh the textual evidence and explain why one is stronger or why uncertainty remains.",
+          "checkpoints": [
+            "Uses evidence",
+            "Preserves legitimate uncertainty"
+          ],
+          "id": "latin-6-q2"
+        }
+      ],
+      "frameworkUnit": "Unit 6",
+      "id": "latin-6"
+    }
+  ]
+}

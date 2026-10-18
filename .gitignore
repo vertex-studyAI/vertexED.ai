@@ -12,6 +12,10 @@ node_modules/
 dist/
 dist-ssr/
 .vertexed-test-dist/
+.vertexed-access-test-dist/
+.vertexed-product-test-dist/
+.vertexed-product-final-dist/
+.vertexed-focus-final-dist/
 /public/neurocad/
 .tmp/
 test-results/

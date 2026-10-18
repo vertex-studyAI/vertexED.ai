@@ -169,25 +169,6 @@ export default function PaperMaker({ priorPapers = [] }) {
   }, []);
 
   useEffect(() => {
-    if (searchParams.get("resumeMock") !== "1") return;
-    const draft = loadMockExamDraft();
-    if (!draft) {
-      setError("That mock draft is no longer available in this browser tab.");
-      return;
-    }
-    if (draft.board) {
-      prevBoardRef.current = draft.board;
-      setBoard(draft.board);
-    }
-    if (typeof draft.grade === "number") setGrade(draft.grade);
-    if (draft.subject) setSubject(draft.subject);
-    setPaper(draft.paper);
-    setMockCramMode(draft.cramMode);
-    setMockExamOpen(true);
-    setSaveStatus("Resumed saved mock draft");
-  }, [searchParams]);
-
-  useEffect(() => {
     if (prevBoardRef.current === board) return;
     prevBoardRef.current = board;
     setGrade(null);
@@ -207,6 +188,28 @@ export default function PaperMaker({ priorPapers = [] }) {
     setShowMarkScheme(false);
     setError("");
   }, [board]);
+
+  useEffect(() => {
+    if (searchParams.get("resumeMock") !== "1") return;
+    const draft = loadMockExamDraft();
+    if (!draft) {
+      setError("That mock draft is no longer available in this browser tab.");
+      return;
+    }
+    // Apply recovery after the board reset effect, then establish the restored
+    // configuration as the baseline. Later learner edits still invalidate it.
+    previousGenerationConfigKeyRef.current = null;
+    if (draft.board) {
+      prevBoardRef.current = draft.board;
+      setBoard(draft.board);
+    }
+    if (typeof draft.grade === "number") setGrade(draft.grade);
+    if (draft.subject) setSubject(draft.subject);
+    setPaper(draft.paper);
+    setMockCramMode(draft.cramMode);
+    setMockExamOpen(true);
+    setSaveStatus("Resumed saved mock draft");
+  }, [searchParams]);
 
   useEffect(() => {
     const tags = topics.split(",").map((t) => t.trim()).filter(Boolean);

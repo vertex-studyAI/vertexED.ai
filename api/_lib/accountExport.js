@@ -32,7 +32,7 @@ export async function listAllOwnedRows(queryFactory, options = {}) {
   return rows;
 }
 
-export function buildAccountExport({ user, profile, waitlist, studyArtifacts, learnerState, exportedAt }) {
+export function buildAccountExport({ user, profile, waitlist, studyArtifacts, learnerState, aiUsageOperations = [], aiUsage = null, exportedAt }) {
   const providers = Array.from(new Set(
     (Array.isArray(user?.identities) ? user.identities : [])
       .map((identity) => identity?.provider)
@@ -55,13 +55,17 @@ export function buildAccountExport({ user, profile, waitlist, studyArtifacts, le
     waitlist: waitlist ?? null,
     studyArtifacts,
     learnerState,
+    aiUsageOperations,
+    aiUsage,
     counts: {
       studyArtifacts: studyArtifacts.length,
       learnerState: learnerState.length,
+      aiUsageOperations: aiUsageOperations.length,
     },
     exclusions: [
       'Server observability is privacy-minimised and not linked to account identities.',
       'Authentication secrets, sessions, password hashes, service metadata, and invite tokens are never exported.',
+      'After account deletion, pseudonymous AI allowance records retain spend and unresolved exposure to prevent quota resets; prompts and response text are not stored in this ledger.',
     ],
   };
 }

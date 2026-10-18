@@ -1,0 +1,36 @@
+import { expect, test } from '@playwright/test';
+
+test('reviewed science wording and suggested practice marks are visible and readable on mobile', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/myp/subjects/physics/light');
+  await expect(page.locator('.myp-worked')).toContainText('included front-side angle');
+  await expect(page.locator('.myp-worked')).toContainText('propagation directions is 180° - 130° = 50°');
+  await page.locator('.myp-worked').screenshot({ path: 'test-results/science-review-light-390.png', animations: 'disabled' });
+  await page.goto('/myp/subjects/physics/atomic-and-nuclear-concepts');
+  await page.getByRole('group', { name: 'Choose practice question' }).getByRole('button').last().click();
+  await expect(page.locator('.myp-active-question h3')).toContainText('background-corrected detector count rate');
+  await expect(page.locator('.myp-question-line')).toContainText('Suggested practice marks: 6');
+  await expect(page.locator('meta[name="description"]')).toHaveCount(1);
+  await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /revision checklist/);
+  await page.getByRole('button', { name: 'Compare with the worked solution' }).click();
+  await expect(page.locator('.myp-solution')).toContainText('4 hours');
+  await page.locator('.myp-question-line').screenshot({ path: 'test-results/science-review-marks-390.png', animations: 'disabled' });
+  expect(await page.locator('.myp-question-line').evaluate(el => el.scrollWidth <= el.clientWidth)).toBe(true);
+  await page.goto('/myp/subjects/biology/human-physiology');
+  await expect(page.getByText(/Dissolved oxygen determines blood oxygen partial pressure/)).toBeAttached();
+  await page.locator('.myp-worked').screenshot({ path: 'test-results/science-review-oxygen-390.png', animations: 'disabled' });
+  await page.getByRole('group', { name: 'Choose practice question' }).getByRole('button').last().click();
+  await page.getByRole('button', { name: 'Compare with the worked solution' }).click();
+  await expect(page.locator('.myp-solution')).toContainText('dissolved pool');
+  await page.goto('/myp/subjects/biology/reproduction');
+  const explanation = page.getByText(/Crossing over exchanges corresponding DNA sections/);
+  await expect(explanation).toBeAttached();
+  await explanation.screenshot({ path: 'test-results/science-review-meiosis-390.png', animations: 'disabled' });
+  await page.getByRole('group', { name: 'Choose practice question' }).getByRole('button').nth(1).click();
+  await page.getByRole('button', { name: 'Compare with the worked solution' }).click();
+  await expect(page.locator('.myp-solution')).toContainText('crossing over during meiosis');
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await page.goto('/myp');
+  await expect(page.locator('meta[name="description"][content^="Plan revision, practise papers"]')).toHaveCount(1);
+});

@@ -4,9 +4,40 @@ import {
   safeStorageRemove,
   safeStorageSet,
 } from './browserStorage.mjs';
+import { safeAuthReturnPath } from './authUi.mjs';
 
 const GOOGLE_LINK_RETURN_KEY = 'vertex_google_link_return';
 const GOOGLE_LINK_RETURN_DESTINATION = '/user-settings';
+const GOOGLE_LOGIN_RETURN_KEY = 'vertex_google_login_return';
+const GOOGLE_LOGIN_RETURN_TTL = 10 * 60_000;
+
+/** Remember only a local navigation destination, never OAuth credentials. */
+export function prepareGoogleLoginReturn(owner, destination, now = Date.now()) {
+  const storage = resolveSessionStorage(owner);
+  const path = safeAuthReturnPath(destination, null);
+  if (!safeStorageRemove(storage, GOOGLE_LOGIN_RETURN_KEY) || !path || !Number.isFinite(now)) return false;
+  return safeStorageSet(storage, GOOGLE_LOGIN_RETURN_KEY, JSON.stringify({ version: 1, path, createdAt: now }));
+}
+
+export function clearGoogleLoginReturn(owner) {
+  return safeStorageRemove(resolveSessionStorage(owner), GOOGLE_LOGIN_RETURN_KEY);
+}
+
+/** Consume before validation; failed cleanup never permits a return navigation. */
+export function consumeGoogleLoginReturn(owner, now = Date.now()) {
+  const storage = resolveSessionStorage(owner);
+  const raw = safeStorageGet(storage, GOOGLE_LOGIN_RETURN_KEY);
+  if (!safeStorageRemove(storage, GOOGLE_LOGIN_RETURN_KEY) || !raw) return null;
+  try {
+    const record = JSON.parse(raw);
+    if (record?.version !== 1 || !Number.isFinite(record.createdAt) || !Number.isFinite(now)) return null;
+    const age = now - record.createdAt;
+    if (age < 0 || age >= GOOGLE_LOGIN_RETURN_TTL) return null;
+    return safeAuthReturnPath(record.path, null);
+  } catch {
+    return null;
+  }
+}
 
 /** Route provider returns sent to the site URL through the existing callback.
  * Keep credentials in the URL only until Supabase/the callback consumes them;

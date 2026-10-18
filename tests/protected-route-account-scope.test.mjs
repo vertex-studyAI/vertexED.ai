@@ -6,20 +6,20 @@ const source = fs.readFileSync('src/components/ProtectedRoute.tsx', 'utf8');
 
 test('private-beta access decisions are stored with the user they belong to', () => {
   assert.match(source, /const \[accessUserId, setAccessUserId\] = useState<string \| null>\(null\)/);
-  assert.match(source, /setAccess\("approved"\);[\s\S]*?setAccessUserId\(user\.id\)/);
-  assert.match(source, /setAccess\(data\.status === "approved"[\s\S]*?setAccessUserId\(user\.id\)/);
-  assert.match(source, /setAccess\("unavailable"\);[\s\S]*?setAccessUserId\(user\.id\)/);
+  assert.match(source, /setAccess\("approved"\);[\s\S]*?setAccessUserId\(userId\)/);
+  assert.match(source, /setAccess\(next\)[\s\S]*?setAccessUserId\(userId\)/);
+  assert.match(source, /setAccess\(error.kind === 'session' \? 'signed_out' : 'unavailable'\);[\s\S]*?setAccessUserId\(userId\)/);
 });
 
 test('an old account cannot reuse a prior approved decision for one render', () => {
   assert.match(source, /const accessDecisionIsCurrent = Boolean\(user && accessUserId === user\.id\);/);
   assert.match(
     source,
-    /if \(loading \|\| \(user && \(!accessDecisionIsCurrent \|\| access === "checking"\)\)\) return <PageLoader label="Checking your access" \/>;/,
+    /if \(!accessDecisionIsCurrent \|\| access === 'checking'\) return <PageLoader label="Checking your access" \/>;/,
   );
 
   const identityCheck = source.indexOf('const accessDecisionIsCurrent = Boolean(user && accessUserId === user.id);');
-  const accessGate = source.indexOf('if (loading || (user && (!accessDecisionIsCurrent || access === "checking")))', identityCheck);
+  const accessGate = source.indexOf("if (!accessDecisionIsCurrent || access === 'checking')", identityCheck);
   const children = source.lastIndexOf('return children;');
   assert.ok(identityCheck >= 0 && identityCheck < accessGate, 'current identity must be verified before evaluating the route');
   assert.ok(accessGate < children, 'a stale access decision must fail closed before protected children can render');

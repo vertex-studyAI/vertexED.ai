@@ -26,6 +26,7 @@ import type { ExamBoard } from "@/types/curriculum";
 import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
+import { KATEX_RENDER_OPTIONS } from "@/lib/mathRendering";
 import MarkdownLink from "@/components/markdown/MarkdownLink";
 import { enrichMathInText } from "@/lib/mathText";
 import { sanitizeMarkdown } from "@/lib/sanitize";
@@ -1165,7 +1166,7 @@ export default function AIAnswerReview() {
                                 </section>
                               )}
                             </div>
-                          ) : <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]} components={{
+                          ) : <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[[rehypeKatex, KATEX_RENDER_OPTIONS]]} components={{
                             a: MarkdownLink,
                             p: ({ children }) => <p className="leading-relaxed text-muted-foreground">{children}</p>,
                             h1: ({ children }) => <h1 className="text-2xl font-bold text-foreground">{children}</h1>,

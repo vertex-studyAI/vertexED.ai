@@ -4,6 +4,9 @@ import { studySyncError } from '@/lib/studySyncError.mjs';
 
 const PLANNER_SYNC_TIMEOUT_MS = 15_000;
 const PLANNER_SYNC_TIMEOUT_MESSAGE = 'Cloud sync timed out; using planner saved on this device';
+// Each browser tab must compare the device bytes it actually loaded or wrote.
+// Shared sync metadata alone cannot authorize replacing another tab's edits.
+const localPlannerRevisions = new Map<string, string>();
 import { getUserContentStorageScope } from '@/lib/userContentStorageScope.mjs';
 import { readSnapshotArray, backupSnapshotBytes, readSnapshotMetadata, writeSnapshotMetadata, writeSnapshotValues, reconcileSnapshot, serializeSnapshotWrite, captureSnapshotRevision, expectedSnapshotRevision } from '@/lib/snapshotConcurrency.mjs';
 import type { TaskItem } from '@/features/study-calendar/components/Schedule';
@@ -14,6 +17,7 @@ import { supabase } from '@/lib/supabaseClient';
 
 export type PlannerSnapshot = {
   tasks: TaskItem[];
+  coursework?: import('@/lib/coursework.mjs').CourseworkProject[];
   mode: string;
   updatedAt: string;
 };
@@ -49,9 +53,15 @@ function readLocalSnapshot(storageScope?: string | null): PlannerSnapshot {
     const modeRaw = localStorage.getItem(keys.mode);
     return validatePlannerSnapshot({
       tasks,
+      coursework: readSnapshotArray(localStorage, keys.coursework),
       mode: modeRaw || 'Day',
       updatedAt: localStorage.getItem(keys.updatedAt) || new Date(0).toISOString(),
     });
+}
+
+function localPlannerRevision(storageScope: string | null | undefined) {
+  const keys = plannerStorageKeys(storageScope);
+  return JSON.stringify([keys.tasks, keys.coursework, keys.mode, keys.updatedAt].map(key => localStorage.getItem(key)));
 }
 
 export function writeLocalPlannerSnapshot(
@@ -63,9 +73,11 @@ export function writeLocalPlannerSnapshot(
   const keys = plannerStorageKeys(storageScope);
   writeSnapshotValues(localStorage, [
     [keys.tasks, JSON.stringify(snapshot.tasks)],
+    [keys.coursework, JSON.stringify(snapshot.coursework ?? [])],
     [keys.mode, snapshot.mode],
     [keys.updatedAt, snapshot.updatedAt],
   ]);
+  localPlannerRevisions.set(keys.updatedAt, localPlannerRevision(storageScope));
 }
 
 function parseCloudSnapshot(item: {
@@ -73,7 +85,10 @@ function parseCloudSnapshot(item: {
   updated_at?: string;
 }): PlannerSnapshot | null {
   try {
-    return validatePlannerSnapshot({ tasks: item.payload?.tasks, mode: item.payload?.mode ?? 'Day', updatedAt: item.updated_at });
+    const version = item.payload?.version;
+    if (version !== undefined && version !== 1 && version !== 2) return null;
+    if (version === 2 && item.payload?.coursework === undefined) return null;
+    return validatePlannerSnapshot({ tasks: item.payload?.tasks, coursework: item.payload?.coursework === undefined ? [] : item.payload.coursework, mode: item.payload?.mode ?? 'Day', updatedAt: item.updated_at });
   } catch { return null; }
 }
 
@@ -94,6 +109,7 @@ export async function loadPlannerSnapshot(storageScope?: string | null, acceptCl
   let localReadFailed = false;
   try {
     local = readLocalSnapshot(resolvedScope);
+    localPlannerRevisions.set(keys.updatedAt, localPlannerRevision(resolvedScope));
   } catch {
     localReadFailed = true;
     if (!acceptCloud) return { snapshot: emptySnapshot(), cloudSynced: false, readOnly: true, error: 'Device planner could not be read. Export account data or reload the cloud copy. Original device data is preserved.' };
@@ -166,10 +182,23 @@ export async function savePlannerSnapshot(
   const resolvedScope = await resolveStorageScope(storageScope);
   if (!resolvedScope || getUserContentStorageScope() !== resolvedScope) return { ok: false, cloudSynced: false, error: 'Account changed or session unavailable.' };
   const metadataKey = plannerStorageKeys(resolvedScope).updatedAt;
+  let savedLocalRevision: string;
   try {
-    readLocalSnapshot(resolvedScope);
+    const existing = readLocalSnapshot(resolvedScope);
+    const actualRevision = localPlannerRevision(resolvedScope);
+    const expectedLocalRevision = localPlannerRevisions.get(metadataKey);
+    if (expectedLocalRevision !== undefined && expectedLocalRevision !== actualRevision) {
+      return { ok: false, cloudSynced: false, error: 'Planner changed in another tab. Reload the latest device copy before saving. Your device data is preserved.' };
+    }
+    // Onboarding and other task-only callers must retain existing coursework.
+    // Only omission is a legacy caller; explicit null is invalid data.
+    snapshot = { ...snapshot, coursework: snapshot.coursework === undefined ? existing.coursework ?? [] : snapshot.coursework };
+    if (expectedLocalRevision === undefined && existing.coursework?.length && snapshot.coursework !== existing.coursework) {
+      return { ok: false, cloudSynced: false, error: 'Load the latest planner before changing saved coursework. Your device data is preserved.' };
+    }
     const metadata = readSnapshotMetadata(localStorage, metadataKey);
     writeLocalPlannerSnapshot(snapshot, resolvedScope);
+    savedLocalRevision = localPlannerRevision(resolvedScope);
     writeSnapshotMetadata(localStorage, metadataKey, { ...metadata, pending: true });
   } catch (error) { return { ok: false, cloudSynced: false, error: studySyncError(error, 'sync') }; }
   return serializeSnapshotWrite(metadataKey, async () => {
@@ -179,7 +208,7 @@ export async function savePlannerSnapshot(
       const token = accessToken || await getAccessToken();
       if (!token || getUserContentStorageScope() !== resolvedScope) return { ok: true, cloudSynced: false, error: 'Saved on this device. Sign in again to resume cloud sync.' };
       const metadata = readSnapshotMetadata(localStorage, metadataKey);
-      const payload = { tasks: snapshot.tasks, mode: snapshot.mode, version: 1 };
+      const payload = { tasks: snapshot.tasks, coursework: snapshot.coursework ?? [], mode: snapshot.mode, version: 2 };
       if (new TextEncoder().encode(JSON.stringify(payload)).length > 256 * 1024) return { ok: true, cloudSynced: false, error: 'This collection exceeds the cloud save limit. Export a backup and reduce its size to resume sync.' };
       const res = await authFetchWithAccessToken('/api/user-content', token, {
         signal: deadline.signal,
@@ -191,8 +220,9 @@ export async function savePlannerSnapshot(
       if (typeof data?.item?.updated_at !== 'string') return { ok: true, cloudSynced: false, error: 'Cloud acknowledgement was incomplete. Local work is preserved.' };
       if (getUserContentStorageScope() !== resolvedScope) return { ok: true, cloudSynced: false, error: 'Account changed after saving.' };
       captureSnapshotRevision(metadataKey, data.item.updated_at);
-      const current = readLocalSnapshot(resolvedScope);
-      const pending = current.updatedAt !== snapshot.updatedAt;
+      // Different edits can share a millisecond timestamp. Acknowledging one
+      // must never mark a later coursework edit as already saved to account.
+      const pending = localPlannerRevision(resolvedScope) !== savedLocalRevision;
       writeSnapshotMetadata(localStorage, metadataKey, { revision: data.item.updated_at, pending, syncedLocalTime: snapshot.updatedAt });
       trackPlannerSaved({ cloudSynced: !pending, taskCount: snapshot.tasks.length });
       return { ok: true, cloudSynced: !pending };

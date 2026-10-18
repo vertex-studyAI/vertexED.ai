@@ -3,6 +3,10 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import AccessibleModal from "@/components/AccessibleModal";
 import Calendar from "./components/Calendar";
 import CalendarExport from "./components/CalendarExport";
+import CalendarImport from './components/CalendarImport';
+import CourseworkTracker from './components/CourseworkTracker';
+import type { CourseworkProject } from '@/lib/coursework.mjs';
+import DateNavigation from './components/DateNavigation';
 import Schedule, { TaskItem } from "./components/Schedule";
 import TimeLeftWidget from "./components/TimeLeftWidget";
 import "./styles/planner.css";
@@ -42,6 +46,7 @@ const PlannerView: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [mode, setMode] = useState("Day");
   const [tasks, setTasks] = useState<TaskItem[]>([]);
+  const [coursework, setCoursework] = useState<CourseworkProject[]>([]);
   const [isMobile, setIsMobile] = useState<boolean>(() => (typeof window !== 'undefined') ? window.matchMedia('(max-width: 900px)').matches : false);
   const [linkedReview, setLinkedReview] = useState<string | null>(null);
   const [linkedReviewContext, setLinkedReviewContext] = useState<{ question: string; answer: string; feedback: string } | null>(null);
@@ -109,6 +114,7 @@ const PlannerView: React.FC = () => {
     void loadPlannerSnapshot(currentUserId).then(({ snapshot, cloudSynced: synced, error, readOnly }) => {
       if (cancelled) return;
       setTasks(snapshot.tasks);
+      setCoursework(snapshot.coursework ?? []);
       setMode(snapshot.mode);
       setCloudSynced(synced);
       setSyncError(error ?? null);
@@ -128,7 +134,7 @@ const PlannerView: React.FC = () => {
     // Persist immediately after an action. A navigation must not discard an
     // edit during a debounce window. Cloud writes remain serialized by the store.
     void savePlannerSnapshot({
-      tasks, mode, updatedAt: new Date().toISOString(),
+      tasks, coursework, mode, updatedAt: new Date().toISOString(),
     }, currentUserId).then((result) => {
       if (cancelled) return;
       setCloudSynced(result.cloudSynced);
@@ -137,20 +143,31 @@ const PlannerView: React.FC = () => {
       setSyncError(result.error ?? null);
     });
     return () => { cancelled = true; };
-  }, [tasks, mode, plannerReady, currentUserId]);
+  }, [tasks, coursework, mode, plannerReady, currentUserId]);
 
   useEffect(() => {
     if (!plannerReady) return;
     const rebalance = () => {
+      if (getUserContentStorageScope() !== currentUserId) return;
       const result = rebalanceMissedTasks(tasksRef.current);
       if (result.moved) {
+        tasksRef.current = result.tasks;
         setTasks(result.tasks);
         setPlanNotice(`Moved ${result.moved} missed study task${result.moved === 1 ? '' : 's'} within your chosen study windows. Open a task to adjust or lock its time.`);
       }
     };
     rebalance();
     const timer = window.setInterval(rebalance, 60_000);
-    return () => window.clearInterval(timer);
+    const resume = () => { if (document.visibilityState === 'visible') rebalance(); };
+    window.addEventListener('focus', resume);
+    window.addEventListener('online', resume);
+    document.addEventListener('visibilitychange', resume);
+    return () => {
+      window.clearInterval(timer);
+      window.removeEventListener('focus', resume);
+      window.removeEventListener('online', resume);
+      document.removeEventListener('visibilitychange', resume);
+    };
   }, [plannerReady, currentUserId]);
 
   // Listen for viewport changes to determine mobile
@@ -213,12 +230,11 @@ const PlannerView: React.FC = () => {
     return () => { cancelled = true; };
   }, [searchParams, plannerReady, currentUserId, setSearchParams]);
 
-  const selectedInputDate = () => `${selectedDate.getFullYear()}-${String(selectedDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(2, '0')}`;
-  const openNewTask = () => {
+  const openNewTask = (date = selectedDate) => {
     setLinkedReview(null);
     setTaskKind('study'); setAutoMove(false); setDueDate(''); setPriority(2);
     setUseAi(false); setAiInput(""); setAiError(null);
-    setTaskDate(selectedInputDate()); setTaskStartTime("10:00"); setTaskDuration("60");
+    setTaskDate(`${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`); setTaskStartTime("10:00"); setTaskDuration("60");
     setAiOpen(true);
   };
 
@@ -358,7 +374,7 @@ const PlannerView: React.FC = () => {
   return (
     <div className="planner-root" aria-busy={plannerLoading}>
       <div className="planner-header">
-        <h1 className="planner-title">{formattedHeaderDate}</h1>
+        <div className="planner-heading"><p>Your planner</p><h1 className="planner-title" aria-live="polite">{formattedHeaderDate}</h1></div>
         <StudySaveStatus state={plannerLoading ? 'loading' : plannerSaving ? 'saving' : plannerSaveFailed ? 'failed' : cloudSynced ? 'cloud' : 'device'} onRetry={plannerReady ? () => setTasks(previous => [...previous]) : undefined} />
           {!plannerLoading && !cloudSynced && (
             <div
@@ -368,11 +384,11 @@ const PlannerView: React.FC = () => {
               <span className="font-medium">{plannerReady ? plannerSaveFailed ? 'Device save failed' : 'Saved on this device' : 'Planner recovery needs attention'}</span>
               <span className="opacity-90 leading-snug">{syncError || 'Planner not synced to cloud'}</span>
               <button type="button" className="planner-today" onClick={() => {
-                if (!window.confirm('Load the cloud planner? Your current local copy will be kept in your account export as a recovery backup.')) return;
+                if (!window.confirm('Load the cloud planner? Export any unsaved work from this page first. The saved device copy will be kept in your account export as a recovery backup.')) return;
                 setPlannerLoading(true);
                 void loadPlannerSnapshot(currentUserId, true).then(result => {
                   if (getUserContentStorageScope() !== currentUserId) return;
-                  setTasks(result.snapshot.tasks); setMode(result.snapshot.mode);
+                  setTasks(result.snapshot.tasks); setCoursework(result.snapshot.coursework ?? []); setMode(result.snapshot.mode);
                   setCloudSynced(result.cloudSynced); setSyncError(result.error ?? null);
                   hydratedUserIdRef.current = result.readOnly ? null : currentUserId; setPlannerLoading(false);
                 });
@@ -380,18 +396,30 @@ const PlannerView: React.FC = () => {
               {!plannerReady && <a className="text-primary underline" href="/user-settings">Open account data export</a>}
             </div>
           )}
-        <div className="planner-controls">
+        <div className="planner-controls" role="group" aria-label="Browse your plan">
+          <DateNavigation selectedDate={selectedDate} mode={mode} onChange={setSelectedDate}>
+          <button className="planner-today" onClick={() => setSelectedDate(new Date())}>Today</button>
           {!isMobile && (
             <select className="planner-select" value={mode} onChange={(e) => setMode(e.target.value)} disabled={!plannerReady} aria-label="Planner view">
               <option value="Day">Day</option>
               <option value="Week">Week</option>
             </select>
           )}
-          <button className="planner-today" onClick={() => setSelectedDate(new Date())}>Today</button>
+          </DateNavigation>
         </div>
 	<div className="planner-actions">
-          <button className="planner-new" disabled={!plannerReady} onClick={openNewTask}>New Task</button>
+          <button className="planner-new" disabled={!plannerReady} onClick={() => openNewTask()}>New Task</button>
+          {plannerReady && <button className="planner-today" onClick={() => {
+            const url = URL.createObjectURL(new Blob([JSON.stringify({ format: 'vertexed-planner', version: 2, tasks, coursework, mode, exportedAt: new Date().toISOString() }, null, 2)], { type: 'application/json' }));
+            const link = document.createElement('a'); link.href = url; link.download = 'vertexed-planner.json'; link.click();
+            window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+          }}>Export this plan</button>}
           {plannerReady && currentUserId && <CalendarExport key={currentUserId} tasks={tasks} accountId={currentUserId} selectedDate={selectedDate} />}
+          {plannerReady && currentUserId && <CalendarImport key={`import:${currentUserId}`} tasks={tasks} accountId={currentUserId} onCommit={(expected, next) => {
+            if (getUserContentStorageScope() !== currentUserId || tasksRef.current !== expected) throw new Error('Your account or plan changed. Review the file again.');
+            tasksRef.current = next;
+            setTasks(next);
+          }} />}
           <button className="planner-today" disabled={!plannerReady || weekPlanBusy || aiBusy} onClick={() => void suggestWeekFromAI()}>
             {weekPlanBusy ? "Planning…" : "AI week plan"}
           </button>
@@ -406,13 +434,6 @@ const PlannerView: React.FC = () => {
 	  </button>
 	</div>
       </div>
-      {plannerReady && <section className="planner-workload mx-4 my-4 border-y border-border py-4" aria-label="Planner workload">
-        <h2 className="text-lg font-semibold">Your study week</h2>
-        <p>{workload.planned} minutes planned in the next 7 days · {workload.completed} scheduled minutes marked complete in the last 7 days · {workload.backlog.length} missed tasks</p>
-        <p className="text-sm text-muted-foreground">Completed time uses each task’s planned duration, not a measured timer. Fixed commitments reserve time and do not count as studying.</p>
-        {workload.backlog.length > 0 && <details><summary className="min-h-11 cursor-pointer">Review missed work</summary><ul>{workload.backlog.map((task: TaskItem) => <li key={task.id}><button className="planner-today" onClick={() => handleEditTask(task)}>{task['task name']} · {task.reschedule ? 'No available slot before its deadline or within 14 days' : 'Fixed time; choose a new date'}</button></li>)}</ul></details>}
-        {completedTasks.length > 0 && <details><summary className="min-h-11 cursor-pointer">Recent completed tasks</summary><ul>{completedTasks.map(task => <li key={task.id} className="flex flex-wrap items-center gap-2">{task['task name']} · {task['task duration']} minutes <button className="planner-today" onClick={() => reopenTask(task)}>Reopen {task['task name']}</button><button className="planner-today" onClick={() => handleEditTask(task)}>Change time for {task['task name']}</button></li>)}</ul></details>}
-      </section>}
       {planError && <p role="alert" className="planner-message">{planError}</p>}
       {planNotice && <p role="status" className="planner-message">{planNotice}</p>}
       {activeTasks.some(task => typeof task.reviewArtifactId === 'string') && <section className="surface-tile mx-4 my-4 p-4" aria-labelledby="planned-retries-heading">
@@ -447,8 +468,24 @@ const PlannerView: React.FC = () => {
             <div id="planner-mobile-calendar" hidden={isMobile && !mobileCalOpen} className={`mobile-calendar-wrapper ${mobileCalOpen ? 'open' : ''}`}>
               <Calendar onDateChange={setSelectedDate} selectedDate={selectedDate} mode={mode} />
             </div>
-            <Schedule mode={mode} selectedDate={selectedDate} tasks={activeTasks} onTaskComplete={handleTaskComplete} onEditTask={handleEditTask} />
+            <Schedule mode={mode} selectedDate={selectedDate} tasks={activeTasks} onTaskComplete={handleTaskComplete} onEditTask={handleEditTask} onAddTask={openNewTask} />
           </div>
+          <section className="planner-workload mx-4 my-4 border-y border-border py-4" aria-label="Planner workload">
+            <h2 className="text-lg font-semibold">Your study week</h2>
+            <p>{workload.planned} minutes planned in the next 7 days · {workload.completed} scheduled minutes marked complete in the last 7 days · {workload.backlog.length} missed tasks</p>
+            <p className="text-sm text-muted-foreground">Completed time uses each task’s planned duration, not a measured timer. Fixed commitments reserve time and do not count as studying.</p>
+            {workload.backlog.length > 0 && <details><summary className="min-h-11 cursor-pointer">Review missed work</summary><ul>{workload.backlog.map((task: TaskItem) => <li key={task.id}><button className="planner-today" onClick={() => handleEditTask(task)}>{task['task name']} · {task.reschedule ? 'No available slot before its deadline or within 14 days' : 'Fixed time; choose a new date'}</button></li>)}</ul></details>}
+            {completedTasks.length > 0 && <details><summary className="min-h-11 cursor-pointer">Recent completed tasks</summary><ul>{completedTasks.map(task => <li key={task.id} className="flex flex-wrap items-center gap-2">{task['task name']} · {task['task duration']} minutes <button className="planner-today" onClick={() => reopenTask(task)}>Reopen {task['task name']}</button><button className="planner-today" onClick={() => handleEditTask(task)}>Change time for {task['task name']}</button></li>)}</ul></details>}
+          </section>
+          <CourseworkTracker key={currentUserId} projects={coursework} onChange={next => {
+            if (getUserContentStorageScope() !== currentUserId) throw new Error('Your account changed. Reload the planner.');
+            setCoursework(next);
+          }} onSchedule={(name, deadline) => {
+            openNewTask(); setAiInput(name.slice(0, 160)); setDueDate(deadline);
+            const today = new Date();
+            const dateText = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+            setTaskDate(dateText > deadline ? deadline : dateText);
+          }} />
           <TimeLeftWidget />
         </>
       )}

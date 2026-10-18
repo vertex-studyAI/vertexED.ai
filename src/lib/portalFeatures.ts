@@ -286,7 +286,7 @@ export function toggleExamNightItem(id: string): Set<string> {
 
 export type ConfidenceRating = {
   subject: string;
-  rating: 1 | 2 | 3 | 4 | 5;
+  rating: 1 | 2 | 3 | 4 | 5 | null;
   updatedAt: string;
 };
 
@@ -318,7 +318,7 @@ function readConfidence(): Record<string, ConfidenceRating> {
 
 export function getConfidenceRatings(subjects: string[]): ConfidenceRating[] {
   const store = readConfidence();
-  return subjects.map((subject) => store[subject] ?? { subject, rating: 3 as const, updatedAt: '' });
+  return subjects.map((subject) => store[subject] ?? { subject, rating: null, updatedAt: '' });
 }
 
 export function setConfidenceRating(subject: string, rating: 1 | 2 | 3 | 4 | 5) {

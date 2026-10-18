@@ -1,0 +1,398 @@
+{
+  "slug": "environmental-science",
+  "title": "AP Environmental Science",
+  "category": "Sciences",
+  "summary": "Trace ecosystem energy, population change, resource use and environmental impacts.",
+  "officialUrl": "https://apstudents.collegeboard.org/courses/ap-environmental-science",
+  "frameworkNote": "Unit map checked against College Board on 15 October 2026 for the 2026-27 course. Each unit has one focused original revision lesson, not exhaustive topic coverage or an official practice paper. Uses the current nine-unit map and Fall 2026 CED listing. Numerical scenarios are original models; fieldwork and laboratory requirements remain separate.",
+  "assessment": "exam",
+  "modules": [
+    {
+      "id": "unit-1",
+      "title": "Productivity and trophic transfers",
+      "frameworkUnit": "Unit 1",
+      "focus": "Account for respiration before estimating available biomass.",
+      "explanation": [
+        "Gross primary productivity is the rate at which producers capture energy. Net primary productivity subtracts the producers’ own respiration and represents energy stored as new biomass. Report both the area and time basis when giving productivity units.",
+        "Consumers obtain only part of the energy at the previous trophic level. Unconsumed material, waste and respiration reduce transfer. Nutrients can cycle through decomposers, but usable energy continually enters and dissipates from the ecosystem."
+      ],
+      "workedExample": {
+        "prompt": "A grassland has gross productivity 1,200 and producer respiration 450 kJ/(m² year). Find net productivity.",
+        "steps": [
+          "Subtract producer respiration: 1,200-450=750 kJ/(m² year).",
+          "This is the modelled energy stored in new producer biomass, before consumer-transfer losses."
+        ]
+      },
+      "misconception": {
+        "claim": "Net primary productivity equals all incoming sunlight.",
+        "correction": "It is captured chemical energy remaining after producer respiration."
+      },
+      "questions": [
+        {
+          "prompt": "Producers store 6,000 kJ. If 15% transfers to herbivores, how much is transferred?",
+          "hint": "Use the stated efficiency rather than assuming 10%.",
+          "answer": "900 kJ.",
+          "checkpoints": [
+            "Convert 15% to 0.15.",
+            "Multiply by producer energy."
+          ],
+          "id": "unit-1-q1"
+        },
+        {
+          "prompt": "Why is phosphorus often described without a major atmospheric gaseous phase in its cycle?",
+          "hint": "Compare rock and soil reservoirs with gas exchange.",
+          "answer": "Its major exchanges involve weathering, uptake, decomposition and sedimentation rather than a large gaseous atmospheric reservoir.",
+          "checkpoints": [
+            "Name a geological source.",
+            "Describe return through decomposition or sedimentation."
+          ],
+          "id": "unit-1-q2"
+        }
+      ]
+    },
+    {
+      "id": "unit-2",
+      "title": "Biodiversity and habitat fragmentation",
+      "frameworkUnit": "Unit 2",
+      "focus": "Separate species richness from abundance patterns.",
+      "explanation": [
+        "Species richness counts species, while evenness describes how individuals are distributed among them. Two habitats can have identical richness but different community structure. Genetic and ecosystem diversity add further dimensions beyond a simple species count.",
+        "Fragmentation reduces continuous habitat and can isolate populations. Corridors may support dispersal and gene flow, although their effects depend on species and landscape context. Island biogeography relates immigration and extinction to isolation and habitat size."
+      ],
+      "workedExample": {
+        "prompt": "Compare communities with species counts [25,25,25,25] and [97,1,1,1].",
+        "steps": [
+          "Each contains four species, so richness is equal.",
+          "The first is more even because individuals are distributed equally instead of dominated by one species."
+        ]
+      },
+      "misconception": {
+        "claim": "Equal species richness means equal biodiversity in every sense.",
+        "correction": "Evenness, genetic variation and habitat diversity can still differ."
+      },
+      "questions": [
+        {
+          "prompt": "All else equal, which island is likely to receive more mainland immigrants: near or far?",
+          "hint": "Consider dispersal distance.",
+          "answer": "The nearer island.",
+          "checkpoints": [
+            "Shorter distance tends to raise immigration.",
+            "State that this is a model holding other factors fixed."
+          ],
+          "id": "unit-2-q1"
+        },
+        {
+          "prompt": "How could a habitat corridor help isolated populations?",
+          "hint": "Think about movement between patches.",
+          "answer": "It can allow dispersal and gene flow, reducing isolation.",
+          "checkpoints": [
+            "Name the connecting function.",
+            "Avoid claiming every species benefits equally."
+          ],
+          "id": "unit-2-q2"
+        }
+      ]
+    },
+    {
+      "id": "unit-3",
+      "title": "Population change and doubling time",
+      "frameworkUnit": "Unit 3",
+      "focus": "Calculate a net rate before projecting growth.",
+      "explanation": [
+        "Population size changes through births, deaths, immigration and emigration. A rate per thousand must be divided by ten to express the same annual change as a percentage, assuming the listed components use the same population and time basis.",
+        "Exponential growth assumes a constant proportional rate. The rule of 70 approximates doubling time in years as 70 divided by annual percentage growth for modest rates. Resource limits, changing fertility and migration can make long-range projections unsuitable."
+      ],
+      "workedExample": {
+        "prompt": "A population has annual birth and death rates of 24 and 14 per thousand, with no migration. Estimate doubling time if the rate persists.",
+        "steps": [
+          "Net growth is 10 per thousand, or 1% per year.",
+          "The rule of 70 gives about 70 years, conditional on sustained exponential growth."
+        ]
+      },
+      "misconception": {
+        "claim": "A doubling-time estimate guarantees when the population will double.",
+        "correction": "It is conditional on a stable growth-rate model."
+      },
+      "questions": [
+        {
+          "prompt": "Births are 30 and deaths 10 per thousand annually, without migration. Find the percentage growth rate.",
+          "hint": "Subtract then convert per thousand to percent.",
+          "answer": "2% per year.",
+          "checkpoints": [
+            "Net rate is 20 per thousand.",
+            "20/1000=0.02."
+          ],
+          "id": "unit-3-q1"
+        },
+        {
+          "prompt": "What does a broad base in an age-structure diagram suggest?",
+          "hint": "The base represents young cohorts.",
+          "answer": "A large young cohort that may contribute to future growth as it reaches reproductive age.",
+          "checkpoints": [
+            "Identify the age group.",
+            "Do not infer an exact future rate from shape alone."
+          ],
+          "id": "unit-3-q2"
+        }
+      ]
+    },
+    {
+      "id": "unit-4",
+      "title": "Soil, infiltration and runoff",
+      "frameworkUnit": "Unit 4",
+      "focus": "Explain a watershed response using physical properties.",
+      "explanation": [
+        "Soil texture describes sand, silt and clay proportions, while structure describes how particles aggregate. Pore spaces affect infiltration, water retention and aeration. Compaction can reduce connected pore space and increase surface runoff during rainfall.",
+        "Watersheds route water toward common outlets. Vegetation can slow surface flow, stabilise soil and intercept rainfall. Impervious surfaces alter that balance, so comparisons should hold rainfall and watershed area consistent before attributing a change to land cover."
+      ],
+      "workedExample": {
+        "prompt": "Two equal plots receive 20 mm of rain. Runoff is 5 mm from vegetation and 14 mm from pavement. Compare runoff fractions.",
+        "steps": [
+          "Vegetated runoff fraction is 5/20=25%; paved runoff fraction is 14/20=70%.",
+          "The paved plot routes a larger fraction into surface flow under the stated conditions."
+        ]
+      },
+      "misconception": {
+        "claim": "More rainfall must always mean more groundwater recharge.",
+        "correction": "Recharge also depends on infiltration, soil, vegetation and surface cover."
+      },
+      "questions": [
+        {
+          "prompt": "A 100 m² plot receives 0.02 m rainfall. Find rain volume.",
+          "hint": "Multiply area by depth.",
+          "answer": "2 m³.",
+          "checkpoints": [
+            "Use metres for depth.",
+            "m² times m gives m³."
+          ],
+          "id": "unit-4-q1"
+        },
+        {
+          "prompt": "Why can removing hillside vegetation increase sediment in a stream?",
+          "hint": "Connect roots and flow speed.",
+          "answer": "Less root binding and interception can increase erosion and transport soil into runoff.",
+          "checkpoints": [
+            "Name a stabilising role of vegetation.",
+            "Connect erosion with stream transport."
+          ],
+          "id": "unit-4-q2"
+        }
+      ]
+    },
+    {
+      "id": "unit-5",
+      "title": "Irrigation and resource trade-offs",
+      "frameworkUnit": "Unit 5",
+      "focus": "Compare useful delivery with total withdrawal.",
+      "explanation": [
+        "An irrigation efficiency compares water reaching its intended use with the water withdrawn. A more efficient system can reduce withdrawals for a fixed crop demand, but total use also depends on cultivated area, crop choice and management.",
+        "Agricultural decisions have linked effects on water, soil and biodiversity. Excess irrigation in poorly drained settings can promote waterlogging or salinisation. Integrated pest management combines monitoring and multiple controls rather than relying only on repeated broad pesticide applications."
+      ],
+      "workedExample": {
+        "prompt": "A crop needs 600 L delivered. Compare withdrawal at 50% and 80% delivery efficiency.",
+        "steps": [
+          "At 50%, required withdrawal is 600/0.50=1,200 L.",
+          "At 80%, it is 600/0.80=750 L, saving 450 L for the same delivered amount."
+        ]
+      },
+      "misconception": {
+        "claim": "Higher efficiency necessarily lowers total regional water use.",
+        "correction": "Expansion or changed crops can offset savings per unit of production."
+      },
+      "questions": [
+        {
+          "prompt": "A system withdraws 1,000 L and delivers 700 L to its intended use. Find efficiency.",
+          "hint": "Divide useful delivery by withdrawal.",
+          "answer": "70%.",
+          "checkpoints": [
+            "700/1000=0.7.",
+            "Express the fraction as a percentage."
+          ],
+          "id": "unit-5-q1"
+        },
+        {
+          "prompt": "Why can repeated irrigation cause soil salinity to rise?",
+          "hint": "Water and dissolved salts have different fates.",
+          "answer": "Evaporation and plant water uptake leave salts behind, especially when drainage and leaching are inadequate.",
+          "checkpoints": [
+            "Identify the salt source.",
+            "Explain accumulation rather than creation of salt."
+          ],
+          "id": "unit-5-q2"
+        }
+      ]
+    },
+    {
+      "id": "unit-6",
+      "title": "Energy efficiency and electricity demand",
+      "frameworkUnit": "Unit 6",
+      "focus": "Separate power from energy consumption.",
+      "explanation": [
+        "Power is the rate of energy transfer. Electrical energy in kilowatt-hours equals power in kilowatts times operating hours. Efficiency is useful output divided by input; conserving energy usually means reducing required input for a given service.",
+        "Comparing energy sources requires a defined boundary. Operational emissions, material extraction, land use and reliability address different parts of the system. A renewable source can still have environmental costs, so explain the particular trade-off rather than using a single label as a verdict."
+      ],
+      "workedExample": {
+        "prompt": "A 60 W lamp is replaced by a 10 W lamp providing the same light for 5 hours daily. Find daily electricity savings.",
+        "steps": [
+          "The power reduction is 50 W=0.050 kW.",
+          "Daily savings are 0.050(5)=0.25 kWh."
+        ]
+      },
+      "misconception": {
+        "claim": "A kilowatt and a kilowatt-hour measure the same quantity.",
+        "correction": "A kilowatt is power; a kilowatt-hour is energy."
+      },
+      "questions": [
+        {
+          "prompt": "A 2 kW heater operates for 3 hours. Find electricity use.",
+          "hint": "Multiply power by time.",
+          "answer": "6 kWh.",
+          "checkpoints": [
+            "Keep time in hours.",
+            "Use energy units."
+          ],
+          "id": "unit-6-q1"
+        },
+        {
+          "prompt": "An engine takes 1,000 J and supplies 300 J useful work. Find efficiency and remaining energy.",
+          "hint": "Apply energy conservation.",
+          "answer": "30% efficient; 700 J goes to other transfers, mainly heat.",
+          "checkpoints": [
+            "300/1000=0.30.",
+            "Energy is transferred, not destroyed."
+          ],
+          "id": "unit-6-q2"
+        }
+      ]
+    },
+    {
+      "id": "unit-7",
+      "title": "Primary emissions and secondary air pollution",
+      "frameworkUnit": "Unit 7",
+      "focus": "Trace the chemical pathway from source to pollutant.",
+      "explanation": [
+        "A primary pollutant is emitted directly, while a secondary pollutant forms through environmental reactions. Ground-level ozone is a secondary pollutant associated with reactions involving nitrogen oxides and volatile organic compounds in sunlight.",
+        "Air pollution concentration depends on emissions and dispersion. A temperature inversion can restrict vertical mixing and trap pollutants near the surface. A control should target its mechanism: reducing a precursor, capturing particles or changing a combustion process addresses different sources."
+      ],
+      "workedExample": {
+        "prompt": "A city sees high ozone on sunny afternoons despite low direct ozone emissions. Explain why.",
+        "steps": [
+          "Ozone can form secondarily from emitted precursors reacting in sunlight.",
+          "Low direct ozone emissions therefore do not rule out substantial ground-level ozone concentrations."
+        ]
+      },
+      "misconception": {
+        "claim": "All ozone has the same environmental role regardless of altitude.",
+        "correction": "Stratospheric ozone absorbs ultraviolet radiation; ground-level ozone is an air pollutant."
+      },
+      "questions": [
+        {
+          "prompt": "Why can an inversion worsen a pollution episode?",
+          "hint": "Consider vertical air mixing.",
+          "answer": "It suppresses vertical mixing, allowing pollutants to accumulate near the ground.",
+          "checkpoints": [
+            "Name restricted dispersion.",
+            "Keep emission rate distinct from concentration."
+          ],
+          "id": "unit-7-q1"
+        },
+        {
+          "prompt": "A filter lowers particle emissions from 80 to 20 kg/day. Find percentage reduction.",
+          "hint": "Use the initial amount as denominator.",
+          "answer": "75%.",
+          "checkpoints": [
+            "Reduction is 60 kg/day.",
+            "60/80×100=75%."
+          ],
+          "id": "unit-7-q2"
+        }
+      ]
+    },
+    {
+      "id": "unit-8",
+      "title": "Nutrient pollution and oxygen demand",
+      "frameworkUnit": "Unit 8",
+      "focus": "Connect excess nutrients to aquatic oxygen loss.",
+      "explanation": [
+        "Nutrient enrichment can stimulate algal growth. When biomass dies, decomposers consume dissolved oxygen during respiration, potentially causing hypoxia. The chain involves biological oxygen demand; nutrients do not simply remove all oxygen by being present.",
+        "Pollution can come from a discrete outlet or diffuse runoff across a landscape. Management should address the source and transport pathway. Concentration alone is not pollutant load: load also depends on water flow, so dilution can lower concentration without reducing the mass released."
+      ],
+      "workedExample": {
+        "prompt": "A stream carries 2 mg/L nitrate at 1,000 L/min. Calculate nitrate load.",
+        "steps": [
+          "Multiply concentration by flow: 2(1,000)=2,000 mg/min.",
+          "Convert units to obtain 2 g/min."
+        ]
+      },
+      "misconception": {
+        "claim": "A lower concentration always means less pollutant mass enters a river.",
+        "correction": "A higher flow can offset the concentration decrease; compare loads."
+      },
+      "questions": [
+        {
+          "prompt": "What process directly increases oxygen demand after an algal bloom dies?",
+          "hint": "Follow the organic matter into decomposers.",
+          "answer": "Microbial respiration during decomposition.",
+          "checkpoints": [
+            "Identify the decomposers.",
+            "Connect respiration to dissolved oxygen consumption."
+          ],
+          "id": "unit-8-q1"
+        },
+        {
+          "prompt": "A concentration is 3 mg/L at 500 L/min. Find load in g/min.",
+          "hint": "Multiply before converting milligrams.",
+          "answer": "1.5 g/min.",
+          "checkpoints": [
+            "3×500=1,500 mg/min.",
+            "Divide by 1,000."
+          ],
+          "id": "unit-8-q2"
+        }
+      ]
+    },
+    {
+      "id": "unit-9",
+      "title": "Carbon feedbacks and ocean chemistry",
+      "frameworkUnit": "Unit 9",
+      "focus": "Distinguish a forcing from a feedback response.",
+      "explanation": [
+        "Greenhouse gases absorb and emit infrared radiation, altering Earth’s energy balance. A feedback occurs when the resulting change influences the original process. For example, melting reflective ice can reduce reflectivity and increase absorbed sunlight.",
+        "Dissolved carbon dioxide changes seawater carbonate chemistry, raising hydrogen-ion concentration and reducing carbonate availability under typical conditions. Ocean acidification means a decline in pH; seawater need not cross below pH 7 for this term to apply."
+      ],
+      "workedExample": {
+        "prompt": "Explain why ice-albedo change can amplify an initial warming.",
+        "steps": [
+          "Warming melts some reflective ice and exposes darker surfaces.",
+          "Those surfaces absorb more sunlight, creating an additional warming influence: a positive feedback."
+        ]
+      },
+      "misconception": {
+        "claim": "Ocean acidification means every ocean sample has pH below 7.",
+        "correction": "It refers to decreasing pH relative to the prior state, even while water remains alkaline."
+      },
+      "questions": [
+        {
+          "prompt": "Why is increased plant uptake of CO₂ potentially a negative climate feedback?",
+          "hint": "Trace how the response affects the initial forcing.",
+          "answer": "If warming or CO₂ increases uptake, that uptake can reduce atmospheric CO₂ growth and oppose some warming.",
+          "checkpoints": [
+            "State the conditional biological response.",
+            "Do not assume unlimited uptake."
+          ],
+          "id": "unit-9-q1"
+        },
+        {
+          "prompt": "Atmospheric carbon input is 12 units/year and removal is 7 units/year. Find net accumulation.",
+          "hint": "Subtract removal from input.",
+          "answer": "5 units/year.",
+          "checkpoints": [
+            "Use the same time basis.",
+            "Positive net flow increases the reservoir."
+          ],
+          "id": "unit-9-q2"
+        }
+      ]
+    }
+  ]
+}

@@ -13,8 +13,13 @@ test('MYP hub and lesson remain usable across required viewports', async ({ page
     await expect(page.getByRole('heading', { name: 'Every subject. A stronger place to start.' })).toBeVisible();
     await expect(page.locator('.myp-subject-card')).toHaveCount(17);
     await expect(page.getByRole('heading', { name: 'Depth is labelled, not implied.' })).toBeVisible();
-    await expect(page.getByText('36', { exact: true })).toBeVisible();
-    await expect(page.getByText('108', { exact: true })).toBeVisible();
+    await expect(page.locator('.myp-coverage dl > div').filter({ has: page.getByText('Detailed modules', { exact: true }) }).locator('dd')).toHaveText('205');
+    await expect(page.locator('.myp-coverage dl > div').filter({ has: page.getByText('Mapped topics', { exact: true }) }).locator('dd')).toHaveText('205');
+    await expect(page.locator('.myp-subject-card').filter({ has: page.getByRole('heading', { name: 'Biology', exact: true }) })).toContainText('37 original practice questions');
+    await expect(page.getByText('Every topic in this local map now has a detailed module.', { exact: false })).toBeVisible();
+    await expect(page.getByText('616', { exact: true })).toBeVisible();
+    await expect(page.getByRole('group', { name: 'Filter by subject group' }).getByRole('button', { name: 'Personal Project', exact: true })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Open Apex study shortcuts', exact: true })).toHaveAttribute('data-docked', 'true');
     await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     await page.screenshot({ path: `test-results/myp-hub-${viewport.width}.png`, fullPage: true, animations: 'disabled' });
 

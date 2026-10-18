@@ -24,6 +24,7 @@ import {
   PLATFORM_FEATURES,
   SUPPORTED_BOARDS,
 } from "@/content/features";
+import { LEARNING_DESIGN_COMMITMENTS, STUDY_LOOP_STAGES } from '@/content/learningFoundations';
 
 const ALL_SECTIONS = [
   ...PLATFORM_FEATURES.map((f) => ({ id: f.id, label: f.title.split(" · ")[0], kind: "tool" as const })),
@@ -136,6 +137,28 @@ export default function Features() {
         <div className="max-w-6xl mx-auto glass-panel p-6 md:p-8">
           <p className="text-xs uppercase tracking-[0.18em] text-primary mb-4">The loop</p>
           <StudyLoopRail />
+        </div>
+      </section>
+
+      <section className="feat-learning-architecture reveal-section" aria-labelledby="features-learning-architecture-title">
+        <header>
+          <div>
+            <p>Learning architecture</p>
+            <h2 id="features-learning-architecture-title">The interface follows the work of learning.</h2>
+          </div>
+          <p>Each stage leaves something inspectable: a target, an attempt, a source, a diagnosis or a scheduled retry. That makes the next action easier to choose without pretending that activity is the same as understanding.</p>
+        </header>
+        <ol className="feat-learning-sequence">
+          {STUDY_LOOP_STAGES.map((item, index) => (
+            <li key={item.id}>
+              <span>{String(index + 1).padStart(2, '0')} / {item.label}</span>
+              <h3>{item.heading}</h3>
+              <p>{item.summary}</p>
+            </li>
+          ))}
+        </ol>
+        <div className="feat-learning-commitments">
+          {LEARNING_DESIGN_COMMITMENTS.map((item) => <div key={item.title}><h3>{item.title}</h3><p>{item.copy}</p></div>)}
         </div>
       </section>
 

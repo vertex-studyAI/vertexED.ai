@@ -101,10 +101,10 @@ export default {
       addUtilities({
         /* Glassmorphism */
         ".glass": {
-          background: "rgba(255, 255, 255, 0.08)",
-          backdropFilter: "blur(20px)",
-          border: "1px solid rgba(255, 255, 255, 0.15)",
-          borderRadius: "16px",
+          background: "linear-gradient(145deg, hsl(var(--foreground) / 0.08), transparent 38%), hsl(var(--card) / 0.82)",
+          backdropFilter: "blur(var(--glass-blur)) saturate(var(--glass-saturation))",
+          border: "1px solid hsl(var(--primary) / 0.18)",
+          borderRadius: "var(--radius-glass)",
         },
 
         /* Gradient background */
@@ -117,7 +117,7 @@ export default {
         ".card-base": {
           background: "hsl(var(--card))",
           border: "1px solid hsl(var(--border))",
-          borderRadius: "var(--radius)",
+          borderRadius: "var(--radius-paper)",
           padding: "1.25rem",
         },
 
