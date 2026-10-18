@@ -678,11 +678,11 @@ test('planner calendar import keeps errors actionable and primary actions visibl
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await installAccountHarness(page, true);
   await page.goto('/planner');
-  await page.getByRole('button', { name: 'Import calendar', exact: true }).click();
+  await activateWithKeyboard(page.getByRole('button', { name: 'Import calendar', exact: true }));
   const dialog = page.getByRole('dialog', { name: 'Reserve calendar time' });
   await dialog.getByLabel('Calendar name', { exact: true }).fill('School');
   await dialog.getByLabel('Calendar file', { exact: true }).setInputFiles({ name: 'invalid.ics', mimeType: 'text/calendar', buffer: Buffer.from('not a calendar') });
-  await dialog.getByRole('button', { name: 'Review calendar file', exact: true }).click();
+  await activateWithKeyboard(dialog.getByRole('button', { name: 'Review calendar file', exact: true }));
   await expect(dialog.getByRole('alert')).toBeFocused();
   await expect(dialog.getByRole('alert')).toContainText('valid .ics');
   await expect(dialog.getByRole('button', { name: 'Review calendar file', exact: true })).toBeInViewport();
@@ -694,10 +694,10 @@ test('planner calendar import keeps errors actionable and primary actions visibl
 test('planner calendar cancellation discards an in-flight file', async ({ page }) => {
   await installAccountHarness(page, true);
   await page.goto('/planner');
-  await page.getByRole('button', { name: 'New Task', exact: true }).click();
+  await activateWithKeyboard(page.getByRole('button', { name: 'New Task', exact: true }));
   const add = page.getByRole('dialog', { name: 'Add a study task' });
   await add.getByLabel('Task name', { exact: true }).fill('Cancelled export');
-  await add.getByRole('button', { name: 'Add task', exact: true }).click();
+  await activateWithKeyboard(add.getByRole('button', { name: 'Add task', exact: true }));
   await page.evaluate(() => {
     const real = crypto.subtle.digest.bind(crypto.subtle);
     (window as any).calendarGate = {};
@@ -706,14 +706,14 @@ test('planner calendar cancellation discards an in-flight file', async ({ page }
   });
   let downloads = 0;
   page.on('download', () => downloads++);
-  await page.getByRole('button', { name: 'Export calendar' }).click();
-  await page.getByRole('button', { name: 'Download calendar' }).click();
+  await activateWithKeyboard(page.getByRole('button', { name: 'Export calendar' }));
+  await activateWithKeyboard(page.getByRole('button', { name: 'Download calendar' }));
   await expect.poll(() => page.evaluate(() => (window as any).calendarGate.started)).toBe(true);
   await page.keyboard.press('Escape');
   await page.evaluate(() => (window as any).calendarGate.release());
   await expect.poll(() => page.evaluate(() => (window as any).calendarGate.finished)).toBe(true);
   await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
-  await page.getByRole('button', { name: 'Export calendar' }).click();
+  await activateWithKeyboard(page.getByRole('button', { name: 'Export calendar' }));
   await expect(page.getByRole('dialog')).toBeVisible();
   await expect(page.getByRole('button', { name: 'Download calendar' })).toBeEnabled();
   expect(downloads).toBe(0);

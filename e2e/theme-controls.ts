@@ -17,23 +17,25 @@ export async function selectTheme(page: Page, theme: 'light' | 'dark') {
   await expect.poll(() => page.evaluate(async () => {
     const root = getComputedStyle(document.documentElement);
     const renderedColor = (paint: string) => {
-      const probe = document.createElement('span');
-      probe.style.position = 'fixed';
-      probe.style.pointerEvents = 'none';
-      probe.style.visibility = 'hidden';
-      probe.style.color = paint;
-      document.body.append(probe);
-      const rendered = getComputedStyle(probe).color;
-      probe.remove();
-      return rendered;
+      const canvas = document.createElement('canvas');
+      canvas.width = canvas.height = 1;
+      const context = canvas.getContext('2d');
+      if (!context) return [];
+      context.fillStyle = paint;
+      context.fillRect(0, 0, 1, 1);
+      return Array.from(context.getImageData(0, 0, 1, 1).data);
     };
     const foreground = renderedColor(`hsl(${root.getPropertyValue('--foreground').trim()})`);
     const background = renderedColor(root.getPropertyValue('--page-bg-base').trim());
+    const matches = (paint: string, expected: number[]) => {
+      const actual = renderedColor(paint);
+      return actual.length === expected.length && actual.every((channel, index) => Math.abs(channel - expected[index]) <= 1);
+    };
     for (let frame = 0; frame < 3; frame += 1) {
       await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
-      if (getComputedStyle(document.body).color !== foreground ||
-          getComputedStyle(document.body).backgroundColor !== background ||
-          getComputedStyle(document.documentElement).backgroundColor !== background) return false;
+      if (!matches(getComputedStyle(document.body).color, foreground) ||
+          !matches(getComputedStyle(document.body).backgroundColor, background) ||
+          !matches(getComputedStyle(document.documentElement).backgroundColor, background)) return false;
     }
     return true;
   }), { message: 'Body text and html/body backgrounds have settled to the selected theme' }).toBe(true);
