@@ -2,7 +2,7 @@ import { readFile } from 'node:fs/promises';
 import { fixturePdf } from '../tests/fixtures/pdf.mjs';
 import { extractPdf, decodePdfRequest } from '../api/_lib/pdfImport.js';
 import { selectTheme } from './theme-controls';
-import { expect, test, type Page } from '@playwright/test';
+import { expect, test, type Locator, type Page } from '@playwright/test';
 import { CONCEPT_GRAPH } from '../src/lib/learningModel.mjs';
 
 const productionBundle = process.env.VERTEXED_REFERENCE_BUILT === '1';
@@ -10,6 +10,12 @@ const heldPracticeReason = 'Seeded practice questions are held from production p
 
 const learnerId = 'f40db66b-1b55-4ab8-88d0-14a9ba476c16';
 const artifactId = '25734997-775e-473f-b415-897751b08497';
+
+async function activateWithKeyboard(locator: Locator) {
+  await locator.focus();
+  await expect(locator).toBeFocused();
+  await locator.press('Enter');
+}
 
 async function installAccountHarness(page: Page, empty = false, examDate: string | null = null) {
   const user = { id: learnerId, aud: 'authenticated', role: 'authenticated', email: 'learner@example.test', app_metadata: { provider: 'email' }, user_metadata: { exam_date: examDate, username: 'searchlearner', board: 'IB_MYP', grade: 10, subjects: ['Physics'] }, created_at: '2026-09-21T00:00:00Z', identities: [] };
@@ -97,46 +103,42 @@ for (const width of [1440, 1024, 390]) {
     const navigation = page.getByRole('group', { name: 'Browse your plan', exact: true });
     const jump = navigation.getByLabel('Jump to date', { exact: true });
     await jump.fill('2028-02-28');
-    await navigation.getByRole('button', { name: 'Go', exact: true }).focus();
-    await page.keyboard.press('Enter');
-    await expect(navigation.getByRole('button', { name: 'Go', exact: true })).toBeFocused();
+    await activateWithKeyboard(navigation.getByRole('button', { name: 'Go', exact: true }));
     await expect(page.getByRole('region', { name: 'Day planner schedule for February 28, 2028' })).toBeVisible();
-    await navigation.getByRole('button', { name: 'Next day', exact: true }).click();
+    await activateWithKeyboard(navigation.getByRole('button', { name: 'Next day', exact: true }));
     await expect(jump).toHaveValue('2028-02-29');
-    await navigation.getByRole('button', { name: 'Next day', exact: true }).click();
+    await activateWithKeyboard(navigation.getByRole('button', { name: 'Next day', exact: true }));
     await expect(jump).toHaveValue('2028-03-01');
-    await navigation.getByRole('button', { name: 'Previous day', exact: true }).click();
+    await activateWithKeyboard(navigation.getByRole('button', { name: 'Previous day', exact: true }));
     await expect(jump).toHaveValue('2028-02-29');
     const addForSelectedDay = page.getByRole('button', { name: 'Add a task for this day', exact: true });
-    await addForSelectedDay.focus();
-    await expect(addForSelectedDay).toBeFocused();
-    await page.keyboard.press('Enter');
+    await activateWithKeyboard(addForSelectedDay);
     const dialog = page.getByRole('dialog', { name: 'Add a study task' });
     await expect(dialog.getByLabel('Date', { exact: true })).toHaveValue('2028-02-29');
     await dialog.getByLabel('Task name', { exact: true }).fill('Leap day revision');
-    await dialog.getByRole('button', { name: 'Add task', exact: true }).click();
+    await activateWithKeyboard(dialog.getByRole('button', { name: 'Add task', exact: true }));
     await expect.poll(() => JSON.stringify(state.planner)).toContain('Leap day revision');
     await expect(page.getByRole('heading', { name: 'Leap day revision', exact: true })).toBeVisible();
     if (width > 900) {
       await jump.fill('2028-12-29');
-      await navigation.getByRole('button', { name: 'Go', exact: true }).click();
+      await activateWithKeyboard(navigation.getByRole('button', { name: 'Go', exact: true }));
       await navigation.getByLabel('Planner view', { exact: true }).selectOption('Week');
       await expect(page.locator('.calendar-day.highlight')).toHaveCount(7);
-      await navigation.getByRole('button', { name: 'Next week', exact: true }).click();
+      await activateWithKeyboard(navigation.getByRole('button', { name: 'Next week', exact: true }));
       await expect(jump).toHaveValue('2029-01-05');
-      await navigation.getByRole('button', { name: 'Previous week', exact: true }).click();
+      await activateWithKeyboard(navigation.getByRole('button', { name: 'Previous week', exact: true }));
       await expect(jump).toHaveValue('2028-12-29');
       await jump.fill('2026-01-31');
-      await navigation.getByRole('button', { name: 'Go', exact: true }).click();
+      await activateWithKeyboard(navigation.getByRole('button', { name: 'Go', exact: true }));
       await expect(page.locator('.calendar-day.highlight')).toHaveCount(7);
       await expect(page.getByRole('button', { name: 'Select Friday, February 6, 2026', exact: true })).toHaveClass(/highlight/);
       await jump.fill('2028-12-29');
-      await navigation.getByRole('button', { name: 'Go', exact: true }).click();
+      await activateWithKeyboard(navigation.getByRole('button', { name: 'Go', exact: true }));
       await navigation.getByLabel('Planner view', { exact: true }).selectOption('Day');
     } else {
-      await page.getByRole('button', { name: 'Show calendar', exact: true }).click();
+      await activateWithKeyboard(page.getByRole('button', { name: 'Show calendar', exact: true }));
       await expect(page.getByRole('group', { name: 'Calendar date picker', exact: true })).toBeVisible();
-      await page.getByRole('button', { name: 'Hide calendar', exact: true }).click();
+      await activateWithKeyboard(page.getByRole('button', { name: 'Hide calendar', exact: true }));
     }
     for (const theme of ['light', 'dark'] as const) {
       await selectTheme(page, theme);
@@ -144,7 +146,7 @@ for (const width of [1440, 1024, 390]) {
       await page.screenshot({ path: info.outputPath(`planner-navigation-${width}-${theme}.png`), animations: 'disabled' });
     }
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width + 1);
-    await navigation.getByRole('button', { name: 'Today', exact: true }).click();
+    await activateWithKeyboard(navigation.getByRole('button', { name: 'Today', exact: true }));
     const today = await page.evaluate(() => { const date = new Date(); return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`; });
     await expect(jump).toHaveValue(today);
   });
@@ -441,17 +443,17 @@ for (const width of [1440, 1024, 390]) {
     await page.emulateMedia({ reducedMotion: 'reduce' });
     const state = await installAccountHarness(page, true);
     await page.goto('/planner');
-    await page.getByRole('button', { name: 'New Task', exact: true }).click();
+    await activateWithKeyboard(page.getByRole('button', { name: 'New Task', exact: true }));
     const dialog = page.getByRole('dialog');
     await dialog.getByLabel('Task name', { exact: true }).fill('Weekly physics class');
     await dialog.getByLabel('Date', { exact: true }).fill('2028-04-03');
     await dialog.getByLabel('Task type').selectOption('commitment');
     await dialog.getByLabel('Weekly occurrences').fill('4');
     await page.screenshot({ path: info.outputPath(`planner-form-${width}.png`), fullPage: true });
-    await dialog.getByRole('button', { name: 'Add task', exact: true }).click();
+    await activateWithKeyboard(dialog.getByRole('button', { name: 'Add task', exact: true }));
     await expect(page.getByText('Added 4 weekly commitments.', { exact: false })).toBeVisible();
     await expect.poll(() => (state.planner?.payload as { tasks: unknown[] } | undefined)?.tasks.length).toBe(4);
-    await page.getByRole('button', { name: 'New Task', exact: true }).click();
+    await activateWithKeyboard(page.getByRole('button', { name: 'New Task', exact: true }));
     await dialog.getByLabel('Task name', { exact: true }).fill('Flexible forces revision');
     await dialog.getByLabel('Date', { exact: true }).fill('2020-01-01');
     const autoReschedule = dialog.getByLabel('Automatically reschedule if missed');
@@ -461,20 +463,20 @@ for (const width of [1440, 1024, 390]) {
     await expect(autoReschedule).toBeChecked();
     await dialog.getByLabel('Study window starts').fill('17:00');
     await dialog.getByLabel('Study window ends').fill('20:00');
-    await dialog.getByRole('button', { name: 'Add task', exact: true }).click();
+    await activateWithKeyboard(dialog.getByRole('button', { name: 'Add task', exact: true }));
     await expect.poll(() => (state.planner?.payload as { tasks: unknown[] } | undefined)?.tasks.length).toBe(5);
     await page.reload();
     await expect(page.getByText(/Moved 1 missed study task within/)).toBeVisible();
     await expect.poll(() => (state.planner?.payload as { tasks: Array<{ rescheduledFrom?: string }> } | undefined)?.tasks.find(task => task.rescheduledFrom)?.rescheduledFrom).toBe('01/01/2020 10:00 AM');
     const saved = (state.planner!.payload as { tasks: Array<{ id: string; date: string; 'start time': string; taskKind?: string }> }).tasks;
     expect(saved.filter(task => task.taskKind === 'commitment').map(task => task.date)).toEqual(['04/03/2028', '04/10/2028', '04/17/2028', '04/24/2028']);
-    await page.getByRole('button', { name: 'Mark Flexible forces revision complete', exact: true }).click();
-    await page.getByText('Recent completed tasks', { exact: true }).click();
+    await activateWithKeyboard(page.getByRole('button', { name: 'Mark Flexible forces revision complete', exact: true }));
+    await activateWithKeyboard(page.getByText('Recent completed tasks', { exact: true }));
     await expect(page.getByRole('button', { name: 'Reopen Flexible forces revision' })).toBeVisible();
     await expect(page.getByText(/60 scheduled minutes marked complete/)).toBeVisible();
     await page.screenshot({ path: info.outputPath(`planner-completed-${width}.png`), fullPage: true });
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width + 1);
-    await page.getByRole('button', { name: 'Reopen Flexible forces revision' }).click();
+    await activateWithKeyboard(page.getByRole('button', { name: 'Reopen Flexible forces revision' }));
     await expect(page.getByRole('button', { name: 'Mark Flexible forces revision complete', exact: true })).toBeVisible();
   });
 }

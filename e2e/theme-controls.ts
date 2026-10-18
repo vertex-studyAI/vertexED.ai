@@ -4,7 +4,10 @@ export async function selectTheme(page: Page, theme: 'light' | 'dark') {
   const label = theme === 'dark' ? 'Midnight' : 'Blue';
   for (let attempt = 0; attempt < 3; attempt += 1) {
     if (await page.getByRole('button', { name: `Theme: ${label}. Click to switch.`, exact: true }).count()) break;
-    await page.getByRole('button', { name: /^Theme: .*Click to switch\.$/ }).click();
+    const toggle = page.getByRole('button', { name: /^Theme: .*Click to switch\.$/ });
+    await toggle.focus();
+    await expect(toggle).toBeFocused();
+    await toggle.press('Enter');
   }
   await expect(page.getByRole('button', { name: `Theme: ${label}. Click to switch.`, exact: true })).toBeVisible();
   await expect(page.locator('html')).toHaveClass(new RegExp(`\\b${theme}\\b`));
