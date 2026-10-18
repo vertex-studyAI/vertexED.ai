@@ -54,7 +54,9 @@ export async function assertCalculatorKeyContrast(calculator: Locator, theme: st
       // A different or unsupported surface fails rather than assuming a theme.
       for (let ancestor: Element | null = element; ancestor && opacity < 1; ancestor = ancestor.parentElement) {
         const style = getComputedStyle(ancestor);
-        if (style.backgroundImage !== 'none' || Number(style.opacity) !== 1) throw new Error('Calculator contrast needs a flat surface without group opacity.');
+        if (style.backgroundImage !== 'none' || Number(style.opacity) !== 1) {
+          throw new Error(`Calculator ${element.textContent?.trim()} contrast needs a flat surface without group opacity: ${ancestor.tagName}.${ancestor.className} background=${style.backgroundImage} opacity=${style.opacity} accumulated=${opacity} surfaces=${surfaces.join(',')}`);
+        }
         const colour = rgba(style.backgroundColor);
         const weight = (1 - opacity) * colour[3];
         for (let channel = 0; channel < 3; channel += 1) background[channel] += colour[channel] * weight;

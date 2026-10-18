@@ -108,6 +108,9 @@
     color: hsl(var(--zone-calculator-action-text, 216 28% 12%));
     box-shadow: 0 14px 28px hsl(var(--foreground) / 0.12);
   }
+  .zone-key-primary:hover {
+    background: var(--widget-accent, hsl(var(--primary)));
+  }
   .zone-key-danger {
     @apply zone-key;
     border-color: hsl(var(--destructive) / 0.4);
