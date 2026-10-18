@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { selectTheme } from './theme-controls';
 
 test('notebook concept maps retain source notes and survive a failed regeneration', async ({ page }, info) => {
   const id = 'b65672a0-b461-48ce-a6a4-1214c3f2eb88';
@@ -68,14 +69,7 @@ test('notebook concept maps retain source notes and survive a failed regeneratio
       await diagram.evaluate(element => { element.scrollLeft = 0; });
     }
     for (const theme of ['light', 'dark']) {
-      const label = `Theme: ${theme === 'dark' ? 'Dark' : 'Light'}. Click to switch.`;
-      for (let attempt = 0; attempt < 3; attempt += 1) {
-        const control = page.getByRole('button', { name: /^Theme:/ });
-        if (await control.getAttribute('aria-label') === label) break;
-        await control.click();
-      }
-      await expect(page.getByRole('button', { name: label, exact: true })).toBeVisible();
-      await expect(page.locator('html')).toHaveClass(new RegExp(`\\b${theme}\\b`));
+      await selectTheme(page, theme as 'light' | 'dark');
       const foreground = await diagram.getByRole('img').evaluate(element => getComputedStyle(element).color);
       await expect(map.locator('figcaption')).toHaveCSS('color', foreground);
       await page.screenshot({ path: info.outputPath(`concept-map-${width}-${theme}.png`), animations: 'disabled' });

@@ -1,5 +1,30 @@
 import { expect, test } from '@playwright/test';
 
+const productionBundle = process.env.VERTEXED_REFERENCE_BUILT === '1';
+
+if (productionBundle) {
+  test('production formula desk preserves the subject-review boundary at required widths', async ({ page }) => {
+    for (const width of [1440, 1024, 390]) {
+      await page.setViewportSize({ width, height: width === 390 ? 844 : 900 });
+      await page.goto('/study-tools?formula=ohm');
+      const desk = page.getByRole('region', { name: 'Formula references are awaiting subject review' });
+      await expect(desk).toBeVisible();
+      await expect(desk.getByRole('status')).toContainText('not available yet');
+      await expect(page.getByRole('tab', { name: 'Try a question' })).toHaveCount(0);
+      expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width + 1);
+      await page.screenshot({ fullPage: true, path: `test-results/formula-held-${width}.png`, animations: 'disabled' });
+    }
+  });
+
+  test('production library does not expose held formula deep links', async ({ page }) => {
+    await page.goto('/resources?q=real%20GDP%20growth');
+    await expect(page.getByTestId('library-item')).toHaveCount(0);
+    await expect(page.getByRole('heading', { name: 'No library result matches that search.' })).toBeVisible();
+    await page.goto('/study-tools?formula=real-growth&fq=wave%20frequency');
+    await expect(page.getByRole('heading', { name: 'Formula references are awaiting subject review' })).toBeVisible();
+  });
+} else {
+
 for (const width of [1440, 1024, 390]) {
   test(`formula desk renders and checks an answer at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: width === 390 ? 844 : 900 });
@@ -126,3 +151,4 @@ test('typing URL-backed searches keeps keyboard focus and practice CTA moves it 
   await page.getByRole('button', { name: 'Try it without the worked example' }).click();
   await expect(page.getByRole('tab', { name: 'Try a question' })).toBeFocused();
 });
+}

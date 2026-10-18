@@ -1,6 +1,38 @@
 import { expect, test } from '@playwright/test';
 import { selectTheme } from './theme-controls';
 
+const productionBundle = process.env.VERTEXED_REFERENCE_BUILT === '1';
+
+if (productionBundle) {
+  for (const width of [1440, 1024, 390]) {
+    test(`production study tools label held references at ${width}`, async ({ page }, info) => {
+      await page.setViewportSize({ width, height: 900 });
+      await page.emulateMedia({ reducedMotion: 'reduce' });
+      await page.goto('/study-tools?formula=ohm');
+      const tools = page.getByRole('region', { name: 'What’s your next task?' });
+      await expect(tools.getByRole('link')).toHaveCount(6);
+      await expect(page.getByRole('heading', { name: 'Formula references are awaiting subject review' })).toBeVisible();
+      await expect(page.getByText('Study methods are awaiting subject review.', { exact: true })).toBeVisible();
+      await expect(page.getByText('The exam checklist is awaiting subject review.', { exact: true })).toBeVisible();
+      await expect(
+        page.getByText(
+          'Command term definitions are awaiting subject review. Check your course’s current official guidance.',
+          { exact: true },
+        ),
+      ).toBeVisible();
+      for (const theme of ['light', 'dark'] as const) {
+        await selectTheme(page, theme);
+        await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
+        await page.screenshot({ path: info.outputPath(`study-tools-held-${width}-${theme}.png`), animations: 'disabled' });
+      }
+      const shortcuts = page.getByRole('navigation', { name: 'Study tools sections' });
+      await shortcuts.getByRole('link', { name: 'Formulas', exact: true }).click();
+      await expect(page.locator('#study-tools-formulas')).toBeFocused();
+      expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width + 1);
+    });
+  }
+} else {
+
 for (const width of [1440, 1024, 390]) {
   test(`study tools hub puts tasks first and supports section shortcuts at ${width}`, async ({ page }, info) => {
     await page.setViewportSize({ width, height: 900 });
@@ -45,3 +77,4 @@ test('study tools hub keeps practice drafts when moving between sections and ope
   await page.reload();
   await expect(page.getByRole('heading', { name: 'Know when. Know why. Then try.' })).toBeInViewport();
 });
+}

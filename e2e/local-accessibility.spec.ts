@@ -115,8 +115,10 @@ test.describe('local keyboard accessibility', () => {
     const trigger = page.getByRole('button', { name: 'Open concept lens' }).first();
     await trigger.click();
 
-    const dialog = page.getByRole('dialog', { name: 'Notice the change. Explain the why.' });
+    const dialog = page.getByRole('dialog', { name: 'Concept Lens' });
     await expect(dialog).toBeVisible();
+    await expect(dialog.getByText('Awaiting subject review', { exact: true })).toBeVisible();
+    await expect(dialog.getByText(/not available until its content, sources and permissions have been reviewed/)).toBeVisible();
     await expect(dialog.getByRole('button', { name: 'Close concept lens' })).toBeFocused();
     await expect(page.locator('#root')).toHaveAttribute('aria-hidden', 'true');
     await expect(page.locator('#root')).toHaveJSProperty('inert', true);

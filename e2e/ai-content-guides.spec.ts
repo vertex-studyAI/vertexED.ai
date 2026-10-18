@@ -1,54 +1,44 @@
-import { expect, test, type Page } from '@playwright/test';
-
-async function setTheme(page: Page, theme: 'light' | 'dark') {
-  const label = `Theme: ${theme === 'dark' ? 'Dark' : 'Light'}. Click to switch.`;
-  for (let attempt = 0; attempt < 3; attempt += 1) {
-    const control = page.getByRole('button', { name: /^Theme:/ });
-    if (await control.getAttribute('aria-label') === label) break;
-    await control.click();
-  }
-  await expect(page.getByRole('button', { name: label, exact: true })).toBeVisible();
-  await expect(page.locator('html')).toHaveClass(new RegExp(`\\b${theme}\\b`));
-}
+import { expect, test } from '@playwright/test';
+import { selectTheme } from './theme-controls';
 
 const guides = [
   ['ai-chatbot-tutor', 'Using Apex for study help'],
-  ['ai-answer-reviewer', 'Using Answer Reviewer'],
+  ['ai-answer-reviewer', 'AI Answer Reviewer'],
   ['notes-to-flashcards', 'From notes to flashcards and quizzes'],
   ['ib-igcse-paper-maker', 'IB and IGCSE Paper Maker'],
-  ['automated-note-taking-guide', 'Automated note taking: capture, then review'],
-  ['best-ai-prompts-for-students', 'AI prompts that actually help with revision'],
+  ['automated-note-taking-guide', 'Automated note taking: capture, then learn'],
+  ['best-ai-prompts-for-students', 'AI prompts for revision'],
   ['ai-study-planner', 'AI study planner and calendar'],
-  ['ib-math-aa-ai-guide', 'IB Math AA and AI'],
+  ['ib-math-aa-ai-guide', 'IB Mathematics revision guide'],
 ];
 
 for (const width of [1440, 1024, 390]) {
-  test(`AI study guides are readable and keyboard navigable at ${width}`, async ({ page }, info) => {
+  test(`held AI study guides remain labelled and keyboard navigable at ${width}`, async ({ page }, info) => {
     await page.setViewportSize({ width, height: 900 });
     await page.emulateMedia({ reducedMotion: 'reduce' });
     const errors: string[] = [];
     page.on('pageerror', error => errors.push(error.message));
     for (const [slug, heading] of guides) {
       await page.goto(`/resources/${slug}`);
-      await setTheme(page, 'light');
+      await selectTheme(page, 'light');
       await expect(page.getByRole('heading', { level: 1 })).toContainText(heading);
-      await expect(page.locator('article')).toBeVisible();
+      const notice = page.getByRole('region', { name: `${heading} review status` });
+      await expect(notice).toBeVisible();
+      await expect(notice.getByText('Awaiting subject review', { exact: true })).toBeVisible();
+      await expect(notice).toContainText('content, sources and permissions');
       await expect(page.getByText(/^SUB/)).toHaveCount(0);
-      const actions = page.locator('article .not-prose a');
-      await expect(actions.first()).toBeVisible();
-      await actions.first().focus();
-      await expect(actions.first()).toBeFocused();
-      await page.keyboard.press('Tab');
-      await expect(actions.nth(1)).toBeFocused();
-      await expect(actions.nth(1)).toBeInViewport();
+      const library = notice.getByRole('link', { name: 'Browse the learning library', exact: true });
+      await library.focus();
+      await expect(library).toBeFocused();
+      await expect(library).toBeInViewport();
       expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width + 1);
       await page.screenshot({ path: info.outputPath(`${slug}-${width}-actions.png`) });
       await page.evaluate(() => window.scrollTo(0, 0));
       await page.screenshot({ path: info.outputPath(`${slug}-${width}-light.png`), fullPage: true });
-      await setTheme(page, 'dark');
-      const colours = await page.locator('article h2').first().evaluate(element => {
+      await selectTheme(page, 'dark');
+      const colours = await notice.getByRole('heading', { level: 1 }).evaluate(element => {
         const heading = getComputedStyle(element).color;
-        const paper = getComputedStyle(element.closest('article')!.parentElement!).backgroundColor;
+        const paper = getComputedStyle(document.body).backgroundColor;
         return { heading, paper };
       });
       const luminance = (value: string) => {
@@ -68,9 +58,6 @@ for (const width of [1440, 1024, 390]) {
 
 test('guide actions take learners to the implemented tool and preserve the sign-in return path', async ({ page }) => {
   await page.goto('/resources/ai-chatbot-tutor');
-  const action = page.locator('article').getByRole('link', { name: 'Open Apex', exact: true });
-  await action.focus();
-  await page.keyboard.press('Enter');
-  await expect(page).toHaveURL(/\/login$/);
-  expect(await page.evaluate(() => history.state?.usr?.from)).toBe('/chatbot');
+  await expect(page.getByRole('link', { name: 'Open Apex', exact: true })).toHaveCount(0);
+  await expect(page.getByRole('region', { name: 'Using Apex for study help review status' })).toContainText('Awaiting subject review');
 });

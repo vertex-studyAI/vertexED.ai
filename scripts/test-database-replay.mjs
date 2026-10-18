@@ -21,7 +21,7 @@ run(cli, ['db', 'lint', '--local', '--level', 'warning', '--fail-on', 'error', '
 const { projectId } = JSON.parse(readFileSync(resolve(target, 'replay-manifest.json'), 'utf8'));
 const database = `supabase_db_${projectId}`;
 const runner = `vertexed-pgtap-${randomUUID()}`;
-const image = 'public.ecr.aws/supabase/pg_prove:3.36@sha256:eda7c5e68719e9c8287e78c017118407b48df904a51c935f5ab6098b8c0bc6bc';
+const image = 'ghcr.io/supabase/pg_prove:3.36@sha256:eda7c5e68719e9c8287e78c017118407b48df904a51c935f5ab6098b8c0bc6bc';
 run('docker', ['exec', database, 'psql', '-U', 'postgres', '-d', 'postgres', '-v', 'ON_ERROR_STOP=1', '-c',
   'create extension if not exists pgtap with schema extensions']);
 let created = false;

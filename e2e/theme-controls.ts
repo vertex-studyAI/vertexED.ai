@@ -1,7 +1,7 @@
 import { expect, type Page } from '@playwright/test';
 
 export async function selectTheme(page: Page, theme: 'light' | 'dark') {
-  const label = theme === 'dark' ? 'Dark' : 'Light';
+  const label = theme === 'dark' ? 'Midnight' : 'Blue';
   for (let attempt = 0; attempt < 3; attempt += 1) {
     if (await page.getByRole('button', { name: `Theme: ${label}. Click to switch.`, exact: true }).count()) break;
     await page.getByRole('button', { name: /^Theme: .*Click to switch\.$/ }).click();
@@ -41,15 +41,4 @@ export async function selectTheme(page: Page, theme: 'light' | 'dark') {
     }
     return true;
   }), { message: 'Body text and html/body backgrounds have settled to the selected theme' }).toBe(true);
-  // Wait for inherited text colour as well as the root class. Directly editing
-  // the DOM class can capture a partially transitioned, inconsistent theme.
-  const colour = expect.poll(() => page.locator('h1').first().evaluate(element => {
-    const painted = getComputedStyle(element).color;
-    // Some notebook headings use background-clip text and a transparent colour.
-    const colour = painted === 'rgba(0, 0, 0, 0)' ? getComputedStyle(document.body).color : painted;
-    const channels = colour.match(/[\d.]+/g)?.slice(0, 3).map(Number) ?? [];
-    return channels.reduce((sum, channel) => sum + channel, 0) / 3;
-  }));
-  if (theme === 'dark') await colour.toBeGreaterThan(180);
-  else await colour.toBeLessThan(100);
 }

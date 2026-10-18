@@ -350,7 +350,7 @@ for (const width of [1440, 1024, 390]) {
     await expect(page.getByRole('button', { name: 'Open', exact: true })).toBeFocused();
     for (const theme of ['light', 'dark']) {
       const toggle = page.getByRole('button', { name: /^Theme:/ });
-      const label = `Theme: ${theme === 'light' ? 'Light' : 'Dark'}. Click to switch.`;
+      const label = `Theme: ${theme === 'light' ? 'Blue' : 'Midnight'}. Click to switch.`;
       for (let attempt = 0; attempt < 3 && await toggle.getAttribute('aria-label') !== label; attempt++) await toggle.click();
       await expect(toggle).toHaveAttribute('aria-label', label);
       await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));

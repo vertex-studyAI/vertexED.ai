@@ -1,4 +1,5 @@
 import { expect, test, type Page, type Route } from '@playwright/test';
+import { selectTheme } from './theme-controls';
 
 const learnerEmail = 'learner@example.test';
 const learnerPassword = 'VertexED2026!';
@@ -192,7 +193,7 @@ async function installExternalServiceHarness(page: Page) {
     observed.accountCreated = body.waitlistInviteToken === 'vertexed-e2e-approved'
       && body.email === undefined
       && body.username === 'e2elearner';
-    return json(route, { requiresEmailVerification: false, userId: learnerId }, 201);
+    return json(route, { ok: true, requiresEmailVerification: false, userId: learnerId }, 201);
   });
 
   await page.route('**/api/user-content**', async (route) => {
@@ -448,18 +449,14 @@ test('approved learner completes the golden study journey and resumes saved work
     const practice = page.getByRole('region', { name: 'Fix a step. Test the transfer.' });
     await expect(practice).toBeVisible();
     await practice.getByLabel('Programme', { exact: true }).selectOption('IB MYP');
-    await practice.getByLabel('Target', { exact: true }).selectOption('myp-chem-collisions');
-    await practice.getByLabel('Your explanation').fill('More particles have enough energy to react.');
-    await practice.getByRole('button', { name: 'Compare with worked reasoning' }).click();
-    await expect(practice.getByText('Check your explanation', { exact: true })).toBeVisible();
+    await expect(practice.getByText('Practice questions are awaiting subject review.', { exact: true })).toBeVisible();
+    await expect(practice.getByLabel('Target', { exact: true }).locator('option')).toHaveCount(1);
+    await expect(practice.getByLabel('Your explanation')).toHaveCount(0);
     await practice.scrollIntoViewIfNeeded();
     await page.screenshot({ path: `/tmp/vertexed-exam-practice-${width}.png` });
-    await page.evaluate(() => document.documentElement.classList.add('dark'));
+    await selectTheme(page, 'dark');
     await page.screenshot({ path: `/tmp/vertexed-exam-practice-dark-${width}.png` });
-    await page.evaluate(() => document.documentElement.classList.remove('dark'));
-    await practice.getByLabel('Target', { exact: true }).selectOption('myp-chem-design');
-    await expect(practice.getByLabel('Your explanation')).toHaveValue('');
-    await expect(practice.getByRole('button', { name: 'Compare with worked reasoning' })).toHaveAttribute('aria-expanded', 'false');
+    await selectTheme(page, 'light');
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width + 1);
     await page.screenshot({ path: `test-results/exam-prep-${width}.png`, fullPage: true });
   }
@@ -701,7 +698,7 @@ test('approved learner completes the golden study journey and resumes saved work
   expect(browserErrors).toEqual([]);
 });
 
-test('baseline answer edits invalidate old self-checks across reloads and viewport sizes', async ({ page }) => {
+test('held baseline practice remains explicit across reloads and viewport sizes', async ({ page }) => {
   await installExternalServiceHarness(page);
   await page.goto('/signup?invite=vertexed-e2e-approved');
   await page.getByLabel('Username').fill('e2elearner');
@@ -716,39 +713,20 @@ test('baseline answer edits invalidate old self-checks across reloads and viewpo
   await page.getByRole('button', { name: 'Create my study plan' }).click();
   await expect(page).toHaveURL(/\/main$/);
   await page.goto('/exam-prep');
-  await page.getByLabel('Session choice').selectOption('diagnostic');
   const baseline = page.locator('#exam-baseline');
-  await expect(baseline.getByRole('heading', { name: 'Three original questions, then a bounded next step' })).toBeVisible();
-  const completion = () => page.evaluate(() => {
-    const key = Object.keys(localStorage).find((name) => name.includes('exam_baseline') && name.endsWith(':Chemistry'));
-    if (!key) throw new Error('Missing account-scoped baseline record');
-    return JSON.parse(localStorage.getItem(key) || 'null').completedAt;
-  });
   for (const width of [1440, 1024, 390]) {
     await page.setViewportSize({ width, height: 900 });
     await page.emulateMedia({ reducedMotion: width === 390 ? 'reduce' : 'no-preference' });
-    await baseline.getByRole('button', { name: 'Restart baseline' }).click();
-    const items = baseline.locator('ol > li');
-    await expect(items).toHaveCount(3);
-    for (let i = 0; i < 3; i += 1) {
-      await items.nth(i).getByLabel('Your original response').fill(`Initial explanation ${i}`);
-      await items.nth(i).getByRole('button', { name: 'Compare with worked reasoning' }).click();
-      await items.nth(i).getByRole('radio', { name: 'Demonstrated here', exact: true }).check();
-    }
-    await expect.poll(completion).not.toBeNull();
-    await items.first().getByLabel('Your original response').fill(`Edited explanation ${width}`);
-    await expect(items.first().getByRole('radio', { name: 'Demonstrated here', exact: true })).not.toBeChecked();
-    await expect(baseline).toContainText('record a fresh self-check');
-    await expect.poll(completion).toBeNull();
-    await page.reload();
-    await expect(baseline.locator('ol > li').first().getByLabel('Your original response')).toHaveValue(`Edited explanation ${width}`);
-    await expect(baseline).toContainText('record a fresh self-check');
-    await expect.poll(completion).toBeNull();
-    await baseline.locator('ol > li').first().getByLabel('Your original response').focus();
-    await page.keyboard.press('Tab');
+    await page.getByLabel('Session choice').selectOption('diagnostic');
+    await expect(baseline.getByRole('heading', { name: 'Baseline questions are awaiting subject review' })).toBeVisible();
+    await expect(baseline).toContainText('At least three reviewed questions are needed');
+    await expect(baseline.getByLabel('Your original response')).toHaveCount(0);
+    const focusedPractice = baseline.getByRole('link', { name: 'Open focused practice' });
+    await focusedPractice.focus();
+    await expect(focusedPractice).toBeFocused();
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width + 1);
-    await baseline.screenshot({ path: `test-results/baseline-response-review-${width}.png` });
-    await baseline.locator('ol > li').first().getByRole('radio', { name: 'Needs review', exact: true }).check();
-    await expect.poll(completion).not.toBeNull();
+    await baseline.screenshot({ path: `test-results/baseline-review-hold-${width}.png` });
+    await page.reload();
+    await expect(baseline.getByRole('heading', { name: 'Baseline questions are awaiting subject review' })).toBeVisible();
   }
 });

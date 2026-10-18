@@ -53,3 +53,9 @@ test('reset guard rejects changed migrations, missing target and remote linking'
   writeFileSync(join(options.destination, 'supabase/.temp/project-ref'), 'remote');
   assert.throws(() => verifyReplayTarget(options.destination), /linked to a remote/);
 }));
+
+test('pgTAP runner uses the digest-pinned Supabase GHCR image', () => {
+  const runner = readFileSync(new URL('../scripts/test-database-replay.mjs', import.meta.url), 'utf8');
+  assert.match(runner, /ghcr\.io\/supabase\/pg_prove:3\.36@sha256:eda7c5e68719e9c8287e78c017118407b48df904a51c935f5ab6098b8c0bc6bc/);
+  assert.doesNotMatch(runner, /public\.ecr\.aws\/supabase\/pg_prove/);
+});
