@@ -79,6 +79,8 @@ export default function OfflineSettings() {
       setConfirmRemove(false);
     } catch (failure) { setError(failure instanceof Error ? failure.message : 'Offline storage could not be changed.'); }
     finally { setAction(null); window.requestAnimationFrame(() => {
+      const active = document.activeElement;
+      if (active && active !== document.body && active !== downloadButton.current) return;
       if (downloadButton.current && !downloadButton.current.disabled) downloadButton.current.focus();
       else statusElement.current?.focus();
     }); }

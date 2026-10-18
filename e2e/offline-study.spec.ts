@@ -4,32 +4,29 @@ import { test, expect } from '@playwright/test';
 // including when invoked through a fixture config that blocks workers by default.
 test.use({ serviceWorkers: 'allow' });
 
-test('installed public lessons and formula tools reopen offline without private response caches', async ({ page, context }) => {
-  await page.goto('/study-tools?formula=ohm');
+const READY_COPY = 'The app and available public materials are saved offline on this device.';
+
+test('installed public surfaces reopen offline without held or private response caches', async ({ page, context }) => {
+  await page.goto('/study-tools');
   await page.evaluate(async () => { await navigator.serviceWorker.ready; });
   await expect.poll(() => page.evaluate(() => Boolean(navigator.serviceWorker.controller))).toBe(true);
-  await expect(page.getByText('The app and public MYP and AP lessons are available offline on this device.', { exact: true })).toBeVisible();
+  await expect(page.getByText(READY_COPY, { exact: true })).toBeVisible();
   await context.setOffline(true);
   await page.reload();
   await expect(page.getByRole('region', { name: 'Offline study' }).getByText('Offline', { exact: true })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Check for updates', exact: true })).toBeDisabled();
-  await expect(page.getByRole('heading', { name: 'Ohm’s law', exact: true })).toBeVisible();
-  await page.getByRole('tab', { name: 'Try a question' }).click();
-  await page.getByLabel('Your answer (A)', { exact: true }).fill('0.5');
-  await page.getByRole('button', { name: 'Check answer' }).click();
-  await expect(page.getByText('That numerical value matches.', { exact: true })).toBeVisible();
+  await expect(page.getByText('Formula references are awaiting subject review', { exact: true })).toBeVisible();
   await page.goto('/myp/subjects/physics');
-  await expect(page.getByRole('complementary', { name: 'Physics topics' })).toBeVisible();
-  await expect(page.getByRole('heading', { name: 'Build the concept', exact: true })).toBeVisible();
+  await expect(page.getByText('This topic is awaiting subject review.', { exact: true })).toBeVisible();
   const inventory = await page.evaluate(async () => {
     const names = (await caches.keys()).filter(name => name.startsWith('vertexed-public-v1-'));
     return Promise.all(names.map(async name => (await (await caches.open(name)).keys()).map(request => new URL(request.url).pathname)));
   });
   expect(inventory).toHaveLength(1);
-  expect(inventory[0]).toContain('/myp5-content/physics.json');
-  expect(inventory[0]).toContain('/ap-content/biology.json');
-  expect(inventory[0].every(path => path.startsWith('/assets/') || path.startsWith('/myp5-content/') || path.startsWith('/ap-content/')
-    || ['/index.html', '/logo.png', '/app-mark.svg', '/favicon.ico'].includes(path))).toBe(true);
+  expect(inventory[0]).toContain('/myp5-content/manifest.json');
+  expect(inventory[0].some(path => /^\/(api|auth|ap-content|myp5-content|study-guides)\//.test(path) && path !== '/myp5-content/manifest.json')).toBe(false);
+  expect(inventory[0].every(path => path.startsWith('/assets/')
+    || ['/index.html', '/logo.png', '/app-mark.svg', '/favicon.ico', '/myp5-content/manifest.json'].includes(path))).toBe(true);
   await context.setOffline(false);
 });
 
@@ -38,7 +35,7 @@ for (const width of [1440, 1024, 390]) {
     await page.setViewportSize({ width, height: 900 });
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.goto('/study-tools');
-    await expect(page.getByText('The app and public MYP and AP lessons are available offline on this device.', { exact: true })).toBeVisible({ timeout: 30000 });
+    await expect(page.getByText(READY_COPY, { exact: true })).toBeVisible({ timeout: 30000 });
     const panel = page.getByRole('region', { name: 'Offline study' });
     await panel.scrollIntoViewIfNeeded();
     for (const theme of ['light', 'dark']) {
@@ -58,7 +55,7 @@ for (const width of [1440, 1024, 390]) {
     await page.screenshot({ path: info.outputPath(`offline-${width}-remove.png`), animations: 'disabled' });
     await page.keyboard.press('Enter');
     await expect(remove).toBeFocused();
-    await expect(page.getByText('The app and public MYP and AP lessons are available offline on this device.', { exact: true })).toBeVisible();
+    await expect(page.getByText(READY_COPY, { exact: true })).toBeVisible();
     await remove.click();
     await page.getByRole('button', { name: 'Confirm removal', exact: true }).click();
     await expect(page.getByText('The offline copy is turned off on this device.', { exact: true })).toBeVisible();
@@ -68,6 +65,6 @@ for (const width of [1440, 1024, 390]) {
     await page.reload();
     await expect(page.getByText('The offline copy is turned off on this device.', { exact: true })).toBeVisible();
     await page.getByRole('button', { name: 'Download offline copy', exact: true }).click();
-    await expect(page.getByText('The app and public MYP and AP lessons are available offline on this device.', { exact: true })).toBeVisible({ timeout: 30000 });
+    await expect(page.getByText(READY_COPY, { exact: true })).toBeVisible({ timeout: 30000 });
   });
 }
