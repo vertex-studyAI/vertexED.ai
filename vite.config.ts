@@ -57,6 +57,7 @@ export default defineConfig(({ mode }) => {
     },
     build: {
       target: 'es2020',
+      modulePreload: { polyfill: false },
       cssCodeSplit: true,
       // PDF/KaTeX bundles are large by nature; warn only for truly extreme outliers
       chunkSizeWarningLimit: 1000,

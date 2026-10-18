@@ -7,7 +7,6 @@ import './styles/reduced-motion-root.css'
 import { initMonitoring } from '@/lib/monitoring'
 import { initTransientSessionIsolation } from '@/lib/transientSessionIsolation'
 import { authCallbackLocation } from '@/lib/authReturn.mjs'
-import { registerOffline } from '@/lib/registerOffline'
 
 // Providers can return to Site URL instead of redirectTo. Use the same error,
 // recovery and invitation handling there, before mounting the router/analytics.
@@ -16,7 +15,8 @@ if (authReturn) window.history.replaceState(window.history.state, '', authReturn
 
 initMonitoring();
 initTransientSessionIsolation();
-registerOffline();
+// Offline study is optional; a failed lazy chunk must not block the online app.
+void import('@/lib/registerOffline').catch(() => {});
 
 createRoot(document.getElementById("root")!).render(
   <AppErrorBoundary>

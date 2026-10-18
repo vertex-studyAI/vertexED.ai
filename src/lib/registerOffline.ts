@@ -14,3 +14,5 @@ export function registerOffline() {
   if (document.readyState === 'complete') register();
   else window.addEventListener('load', register, { once: true });
 }
+
+registerOffline();
