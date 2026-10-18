@@ -2,7 +2,7 @@
 
 @layer components {
   .study-zone-page {
-    --zone-danger-text: 0 73.7% 41.8%;
+    --zone-danger-text: 0 93.5% 81.8%;
     --zone-calculator-action-text: 216 28% 12%;
   }
   .dark .study-zone-page {
@@ -111,8 +111,11 @@
   .zone-key-danger {
     @apply zone-key;
     border-color: hsl(var(--destructive) / 0.4);
-    background: hsl(var(--destructive) / 0.12);
+    background: hsl(var(--card));
     color: hsl(var(--zone-danger-text, var(--destructive)));
+  }
+  .zone-key-danger:hover {
+    background: hsl(var(--card));
   }
   .zone-key:focus-visible,
   .zone-key-primary:focus-visible,
