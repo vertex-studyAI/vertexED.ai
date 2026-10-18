@@ -6,6 +6,7 @@ import { filterPublishedModule, contentPublicationModulesPlugin } from '../scrip
 import { ARCHIVE_FILE, LEGACY_MODULES, TEACHING_SECTIONS, TEACHING_FUNCTIONS, teachingFunctionDeclaration, readLegacyPublication, readLiteral } from '../scripts/legacy-content-publication.mjs';
 import { verifyPublishedContent } from '../scripts/verify-published-content.mjs';
 import { resolve } from 'node:path';
+import { tmpdir } from 'node:os';
 
 const evaluate = async (source) => import(`data:text/javascript;base64,${Buffer.from(ts.transpileModule(source, {
   compilerOptions: { module: ts.ModuleKind.ES2022, target: ts.ScriptTarget.ES2022 },
@@ -87,7 +88,7 @@ test('tool preview holds remove teaching bodies while preserving navigation and 
 });
 
 test('artifact verifier rejects held archive, article and landing bodies plus discovery URLs in actual emitted files', async () => {
-  const folder = await mkdtemp(resolve('.tmp', 'legacy-publication-test-'));
+  const folder = await mkdtemp(resolve(tmpdir(), 'legacy-publication-test-'));
   try {
     const inventory = await readLegacyPublication({ approvals: [] });
     const sample = inventory.archiveSamples.LnL.Overview[0].body;
