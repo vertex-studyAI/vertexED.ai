@@ -125,6 +125,8 @@ jobs:
           npm run test:e2e:local-accessibility
 
       - name: Verify learner and study desk journeys across browsers
+        env:
+          VERTEXED_REFERENCE_BUILT: '1'
         run: npx playwright test --config=playwright.astra.config.ts --workers=1 --output=test-results/learner-matrix
 
       - name: Verify coursework, focus and saved search across browsers

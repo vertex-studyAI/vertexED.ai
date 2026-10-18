@@ -11,8 +11,8 @@ for (const width of [1440, 1024, 390]) {
     await input.click();
     await expect(input).toBeFocused();
     await expect(input).toHaveAttribute('aria-expanded', 'true');
-    await input.fill('bioloyg');
-    await expect(page.getByRole('listbox', { name: 'VertexED search results' }).getByRole('option').first()).toContainText(/biology/i);
+    await input.fill('privcy');
+    await expect(page.getByRole('listbox', { name: 'VertexED search results' }).getByRole('option').first()).toContainText(/privacy/i);
     expect(Math.abs(await page.evaluate(() => scrollY) - initialScroll)).toBeLessThanOrEqual(2);
     if (width === 390) {
       expect(await page.locator('.vh-scroll-island').evaluate(element => getComputedStyle(element, '::before').display)).toBe('none');

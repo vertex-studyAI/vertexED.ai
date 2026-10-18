@@ -4,6 +4,10 @@ import { extractPdf, decodePdfRequest } from '../api/_lib/pdfImport.js';
 import { selectTheme } from './theme-controls';
 import { expect, test, type Page } from '@playwright/test';
 import { CONCEPT_GRAPH } from '../src/lib/learningModel.mjs';
+
+const productionBundle = process.env.VERTEXED_REFERENCE_BUILT === '1';
+const heldPracticeReason = 'Seeded practice questions are held from production pending subject review.';
+
 const learnerId = 'f40db66b-1b55-4ab8-88d0-14a9ba476c16';
 const artifactId = '25734997-775e-473f-b415-897751b08497';
 
@@ -145,6 +149,7 @@ for (const width of [1440, 1024, 390]) {
 
 for (const width of [1440, 1024, 390]) {
   test(`learning loop improvements at ${width}`, async ({ page }, info) => {
+    test.skip(productionBundle, heldPracticeReason);
     await page.setViewportSize({ width, height: 900 });
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await installAccountHarness(page, true, '2090-12-31');
@@ -212,6 +217,7 @@ for (const width of [1440, 1024, 390]) {
   });
 
   test(`diagnostic, mistake, knowledge, Today and refresh at ${width}`, async ({ page }, info) => {
+    test.skip(productionBundle, heldPracticeReason);
     await page.setViewportSize({ width, height: 900 });
     await page.emulateMedia({ reducedMotion: 'reduce' });
     const errors: string[] = [];
@@ -265,6 +271,7 @@ for (const width of [1440, 1024, 390]) {
 }
 
 test('contextual tutor receives the current attempt and closes back to the question', async ({ page }) => {
+  test.skip(productionBundle, heldPracticeReason);
   await installAccountHarness(page, true);
   let request: Record<string, unknown> | null = null;
   await page.route('**/api/ask', async route => {
@@ -288,6 +295,7 @@ test('contextual tutor receives the current attempt and closes back to the quest
 });
 
 test('another tab pauses practice without overwriting saved work', async ({ page }) => {
+  test.skip(productionBundle, heldPracticeReason);
   await installAccountHarness(page, true);
   await page.goto('/learn?subject=Physics&question=physics-forces-01');
   await page.getByRole('button', { name: 'Start practice', exact: true }).click();
@@ -312,6 +320,7 @@ test('another tab pauses practice without overwriting saved work', async ({ page
 });
 
 test('session storage failure offers copyable recovery and never claims a save', async ({ page }) => {
+  test.skip(productionBundle, heldPracticeReason);
   await installAccountHarness(page, true);
   await page.goto('/learn?subject=Physics&question=physics-forces-01');
   await page.getByRole('button', { name: 'Start practice', exact: true }).click();
@@ -329,6 +338,7 @@ test('session storage failure offers copyable recovery and never claims a save',
 });
 
 test('stale practice deep links do not silently start a different question', async ({ page }) => {
+  test.skip(productionBundle, heldPracticeReason);
   await installAccountHarness(page, true);
   await page.goto('/learn?question=removed-question');
   await expect(page.getByRole('alert').filter({ hasText: 'no longer available' })).toBeVisible();
@@ -342,6 +352,7 @@ test('stale practice deep links do not silently start a different question', asy
 });
 
 test('invalid session references preserve bytes and stop practice', async ({ page }) => {
+  test.skip(productionBundle, heldPracticeReason);
   await installAccountHarness(page, true);
   const broken = JSON.stringify({ id: 'broken-session', ids: ['unknown-question'] });
   await page.evaluate(({ id, broken }) => localStorage.setItem(`vertex_content:${id}:practice_session`, broken), { id: learnerId, broken });
@@ -352,6 +363,7 @@ test('invalid session references preserve bytes and stop practice', async ({ pag
 });
 
 test('exam defers feedback, persists flags, locks when timed out and records once', async ({ page }) => {
+  test.skip(productionBundle, heldPracticeReason);
   await installAccountHarness(page, true);
   await page.goto('/learn?subject=Physics&question=physics-forces-01');
   await page.getByLabel('Practice mode').selectOption('exam');
@@ -372,6 +384,7 @@ test('exam defers feedback, persists flags, locks when timed out and records onc
 });
 
 test('corrupt practice is retained and cannot be replaced by starting a new session', async ({ page }) => {
+  test.skip(productionBundle, heldPracticeReason);
   await installAccountHarness(page, true);
   await page.evaluate(id => localStorage.setItem(`vertex_content:${id}:practice_attempts`, '[{"broken":true}]'), learnerId);
   await page.goto('/learn');
