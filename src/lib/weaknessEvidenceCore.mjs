@@ -1,18 +1,23 @@
 export const MEASURED_WEAKNESS_EVIDENCE = 'measured-v2';
+export const LEARNER_ATTESTED_WEAKNESS_EVIDENCE = 'learner-attested-v1';
 
 export const MEASUREMENT_METHODS = Object.freeze([
-  'teacher-confirmed',
-  'official-mark-scheme',
   'validated-answer-key',
 ]);
 
+export const ATTESTATION_METHODS = Object.freeze([
+  'learner-attested-teacher-check',
+  'learner-attested-mark-scheme-check',
+]);
+
 const MEASUREMENT_METHOD_SET = new Set(MEASUREMENT_METHODS);
+const ATTESTATION_METHOD_SET = new Set(ATTESTATION_METHODS);
 
 const ALLOWED_SOURCES = new Set(['review', 'quiz', 'mock']);
 
-export function normalizeMeasuredWeaknessEntry(entry) {
+function normalizeEvidenceEntry(entry, { evidence, methods }) {
   if (!entry || typeof entry !== 'object') return null;
-  if (entry.evidence !== MEASURED_WEAKNESS_EVIDENCE) return null;
+  if (entry.evidence !== evidence) return null;
 
   const topic = typeof entry.topic === 'string' ? entry.topic.trim() : '';
   const subject = typeof entry.subject === 'string' ? entry.subject.trim() : '';
@@ -25,7 +30,7 @@ export function normalizeMeasuredWeaknessEntry(entry) {
   if (!topic || !subject || !ALLOWED_SOURCES.has(source) || !recordedAt) return null;
   if (!Number.isFinite(score) || !Number.isFinite(maxScore)) return null;
   if (score < 0 || maxScore <= 0 || score > maxScore) return null;
-  if (!verification || !MEASUREMENT_METHOD_SET.has(verification.method)) return null;
+  if (!verification || !methods.has(verification.method)) return null;
   if (!Number.isFinite(Date.parse(verification.confirmedAt))) return null;
 
   return {
@@ -36,7 +41,7 @@ export function normalizeMeasuredWeaknessEntry(entry) {
     maxScore,
     source,
     recordedAt,
-    evidence: MEASURED_WEAKNESS_EVIDENCE,
+    evidence,
     verification: {
       method: verification.method,
       confirmedAt: verification.confirmedAt,
@@ -45,6 +50,20 @@ export function normalizeMeasuredWeaknessEntry(entry) {
         : undefined,
     },
   };
+}
+
+export function normalizeMeasuredWeaknessEntry(entry) {
+  return normalizeEvidenceEntry(entry, {
+    evidence: MEASURED_WEAKNESS_EVIDENCE,
+    methods: MEASUREMENT_METHOD_SET,
+  });
+}
+
+export function normalizeLearnerAttestedWeaknessEntry(entry) {
+  return normalizeEvidenceEntry(entry, {
+    evidence: LEARNER_ATTESTED_WEAKNESS_EVIDENCE,
+    methods: ATTESTATION_METHOD_SET,
+  });
 }
 
 export function retainNewestWeaknessEntries(entries, limit = 200) {

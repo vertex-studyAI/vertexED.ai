@@ -18,7 +18,7 @@ const measured = {
   source: 'review',
   evidence: MEASURED_WEAKNESS_EVIDENCE,
   recordedAt: '2026-09-06T00:00:00.000Z',
-  verification: { method: 'teacher-confirmed', confirmedAt: '2026-09-06T00:00:00.000Z' },
+  verification: { method: 'validated-answer-key', confirmedAt: '2026-09-06T00:00:00.000Z' },
 };
 
 test('retry spacing is driven by measured score bands', () => {

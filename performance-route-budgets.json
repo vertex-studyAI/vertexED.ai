@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "baselineSourceSha": "b398bf921dbef71ba98303b121e04944a2954cff",
+  "maxGrowthBytes": 2048,
+  "routes": {
+    "Main": 12340,
+    "LearningWorkspace": 9990,
+    "StudyNotebook": 17110,
+    "ExamPrep": 17450,
+    "StudyPlanner": 21020,
+    "AnswerReviewer": 10070,
+    "RevisionHistory": 1640,
+    "PaperMaker": 9620,
+    "NotetakerQuiz": 14720,
+    "AIChatbot": 7300
+  }
+}

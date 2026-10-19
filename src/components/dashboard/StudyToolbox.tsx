@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { Link } from 'react-router';
-import { ArrowRight, BookOpen, Brain, CalendarDays, FileCheck2, FileText, GraduationCap, MessageCircle, Pin, Search, Target, Timer } from 'lucide-react';
+import { ArrowRight, BookOpen, Brain, CalendarDays, FileCheck2, FileText, GitBranch, GraduationCap, MessageCircle, Pin, Search, Target, Timer } from 'lucide-react';
 
 const stages = ['All tools', 'Plan', 'Focus', 'Practise', 'Review', 'Remember'] as const;
 const tools = [
@@ -11,6 +11,7 @@ const tools = [
   { id: 'mistakes', title: 'Mistake notebook', stage: 'Review', description: 'Return to saved mistakes and the reasoning you corrected.', to: '/learn?tab=mistakes', icon: FileCheck2 },
   { id: 'paper', title: 'Paper Maker', stage: 'Practise', description: 'Build a practice paper for your board, subject and topic.', to: '/paper-maker', icon: FileText },
   { id: 'review', title: 'Answer Reviewer', stage: 'Review', description: 'Get AI-suggested feedback to check against your course materials.', to: '/answer-reviewer', icon: FileCheck2 },
+  { id: 'history', title: 'Revision history', stage: 'Review', description: 'Follow notes, attempts, feedback and retries without changing their evidence status.', to: '/revision-history', icon: GitBranch },
   { id: 'notes', title: 'Notes & flashcards', stage: 'Remember', description: 'Turn class material into notes, retrieval prompts and quizzes.', to: '/notetaker', icon: Brain },
   { id: 'exam', title: 'Exam Prep', stage: 'Plan', description: 'Build a session around your exam dates and due reviews.', to: '/exam-prep', icon: Target },
   { id: 'apex', title: 'Apex', stage: 'Practise', description: 'Talk through a difficult concept with the AI tutor.', to: '/chatbot', icon: MessageCircle },

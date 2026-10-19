@@ -12,7 +12,7 @@ import { fetchProvider } from '../_lib/providerRequest.js';
 import { routeAiRequest } from '../_lib/aiRouting.js';
 import { VERTEX_AGENTS } from '../_lib/vertexAgents.js';
 
-const PRIMARY_NOTE_MODEL = process.env.NOTE_MODEL || 'gpt-4.1-mini';
+const PRIMARY_NOTE_MODEL = process.env.NOTE_MODEL || 'gpt-6-luna';
 const FALLBACK_NOTE_MODEL = process.env.NOTE_FALLBACK_MODEL || 'gpt-4o-mini';
 
 async function extractResponsesText(response) {
@@ -160,7 +160,7 @@ Return ONLY JSON: { "flashcards": [ { "front": "...", "back": "..." } ] }
 NOTES:
 ${String(text).slice(0, 10000)}`;
 
-      const flashRoute = routeAiRequest({ capability: 'flashcards', defaultModel: 'gpt-4o-mini', maxTokens: 1200 });
+      const flashRoute = routeAiRequest({ capability: 'flashcards', defaultModel: 'gpt-6-luna', maxTokens: 1200 });
       const flashResponse = await fetchProvider({
         capability: 'flashcards', provider: 'openai', model: flashRoute.model,
         url: "https://api.openai.com/v1/chat/completions",

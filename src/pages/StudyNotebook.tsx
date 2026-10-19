@@ -41,6 +41,7 @@ import {
   listNotebooks,
   removeSource,
   saveOutput,
+  reviseNotebookOutput,
   saveNotebookQuizResponse,
   sourceFromArtifact,
   toggleSource,
@@ -52,6 +53,8 @@ import {
 } from '@/lib/notebook';
 import StudySaveStatus from '@/components/StudySaveStatus';
 import NotebookOutputPanel from '@/components/notebook/NotebookOutputPanel';
+import NotebookStudySet from '@/components/notebook/NotebookStudySet';
+import NotebookResourceEditor from '@/components/notebook/NotebookResourceEditor';
 import SourceFileImport from '@/components/notebook/SourceFileImport';
 import ApexMessageList from '@/components/chat/ApexMessageList';
 import ApexChatInput from '@/components/chat/ApexChatInput';
@@ -97,8 +100,10 @@ export default function StudyNotebook() {
   const notebookSaveTimerRef = useRef<number | null>(null);
   const [studioTab, setStudioTab] = useState<StudioTab>(guidedStart ? 'quiz' : 'chat');
   const [selectedQuizId, setSelectedQuizId] = useState<string | null>(null);
+  const [selectedResourceId, setSelectedResourceId] = useState<string | null>(null);
   const [studioGroup, setStudioGroup] = useState(guidedStart ? 'review' : NOTEBOOK_STUDIO_GROUPS[0].id);
   const [generating, setGenerating] = useState<NotebookOutputKind | null>(null);
+  const [studySetBusy, setStudySetBusy] = useState(false);
   const [pasteTitle, setPasteTitle] = useState('');
   const [pasteContent, setPasteContent] = useState('');
   const [showImport, setShowImport] = useState(false);
@@ -297,6 +302,7 @@ export default function StudyNotebook() {
         mode: kind,
         sources,
         notebookTitle: active.title,
+        curriculum: active.curriculum,
       });
       if (getUserContentStorageScope() !== user?.id) return;
       saveOutput(active.id, {
@@ -304,6 +310,7 @@ export default function StudyNotebook() {
         title: result.title,
         content: result.content,
         generatedAt: result.generatedAt,
+        generation: result.generation,
         flashcards: result.flashcards,
         quiz: result.quiz,
         suggestedQuestions: result.suggestedQuestions,
@@ -385,8 +392,9 @@ export default function StudyNotebook() {
   };
 
   const previousQuizzes = active?.outputs.filter(output => output.kind === 'quiz') ?? [];
+  const previousResources = active?.outputs.filter(output => output.kind === studioTab) ?? [];
   const currentOutput = active && studioTab !== 'chat'
-    ? (studioTab === 'quiz' ? previousQuizzes.find(output => output.id === selectedQuizId) : null) ?? getOutputByKind(active, studioTab)
+    ? (studioTab === 'quiz' ? previousQuizzes.find(output => output.id === selectedQuizId) : previousResources.find(output => output.id === selectedResourceId)) ?? getOutputByKind(active, studioTab)
     : null;
   const saveQuizResponse = (index: number, patch: Partial<Pick<NotebookQuizResponse, 'answer' | 'confidence' | 'revealedAt' | 'reflection'>>) => {
     if (!active || !currentOutput || !notebookHydrated || getUserContentStorageScope() !== user?.id) throw new Error('Notebook is not ready to save.');
@@ -698,7 +706,10 @@ export default function StudyNotebook() {
                 </div>
               )}
 
-              {active ? <><div className="border-b border-border/40">
+              {active ? <><NotebookStudySet key={`${user?.id}:${active.id}`} notebook={active} owner={user?.id ?? ''}
+                disabled={!notebookHydrated || !!generating} refresh={refresh} onBusy={setStudySetBusy}
+                onSelect={kind => { setStudioTab(kind); setStudioGroup(kind === 'quiz' || kind === 'flashcards' ? 'review' : 'learn'); }} />
+              <div className="border-b border-border/40">
                 <div className="flex gap-1 p-2 overflow-x-auto">
                   <StudioTabButton
                     active={studioTab === 'chat'}
@@ -832,7 +843,7 @@ export default function StudyNotebook() {
                         <button
                           type="button"
                           className="btn-solid text-xs inline-flex items-center gap-1.5"
-                          disabled={!!generating}
+                          disabled={!!generating || studySetBusy}
                           onClick={() => void handleGenerate(studioTab)}
                         >
                           {generating === studioTab ? (
@@ -854,6 +865,16 @@ export default function StudyNotebook() {
                       </div>
                     )}
 
+                    {studioTab !== 'quiz' && previousResources.length > 1 && <label className="block text-sm mb-4">Saved resource version
+                      <select className="form-control-select w-full mt-2 min-h-11 text-base" value={currentOutput?.id ?? ''} onChange={event => setSelectedResourceId(event.target.value)}>
+                        {previousResources.map((output, index) => <option key={output.id} value={output.id}>{index === 0 ? 'Latest' : `Earlier ${index}`} · {output.editedFrom ? 'Edited copy' : 'Generated'} · {new Date(output.generatedAt).toLocaleString()}</option>)}
+                      </select>
+                    </label>}
+                    {currentOutput && !generating && !studySetBusy && <NotebookResourceEditor key={currentOutput.id} output={currentOutput} onSave={content => {
+                      if (!notebookHydrated || getUserContentStorageScope() !== user?.id) throw new Error('Wait for your account to finish loading.');
+                      const saved = reviseNotebookOutput(active.id, currentOutput.id, content);
+                      setSelectedResourceId(saved.outputs[0].id); refresh();
+                    }} />}
                     {generating === studioTab ? (
                       <div className="flex flex-col items-center justify-center py-16 text-muted-foreground">
                         <Loader2 className="h-8 w-8 animate-spin text-primary mb-3" />

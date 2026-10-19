@@ -390,7 +390,7 @@ export const PLATFORM_FEATURES: Feature[] = [
     icon: ClipboardCheck,
     lead: "You wrote three pages. You still don't know if it's worth six marks or two. That's the gap we wanted to close.",
     body: "Submit a typed or photographed response and receive criterion-by-criterion AI feedback. The reviewer quotes evidence from the answer when it assigns marks and clearly labels unsupported scoring as provisional.",
-    detail: "Only a result you confirm against a teacher, official mark scheme, or validated answer key can feed the measured weak-topic and retry system. AI feedback alone does not become a mastery score.",
+    detail: "Only independently validated evidence, such as a supported answer-key result, can feed the measured weak-topic and retry system. A learner-reported teacher or mark-scheme check stays learner-attested; AI feedback alone does not become a mastery score.",
     scenario: "A 6-mark biology extended response. The reviewer flags that you described the process but didn't link it to the question's command term, suggests one concrete example to add, and points you to a similar prompt to retry tomorrow.",
     outcomes: [
       "Specific changes to test in the next attempt",

@@ -172,7 +172,6 @@ export default function SiteLayout() {
         { to: "/", label: "Home" },
         { to: "/features", label: "Features" },
         { to: "/resources", label: "Library" },
-        { to: "/projects", label: "Projects" },
         { to: "/#concept-lens", label: "Try the lens" },
         { to: "/about", label: "About" },
         { to: "/login", label: "Login" },
@@ -432,7 +431,6 @@ export default function SiteLayout() {
                 <Link to="/resources" className="hover:text-foreground transition">Learning library</Link>
                 <Link to="/curricula" className="hover:text-foreground transition">Curricula</Link>
                 <Link to="/myp" className="hover:text-foreground transition">MYP 5</Link>
-                <Link to="/projects" className="hover:text-foreground transition">Projects</Link>
                 <Link to="/about" className="hover:text-foreground transition">About</Link>
                 <Link to="/privacy" className="hover:text-foreground transition">Privacy</Link>
                 <Link to="/terms" className="hover:text-foreground transition">Terms</Link>

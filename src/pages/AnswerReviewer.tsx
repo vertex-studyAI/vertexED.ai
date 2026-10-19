@@ -33,13 +33,13 @@ import { sanitizeMarkdown } from "@/lib/sanitize";
 import { Sliders, ArrowRight, FileText, Copy, Download, Image as ImageIcon, X, Sparkles, Shield, MessageSquareQuote, CheckCircle2, ClipboardCheck, Loader2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import AiFeedbackControls from "@/components/AiFeedbackControls";
-import { recordWeakness } from "@/lib/weaknessTracker";
-import { MEASURED_WEAKNESS_EVIDENCE } from "@/lib/weaknessEvidenceCore.mjs";
-import { completeRetry } from "@/lib/retryQueue";
+import { recordLearnerAttestation } from "@/lib/weaknessTracker";
+import { LEARNER_ATTESTED_WEAKNESS_EVIDENCE } from "@/lib/weaknessEvidenceCore.mjs";
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
 import { normalizeReviewDraft } from '@/lib/reviewDraft.mjs';
 import { safeImageSrc } from '@/lib/safeImageSrc.mjs';
+import { appendRevisionEvent } from '@/lib/revisionHistory';
 
 type Attachment = {
   id: string;
@@ -166,8 +166,9 @@ export default function AIAnswerReview() {
   const [reviewSource, setReviewSource] = useLocalStorage<"review" | "quiz" | "mock">(draftKeys.answerReviewSource + draftSuffix, "review");
   const [confirmedMarks, setConfirmedMarks] = useState<Record<string, string>>({});
   const [confirmationReference, setConfirmationReference] = useState("");
-  const [confirmationMethod, setConfirmationMethod] = useState<"" | "teacher-confirmed" | "official-mark-scheme">("");
-  const [masteryConfirmed, setMasteryConfirmed] = useState(false);
+  const [confirmationMethod, setConfirmationMethod] = useState<"" | "learner-attested-teacher-check" | "learner-attested-mark-scheme-check">("");
+  const [attestationSaved, setAttestationSaved] = useState(false);
+  const feedbackRevisionEventRef = useRef<{ auditId: string; eventId: string | null } | null>(null);
   const responseRef = useRef<HTMLDivElement | null>(null);
   const fileInputQuestionRef = useRef<HTMLInputElement | null>(null);
   const fileInputAnswerRef = useRef<HTMLInputElement | null>(null);
@@ -538,12 +539,27 @@ export default function AIAnswerReview() {
         ? data.review as StructuredReview
         : null;
       setStructuredReview(audit);
+      feedbackRevisionEventRef.current = audit ? { auditId: audit.auditId, eventId: null } : null;
       setConfirmationMethod("");
-      setMasteryConfirmed(false);
+      setAttestationSaved(false);
       setConfirmedMarks({});
       setConfirmationReference("");
       setDegradedReview(Boolean(data && typeof data === "object" && data.degraded));
       setResponse(out);
+      if (audit) {
+        void appendRevisionEvent({
+          eventType: 'feedback',
+          occurredAt: new Date().toISOString(),
+          evidenceStatus: audit.scoreStatus === 'EVIDENCE_LINKED' ? 'evidence-linked' : 'provisional',
+          sourceType: 'answer-review',
+          sourceKey: audit.auditId,
+          sourceRevision: `${safeText((data as any)?.contractVersion) || 'vertexed.answer-review'}:${audit.auditId}`.slice(0, 180),
+          parentEventIds: [],
+          payload: { label: 'AI-suggested answer feedback', summary: 'Suggested criterion feedback was generated and kept separate from verified mastery.', route: '/answer-reviewer', feedbackId: audit.auditId },
+        }).then(event => {
+          if (feedbackRevisionEventRef.current?.auditId === audit.auditId) feedbackRevisionEventRef.current.eventId = event.id;
+        }).catch(() => undefined);
+      }
       setLastSubmittedAt(new Date().toLocaleString());
       setSubmitCount((c) => c + 1);
 
@@ -627,7 +643,7 @@ export default function AIAnswerReview() {
     }
   };
 
-  const confirmReviewForMastery = () => {
+  const saveReviewAttestation = () => {
     const audit = structuredReview;
     if (!audit || audit.scoreStatus !== "EVIDENCE_LINKED" || degradedReview || !confirmationMethod) return;
     const confirmedAt = new Date().toISOString();
@@ -650,7 +666,7 @@ export default function AIAnswerReview() {
       maxScore: audit.maxScore,
     }];
 
-    const recorded = safeMeasurements.every((measurement) => recordWeakness({
+    const recorded = safeMeasurements.every((measurement) => recordLearnerAttestation({
       attemptId: audit.auditId,
       topic: measurement.topic,
       subject,
@@ -658,23 +674,31 @@ export default function AIAnswerReview() {
       score: measurement.score,
       maxScore: measurement.maxScore,
       source: reviewSource,
-      evidence: MEASURED_WEAKNESS_EVIDENCE,
+      evidence: LEARNER_ATTESTED_WEAKNESS_EVIDENCE,
       verification: {
         method: confirmationMethod,
         confirmedAt,
-        reference: confirmationReference.trim() || (confirmationMethod === "teacher-confirmed" ? "Learner attests teacher checked the mark" : "Learner attests official mark scheme checked"),
+        reference: confirmationReference.trim() || (confirmationMethod === "learner-attested-teacher-check" ? "Learner reports that a teacher checked the mark" : "Learner reports checking an official mark scheme"),
       },
     }));
 
     if (recorded) {
-      const retryId = searchParams.get("retry");
-      if (retryId) {
-        completeRetry(retryId, Math.round((safeMeasurements.reduce((sum, item) => sum + item.score, 0) / Math.max(1, safeMeasurements.reduce((sum, item) => sum + item.maxScore, 0))) * 100));
-      }
-      setMasteryConfirmed(true);
+      setAttestationSaved(true);
+      void appendRevisionEvent({
+        eventType: 'confirmation',
+        occurredAt: confirmedAt,
+        evidenceStatus: 'learner-attested',
+        sourceType: 'answer-review-attestation',
+        sourceKey: audit.auditId,
+        sourceRevision: `learner-attested-v1:${audit.auditId}`.slice(0, 180),
+        parentEventIds: feedbackRevisionEventRef.current?.auditId === audit.auditId && feedbackRevisionEventRef.current.eventId
+          ? [feedbackRevisionEventRef.current.eventId]
+          : [],
+        payload: { label: 'Checked mark saved', summary: 'The learner reported checking this mark. It does not update verified mastery.', route: '/answer-reviewer', feedbackId: audit.auditId, confirmationMethod },
+      }).catch(() => undefined);
       toast({
-        title: "Added to measured progress",
-        description: "This mark is now recorded with your human verification method.",
+        title: "Saved as learner-attested evidence",
+        description: "The checked mark is saved, but it will not change verified mastery until independently validated.",
       });
     }
   };
@@ -1038,7 +1062,7 @@ export default function AIAnswerReview() {
                 <div className="review-panel">
                   <div className={`mb-4 rounded-xl border p-3 text-sm ${structuredReview?.scoreStatus === "EVIDENCE_LINKED" ? "border-sky-500/25 bg-sky-500/10" : "border-amber-500/25 bg-amber-500/10"}`}>
                     {structuredReview?.scoreStatus === "EVIDENCE_LINKED"
-                      ? "This AI review is linked to exact spans in your answer, but the model cannot verify its own mark. This AI output does not update mastery unless you confirm it against an official mark scheme or teacher decision."
+                      ? "This AI review is linked to exact spans in your answer, but the model cannot verify its own mark. You can save a checked mark as learner-attested history; only independently validated evidence updates mastery."
                       : "This is provisional AI feedback, not an official examiner result. This AI output does not update mastery."}
                   </div>
                   <div className="mb-4 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
@@ -1089,17 +1113,17 @@ export default function AIAnswerReview() {
 
                               {structuredReview.scoreStatus === "EVIDENCE_LINKED" && !degradedReview && (
                                 <section className="rounded-2xl border border-sky-500/25 bg-sky-500/5 p-4">
-                                  <h3 className="text-sm font-semibold text-foreground">Confirm before adding to mastery</h3>
+                                  <h3 className="text-sm font-semibold text-foreground">Record a checked mark</h3>
                                   <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-                                    Only confirm after checking the suggested mark against a teacher decision or the current official mark scheme.
+                                    Record this only after checking the suggested mark against a teacher decision or the current official mark scheme.
                                   </p>
-                                  <p className="mt-2 text-xs text-muted-foreground">This records your attestation, not an authenticated teacher approval. Correct the suggested marks before confirming.</p>
+                                  <p className="mt-2 text-xs text-muted-foreground">This is learner-attested evidence, not authenticated teacher approval. It is saved for revision history but does not change verified mastery.</p>
                                   <div className="mt-3 grid gap-2 sm:grid-cols-2">
                                     {structuredReview.criteria.map(criterion => <label key={criterion.id} className="grid gap-1 text-xs">
                                       {criterion.label}  - confirmed mark out of {criterion.maxScore}
-                                      <input type="number" min={0} max={criterion.maxScore} step="any" className="neu-input-el px-3 py-2" disabled={masteryConfirmed} value={confirmedMarks[criterion.id] ?? String(criterion.score)} onChange={event => setConfirmedMarks(previous => ({ ...previous, [criterion.id]: event.target.value }))} />
+                                      <input type="number" min={0} max={criterion.maxScore} step="any" className="neu-input-el px-3 py-2" disabled={attestationSaved} value={confirmedMarks[criterion.id] ?? String(criterion.score)} onChange={event => setConfirmedMarks(previous => ({ ...previous, [criterion.id]: event.target.value }))} />
                                     </label>)}
-                                    <label className="grid gap-1 text-xs">Source or teacher reference (optional)<input className="neu-input-el px-3 py-2" maxLength={160} value={confirmationReference} disabled={masteryConfirmed} onChange={event => setConfirmationReference(event.target.value)} /></label>
+                                    <label className="grid gap-1 text-xs">Source or teacher reference (optional)<input className="neu-input-el px-3 py-2" maxLength={160} value={confirmationReference} disabled={attestationSaved} onChange={event => setConfirmationReference(event.target.value)} /></label>
                                   </div>
                                   <div className="mt-3 flex flex-wrap items-end gap-2">
                                     <label className="grid gap-1 text-xs text-muted-foreground">
@@ -1108,20 +1132,20 @@ export default function AIAnswerReview() {
                                         className="neu-input-el min-w-56 px-3 py-2 text-sm text-foreground"
                                         value={confirmationMethod}
                                         onChange={(event) => setConfirmationMethod(event.target.value as typeof confirmationMethod)}
-                                        disabled={masteryConfirmed}
+                                        disabled={attestationSaved}
                                       >
                                         <option value="">Select verification</option>
-                                        <option value="official-mark-scheme">Official mark scheme checked</option>
-                                        <option value="teacher-confirmed">Teacher confirmed the mark</option>
+                                        <option value="learner-attested-mark-scheme-check">I checked an official mark scheme</option>
+                                        <option value="learner-attested-teacher-check">I report that a teacher checked it</option>
                                       </select>
                                     </label>
                                     <button
                                       type="button"
                                       className="btn-solid rounded-xl px-4 py-2 text-sm disabled:cursor-not-allowed disabled:opacity-50"
-                                      disabled={!confirmationMethod || masteryConfirmed}
-                                      onClick={confirmReviewForMastery}
+                                      disabled={!confirmationMethod || attestationSaved}
+                                      onClick={saveReviewAttestation}
                                     >
-                                      {masteryConfirmed ? "Added to measured progress" : "Confirm mark for mastery"}
+                                      {attestationSaved ? "Saved as learner-attested" : "Save checked mark"}
                                     </button>
                                   </div>
                                 </section>
@@ -1223,7 +1247,7 @@ export default function AIAnswerReview() {
                                 setAnswerImages([]);
                                 setResponse('');
                                 setStructuredReview(null);
-                                setMasteryConfirmed(false);
+                                setAttestationSaved(false);
                                 setSavedReviewId(null);
                                 requestAnimationFrame(() => document.getElementById('review-answer')?.focus());
                               }}>Try this question again</button>

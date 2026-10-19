@@ -33,7 +33,7 @@ test('material links allow only complete web URLs', () => {
   assert.equal(validateExamMaterialLink('https://example.com/paper').ok, true);
 });
 
-test('analytics averages only two or more comparable human-confirmed results', () => {
+test('analytics averages only two or more comparable learner-recorded results', () => {
   const setup = { subject: 'Chemistry', assessmentType: 'Mock exam', paper: 'Paper 1', totalMarks: 50 };
   const first = { humanConfirmed: true, subject: 'Chemistry', assessmentType: 'Mock exam', paper: 'Paper 1', score: 30, maxScore: 50, topic: 'Rates', questionType: 'Short answer', commandTerm: 'Explain', durationMinutes: 55 };
   assert.equal(summarizeConfirmedResults([first], setup).averagePercent, null);
