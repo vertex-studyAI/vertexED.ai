@@ -46,7 +46,7 @@ Remove `VITE_GEMINI_API_KEY` if still set — Gemini is server-only.
 2. `/signup` — join waitlist with a test email
 3. `/admin/waitlist` — approve the test entry (as `ADMIN_EMAILS` user)
 4. `/signup` → create account with approved email (no invite code required)
-5. Log in → complete mock → evidence-linked review → confirm against an official mark scheme → dashboard retry; confirm device-save recovery and planner/learner-state sync.
+5. Log in → complete validated-answer-key practice → dashboard retry; then save an AI-review mark-scheme check and confirm it appears only as learner-attested revision history, with no mastery/retry upgrade. Confirm device-save recovery and planner/learner-state sync.
 6. Test chatbot, notetaker, paper maker, and planner AI; confirm feedback controls emit no study content.
 7. Export account data → confirm cloud artifacts, learner state, and device data are present without invite/session secrets.
 8. Delete a disposable account → confirm refresh-session revocation, Auth deletion, content cascade, linked waitlist-email deletion, and subsequent API denial.

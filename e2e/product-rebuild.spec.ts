@@ -111,7 +111,7 @@ async function installAccountHarness(page: Page, empty = false) {
       body = { contractVersion: 'vertexed.answer-review.v2', degraded: false, safe_text: 'Explain how momentum differs from velocity.', review: {
         auditId: 'notebook-practice-review', score: 0, maxScore: 1, scoreStatus: 'EVIDENCE_LINKED', confidence: 0.7,
         humanReviewRequired: true, measurementEligible: false, evidenceState: 'MODEL_EVIDENCE_LINKED',
-        escalationReason: 'Check this feedback with your teacher before confirming a mark.',
+        escalationReason: 'A learner-reported teacher check can be saved as attested history, but it does not update verified mastery.',
         feedback: 'Relate impulse to the change in momentum.', includes: 'An attempted explanation.',
         criteria: [{ id: 'impulse', label: 'Impulse and momentum', score: 0, maxScore: 1, feedback: 'Check the distinction between velocity and momentum.', evidence: [], evidenceVerified: true }], errors: [],
       } };
@@ -271,17 +271,17 @@ test('notebook imports, persists practice, keeps previous attempts and opens con
   await expect(page.getByLabel('Question', { exact: true })).toHaveValue(/What does impulse measure/);
   await expect(page.locator('textarea[name="additional"]')).toHaveValue(/Learner confidence before revealing: 80%/);
   await page.getByRole('button', { name: 'Review my answer', exact: true }).click();
-  await expect(page.getByRole('heading', { name: 'Confirm before adding to mastery' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Record a checked mark' })).toBeVisible();
   expect(state.reviewRequest?.context).toContain('Source excerpts');
   await expect.poll(() => state.review?.source).toMatchObject({ kind: 'notebook-quiz', questionIndex: '0' });
   expect(state.learnerWrites.filter(item => item.stateType === 'weakness')).toHaveLength(0);
-  await page.getByLabel('Verification method').selectOption('teacher-confirmed');
-  await page.getByRole('button', { name: 'Confirm mark for mastery', exact: true }).click();
-  await expect(page.getByRole('button', { name: 'Added to measured progress', exact: true })).toBeDisabled();
+  await page.getByLabel('Verification method').selectOption('learner-attested-teacher-check');
+  await page.getByRole('button', { name: 'Save checked mark', exact: true }).click();
+  await expect(page.getByRole('button', { name: 'Saved as learner-attested', exact: true })).toBeDisabled();
   await expect.poll(() => state.learnerWrites.some(item => item.stateType === 'weakness')).toBe(true);
-  await expect.poll(() => state.learnerWrites.some(item => item.stateType === 'retry')).toBe(true);
-  const measured = state.learnerWrites.find(item => item.stateType === 'weakness');
-  expect(measured?.payload).toMatchObject({ source: 'quiz', evidence: 'measured-v2', verification: { method: 'teacher-confirmed' } });
+  expect(state.learnerWrites.some(item => item.stateType === 'retry')).toBe(false);
+  const attested = state.learnerWrites.find(item => item.stateType === 'weakness');
+  expect(attested?.payload).toMatchObject({ source: 'quiz', evidence: 'learner-attested-v1', verification: { method: 'learner-attested-teacher-check' } });
   await page.getByRole('button', { name: 'Try this question again', exact: true }).click();
   await expect(page.getByLabel('Your answer', { exact: true })).toHaveValue('');
   await expect(page.getByLabel('Your answer', { exact: true })).toBeFocused();
@@ -291,13 +291,13 @@ test('notebook imports, persists practice, keeps previous attempts and opens con
   await page.getByLabel('Your answer', { exact: true }).fill('Impulse is the change in momentum, not velocity.');
   await page.getByRole('button', { name: 'Review my answer', exact: true }).click();
   await expect(page.getByRole('link', { name: 'Schedule a retry', exact: true })).toBeVisible();
-  const measuredCount = state.learnerWrites.filter(item => item.stateType === 'weakness').length;
+  const attestedCount = state.learnerWrites.filter(item => item.stateType === 'weakness').length;
   await page.getByRole('link', { name: 'Schedule a retry', exact: true }).click();
   await expect(page.getByRole('dialog', { name: 'Add a study task' })).toBeVisible();
   await expect(page.getByLabel('Task name', { exact: true })).toHaveValue(/Retry: What does impulse measure/);
   await page.getByRole('button', { name: 'Add task', exact: true }).click();
   await expect.poll(() => JSON.stringify(state.planner)).toContain('reviewArtifactId');
-  expect(state.learnerWrites.filter(item => item.stateType === 'weakness')).toHaveLength(measuredCount);
+  expect(state.learnerWrites.filter(item => item.stateType === 'weakness')).toHaveLength(attestedCount);
   await page.screenshot({ path: info.outputPath('scheduled-retry-mobile.png') });
   await page.reload();
   await page.getByRole('region', { name: 'Planned retries' }).getByRole('button').click();

@@ -1,8 +1,8 @@
 // File: /src/App.tsx
 import SiteLayout from "@/components/layout/SiteLayout";
 import AuthLandingRedirect from "@/components/AuthLandingRedirect";
-import FeedbackLauncher from "@/components/FeedbackLauncher";
-import { lazy, useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
+const FeedbackLauncher = lazy(() => import("@/components/FeedbackLauncher"));
 const Features = lazy(() => import("@/pages/Features"));
 const Login = lazy(() => import("@/pages/Login"));
 const Signup = lazy(() => import("@/pages/Signup"));
@@ -16,8 +16,8 @@ const StudyZone = lazy(() => import("@/pages/study-zone/StudyZonePage"));
 const AIChatbot = lazy(() => import("@/pages/AIChatbot"));
 const StudyPlanner = lazy(() => import("@/pages/StudyPlanner"));
 const AnswerReviewer = lazy(() => import("@/pages/AnswerReviewer"));
+const RevisionHistory = lazy(() => import("@/pages/RevisionHistory"));
 const About = lazy(() => import("@/pages/About"));
-const Projects = lazy(() => import("@/pages/Projects"));
 const NotFound = lazy(() => import("@/pages/NotFound"));
 const ArchivesHome = lazy(() => import("@/pages/ArchivesHome"));
 const ArchivesLnL = lazy(() => import("@/pages/ArchivesLnL"));
@@ -203,6 +203,7 @@ return (
 <Route path="chatbot" element={<ProtectedRoute><AIChatbot /></ProtectedRoute>} />
 <Route path="planner" element={<ProtectedRoute><StudyPlanner /></ProtectedRoute>} />
 <Route path="answer-reviewer" element={<ProtectedRoute><AnswerReviewer /></ProtectedRoute>} />
+<Route path="revision-history" element={<ProtectedRoute><RevisionHistory /></ProtectedRoute>} />
 <Route path="paper-maker" element={<ProtectedRoute><PaperMaker /></ProtectedRoute>} />
 
 						{/* Archives routes */}
@@ -216,7 +217,7 @@ return (
 						<Route path="archives/geography" element={<Navigate to="/archives-geography" replace />} />
 
 <Route path="about" element={<About />} />
-<Route path="projects" element={<Projects />} />
+<Route path="projects" element={<Navigate to="/about" replace />} />
 <Route path="privacy" element={<PrivacyPolicy />} />
 <Route path="terms" element={<TermsOfService />} />
 <Route path="features" element={<Features />} /> 
@@ -229,7 +230,7 @@ return (
 </Route>
 </Routes>
 </BrowserRouter>
-<FeedbackLauncher />
+<Suspense fallback={null}><FeedbackLauncher /></Suspense>
 <Toaster />
 {telemetryReady && <DeferredTelemetry />}
 </AppPreferencesProvider>

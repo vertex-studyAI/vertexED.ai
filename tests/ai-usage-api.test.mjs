@@ -85,7 +85,7 @@ test('complete owner export includes scoped audit rows and summary; missing ledg
   });
 });
 test('pricing expiry disables allowance claims but preserves read-only account export snapshot', async () => {
-  const expired = Date.parse('2026-10-24T12:00:00Z'); let calls = 0;
+  const expired = Date.parse('2026-10-27T12:00:00Z'); let calls = 0;
   const rpc = async () => { calls++; return snapshot; };
   await assert.rejects(readAiUsage(AI_USER, rpc, expired), { code: 'AI_USAGE_UNAVAILABLE' }); assert.equal(calls, 0);
   const result = await readAccountAiUsage(AI_USER, rpc, expired);

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-16T07:58:10.028832+00:00",
+  "updatedAt": "2026-10-19T00:00:00+05:30",
   "checklist": "PUBLISHABLE_COMPLETION_CHECKLIST.md",
   "decision": "NO-GO",
   "scope": "Execution register. PASS requires the complete gate acceptance; local partial receipts do not close live or full-product gates.",
@@ -940,11 +940,14 @@
       ],
       "currentImplementation": {
         "evidenceStatus": "PARTIAL_LOCAL",
-        "routeControl": "Held history versus exact-approved-revision assessment",
+        "routeControl": "Explicit historical, generated, deterministic, learner-attested and independently validated evidence boundaries",
         "codePaths": [
           "src/lib/practiceHistory.mjs",
           "api/_lib/practicePublication.js",
           "src/lib/learningStore.ts",
+          "src/lib/weaknessEvidenceCore.mjs",
+          "src/lib/weaknessTracker.ts",
+          "src/pages/AnswerReviewer.tsx",
           "api/_lib/learnerStateStore.js"
         ],
         "dependencyGroups": [
@@ -953,9 +956,13 @@
         ],
         "acceptanceTestPaths": [
           "tests/adaptive-history-publication.test.mjs",
-          "tests/verified-grading.test.mjs"
+          "tests/verified-grading.test.mjs",
+          "tests/weakness-evidence-boundary.test.mjs",
+          "tests/learning-integrity.test.mjs",
+          "tests/retry-queue.test.mjs",
+          "e2e/authenticated-student-golden.spec.ts"
         ],
-        "remainingBlocker": "Historical/deterministic distinction is implemented locally; unified teacher-confirmed provenance, authority, revocation and all-source knowledge integration remain unimplemented/unverified.",
+        "remainingBlocker": "The unsafe learner-attestation mastery upgrade is repaired and locally tested. Authenticated teacher authority, immutable teacher confirmation/revocation and live all-source integration are still unimplemented/unverified.",
         "environment": "local application and built browsers; synthetic Auth/API/provider contracts; read-only service metadata",
         "evidenceIndex": "evidence/product-verification-20261016.json",
         "acceptanceBoundary": "Mapped test paths establish traceability. Only actually executed checks listed in the evidence index are receipts; full gate acceptance remains open for this candidate.",
@@ -6141,12 +6148,15 @@
         }
       ],
       "currentImplementation": {
-        "evidenceStatus": "PARTIAL_LOCAL",
-        "routeControl": "Partial per-domain history; no unified chronological revision history",
+        "evidenceStatus": "IMPLEMENTED_LOCAL_UNAPPLIED",
+        "routeControl": "Protected /revision-history evidence-state timeline with append-only owner-scoped API",
         "codePaths": [
-          "src/lib/practiceHistory.mjs",
-          "src/lib/coursework.mjs",
-          "src/lib/examSessionHistory.mjs"
+          "src/pages/RevisionHistory.tsx",
+          "src/lib/revisionHistory.ts",
+          "api/_handlers/revision-history.js",
+          "api/_lib/revisionHistory.js",
+          "api/_lib/revisionHistoryStore.js",
+          "supabase/migrations/20261019031851_verified_revision_graph.sql"
         ],
         "dependencyGroups": [
           "learning",
@@ -6154,18 +6164,15 @@
           "exam"
         ],
         "acceptanceTestPaths": [
-          "tests/learning-history-sync-runtime.test.mjs",
-          "tests/coursework.test.mjs",
-          "tests/exam-session-history.test.mjs"
+          "tests/revision-history.test.mjs",
+          "e2e/authenticated-student-golden.spec.ts"
         ],
-        "remainingBlocker": "Raw history preservation exists; a unified timeline linking note/attempt/feedback/confirmation/retry with immutable provenance remains incomplete.",
+        "remainingBlocker": "The unified graph, stable full-history pagination, retractions and responsive UI are implemented locally. The migration is intentionally unapplied because the connected Supabase project is shared; disposable replay and staging deployment receipts remain required.",
         "environment": "local application and built browsers; synthetic Auth/API/provider contracts; read-only service metadata",
         "evidenceIndex": "evidence/product-verification-20261016.json",
         "acceptanceBoundary": "Mapped test paths establish traceability. Only actually executed checks listed in the evidence index are receipts; full gate acceptance remains open for this candidate.",
         "api": [
-          "/api/learner-state; account export/delete through owner API",
-          "/api/notebook /api/import-source /api/user-content",
-          "/api/learner-state for exam state; provider review/paper routes as applicable"
+          "/api/revision-history GET/POST with owner authentication, same-owner parent validation and stable cursor pagination"
         ],
         "auth": [
           "Approved member for product sync; client scope checked across accounts",
@@ -6173,9 +6180,7 @@
           "Approved member and account scope"
         ],
         "store": [
-          "Account-scoped practice_attempts/practice_mistakes and learner_state; active practice session and held-history archive are device-local",
-          "Notebook/source/artifact snapshots and local recovery/outbox",
-          "Exam session drafts, durable local history and learner_state/outbox; no server-authoritative timer verified"
+          "Append-only revision_events metadata with auth-user ownership, hash-bound bounded payloads and no direct update/delete grant"
         ],
         "content": [
           "Only exact approved contentRevision can produce verified assessment; held/legacy records remain readable/exportable",
@@ -6277,21 +6282,27 @@
       "acceptance": "Close the feedback-to-evaluation maintenance workflow (VX-505): reviewed incorrect-output reports become de-identified regression fixtures only through explicit privacy controls; demonstrate a failure before its fix and a passing regression afterward.",
       "receipts": [],
       "currentImplementation": {
-        "evidenceStatus": "OPEN",
-        "routeControl": "Incorrect-output feedback to reviewed evaluation maintenance",
+        "evidenceStatus": "IMPLEMENTED_LOCAL",
+        "routeControl": "Explicit-consent, reviewer-deidentified, content-free feedback review to hash-pseudonymized regression fixture",
         "codePaths": [
           "src/components/AiFeedbackControls.tsx",
           "src/components/FeedbackLauncher.tsx",
-          "src/lib/productFeedback.mjs"
+          "src/lib/productFeedback.mjs",
+          "scripts/promote-feedback-evals.mjs",
+          "scripts/lib/feedback-eval-promotion.mjs",
+          "evals/feedback-reviews/learner-attestation-mastery-boundary.review.json",
+          "evals/regressions/from-feedback.json"
         ],
         "dependencyGroups": [
           "ai",
           "operations"
         ],
         "acceptanceTestPaths": [
-          "tests/product-feedback.test.mjs"
+          "tests/product-feedback.test.mjs",
+          "tests/feedback-eval-promotion.test.mjs",
+          "tests/weakness-evidence-boundary.test.mjs"
         ],
-        "remainingBlocker": "Report collection exists; explicit privacy review/de-identification/fixture promotion workflow and representative failure-to-fix acceptance are not implemented/verified.",
+        "remainingBlocker": "The workflow and representative pre-fix failure/post-fix pass are locally implemented and checked. A committed candidate receipt and operational reviewer ownership are still required before full release closure.",
         "environment": "local application and built browsers; synthetic Auth/API/provider contracts; read-only service metadata",
         "evidenceIndex": "evidence/product-verification-20261016.json",
         "acceptanceBoundary": "Mapped test paths establish traceability. Only actually executed checks listed in the evidence index are receipts; full gate acceptance remains open for this candidate.",
@@ -6325,20 +6336,24 @@
       "acceptance": "Add per-candidate route/chunk size deltas and alerts (VX-403) alongside existing frozen budgets; a smaller total bundle must not conceal a critical-route regression.",
       "receipts": [],
       "currentImplementation": {
-        "evidenceStatus": "OPEN",
-        "routeControl": "Frozen bundle limits; per-candidate route delta alerts unverified",
+        "evidenceStatus": "IMPLEMENTED_LOCAL",
+        "routeControl": "Frozen aggregate budgets plus candidate-bound critical-route gzip delta ceilings",
         "codePaths": [
           "scripts/check-build-performance.mjs",
-          "scripts/build-ci-evidence-manifest.mjs"
+          "scripts/build-ci-evidence-manifest.mjs",
+          "scripts/check-route-bundle-deltas.mjs",
+          "performance-route-budgets.json",
+          "package.json"
         ],
         "dependencyGroups": [
           "release",
           "ui"
         ],
         "acceptanceTestPaths": [
-          "tests/build-performance.test.mjs"
+          "tests/build-performance.test.mjs",
+          "tests/route-bundle-deltas.test.mjs"
         ],
-        "remainingBlocker": "No verified baseline-bound per-route/chunk delta alert integration; aggregate/frozen size checks do not establish this extension.",
+        "remainingBlocker": "Per-route candidate delta alerts are implemented in CI and pass locally. A reviewed committed candidate receipt is still required before the full release gate can close.",
         "environment": "local application and built browsers; synthetic Auth/API/provider contracts; read-only service metadata",
         "evidenceIndex": "evidence/product-verification-20261016.json",
         "acceptanceBoundary": "Mapped test paths establish traceability. Only actually executed checks listed in the evidence index are receipts; full gate acceptance remains open for this candidate.",
@@ -6370,7 +6385,7 @@
     "filesChecked": 50,
     "changedFiles": []
   },
-  "executionReport": "FULL_SITE_FINISH_2026-10-16.md",
+  "executionReport": "FULL_SITE_FINISH_2026-10-19.md",
   "executionEvidenceIndex": "evidence/product-verification-20261016.json",
   "sourceManifestCheck": {
     "manifest": "evidence/product-verification-20261016.json",

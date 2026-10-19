@@ -25,7 +25,6 @@ const publicPages = [
   ["/archives-history", "monthly", "0.7"],
   ["/archives-geography", "monthly", "0.7"],
   ["/about", "monthly", "0.5"],
-  ["/projects", "monthly", "0.5"],
   ["/vertex-ed", "monthly", "0.4"],
   ["/privacy", "yearly", "0.2"],
   ["/terms", "yearly", "0.2"],
