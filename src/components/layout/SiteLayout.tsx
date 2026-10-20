@@ -167,6 +167,7 @@ export default function SiteLayout() {
         { to: "/learn?tab=mistakes", label: "Mistakes" },
         { to: "/planner", label: "Study plan" },
         { to: "/exam-prep", label: "Exam prep" },
+        { to: "/ib-diploma", label: "IB Diploma" },
       ]
     : [
         { to: "/", label: "Home" },
@@ -421,6 +422,7 @@ export default function SiteLayout() {
                 <Link to="/planner" className="hover:text-foreground transition">Planner</Link>
                 <Link to="/resources" className="hover:text-foreground transition">Learning library</Link>
                 <Link to="/myp" className="hover:text-foreground transition">MYP 5</Link>
+                <Link to="/ib-diploma" className="hover:text-foreground transition">IB Diploma</Link>
                 <Link to="/user-settings" className="hover:text-foreground transition">Account</Link>
                 <Link to="/privacy" className="hover:text-foreground transition">Privacy</Link>
                 <Link to="/terms" className="hover:text-foreground transition">Terms</Link>

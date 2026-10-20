@@ -57,6 +57,7 @@ export function userContentStorageKeys(scope = activeScope) {
     examPrepSession: `${prefix}:exam_prep_session`,
     examPrepHistory: `${prefix}:exam_prep_history`,
     examPrepSetup: `${prefix}:exam_prep_setup`,
+    ibDiplomaPlan: `${prefix}:ib_diploma_plan`,
     examBaseline: `${prefix}:exam_baseline`,
     studyZoneLayout: `${prefix}:study_zone_layout`,
     focusSession: `${prefix}:focus_session`,

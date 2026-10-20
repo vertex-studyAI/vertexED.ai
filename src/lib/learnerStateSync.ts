@@ -20,7 +20,7 @@ import {
 import { partitionLearnerStateSyncResults } from '@/lib/learnerStateSyncResult.mjs';
 
 
-export type LearnerStateType = 'weakness' | 'retry' | 'mock_draft' | 'exam_session' | 'practice_attempt' | 'practice_mistake';
+export type LearnerStateType = 'weakness' | 'retry' | 'mock_draft' | 'exam_session' | 'practice_attempt' | 'practice_mistake' | 'ib_plan';
 
 export type LearnerStateWrite = {
   stateType: LearnerStateType;
@@ -213,6 +213,18 @@ function applyExamSession(item: RemoteLearnerStateItem, scope: string) {
   requireStorageWrite(safeStorageSet(storage, key, JSON.stringify(mergeExamSessionHistory(current, item.payload))));
 }
 
+function applyIbPlan(item: RemoteLearnerStateItem, scope: string) {
+  const storage = resolveLocalStorage(window);
+  const key = userContentStorageKeys(scope).ibDiplomaPlan;
+  return import('./ibStudyPlan.mjs').then(({ normaliseIbStudyPlan }) => {
+    const incoming = normaliseIbStudyPlan(item.payload);
+    if (!incoming) throw new Error('Invalid IB plan returned by account sync.');
+    const existing = normaliseIbStudyPlan(parseStoredObject(safeStorageGet(storage, key)));
+    if (existing?.updatedAt && incoming.updatedAt && existing.updatedAt > incoming.updatedAt) return;
+    requireStorageWrite(safeStorageSet(storage, key, JSON.stringify(incoming)));
+  });
+}
+
 export async function hydrateLearnerState(): Promise<number> {
   const scope = getUserContentStorageScope();
   if (typeof window === 'undefined' || !scope) return 0;
@@ -253,6 +265,7 @@ export async function hydrateLearnerState(): Promise<number> {
       if (item.stateType === 'retry') applyRetry(item, scope);
       if (item.stateType === 'mock_draft') applyMockDraft(item, scope);
       if (item.stateType === 'exam_session') applyExamSession(item, scope);
+      if (item.stateType === 'ib_plan') await applyIbPlan(item, scope);
     } catch {
       recoveryFailures += 1;
     }

@@ -2,8 +2,9 @@ import { normalizeExamSession } from '../../src/lib/examSessionHistory.mjs';
 
 import { normalisePracticeAttempt, normaliseMistake } from '../../src/lib/learningModel.mjs';
 import { publishedPracticeQuestions } from './practicePublication.js';
+import { normaliseIbStudyPlan } from '../../src/lib/ibStudyPlan.mjs';
 
-const STATE_TYPES = new Set(['weakness', 'retry', 'mock_draft', 'exam_session', 'practice_attempt', 'practice_mistake']);
+const STATE_TYPES = new Set(['weakness', 'retry', 'mock_draft', 'exam_session', 'practice_attempt', 'practice_mistake', 'ib_plan']);
 const STATE_KEY = /^[A-Za-z0-9][A-Za-z0-9._:-]{0,159}$/;
 const REVISION = /^state:[0-9]{13}:[A-Za-z0-9-]{8,64}$/;
 const MAX_PAYLOAD_BYTES = 256 * 1024;
@@ -34,6 +35,11 @@ export function normalizeLearnerStateItem(value, { practiceQuestions = published
   if (stateType === 'practice_attempt' || stateType === 'practice_mistake') {
     payload = stateType === 'practice_attempt' ? normalisePracticeAttempt(payload, { questions: practiceQuestions }) : normaliseMistake(payload);
     if (!payload || payload.id !== stateKey) return null;
+  }
+  if (stateType === 'ib_plan') {
+    if (stateKey !== 'ib-diploma:plan') return null;
+    payload = normaliseIbStudyPlan(payload);
+    if (!payload) return null;
   }
   return { stateType, stateKey, payload, clientRevision, clientUpdatedAt };
 }

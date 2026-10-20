@@ -67,6 +67,7 @@ const APCourse = lazy(() => import("@/pages/APCourse"));
 const MYPHub = lazy(() => import("@/pages/MYPHub"));
 const MYPSubject = lazy(() => import("@/pages/MYPSubject"));
 const MYPEAssessment = lazy(() => import("@/pages/MYPEAssessment"));
+const IBDiploma = lazy(() => import("@/pages/IBDiploma"));
 import { AuthProvider } from "@/contexts/AuthContext";
 import { AppPreferencesProvider } from "@/contexts/AppPreferencesContext";
 import AdminRoute from "@/components/AdminRoute";
@@ -192,6 +193,7 @@ return (
 <Route path="learn" element={<ProtectedRoute><LearningWorkspace /></ProtectedRoute>} />
 <Route path="main" element={<ProtectedRoute><Main /></ProtectedRoute>} />
 <Route path="exam-prep" element={<ProtectedRoute><ExamPrep /></ProtectedRoute>} />
+<Route path="ib-diploma" element={<ProtectedRoute><IBDiploma /></ProtectedRoute>} />
 <Route path="learning-hub" element={<Navigate to="/main" replace />} />
 <Route path="notetaker" element={<ProtectedRoute><NotetakerAccessibilityBoundary><NotetakerQuiz /></NotetakerAccessibilityBoundary></ProtectedRoute>} />
 <Route path="study-notebook" element={<ProtectedRoute><StudyNotebook /></ProtectedRoute>} />

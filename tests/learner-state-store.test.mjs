@@ -23,6 +23,7 @@ test('learner-state writes accept only bounded typed records and safe revisions'
   assert.equal(normalizeLearnerStateItem({ ...validItem, clientRevision: 'newest' }), null);
   assert.equal(normalizeLearnerStateItem({ ...validItem, payload: [] }), null);
   assert.equal(normalizeLearnerStateItem({ ...validItem, payload: { value: 'x'.repeat(262_145) } }), null);
+  assert.equal(normalizeLearnerStateItem({ ...validItem, stateType: 'ib_plan', stateKey: 'ib-diploma:other' }), null);
 });
 
 test('learner-state batches use one owner-bound RPC call', async () => {
