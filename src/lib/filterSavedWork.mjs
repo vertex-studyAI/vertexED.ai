@@ -1,12 +1,14 @@
 import { savedWorkText } from './savedWorkText.mjs';
+import { artifactFolder } from './artifactFolders.mjs';
 
 /** Filter only the loaded collection; the UI must disclose pagination. */
-export function filterSavedWork(items, { query = '', kind = 'all', location = 'all', sort = 'recent' } = {}) {
+export function filterSavedWork(items, { query = '', kind = 'all', location = 'all', folder = 'all', sort = 'recent' } = {}) {
   const terms = query.toLocaleLowerCase().trim().split(/\s+/).filter(Boolean);
   return items.filter(item => {
     if (kind !== 'all' && item.kind !== kind) return false;
     if (location === 'device' && !item.localOnly) return false;
     if (location === 'cloud' && item.localOnly) return false;
+    if (folder !== 'all' && artifactFolder(item) !== folder) return false;
     const text = savedWorkText(item).toLocaleLowerCase();
     return terms.every(term => text.includes(term));
   }).sort((a, b) => sort === 'title'

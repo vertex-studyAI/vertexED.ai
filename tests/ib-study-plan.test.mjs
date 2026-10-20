@@ -9,6 +9,7 @@ const plan = {
   version: 1,
   updatedAt: '2026-10-20T09:00:00.000Z',
   subjects: [{ id: 'subject:biology', name: 'Biology', level: 'HL', targetGrade: 6 }],
+  projects: [],
   milestones: [
     { id: 'milestone:ia-draft', title: 'IA first draft', kind: 'IA', subjectId: 'subject:biology', dueDate: '2026-10-25', status: 'in-progress' },
     { id: 'milestone:ee-outline', title: 'Extended Essay outline', kind: 'EE', subjectId: null, dueDate: '2026-11-04', status: 'not-started' },
@@ -29,6 +30,21 @@ test('IB plan summary is derived only from entered milestones, never a grade pre
   assert.equal(summary.openMilestones, 2);
   assert.deepEqual(summary.upcoming.map((item) => item.id), ['milestone:ia-draft']);
   assert.equal(summary.completedMilestones, 0);
+  assert.equal(summary.projectCount, 0);
+});
+
+test('IA and EE workspace records retain learner-entered planning details with subject boundaries', () => {
+  const withProjects = {
+    ...plan,
+    projects: [
+      { id: 'project:ia-bio', kind: 'IA', title: 'Enzyme investigation', subjectId: 'subject:biology', milestoneId: 'milestone:ia-draft', researchQuestion: 'How does pH affect rate?', method: 'Compare pH conditions.', supervisorFeedback: 'Narrow the range.', bibliography: 'Course text, chapter 4.' },
+      { id: 'project:ee', kind: 'EE', title: 'Extended Essay', subjectId: null, milestoneId: 'milestone:ee-outline', researchQuestion: '', method: '', supervisorFeedback: '', bibliography: '' },
+    ],
+  };
+  assert.deepEqual(normaliseIbStudyPlan(withProjects), withProjects);
+  assert.equal(normaliseIbStudyPlan({ ...withProjects, projects: [{ ...withProjects.projects[0], subjectId: null }] }), null);
+  assert.equal(normaliseIbStudyPlan({ ...withProjects, projects: [{ ...withProjects.projects[1], subjectId: 'subject:biology' }] }), null);
+  assert.equal(normaliseIbStudyPlan({ ...withProjects, projects: [{ ...withProjects.projects[0], milestoneId: 'milestone:ee-outline' }] }), null);
 });
 
 test('malformed device data is preserved rather than silently replaced', () => {

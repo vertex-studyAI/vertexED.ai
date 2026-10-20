@@ -5,6 +5,9 @@ import SavedWorkList from '@/components/SavedWorkList';
 import { useStudyArtifactCollection } from '@/hooks/useStudyArtifactCollection';
 import { useMemo, useState } from 'react';
 import { filterSavedWork } from '@/lib/filterSavedWork.mjs';
+import { artifactFolder, artifactFolderNames, normaliseArtifactFolder, withArtifactFolder } from '@/lib/artifactFolders.mjs';
+import { updateStudyArtifact } from '@/lib/userContent';
+import { toast } from '@/hooks/use-toast';
 
 export default function SavedWork() {
   const [params] = useSearchParams();
@@ -13,8 +16,32 @@ export default function SavedWork() {
   const [query, setQuery] = useState('');
   const [kind, setKind] = useState('all');
   const [location, setLocation] = useState('all');
+  const [folder, setFolder] = useState('all');
   const [sort, setSort] = useState('recent');
-  const filtered = useMemo(() => filterSavedWork(saved.items, { query, kind, location, sort }), [saved.items, query, kind, location, sort]);
+  const folders = useMemo(() => artifactFolderNames(saved.items), [saved.items]);
+  const filtered = useMemo(() => filterSavedWork(saved.items, { query, kind, location, folder, sort }), [saved.items, query, kind, location, folder, sort]);
+  const renameFolder = async () => {
+    if (folder === 'all') return;
+    const next = normaliseArtifactFolder(window.prompt(`Rename "${folder}" to:`, folder) || '');
+    if (!next || next === folder) return;
+    const affected = saved.items.filter((item) => artifactFolder(item) === folder);
+    const results = await Promise.all(affected.map((item) => updateStudyArtifact(item.id, { payload: withArtifactFolder(item.payload, next) })));
+    const failed = results.filter((result) => !result.ok).length;
+    if (failed) toast({ title: 'Folder rename was incomplete', description: `${affected.length - failed} of ${affected.length} loaded items moved. Reload and retry the rest.`, variant: 'destructive' });
+    else toast({ title: 'Folder renamed', description: `${affected.length} loaded item${affected.length === 1 ? '' : 's'} moved to ${next}.` });
+    setFolder(next);
+    void saved.reload();
+  };
+  const clearFolder = async () => {
+    if (folder === 'all') return;
+    const affected = saved.items.filter((item) => artifactFolder(item) === folder);
+    const results = await Promise.all(affected.map((item) => updateStudyArtifact(item.id, { payload: withArtifactFolder(item.payload, null) })));
+    const failed = results.filter((result) => !result.ok).length;
+    if (failed) toast({ title: 'Folder removal was incomplete', description: `${affected.length - failed} of ${affected.length} loaded items moved. Reload and retry the rest.`, variant: 'destructive' });
+    else toast({ title: 'Folder removed', description: `${affected.length} loaded item${affected.length === 1 ? '' : 's'} moved outside folders.` });
+    setFolder('all');
+    void saved.reload();
+  };
   return <PageSection className="saved-work-page space-y-6">
     <Helmet><title>Saved work - VertexED</title><meta name="robots" content="noindex, nofollow" /></Helmet>
     <header>
@@ -25,15 +52,17 @@ export default function SavedWork() {
     </header>
     {saved.error && <div className="surface-tile p-4" role="status"><p>{saved.error}</p><button type="button" disabled={saved.loading} className="neu-button mt-3 px-4 py-2" onClick={() => void saved.reload()}>Retry loading</button></div>}
     {saved.loading && <p role="status">Loading saved work…</p>}
-    {!itemId && <section aria-label="Find saved work" className="surface-tile p-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    {!itemId && <section aria-label="Find saved work" className="surface-tile p-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
       <label>Search saved work<input aria-label="Search saved work" className="w-full mt-2 min-h-11 rounded-lg border border-border bg-background px-4 text-base focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" type="search" value={query} onChange={event => setQuery(event.target.value)} placeholder="Title, source text or answer" /></label>
       <label>Work type<select aria-label="Work type" className="form-control-select w-full mt-2 min-h-11" value={kind} onChange={event => setKind(event.target.value)}>{[['all', 'All types'], ['note', 'Notes'], ['paper', 'Papers'], ['review', 'Reviews'], ['notebook', 'Notebooks'], ['planner', 'Plans'], ['conversation', 'Conversations']].map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></label>
       <label>Save location<select aria-label="Save location" className="form-control-select w-full mt-2 min-h-11" value={location} onChange={event => setLocation(event.target.value)}><option value="all">All locations</option><option value="cloud">Saved to your account</option><option value="device">Saved on this device</option></select></label>
+      <label>Folder<select aria-label="Folder" className="form-control-select w-full mt-2 min-h-11" value={folder} onChange={event => setFolder(event.target.value)}><option value="all">All folders</option>{folders.map((entry) => <option key={entry} value={entry}>{entry}</option>)}</select></label>
       <label>Sort by<select aria-label="Sort by" className="form-control-select w-full mt-2 min-h-11" value={sort} onChange={event => setSort(event.target.value)}><option value="recent">Recently updated</option><option value="title">Title</option></select></label>
     </section>}
+    {!itemId && folder !== 'all' && <section className="surface-tile flex flex-wrap items-center justify-between gap-3 p-4"><p className="text-sm text-muted-foreground">Folder actions apply to the {saved.items.filter((item) => artifactFolder(item) === folder).length} loaded items in <strong className="text-foreground">{folder}</strong>. Load more first if more work is available.</p><div className="flex flex-wrap gap-2"><button type="button" className="neu-button min-h-11 px-3 text-sm" onClick={() => void renameFolder()}>Rename folder</button><button type="button" className="neu-button min-h-11 px-3 text-sm" onClick={() => void clearFolder()}>Remove folder</button></div></section>}
     {!itemId && <p role="status" className="text-sm text-muted-foreground">{filtered.length} of {saved.items.length} loaded items shown.{saved.nextOffset !== null && ' More work is available. Load more to include it in these filters.'}</p>}
-    {!!saved.items.length && <SavedWorkList items={itemId ? saved.items : filtered} onChanged={() => void saved.reload()} />}
-    {!itemId && saved.items.length > 0 && !filtered.length && <div className="surface-tile p-4"><p>No loaded work matches these filters.</p><button type="button" className="btn-glass mt-3 min-h-11" onClick={() => { setQuery(''); setKind('all'); setLocation('all'); }}>Clear filters</button></div>}
+    {!!saved.items.length && <SavedWorkList items={itemId ? saved.items : filtered} folderNames={folders} onChanged={() => void saved.reload()} />}
+    {!itemId && saved.items.length > 0 && !filtered.length && <div className="surface-tile p-4"><p>No loaded work matches these filters.</p><button type="button" className="btn-glass mt-3 min-h-11" onClick={() => { setQuery(''); setKind('all'); setLocation('all'); setFolder('all'); }}>Clear filters</button></div>}
     {!saved.loading && !saved.error && !saved.items.length && <div className="surface-tile p-6"><h2 className="text-xl font-semibold">{itemId ? 'This saved item is unavailable' : 'Your next attempt starts here'}</h2><p className="mt-2 text-muted-foreground">{itemId ? 'It may have been deleted or belong to a different account.' : 'Create notes or a practice paper, then return here to continue learning.'}</p><Link className="btn-solid inline-flex mt-4 px-4 py-2" to="/notetaker">Create study notes</Link></div>}
     {saved.nextOffset !== null && <button type="button" className="neu-button px-4 py-2" disabled={saved.loading} onClick={() => void saved.loadMore()}>Load more saved work</button>}
   </PageSection>;

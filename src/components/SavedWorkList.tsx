@@ -6,12 +6,14 @@ import {
   deleteStudyArtifact,
   formatArtifactDate,
   queueArtifactRestore,
+  updateStudyArtifact,
   type StudyArtifact,
   type StudyArtifactKind,
 } from "@/lib/userContent";
 import { toast } from "@/hooks/use-toast";
 import { savedWorkError } from "@/lib/savedWorkError.mjs";
 import { cn } from "@/lib/utils";
+import { artifactFolder, normaliseArtifactFolder, withArtifactFolder } from '@/lib/artifactFolders.mjs';
 
 type Props = {
   items: StudyArtifact[];
@@ -19,6 +21,7 @@ type Props = {
   onChanged?: () => void;
   compact?: boolean;
   variant?: "default" | "dashboard";
+  folderNames?: string[];
 };
 
 export default function SavedWorkList({
@@ -27,6 +30,7 @@ export default function SavedWorkList({
   onChanged,
   compact,
   variant = "default",
+  folderNames = [],
 }: Props) {
   const navigate = useNavigate();
   const visible = limit ? items.slice(0, limit) : items;
@@ -68,6 +72,21 @@ export default function SavedWorkList({
     }
   };
 
+  const moveItem = async (item: StudyArtifact, requestedFolder: string) => {
+    const folder = requestedFolder === '__new__'
+      ? normaliseArtifactFolder(window.prompt('Name this folder (up to 60 characters):') || '')
+      : normaliseArtifactFolder(requestedFolder);
+    if (requestedFolder === '__new__' && !folder) return;
+    if (folder === artifactFolder(item)) return;
+    const result = await updateStudyArtifact(item.id, { payload: withArtifactFolder(item.payload, folder) });
+    if (!result.ok) {
+      toast({ title: 'Could not move saved work', description: savedWorkError(result.error, 'update'), variant: 'destructive' });
+      return;
+    }
+    toast({ title: folder ? 'Moved to folder' : 'Removed from folder', description: folder || 'This item is now outside a folder.' });
+    onChanged?.();
+  };
+
   if (!visible.length) {
     return null;
   }
@@ -92,7 +111,14 @@ export default function SavedWorkList({
               {formatArtifactDate(item.updated_at)}
               {item.localOnly ? " · Saved on this device" : " · Saved to your account"}
             </p>
+            {artifactFolder(item) && <p className="mt-1 text-xs text-primary">Folder: {artifactFolder(item)}</p>}
           </div>
+          {!compact && !['planner', 'notebook', 'conversation'].includes(item.kind) && <label className="sr-only" htmlFor={`saved-work-folder-${item.id}`}>Move {item.title || item.kind} to folder</label>}
+          {!compact && !['planner', 'notebook', 'conversation'].includes(item.kind) && <select id={`saved-work-folder-${item.id}`} className="min-h-11 max-w-36 rounded-lg border border-border bg-background px-2 text-xs" value={artifactFolder(item) || ''} onChange={(event) => void moveItem(item, event.target.value)}>
+            <option value="">No folder</option>
+            {folderNames.filter((folder) => folder !== artifactFolder(item)).map((folder) => <option key={folder} value={folder}>{folder}</option>)}
+            <option value="__new__">Create new folder…</option>
+          </select>}
           <button
             type="button"
             onClick={() => openItem(item)}

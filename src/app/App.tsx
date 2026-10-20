@@ -59,6 +59,7 @@ const ResourceLibrary = lazy(() => import("@/pages/ResourceLibrary"));
 const SavedWork = lazy(() => import("@/pages/SavedWork"));
 const StudyGuides = lazy(() => import("@/pages/StudyGuides"));
 const WaitlistAdmin = lazy(() => import("@/pages/admin/WaitlistAdmin"));
+const AnalyticsAdmin = lazy(() => import("@/pages/admin/AnalyticsAdmin"));
 const PrivacyPolicy = lazy(() => import("@/pages/PrivacyPolicy"));
 const TermsOfService = lazy(() => import("@/pages/TermsOfService"));
 const ExamPrep = lazy(() => import("@/pages/ExamPrep"));
@@ -227,6 +228,7 @@ return (
 <Route path="vertex-ed" element={<Brand />} />
 <Route path="user-settings" element={<ProtectedRoute accountControls><UserSettings /></ProtectedRoute>} />
 <Route path="admin/waitlist" element={<AdminRoute><WaitlistAdmin /></AdminRoute>} />
+<Route path="admin/analytics" element={<AdminRoute><AnalyticsAdmin /></AdminRoute>} />
 <Route path="*" element={<NotFound />} />
   
 </Route>

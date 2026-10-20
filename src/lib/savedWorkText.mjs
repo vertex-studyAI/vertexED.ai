@@ -6,10 +6,10 @@ const textFields = new Set([
   'instructions', 'summary', 'label', 'name', 'hint', 'hints', 'solution',
   'successCriteria', 'additional', 'reflection', 'reasoning', 'strengths',
   'improvements', 'suggestedQuestions', 'options', 'choices', 'excerpt', 'term',
-  'meaning', 'modelAnswer', 'studentAnswer', 'correctAnswer', 'comment', 'reason',
+  'meaning', 'modelAnswer', 'studentAnswer', 'correctAnswer', 'comment', 'reason', 'folder',
 ]);
 const containers = new Set([
-  'metadata', 'paper', 'sections', 'questions', 'parts', 'subparts', 'flashcards',
+  'metadata', 'paper', 'sections', 'questions', 'parts', 'subparts', 'flashcards', 'organisation',
   'results', 'notebooks', 'sources', 'outputs', 'quiz', 'quizResponses', 'tasks',
   'threads', 'messages', 'structuredReview', 'criteria', 'errors', 'rubric',
 ]);

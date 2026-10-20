@@ -4,6 +4,7 @@ export const IB_PLAN_VERSION = 1;
 const SUBJECT_LEVELS = new Set(['HL', 'SL']);
 const MILESTONE_KINDS = new Set(['IA', 'EE', 'Paper 1', 'Paper 2', 'Paper 3', 'Other']);
 const MILESTONE_STATUSES = new Set(['not-started', 'in-progress', 'completed']);
+const PROJECT_KINDS = new Set(['IA', 'EE']);
 const ID = /^[a-z][a-z0-9:-]{2,79}$/;
 const DATE = /^\d{4}-\d{2}-\d{2}$/;
 
@@ -16,12 +17,12 @@ function isDate(value) {
 }
 
 export function emptyIbStudyPlan() {
-  return { version: IB_PLAN_VERSION, subjects: [], milestones: [], updatedAt: null };
+  return { version: IB_PLAN_VERSION, subjects: [], milestones: [], projects: [], updatedAt: null };
 }
 
 export function normaliseIbStudyPlan(value) {
   if (!value || typeof value !== 'object' || Array.isArray(value) || value.version !== IB_PLAN_VERSION) return null;
-  if (!Array.isArray(value.subjects) || !Array.isArray(value.milestones) || value.subjects.length > 10 || value.milestones.length > 40) return null;
+  if (!Array.isArray(value.subjects) || !Array.isArray(value.milestones) || (value.projects !== undefined && !Array.isArray(value.projects)) || value.subjects.length > 10 || value.milestones.length > 40 || (Array.isArray(value.projects) && value.projects.length > 12)) return null;
   if (value.updatedAt !== null && (typeof value.updatedAt !== 'string' || !Number.isFinite(Date.parse(value.updatedAt)))) return null;
 
   const subjectIds = new Set();
@@ -51,7 +52,28 @@ export function normaliseIbStudyPlan(value) {
     milestoneIds.add(id);
     milestones.push({ id, title, kind, subjectId, dueDate, status });
   }
-  return { version: IB_PLAN_VERSION, subjects, milestones, updatedAt: value.updatedAt };
+
+  const projectIds = new Set();
+  const milestonesById = new Map(milestones.map((milestone) => [milestone.id, milestone]));
+  const projects = [];
+  for (const project of value.projects ?? []) {
+    const id = text(project?.id, 80);
+    const kind = text(project?.kind, 2);
+    const title = text(project?.title, 120);
+    const subjectId = project?.subjectId === null ? null : text(project?.subjectId, 80);
+    const milestoneId = project?.milestoneId === null || project?.milestoneId === undefined ? null : text(project?.milestoneId, 80);
+    const researchQuestion = text(project?.researchQuestion, 600);
+    const method = text(project?.method, 600);
+    const supervisorFeedback = text(project?.supervisorFeedback, 1_200);
+    const bibliography = text(project?.bibliography, 2_000);
+    if (!ID.test(id) || !PROJECT_KINDS.has(kind) || !title || projectIds.has(id)) return null;
+    if ((kind === 'IA' && (!subjectId || !subjectIds.has(subjectId))) || (kind === 'EE' && subjectId !== null)) return null;
+    const linkedMilestone = milestoneId ? milestonesById.get(milestoneId) : null;
+    if (milestoneId && (!linkedMilestone || linkedMilestone.kind !== kind || linkedMilestone.subjectId !== subjectId)) return null;
+    projectIds.add(id);
+    projects.push({ id, kind, title, subjectId, milestoneId, researchQuestion, method, supervisorFeedback, bibliography });
+  }
+  return { version: IB_PLAN_VERSION, subjects, milestones, projects, updatedAt: value.updatedAt };
 }
 
 export function readIbStudyPlan(raw) {
@@ -78,6 +100,7 @@ export function ibPlanSummary(plan, today = new Date().toISOString().slice(0, 10
     subjectCount: valid.subjects.length,
     completedMilestones: valid.milestones.filter((milestone) => milestone.status === 'completed').length,
     openMilestones: active.length,
+    projectCount: valid.projects.length,
     upcoming,
     // Kept for a stable public shape. It is intentionally derived from dates, never a grade or readiness prediction.
     dueSoon: upcoming.length,
