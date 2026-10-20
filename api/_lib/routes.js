@@ -63,6 +63,17 @@ export const ROUTES = {
     loader: () => import('../_handlers/waitlist-admin.js'),
     methods: ['POST'],
   },
+  'product-feedback': {
+    access: 'account',
+    loader: () => import('../_handlers/product-feedback.js'),
+    methods: ['POST'],
+    maxBodyBytes: 8 * 1024,
+  },
+  'admin-support': {
+    access: 'admin',
+    loader: () => import('../_handlers/admin-support.js'),
+    methods: ['GET'],
+  },
   'study-guide-chat': {
     access: 'member',
     loader: () => import('../_handlers/study-guide-chat.js'),

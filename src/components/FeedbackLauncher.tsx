@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { MessageSquare, X } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "@/hooks/use-toast";
-import { supabase } from "@/lib/supabaseClient";
+import { authFetch } from "@/lib/apiAuth";
 import { trackProductEvent } from "@/lib/productAnalytics.mjs";
 import AccessibleModal from "@/components/AccessibleModal";
 import {
@@ -34,7 +34,7 @@ export default function FeedbackLauncher() {
   if (!user) return null;
 
   const submitFeedback = async () => {
-    if (!supabase || submitting) return;
+    if (submitting) return;
 
     const normalized = normalizeProductFeedback({
       category,
@@ -54,11 +54,18 @@ export default function FeedbackLauncher() {
 
     setSubmitting(true);
     try {
-      const { error } = await supabase.from("product_feedback").insert({
-        user_id: user.id,
-        ...normalized.data,
+      const response = await authFetch("/api/product-feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          category: normalized.data.category,
+          rating: normalized.data.rating,
+          feedback: normalized.data.feedback,
+          pagePath: window.location.pathname,
+        }),
       });
-      if (error) throw error;
+      const result = await response.json().catch(() => null);
+      if (!response.ok || !result?.case?.id) throw new Error(result?.error || "Feedback was not saved");
 
       trackProductEvent(
         "Feedback Submitted",
@@ -71,7 +78,7 @@ export default function FeedbackLauncher() {
       setOpen(false);
       toast({
         title: "Thanks - feedback saved",
-        description: "Your note is tied to your account for follow-up, but its text is not sent to product analytics.",
+        description: `Request ID: ${result.case.id}. Save it for support follow-up. Your feedback text is not sent to product analytics.`,
       });
     } catch {
       toast({
@@ -189,10 +196,10 @@ export default function FeedbackLauncher() {
               <button
                 type="button"
                 onClick={() => void submitFeedback()}
-                disabled={submitting || !feedback.trim() || !supabase}
+                disabled={submitting || !feedback.trim()}
                 className="neu-button w-full px-4 py-3 font-medium disabled:cursor-not-allowed disabled:opacity-50"
               >
-                {submitting ? "Sending…" : supabase ? "Send feedback" : "Feedback unavailable"}
+                {submitting ? "Sending…" : "Send feedback"}
               </button>
             </div>
           </AccessibleModal>

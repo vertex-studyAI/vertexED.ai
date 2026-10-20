@@ -88,3 +88,17 @@ test("feedback migration is authenticated insert-only and user-bound", () => {
   );
   assert.match(hardening, /alter table public\.product_feedback force row level security/i);
 });
+
+test("feedback is submitted through an authenticated rate-limited route that returns only the generated case id", () => {
+  const handler = fs.readFileSync("api/_handlers/product-feedback.js", "utf8");
+  const routes = fs.readFileSync("api/_lib/routes.js", "utf8");
+  const launcher = fs.readFileSync("src/components/FeedbackLauncher.tsx", "utf8");
+  assert.match(handler, /verifyAuthUser\(req, res\)/);
+  assert.match(handler, /rateLimitUserEndpoint\(user\.id, 'product-feedback'/);
+  assert.match(handler, /insert\(\{ user_id: user\.id, \.\.\.normalized\.data \}\)/);
+  assert.match(handler, /select\('id'\)/);
+  assert.doesNotMatch(handler, /email|prompt|answer/);
+  assert.match(routes, /'product-feedback': \{[\s\S]*access: 'account'/);
+  assert.match(launcher, /authFetch\("\/api\/product-feedback"/);
+  assert.match(launcher, /Request ID: \$\{result\.case\.id\}/);
+});
