@@ -3,10 +3,26 @@ import { ChatbotApiError, fetchChatbotAnswer, type ChatbotMessage } from '@/lib/
 import type { StudyPageContext } from '@/lib/studyContext';
 import { animateTypewriter } from '@/lib/typewriter';
 
+/** A wiki page the tutor read while answering, surfaced as a citation. */
+export type ApexSource = {
+  label?: string;
+  heading?: string;
+  path?: string;
+  url?: string;
+};
+
+/** One MCP tool call the tutor made, shown as "what it looked up". */
+export type ApexLookup = {
+  name: string;
+  args?: Record<string, unknown>;
+};
+
 export type ApexChatMessage = {
   id: string;
   role: 'user' | 'assistant';
   text: string;
+  sources?: ApexSource[];
+  lookups?: ApexLookup[];
 };
 
 const LEGACY_STORAGE_KEY = 'vertex_apex_messages_v1';
@@ -159,6 +175,16 @@ export function useApexChat({ context, threadKey, sources, onSessionRecord }: Op
               setMessages((prev) => prev.map((m) => (m.id === botId ? { ...m, text: nextText } : m)));
             },
             { intervalMs: 16, intervalRef: typingRef, startIndex: 1 },
+          );
+        }
+
+        // Citations land once the answer has finished typing, so the sources
+        // list does not appear before the claims it backs.
+        const citedSources = Array.isArray(data?.sources) ? (data.sources as ApexSource[]) : [];
+        const citedLookups = Array.isArray(data?.lookups) ? (data.lookups as ApexLookup[]) : [];
+        if (requestRef.current === requestId && (citedSources.length > 0 || citedLookups.length > 0)) {
+          setMessages((prev) =>
+            prev.map((m) => (m.id === botId ? { ...m, sources: citedSources, lookups: citedLookups } : m)),
           );
         }
         return true;

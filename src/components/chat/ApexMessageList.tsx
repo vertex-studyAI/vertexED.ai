@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 import ChatMarkdown from '@/components/chat/ChatMarkdown';
 import type { ApexChatMessage } from '@/hooks/useApexChat';
 import { APEX_TAGLINE } from '@/content/apex';
@@ -50,6 +52,24 @@ export default function ApexMessageList({
               )
             ) : (
               <p className="text-sm text-foreground/95 whitespace-pre-wrap">{msg.text}</p>
+            )}
+
+            {msg.role === 'assistant' && msg.sources && msg.sources.length > 0 && (
+              <div className="apex-sources">
+                <p className="apex-sources-label">Sources</p>
+                <ul>
+                  {msg.sources.map((source) => {
+                    const text = source.heading
+                      ? `${source.label ?? 'Guide'} › ${source.heading}`
+                      : source.label ?? source.path ?? 'Guide page';
+                    return (
+                      <li key={`${source.path ?? source.url}-${source.heading ?? ''}`}>
+                        {source.url ? <Link to={source.url}>{text}</Link> : <span>{text}</span>}
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
             )}
           </div>
         );

@@ -2,6 +2,7 @@ import { type FormEvent, useEffect, useId, useMemo, useRef, useState } from "rea
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { BookOpen, ChevronDown, ChevronRight, FileText, GraduationCap, Loader2, LockKeyhole, Search } from "lucide-react";
 
+import GuideWikiChat from "@/components/study-guides/GuideWikiChat";
 import LiquidGlass from "@/components/LiquidGlass";
 import PageSection from "@/components/PageSection";
 import RichMarkdown from "@/components/RichMarkdown";
@@ -377,6 +378,8 @@ function StudyGuidesLibrary({ routePath, hasAccess, onUnlock }: { routePath?: st
                   <div className="study-guides-preview-paywall"><GuideAccessPrompt returnTo={location.pathname} onUnlock={onUnlock} /></div>
                 </div>)}
               </LiquidGlass>
+
+              <GuideWikiChat subjectName={subject?.name} pageLabel={activePage ? pageLabel(activePage) : undefined} />
             </div>
           </>
         )}

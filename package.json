@@ -10,6 +10,7 @@
     "build:ci": "npx --yes update-browserslist-db@latest --quiet && ROLLUP_SKIP_NODEJS_NATIVE=true vite build",
     "postbuild": "node scripts/update-sitemap-lastmod.mjs public/sitemap.xml && npm run seo:indexnow",
     "build:dev": "vite build --mode development",
+    "mcp": "node mcp/stdio.js",
     "lint": "eslint .",
     "lint:ci": "eslint api/_lib tests",
     "typecheck": "tsc --noEmit -p tsconfig.app.json",
@@ -34,6 +35,7 @@
   "dependencies": {
     "@google/genai": "^1.21.0",
     "@google/generative-ai": "^0.24.1",
+    "@modelcontextprotocol/sdk": "^1.30.0",
     "@openai/agents": "^0.3.4",
     "@openai/guardrails": "^0.2.0",
     "@radix-ui/react-slot": "^1.3.0",

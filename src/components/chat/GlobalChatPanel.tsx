@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { Bot, Minimize2, Trash2, X } from "lucide-react";
 
 import { useAuth } from "@/contexts/AuthContext";
@@ -32,14 +32,15 @@ export default function GlobalChatPanel() {
     onSessionRecord: recordStudySession,
   });
 
-  const isStudyGuideRoute = location.pathname.startsWith("/study-guides");
   const visibleRoute =
     location.pathname !== "/chatbot" &&
     !["/login", "/signup", "/auth/callback", "/onboarding", "/", "/home", "/about", "/features"].includes(
       location.pathname,
     ) &&
-    !location.pathname.startsWith("/resources");
-  const canShowChat = visibleRoute && (isAuthenticated || isStudyGuideRoute);
+    !location.pathname.startsWith("/resources") &&
+    // The study guides have their own tutor docked beside the reader.
+    !location.pathname.startsWith("/study-guides");
+  const canShowChat = visibleRoute && isAuthenticated;
 
   useEffect(() => {
     window.localStorage.setItem(STORAGE_KEY, open ? "1" : "0");
@@ -66,11 +67,11 @@ export default function GlobalChatPanel() {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className={`apex-fab ${isStudyGuideRoute ? "apex-fab-round" : ""}`}
-        aria-label={isStudyGuideRoute ? "Open study guide AI tutor" : "Open AI tutor"}
+        className="apex-fab"
+        aria-label="Open AI tutor"
       >
         <Bot className="h-5 w-5" />
-        {!isStudyGuideRoute && <span className="hidden sm:inline">AI tutor</span>}
+        <span className="hidden sm:inline">AI tutor</span>
       </button>
     );
   }
@@ -127,8 +128,6 @@ export default function GlobalChatPanel() {
 
       {!minimized && (
         <>
-          {isAuthenticated ? (
-            <>
               <div ref={scrollRef} className="apex-panel-body">
                 {messages.length === 0 && !loading && (
                   <ApexPromptChips
@@ -157,21 +156,6 @@ export default function GlobalChatPanel() {
                   compact
                 />
               </div>
-            </>
-          ) : (
-            <div className="apex-panel-body apex-study-guide-chat-gate">
-              <span className="apex-avatar">
-                <Bot className="h-5 w-5" aria-hidden />
-              </span>
-              <div>
-                <p className="font-semibold text-foreground">Ask the study-guide tutor</p>
-                <p className="mt-1 text-sm text-muted-foreground">Sign in to ask questions across the MYP guides.</p>
-              </div>
-              <Link className="apex-study-guide-chat-signin" to="/login" state={{ from: location.pathname }}>
-                Sign in to chat
-              </Link>
-            </div>
-          )}
         </>
       )}
     </div>
