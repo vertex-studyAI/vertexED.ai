@@ -1,3 +1,4 @@
+import { APP_ORIGIN } from '@/lib/appOrigin';
 import { Outlet, Link, useLocation } from "react-router";
 import React, { lazy, Suspense, useState, useEffect, useRef } from "react";
 import { Helmet } from "react-helmet-async";
@@ -196,7 +197,7 @@ export default function SiteLayout() {
           content="Plan revision, practise papers, review answers, and revisit topics with notes and flashcards in VertexED."
         />}
         <meta property="og:site_name" content="VertexED" />
-        <meta property="og:image" content="https://www.vertexed.app/socialpreview.jpg" />
+        <meta property="og:image" content={`${APP_ORIGIN}/socialpreview.jpg`} />
         <meta property="og:locale" content="en_US" />
         <meta name="theme-color" content={themeColor} />
       </Helmet>
@@ -446,7 +447,7 @@ export default function SiteLayout() {
             <a href="mailto:vertexed.25@gmail.com" className="hover:text-foreground transition">Contact</a>
             {companionEligible && (
               <Suspense fallback={null}>
-                <ApexCompanion docked={footerVisible || accessPanelVisible || location.pathname === "/user-settings" || location.pathname === "/study-zone" || location.pathname === "/saved-work" || location.pathname.startsWith("/myp") || location.pathname === "/ap" || location.pathname.startsWith("/ap/")} suspended={menuOpen || (shouldLoadGlobalChat && tutorOpen)}
+                <ApexCompanion docked={location.pathname === "/answer-reviewer" || location.pathname === "/chatbot" || footerVisible || accessPanelVisible || location.pathname === "/user-settings" || location.pathname === "/study-zone" || location.pathname === "/saved-work" || location.pathname.startsWith("/myp") || location.pathname === "/ap" || location.pathname.startsWith("/ap/")} suspended={menuOpen || (shouldLoadGlobalChat && tutorOpen)}
                   onOpenTutor={shouldLoadGlobalChat ? () => setTutorRequest((request) => request + 1) : undefined} />
               </Suspense>
             )}

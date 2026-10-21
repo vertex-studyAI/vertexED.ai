@@ -1,3 +1,4 @@
+import { APP_ORIGIN } from '@/lib/appOrigin';
 import { useMemo } from 'react';
 import { Link, useSearchParams } from 'react-router';
 import { ArrowRight, BookOpen } from 'lucide-react';
@@ -26,7 +27,7 @@ export default function APLibrary() {
   }
 
   return <>
-    <SEO title="AP course library | VertexED" description={AP_TOTALS.questions ? 'Browse available AP study modules and official course references.' : 'Browse AP course references. VertexED lessons and practice are awaiting subject review.'} canonical="https://www.vertexed.app/ap" />
+    <SEO title="AP course library | VertexED" description={AP_TOTALS.questions ? 'Browse available AP study modules and official course references.' : 'Browse AP course references. VertexED lessons and practice are awaiting subject review.'} canonical={`${APP_ORIGIN}/ap`} />
     <PageSection className="ap-library">
       <header className="ap-header">
         <p className="ap-kicker">AP revision library / 2026–27</p>

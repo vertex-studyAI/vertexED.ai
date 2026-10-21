@@ -1,3 +1,4 @@
+import { APP_ORIGIN } from '@/lib/appOrigin';
 import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link, useSearchParams } from "react-router";
@@ -453,11 +454,11 @@ export default function PaperMaker({ priorPapers = [] }) {
       <Helmet>
         <title>IB/IGCSE Practice Paper Generator - VertexED</title>
         <meta name="description" content="Create board-shaped IB, IGCSE, CBSE, and A-Level practice papers, then attempt them under time and review your answers." />
-        <link rel="canonical" href="https://www.vertexed.app/paper-maker" />
+        <link rel="canonical" href={`${APP_ORIGIN}/paper-maker`} />
         <meta property="og:title" content="IB/IGCSE Practice Paper Generator - VertexED" />
         <meta property="og:description" content="Build configurable practice papers with a separate mark scheme and timed attempt mode." />
-        <meta property="og:url" content="https://www.vertexed.app/paper-maker" />
-        <meta property="og:image" content="https://www.vertexed.app/socialpreview.jpg" />
+        <meta property="og:url" content={`${APP_ORIGIN}/paper-maker`} />
+        <meta property="og:image" content={`${APP_ORIGIN}/socialpreview.jpg`} />
       </Helmet>
 
       <PageSection>

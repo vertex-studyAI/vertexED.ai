@@ -17,10 +17,11 @@ test('topic study sets resume, persist, retain edited versions and feed study mo
     const path = new URL(route.request().url()).pathname;
     if (path === '/api/user-content') {
       if (route.request().method() === 'POST') {
-        artifact = { ...route.request().postDataJSON(), id: '707d3f91-00e7-4fba-bd1e-24de54623388', updated_at: new Date().toISOString() };
+        artifact = { ...route.request().postDataJSON(), id: '707d3f91-00e7-4fba-bd1e-24de54623388', user_id: id, created_at: new Date().toISOString(), updated_at: new Date().toISOString() };
         return route.fulfill({ json: { item: artifact } });
       }
-      return route.fulfill({ json: { items: artifact ? [artifact] : [], nextOffset: null } });
+      const kind = new URL(route.request().url()).searchParams.get('kind');
+      return route.fulfill({ json: { items: artifact && (!kind || kind === artifact.kind) ? [artifact] : [], nextOffset: null } });
     }
     if (path === '/api/notebook') {
       const input = route.request().postDataJSON(); calls.push(input.mode);
@@ -65,12 +66,15 @@ test('topic study sets resume, persist, retain edited versions and feed study mo
   await expect(page.getByText('Study set ready.', { exact: false })).toBeVisible();
   expect(calls.length).toBe(5);
   await page.getByRole('button', { name: 'Topic notes', exact: true }).click();
+  await expect(page.getByText('Edit a copy of these notes', { exact: true })).toHaveCount(1);
   await page.getByText('Edit a copy of these notes', { exact: true }).click();
   await page.getByLabel('Resource text (Markdown)').fill('## My correction\nSubstitute x = 3 into the original equation to check both sides equal 5.');
   await page.getByRole('button', { name: 'Save edited copy' }).click();
   await expect(page.getByRole('region', { name: 'Generated Topic notes' })).toContainText('My correction');
   await expect(page.getByLabel('Saved resource version').locator('option')).toHaveCount(2);
   await expect.poll(() => JSON.stringify(artifact)).toContain('My correction');
+  await expect(page.getByText('Saved to your account', { exact: true })).toBeVisible();
+  await page.getByText('Course and syllabus details', { exact: true }).click();
   for (const width of [1440, 1024, 390]) {
     await page.setViewportSize({ width, height: 900 });
     await page.getByRole('heading', { name: 'Create a topic study set' }).scrollIntoViewIfNeeded();
@@ -82,11 +86,34 @@ test('topic study sets resume, persist, retain edited versions and feed study mo
   }
   await page.getByRole('button', { name: 'Review', exact: true }).click();
   await page.getByRole('button', { name: 'Flashcards', exact: true }).click();
+  await page.evaluate(() => {
+    const write = Storage.prototype.setItem;
+    Storage.prototype.setItem = function(key, value) {
+      if (key.includes('sr_deck') || key.includes('srDeck')) throw new DOMException('Storage full', 'QuotaExceededError');
+      return write.call(this, key, value);
+    };
+    Object.assign(window, { restoreStudySetStorage: () => { Storage.prototype.setItem = write; } });
+  });
+  await page.getByRole('button', { name: 'Add 1 to SR deck', exact: true }).click();
+  await expect(page.getByText('Flashcards not saved', { exact: true }).first()).toBeVisible();
+  await page.evaluate(() => (window as unknown as { restoreStudySetStorage: () => void }).restoreStudySetStorage());
   await page.getByRole('button', { name: 'Add 1 to SR deck', exact: true }).click();
   await expect(page.getByText('1 cards added to SR deck', { exact: true }).first()).toBeVisible();
   await page.getByRole('button', { name: 'Practice Quiz', exact: true }).click();
   await expect(page.getByRole('region', { name: 'Generated Practice Quiz' })).toContainText('Solve x + 2 = 5.');
-  await page.reload();
+  await page.getByLabel('Your answer to question 1', { exact: true }).fill('x = 3; subtract 2 from both sides.');
+  await expect(page.getByText('Saved to your account', { exact: true })).toBeVisible();
+  await expect.poll(() => JSON.stringify(artifact)).toContain('subtract 2 from both sides.');
+  // Remove only this synthetic learner's notebook device cache, then restore from the mocked account service.
+  await page.goto('/main');
+  await page.evaluate(owner => {
+    for (const key of Object.keys(localStorage)) if (key.startsWith(`vertex_notebooks:${owner}:`)) localStorage.removeItem(key);
+  }, id);
+  await page.goto('/study-notebook');
+  await page.getByRole('button', { name: 'Learn', exact: true }).click();
   await page.getByRole('button', { name: 'Topic notes', exact: true }).click();
   await expect(page.getByRole('region', { name: 'Generated Topic notes' })).toContainText('My correction');
+  await page.getByRole('button', { name: 'Review', exact: true }).click();
+  await page.getByRole('button', { name: 'Practice Quiz', exact: true }).click();
+  await expect(page.getByLabel('Your answer to question 1', { exact: true })).toHaveValue('x = 3; subtract 2 from both sides.');
 });

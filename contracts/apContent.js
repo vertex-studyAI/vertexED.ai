@@ -1,3 +1,4 @@
+import { isStudyPack } from './studyPack.js';
 export const AP_CATEGORIES = ['Arts', 'English', 'History and social sciences', 'Maths and computer science', 'Sciences', 'World languages', 'Capstone', 'Career Kickstart'];
 const slug = (value) => typeof value === 'string' && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(value);
 const text = (value) => typeof value === 'string' && value.trim().length > 0;
@@ -17,6 +18,7 @@ export function isApCourse(value) {
     && text(unit.frameworkUnit) && text(unit.focus) && texts(unit.explanation, 2)
     && unit.workedExample && text(unit.workedExample.prompt) && texts(unit.workedExample.steps, 2)
     && unit.misconception && text(unit.misconception.claim) && text(unit.misconception.correction)
+    && (unit.studyPack === undefined || isStudyPack(unit.studyPack))
     && (unit.objectives === undefined || texts(unit.objectives))
     && (unit.prerequisites === undefined || texts(unit.prerequisites))
     && (unit.reviewCards === undefined || (Array.isArray(unit.reviewCards) && uniqueIds(unit.reviewCards)

@@ -1,9 +1,10 @@
+import { APP_ORIGIN } from '@/lib/appOrigin';
 import SEO from "@/components/SEO";
 import Article from "@/components/Article";
 import { Link } from "react-router";
 
 export default function ExamStrategyTimeManagement() {
-  const canonical = "https://www.vertexed.app/resources/exam-strategy-time-management";
+  const canonical = `${APP_ORIGIN}/resources/exam-strategy-time-management`;
   return (
     <>
       <SEO
@@ -18,7 +19,7 @@ export default function ExamStrategyTimeManagement() {
           datePublished: "2025-10-11",
           dateModified: "2025-10-11",
           author: { "@type": "Organization", name: "VertexED" },
-          publisher: { "@type": "Organization", name: "VertexED", url: "https://www.vertexed.app" },
+          publisher: { "@type": "Organization", name: "VertexED", url: `${APP_ORIGIN}` },
           mainEntityOfPage: canonical,
         }}
       />

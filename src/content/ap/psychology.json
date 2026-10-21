@@ -45,10 +45,126 @@
             "Limit causal inference"
           ],
           "id": "psychology-unit-1-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Explain how another researcher would repeat the measure.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A study defines attention as the number of target symbols correctly marked in 60 seconds. What makes this operational, and name one limitation.",
+          "answer": "It states an observable scoring procedure and time window. It measures performance on this task, which can also depend on vision, motor speed or understanding and may not capture every aspect of attention.",
+          "checkpoints": [
+            "Identify the specified observable score.",
+            "Identify the fixed time window.",
+            "Give a relevant measurement limitation."
+          ],
+          "hints": [
+            "Explain how another researcher would repeat the measure.",
+            "Consider other processes that affect the same score."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Association can have more than one causal explanation.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "People who exercise more also perform better on a memory test in an observational sample. Why can the study not establish exercise as the cause?",
+          "answer": "Exercise was not randomly assigned, so differences such as sleep, health or prior habits could influence both exercise and memory, and directionality remains uncertain.",
+          "checkpoints": [
+            "Identify the observational design.",
+            "Name a plausible third variable.",
+            "Explain the causal or directionality limitation."
+          ],
+          "hints": [
+            "Association can have more than one causal explanation.",
+            "Look for factors related to both measured variables."
+          ]
         }
       ],
       "id": "psychology-unit-1",
-      "frameworkUnit": "Unit 1"
+      "frameworkUnit": "Unit 1",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through biology and behaviour",
+            "paragraphs": [
+              "Biological explanations connect behaviour with nervous-system processes, but a useful explanation must distinguish measurement from inference. A brain region can participate in a task without acting alone, and a correlation between neural activity and performance does not establish that the activity caused the performance. Operational definitions specify how a variable such as attention or sleep is recorded, allowing another researcher to repeat the procedure. Random assignment helps balance pre-existing differences between experimental groups; random sampling addresses which population the sample can represent. Neither procedure automatically removes measurement error, expectancy effects or the need for ethical safeguards."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A fictional experiment randomly assigns 40 volunteers to a quiet room or a room with recorded background speech, then measures recall of the same word list. Identify variables and one limit on generalisation.",
+            "steps": [
+              "The manipulated independent variable is room sound condition; the dependent variable is number of words correctly recalled under a fixed scoring rule.",
+              "Random assignment strengthens a comparison between conditions, but volunteers from one setting may not represent every learner or real-world task."
+            ],
+            "conclusion": "The design tests an effect of the sound condition on the defined recall outcome within a limited sample and task."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is an operational definition?",
+            "back": "A precise procedure for measuring or manipulating a variable."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What does random assignment support?",
+            "back": "Comparability of experimental groups."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What does random sampling support?",
+            "back": "Population representativeness when implemented appropriately."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Does brain activation prove a region works alone?",
+            "back": "No; tasks involve interacting systems and measurement limitations."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Biology and behaviour: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Operationalised variables",
+                "detail": "Specify sound conditions and a repeatable recall score."
+              },
+              {
+                "id": "n2",
+                "label": "Random assignment",
+                "detail": "Allocate participants to conditions independently of their preferences."
+              },
+              {
+                "id": "n3",
+                "label": "Bounded causal comparison",
+                "detail": "Compare outcomes while considering remaining design limits and population scope."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "enable"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "supports"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Memory, attention and thinking",
@@ -88,10 +204,126 @@
             "Connect to retrieval effort"
           ],
           "id": "psychology-unit-2-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Match the assessment to the skill.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A learner rereads a definition and immediately recognises it, then cannot explain it tomorrow. Why is another recognition check alone weak evidence of independent recall?",
+          "answer": "Recognition supplies the target or strong cues, while independent recall requires generating the idea. A delayed explanation without the text more directly tests the missing skill.",
+          "checkpoints": [
+            "Distinguish cue-rich recognition from recall.",
+            "Connect the test to the desired performance.",
+            "Propose a delayed closed-book explanation."
+          ],
+          "hints": [
+            "Match the assessment to the skill.",
+            "Familiar appearance is not the same task as producing an explanation."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Consider how information from different occasions can be combined.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "After seeing a misleading description of an event, a witness includes that detail in a later account. Give a memory explanation without assuming deliberate lying.",
+          "answer": "Later information can be incorporated into reconstructive memory or confused with the original source, so a sincere report can include an inaccurate detail.",
+          "checkpoints": [
+            "Identify post-event information.",
+            "Explain reconstruction or source confusion.",
+            "Distinguish inaccuracy from intentional deception."
+          ],
+          "hints": [
+            "Consider how information from different occasions can be combined.",
+            "An incorrect report need not be dishonest."
+          ]
         }
       ],
       "id": "psychology-unit-2",
-      "frameworkUnit": "Unit 2"
+      "frameworkUnit": "Unit 2",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through memory, attention and thinking",
+            "paragraphs": [
+              "Memory performance depends on encoding, retention and retrieval, so difficulty recalling an answer does not always mean no learning occurred. A recognition task supplies cues that can make an item feel familiar, while free recall requires generating it with fewer cues. Retrieval practice attempts to reconstruct an answer and then uses feedback to repair errors; merely viewing the answer first changes the task. Spacing distributes opportunities across time, requiring renewed retrieval after some forgetting. Memory is also reconstructive: later information and expectations can affect reports. Confidence and vividness are therefore evidence about a person’s experience, not guarantees of historical accuracy."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A learner gets 9 of 10 terms correct in a recognition quiz but only 4 of 10 in free recall. Design a next practice step and explain what the scores do not prove.",
+            "steps": [
+              "Use a delayed closed-book recall attempt for the missed terms, then compare each answer with an accurate explanation and retry later.",
+              "The score difference shows cue dependence in these tasks; it does not prove that the learner has no knowledge or that recognition will always exceed recall by the same amount."
+            ],
+            "conclusion": "Target retrieval with feedback while keeping the interpretation specific to the measured tasks."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "How does recognition differ from recall?",
+            "back": "Recognition identifies presented material; recall generates it with fewer supplied cues."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why attempt retrieval before viewing feedback?",
+            "back": "It reveals what can be produced independently."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What makes practice spaced?",
+            "back": "Learning opportunities are separated across time."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Does confidence ensure accurate memory?",
+            "back": "No; memory reports can be confident yet mistaken."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Memory, attention and thinking: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Initial encoding",
+                "detail": "Attend to meaning and relationships rather than appearance alone."
+              },
+              {
+                "id": "n2",
+                "label": "Delayed retrieval",
+                "detail": "Generate the explanation without viewing it first."
+              },
+              {
+                "id": "n3",
+                "label": "Corrective feedback",
+                "detail": "Compare with accurate information and repair errors before another spaced attempt."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "is tested by"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "is improved through"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Development and learned behaviour",
@@ -131,10 +363,126 @@
             "Limit age inference"
           ],
           "id": "psychology-unit-3-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Track points and behaviour separately.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A fictional game removes points after a rule violation, and violations become less frequent. Classify the consequence using both dimensions.",
+          "answer": "It is negative punishment: something valued is removed and the target behaviour decreases.",
+          "checkpoints": [
+            "Identify removal rather than addition.",
+            "Identify the decrease in violations.",
+            "Combine them as negative punishment."
+          ],
+          "hints": [
+            "Track points and behaviour separately.",
+            "Use observed frequency rather than whether the consequence seems unpleasant."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "The groups did not grow up in the same conditions.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "A study compares today’s 20-year-olds with today’s 70-year-olds on technology use. Why is the difference not automatically a developmental effect of ageing?",
+          "answer": "The groups experienced different educational, cultural and technological histories. These cohort differences can affect technology use independently of within-person ageing.",
+          "checkpoints": [
+            "Identify the cross-sectional age comparison.",
+            "Explain different cohort experiences.",
+            "Distinguish between-group differences from within-person change."
+          ],
+          "hints": [
+            "The groups did not grow up in the same conditions.",
+            "Ask what a longitudinal comparison would add."
+          ]
         }
       ],
       "id": "psychology-unit-3",
-      "frameworkUnit": "Unit 3"
+      "frameworkUnit": "Unit 3",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through development and learned behaviour",
+            "paragraphs": [
+              "Learning theories classify how experience changes behaviour, but their terms must be applied to observable effects. Reinforcement increases a behaviour’s future frequency; punishment decreases it. Positive means adding a consequence and negative means removing one, not beneficial versus harmful. Classical conditioning concerns learned associations between stimuli, whereas operant conditioning concerns relations between behaviour and consequences. Developmental research additionally distinguishes change within individuals from differences between age groups. A longitudinal design follows the same participants and can reveal trajectories, but attrition and repeated testing can bias results; a cross-sectional design is faster but can confound age with cohort experience."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A classroom removes a disliked extra chore when students submit work on time, and on-time submissions subsequently increase. Classify the process.",
+            "steps": [
+              "The consequence removes an aversive condition, so it is negative in the technical add/remove sense.",
+              "The target behaviour increases, so the consequence functions as reinforcement rather than punishment."
+            ],
+            "conclusion": "This is negative reinforcement of on-time submission in the stated observations."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What defines reinforcement?",
+            "back": "An increase in the future frequency of a behaviour."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What does negative mean in conditioning terminology?",
+            "back": "A consequence is removed."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "How does punishment differ?",
+            "back": "It decreases the behaviour’s future frequency."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What is a cohort confound?",
+            "back": "Age groups differ in shared historical experiences as well as age."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Development and learned behaviour: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Target behaviour",
+                "detail": "Identify exactly which action is being studied."
+              },
+              {
+                "id": "n2",
+                "label": "Consequence change",
+                "detail": "Determine what is added or removed after the action."
+              },
+              {
+                "id": "n3",
+                "label": "Future frequency",
+                "detail": "Use increase or decrease to classify reinforcement or punishment."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "is followed by"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "is classified using"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Social influence and personality",
@@ -174,10 +522,126 @@
             "Identify failure to measure correctly"
           ],
           "id": "psychology-unit-4-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Measure belief separately from visible agreement.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A student gives an incorrect group answer publicly but the correct answer privately. What distinction does this illustrate?",
+          "answer": "Public conformity can differ from private belief; the public answer alone does not demonstrate internal acceptance of the group’s view.",
+          "checkpoints": [
+            "Identify the public/private difference.",
+            "Distinguish compliance from belief change.",
+            "Limit the inference from the public behaviour."
+          ],
+          "hints": [
+            "Measure belief separately from visible agreement.",
+            "Do not infer a motive beyond the evidence unless supplied."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Consistency and measuring the right thing are different criteria.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "A personality scale gives similar scores each week but mostly measures reading difficulty rather than the intended trait. Evaluate reliability and validity.",
+          "answer": "The repeated consistency supports test-retest reliability in this sample, but measuring reading difficulty undermines construct validity for the intended trait.",
+          "checkpoints": [
+            "Connect repeated scores to reliability.",
+            "Identify the unintended construct.",
+            "Explain the validity limitation."
+          ],
+          "hints": [
+            "Consistency and measuring the right thing are different criteria.",
+            "Keep the claim limited to the evidence supplied."
+          ]
         }
       ],
       "id": "psychology-unit-4",
-      "frameworkUnit": "Unit 4"
+      "frameworkUnit": "Unit 4",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through social influence and personality",
+            "paragraphs": [
+              "Social explanations examine how situations, group norms and interpretations affect behaviour without assuming everyone responds identically. Attribution distinguishes explanations based on a person’s dispositions from those based on circumstances. A single observation usually cannot separate them, so compare behaviour across settings and occasions. Normative influence can lead someone to agree publicly to gain acceptance even when private beliefs differ, while informational influence involves treating others as evidence about reality. Personality measures require both reliability and validity: consistent scores do not establish that the instrument measures the intended construct or predicts the relevant behaviour across populations."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "In a group task, a participant privately selects answer B but publicly agrees with a unanimous group choosing A to avoid disapproval. Identify the influence and a useful follow-up measure.",
+            "steps": [
+              "The stated motive indicates normative influence: public agreement serves social acceptance rather than necessarily changing private belief.",
+              "Collect a confidential answer after the group session to examine whether private belief also changed, without assuming the public response proves it."
+            ],
+            "conclusion": "The example supports normative influence and calls for a separate measure of private belief."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is a dispositional attribution?",
+            "back": "An explanation based on a person’s characteristics."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What is a situational attribution?",
+            "back": "An explanation based on circumstances."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What motivates normative influence?",
+            "back": "Acceptance or avoidance of social disapproval."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Does high reliability establish validity?",
+            "back": "No; a measure can consistently assess the wrong construct."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Social influence and personality: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Observed action",
+                "detail": "Record what a person did in a specific setting."
+              },
+              {
+                "id": "n2",
+                "label": "Competing explanations",
+                "detail": "Consider dispositions, constraints and group pressures."
+              },
+              {
+                "id": "n3",
+                "label": "Additional evidence",
+                "detail": "Compare settings, private responses and repeated observations before attributing cause."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "permits"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "require"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Stress, health and evidence",
@@ -217,10 +681,126 @@
             "Explain outcome distribution"
           ],
           "id": "psychology-unit-5-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Subtract the comparison’s change.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A programme group improves by 8 points while its comparison improves by 5. Find the difference in change and explain why the programme’s full eight-point change is not the comparison-based effect estimate.",
+          "answer": "The difference is 3 points. The comparison also improved, so some change may reflect factors shared by both groups rather than the programme alone.",
+          "checkpoints": [
+            "Calculate 8−5=3.",
+            "Recognise improvement in the comparison group.",
+            "Explain why before-after change alone overattributes shared change."
+          ],
+          "hints": [
+            "Subtract the comparison’s change.",
+            "A programme group is not its own complete counterfactual."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "A single average hides a distribution.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "A report gives a mean improvement of 4 points but no spread or follow-up. Name two questions that remain and explain their relevance.",
+          "answer": "How variable were individual changes, and did improvement persist? Spread informs consistency and possible adverse or null outcomes; follow-up informs durability.",
+          "checkpoints": [
+            "Ask about participant variation.",
+            "Ask about persistence over time.",
+            "Connect each missing detail to interpretation of the mean."
+          ],
+          "hints": [
+            "A single average hides a distribution.",
+            "Immediate and sustained effects are different outcomes."
+          ]
         }
       ],
       "id": "psychology-unit-5",
-      "frameworkUnit": "Unit 5"
+      "frameworkUnit": "Unit 5",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through stress, health and evidence",
+            "paragraphs": [
+              "Health and stress research needs careful comparisons because outcomes can change over time for many reasons. A before-after improvement may reflect the programme, natural fluctuation, expectations, concurrent events or regression towards typical values after an unusually difficult period. Random assignment to an appropriate comparison group helps address some alternative explanations, while ethical consent, privacy and participant welfare remain necessary. Report distributions and effect sizes alongside averages so readers can see variation and practical magnitude. A group-level association or intervention result does not by itself diagnose an individual or identify a universally effective response for every person."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A fictional stress programme has mean scores 20 before and 14 after. A randomised comparison group changes from 19 to 15. Compare the changes and state a limit.",
+            "steps": [
+              "The programme group improves by 6 points and the comparison by 4, giving a difference in change of 2 points.",
+              "Without sample sizes, variability, measurement quality and follow-up, this difference alone cannot establish precision, durability or individual benefit."
+            ],
+            "conclusion": "The observed extra improvement is 2 points, with important uncertainty still unmeasured."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "Why include a comparison group?",
+            "back": "To assess changes that could occur without the intervention."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What is regression towards the mean?",
+            "back": "Extreme measured scores often become less extreme on repeat measurement partly through random variation."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Why report variation as well as a mean?",
+            "back": "Participants can have very different outcomes."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Does a group mean diagnose an individual?",
+            "back": "No."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Stress, health and evidence: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Baseline measurement",
+                "detail": "Define a repeatable outcome before the programme."
+              },
+              {
+                "id": "n2",
+                "label": "Comparison over time",
+                "detail": "Measure both intervention and suitable comparison groups."
+              },
+              {
+                "id": "n3",
+                "label": "Bounded interpretation",
+                "detail": "Estimate the difference while considering variability, bias and follow-up."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "enables"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "supports"
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

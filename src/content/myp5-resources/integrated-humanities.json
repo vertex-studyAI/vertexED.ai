@@ -1,0 +1,997 @@
+{
+  "subjectSlug": "integrated-humanities",
+  "lessons": {
+    "myp5-integrated-humanities-inquiry": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "A broad idea becomes a measurable inquiry",
+            "paragraphs": [
+              "An inquiry question becomes manageable when it names a place, a period, an outcome and a comparison. Descriptive questions establish what changed; explanatory questions examine why; evaluative questions judge change against explicit criteria. These forms can support one another, but they require different evidence. Define terms such as accessible or successful before collecting data so the judgement is not adjusted to fit a preferred result. A feasible inquiry also considers source availability and whose experiences may be missing. Narrowing the question should improve the match between claim and evidence without excluding inconvenient groups."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-inquiry-worked",
+            "prompt": "Refine the fictional topic “parks and wellbeing” into a feasible local inquiry using a stated six-month project period.",
+            "steps": [
+              "Choose an observable outcome such as park visits and a defined group, such as residents of two named neighbourhoods.",
+              "Possible question: How did weekly park use among surveyed residents of East and West neighbourhoods change during the six months after new paths opened?"
+            ],
+            "conclusion": "The question measures use; it does not automatically measure all dimensions of wellbeing."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-inquiry-card-1",
+            "front": "What does a descriptive inquiry ask?",
+            "back": "What happened or what pattern exists."
+          },
+          {
+            "id": "extension-inquiry-card-2",
+            "front": "What does an explanatory inquiry ask?",
+            "back": "Why or through what mechanism a pattern occurred."
+          },
+          {
+            "id": "extension-inquiry-card-3",
+            "front": "What makes an evaluative inquiry explicit?",
+            "back": "Named criteria for judging success or value."
+          },
+          {
+            "id": "extension-inquiry-card-4",
+            "front": "Why define key terms early?",
+            "back": "To make evidence collection and judgement consistent."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-inquiry-diagram",
+            "title": "A broad idea becomes a measurable inquiry",
+            "description": "The outcome must fit the claim being investigated.",
+            "nodes": [
+              {
+                "id": "extension-inquiry-node-1",
+                "label": "Broad topic",
+                "detail": "Parks and wellbeing"
+              },
+              {
+                "id": "extension-inquiry-node-2",
+                "label": "Defined outcome",
+                "detail": "Weekly park use in two neighbourhoods"
+              },
+              {
+                "id": "extension-inquiry-node-3",
+                "label": "Bounded question",
+                "detail": "Change over six months after paths opened"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-inquiry-node-1",
+                "to": "extension-inquiry-node-2",
+                "label": "select an observable part of the topic"
+              },
+              {
+                "from": "extension-inquiry-node-2",
+                "to": "extension-inquiry-node-3",
+                "label": "specify place and time"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-integrated-humanities-inquiry-practice-1",
+          "difficulty": "Standard",
+          "command": "Construct",
+          "marks": 3,
+          "prompt": "Turn the fictional topic “school travel” into a focused descriptive question with a place, period and measurable outcome.",
+          "hints": [
+            "Choose one travel measure.",
+            "Bound the population and dates."
+          ],
+          "solution": [
+            "Possible answer: What proportion of pupils at School A walked to school during the first week of October?",
+            "This identifies a population, interval and measurable mode share without claiming a cause."
+          ],
+          "successCriteria": [
+            "Defined place/population.",
+            "Defined time.",
+            "Measurable descriptive outcome."
+          ]
+        },
+        {
+          "id": "extension-myp5-integrated-humanities-inquiry-practice-2",
+          "difficulty": "Advanced",
+          "command": "Evaluate",
+          "marks": 3,
+          "prompt": "An inquiry defines successful redevelopment only after seeing that shop sales rose but rents also rose. What problem arises and how can it be improved?",
+          "hints": [
+            "Criteria may be chosen to favour the result.",
+            "Use explicit criteria and explain any revisions."
+          ],
+          "solution": [
+            "Selecting success criteria after seeing results can privilege the favourable outcome.",
+            "Specify sales, affordability and other justified criteria transparently, and report how each changed rather than concealing the rent trade-off."
+          ],
+          "successCriteria": [
+            "Post-result selection concern.",
+            "Transparent criteria.",
+            "Includes conflicting outcome."
+          ]
+        }
+      ]
+    },
+    "myp5-integrated-humanities-source-analysis": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Different counting units can coexist",
+            "paragraphs": [
+              "Interdisciplinary sources may use different units of observation. A transport survey might describe individual journeys, an administrative report might describe annual totals and an interview might explain one person’s experience. These sources need not agree numerically to be useful together. First align dates, boundaries and definitions; then identify whether the disagreement is factual or reflects different scales. Quantitative summaries reveal patterns, while qualitative accounts can suggest mechanisms and overlooked outcomes. Neither form automatically outranks the other. Claims should retain the source’s scope and distinguish what was directly recorded from the interpretation built upon it."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-source-analysis-worked",
+            "prompt": "Fictional packet: a bus report shows 1000 boardings per day; a survey identifies 600 distinct daily riders. Explain why the figures need not conflict.",
+            "steps": [
+              "Boardings count journeys onto buses, while distinct riders count people.",
+              "One person can board more than once, so 1000 boardings can be made by 600 people."
+            ],
+            "conclusion": "Compare definitions before treating the difference as an error."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-source-analysis-card-1",
+            "front": "What is a unit of observation?",
+            "back": "The entity counted or measured, such as a person or journey."
+          },
+          {
+            "id": "extension-source-analysis-card-2",
+            "front": "Why align dates and boundaries?",
+            "back": "Different coverage can create apparent disagreement."
+          },
+          {
+            "id": "extension-source-analysis-card-3",
+            "front": "What can interviews add?",
+            "back": "Detailed experience and possible mechanisms."
+          },
+          {
+            "id": "extension-source-analysis-card-4",
+            "front": "Does a numerical source automatically outrank testimony?",
+            "back": "No; usefulness depends on the question and method."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-source-analysis-diagram",
+            "title": "Different counting units can coexist",
+            "description": "A person can contribute several journeys to a transport total.",
+            "nodes": [
+              {
+                "id": "extension-source-analysis-node-1",
+                "label": "People",
+                "detail": "600 distinct riders"
+              },
+              {
+                "id": "extension-source-analysis-node-2",
+                "label": "Repeated journeys",
+                "detail": "Some riders board more than once"
+              },
+              {
+                "id": "extension-source-analysis-node-3",
+                "label": "Boardings",
+                "detail": "1000 recorded entries onto buses"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-source-analysis-node-1",
+                "to": "extension-source-analysis-node-2",
+                "label": "may make several trips"
+              },
+              {
+                "from": "extension-source-analysis-node-2",
+                "to": "extension-source-analysis-node-3",
+                "label": "accumulate journey counts"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-integrated-humanities-source-analysis-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A fictional library reports 400 visits but only 250 registered visitors in a week. Give a coherent interpretation without assuming an error.",
+          "hints": [
+            "Visits and distinct visitors are different units.",
+            "Some people may return."
+          ],
+          "solution": [
+            "A visitor can make several visits during the week.",
+            "Thus 250 people can account for 400 visits; the definitions should be checked before alleging inconsistency."
+          ],
+          "successCriteria": [
+            "Repeat visits.",
+            "Person/visit distinction.",
+            "Definition check."
+          ]
+        },
+        {
+          "id": "extension-myp5-integrated-humanities-source-analysis-practice-2",
+          "difficulty": "Advanced",
+          "command": "Evaluate",
+          "marks": 3,
+          "prompt": "A fictional resident interview describes a long commute, while a city report gives a short mean commute. Does one necessarily disprove the other?",
+          "hints": [
+            "An average can contain long and short journeys.",
+            "Check population and timing."
+          ],
+          "solution": [
+            "One long commute can coexist with a short citywide mean.",
+            "Compare the resident’s circumstances and the report’s coverage; the interview may reveal uneven experiences hidden by the average."
+          ],
+          "successCriteria": [
+            "Average-versus-individual distinction.",
+            "Coverage check.",
+            "Value of distributional evidence."
+          ]
+        }
+      ]
+    },
+    "myp5-integrated-humanities-spatial-patterns": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Aggregation can conceal neighbourhood contrast",
+            "paragraphs": [
+              "Spatial patterns depend on the scale and boundaries used to summarise data. A citywide average can conceal neighbourhood clusters, while small-area figures can vary sharply when populations are small. Compare counts with rates and inspect denominators before interpreting a map. Nearby places may share infrastructure, environmental conditions or historical development, so spatial association does not identify one cause. Aggregating districts can also change the visible pattern without changing any individual observation. A useful interpretation states where a pattern appears, how strong it is in the supplied data and what additional evidence could test the proposed explanation."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-spatial-patterns-worked",
+            "prompt": "Hypothetical neighbourhoods: North has 80 bus users among 100 surveyed residents; South has 20 among 100. Find the combined share and explain what it hides.",
+            "steps": [
+              "Combined bus users = 100 of 200, giving 50%.",
+              "The average hides the contrast between North’s 80% and South’s 20%."
+            ],
+            "conclusion": "A citywide 50% share does not describe either neighbourhood’s local rate."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-spatial-patterns-card-1",
+            "front": "What can aggregation hide?",
+            "back": "Local differences and clusters."
+          },
+          {
+            "id": "extension-spatial-patterns-card-2",
+            "front": "Why inspect denominators?",
+            "back": "Small samples can produce unstable-looking rates."
+          },
+          {
+            "id": "extension-spatial-patterns-card-3",
+            "front": "Does a spatial correlation prove one cause?",
+            "back": "No; several shared influences may operate."
+          },
+          {
+            "id": "extension-spatial-patterns-card-4",
+            "front": "What should a pattern description include?",
+            "back": "Location, measured variable and scope of the supplied evidence."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-spatial-patterns-diagram",
+            "title": "Aggregation can conceal neighbourhood contrast",
+            "description": "The combined rate lies between sharply different local rates.",
+            "nodes": [
+              {
+                "id": "extension-spatial-patterns-node-1",
+                "label": "North",
+                "detail": "80 of 100: 80% bus users"
+              },
+              {
+                "id": "extension-spatial-patterns-node-2",
+                "label": "South",
+                "detail": "20 of 100: 20% bus users"
+              },
+              {
+                "id": "extension-spatial-patterns-node-3",
+                "label": "Combined city sample",
+                "detail": "100 of 200: 50%"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-spatial-patterns-node-1",
+                "to": "extension-spatial-patterns-node-2",
+                "label": "combine differently patterned neighbourhoods"
+              },
+              {
+                "from": "extension-spatial-patterns-node-2",
+                "to": "extension-spatial-patterns-node-3",
+                "label": "form an average that hides the contrast"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-integrated-humanities-spatial-patterns-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "Hypothetical districts have 10 parks across 5 km² and 12 parks across 12 km². Compare park counts and densities.",
+          "hints": [
+            "Divide parks by area.",
+            "Counts and density answer different questions."
+          ],
+          "solution": [
+            "The first has 2 parks/km²; the second has 1 park/km².",
+            "The second has more parks in total, but the first has higher park density."
+          ],
+          "successCriteria": [
+            "2 parks/km².",
+            "1 park/km².",
+            "Correct count-density contrast."
+          ]
+        },
+        {
+          "id": "extension-myp5-integrated-humanities-spatial-patterns-practice-2",
+          "difficulty": "Advanced",
+          "command": "Evaluate",
+          "marks": 3,
+          "prompt": "A hypothetical map shows low shop occupancy near an old industrial zone. A report attributes every vacancy to distance from the centre. Identify a limitation and useful evidence.",
+          "hints": [
+            "Other location-linked factors may vary.",
+            "Test the proposed distance mechanism."
+          ],
+          "solution": [
+            "Building condition, rents or transport access could also explain the cluster.",
+            "Compare similar properties at different distances and examine these factors before assigning every vacancy to distance alone."
+          ],
+          "successCriteria": [
+            "Plausible alternative.",
+            "Rejects sole attribution.",
+            "Relevant comparative evidence."
+          ]
+        }
+      ]
+    },
+    "myp5-integrated-humanities-economic-choice": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Unit cost is one decision criterion",
+            "paragraphs": [
+              "Public choices involve opportunity costs even when no direct fee is charged to users. A fixed budget allocated to one service leaves less for another, while a land-use decision can constrain future options for many years. Cost-effectiveness compares resources used for a specified outcome; it is not the same as overall fairness or value. A cheaper central facility may serve more people per credit while imposing longer journeys on outlying residents. Evaluate both the measurable trade-off and the distribution of benefits and burdens. State the next-best feasible alternative rather than listing every imaginable use of resources."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-economic-choice-worked",
+            "prompt": "Hypothetical council compares mobile outreach costing 6000 credits for 300 visits with a central service costing 8000 for 500 visits. Compare cost per visit and a limitation.",
+            "steps": [
+              "Outreach costs 6000/300 = 20 credits per visit; central service costs 8000/500 = 16.",
+              "The central service is cheaper per recorded visit."
+            ],
+            "conclusion": "The measure does not establish equal quality or access for residents unable to travel centrally."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-economic-choice-card-1",
+            "front": "What is cost-effectiveness?",
+            "back": "Resource cost relative to a specified outcome."
+          },
+          {
+            "id": "extension-economic-choice-card-2",
+            "front": "Does lowest cost per user establish fairness?",
+            "back": "No; access and distribution may differ."
+          },
+          {
+            "id": "extension-economic-choice-card-3",
+            "front": "What is a public project’s opportunity cost?",
+            "back": "The value of the next-best feasible use of its resources."
+          },
+          {
+            "id": "extension-economic-choice-card-4",
+            "front": "Why define the service outcome?",
+            "back": "Different quality or benefits make raw cost comparisons misleading."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-economic-choice-diagram",
+            "title": "Unit cost is one decision criterion",
+            "description": "A lower cost per visit can coexist with different access outcomes.",
+            "nodes": [
+              {
+                "id": "extension-economic-choice-node-1",
+                "label": "Outreach service",
+                "detail": "6000/300 = 20 credits per visit"
+              },
+              {
+                "id": "extension-economic-choice-node-2",
+                "label": "Central service",
+                "detail": "8000/500 = 16 credits per visit"
+              },
+              {
+                "id": "extension-economic-choice-node-3",
+                "label": "Decision context",
+                "detail": "Compare quality and who can reach each service"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-economic-choice-node-1",
+                "to": "extension-economic-choice-node-2",
+                "label": "compare the same recorded unit"
+              },
+              {
+                "from": "extension-economic-choice-node-2",
+                "to": "extension-economic-choice-node-3",
+                "label": "add distribution and service-quality evidence"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-integrated-humanities-economic-choice-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "Hypothetical programme A costs 9000 credits for 450 sessions; B costs 7200 for 300. Find cost per session and identify the lower figure.",
+          "hints": [
+            "Divide each cost by its sessions.",
+            "Do not compare total cost alone."
+          ],
+          "solution": [
+            "A costs 20 credits per session; B costs 24.",
+            "A has the lower unit cost even though its total cost is greater."
+          ],
+          "successCriteria": [
+            "20 credits.",
+            "24 credits.",
+            "Correct total-versus-unit distinction."
+          ]
+        },
+        {
+          "id": "extension-myp5-integrated-humanities-economic-choice-practice-2",
+          "difficulty": "Advanced",
+          "command": "Evaluate",
+          "marks": 3,
+          "prompt": "A free public event uses staff time that would otherwise run the next-best feasible reading programme. Does zero ticket price mean no opportunity cost?",
+          "hints": [
+            "Public resources are still used.",
+            "Identify the forgone alternative."
+          ],
+          "solution": [
+            "The event uses scarce staff time even without charging attendees.",
+            "Its opportunity cost includes the benefit of the reading programme forgone under the stated choice."
+          ],
+          "successCriteria": [
+            "Scarce staff resource.",
+            "Reading programme identified.",
+            "Zero-price distinction."
+          ]
+        }
+      ]
+    },
+    "myp5-integrated-humanities-global-systems": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "The smallest stage capacity limits a serial system",
+            "paragraphs": [
+              "A production network can be limited by a bottleneck: the stage with the lowest usable capacity when every finished item must pass through all stages. Increasing capacity elsewhere may not increase final output until the bottleneck changes. Networks also contain buffers, alternative routes and shared dependencies, so the effect of one disruption depends on the whole arrangement. A stock can delay interruption but does not provide indefinite resilience. Use consistent units and service periods when comparing capacities, and distinguish a theoretical maximum from actual output affected by quality, downtime and demand."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-global-systems-worked",
+            "prompt": "Hypothetical production line can prepare 80 units/day, assemble 50 and pack 70. Every unit passes through all stages. Find the maximum steady output without stocks between stages.",
+            "steps": [
+              "Assembly is the smallest capacity at 50 units/day.",
+              "The line’s steady output is therefore limited to 50 units/day."
+            ],
+            "conclusion": "Raising preparation to 100 alone would not remove the assembly bottleneck."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-global-systems-card-1",
+            "front": "What is a bottleneck?",
+            "back": "The capacity-limiting stage in a linked process."
+          },
+          {
+            "id": "extension-global-systems-card-2",
+            "front": "Can improving a non-bottleneck raise final output automatically?",
+            "back": "No; the limiting stage may remain unchanged."
+          },
+          {
+            "id": "extension-global-systems-card-3",
+            "front": "What does a buffer stock do?",
+            "back": "It can absorb temporary differences or delays."
+          },
+          {
+            "id": "extension-global-systems-card-4",
+            "front": "Why compare capacities over the same period?",
+            "back": "Otherwise the rates are not directly comparable."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-global-systems-diagram",
+            "title": "The smallest stage capacity limits a serial system",
+            "description": "Every completed unit must pass through assembly.",
+            "nodes": [
+              {
+                "id": "extension-global-systems-node-1",
+                "label": "Preparation",
+                "detail": "80 units/day"
+              },
+              {
+                "id": "extension-global-systems-node-2",
+                "label": "Assembly",
+                "detail": "50 units/day: bottleneck"
+              },
+              {
+                "id": "extension-global-systems-node-3",
+                "label": "Packing",
+                "detail": "70 units/day"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-global-systems-node-1",
+                "to": "extension-global-systems-node-2",
+                "label": "feeds a lower-capacity stage"
+              },
+              {
+                "from": "extension-global-systems-node-2",
+                "to": "extension-global-systems-node-3",
+                "label": "limits flow reaching packing"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-integrated-humanities-global-systems-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "A hypothetical serial line has stage capacities 40, 65 and 55 units/hour. Find its maximum steady output and the new limit if the first stage rises to 60.",
+          "hints": [
+            "Use the smallest capacity each time.",
+            "The bottleneck can move."
+          ],
+          "solution": [
+            "Initially the limit is 40 units/hour.",
+            "After the first stage rises to 60, the smallest capacity is 55, so the new limit is 55 units/hour."
+          ],
+          "successCriteria": [
+            "Initial 40.",
+            "New minimum 55.",
+            "Bottleneck moves to third stage."
+          ]
+        },
+        {
+          "id": "extension-myp5-integrated-humanities-global-systems-practice-2",
+          "difficulty": "Advanced",
+          "command": "Evaluate",
+          "marks": 3,
+          "prompt": "A firm doubles warehouse stock but keeps one irreplaceable supplier. Does the extra stock eliminate supplier risk?",
+          "hints": [
+            "A buffer covers only a finite interval.",
+            "Replacement capacity remains unchanged."
+          ],
+          "solution": [
+            "More stock can delay the effect of a disruption.",
+            "A sufficiently long supplier failure can still exhaust it, so the single-source dependency remains."
+          ],
+          "successCriteria": [
+            "Buffer benefit.",
+            "Finite duration.",
+            "Persistent dependency."
+          ]
+        }
+      ]
+    },
+    "myp5-integrated-humanities-sustainability": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "One intervention can improve a metric and create an access issue",
+            "paragraphs": [
+              "A sustainability judgement should connect environmental, social and economic outcomes rather than collapse them into one unexplained score. Some improvements can be measured directly, such as reduced water use for the same service; others involve distribution, access or long-term maintenance. Trade-offs should be made visible so affected groups can understand whose interests are prioritised. A target also needs a baseline and a time horizon. Avoid counting a projected saving as an observed result before implementation. Compare actual use with the assumptions behind the plan and revise the judgement when demand, durability or access differs from expectations."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-sustainability-worked",
+            "prompt": "Hypothetical refill scheme reduces disposable bottles from 1000 to 600 per month, but moves all refill stations to a distant central building. Evaluate two outcomes.",
+            "steps": [
+              "Bottle use falls by 400, or 40%, supporting the stated reduction outcome.",
+              "Centralisation may worsen access for people far from the building; journey and usage evidence is needed."
+            ],
+            "conclusion": "The environmental measure improves, but overall success depends on access and other impacts."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-sustainability-card-1",
+            "front": "What should a sustainability target include?",
+            "back": "A defined outcome, baseline and timescale."
+          },
+          {
+            "id": "extension-sustainability-card-2",
+            "front": "Why separate projections from results?",
+            "back": "An expected saving has not yet been observed."
+          },
+          {
+            "id": "extension-sustainability-card-3",
+            "front": "What is a distributional question?",
+            "back": "Who receives benefits and who bears costs or barriers."
+          },
+          {
+            "id": "extension-sustainability-card-4",
+            "front": "How should trade-offs be reported?",
+            "back": "Explicitly, with the criteria and affected groups identified."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-sustainability-diagram",
+            "title": "One intervention can improve a metric and create an access issue",
+            "description": "A narrower outcome must be connected to wider service consequences.",
+            "nodes": [
+              {
+                "id": "extension-sustainability-node-1",
+                "label": "Refill scheme introduced",
+                "detail": "Stations centralised"
+              },
+              {
+                "id": "extension-sustainability-node-2",
+                "label": "Bottle use falls",
+                "detail": "1000 to 600 per month: 40% reduction"
+              },
+              {
+                "id": "extension-sustainability-node-3",
+                "label": "Access question",
+                "detail": "Longer journeys may exclude some users"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-sustainability-node-1",
+                "to": "extension-sustainability-node-2",
+                "label": "changes the observed consumption pattern"
+              },
+              {
+                "from": "extension-sustainability-node-2",
+                "to": "extension-sustainability-node-3",
+                "label": "requires a separate distributional assessment"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-integrated-humanities-sustainability-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "A hypothetical repair scheme reduces discarded items from 250 to 175 per month. Find the reduction and percentage change.",
+          "hints": [
+            "Subtract final from initial for the reduction.",
+            "Use the initial 250 as denominator."
+          ],
+          "solution": [
+            "Reduction = 75 items per month.",
+            "Percentage reduction = 75/250 × 100% = 30%."
+          ],
+          "successCriteria": [
+            "75 items.",
+            "Initial-value denominator.",
+            "30%."
+          ]
+        },
+        {
+          "id": "extension-myp5-integrated-humanities-sustainability-practice-2",
+          "difficulty": "Advanced",
+          "command": "Evaluate",
+          "marks": 3,
+          "prompt": "A plan predicts 20% lower electricity use, but no post-installation readings exist. How should the claim be reported?",
+          "hints": [
+            "A model estimate differs from a measured outcome.",
+            "Specify the evidence needed for verification."
+          ],
+          "solution": [
+            "Report a projected 20% reduction under the plan’s assumptions.",
+            "Compare consistent before-and-after metered use, accounting for service levels and other changes, before claiming the saving occurred."
+          ],
+          "successCriteria": [
+            "Projection label.",
+            "Assumptions acknowledged.",
+            "Relevant outcome measurement."
+          ]
+        }
+      ]
+    },
+    "myp5-integrated-humanities-perspectives": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Participation shapes the recorded perspective",
+            "paragraphs": [
+              "Consultation records show the views of participants, not automatically those of an entire community. Attendance, language, timing and confidence can influence who speaks. A quiet or absent group should not be assumed to agree. Stakeholder analysis identifies interests and possible effects while avoiding the assumption that everyone within a category shares one view. Evaluate a proposal using both reported priorities and evidence about consequences. A fair account can recognise conflicting needs without inventing motives or treating the loudest voice as the most representative. Explain how missing perspectives would be sought and how uncertainty affects the judgement."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-perspectives-worked",
+            "prompt": "Fictional consultation: an evening meeting records support for a park plan from 18 attendees, while the invitation reached only one housing block. Assess representativeness.",
+            "steps": [
+              "The result shows support among the people who attended from the contacted group.",
+              "It does not establish town-wide support because other blocks and non-attendees are missing."
+            ],
+            "conclusion": "Broader outreach at varied times and through accessible formats would improve coverage."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-perspectives-card-1",
+            "front": "Does silence imply agreement?",
+            "back": "No; absence or non-participation has several possible causes."
+          },
+          {
+            "id": "extension-perspectives-card-2",
+            "front": "What is a stakeholder?",
+            "back": "A person or group affected by or able to influence a decision."
+          },
+          {
+            "id": "extension-perspectives-card-3",
+            "front": "Can one stakeholder category contain different views?",
+            "back": "Yes."
+          },
+          {
+            "id": "extension-perspectives-card-4",
+            "front": "Why assess consultation coverage?",
+            "back": "Participation determines whose perspectives are represented."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-perspectives-diagram",
+            "title": "Participation shapes the recorded perspective",
+            "description": "A consultation result inherits the limits of who was reached and attended.",
+            "nodes": [
+              {
+                "id": "extension-perspectives-node-1",
+                "label": "Invitation coverage",
+                "detail": "One housing block contacted"
+              },
+              {
+                "id": "extension-perspectives-node-2",
+                "label": "Participants",
+                "detail": "18 supportive attendees"
+              },
+              {
+                "id": "extension-perspectives-node-3",
+                "label": "Supported conclusion",
+                "detail": "Attendee support, not town-wide consensus"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-perspectives-node-1",
+                "to": "extension-perspectives-node-2",
+                "label": "limits who can participate"
+              },
+              {
+                "from": "extension-perspectives-node-2",
+                "to": "extension-perspectives-node-3",
+                "label": "bounds the representativeness claim"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-integrated-humanities-perspectives-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Fictional school consultation is held during the only bus home for rural pupils. Identify a possible missing perspective and an improvement.",
+          "hints": [
+            "Timing can exclude a group.",
+            "Provide another accessible way to contribute."
+          ],
+          "solution": [
+            "Rural pupils relying on that bus may be underrepresented.",
+            "Offer a different time or an accessible alternative response method so their views can be included."
+          ],
+          "successCriteria": [
+            "Specific excluded group.",
+            "Timing mechanism.",
+            "Accessible alternative."
+          ]
+        },
+        {
+          "id": "extension-myp5-integrated-humanities-perspectives-practice-2",
+          "difficulty": "Advanced",
+          "command": "Evaluate",
+          "marks": 3,
+          "prompt": "A fictional report quotes one shopkeeper against a pedestrian zone and concludes all businesses oppose it. Explain the inference problem.",
+          "hints": [
+            "One person does not represent every business.",
+            "Different locations and activities may create different interests."
+          ],
+          "solution": [
+            "The quotation supports that shopkeeper’s stated view.",
+            "Other businesses may have different delivery, customer and access needs, so wider evidence is required for an all-business claim."
+          ],
+          "successCriteria": [
+            "Individual scope.",
+            "Possible within-group variation.",
+            "Need broader evidence."
+          ]
+        }
+      ]
+    },
+    "myp5-integrated-humanities-extended-response": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "A judgement must include unequal outcomes",
+            "paragraphs": [
+              "An extended response should use its evidence to answer a question, not merely describe each source in turn. Organise paragraphs around criteria or claims, then connect quantitative patterns with relevant experiences and context. A counterargument should be addressed with evidence or used to qualify the judgement. Distinguish improvement in a mean from improvement for every group. If sources are limited, state the narrow conclusion they support and identify what remains unresolved. A strong final judgement weighs the most relevant outcomes explicitly, showing why some evidence carries more weight for the stated question without concealing conflicting findings."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-extended-response-worked",
+            "prompt": "Fictional packet: a cycle route reduces average journey time from 24 to 18 minutes among surveyed cyclists; wheelchair users report blocked crossings at two locations. Judge transport accessibility.",
+            "steps": [
+              "Cyclists’ mean time falls by 6 minutes, or 25%, showing a measured benefit for that sample.",
+              "Blocked crossings indicate a distinct access barrier for wheelchair users."
+            ],
+            "conclusion": "Accessibility improved for the surveyed cyclists but cannot be judged universally better without resolving the reported barriers."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-extended-response-card-1",
+            "front": "How should extended-response paragraphs be organised?",
+            "back": "Around analytical claims or criteria relevant to the question."
+          },
+          {
+            "id": "extension-extended-response-card-2",
+            "front": "What role should counter-evidence play?",
+            "back": "Test or qualify the judgement."
+          },
+          {
+            "id": "extension-extended-response-card-3",
+            "front": "Does a better mean prove everyone improved?",
+            "back": "No; distributional outcomes can differ."
+          },
+          {
+            "id": "extension-extended-response-card-4",
+            "front": "What makes a final judgement transparent?",
+            "back": "Explicitly weighing evidence against stated criteria."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-extended-response-diagram",
+            "title": "A judgement must include unequal outcomes",
+            "description": "A measured average benefit does not erase a separate barrier.",
+            "nodes": [
+              {
+                "id": "extension-extended-response-node-1",
+                "label": "Cyclist evidence",
+                "detail": "Mean journey time falls 24 to 18 minutes"
+              },
+              {
+                "id": "extension-extended-response-node-2",
+                "label": "Wheelchair-user evidence",
+                "detail": "Blocked crossings reported"
+              },
+              {
+                "id": "extension-extended-response-node-3",
+                "label": "Bounded judgement",
+                "detail": "Some travel improves while accessibility barriers remain"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-extended-response-node-1",
+                "to": "extension-extended-response-node-2",
+                "label": "compare with another affected group"
+              },
+              {
+                "from": "extension-extended-response-node-2",
+                "to": "extension-extended-response-node-3",
+                "label": "qualify a universal improvement claim"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-integrated-humanities-extended-response-practice-1",
+          "difficulty": "Standard",
+          "command": "Construct",
+          "marks": 3,
+          "prompt": "Fictional packet: a market renovation increases stall capacity but rent rises beyond some former traders’ budgets. Write a qualified thesis about opportunity for traders.",
+          "hints": [
+            "Capacity and affordability are different dimensions.",
+            "Use both facts in the judgement."
+          ],
+          "solution": [
+            "Possible thesis: The renovation expanded physical trading capacity, but higher rents limited access for some former traders.",
+            "The judgement distinguishes more spaces from affordable opportunities and avoids claiming every trader benefited."
+          ],
+          "successCriteria": [
+            "Capacity benefit.",
+            "Affordability limit.",
+            "Qualified group-specific judgement."
+          ]
+        },
+        {
+          "id": "extension-myp5-integrated-humanities-extended-response-practice-2",
+          "difficulty": "Advanced",
+          "command": "Evaluate",
+          "marks": 3,
+          "prompt": "A fictional essay dismisses interview evidence of a closed footpath because a townwide average journey time improved. Explain a stronger use of both sources.",
+          "hints": [
+            "Averages and particular barriers address different scales.",
+            "Neither automatically invalidates the other."
+          ],
+          "solution": [
+            "The average supports an overall measured time improvement within its population.",
+            "The interview can reveal a local access cost hidden by that average; the conclusion should recognise both and examine the path’s affected users."
+          ],
+          "successCriteria": [
+            "Average’s valid role.",
+            "Local barrier’s valid role.",
+            "Integrated qualified conclusion."
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,1245 @@
+{
+  "subjectSlug": "geography",
+  "lessons": {
+    "myp5-geography-population": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Age groups form a dependency indicator",
+            "paragraphs": [
+              "Population structure describes the distribution of people across age groups rather than only the total population. A dependency ratio compares selected younger and older age groups with a defined working-age group, commonly expressing dependants per hundred working-age people. This is an age-based indicator, not a direct count of people who work or receive support: some older people work and some working-age people do not. A changing ratio can inform planning for schools, care and employment, but services also depend on health, participation and local resources. Always state the age boundaries used in the dataset."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-population-worked",
+            "prompt": "Hypothetical population: 3000 aged 0–14, 6000 aged 15–64 and 1000 aged 65+. Calculate the age dependency ratio using 15–64 as working age.",
+            "steps": [
+              "Selected dependent-age groups total 3000 + 1000 = 4000.",
+              "Ratio = 4000/6000 × 100 ≈ 66.7 per hundred working-age people."
+            ],
+            "conclusion": "The ratio describes age structure rather than actual employment or support relationships."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-population-card-1",
+            "front": "What does population structure describe?",
+            "back": "The distribution across groups such as ages."
+          },
+          {
+            "id": "extension-population-card-2",
+            "front": "What is the dependency-ratio denominator here?",
+            "back": "People aged 15–64."
+          },
+          {
+            "id": "extension-population-card-3",
+            "front": "Does working age mean employed?",
+            "back": "No; it is an age classification."
+          },
+          {
+            "id": "extension-population-card-4",
+            "front": "Why state age boundaries?",
+            "back": "Different definitions change the ratio."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-population-diagram",
+            "title": "Age groups form a dependency indicator",
+            "description": "The indicator compares age categories, not employment status.",
+            "nodes": [
+              {
+                "id": "extension-population-node-1",
+                "label": "Younger and older groups",
+                "detail": "3000 + 1000 = 4000"
+              },
+              {
+                "id": "extension-population-node-2",
+                "label": "Working-age group",
+                "detail": "6000 people aged 15–64"
+              },
+              {
+                "id": "extension-population-node-3",
+                "label": "Ratio",
+                "detail": "66.7 dependent-age people per 100 working-age people"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-population-node-1",
+                "to": "extension-population-node-2",
+                "label": "compare with the defined denominator"
+              },
+              {
+                "from": "extension-population-node-2",
+                "to": "extension-population-node-3",
+                "label": "express the ratio per hundred"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-geography-population-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "Hypothetical population has 2000 younger, 1000 older and 5000 working-age people under a stated definition. Find its age dependency ratio.",
+          "hints": [
+            "Add the two numerator groups.",
+            "Divide by working-age population."
+          ],
+          "solution": [
+            "Dependent-age total = 3000.",
+            "Ratio = 3000/5000 × 100 = 60 per hundred working-age people."
+          ],
+          "successCriteria": [
+            "3000 numerator.",
+            "Correct denominator 5000.",
+            "60 per hundred."
+          ]
+        },
+        {
+          "id": "extension-myp5-geography-population-practice-2",
+          "difficulty": "Advanced",
+          "command": "Evaluate",
+          "marks": 3,
+          "prompt": "A report calls every person aged 65+ economically dependent. Explain a limitation and a useful additional measure.",
+          "hints": [
+            "Age does not determine employment or resources.",
+            "Consider actual participation or support."
+          ],
+          "solution": [
+            "Some older people work or support themselves, so age alone does not establish economic dependence.",
+            "Employment, income and household-support data would provide a more direct assessment."
+          ],
+          "successCriteria": [
+            "Age-status distinction.",
+            "Recognises varied circumstances.",
+            "Relevant additional data."
+          ]
+        }
+      ]
+    },
+    "myp5-geography-climate": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Seasonality changes water availability",
+            "paragraphs": [
+              "Climate graphs combine monthly temperature and precipitation, but the two series use different units and often different vertical scales. Annual rainfall is the sum of monthly totals, whereas mean annual temperature is normally the mean of monthly temperature means for a simplified school exercise. Seasonality matters as much as annual totals: two places can receive equal yearly rainfall with very different wet and dry seasons. Water storage, crops and flood management respond to that timing. A graph describes the reference period and station represented; altitude, exposure and distance from the sea can limit its representativeness for a wider region."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-climate-worked",
+            "prompt": "Hypothetical station receives 20 mm each month for six months and 100 mm each month for the other six. Find annual rainfall and the wet-half share.",
+            "steps": [
+              "Annual rainfall = 6 × 20 + 6 × 100 = 720 mm.",
+              "Wet-half rainfall = 600 mm, so its share is 600/720 × 100 ≈ 83.3%."
+            ],
+            "conclusion": "The total hides strong seasonality relevant to storage and planting."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-climate-card-1",
+            "front": "How is annual rainfall calculated from monthly totals?",
+            "back": "Add the twelve totals."
+          },
+          {
+            "id": "extension-climate-card-2",
+            "front": "What does annual temperature range compare?",
+            "back": "The highest and lowest monthly mean temperatures."
+          },
+          {
+            "id": "extension-climate-card-3",
+            "front": "Can equal annual rainfall hide different climates?",
+            "back": "Yes; seasonal distribution can differ."
+          },
+          {
+            "id": "extension-climate-card-4",
+            "front": "Why inspect both vertical scales?",
+            "back": "Temperature and precipitation have different units and scales."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-climate-diagram",
+            "title": "Seasonality changes water availability",
+            "description": "Most rainfall can arrive during only part of the year.",
+            "nodes": [
+              {
+                "id": "extension-climate-node-1",
+                "label": "Drier half-year",
+                "detail": "6 × 20 = 120 mm"
+              },
+              {
+                "id": "extension-climate-node-2",
+                "label": "Wetter half-year",
+                "detail": "6 × 100 = 600 mm"
+              },
+              {
+                "id": "extension-climate-node-3",
+                "label": "Annual account",
+                "detail": "720 mm; 83.3% in wetter months"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-climate-node-1",
+                "to": "extension-climate-node-2",
+                "label": "combine contrasting seasonal totals"
+              },
+              {
+                "from": "extension-climate-node-2",
+                "to": "extension-climate-node-3",
+                "label": "calculate the seasonal share"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-geography-climate-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "A hypothetical station has highest monthly mean temperature 29°C and lowest 17°C. Calculate annual range and explain why it is not a daily range.",
+          "hints": [
+            "Subtract monthly means.",
+            "Identify the time scale of the supplied values."
+          ],
+          "solution": [
+            "Annual range = 29 − 17 = 12°C.",
+            "It compares months across the year, not maximum and minimum temperatures within one day."
+          ],
+          "successCriteria": [
+            "Correct subtraction.",
+            "12°C.",
+            "Time-scale distinction."
+          ]
+        },
+        {
+          "id": "extension-myp5-geography-climate-practice-2",
+          "difficulty": "Advanced",
+          "command": "Evaluate",
+          "marks": 3,
+          "prompt": "Two places both receive 900 mm rain annually. One receives it evenly, the other in three months. Would identical reservoir planning automatically be justified?",
+          "hints": [
+            "Timing affects storage and dry-season supply.",
+            "Other local conditions also matter."
+          ],
+          "solution": [
+            "Concentrated rain can require different storage and flood management despite equal totals.",
+            "Demand, losses, catchment conditions and rainfall variability must also be compared before copying a plan."
+          ],
+          "successCriteria": [
+            "Seasonality mechanism.",
+            "Planning consequence.",
+            "Additional local evidence."
+          ]
+        }
+      ]
+    },
+    "myp5-geography-migration": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Net change can hide high turnover",
+            "paragraphs": [
+              "Net migration subtracts departures from arrivals, while gross migration can describe the total number of moves in both directions. A small net value may therefore conceal substantial population turnover. Migration decisions can involve employment, family, education, safety and environmental conditions together, so push and pull categories are a starting framework rather than a complete personal explanation. Distinguish voluntary choices from movement under severe constraint. For local population accounts, use consistent boundaries and time periods, and avoid assuming that every change in population is caused by migration when births, deaths or boundary revisions may also contribute."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-migration-worked",
+            "prompt": "Hypothetical district records 2400 arrivals and 2300 departures in one year. Find net migration and total two-way moves.",
+            "steps": [
+              "Net migration = 2400 − 2300 = +100 people.",
+              "Total recorded moves = 2400 + 2300 = 4700."
+            ],
+            "conclusion": "The small net gain hides substantial movement in both directions."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-migration-card-1",
+            "front": "What is net migration?",
+            "back": "Arrivals minus departures over the stated interval."
+          },
+          {
+            "id": "extension-migration-card-2",
+            "front": "What can a small net figure conceal?",
+            "back": "Large offsetting arrival and departure flows."
+          },
+          {
+            "id": "extension-migration-card-3",
+            "front": "Can migration have several motives?",
+            "back": "Yes; family, work and other factors can interact."
+          },
+          {
+            "id": "extension-migration-card-4",
+            "front": "Why hold boundaries constant?",
+            "back": "Boundary changes can alter counts without people moving."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-migration-diagram",
+            "title": "Net change can hide high turnover",
+            "description": "Opposing flows nearly cancel in the population balance.",
+            "nodes": [
+              {
+                "id": "extension-migration-node-1",
+                "label": "Arrivals",
+                "detail": "2400 people"
+              },
+              {
+                "id": "extension-migration-node-2",
+                "label": "Departures",
+                "detail": "2300 people"
+              },
+              {
+                "id": "extension-migration-node-3",
+                "label": "Net and turnover",
+                "detail": "+100 net; 4700 recorded moves"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-migration-node-1",
+                "to": "extension-migration-node-2",
+                "label": "compare with the opposite flow"
+              },
+              {
+                "from": "extension-migration-node-2",
+                "to": "extension-migration-node-3",
+                "label": "subtract for net, add for total flows"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-geography-migration-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "A hypothetical area records 650 arrivals and 650 departures. Find net migration and total recorded moves.",
+          "hints": [
+            "Equal flows cancel in net change.",
+            "Add them for total moves."
+          ],
+          "solution": [
+            "Net migration is zero.",
+            "Total recorded moves = 1300, so zero net migration does not mean no movement."
+          ],
+          "successCriteria": [
+            "Zero net.",
+            "1300 total.",
+            "Correct no-movement distinction."
+          ]
+        },
+        {
+          "id": "extension-myp5-geography-migration-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A fictional student moves for a course near relatives and a part-time job. Why is “employment alone caused the move” too narrow?",
+          "hints": [
+            "Several supplied motives are relevant.",
+            "Avoid replacing a multi-factor account with one factor."
+          ],
+          "solution": [
+            "Education, family proximity and work all feature in the supplied account.",
+            "Their relative importance needs further evidence; the job alone does not capture the stated decision."
+          ],
+          "successCriteria": [
+            "Education factor.",
+            "Family and work factors.",
+            "Qualified causal weighting."
+          ]
+        }
+      ]
+    },
+    "myp5-geography-development": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Counts and rates guide different questions",
+            "paragraphs": [
+              "Access indicators need both a clear service standard and a defined population. Distance to a clinic, for example, does not measure affordability, opening hours or quality of care. A regional average can conceal large differences between neighbourhoods. Disaggregating data by location or other relevant groups helps identify uneven provision, while respecting the limits of sample size and definitions. Counts and proportions answer different planning questions: a small place may have a high deprivation rate but fewer affected households than a larger place with a lower rate. Compare both before deciding where and how to allocate resources."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-development-worked",
+            "prompt": "Hypothetical districts: A has 100 households, 40 without reliable water; B has 1000 households, 200 without it. Compare rates and counts.",
+            "steps": [
+              "A’s rate is 40/100 = 40%; B’s is 200/1000 = 20%.",
+              "A has the higher deprivation rate, but B has five times as many affected households."
+            ],
+            "conclusion": "Planning should consider both intensity and the number needing service."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-development-card-1",
+            "front": "Why define reliable water explicitly?",
+            "back": "A connection alone may not ensure regular usable supply."
+          },
+          {
+            "id": "extension-development-card-2",
+            "front": "What can a regional average hide?",
+            "back": "Differences among places or population groups."
+          },
+          {
+            "id": "extension-development-card-3",
+            "front": "What does a count support?",
+            "back": "Estimating the number of people or households affected."
+          },
+          {
+            "id": "extension-development-card-4",
+            "front": "What does a proportion support?",
+            "back": "Comparing prevalence across differently sized populations."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-development-diagram",
+            "title": "Counts and rates guide different questions",
+            "description": "A larger population can contain more need despite a lower rate.",
+            "nodes": [
+              {
+                "id": "extension-development-node-1",
+                "label": "District A",
+                "detail": "40 of 100 households: 40%"
+              },
+              {
+                "id": "extension-development-node-2",
+                "label": "District B",
+                "detail": "200 of 1000 households: 20%"
+              },
+              {
+                "id": "extension-development-node-3",
+                "label": "Planning comparison",
+                "detail": "A has higher prevalence; B has more affected households"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-development-node-1",
+                "to": "extension-development-node-2",
+                "label": "compare with a larger district"
+              },
+              {
+                "from": "extension-development-node-2",
+                "to": "extension-development-node-3",
+                "label": "retain both rate and count"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-geography-development-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "Hypothetical villages have 30 of 150 and 80 of 200 households without electricity. Find each rate and identify the larger affected count.",
+          "hints": [
+            "Divide each count by its own total.",
+            "Compare the raw counts separately."
+          ],
+          "solution": [
+            "Rates are 20% and 40%, respectively.",
+            "The second village has both the higher rate and the larger affected count, 80."
+          ],
+          "successCriteria": [
+            "20%.",
+            "40%.",
+            "Second count 80 correctly compared."
+          ]
+        },
+        {
+          "id": "extension-myp5-geography-development-practice-2",
+          "difficulty": "Advanced",
+          "command": "Evaluate",
+          "marks": 3,
+          "prompt": "Every household is within 2 km of a clinic, so a report claims healthcare is fully accessible. Identify two missing dimensions and qualify the claim.",
+          "hints": [
+            "Distance is one access dimension.",
+            "Consider costs and service availability."
+          ],
+          "solution": [
+            "The data support geographical proximity, but not affordability or suitable opening hours.",
+            "Staffing and service quality may also matter, so full access is not established by distance alone."
+          ],
+          "successCriteria": [
+            "Proximity recognised.",
+            "Two relevant missing dimensions.",
+            "Qualified conclusion."
+          ]
+        }
+      ]
+    },
+    "myp5-geography-urbanisation": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Area growth can offset population growth",
+            "paragraphs": [
+              "Urban density measures population relative to a specified land area, while urbanisation measures the urban share of a wider population. Neither automatically describes building height, crowding inside homes or quality of life. Compact development can reduce travel distances and infrastructure costs, but it also requires adequate services and public space. Administrative boundaries affect density calculations, so comparisons should use equivalent definitions. A city can grow outward, become denser within existing boundaries, or experience both changes. Mapping where growth occurs helps distinguish these processes rather than treating every increase in population as identical urban expansion."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-urbanisation-worked",
+            "prompt": "Hypothetical city grows from 80,000 people over 40 km² to 100,000 over 50 km². Compare average density.",
+            "steps": [
+              "Initial density = 80,000/40 = 2000 people/km².",
+              "Later density = 100,000/50 = 2000 people/km²."
+            ],
+            "conclusion": "Population and area both grow 25%, so average density remains unchanged."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-urbanisation-card-1",
+            "front": "What is urban density?",
+            "back": "Population divided by the specified urban land area."
+          },
+          {
+            "id": "extension-urbanisation-card-2",
+            "front": "What is urbanisation?",
+            "back": "An increasing share of a wider population living in urban areas."
+          },
+          {
+            "id": "extension-urbanisation-card-3",
+            "front": "Does density measure household crowding directly?",
+            "back": "No; dwelling occupancy and space need separate data."
+          },
+          {
+            "id": "extension-urbanisation-card-4",
+            "front": "Why compare equivalent boundaries?",
+            "back": "Boundary choices can change measured density."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-urbanisation-diagram",
+            "title": "Area growth can offset population growth",
+            "description": "The ratio depends on both numerator and denominator.",
+            "nodes": [
+              {
+                "id": "extension-urbanisation-node-1",
+                "label": "Earlier city",
+                "detail": "80,000 people / 40 km²"
+              },
+              {
+                "id": "extension-urbanisation-node-2",
+                "label": "Later city",
+                "detail": "100,000 people / 50 km²"
+              },
+              {
+                "id": "extension-urbanisation-node-3",
+                "label": "Density comparison",
+                "detail": "Both equal 2000 people/km²"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-urbanisation-node-1",
+                "to": "extension-urbanisation-node-2",
+                "label": "population and area grow together"
+              },
+              {
+                "from": "extension-urbanisation-node-2",
+                "to": "extension-urbanisation-node-3",
+                "label": "compare both ratios"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-geography-urbanisation-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "A hypothetical town has 54,000 people within 18 km². Find density. If population rises to 60,000 with area unchanged, find the new density to the nearest whole number.",
+          "hints": [
+            "Divide by eighteen each time.",
+            "Only the numerator changes."
+          ],
+          "solution": [
+            "Initial density = 3000 people/km².",
+            "New density = 60,000/18 ≈ 3333 people/km²."
+          ],
+          "successCriteria": [
+            "3000 initially.",
+            "3333 later.",
+            "Correct units and fixed-area interpretation."
+          ]
+        },
+        {
+          "id": "extension-myp5-geography-urbanisation-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A city’s average density rises, but the report gives no dwelling data. Why can it not conclude every household is more crowded?",
+          "hints": [
+            "A city average differs from conditions inside homes.",
+            "People and housing can be distributed unevenly."
+          ],
+          "solution": [
+            "Higher average density indicates more people per land area, not necessarily more occupants per room.",
+            "Housing supply, household size and neighbourhood distribution are needed to assess crowding."
+          ],
+          "successCriteria": [
+            "Land-area versus dwelling distinction.",
+            "Uneven distribution acknowledged.",
+            "Relevant housing evidence."
+          ]
+        }
+      ]
+    },
+    "myp5-geography-resources": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Equal service can reveal efficiency gains",
+            "paragraphs": [
+              "Resource management distinguishes a stock from the flows that replenish and deplete it. Efficiency concerns the useful service obtained per unit of resource, while conservation may refer to reducing total use. An efficiency improvement does not guarantee lower withdrawals if demand grows. Renewable resources can be depleted when extraction persistently exceeds regeneration, and local timing matters even when annual totals balance. A resource account should include losses, storage changes and return flows where relevant. State which flows are measured and avoid assuming that water returned to a system is immediately available at the same quality or location."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-resources-worked",
+            "prompt": "Hypothetical irrigation withdraws 100 m³ and delivers 60 m³ to the intended root zone. A revised system delivers the same 60 m³ from 75 m³. Compare delivery efficiency.",
+            "steps": [
+              "Initial efficiency = 60/100 = 60%.",
+              "Revised efficiency = 60/75 = 80%; withdrawal falls by 25 m³ for the same stated service."
+            ],
+            "conclusion": "This delivery metric does not alone describe all catchment effects or return flows."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-resources-card-1",
+            "front": "What is a stock?",
+            "back": "A stored quantity at a point in time."
+          },
+          {
+            "id": "extension-resources-card-2",
+            "front": "What is a flow?",
+            "back": "A transfer per interval or per unit time."
+          },
+          {
+            "id": "extension-resources-card-3",
+            "front": "Can a renewable resource be depleted?",
+            "back": "Yes, if extraction exceeds regeneration persistently."
+          },
+          {
+            "id": "extension-resources-card-4",
+            "front": "Why examine return flows?",
+            "back": "Unused withdrawals may re-enter the system with different timing or quality."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-resources-diagram",
+            "title": "Equal service can reveal efficiency gains",
+            "description": "Useful delivery is held constant while withdrawal changes.",
+            "nodes": [
+              {
+                "id": "extension-resources-node-1",
+                "label": "Original withdrawal",
+                "detail": "100 m³ for 60 m³ useful delivery"
+              },
+              {
+                "id": "extension-resources-node-2",
+                "label": "Improved delivery system",
+                "detail": "Same 60 m³ useful service"
+              },
+              {
+                "id": "extension-resources-node-3",
+                "label": "Revised withdrawal",
+                "detail": "75 m³; efficiency 80%"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-resources-node-1",
+                "to": "extension-resources-node-2",
+                "label": "hold useful service constant"
+              },
+              {
+                "from": "extension-resources-node-2",
+                "to": "extension-resources-node-3",
+                "label": "reduce required resource input"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-geography-resources-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "A hypothetical system withdraws 200 L and delivers 150 L for its defined useful purpose. Find efficiency and the non-useful difference.",
+          "hints": [
+            "Divide useful delivery by input.",
+            "Subtract useful delivery from withdrawal."
+          ],
+          "solution": [
+            "Efficiency = 150/200 × 100% = 75%.",
+            "The difference is 50 L; its destination must be measured rather than assumed destroyed."
+          ],
+          "successCriteria": [
+            "75%.",
+            "50 L difference.",
+            "Matter-account qualification."
+          ]
+        },
+        {
+          "id": "extension-myp5-geography-resources-practice-2",
+          "difficulty": "Advanced",
+          "command": "Evaluate",
+          "marks": 3,
+          "prompt": "A renewable forest grows 20 tonnes of timber annually while harvesting removes 30 tonnes, with no other changes. Can “renewable” guarantee a stable stock?",
+          "hints": [
+            "Compare regeneration with extraction.",
+            "Renewability is not unlimited replacement."
+          ],
+          "solution": [
+            "Net stock change = 20 − 30 = −10 tonnes per year.",
+            "The stock declines under these flows, despite the capacity for regrowth."
+          ],
+          "successCriteria": [
+            "Correct net balance.",
+            "10-tonne annual decline.",
+            "Renewable distinction."
+          ]
+        }
+      ]
+    },
+    "myp5-geography-sustainability": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Repeated use spreads a production cost",
+            "paragraphs": [
+              "Sustainability comparisons need a defined service, timescale and set of impacts. A life-cycle account includes relevant production, use, maintenance and disposal stages rather than focusing on a single stage. Per-use impacts can decline as a durable product is used more times, but replacement, repair and cleaning may change the calculation. Environmental improvements should also be considered alongside access and distribution of costs. A numerical threshold from a simplified model is conditional on its inputs. Report the threshold accurately, including the difference between equality and a strict improvement, and avoid turning one favourable metric into an overall sustainability claim."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-sustainability-worked",
+            "prompt": "Hypothetical reusable item emits 30 carbon units in manufacture and 1 per use. A disposable item emits 4 per equivalent use. Find equality and the first whole use with a lower reusable total.",
+            "steps": [
+              "Set 30 + n = 4n, giving n = 10 uses.",
+              "Reusable is lower when n > 10, so the first whole use is 11."
+            ],
+            "conclusion": "This carbon-only model omits other impacts and assumes equivalent service."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-sustainability-card-1",
+            "front": "What is a life-cycle boundary?",
+            "back": "The stages included in an impact account."
+          },
+          {
+            "id": "extension-sustainability-card-2",
+            "front": "Why compare equivalent service?",
+            "back": "Different performance can make raw totals misleading."
+          },
+          {
+            "id": "extension-sustainability-card-3",
+            "front": "Is break-even itself a strict improvement?",
+            "back": "No; totals are equal at break-even."
+          },
+          {
+            "id": "extension-sustainability-card-4",
+            "front": "Does one lower impact prove overall sustainability?",
+            "back": "No; other impacts and social outcomes remain relevant."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-sustainability-diagram",
+            "title": "Repeated use spreads a production cost",
+            "description": "The reusable option has an initial cost but lower added cost per use.",
+            "nodes": [
+              {
+                "id": "extension-sustainability-node-1",
+                "label": "Production",
+                "detail": "30 carbon units upfront"
+              },
+              {
+                "id": "extension-sustainability-node-2",
+                "label": "Each use",
+                "detail": "Reusable adds 1; disposable adds 4"
+              },
+              {
+                "id": "extension-sustainability-node-3",
+                "label": "Threshold",
+                "detail": "Equal at 10; reusable lower from 11 uses"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-sustainability-node-1",
+                "to": "extension-sustainability-node-2",
+                "label": "accumulate use-stage impacts"
+              },
+              {
+                "from": "extension-sustainability-node-2",
+                "to": "extension-sustainability-node-3",
+                "label": "compare totals after repeated service"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-geography-sustainability-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "Hypothetical options have totals A = 24 + 2n and B = 5n for n equivalent uses. Find the equal-impact count and first whole use where A is lower.",
+          "hints": [
+            "Set the expressions equal.",
+            "Then solve the strict inequality."
+          ],
+          "solution": [
+            "24 + 2n = 5n gives n = 8.",
+            "A is lower for n > 8, beginning at 9 whole uses."
+          ],
+          "successCriteria": [
+            "Equality at 8.",
+            "Strict inequality distinguished.",
+            "First lower use 9."
+          ]
+        },
+        {
+          "id": "extension-myp5-geography-sustainability-practice-2",
+          "difficulty": "Advanced",
+          "command": "Evaluate",
+          "marks": 3,
+          "prompt": "A replacement product has lower operating emissions but a short service life. Why is operating performance insufficient for a lifetime comparison?",
+          "hints": [
+            "Frequent replacements repeat manufacturing impacts.",
+            "Use a common service period."
+          ],
+          "solution": [
+            "Repeated production and disposal may offset operating savings.",
+            "Compare all relevant stages over the same delivered service and realistic lifetimes before judging the total."
+          ],
+          "successCriteria": [
+            "Replacement mechanism.",
+            "Production/disposal included.",
+            "Equal-service lifetime comparison."
+          ]
+        }
+      ]
+    },
+    "myp5-geography-natural-hazards": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Multi-year probability uses the complementary event",
+            "paragraphs": [
+              "Hazard probability, exposure and vulnerability describe different parts of disaster risk. A damaging event may occur more than once within a short period even when its stated annual probability is low. For independent years with constant annual probability p, the chance of no exceedance in n years is (1 − p)ⁿ, so at least one exceedance has probability 1 − (1 − p)ⁿ. Independence and constant probability are model assumptions, not guarantees about actual hazards. Planning also needs the people and assets exposed, their vulnerability and the effectiveness of preparedness and response."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-natural-hazards-worked",
+            "prompt": "Hypothetical model: annual exceedance probability is 10%, independent and unchanged across two years. Find the chance of at least one exceedance.",
+            "steps": [
+              "No exceedance in one year has probability 0.90; in both years it is 0.90² = 0.81.",
+              "At least one exceedance has probability 1 − 0.81 = 0.19, or 19%."
+            ],
+            "conclusion": "The result depends on independence and constant annual probability."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-natural-hazards-card-1",
+            "front": "What is exposure?",
+            "back": "People or assets located where the hazard may affect them."
+          },
+          {
+            "id": "extension-natural-hazards-card-2",
+            "front": "What is vulnerability?",
+            "back": "Susceptibility to harm under the hazard conditions."
+          },
+          {
+            "id": "extension-natural-hazards-card-3",
+            "front": "Does a recent flood guarantee a safe following year?",
+            "back": "No."
+          },
+          {
+            "id": "extension-natural-hazards-card-4",
+            "front": "Why state independence in a multi-year probability?",
+            "back": "Dependence between years changes the multiplication rule."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-natural-hazards-diagram",
+            "title": "Multi-year probability uses the complementary event",
+            "description": "The chance of no event is easier to multiply in this model.",
+            "nodes": [
+              {
+                "id": "extension-natural-hazards-node-1",
+                "label": "One year without exceedance",
+                "detail": "Probability 0.90"
+              },
+              {
+                "id": "extension-natural-hazards-node-2",
+                "label": "Two years without exceedance",
+                "detail": "0.90 × 0.90 = 0.81"
+              },
+              {
+                "id": "extension-natural-hazards-node-3",
+                "label": "At least one exceedance",
+                "detail": "1 − 0.81 = 0.19"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-natural-hazards-node-1",
+                "to": "extension-natural-hazards-node-2",
+                "label": "multiply independent no-event probabilities"
+              },
+              {
+                "from": "extension-natural-hazards-node-2",
+                "to": "extension-natural-hazards-node-3",
+                "label": "take the complement"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-geography-natural-hazards-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "Under an independent constant-risk model, annual exceedance probability is 20%. Find the chance of at least one exceedance in two years.",
+          "hints": [
+            "No exceedance has probability 0.80.",
+            "Subtract the two-year no-event probability from one."
+          ],
+          "solution": [
+            "No exceedance in both years = 0.80² = 0.64.",
+            "At least one = 1 − 0.64 = 0.36, or 36%."
+          ],
+          "successCriteria": [
+            "0.80 complement.",
+            "0.64 two-year no-event probability.",
+            "36%."
+          ]
+        },
+        {
+          "id": "extension-myp5-geography-natural-hazards-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Two settlements have equal exposure to a storm, but one has stronger roofs and accessible shelters. Why need their expected harm not be equal?",
+          "hints": [
+            "Exposure is only one risk component.",
+            "Protection changes vulnerability."
+          ],
+          "solution": [
+            "Stronger roofs and shelters can reduce susceptibility to injury and damage.",
+            "Equal exposure therefore does not imply equal vulnerability or harm under the same hazard."
+          ],
+          "successCriteria": [
+            "Protection mechanism.",
+            "Vulnerability distinction.",
+            "Rejects equal-harm inference."
+          ]
+        }
+      ]
+    },
+    "myp5-geography-globalisation": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Two suppliers can share one point of failure",
+            "paragraphs": [
+              "Global networks connect production, finance, information and consumption across places. A long supply chain can provide specialised inputs but also transmit disruptions. Supplier diversity may improve resilience when alternatives are genuinely usable and not exposed to the same failure. Counting suppliers alone is insufficient if they depend on one port, electricity source or sub-supplier. The benefits and costs of global connections are distributed unevenly among workers, firms and communities. Evaluate a network using its dependencies, bargaining relationships and environmental effects rather than assuming that either greater connection or complete local production is always preferable."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-globalisation-worked",
+            "prompt": "Hypothetical firm buys 60% of parts from supplier A and 40% from B, but both use the same port. Evaluate the claim that two suppliers eliminate disruption risk.",
+            "steps": [
+              "Two suppliers reduce dependence on a single firm only if they can substitute for one another.",
+              "A port closure can affect both simultaneously, leaving a shared vulnerability."
+            ],
+            "conclusion": "Supplier count alone does not establish independent resilience."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-globalisation-card-1",
+            "front": "What is a shared dependency?",
+            "back": "A resource or route on which several apparent alternatives all rely."
+          },
+          {
+            "id": "extension-globalisation-card-2",
+            "front": "Does supplier diversity always remove risk?",
+            "back": "No; common failures may affect all suppliers."
+          },
+          {
+            "id": "extension-globalisation-card-3",
+            "front": "What is a supply-chain link?",
+            "back": "A relationship transferring inputs, goods or services between stages."
+          },
+          {
+            "id": "extension-globalisation-card-4",
+            "front": "Why examine distribution of benefits?",
+            "back": "Different places and groups may gain or lose differently."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-globalisation-diagram",
+            "title": "Two suppliers can share one point of failure",
+            "description": "Apparent diversity does not ensure independent routes.",
+            "nodes": [
+              {
+                "id": "extension-globalisation-node-1",
+                "label": "Supplier A",
+                "detail": "Provides 60% of parts"
+              },
+              {
+                "id": "extension-globalisation-node-2",
+                "label": "Shared port",
+                "detail": "Both suppliers depend on its operation"
+              },
+              {
+                "id": "extension-globalisation-node-3",
+                "label": "Supplier B",
+                "detail": "Provides 40% through the same port"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-globalisation-node-1",
+                "to": "extension-globalisation-node-2",
+                "label": "ships through the common route"
+              },
+              {
+                "from": "extension-globalisation-node-2",
+                "to": "extension-globalisation-node-3",
+                "label": "also depends on the same route"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-geography-globalisation-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "A hypothetical firm obtains 70 units from one country and 30 from another. If the first source stops and no substitution occurs, what share remains?",
+          "hints": [
+            "Use the original total of one hundred.",
+            "Only the second source continues."
+          ],
+          "solution": [
+            "Thirty units remain from an original total of 100.",
+            "Remaining supply is 30%; the lost share is 70% under the no-substitution assumption."
+          ],
+          "successCriteria": [
+            "30 remaining units.",
+            "30% share.",
+            "No-substitution condition."
+          ]
+        },
+        {
+          "id": "extension-myp5-geography-globalisation-practice-2",
+          "difficulty": "Advanced",
+          "command": "Evaluate",
+          "marks": 3,
+          "prompt": "A second supplier costs more but uses a different route. What evidence is needed to judge whether it improves resilience?",
+          "hints": [
+            "Distinct routes help only if capacity is usable.",
+            "Compare reliability, substitution speed and cost."
+          ],
+          "solution": [
+            "Check whether the supplier can deliver the required quality and quantity when the first route fails.",
+            "Assess correlated risks, switching time and additional cost before concluding the alternative provides worthwhile resilience."
+          ],
+          "successCriteria": [
+            "Usable capacity/quality.",
+            "Independence or switching evidence.",
+            "Cost trade-off."
+          ]
+        }
+      ]
+    },
+    "myp5-geography-data-response": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Scale both rectangle dimensions",
+            "paragraphs": [
+              "Map scale applies to lengths, while area changes with the square of the length factor. A square representing one centimetre by one centimetre covers the ground length corresponding to one centimetre in each direction. Convert units before multiplying, and distinguish straight-line map distance from a route distance. Choropleth maps usually compare rates or densities because raw counts can mainly reflect population size. Class boundaries and spatial aggregation influence the visual pattern. A sound map interpretation reports the measured scale and variable, then limits its claims to what those data actually represent."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-data-response-worked",
+            "prompt": "A hypothetical map scale is 1:10,000. Find the ground area represented by a 2 cm by 3 cm rectangle.",
+            "steps": [
+              "One map centimetre represents 100 m, so the sides represent 200 m and 300 m.",
+              "Ground area = 200 × 300 = 60,000 m² = 0.06 km²."
+            ],
+            "conclusion": "Area uses both scaled dimensions, not one application of the scale factor to square centimetres."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-data-response-card-1",
+            "front": "How does area scale relative to length?",
+            "back": "By the square of the length factor."
+          },
+          {
+            "id": "extension-data-response-card-2",
+            "front": "What does 1:10,000 mean for 1 cm?",
+            "back": "100 m on the ground."
+          },
+          {
+            "id": "extension-data-response-card-3",
+            "front": "Why use rates in many choropleth maps?",
+            "back": "To compare differently sized populations fairly."
+          },
+          {
+            "id": "extension-data-response-card-4",
+            "front": "Does straight-line distance equal route distance?",
+            "back": "Not generally; routes follow available paths."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-data-response-diagram",
+            "title": "Scale both rectangle dimensions",
+            "description": "Ground area follows from two converted ground lengths.",
+            "nodes": [
+              {
+                "id": "extension-data-response-node-1",
+                "label": "Map rectangle",
+                "detail": "2 cm × 3 cm at 1:10,000"
+              },
+              {
+                "id": "extension-data-response-node-2",
+                "label": "Ground sides",
+                "detail": "200 m × 300 m"
+              },
+              {
+                "id": "extension-data-response-node-3",
+                "label": "Ground area",
+                "detail": "60,000 m² = 0.06 km²"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-data-response-node-1",
+                "to": "extension-data-response-node-2",
+                "label": "convert each length"
+              },
+              {
+                "from": "extension-data-response-node-2",
+                "to": "extension-data-response-node-3",
+                "label": "multiply the ground dimensions"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-geography-data-response-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "At scale 1:20,000, a square is 1 cm by 1 cm on the map. Find its ground side and area.",
+          "hints": [
+            "One centimetre represents 200 m.",
+            "Square the ground length."
+          ],
+          "solution": [
+            "Each ground side is 200 m.",
+            "Area = 200 × 200 = 40,000 m², or 0.04 km²."
+          ],
+          "successCriteria": [
+            "200 m side.",
+            "40,000 m².",
+            "0.04 km² conversion."
+          ]
+        },
+        {
+          "id": "extension-myp5-geography-data-response-practice-2",
+          "difficulty": "Advanced",
+          "command": "Evaluate",
+          "marks": 3,
+          "prompt": "A map colours districts by raw number of school absences. Why may it mainly highlight large districts, and what additional measure helps?",
+          "hints": [
+            "Larger pupil populations can produce more absences.",
+            "Use a denominator with a consistent definition."
+          ],
+          "solution": [
+            "Large districts may have more absences simply because they contain more pupils or pupil-days.",
+            "A comparable absence rate per pupil-day, alongside counts, helps distinguish prevalence from size."
+          ],
+          "successCriteria": [
+            "Population-size effect.",
+            "Appropriate denominator.",
+            "Counts and rate distinction."
+          ]
+        }
+      ]
+    }
+  }
+}

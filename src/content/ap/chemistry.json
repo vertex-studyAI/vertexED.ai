@@ -47,8 +47,124 @@
             "Do not describe a change in proton count."
           ],
           "id": "unit-1-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Turn the ratio into fractions of the total.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "Isotopes of masses 20 u and 22 u occur in a 3:1 ratio. Find the average mass.",
+          "answer": "20.5 u: (3/4)(20)+(1/4)(22).",
+          "checkpoints": [
+            "Convert the ratio to 0.75 and 0.25.",
+            "Calculate the two weighted contributions.",
+            "Add to obtain 20.5 u."
+          ],
+          "hints": [
+            "Turn the ratio into fractions of the total.",
+            "Multiply each mass by its fraction."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Count electrons after each charge change.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "Rank the radii of O²⁻, F⁻ and Na⁺ from largest to smallest, explaining your control variable.",
+          "answer": "O²⁻ > F⁻ > Na⁺. Each has ten electrons; increasing proton number pulls that same electron configuration inward.",
+          "checkpoints": [
+            "Identify all three as ten-electron ions.",
+            "Compare nuclear charges 8, 9 and 11.",
+            "Use stronger attraction to justify the radius order."
+          ],
+          "hints": [
+            "Count electrons after each charge change.",
+            "Hold the electron arrangement fixed while comparing proton number."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through atomic masses and electron attraction",
+            "paragraphs": [
+              "Isotopic abundance describes a population, so the mass on a periodic table is a weighted mean rather than the mass of one atom. Convert percentages to fractions before multiplying and check that their sum is one. Electron attraction depends on nuclear charge, shielding and distance; a simple claim that more protons always means a smaller atom ignores electron shells. Across one period, increasing effective nuclear charge generally pulls the same outer shell inward. When comparing isoelectronic ions, their electron arrangements match, so the ion with more protons generally has the smaller radius."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "An element has isotopes of masses 62 u and 64 u. Its average mass is 62.6 u. Find each abundance.",
+            "steps": [
+              "Let x be the fraction of mass-64: 62(1−x)+64x=62.6.",
+              "Then 2x=0.6, so x=0.30; the mass-62 fraction is 0.70."
+            ],
+            "conclusion": "The sample is 70% mass-62 and 30% mass-64."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What does a weighted atomic mass represent?",
+            "back": "The mean mass across the sample isotope population."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What must isotope fractions sum to?",
+            "back": "One."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What is shielding?",
+            "back": "Inner electrons reduce the attraction an outer electron experiences from the nucleus."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Among isoelectronic Na⁺ and Mg²⁺, which is smaller?",
+            "back": "Mg²⁺, because its larger nuclear charge attracts the same electron count more strongly."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Atomic masses and electron attraction: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Isotope masses",
+                "detail": "Different neutron numbers produce different masses."
+              },
+              {
+                "id": "n2",
+                "label": "Abundance weights",
+                "detail": "Fractions specify how much each isotope contributes."
+              },
+              {
+                "id": "n3",
+                "label": "Population mean",
+                "detail": "Sum mass × fraction; the result lies between the extreme masses."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "combine with"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "produce"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-2",
@@ -90,8 +206,124 @@
             "Keep bond order separate from domain count."
           ],
           "id": "unit-2-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Count bonding regions around B.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "For BF₃ with no lone pairs on B, identify domain count, shape and polarity.",
+          "answer": "Three domains, trigonal planar geometry, and a nonpolar molecule because the three identical B−F bond dipoles cancel.",
+          "checkpoints": [
+            "Count three domains.",
+            "Name trigonal planar geometry.",
+            "Explain the symmetry-based cancellation."
+          ],
+          "hints": [
+            "Count bonding regions around B.",
+            "Add the three equal bond dipoles as vectors."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Compare the four substituents.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "CH₃Cl has a tetrahedral central carbon. Does tetrahedral geometry guarantee a nonpolar molecule? Explain.",
+          "answer": "No. The substituents are unequal, so the C−Cl and C−H bond dipoles do not cancel; CH₃Cl is polar.",
+          "checkpoints": [
+            "Recognise the tetrahedral geometry.",
+            "Identify the unequal surrounding atoms.",
+            "Connect incomplete dipole cancellation to polarity."
+          ],
+          "hints": [
+            "Compare the four substituents.",
+            "A geometric shape must be combined with bond identities."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through molecular geometry and polarity",
+            "paragraphs": [
+              "A Lewis structure counts valence electrons, while a VSEPR model organises regions of electron density around a central atom. Multiple bonds form one region each. First identify the electron-domain geometry, then describe the positions of atoms to name the molecular geometry; lone pairs occupy domains even though they are not atoms in the shape name. Molecular polarity is a vector result. Polar bonds can cancel in a symmetric arrangement, but unequal surrounding atoms or lone-pair-driven asymmetry can prevent cancellation. A flat drawing alone does not establish the three-dimensional bond-dipole sum."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Predict the molecular shape and polarity of NH₃, using its central nitrogen.",
+            "steps": [
+              "N contributes five valence electrons and forms three N−H bonds, leaving one lone pair: four electron domains.",
+              "The domains are approximately tetrahedral, but the atoms form a trigonal pyramid; the bond dipoles do not cancel."
+            ],
+            "conclusion": "NH₃ is trigonal pyramidal and polar."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What does a lone pair contribute to VSEPR?",
+            "back": "One electron domain."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "How many domains does a triple bond occupy?",
+            "back": "One."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What distinguishes molecular and electron geometry?",
+            "back": "Molecular geometry names atom positions; electron geometry includes lone-pair domains."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why is BF₃ nonpolar in its ideal geometry?",
+            "back": "Its three identical bond dipoles cancel in a trigonal plane."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Molecular geometry and polarity: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Lewis structure",
+                "detail": "Locate bonds and lone pairs around the central atom."
+              },
+              {
+                "id": "n2",
+                "label": "Domain geometry",
+                "detail": "Arrange electron regions in three dimensions."
+              },
+              {
+                "id": "n3",
+                "label": "Dipole sum",
+                "detail": "Combine bond directions and magnitudes to assess polarity."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "determines"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "supports"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-3",
@@ -133,8 +365,124 @@
             "Do not invent hydrogen bonding in a nonpolar hydrocarbon."
           ],
           "id": "unit-3-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Find moles using cV.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "How many grams of NaCl, molar mass 58.5 g/mol, are needed for 0.200 L of 0.50 M solution?",
+          "answer": "5.85 g: n=0.50×0.200=0.100 mol; mass=0.100×58.5.",
+          "checkpoints": [
+            "Use final solution volume in litres.",
+            "Calculate 0.100 mol.",
+            "Convert to 5.85 g."
+          ],
+          "hints": [
+            "Find moles using cV.",
+            "Convert moles to mass with the molar mass."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Look for an O−H bond.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "Methane and methanol are both molecular substances. Explain why methanol has much stronger attractions between its molecules.",
+          "answer": "Both have dispersion forces. Methanol is polar and its O−H groups enable hydrogen bonding, while methane has no comparable permanent dipole or hydrogen-bond network.",
+          "checkpoints": [
+            "State that both have dispersion.",
+            "Identify methanol hydrogen bonding and polarity.",
+            "Contrast methane without claiming that its attractions are absent."
+          ],
+          "hints": [
+            "Look for an O−H bond.",
+            "Distinguish stronger attractions from no attractions."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through intermolecular forces and solution concentration",
+            "paragraphs": [
+              "Intermolecular attractions affect physical properties without changing the covalent identity of individual molecules. London dispersion occurs in all atoms and molecules; polar molecules can also have permanent dipole interactions, and suitable N−H, O−H or F−H donors can hydrogen-bond with appropriate acceptors. Stronger attractions generally raise boiling temperature when other structural features are comparable. Concentration questions require a different distinction: molarity uses total solution volume, not solvent volume. Dilution conserves the amount of solute if none reacts or is lost, so the new volume includes both stock solution and added solvent."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Combine 100 mL of 0.20 M NaCl with 200 mL of 0.10 M NaCl. Assume additive volumes. Find the final concentration.",
+            "steps": [
+              "The amounts are (0.100 L)(0.20 mol/L)=0.020 mol and (0.200 L)(0.10 mol/L)=0.020 mol.",
+              "Total amount is 0.040 mol in 0.300 L, giving 0.133 mol/L."
+            ],
+            "conclusion": "The mixed solution is approximately 0.13 M NaCl."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "Which attraction occurs in every molecular substance?",
+            "back": "London dispersion."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why does dilution reduce molarity?",
+            "back": "The same solute amount occupies a larger solution volume."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What volume belongs in n/V?",
+            "back": "Total solution volume in litres."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Can ethanol molecules hydrogen-bond to one another?",
+            "back": "Yes; their O−H groups can donate and oxygen lone pairs can accept."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Intermolecular forces and solution concentration: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Solute amount",
+                "detail": "Find moles in each portion."
+              },
+              {
+                "id": "n2",
+                "label": "Total solution volume",
+                "detail": "Convert and combine volumes when additivity is assumed."
+              },
+              {
+                "id": "n3",
+                "label": "Molarity",
+                "detail": "Divide total moles by final litres."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "combine with"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "sets the denominator for"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-4",
@@ -176,8 +524,124 @@
             "Multiply by 100."
           ],
           "id": "unit-4-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Compare each amount divided by its coefficient.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "For 2CO+O₂→2CO₂, mix 3.0 mol CO with 2.0 mol O₂. Find CO₂ yield and remaining oxygen.",
+          "answer": "3.0 mol CO₂ forms; 1.5 mol O₂ is consumed and 0.5 mol O₂ remains.",
+          "checkpoints": [
+            "Identify CO as limiting.",
+            "Apply the 2:2 CO:CO₂ ratio.",
+            "Calculate 0.5 mol O₂ remaining."
+          ],
+          "hints": [
+            "Compare each amount divided by its coefficient.",
+            "Use the limiting amount to find oxygen consumption."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Compare actual with theoretical mass.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "A synthesis has theoretical yield 12.0 g but gives 9.0 g dry product. Calculate yield and explain why this alone does not identify the loss mechanism.",
+          "answer": "Yield is 75%. Several causes, including incomplete reaction, side reactions or transfer losses, could give the same recovered mass; further evidence is needed.",
+          "checkpoints": [
+            "Calculate 9.0/12.0×100=75%.",
+            "Name a plausible specific loss mechanism.",
+            "Explain why yield alone cannot distinguish mechanisms."
+          ],
+          "hints": [
+            "Compare actual with theoretical mass.",
+            "Consider both chemical conversion and physical recovery."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through stoichiometry and limiting reactants",
+            "paragraphs": [
+              "A balanced equation gives ratios between amounts in moles. It does not compare masses directly, so convert each reactant mass before deciding what limits the reaction. Dividing each available amount by its coefficient gives the number of reaction units it can support; the smallest value identifies the limiting reactant. Theoretical yield assumes that reactant follows the stated equation completely. Actual isolated yield can be lower because of incomplete conversion, competing reactions or material lost during separation. Excess reactant remains after the limiting reactant is consumed and must be calculated from the amount that actually reacts."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "For 2Al+3Cl₂→2AlCl₃, mix 0.60 mol Al and 0.60 mol Cl₂. Find product and excess reactant.",
+            "steps": [
+              "Compare 0.60/2=0.30 reaction units for Al with 0.60/3=0.20 for Cl₂; chlorine limits.",
+              "Product is 2(0.20)=0.40 mol AlCl₃; Al consumed is 0.40 mol, leaving 0.20 mol."
+            ],
+            "conclusion": "Theoretical yield is 0.40 mol AlCl₃ and 0.20 mol Al remains."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "Why balance before calculating yield?",
+            "back": "Coefficients supply the conserved mole ratios."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "How is the limiting reactant identified?",
+            "back": "Compare available moles divided by each coefficient."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Does excess mean all of a reactant remains?",
+            "back": "No; some reacts and the unused remainder is excess."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What is percentage yield?",
+            "back": "Actual yield divided by theoretical yield, multiplied by 100%."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Stoichiometry and limiting reactants: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Available reactants",
+                "detail": "Convert each quantity to moles."
+              },
+              {
+                "id": "n2",
+                "label": "Reaction extent",
+                "detail": "Use the smallest moles/coefficient ratio."
+              },
+              {
+                "id": "n3",
+                "label": "Products and remainder",
+                "detail": "Multiply extent by coefficients and subtract consumption."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "limit"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "determines"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-5",
@@ -219,8 +683,124 @@
             "Apply (1/2)³."
           ],
           "id": "unit-5-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "A concentration raised to zero contributes a factor of one.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "Doubling [A] at fixed conditions leaves rate unchanged. Tripling [B] at fixed [A] triples rate. Write the rate law.",
+          "answer": "rate=k[B]; the order in A is zero and the order in B is one.",
+          "checkpoints": [
+            "Infer zero order in A.",
+            "Infer first order in B.",
+            "Write rate=k[B]."
+          ],
+          "hints": [
+            "A concentration raised to zero contributes a factor of one.",
+            "Match the observed factor of three for B."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Apply the exponent to the concentration factor.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "A reaction has rate=k[A]². If [A] halves while temperature is fixed, find the new rate as a fraction of the old and explain why k is unchanged in this model.",
+          "answer": "The rate becomes one quarter. The concentration changes the [A]² factor; under the stated unchanged temperature and pathway, k is constant.",
+          "checkpoints": [
+            "Compute (1/2)²=1/4.",
+            "Distinguish concentration from k.",
+            "State the fixed-temperature and pathway assumption."
+          ],
+          "hints": [
+            "Apply the exponent to the concentration factor.",
+            "Separate parameters of the rate law from changing reactant amounts."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through rate laws from controlled comparisons",
+            "paragraphs": [
+              "A rate law connects measured rate to reactant concentrations under specified conditions. Overall balanced coefficients do not usually reveal experimental reaction orders. Compare two trials that change only one concentration, divide their rates and solve for the exponent. Once orders are known, substitute one complete trial to obtain the rate constant, retaining units that make the rate units consistent. The constant depends on temperature and on the pathway. A catalyst supplies a different pathway with a lower activation barrier, but does not change the equilibrium constant or the thermodynamic difference between products and reactants."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "For rate=k[A][B]², a trial has [A]=0.20 M, [B]=0.50 M and rate=0.010 M/s. Find k and rate when B doubles.",
+            "steps": [
+              "k=0.010/(0.20×0.50²)=0.20 M⁻² s⁻¹.",
+              "Doubling B with A fixed multiplies rate by 2²=4, giving 0.040 M/s."
+            ],
+            "conclusion": "k is 0.20 M⁻² s⁻¹ and the new rate is 0.040 M/s."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What controls experimental reaction order?",
+            "back": "The measured concentration dependence of rate."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Can overall equation coefficients determine every rate law?",
+            "back": "No; only an elementary-step model permits direct molecularity reasoning."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What is the overall order of k[A][B]²?",
+            "back": "Three."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What does a catalyst change?",
+            "back": "The pathway and reaction rate, without changing K at fixed temperature."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Rate laws from controlled comparisons: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Controlled trials",
+                "detail": "Change one concentration at a time."
+              },
+              {
+                "id": "n2",
+                "label": "Rate ratios",
+                "detail": "Relate the rate factor to the concentration factor raised to an order."
+              },
+              {
+                "id": "n3",
+                "label": "Rate law",
+                "detail": "Use the fitted exponents to predict rates within the model."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "provide"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "determine"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-6",
@@ -262,8 +842,124 @@
             "Multiply -120 by 0.25."
           ],
           "id": "unit-6-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Hess’s law adds equations and their enthalpy changes.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "Given A→B has ΔH=+25 kJ/mol and B→C has ΔH=−60 kJ/mol, find ΔH for A→C.",
+          "answer": "−35 kJ/mol, from 25−60 with intermediate B cancelled.",
+          "checkpoints": [
+            "Add the reactions and cancel B.",
+            "Add the corresponding enthalpies.",
+            "Report −35 kJ/mol."
+          ],
+          "hints": [
+            "Hess’s law adds equations and their enthalpy changes.",
+            "Track signs before adding."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "List everything that warmed.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "A student ignores heat absorbed by a calorimeter during an exothermic reaction. What happens to the inferred magnitude of reaction heat if solution heat is measured correctly?",
+          "answer": "It is underestimated: the released energy heated both solution and calorimeter, but the calculation counted only the solution contribution.",
+          "checkpoints": [
+            "Identify positive heat gained by the apparatus.",
+            "Include both gains in the energy balance.",
+            "Conclude the exothermic heat magnitude was underestimated."
+          ],
+          "hints": [
+            "List everything that warmed.",
+            "Compare the counted heat with the full energy transfer."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through calorimetry and energy accounting",
+            "paragraphs": [
+              "Choose the system before attaching a sign to heat. In a simple insulated coffee-cup model, heat gained by solution balances heat lost by the reacting chemicals; a calorimeter correction is needed if the apparatus absorbs appreciable heat. Use the temperature change of the material whose mass and specific heat appear in q=mcΔT. At constant pressure, reaction heat is related to enthalpy change for the amount that reacts. Hess’s law works because enthalpy is a state function: reverse an equation and reverse its enthalpy sign; multiply the equation and multiply its enthalpy by the same factor."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A reaction warms 200 g of solution from 20.0°C to 23.0°C. Use c=4.0 J/(g°C), negligible apparatus heat and 0.050 mol reacted. Find molar reaction enthalpy.",
+            "steps": [
+              "Solution heat is 200×4.0×3.0=2400 J=2.4 kJ gained.",
+              "Reaction heat is −2.4 kJ, so ΔH=(−2.4)/0.050=−48 kJ/mol."
+            ],
+            "conclusion": "The reaction enthalpy is −48 kJ/mol under the stated model."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What sign does q have for a warming solution?",
+            "back": "Positive."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why is reaction heat opposite to solution heat here?",
+            "back": "Energy conservation in the assumed insulated two-part system."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What happens to ΔH when an equation reverses?",
+            "back": "Its sign reverses."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What happens to ΔH when coefficients double?",
+            "back": "It doubles."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Calorimetry and energy accounting: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Solution temperature rise",
+                "detail": "Use measured mass, heat capacity and ΔT."
+              },
+              {
+                "id": "n2",
+                "label": "Energy balance",
+                "detail": "Reaction heat is the negative of solution plus apparatus heat."
+              },
+              {
+                "id": "n3",
+                "label": "Molar enthalpy",
+                "detail": "Divide reaction heat by moles reacting at constant pressure."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "measures heat for"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "converts heat to"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-7",
@@ -305,8 +1001,124 @@
             "The equilibrium composition is unchanged."
           ],
           "id": "unit-7-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Use the same expression for Q and K.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "For A⇌B, Kc=3.0. If [A]=0.20 M and [B]=0.60 M, is there a net reaction direction?",
+          "answer": "Q=0.60/0.20=3.0=K, so there is no net compositional change at equilibrium, although both directions continue.",
+          "checkpoints": [
+            "Write Q=[B]/[A].",
+            "Calculate Q=3.0 and compare with K.",
+            "Distinguish no net change from stopped reactions."
+          ],
+          "hints": [
+            "Use the same expression for Q and K.",
+            "Compare rates rather than imagining molecules become inactive."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Track the exponent on every concentration.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "For N₂(g)+3H₂(g)⇌2NH₃(g), a mixture is initially at equilibrium at fixed temperature. Its volume is suddenly halved. Using Q, predict the net direction immediately after compression.",
+          "answer": "Every gas concentration doubles, so Q changes by 2²/(2×2³)=1/4. Starting at equilibrium, Q becomes K/4 and the net reaction forms NH₃.",
+          "checkpoints": [
+            "Apply doubling to all gas concentrations.",
+            "Calculate the quotient factor 1/4.",
+            "Infer forward change from Q<K."
+          ],
+          "hints": [
+            "Track the exponent on every concentration.",
+            "The numerator has total exponent two and the denominator four."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through equilibrium quotients and reaction direction",
+            "paragraphs": [
+              "An equilibrium constant is written for one balanced reaction at a specified temperature. The reaction quotient uses the same expression with current activities or, in the usual classroom approximation, concentrations. Comparing Q with K predicts the direction of net change, not an instantaneous halt of molecular reactions. Pure solids and liquids are omitted from the expression because their activities are approximately constant. Changing concentration or pressure can alter Q and cause redistribution; changing temperature can alter K. A catalyst speeds both directions towards equilibrium without changing its composition at the same temperature."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "For H₂+I₂⇌2HI, Kc=4.0. Initially [H₂]=[I₂]=1.0 M and [HI]=0. Find the equilibrium concentrations.",
+            "steps": [
+              "Let x M of each reactant be consumed. Then [HI]=2x and [H₂]=[I₂]=1−x.",
+              "Set 4=(2x)²/(1−x)². Taking the positive root gives 2=2x/(1−x), so x=0.50."
+            ],
+            "conclusion": "Equilibrium concentrations are 0.50 M H₂, 0.50 M I₂ and 1.0 M HI."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What does Q<K predict?",
+            "back": "Net forward reaction towards products."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Are reactions stopped at equilibrium?",
+            "back": "No; forward and reverse rates are equal."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What changes K for a fixed reaction?",
+            "back": "Temperature."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why omit a pure solid from K?",
+            "back": "Its activity is approximately constant in the equilibrium model."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Equilibrium quotients and reaction direction: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Current composition",
+                "detail": "Insert current quantities into Q."
+              },
+              {
+                "id": "n2",
+                "label": "Comparison with K",
+                "detail": "Q below K favours net products; Q above K favours net reactants."
+              },
+              {
+                "id": "n3",
+                "label": "New equilibrium",
+                "detail": "Composition changes until Q equals K at the fixed temperature."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "determines"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "predicts the approach to"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-8",
@@ -348,8 +1160,124 @@
             "More conjugate base raises pH above pKa."
           ],
           "id": "unit-8-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "A ratio below one has a negative logarithm.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A buffer has pKa=6.0 and [A⁻]/[HA]=0.10. Calculate pH and identify the more abundant member.",
+          "answer": "pH=6.0+log(0.10)=5.0; HA is ten times more abundant than A⁻.",
+          "checkpoints": [
+            "Use Henderson–Hasselbalch.",
+            "Calculate log(0.10)=−1.",
+            "Identify HA as the more abundant member."
+          ],
+          "hints": [
+            "A ratio below one has a negative logarithm.",
+            "Interpret the ratio as base divided by acid."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Separate ratio from total amount.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "Compare a buffer containing 0.010 mol each of HA and A⁻ with one containing 0.10 mol each in the same volume. Which better resists a fixed small acid addition, and why?",
+          "answer": "Their initial pH values are approximately equal because the ratios match. The second has greater capacity because it contains ten times as much A⁻ to consume added acid.",
+          "checkpoints": [
+            "Recognise equal initial ratios and approximate pH.",
+            "Identify the larger conjugate-base amount.",
+            "Connect greater amount to smaller fractional change during acid addition."
+          ],
+          "hints": [
+            "Separate ratio from total amount.",
+            "Ask what fraction of the base a fixed addition consumes."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through acids, bases and buffer ratios",
+            "paragraphs": [
+              "A conjugate acid-base pair differs by one proton. Strong acids in the dilute classroom model ionise essentially completely, while weak acids require an equilibrium calculation. A buffer contains appreciable amounts of a weak acid and its conjugate base; it consumes small added amounts of acid or base by reaction. For such additions, perform the stoichiometric reaction first, then use the new ratio in the Henderson–Hasselbalch relation when its approximations remain reasonable. Dilution approximately preserves this ratio and hence pH, but lowers the total amount available to resist further additions. Buffer capacity is therefore distinct from buffer pH."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A buffer contains 0.20 mol HA and 0.30 mol A⁻ with pKa=5.0. Add 0.10 mol strong acid without significant volume change. Find the new pH.",
+            "steps": [
+              "Added H⁺ consumes A⁻ and produces HA: amounts become 0.20 mol A⁻ and 0.30 mol HA.",
+              "pH=5.0+log(0.20/0.30)=5.0−0.176≈4.82."
+            ],
+            "conclusion": "The new buffer pH is about 4.82."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What changes between conjugate partners?",
+            "back": "One proton."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What should precede a buffer-equilibrium calculation after strong acid addition?",
+            "back": "Stoichiometric consumption of the added acid."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "At pH=pKa, what is the buffer ratio?",
+            "back": "[A⁻]/[HA]=1."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Does unchanged buffer pH imply unchanged capacity?",
+            "back": "No; dilution reduces capacity while approximately preserving the ratio."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Acids, bases and buffer ratios: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Added strong acid",
+                "detail": "H⁺ reacts with conjugate base."
+              },
+              {
+                "id": "n2",
+                "label": "Updated amounts",
+                "detail": "A⁻ decreases while HA increases."
+              },
+              {
+                "id": "n3",
+                "label": "Buffer pH",
+                "detail": "Use the remaining base-to-acid ratio after the reaction."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "changes"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "determines"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-9",
@@ -391,8 +1319,124 @@
             "Electrons leave the anode through the circuit."
           ],
           "id": "unit-9-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Solve for the equality temperature.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A process has ΔH=+30 kJ/mol and ΔS=+0.100 kJ/(mol K). At what temperature is ΔG=0, and on which side is ΔG negative?",
+          "answer": "T=30/0.100=300 K. Above 300 K, TΔS exceeds ΔH and ΔG is negative, assuming ΔH and ΔS remain approximately constant.",
+          "checkpoints": [
+            "Set ΔH−TΔS=0.",
+            "Calculate 300 K.",
+            "Identify the higher-temperature favourable side with the approximation."
+          ],
+          "hints": [
+            "Solve for the equality temperature.",
+            "Evaluate the sign of ΔH−TΔS above it."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Use the free-energy relation to interpret E.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "A galvanic cell has positive E under operating conditions, but its current decreases as reactants are consumed. Does positive E prove a fixed current? Explain.",
+          "answer": "No. Positive E indicates thermodynamic driving force; current also depends on kinetics, resistance and transport, which can change as the cell operates.",
+          "checkpoints": [
+            "Connect positive E with negative ΔG.",
+            "Distinguish potential from current.",
+            "Identify a kinetic, resistance or transport limitation."
+          ],
+          "hints": [
+            "Use the free-energy relation to interpret E.",
+            "Consider factors that control charge-flow rate."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through free energy and electrochemical driving force",
+            "paragraphs": [
+              "Thermodynamic favourability describes the sign of Gibbs free energy under specified conditions, not how quickly a reaction proceeds. Use consistent energy units in ΔG=ΔH−TΔS and temperature in kelvin. A galvanic cell has positive cell potential for its spontaneous forward process, related to negative Gibbs free energy by ΔG=−nFE. Standard quantities refer to standard states; changing concentrations can change the actual driving force. Oxidation occurs at the anode and reduction at the cathode in both galvanic and electrolytic cells, even though electrode signs differ between those cell types."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A galvanic cell uses standard reduction potentials +0.80 V and −0.40 V with two transferred electrons. Find E°cell and ΔG°, taking F=96,500 C/mol.",
+            "steps": [
+              "The more positive reduction potential is the cathode. E°cell=0.80−(−0.40)=1.20 V.",
+              "ΔG°=−2×96,500×1.20=−231,600 J/mol≈−232 kJ/mol."
+            ],
+            "conclusion": "The standard cell potential is 1.20 V and ΔG° is approximately −232 kJ/mol."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What does ΔG<0 establish?",
+            "back": "Thermodynamic favourability in the stated direction and conditions."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Does ΔG<0 guarantee a fast reaction?",
+            "back": "No; an activation barrier can make it slow."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Where does oxidation occur?",
+            "back": "At the anode."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why must T be in kelvin?",
+            "back": "The thermodynamic temperature scale is required in TΔS."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Free energy and electrochemical driving force: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Half-reactions",
+                "detail": "Assign reduction to cathode and oxidation to anode."
+              },
+              {
+                "id": "n2",
+                "label": "Cell potential",
+                "detail": "Subtract the anode reduction potential from the cathode reduction potential."
+              },
+              {
+                "id": "n3",
+                "label": "Gibbs energy",
+                "detail": "Use −nFE with consistent units to assess driving force."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "determine"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "converts to"
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

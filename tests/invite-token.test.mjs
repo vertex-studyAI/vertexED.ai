@@ -16,7 +16,7 @@ test('generateInviteToken returns url-safe string', () => {
 
 test('buildInviteSignupUrl encodes token', () => {
   const url = buildInviteSignupUrl('https://www.vertexed.app', 'abc/def');
-  assert.equal(url, 'https://www.vertexed.app/signup?invite=abc%2Fdef');
+  assert.equal(url, 'https://vertex-ed-ai.vercel.app/signup?invite=abc%2Fdef');
 });
 
 test('invite tokens have stable one-way digests and a bounded lifetime', () => {

@@ -1,3 +1,4 @@
+import { APP_ORIGIN } from '@/lib/appOrigin';
 import React from "react";
 import Article from "@/components/Article";
 import SEO from "@/components/SEO";
@@ -9,7 +10,7 @@ export default function ALevelAPGuide() {
       <SEO
         title="A-Level and AP exam prep with AI | VertexED"
         description="Revision strategies for A-Level depth and AP speed - synoptic questions, FRQ rubrics, spaced schedules, and board-shaped mocks in one loop."
-        canonical="https://www.vertexed.app/resources/alevel-ap-exam-prep"
+        canonical={`${APP_ORIGIN}/resources/alevel-ap-exam-prep`}
         keywords="A-Level revision, AP exam prep, Advanced Placement, GCE A-Levels, AP Calculus, AP Biology, AP US History, A-Level Math, A-Level Physics, college prep, university entrance exams, AI study planner, VertexED, exam revision tips"
       />
       <Article

@@ -8,7 +8,7 @@ description = "Public IndexNow ownership key, published in the sitemap submissio
 condition = "AND"
 paths = ['''(^|/)package\.json$''']
 regexTarget = "line"
-regexes = ['''"seo:indexnow": "node scripts/indexnow\.mjs --host=https://www\.vertexed\.app --key=07fe36c13a0c4aee8856c99f640ebf98 --fromSitemap=public/sitemap\.xml"''']
+regexes = ['''"seo:indexnow": "node scripts/indexnow\.mjs --host=https://vertex-ed-ai\.vercel\.app --key=07fe36c13a0c4aee8856c99f640ebf98 --fromSitemap=public/sitemap\.xml"''']
 
 [[allowlists]]
 description = "Biology prose about the enzyme lock-and-key model, not a credential"
@@ -16,3 +16,17 @@ condition = "AND"
 paths = ['''(^|/)public/study-guides/myp/biology/index\.md$''']
 regexTarget = "line"
 regexes = ['''Lock-and-key model, temperature/pH/concentration effects, named enzymes, inhibitors, Criterion B design''']
+
+[[allowlists]]
+description = "Synthetic browser JWT with a deliberately invalid fixture signature"
+condition = "AND"
+paths = ['''(^|/)playwright\.ai-content\.config\.ts$''']
+regexTarget = "match"
+regexes = ['''eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\.eyJpc3MiOiJ2ZXJ0ZXhlZC1lMmUiLCJyZWYiOiJ2ZXJ0ZXhlZC1lMmUiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTc4ODI4ODAwMCwiZXhwIjoyMTAzODM2NDAwfQ\.vertexed-e2e-signature''']
+
+[[allowlists]]
+description = "Fixed idempotency identifier in an isolated fetch test, not an API credential"
+condition = "AND"
+paths = ['''(^|/)tests/api-auth-operation-runtime\.test\.mjs$''']
+regexTarget = "line"
+regexes = ['''headers: \{ 'Idempotency-Key': 'owned-operation-123' \}''']

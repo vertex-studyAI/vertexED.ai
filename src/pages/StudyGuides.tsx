@@ -1,3 +1,4 @@
+import { APP_ORIGIN } from '@/lib/appOrigin';
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router";
 import { BookOpen, ChevronDown, ChevronRight, FileText, GraduationCap, Loader2, Search } from "lucide-react";
@@ -51,7 +52,7 @@ type GuideSeo = {
   canonical: string;
 };
 
-const SITE_URL = "https://www.vertexed.app";
+const SITE_URL = `${APP_ORIGIN}`;
 const SUBJECT_SEARCH_ALIASES: Record<string, string[]> = {
   Biology: ["MYP Biology", "IB MYP Biology"],
   Chemistry: ["MYP Chemistry", "IB MYP Chemistry"],

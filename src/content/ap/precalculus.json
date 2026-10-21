@@ -47,8 +47,125 @@
             "Keep the interval endpoints in order."
           ],
           "id": "unit-1-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Factor to (x−1)(x+1)/[(x+1)(x+2)].",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "Find the hole and vertical asymptote of (x²−1)/(x²+3x+2).",
+          "answer": "Hole (−1,−2); vertical asymptote x=−2.",
+          "checkpoints": [
+            "Factor to (x−1)(x+1)/[(x+1)(x+2)].",
+            "The reduced value at −1 is −2.",
+            "The remaining denominator vanishes at −2."
+          ],
+          "hints": [
+            "Factor to (x−1)(x+1)/[(x+1)(x+2)].",
+            "The reduced value at −1 is −2."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Evaluate f(1)=1 and f(4)=1/4.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "Find the average rate of change of f(x)=1/x on [1,4].",
+          "answer": "−1/4.",
+          "checkpoints": [
+            "Evaluate f(1)=1 and f(4)=1/4.",
+            "Output change is −3/4; input change is 3.",
+            "Divide to obtain −1/4."
+          ],
+          "hints": [
+            "Evaluate f(1)=1 and f(4)=1/4.",
+            "Output change is −3/4; input change is 3."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through rational functions and missing inputs",
+            "paragraphs": [
+              "A rational expression inherits every zero-denominator restriction before simplification. A common factor can remove the visible denominator while leaving a hole in the original graph. An uncancelled denominator zero may instead create a vertical asymptote, determined by nearby behaviour. Horizontal asymptotes describe distant inputs and need not prevent the graph from crossing that height at finite inputs. Average rate of change compares two outputs over an interval; it is not an instantaneous slope. Keep domain, intercepts and asymptotes separate so a simplified formula does not erase information about the original function."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Analyse f(x)=(x²−9)/(x²−x−6).",
+            "steps": [
+              "Factor numerator (x−3)(x+3) and denominator (x−3)(x+2).",
+              "For x≠3,−2 the reduced expression is (x+3)/(x+2).",
+              "At x=3 the reduced value is 6/5; at x=−2 its denominator remains zero."
+            ],
+            "conclusion": "There is a hole at (3,6/5), vertical asymptote x=−2 and horizontal asymptote y=1."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What creates a hole after cancellation?",
+            "back": "An input excluded by a cancelled denominator factor."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What controls a horizontal asymptote for equal degrees?",
+            "back": "The ratio of leading coefficients."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Can a graph cross a horizontal asymptote?",
+            "back": "Yes, at finite inputs."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What is average rate of change?",
+            "back": "[f(b)−f(a)]/(b−a)."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Rational functions and missing inputs: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Original denominator",
+                "detail": "Zeros exclude inputs."
+              },
+              {
+                "id": "n2",
+                "label": "Factor cancellation",
+                "detail": "A common factor may expose a removable hole."
+              },
+              {
+                "id": "n3",
+                "label": "Remaining denominator",
+                "detail": "An uncancelled zero can create a vertical asymptote."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "record exclusions before simplifying"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "analyse nearby growth"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-2",
@@ -90,8 +207,125 @@
             "Check A(0)=80."
           ],
           "id": "unit-2-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Nine hours contains three half-life intervals.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A model starts at 160 and halves every 3 hours. Find its amount after 9 hours.",
+          "answer": "20.",
+          "checkpoints": [
+            "Nine hours contains three half-life intervals.",
+            "Use 160(1/2)³.",
+            "Evaluate 160/8=20."
+          ],
+          "hints": [
+            "Nine hours contains three half-life intervals.",
+            "Use 160(1/2)³."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Divide by 5 to obtain 3ˣ=16.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "Solve 5·3ˣ=80 exactly.",
+          "answer": "x=ln(16)/ln(3).",
+          "checkpoints": [
+            "Divide by 5 to obtain 3ˣ=16.",
+            "Take natural logarithms.",
+            "Divide by ln 3."
+          ],
+          "hints": [
+            "Divide by 5 to obtain 3ˣ=16.",
+            "Take natural logarithms."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through exponential growth and logarithmic inversion",
+            "paragraphs": [
+              "An exponential model applies a constant multiplicative factor over equal input intervals. A percentage decrease uses a factor between zero and one; subtracting the percentage repeatedly would instead give a linear model. Logarithms undo exponentiation and are useful when the desired input is not an obvious whole number. Take logarithms only of positive quantities in a real-valued calculation. The fitted growth factor is an assumption about the modelled interval, so extrapolation can fail when resources or conditions change. The coefficient represents the amount at input zero, not an additional recurring contribution."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A model is N(t)=500(0.8)^t. When does it fall to 200?",
+            "steps": [
+              "Divide by 500 to obtain (0.8)^t=0.4.",
+              "Take logarithms: t ln(0.8)=ln(0.4).",
+              "Both logarithms are negative, so their ratio is positive."
+            ],
+            "conclusion": "t=ln(0.4)/ln(0.8)≈4.11 time units."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What factor represents a 12% decrease?",
+            "back": "0.88."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "How do you solve aᵗ=b for a>0, a≠1 and b>0?",
+            "back": "t=ln b/ln a."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What distinguishes exponential from linear change?",
+            "back": "A constant ratio rather than a constant difference."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What does N₀ represent in N=N₀aᵗ?",
+            "back": "The modelled amount at t=0."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Exponential growth and logarithmic inversion: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Initial amount",
+                "detail": "N₀ fixes the starting scale."
+              },
+              {
+                "id": "n2",
+                "label": "Repeated factor",
+                "detail": "a multiplies the amount each interval."
+              },
+              {
+                "id": "n3",
+                "label": "Logarithmic inversion",
+                "detail": "Solve for the interval count needed to reach a target."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "apply equal multiplicative changes"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "undo exponentiation"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-3",
@@ -133,8 +367,125 @@
             "sin(π/3)=√3/2."
           ],
           "id": "unit-3-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Use 2π/4 for the period.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "Find the period and range of y=2+5 sin(4t).",
+          "answer": "Period π/2; range [−3,7].",
+          "checkpoints": [
+            "Use 2π/4 for the period.",
+            "Multiply the sine range by 5.",
+            "Add the midline 2."
+          ],
+          "hints": [
+            "Use 2π/4 for the period.",
+            "Multiply the sine range by 5."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Use x=r cos θ and y=r sin θ.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "Convert polar coordinates (6,5π/6) to Cartesian form.",
+          "answer": "(−3√3,3).",
+          "checkpoints": [
+            "Use x=r cos θ and y=r sin θ.",
+            "cos(5π/6)=−√3/2 and sin(5π/6)=1/2.",
+            "Multiply each by 6."
+          ],
+          "hints": [
+            "Use x=r cos θ and y=r sin θ.",
+            "cos(5π/6)=−√3/2 and sin(5π/6)=1/2."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through reading a periodic model",
+            "paragraphs": [
+              "A sinusoidal model separates vertical position, amplitude, angular frequency and phase. The amplitude is nonnegative even when the coefficient is negative; that sign changes the phase or reflection. The period is 2π divided by the magnitude of the angular coefficient when the angle is in radians. A phase shift must be found after factoring that coefficient from the input expression. Test a convenient time to distinguish a maximum, minimum or midline crossing. A periodic model repeats indefinitely mathematically, although a physical application may only justify it within a limited interval."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Analyse h(t)=10−4 cos(π(t−2)/3).",
+            "steps": [
+              "The midline is 10 and amplitude is 4, giving range [6,14].",
+              "The angular coefficient π/3 gives period 6.",
+              "At t=2 the cosine is 1, so h=6, a minimum."
+            ],
+            "conclusion": "The graph has period 6 and a minimum at t=2."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "Is a negative coefficient a negative amplitude?",
+            "back": "No; amplitude is its magnitude."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "How is period calculated in radians?",
+            "back": "2π/|angular coefficient|."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What does the midline describe?",
+            "back": "The centre height of the oscillation."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "How can a phase interpretation be checked?",
+            "back": "Substitute a time producing a known sine or cosine value."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Reading a periodic model: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Angular input",
+                "detail": "Controls where the cycle begins."
+              },
+              {
+                "id": "n2",
+                "label": "Sine or cosine",
+                "detail": "Oscillates between −1 and 1."
+              },
+              {
+                "id": "n3",
+                "label": "Scale and offset",
+                "detail": "Set amplitude and midline of the output."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "evaluate the periodic function"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "multiply then shift vertically"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-4",
@@ -176,8 +527,125 @@
             "Scale the second coordinate by 3."
           ],
           "id": "unit-4-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Square both components.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "Find the magnitude of (−5,12).",
+          "answer": "13.",
+          "checkpoints": [
+            "Square both components.",
+            "Add 25+144=169.",
+            "Take the nonnegative square root."
+          ],
+          "hints": [
+            "Square both components.",
+            "Add 25+144=169."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "First component is 3+2(−1)=1.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "Apply [[1,2],[0,1]] to (3,−1) and explain the unchanged component.",
+          "answer": "(1,−1); the second row preserves y.",
+          "checkpoints": [
+            "First component is 3+2(−1)=1.",
+            "Second component is 0(3)+1(−1)=−1.",
+            "The second row [0,1] copies the original y-coordinate."
+          ],
+          "hints": [
+            "First component is 3+2(−1)=1.",
+            "Second component is 0(3)+1(−1)=−1."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through vectors and matrix transformations",
+            "paragraphs": [
+              "Vectors encode both magnitude and direction, so component operations preserve more information than adding magnitudes alone. A matrix transformation forms each output component from a row dot product with the input column. Applying two transformations means multiplying in their order of action: the rightmost matrix acts first. Reversing the order can change the result. A zero determinant means some nonzero direction collapses and the map cannot be inverted. These are selected topics from the course’s functions involving parameters, vectors and matrices unit; that unit is outside the AP Precalculus exam assessment scope."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Apply a horizontal stretch by 2, then a quarter-turn anticlockwise, to (1,3).",
+            "steps": [
+              "The stretch gives (2,3).",
+              "The rotation sends (x,y) to (−y,x).",
+              "Apply it to (2,3) to obtain (−3,2)."
+            ],
+            "conclusion": "The combined transformation gives (−3,2). Reversing the order would give (−6,1)."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "How is a matrix output component calculated?",
+            "back": "A matrix row is dotted with the input column."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Which matrix acts first in ABv?",
+            "back": "B."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Does matrix multiplication generally commute?",
+            "back": "No."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What does determinant zero imply?",
+            "back": "The transformation is not invertible."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Vectors and matrix transformations: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Input vector",
+                "detail": "Components locate the starting displacement."
+              },
+              {
+                "id": "n2",
+                "label": "First transformation",
+                "detail": "Apply the matrix nearest the input."
+              },
+              {
+                "id": "n3",
+                "label": "Second transformation",
+                "detail": "Apply the remaining matrix to the intermediate vector."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "calculate the first row products"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "preserve the order of composition"
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

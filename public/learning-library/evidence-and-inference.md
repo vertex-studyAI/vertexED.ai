@@ -1,0 +1,603 @@
+# Claims, evidence, inference and qualified conclusions
+
+Subject: English · Unit: Reading · Revision: 2026-10-21.2
+
+**Review draft — not independently approved. Practice marks are editorial, not official exam marks.**
+
+Original short-passage analysis, including skills relevant to SAT reading. Not a prescribed-text guide or a reproduction of an official test.
+
+## Prerequisites
+
+- Identify the main idea of a short paragraph.
+
+- Distinguish a quotation from a paraphrase.
+
+## Objectives
+
+- Separate explicit statements from justified inferences.
+
+- Choose evidence that directly supports a claim.
+
+- Match the strength and scope of a conclusion to the available text.
+
+## What the passage actually establishes
+
+A reading inference is a conclusion supported by details in a text, not merely something that could be true in the wider world. Begin by identifying the passage's subject, main claim and any qualification. Words such as some, often, initially and may limit scope. Replacing them with all, always, permanently or proves can turn a supported statement into an unsupported one. Paraphrase the relevant idea in plain language before comparing answer choices. This prevents a familiar word or an impressive-sounding interpretation from distracting you from the relationship the author actually describes.
+
+## Evidence must fit the claim
+
+Strong evidence connects directly to the specific claim being evaluated. A sentence can be accurate and relevant to the general topic while failing to support the proposed conclusion. Ask what the evidence would look like if the claim were false, and whether the cited detail genuinely distinguishes the possibilities. Quantitative claims need careful attention to denominators, comparison groups and time periods. If participation rises from 20 to 30 while the eligible population doubles, the count increases but the participation rate decreases. A passage reporting an association between two measures does not by itself establish that one caused the other. Avoid importing background facts unless the question explicitly permits them.
+
+## Building a precise analytical response
+
+A compact evidence-based paragraph states a claim, selects a short relevant detail, explains the connection and acknowledges a meaningful limit. Explanation should do more than repeat the quotation using synonyms: show how a word choice, contrast, sequence or numerical pattern supports your interpretation. Competing interpretations are useful when the text leaves something unresolved, but not every imaginable reading is equally supported. For a best-supported inference question, prefer the option requiring the fewest additional assumptions. If two texts disagree, identify the precise point of disagreement rather than assuming they oppose each other on every issue. A qualified conclusion can be stronger reasoning than an absolute conclusion because its boundaries remain defensible.
+
+## Comparing interpretations and controlling claim strength
+
+An inference is a conclusion supported by the text rather than simply repeated from it. Its strength must remain proportionate to the evidence. Words such as some, often, may and in this sample limit a claim; replacing them with all, always or proves changes the meaning. Before choosing an interpretation, identify the exact observation, the proposed explanation and any assumption connecting them. A plausible real-world explanation is not automatically the explanation supported by this particular passage.
+
+When two interpretations compete, ask what each predicts and whether the passage contains evidence that distinguishes them. A sentence may establish sequence without causation, or association without excluding a third factor. Evaluate the author's purpose separately from the truth of an individual statement: a persuasive text can contain accurate facts, and a neutral tone does not guarantee accuracy. In a written response, state the inference, anchor it in a specific phrase or detail, and explain the connection. Mention a significant limitation when the question asks for evaluation. Avoid quotations that are left to perform the reasoning by themselves.
+
+## Separating an observed choice from a hidden motive
+
+A passage can show what a character does while leaving their reason uncertain. Build an inference by linking specific wording to a limited interpretation, then ask what alternative explanation the same evidence permits. Qualification is useful when it names that uncertainty precisely; repeatedly saying perhaps without explaining the evidence does not strengthen an answer. A plausible interpretation need not be the only possible interpretation. When a question asks what is best supported, prefer the claim that fits the available detail with the fewest unsupported assumptions. The short passage in this exercise is original fictional material, so the task concerns textual reasoning rather than claims about an actual person.
+
+## Diagram: Build a bounded inference
+
+Read the labelled relationships to follow this worked application. Mira appears reluctant to discuss the invitation, but the passage does not establish whether this is anxiety, privacy, a surprise or another motive. This is an explanatory process diagram, not a scale drawing or a record of a learner attempt.
+
+1. Observe the wording: Mira puts the invitation away and changes the subject.
+   Relationship to next step: connect detail to interpretation
+
+2. Infer cautiously: She appears reluctant to discuss it at that moment.
+   Relationship to next step: exclude unsupported certainty
+
+3. Limit the claim: Her motive and eventual attendance remain unstated.
+
+## Guided teaching sequence
+
+Suggested study route, not an official assessment or measured mastery.
+
+### Establish the idea
+
+Explain “What the passage actually establishes” in your own words. Work through the first example, then answer the linked questions before revealing their solutions.
+
+Read: What the passage actually establishes
+
+Worked examples: 1
+
+Practise: q1, q2
+
+### Apply the method
+
+Use the remaining teaching sections to explain each step of the worked examples. Compare your reasoning with the marking points and record the specific step you would change.
+
+Read: Evidence must fit the claim; Building a precise analytical response; Comparing interpretations and controlling claim strength
+
+Worked examples: 2, 3
+
+Practise: q3, q4
+
+### Separating an observed choice from a hidden motive
+
+Read the application diagram “Build a bounded inference”, then close the explanation and attempt both the application and error-analysis questions. Explain the correction aloud before retrying the mixed practice.
+
+Read: Separating an observed choice from a hidden motive
+
+Worked examples: 4
+
+Practise: q5, application-check, error-analysis
+
+### Retrieval practice
+
+Close the notes and answer these extra prompts from memory. Self-review with the held explanation, name one gap, then retry later. This is study practice, not an automatic mark or mastery measurement.
+
+Read: What the passage actually establishes
+
+Worked examples: 1
+
+Practise: retrieval-01, retrieval-02, retrieval-03, retrieval-04, retrieval-05, retrieval-06, retrieval-07, retrieval-08, retrieval-09, retrieval-10, retrieval-11, retrieval-12, retrieval-13, retrieval-14, retrieval-15, retrieval-16, retrieval-17, retrieval-18
+
+## Worked example 1
+
+Original passage: 'The library extended its opening hours in May. Evening visits increased, but total weekly visits remained similar.' What is supported?
+
+1. Separate evening visits from all visits.
+
+2. The rise in one time category does not imply a rise in the weekly total.
+
+3. A redistribution of visiting times is compatible with the passage, but the exact cause is not demonstrated.
+
+Answer: More visits occurred in the evening; the passage does not establish growth in total weekly visits.
+
+## Worked example 2
+
+Original passage: 'In one school, volunteers using a planner submitted more assignments on time than other students.' Evaluate the claim that planners caused the difference.
+
+1. Identify the observed association and the single-school sample.
+
+2. Volunteers may differ in motivation or other characteristics before using a planner.
+
+3. Without a design addressing those differences, causal attribution is not established.
+
+Answer: The result supports an association in the observed group, not a proven causal effect.
+
+## Worked example 3
+
+Original passage: 'Attendance increased after the museum extended its opening hours. A nearby festival took place during the same month.' Evaluate the claim that the new hours caused the entire increase.
+
+1. Identify that the text reports a sequence and an increase.
+
+2. Recognise the festival as another possible influence.
+
+3. Distinguish a possible contribution from proof of a sole cause.
+
+Answer: The new hours may have contributed, but the passage does not establish that they caused the entire increase.
+
+## Worked example 4
+
+Original passage: “Mira folded the invitation, placed it beneath her notebook, and changed the subject when her brother asked about Saturday.” Give one supported inference and explain why certainty about her motive is unwarranted.
+
+1. Changing the subject directly supports reluctance to discuss the matter.
+
+2. Putting the invitation away is consistent with that reading.
+
+3. No statement of her motive selects one hidden reason over the alternatives.
+
+Answer: Mira appears reluctant to discuss the invitation, but the passage does not establish whether this is anxiety, privacy, a surprise or another motive.
+
+## Misconceptions
+
+- An inference is any plausible explanation.
+  Correction: It must be supported by the particular evidence and require limited extra assumptions.
+
+- A quotation explains itself.
+  Correction: The response must explain how the quoted detail supports the claim.
+
+## Flashcards
+
+### How does an inference differ from an explicit statement?
+An explicit statement is directly said; an inference connects textual evidence to a supported unstated conclusion.
+
+### Why attend to words such as some or may?
+They limit the scope or certainty of a claim.
+
+### Can a true sentence still be weak evidence?
+Yes, if it does not directly support the specific claim under evaluation.
+
+### Does a reported association establish causation?
+Not by itself; alternative explanations and study design matter.
+
+### What should follow a selected quotation?
+An explanation of the relationship between that detail and the interpretation.
+
+### Why is a plausible inference not necessarily a supported inference?
+It must follow from the passage's evidence and assumptions, not merely fit outside knowledge or imagination.
+
+### How can a textual inference be qualified precisely?
+State what the evidence supports and identify the specific motive, cause or outcome it leaves uncertain.
+
+### Why distinguish an action from its motive?
+The same observed action can have several explanations unless further evidence selects one.
+
+## Practice 1 — foundation · 1 marks
+
+Original sentence: 'Some coastal plants tolerate salty soil.' Which conclusion preserves its scope?
+
+A. All coastal plants require salty soil.
+
+B. No inland plant tolerates salt.
+
+C. Salty soil benefits every plant.
+
+D. At least some coastal plants can tolerate salty soil.
+
+Answer: At least some coastal plants can tolerate salty soil.
+
+1. Notice the restricted word some.
+
+2. Reject alternatives introducing all, require or claims about unmentioned plants.
+
+Marking points (one practice mark each):
+
+- Select the conclusion preserving limited scope.
+
+## Practice 2 — standard · 2 marks
+
+Original passage: 'The new bus route attracted 120 passengers each day, but surveys showed that 80 previously used a neighbouring route.' Explain why 120 cannot automatically be described as new public-transport users.
+
+Answer: Eighty were already public-transport users on another route, and the passage does not establish the previous travel habits of the remaining forty.
+
+1. Distinguish new users of the route from new users of the transport system.
+
+2. Avoid assuming all remaining passengers are entirely new users.
+
+Marking points (one practice mark each):
+
+- Recognise that 80 transferred from another route.
+
+- Identify the uncertainty about the remaining 40.
+
+## Practice 3 — standard · 2 marks
+
+Original claim: 'The garden project improved access to green space.' Which detail is stronger evidence: its logo was popular, or residents previously 2 km from a park could now reach a garden within 200 m? Explain.
+
+Answer: The distance comparison directly supports improved access; logo popularity does not establish access.
+
+1. Define access in relation to reaching green space.
+
+2. Connect the reduced distance to that claim and reject the unrelated popularity measure.
+
+Marking points (one practice mark each):
+
+- Choose the distance evidence.
+
+- Explain why it fits the claim better.
+
+## Practice 4 — extension · 3 marks
+
+Original passage: 'After the school introduced breakfast sessions, attendance rose. The same month, the school also changed its bus timetable.' Write a justified conclusion and one unresolved question.
+
+Answer: Attendance rose after the changes, but the passage cannot isolate the effect of breakfast sessions from the timetable change or other factors. A useful unresolved question is whether comparable students unaffected by breakfast but affected by the timetable also improved attendance.
+
+1. State the observed timing without overstating causality.
+
+2. Identify the simultaneous timetable change as an alternative explanation.
+
+3. Pose a comparison that could help distinguish explanations.
+
+Marking points (one practice mark each):
+
+- Give a qualified conclusion.
+
+- Identify the confounding change.
+
+- Ask a relevant discriminating question.
+
+## Practice 5 — extension · 3 marks
+
+Original statement: 'In the tested samples, the treatment reduced average water loss.' Explain two ways the claim 'The treatment prevents water loss in every plant' goes beyond the evidence.
+
+Answer: Reduced average loss does not mean zero loss, and tested samples do not establish a universal outcome for every plant. The stronger claim changes both the size of the effect and the population to which it applies.
+
+1. Distinguish a reduction from complete prevention.
+
+2. Distinguish a sample result from a universal population claim.
+
+3. Explain that both changes need additional evidence.
+
+Marking points (one practice mark each):
+
+- Distinguish a reduction from complete prevention.
+
+- Distinguish a sample result from a universal population claim.
+
+- Explain that both changes need additional evidence.
+
+## Practice 6 — standard · 3 marks
+
+Original passage: “Mira folded the invitation, placed it beneath her notebook, and changed the subject when her brother asked about Saturday.” Give one supported inference and explain why certainty about her motive is unwarranted.
+
+Answer: Mira appears reluctant to discuss the invitation, but the passage does not establish whether this is anxiety, privacy, a surprise or another motive.
+
+1. Changing the subject directly supports reluctance to discuss the matter.
+
+2. Putting the invitation away is consistent with that reading.
+
+3. No statement of her motive selects one hidden reason over the alternatives.
+
+Marking points (one practice mark each):
+
+- Changing the subject directly supports reluctance to discuss the matter.
+
+- Putting the invitation away is consistent with that reading.
+
+- No statement of her motive selects one hidden reason over the alternatives.
+
+## Practice 7 — extension · 3 marks
+
+A learner writes, “Mira hates her brother and will never attend the event.” Identify two unsupported leaps and replace the sentence with a qualified claim.
+
+Answer: Hatred and a definite future refusal are unsupported. A defensible claim is that Mira avoids discussing the invitation at this moment.
+
+1. The passage gives no evidence establishing hatred of her brother.
+
+2. It does not state a final decision about attendance.
+
+3. The replacement limits the claim to the observed conversational avoidance.
+
+Marking points (one practice mark each):
+
+- The passage gives no evidence establishing hatred of her brother.
+
+- It does not state a final decision about attendance.
+
+- The replacement limits the claim to the observed conversational avoidance.
+
+## Practice 8 — foundation · 1 marks
+
+Retrieval 1 — Claims, evidence, inference and qualified conclusions: Answer from memory: How does an inference differ from an explicit statement?
+
+Answer: An explicit statement is directly said; an inference connects textual evidence to a supported unstated conclusion.
+
+1. Identify the target idea: How does an inference differ from an explicit statement?
+
+2. Compare your response with the held study explanation: An explicit statement is directly said; an inference connects textual evidence to a supported unstated conclusion.
+
+Marking points (one practice mark each):
+
+- Accurately address: How does an inference differ from an explicit statement?
+
+## Practice 9 — standard · 1 marks
+
+Retrieval 2 — Claims, evidence, inference and qualified conclusions: State the condition or distinction precisely: Why attend to words such as some or may?
+
+Answer: They limit the scope or certainty of a claim.
+
+1. Identify the target idea: Why attend to words such as some or may?
+
+2. Compare your response with the held study explanation: They limit the scope or certainty of a claim.
+
+Marking points (one practice mark each):
+
+- Accurately address: Why attend to words such as some or may?
+
+## Practice 10 — extension · 1 marks
+
+Retrieval 3 — Claims, evidence, inference and qualified conclusions: Explain the idea in your own words: Can a true sentence still be weak evidence?
+
+Answer: Yes, if it does not directly support the specific claim under evaluation.
+
+1. Identify the target idea: Can a true sentence still be weak evidence?
+
+2. Compare your response with the held study explanation: Yes, if it does not directly support the specific claim under evaluation.
+
+Marking points (one practice mark each):
+
+- Accurately address: Can a true sentence still be weak evidence?
+
+## Practice 11 — foundation · 1 marks
+
+Retrieval 4 — Claims, evidence, inference and qualified conclusions: Answer from memory: Does a reported association establish causation?
+
+Answer: Not by itself; alternative explanations and study design matter.
+
+1. Identify the target idea: Does a reported association establish causation?
+
+2. Compare your response with the held study explanation: Not by itself; alternative explanations and study design matter.
+
+Marking points (one practice mark each):
+
+- Accurately address: Does a reported association establish causation?
+
+## Practice 12 — standard · 1 marks
+
+Retrieval 5 — Claims, evidence, inference and qualified conclusions: State the condition or distinction precisely: What should follow a selected quotation?
+
+Answer: An explanation of the relationship between that detail and the interpretation.
+
+1. Identify the target idea: What should follow a selected quotation?
+
+2. Compare your response with the held study explanation: An explanation of the relationship between that detail and the interpretation.
+
+Marking points (one practice mark each):
+
+- Accurately address: What should follow a selected quotation?
+
+## Practice 13 — extension · 1 marks
+
+Retrieval 6 — Claims, evidence, inference and qualified conclusions: Explain the idea in your own words: Why is a plausible inference not necessarily a supported inference?
+
+Answer: It must follow from the passage's evidence and assumptions, not merely fit outside knowledge or imagination.
+
+1. Identify the target idea: Why is a plausible inference not necessarily a supported inference?
+
+2. Compare your response with the held study explanation: It must follow from the passage's evidence and assumptions, not merely fit outside knowledge or imagination.
+
+Marking points (one practice mark each):
+
+- Accurately address: Why is a plausible inference not necessarily a supported inference?
+
+## Practice 14 — foundation · 1 marks
+
+Retrieval 7 — Claims, evidence, inference and qualified conclusions: Answer from memory: How can a textual inference be qualified precisely?
+
+Answer: State what the evidence supports and identify the specific motive, cause or outcome it leaves uncertain.
+
+1. Identify the target idea: How can a textual inference be qualified precisely?
+
+2. Compare your response with the held study explanation: State what the evidence supports and identify the specific motive, cause or outcome it leaves uncertain.
+
+Marking points (one practice mark each):
+
+- Accurately address: How can a textual inference be qualified precisely?
+
+## Practice 15 — standard · 1 marks
+
+Retrieval 8 — Claims, evidence, inference and qualified conclusions: State the condition or distinction precisely: Why distinguish an action from its motive?
+
+Answer: The same observed action can have several explanations unless further evidence selects one.
+
+1. Identify the target idea: Why distinguish an action from its motive?
+
+2. Compare your response with the held study explanation: The same observed action can have several explanations unless further evidence selects one.
+
+Marking points (one practice mark each):
+
+- Accurately address: Why distinguish an action from its motive?
+
+## Practice 16 — extension · 1 marks
+
+Retrieval 9 — Claims, evidence, inference and qualified conclusions: Explain the idea in your own words: How does an inference differ from an explicit statement?
+
+Answer: An explicit statement is directly said; an inference connects textual evidence to a supported unstated conclusion.
+
+1. Identify the target idea: How does an inference differ from an explicit statement?
+
+2. Compare your response with the held study explanation: An explicit statement is directly said; an inference connects textual evidence to a supported unstated conclusion.
+
+Marking points (one practice mark each):
+
+- Accurately address: How does an inference differ from an explicit statement?
+
+## Practice 17 — foundation · 1 marks
+
+Retrieval 10 — Claims, evidence, inference and qualified conclusions: Answer from memory: Why attend to words such as some or may?
+
+Answer: They limit the scope or certainty of a claim.
+
+1. Identify the target idea: Why attend to words such as some or may?
+
+2. Compare your response with the held study explanation: They limit the scope or certainty of a claim.
+
+Marking points (one practice mark each):
+
+- Accurately address: Why attend to words such as some or may?
+
+## Practice 18 — standard · 1 marks
+
+Retrieval 11 — Claims, evidence, inference and qualified conclusions: State the condition or distinction precisely: Can a true sentence still be weak evidence?
+
+Answer: Yes, if it does not directly support the specific claim under evaluation.
+
+1. Identify the target idea: Can a true sentence still be weak evidence?
+
+2. Compare your response with the held study explanation: Yes, if it does not directly support the specific claim under evaluation.
+
+Marking points (one practice mark each):
+
+- Accurately address: Can a true sentence still be weak evidence?
+
+## Practice 19 — extension · 1 marks
+
+Retrieval 12 — Claims, evidence, inference and qualified conclusions: Explain the idea in your own words: Does a reported association establish causation?
+
+Answer: Not by itself; alternative explanations and study design matter.
+
+1. Identify the target idea: Does a reported association establish causation?
+
+2. Compare your response with the held study explanation: Not by itself; alternative explanations and study design matter.
+
+Marking points (one practice mark each):
+
+- Accurately address: Does a reported association establish causation?
+
+## Practice 20 — foundation · 1 marks
+
+Retrieval 13 — Claims, evidence, inference and qualified conclusions: Answer from memory: What should follow a selected quotation?
+
+Answer: An explanation of the relationship between that detail and the interpretation.
+
+1. Identify the target idea: What should follow a selected quotation?
+
+2. Compare your response with the held study explanation: An explanation of the relationship between that detail and the interpretation.
+
+Marking points (one practice mark each):
+
+- Accurately address: What should follow a selected quotation?
+
+## Practice 21 — standard · 1 marks
+
+Retrieval 14 — Claims, evidence, inference and qualified conclusions: State the condition or distinction precisely: Why is a plausible inference not necessarily a supported inference?
+
+Answer: It must follow from the passage's evidence and assumptions, not merely fit outside knowledge or imagination.
+
+1. Identify the target idea: Why is a plausible inference not necessarily a supported inference?
+
+2. Compare your response with the held study explanation: It must follow from the passage's evidence and assumptions, not merely fit outside knowledge or imagination.
+
+Marking points (one practice mark each):
+
+- Accurately address: Why is a plausible inference not necessarily a supported inference?
+
+## Practice 22 — extension · 1 marks
+
+Retrieval 15 — Claims, evidence, inference and qualified conclusions: Explain the idea in your own words: How can a textual inference be qualified precisely?
+
+Answer: State what the evidence supports and identify the specific motive, cause or outcome it leaves uncertain.
+
+1. Identify the target idea: How can a textual inference be qualified precisely?
+
+2. Compare your response with the held study explanation: State what the evidence supports and identify the specific motive, cause or outcome it leaves uncertain.
+
+Marking points (one practice mark each):
+
+- Accurately address: How can a textual inference be qualified precisely?
+
+## Practice 23 — foundation · 1 marks
+
+Retrieval 16 — Claims, evidence, inference and qualified conclusions: Answer from memory: Why distinguish an action from its motive?
+
+Answer: The same observed action can have several explanations unless further evidence selects one.
+
+1. Identify the target idea: Why distinguish an action from its motive?
+
+2. Compare your response with the held study explanation: The same observed action can have several explanations unless further evidence selects one.
+
+Marking points (one practice mark each):
+
+- Accurately address: Why distinguish an action from its motive?
+
+## Practice 24 — standard · 1 marks
+
+Retrieval 17 — Claims, evidence, inference and qualified conclusions: State the condition or distinction precisely: How does an inference differ from an explicit statement?
+
+Answer: An explicit statement is directly said; an inference connects textual evidence to a supported unstated conclusion.
+
+1. Identify the target idea: How does an inference differ from an explicit statement?
+
+2. Compare your response with the held study explanation: An explicit statement is directly said; an inference connects textual evidence to a supported unstated conclusion.
+
+Marking points (one practice mark each):
+
+- Accurately address: How does an inference differ from an explicit statement?
+
+## Practice 25 — extension · 1 marks
+
+Retrieval 18 — Claims, evidence, inference and qualified conclusions: Explain the idea in your own words: Why attend to words such as some or may?
+
+Answer: They limit the scope or certainty of a claim.
+
+1. Identify the target idea: Why attend to words such as some or may?
+
+2. Compare your response with the held study explanation: They limit the scope or certainty of a claim.
+
+Marking points (one practice mark each):
+
+- Accurately address: Why attend to words such as some or may?
+
+## Revision checklist
+
+- Underline scope and certainty words.
+
+- Match each piece of evidence to a specific claim.
+
+- Remove conclusions that require facts not established by the passage.
+
+- Explain the reasoning in “Build a bounded inference” and correct the linked error-analysis response without copying its solution.
+
+## Revision guide
+
+A passage can show what a character does while leaving their reason uncertain. Build an inference by linking specific wording to a limited interpretation, then ask what alternative explanation the same evidence permits. Qualification is useful when it names that uncertainty precisely; repeatedly saying perhaps without explaining the evidence does not strengthen an answer. A plausible interpretation need not be the only possible interpretation. When a question asks what is best supported, prefer the claim that fits the available detail with the fewest unsupported assumptions. The short passage in this exercise is original fictional material, so the task concerns textual reasoning rather than claims about an actual person.
+
+### Key ideas
+
+- Mira puts the invitation away and changes the subject.
+
+- She appears reluctant to discuss it at that moment.
+
+- Her motive and eventual attendance remain unstated.
+
+- It must be supported by the particular evidence and require limited extra assumptions.
+
+### Retrieve without looking
+
+- How can a textual inference be qualified precisely?
+
+- Why distinguish an action from its motive?
+
+- How does an inference differ from an explicit statement?
+
+Mixed practice: q1, application-check, error-analysis
+
+After checking your answer, write the specific rule or assumption you missed. Retry the linked questions without the worked example in a later session. A checked answer or completed checklist is not a measurement of mastery.

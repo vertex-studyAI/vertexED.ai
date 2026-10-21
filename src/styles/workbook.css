@@ -1,20 +1,4 @@
 /* Blue glass chrome surrounds opaque reading and editing surfaces. */
-.light {
-  color-scheme: dark;
-  --background: 219 56% 14%;
-  --foreground: 210 40% 98%;
-  --card: 218 48% 18%;
-  --card-foreground: 210 40% 98%;
-  --primary: 215 92% 73%;
-  --primary-foreground: 222 68% 9%;
-  --muted: 217 38% 21%;
-  --muted-foreground: 215 23% 78%;
-  --border: 215 40% 31%;
-  --ring: 215 92% 73%;
-  --accent: 216 42% 23%;
-  --page-bg-base: #0a2147;
-  --page-bg-image: linear-gradient(180deg, #0b2858 0%, #0a2147 52%, #071a39 100%);
-}
 .dark {
   --background: 222 68% 7%;
   --foreground: 210 40% 98%;

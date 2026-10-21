@@ -71,7 +71,7 @@ ${customPrompt ? `STUDENT INSTRUCTIONS: ${customPrompt}` : ''}
 SOURCES:
 ${sourceBlock}`;
 
-    const route = routeAiRequest({ capability: 'notebook', text: customPrompt, defaultModel: process.env.NOTEBOOK_MODEL || 'gpt-6-luna', maxTokens: spec.lesson ? 4500 : spec.json ? 2000 : 2500 });
+    const route = routeAiRequest({ capability: 'notebook', text: customPrompt, defaultModel: process.env.NOTEBOOK_MODEL || 'gpt-6-luna', maxTokens: spec.lesson ? 4000 : spec.json ? 2000 : 2500 });
     const model = route.model;
     const generation = { version: STUDY_SET_VERSION, model, factualStatus: 'unreviewed', curriculum,
       requestKey: await notebookRequestKey({ mode, sources, notebookTitle: body?.notebookTitle ?? '', customPrompt: body?.customPrompt ?? '', curriculum }) };
@@ -139,8 +139,14 @@ ${sourceBlock}`;
         return res.status(502).json({ error: 'Generated material contained unverifiable source references. Your sources are unchanged; please retry.' });
       }
 
-      if (spec.lesson) return res.status(200).json({ mode, title: parsed.title, content: lessonMarkdown(parsed),
-        generatedAt: new Date().toISOString(), generation, citations: grounding.citations, sources: grounding.sources });
+      if (spec.lesson) {
+        const content = lessonMarkdown(parsed);
+        if (validateSourceCitations(content, sources).status !== 'verified') {
+          return res.status(502).json({ error: 'Generated notes contained unverifiable inline references. Your sources are unchanged; please retry.' });
+        }
+        return res.status(200).json({ mode, title: parsed.title, content,
+          generatedAt: new Date().toISOString(), generation, citations: grounding.citations, sources: grounding.sources });
+      }
 
       if (spec.questions) {
         const questions = (parsed.questions || [])

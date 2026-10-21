@@ -19,7 +19,7 @@ export type AccessibilitySettings = {
 const STORAGE_KEY = 'vertex_a11y_settings';
 
 const DEFAULTS: AccessibilitySettings = {
-  theme: 'system',
+  theme: 'light',
   reducedMotion: false,
   highContrast: false,
   dyslexiaFont: false,

@@ -1,0 +1,772 @@
+# Planning investigations and evaluating evidence
+
+Subject: Sciences · Unit: Inquiry and evidence · Revision: 2026-10-21.2
+
+**Review draft — not independently approved. Practice marks are editorial, not official exam marks.**
+
+Original integrated-science inquiry lesson using explicitly invented classroom data. Partial MYP framework-skill links only. This is not a completed practical, a year-specific syllabus map or a laboratory safety procedure.
+
+## Prerequisites
+
+- Read a table and calculate an arithmetic mean.
+
+- Distinguish a measurement from an explanation of it.
+
+## Objectives
+
+- Turn a broad question into a measurable comparison with identified variables.
+
+- Plan controls, repetitions and recording that address plausible confounding factors.
+
+- Interpret data cautiously, distinguish uncertainty from mistakes and propose targeted improvements.
+
+## From curiosity to a testable question
+
+A scientific investigation begins with a question whose evidence could change our answer. 'Do ramps affect motion?' is too broad to specify what to measure. A more operational question is 'For the same toy car and surface, how does a change in ramp angle affect the distance travelled after leaving the ramp?' It identifies a changed quantity, an outcome and a comparison. It still needs a defined angle range, a distance reference point and an agreed release procedure. These details make the question reproducible rather than merely interesting.
+
+A prediction states an expected pattern; an explanation proposes why that pattern might occur. Keep them separate so a surprising result can challenge the proposed explanation. For example, predicting greater travel distance at larger angles does not by itself establish which energy transfers are responsible. An investigation should allow a different outcome, rather than setting up a procedure designed only to confirm a belief. The ramp examples here use invented data for reasoning practice. Any real classroom activity needs a teacher-approved method and risk assessment; this lesson does not authorise a physical setup or certify its safety.
+
+## Variables, controls and fair comparisons
+
+The independent variable is deliberately varied in an experiment, while the dependent variable is the measured response. A control variable is kept as consistent as practicable because it could otherwise influence the outcome. In the ramp example, the car, release position, surface and distance reference are relevant. Changing both angle and surface at once makes interpretation difficult: either change, or their interaction, could explain the result. A confounding factor is an alternative influence that varies with the proposed cause and obscures which factor produced the difference.
+
+Controls are chosen for reasons, not listed mechanically. Explain how each one could affect the measured outcome and how it will be kept consistent or recorded. Repeatedly measuring with the same incorrectly positioned start line does not remove that systematic problem. Randomising the order of conditions can reduce an association between angle and a time-related change, such as a surface becoming dusty; it does not guarantee that every confound is removed. Distinguish a control variable from a control group. Some investigations compare against a baseline group, but that is not the same as holding a measurement procedure constant.
+
+## Measurement, repeats and transparent records
+
+Define what is measured, its units and how the instrument is read before collecting results. A distance from the ramp end to the front of the car differs from a distance to its centre; both might be usable if consistently specified, but they must not be mixed. Instrument resolution is the smallest displayed increment, not a guarantee of accuracy. Accuracy concerns closeness to an accepted reference or true value; precision concerns how closely repeated measurements agree. Measurements can be tightly clustered yet all shifted by a calibration error.
+
+Repeat observations to see variability, not to manufacture a preferred mean. Keep the raw readings, record changes in procedure and preserve unusual results with an explanation. An unexpected value is not automatically a mistake. Check transcription, equipment and relevant conditions before deciding whether exclusion is justified, and report any decision transparently. The mean provides one summary, but can hide spread or be influenced by an extreme value. Report a spread measure alongside it when appropriate. In this lesson half-range is a simple classroom spread estimate, not a universal confidence interval or a rule for instrument uncertainty.
+
+## Tables, graphs and comparisons
+
+A table should label both the changed quantity and the response with units. Preserve individual repeats as well as any summary, so another reader can inspect variation. For continuous variables, a scatter graph can display the relationship without pretending that every point lies exactly on a rule. The independent variable normally appears on the horizontal axis and the dependent variable on the vertical axis. Choose sensible scales and do not force a line through the origin merely because it looks tidy. A best-fit line or curve should reflect the pattern and the modelling assumptions.
+
+Consider the invented repeated distances 42, 44 and 46 cm for one condition, and 53, 55 and 57 cm for another. Their means are 44 and 55 cm and each half-range is 2 cm. These data show a larger mean distance in the second condition in this small dataset. They do not, on their own, quantify a population effect, demonstrate statistical significance or prove a particular causal mechanism. The percentage increase relative to the first mean is (55 - 44)/44 × 100 = 25%. State the baseline explicitly because dividing by the second mean answers a different question.
+
+## Claims, evidence and alternative explanations
+
+A conclusion should answer the question at the strength supported by the evidence. State the observed pattern, cite relevant values and identify limits. 'The larger-angle condition had a greater mean distance in these trials' is narrower and more defensible than 'angle always determines distance'. A causal interpretation is stronger when the changed factor is isolated through the design, but controlled experiments still have assumptions and possible imperfections. An observational association, where the researcher did not assign conditions, usually leaves additional alternative explanations to consider.
+
+Ask which plausible factors could generate the same pattern. Perhaps a release position shifted, a different car was used, or condition order coincided with a changing surface. Explain how each possibility would alter the measurement and propose evidence that could distinguish it from the original explanation. Do not list every imaginable factor without relevance. Agreement with a prediction supports a model under the tested conditions; it does not prove that the model is uniquely correct. Disagreement is informative too: it may challenge the model, reveal an unaccounted variable or expose a measurement problem. Preserve it rather than rewriting the prediction after seeing the results.
+
+## Evaluation that improves the investigation
+
+Useful evaluation links a specific weakness to its likely effect and then to a feasible improvement. 'Human error occurred' names neither the problem nor a repair. 'The start position was judged by eye and may have varied between trials; mark a fixed reference and use the same release procedure' gives an identifiable source of variation and a way to reduce it. More repeats can improve the description of random variation, but will not correct a consistently miscalibrated instrument or an inappropriate operational definition.
+
+Separate improving internal validity from extending the scope. Better control of the car and surface helps isolate the comparison being tested. Investigating additional cars or surfaces examines how widely the result might generalise, which is a different next question. Choose further conditions because they test an assumption or clarify a pattern, not simply because more data always sounds better. A final report should retain the question, method, raw evidence, analysis, conclusion and limitations. Ethical reporting includes distinguishing real observations from simulated or invented teaching data, acknowledging sources and avoiding claims that exceed what was actually measured.
+
+## Keeping an anomalous reading visible while testing its cause
+
+An unusual reading should trigger investigation, not automatic deletion. Inspect the original record, measurement procedure and relevant conditions before deciding whether a documented error invalidates it. Report both the observation and any justified exclusion rule. With a small dataset, compare summaries with and without the reading to show sensitivity, but do not select the version that best supports a preferred conclusion. A repeated measurement can help test a suspected equipment or procedural problem; it cannot retrospectively prove that an unexplained value was impossible. These fictional values illustrate transparent analysis, not a completed experiment or a universal outlier-removal method.
+
+## Diagram: An investigation as a chain of reasoning
+
+This is a planning and reporting pathway, not proof that an experiment has been completed. Unexpected evidence may require revising earlier choices.
+
+1. Operational question: Define the changed quantity, response, domain and measurement reference.
+   Relationship to next step: decide what evidence would answer it
+
+2. Comparison design: Choose controls, order, repeats and an approved method.
+   Relationship to next step: collect or inspect data under the stated method
+
+3. Transparent evidence: Retain raw readings, units, unusual values and changes in procedure.
+   Relationship to next step: analyse without hiding disagreement
+
+4. Bounded conclusion: Compare the evidence with the prediction and address alternative explanations.
+   Relationship to next step: identify what the evidence still cannot distinguish
+
+5. Targeted next test: Change the design to investigate one identified limitation.
+
+## Diagram: Investigate a surprising measurement
+
+Read the labelled relationships to follow this worked application. Mean 11 seconds; median 9 seconds. The high reading raises the mean and warrants checking the record and procedure. This is an explanatory process diagram, not a scale drawing or a record of a learner attempt.
+
+1. Preserve readings: Keep 8, 9, 9 and 18 seconds in the original record.
+   Relationship to next step: summarise without deleting
+
+2. Compare summaries: Mean 11 and median 9 reveal sensitivity to the high value.
+   Relationship to next step: seek evidence for a cause
+
+3. Investigate before excluding: Check records and procedure, and report any justified exclusion explicitly.
+
+## Guided teaching sequence
+
+Suggested study route, not an official assessment or measured mastery.
+
+### Specify the comparison
+
+Rewrite the broad question and justify each control using its possible effect on the response.
+
+Read: From curiosity to a testable question; Variables, controls and fair comparisons
+
+Worked examples: 1, 2
+
+Practise: q1, q4
+
+### Describe the evidence
+
+Retain the raw readings before calculating a mean and spread. Explain why extra repeats do not repair a fixed offset.
+
+Read: Measurement, repeats and transparent records; Tables, graphs and comparisons
+
+Worked examples: 3, 4
+
+Practise: q2, q3, q5, q6
+
+### Judge and improve
+
+Write a conclusion that names the tested conditions. Propose one improvement tied to a plausible alternative explanation.
+
+Read: Claims, evidence and alternative explanations; Evaluation that improves the investigation
+
+Worked examples: 5
+
+Practise: q7, q8, q9, q10
+
+### Keeping an anomalous reading visible while testing its cause
+
+Use the diagram “Investigate a surprising measurement” to explain the example, then attempt the application and diagnose the flawed reasoning without looking at the solution. Check each explanation against the practice marking points.
+
+Read: Keeping an anomalous reading visible while testing its cause
+
+Worked examples: 6
+
+Practise: application-check, error-analysis
+
+### Retrieval practice
+
+Close the notes and answer these extra prompts from memory. Self-review with the held explanation, name one gap, then retry later. This is study practice, not an automatic mark or mastery measurement.
+
+Read: From curiosity to a testable question
+
+Worked examples: 1
+
+Practise: retrieval-01, retrieval-02, retrieval-03, retrieval-04, retrieval-05, retrieval-06, retrieval-07, retrieval-08, retrieval-09, retrieval-10, retrieval-11, retrieval-12, retrieval-13
+
+## Worked example 1
+
+Improve the question 'Which ramp is best?' for an investigation.
+
+1. Define the outcome: distance travelled after leaving a ramp.
+
+2. Specify the comparison: different ramp angles with the same car and surface.
+
+3. State that exact angle values, release reference and measurement method must be specified before a real trial.
+
+Answer: How does ramp angle affect post-ramp travel distance for the same toy car and surface under a fixed release procedure?
+
+## Worked example 2
+
+An investigator changes angle and floor material together. Identify the interpretation problem.
+
+1. Both changes could affect the final distance.
+
+2. The effects cannot be separated from this comparison.
+
+3. Hold floor material constant while comparing angles, or use a planned design that independently varies both factors.
+
+Answer: Floor material is confounded with angle.
+
+## Worked example 3
+
+Summarise the invented readings 18, 20 and 22 cm.
+
+1. Mean = (18 + 20 + 22)/3 = 20 cm.
+
+2. Range = 22 - 18 = 4 cm; half-range = 2 cm.
+
+3. Report 20 cm with a classroom half-range spread of 2 cm, not as a certified confidence interval.
+
+Answer: Mean 20 cm; range 4 cm; half-range 2 cm.
+
+## Worked example 4
+
+A ruler consistently reads 1 cm too high. Will twenty repeats remove this offset?
+
+1. The same offset affects every reading.
+
+2. Averaging reduces some random variation but retains the systematic offset.
+
+3. Check against a reference and correct or replace the instrument using an appropriate procedure.
+
+Answer: No. Address the calibration or zero-reference problem.
+
+## Worked example 5
+
+Use invented means 44 and 55 cm to write a bounded comparison.
+
+1. The difference is 11 cm.
+
+2. Relative to 44 cm, the increase is 11/44 × 100 = 25%.
+
+3. Restrict the statement to these conditions and this dataset; no significance test or universal law follows.
+
+Answer: The second condition's mean is 11 cm, or 25%, greater in this invented dataset.
+
+## Worked example 6
+
+Fictional repeated times are 8, 9, 9 and 18 seconds. Calculate the mean and median, then describe what their difference suggests investigating.
+
+1. The sum is 44, so the mean is 44/4 = 11.
+
+2. The two middle ordered readings are 9 and 9, giving median 9.
+
+3. The 18-second value pulls the mean upward, but the summaries alone do not prove it is erroneous.
+
+Answer: Mean 11 seconds; median 9 seconds. The high reading raises the mean and warrants checking the record and procedure.
+
+## Misconceptions
+
+- Precise readings must be accurate.
+  Correction: Readings can cluster closely while sharing a systematic offset.
+
+- An unexpected value should always be deleted.
+  Correction: Investigate it and preserve the original record; exclusion needs an explicit, defensible reason.
+
+- More repeats fix every weakness.
+  Correction: Repeats do not automatically remove confounding, calibration error or a poorly defined measurement.
+
+## Flashcards
+
+### What makes a question operational?
+It identifies quantities and how the comparison and measurement will be defined.
+
+### Independent versus dependent variable?
+The independent variable is deliberately varied; the dependent variable is the measured response.
+
+### What is a confounding factor?
+Another influence changes with the proposed cause and makes their effects difficult to separate.
+
+### Why justify control variables?
+A useful control addresses a factor that could plausibly influence the response.
+
+### Accuracy versus precision?
+Accuracy is closeness to a reference or true value; precision is agreement among repeated measurements.
+
+### What does instrument resolution describe?
+The smallest displayed increment, not a guarantee of accuracy.
+
+### Why retain raw repeats?
+They reveal variability, unusual values and what a mean may conceal.
+
+### What is the half-range here?
+(Maximum - minimum)/2, used only as a simple classroom spread estimate.
+
+### What can randomising condition order help with?
+It can reduce an association between condition and time-related changes; it is not a guarantee against all bias.
+
+### What should happen to an unexpected result?
+Check it, retain the original record and explain any justified exclusion.
+
+### What makes an evaluation useful?
+Link a specific limitation to its likely effect and a targeted improvement.
+
+### Why label invented teaching data?
+So readers do not mistake a practice example for measured evidence.
+
+### Does an unusual observation justify automatic deletion?
+No. Investigate and document the reason; preserve the original observation and any exclusion decision.
+
+### What does a sensitivity comparison show?
+How a conclusion or summary changes under a stated alternative analysis, not proof that the alternative is correct.
+
+## Practice 1 — foundation · 2 marks
+
+In a planned comparison of ramp angles measuring travel distance, which is the dependent variable?
+
+A. Ramp angle
+
+B. Travel distance
+
+C. Car identity
+
+D. Trial order
+
+Answer: Travel distance
+
+1. The measured response is distance.
+
+2. Angle is deliberately changed, so it is independent.
+
+Marking points (one practice mark each):
+
+- Distinguish changed and measured quantities.
+
+- Select travel distance.
+
+## Practice 2 — foundation · 2 marks
+
+Find the mean of these invented distances in cm: 31, 34 and 37.
+
+Answer: 34
+
+1. Add the three observations to get 102.
+
+2. Divide by three to obtain 34.
+
+Marking points (one practice mark each):
+
+- Add all readings.
+
+- Divide by three.
+
+## Practice 3 — standard · 2 marks
+
+Using half-range as a classroom spread estimate, find it for 31, 34 and 37 cm.
+
+Answer: 3
+
+1. Range = 37 - 31 = 6 cm.
+
+2. Half-range = 6/2 = 3 cm.
+
+Marking points (one practice mark each):
+
+- Find the range.
+
+- Halve it.
+
+## Practice 4 — standard · 3 marks
+
+Explain why using one car for low angles and a different car for high angles weakens a causal comparison, and suggest an improvement.
+
+Answer: Car identity varies with angle, so differences in distance could be due to the car, angle or both. Use the same car, or independently vary car and angle in a planned comparison.
+
+1. Properties of the car can affect motion.
+
+2. Because identity and angle change together, their effects are not separated.
+
+Marking points (one practice mark each):
+
+- Identify car identity as a possible influence.
+
+- Explain the confounding.
+
+- Propose using the same car or independently varying car and angle.
+
+## Practice 5 — standard · 2 marks
+
+Which action most directly addresses a ruler that reads 1 cm too high every time?
+
+A. Take more readings with no other change
+
+B. Delete the largest reading
+
+C. Check and correct the zero reference against a suitable standard
+
+D. Round every reading to fewer digits
+
+Answer: Check and correct the zero reference against a suitable standard
+
+1. A consistent offset is systematic.
+
+2. Repeating or averaging the same offset does not remove it.
+
+Marking points (one practice mark each):
+
+- Identify a systematic problem.
+
+- Select reference checking and correction.
+
+## Practice 6 — standard · 3 marks
+
+An invented dataset contains 40, 41 and 62 cm. Is deleting 62 automatically justified? Explain.
+
+Answer: No. Investigate the value, retain the raw record and explain any defensible exclusion.
+
+1. An unusual observation might be genuine variation or a procedural problem.
+
+2. Exclusion requires evidence or a pre-specified rule, not a desire for a neat pattern.
+
+Marking points (one practice mark each):
+
+- Reject automatic deletion.
+
+- Describe investigation and transparent reporting.
+
+- Distinguish unusual from proven erroneous.
+
+## Practice 7 — extension · 4 marks
+
+Write a cautious conclusion from invented means of 20 cm and 24 cm at two tested conditions; no uncertainty analysis or significance test is supplied.
+
+Answer: The second condition had a mean 4 cm greater in this dataset; the evidence does not establish statistical significance or universal causation.
+
+1. Compute the difference 24 - 20 = 4 cm.
+
+2. Restrict the statement to the tested conditions.
+
+3. Explain that variability, controls and further analysis are needed for stronger claims.
+
+Marking points (one practice mark each):
+
+- State the observed difference.
+
+- Limit the claim to the dataset.
+
+- Avoid a significance claim.
+
+- Name relevant missing evidence.
+
+## Practice 8 — standard · 3 marks
+
+Improve the evaluation 'human error made the results bad' for a changing start position.
+
+Answer: A changing release position could alter travel distance; mark a fixed reference and use a consistent teacher-approved release procedure.
+
+1. Identify the particular procedural variation.
+
+2. Explain its influence and a targeted repair.
+
+Marking points (one practice mark each):
+
+- Name changing release position.
+
+- Connect it to distance.
+
+- Specify a consistent reference and method.
+
+## Practice 9 — standard · 2 marks
+
+Invented mean distance rises from 40 to 50 cm. Find the percentage increase relative to 40 cm.
+
+Answer: 25
+
+1. The increase is 10 cm.
+
+2. 10/40 × 100 = 25%.
+
+Marking points (one practice mark each):
+
+- Use the original mean as denominator.
+
+- Obtain 25%.
+
+## Practice 10 — extension · 4 marks
+
+Explain how randomising condition order and adding repeat measurements address different concerns, and name one problem neither necessarily fixes.
+
+Answer: Randomisation reduces association with time-related changes; repeats reveal variability. Neither necessarily fixes a constant calibration offset.
+
+1. If conditions always run in the same order, time trends may track the independent variable.
+
+2. Repeats help describe within-condition spread.
+
+3. A shared instrument offset can remain in both designs.
+
+Marking points (one practice mark each):
+
+- Explain the purpose of randomised order.
+
+- Explain the purpose of repeats.
+
+- Give a valid remaining systematic problem.
+
+- Avoid claiming either method guarantees validity.
+
+## Practice 11 — standard · 3 marks
+
+Fictional repeated times are 8, 9, 9 and 18 seconds. Calculate the mean and median, then describe what their difference suggests investigating.
+
+Answer: Mean 11 seconds; median 9 seconds. The high reading raises the mean and warrants checking the record and procedure.
+
+1. The sum is 44, so the mean is 44/4 = 11.
+
+2. The two middle ordered readings are 9 and 9, giving median 9.
+
+3. The 18-second value pulls the mean upward, but the summaries alone do not prove it is erroneous.
+
+Marking points (one practice mark each):
+
+- The sum is 44, so the mean is 44/4 = 11.
+
+- The two middle ordered readings are 9 and 9, giving median 9.
+
+- The 18-second value pulls the mean upward, but the summaries alone do not prove it is erroneous.
+
+## Practice 12 — extension · 3 marks
+
+A learner deletes 18 seconds solely because it weakens their expected pattern. Give a transparent alternative procedure and calculate the mean of the other three for a sensitivity comparison.
+
+Answer: Keep and investigate the reading; report the full mean 11 and the conditional three-reading mean 26/3, approximately 8.67 seconds, without claiming a justified exclusion yet.
+
+1. Record the unusual value and seek a documented measurement or transcription issue.
+
+2. The other three sum to 26, giving 26/3 seconds.
+
+3. Present the comparison as sensitivity analysis, retaining the full dataset unless an explicit defensible exclusion is established.
+
+Marking points (one practice mark each):
+
+- Record the unusual value and seek a documented measurement or transcription issue.
+
+- The other three sum to 26, giving 26/3 seconds.
+
+- Present the comparison as sensitivity analysis, retaining the full dataset unless an explicit defensible exclusion is established.
+
+## Practice 13 — foundation · 1 marks
+
+Retrieval 1 — Planning investigations and evaluating evidence: Answer from memory: What makes a question operational?
+
+Answer: It identifies quantities and how the comparison and measurement will be defined.
+
+1. Identify the target idea: What makes a question operational?
+
+2. Compare your response with the held study explanation: It identifies quantities and how the comparison and measurement will be defined.
+
+Marking points (one practice mark each):
+
+- Accurately address: What makes a question operational?
+
+## Practice 14 — standard · 1 marks
+
+Retrieval 2 — Planning investigations and evaluating evidence: State the condition or distinction precisely: Independent versus dependent variable?
+
+Answer: The independent variable is deliberately varied; the dependent variable is the measured response.
+
+1. Identify the target idea: Independent versus dependent variable?
+
+2. Compare your response with the held study explanation: The independent variable is deliberately varied; the dependent variable is the measured response.
+
+Marking points (one practice mark each):
+
+- Accurately address: Independent versus dependent variable?
+
+## Practice 15 — extension · 1 marks
+
+Retrieval 3 — Planning investigations and evaluating evidence: Explain the idea in your own words: What is a confounding factor?
+
+Answer: Another influence changes with the proposed cause and makes their effects difficult to separate.
+
+1. Identify the target idea: What is a confounding factor?
+
+2. Compare your response with the held study explanation: Another influence changes with the proposed cause and makes their effects difficult to separate.
+
+Marking points (one practice mark each):
+
+- Accurately address: What is a confounding factor?
+
+## Practice 16 — foundation · 1 marks
+
+Retrieval 4 — Planning investigations and evaluating evidence: Answer from memory: Why justify control variables?
+
+Answer: A useful control addresses a factor that could plausibly influence the response.
+
+1. Identify the target idea: Why justify control variables?
+
+2. Compare your response with the held study explanation: A useful control addresses a factor that could plausibly influence the response.
+
+Marking points (one practice mark each):
+
+- Accurately address: Why justify control variables?
+
+## Practice 17 — standard · 1 marks
+
+Retrieval 5 — Planning investigations and evaluating evidence: State the condition or distinction precisely: Accuracy versus precision?
+
+Answer: Accuracy is closeness to a reference or true value; precision is agreement among repeated measurements.
+
+1. Identify the target idea: Accuracy versus precision?
+
+2. Compare your response with the held study explanation: Accuracy is closeness to a reference or true value; precision is agreement among repeated measurements.
+
+Marking points (one practice mark each):
+
+- Accurately address: Accuracy versus precision?
+
+## Practice 18 — extension · 1 marks
+
+Retrieval 6 — Planning investigations and evaluating evidence: Explain the idea in your own words: What does instrument resolution describe?
+
+Answer: The smallest displayed increment, not a guarantee of accuracy.
+
+1. Identify the target idea: What does instrument resolution describe?
+
+2. Compare your response with the held study explanation: The smallest displayed increment, not a guarantee of accuracy.
+
+Marking points (one practice mark each):
+
+- Accurately address: What does instrument resolution describe?
+
+## Practice 19 — foundation · 1 marks
+
+Retrieval 7 — Planning investigations and evaluating evidence: Answer from memory: Why retain raw repeats?
+
+Answer: They reveal variability, unusual values and what a mean may conceal.
+
+1. Identify the target idea: Why retain raw repeats?
+
+2. Compare your response with the held study explanation: They reveal variability, unusual values and what a mean may conceal.
+
+Marking points (one practice mark each):
+
+- Accurately address: Why retain raw repeats?
+
+## Practice 20 — standard · 1 marks
+
+Retrieval 8 — Planning investigations and evaluating evidence: State the condition or distinction precisely: What is the half-range here?
+
+Answer: (Maximum - minimum)/2, used only as a simple classroom spread estimate.
+
+1. Identify the target idea: What is the half-range here?
+
+2. Compare your response with the held study explanation: (Maximum - minimum)/2, used only as a simple classroom spread estimate.
+
+Marking points (one practice mark each):
+
+- Accurately address: What is the half-range here?
+
+## Practice 21 — extension · 1 marks
+
+Retrieval 9 — Planning investigations and evaluating evidence: Explain the idea in your own words: What can randomising condition order help with?
+
+Answer: It can reduce an association between condition and time-related changes; it is not a guarantee against all bias.
+
+1. Identify the target idea: What can randomising condition order help with?
+
+2. Compare your response with the held study explanation: It can reduce an association between condition and time-related changes; it is not a guarantee against all bias.
+
+Marking points (one practice mark each):
+
+- Accurately address: What can randomising condition order help with?
+
+## Practice 22 — foundation · 1 marks
+
+Retrieval 10 — Planning investigations and evaluating evidence: Answer from memory: What should happen to an unexpected result?
+
+Answer: Check it, retain the original record and explain any justified exclusion.
+
+1. Identify the target idea: What should happen to an unexpected result?
+
+2. Compare your response with the held study explanation: Check it, retain the original record and explain any justified exclusion.
+
+Marking points (one practice mark each):
+
+- Accurately address: What should happen to an unexpected result?
+
+## Practice 23 — standard · 1 marks
+
+Retrieval 11 — Planning investigations and evaluating evidence: State the condition or distinction precisely: What makes an evaluation useful?
+
+Answer: Link a specific limitation to its likely effect and a targeted improvement.
+
+1. Identify the target idea: What makes an evaluation useful?
+
+2. Compare your response with the held study explanation: Link a specific limitation to its likely effect and a targeted improvement.
+
+Marking points (one practice mark each):
+
+- Accurately address: What makes an evaluation useful?
+
+## Practice 24 — extension · 1 marks
+
+Retrieval 12 — Planning investigations and evaluating evidence: Explain the idea in your own words: Why label invented teaching data?
+
+Answer: So readers do not mistake a practice example for measured evidence.
+
+1. Identify the target idea: Why label invented teaching data?
+
+2. Compare your response with the held study explanation: So readers do not mistake a practice example for measured evidence.
+
+Marking points (one practice mark each):
+
+- Accurately address: Why label invented teaching data?
+
+## Practice 25 — foundation · 1 marks
+
+Retrieval 13 — Planning investigations and evaluating evidence: Answer from memory: Does an unusual observation justify automatic deletion?
+
+Answer: No. Investigate and document the reason; preserve the original observation and any exclusion decision.
+
+1. Identify the target idea: Does an unusual observation justify automatic deletion?
+
+2. Compare your response with the held study explanation: No. Investigate and document the reason; preserve the original observation and any exclusion decision.
+
+Marking points (one practice mark each):
+
+- Accurately address: Does an unusual observation justify automatic deletion?
+
+## Revision checklist
+
+- Define variables and explain the purpose of each control.
+
+- Distinguish precision, accuracy, resolution and spread.
+
+- Support a bounded conclusion with actual values.
+
+- Match each improvement to a specific limitation.
+
+- Explain the reasoning in “Investigate a surprising measurement” and correct the linked error-analysis response without copying its solution.
+
+## Revision guide
+
+A useful investigation connects a measurable question to a defensible comparison and transparent evidence. Conclusions must account for variability, controls and alternative explanations. Evaluation improves a named weakness rather than promising that more data fixes everything.
+
+### Key ideas
+
+- Define exactly what is changed, measured and kept consistent.
+
+- Precision, accuracy and resolution describe different things.
+
+- Unexpected results are evidence to examine, not obstacles to erase.
+
+### Mean = sum of observations / number of observations
+A summary of the measured values.
+Conditions: Use comparable quantities and retain the raw readings.
+
+### Half-range = (maximum - minimum)/2
+The simple spread estimate chosen in this lesson.
+Conditions: Not a universal measurement uncertainty or confidence interval.
+
+### Percentage change = (new - original)/original × 100
+Relative change with an explicitly named baseline.
+Conditions: Original value must be nonzero; interpret units and context.
+
+### Retrieve without looking
+
+- Give a precise but inaccurate measurement example.
+
+- Explain a confound and how to separate its influence.
+
+- Rewrite a vague evaluation as weakness, effect and improvement.
+
+Mixed practice: q4, q6, q7, q10, application-check, error-analysis
+
+Later, explain the inquiry diagram without looking. Use a different harmless classroom context and check whether your controls and limitations remain relevant; do not conduct a new practical without appropriate approval.
+
+## Partial syllabus crosswalk
+
+Source-checked means the official point was inspected, not independently approved teaching or complete coverage.
+
+### ib-myp-sciences-20261019: Research, observation and experimentation
+
+[Official specification reference](https://ibo.org/programmes/middle-years-programme/curriculum/science/)
+
+Version: Official page last updated 19 February 2026; inspected 2026-10-19. Checked: 2026-10-19. Location: Opening paragraph and 'What is the significance of sciences in the MYP?'.
+
+Tier/scope: Public integrated-sciences framework skill, not year-specific assessment criteria
+
+Teaching: From curiosity to a testable question; Variables, controls and fair comparisons; Measurement, repeats and transparent records; Tables, graphs and comparisons
+
+Practice IDs: q1, q2, q3, q4, q5, q9
+
+Still required:
+
+- School-selected units, full subject-guide criteria and practical performance remain unverified.
+
+### ib-myp-sciences-20261019: Assumptions and alternative explanations
+
+[Official specification reference](https://ibo.org/programmes/middle-years-programme/curriculum/science/)
+
+Version: Official page last updated 19 February 2026; inspected 2026-10-19. Checked: 2026-10-19. Location: Opening paragraph and 'What is the significance of sciences in the MYP?'.
+
+Tier/scope: Public framework skill only
+
+Teaching: Claims, evidence and alternative explanations; Evaluation that improves the investigation
+
+Practice IDs: q6, q7, q8, q10
+
+Still required:
+
+- Independent subject review and authentic investigation evidence remain required.

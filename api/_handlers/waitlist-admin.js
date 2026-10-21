@@ -1,3 +1,4 @@
+import { resolveAppOrigin } from '../../contracts/appOrigin.js';
 import { verifyAuthUser, readJsonBody, rejectOversizedJsonBody } from '../_lib/auth.js';
 import { requireAdmin } from '../_lib/admin.js';
 import { getSupabaseAdmin } from '../_lib/supabaseAdmin.js';
@@ -125,7 +126,7 @@ export default async function handler(req, res) {
         return res.status(404).json({ error: 'Waitlist entry not found.' });
       }
 
-      const origin = process.env.APP_URL || process.env.SITE_URL || 'https://www.vertexed.app';
+      const origin = resolveAppOrigin(process.env);
       const inviteLink = inviteToken
         ? buildInviteSignupUrl(origin, inviteToken)
         : null;

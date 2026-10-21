@@ -1,9 +1,10 @@
+import { APP_ORIGIN } from '@/lib/appOrigin';
 import React from "react";
 import { useLocation } from "react-router";
 import { Helmet } from "react-helmet-async";
 import { getHeadingsForPath } from "@/components/SemanticHeadings";
 
-const BASE_URL = "https://www.vertexed.app";
+const BASE_URL = `${APP_ORIGIN}`;
 
 function buildBreadcrumbList(pathname: string) {
   // Normalize and split

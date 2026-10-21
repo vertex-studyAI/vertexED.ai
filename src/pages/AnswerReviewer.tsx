@@ -1,3 +1,4 @@
+import PolynomialStepCheck from '@/components/PolynomialStepCheck';
 import { resolveConfirmedCriteria } from '@/lib/confirmedReview.mjs';
 import { Helmet } from "react-helmet-async";
 import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
@@ -743,7 +744,7 @@ export default function AIAnswerReview() {
         <meta name="description" content="Submit handwritten or typed answers for mark-scheme feedback - structure, command terms, evidence, and what to rewrite before the next attempt." />
       </Helmet>
 
-      <PageSection>
+      <PageSection className="answer-reviewer-page">
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
@@ -784,6 +785,7 @@ export default function AIAnswerReview() {
               </div>
             </div>
 
+            <PolynomialStepCheck />
             <p className="text-xs text-muted-foreground mb-4">Text drafts save on this device. Reattach images after refreshing.</p>
             {previousAttempt && <details className="surface-tile p-4 mb-4"><summary className="cursor-pointer min-h-11">Previous attempt and feedback</summary><p className="whitespace-pre-wrap mt-3">{previousAttempt.answer}</p><p className="whitespace-pre-wrap mt-3 text-sm text-muted-foreground">{previousAttempt.feedback}</p><Link className="text-link" to={`/saved-work?item=${encodeURIComponent(previousAttempt.id)}`}>Open saved original</Link></details>}
             {examImportNote && (

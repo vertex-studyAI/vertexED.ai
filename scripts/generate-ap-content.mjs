@@ -11,6 +11,7 @@ const courses = [];
 for (const name of (await readdir(source)).filter((name) => name.endsWith('.json')).sort()) {
   const course = JSON.parse(await readFile(resolve(source, name), 'utf8'));
   if (!isApCourse(course) || name !== `${course.slug}.json`) throw new Error(`Invalid AP content: ${name}`);
+  if (course.modules.some((unit) => !unit.studyPack)) throw new Error(`Missing AP study resources: ${name}`);
   courses.push(course);
 }
 if (courses.length !== 42) throw new Error(`Expected the 42 current AP courses; found ${courses.length}.`);

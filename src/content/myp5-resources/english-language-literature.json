@@ -1,0 +1,3282 @@
+{
+  "subjectSlug": "english-language-literature",
+  "lessons": {
+    "myp5-english-literary-analysis": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Literary analysis in context",
+            "paragraphs": [
+              "An interpretation is a claim about how language makes meaning. Move from a precise observation to an inference and then test that inference against surrounding details. A verb can suggest agency without proving a character’s feelings. Distinguish the narrator’s words from the author’s own beliefs, and use cautious verbs such as suggests when more than one reading remains possible. The strongest explanation accounts for several details without ignoring an awkward one. Naming a technique is useful only when it helps explain the particular passage."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original microfiction: “The empty station swallowed her farewell; she tried it again, more softly.” Analyse the presentation of isolation.",
+            "steps": [
+              "“Swallowed” gives the station an active, consuming role, making the setting seem unresponsive.",
+              "The repeated farewell suggests a desire for an answer, while “more softly” reduces the speaker’s presence."
+            ],
+            "conclusion": "The personified setting and fading voice together suggest isolation; the passage does not establish why she is alone."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What distinguishes observation from inference?",
+            "back": "An observation identifies a textual detail; an inference proposes what it may mean."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why quote a short verb?",
+            "back": "It anchors the explanation in a precise choice rather than a broad impression."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Does a narrator speak for the author?",
+            "back": "No. A narrator is a constructed voice and may be limited or unreliable."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What should a competing reading explain?",
+            "back": "The same textual details, including any that challenge the preferred interpretation."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Literary analysis: relationships to explain",
+            "description": "“Swallowed” → Unanswered speech → Qualified interpretation. The repeated action supports an inference about separation.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "“Swallowed”",
+                "detail": "The station receives an active verb."
+              },
+              {
+                "id": "node-2",
+                "label": "Unanswered speech",
+                "detail": "The farewell is repeated without a reply."
+              },
+              {
+                "id": "node-3",
+                "label": "Qualified interpretation",
+                "detail": "Isolation is suggested, but its cause remains unknown."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "Personification makes the setting seem consuming."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "The repeated action supports an inference about separation."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-english-literary-analysis-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Original line: “Her laughter arrived a moment after everyone else’s.” Explain a plausible effect.",
+          "hints": [
+            "Notice the timing.",
+            "Distinguish participation from ease."
+          ],
+          "solution": [
+            "“A moment after” delays her response.",
+            "The delay may suggest uncertainty or an effort to join the group.",
+            "This is a plausible inference, not proof that she dislikes the others."
+          ],
+          "successCriteria": [
+            "“A moment after” delays her response.",
+            "The delay may suggest uncertainty or an effort to join the group.",
+            "This is a plausible inference, not proof that she dislikes the others."
+          ]
+        },
+        {
+          "id": "extension-myp5-english-literary-analysis-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Original passage: “He slammed the drawer, then carefully straightened the photograph.” Explain why “he is simply careless” is incomplete.",
+          "hints": [
+            "Compare the two actions.",
+            "What does “carefully” complicate?"
+          ],
+          "solution": [
+            "Slamming suggests force or agitation.",
+            "Straightening the photograph shows deliberate care towards one object.",
+            "The contrast supports selective attachment or conflicted emotion rather than general carelessness."
+          ],
+          "successCriteria": [
+            "Slamming suggests force or agitation.",
+            "Straightening the photograph shows deliberate care towards one object.",
+            "The contrast supports selective attachment or conflicted emotion rather than general carelessness."
+          ]
+        }
+      ]
+    },
+    "myp5-english-rhetorical-devices": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Rhetorical devices in context",
+            "paragraphs": [
+              "Rhetorical devices organise emphasis, comparison and expectation. Repetition can unite listeners around a phrase, but its effect depends on what is repeated and who hears it. Antithesis places contrasting ideas in a balanced structure; it can make a decision seem clearer than the evidence warrants. A rhetorical question often invites an assumed answer rather than an actual response. Analyse the relationship between wording and argument: identify the appeal, explain the implied choice, and consider whose circumstances may be excluded by it."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original speech: “We can count the complaints, or we can open the door.” Explain how the sentence frames action.",
+            "steps": [
+              "The parallel “we can” clauses set two choices beside one another.",
+              "“Count” suggests passive administration, while “open” makes action sound direct and welcoming."
+            ],
+            "conclusion": "The contrast encourages action, but presenting only two options may simplify a more complex decision."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is antithesis?",
+            "back": "A structured contrast between ideas, often in parallel phrasing."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What does anaphora repeat?",
+            "back": "A word or phrase at the beginning of successive clauses or lines."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Why inspect a rhetorical question’s implied answer?",
+            "back": "The question may treat a debatable assumption as shared."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Does identifying repetition explain its effect?",
+            "back": "No; explain the repeated idea and its role for the intended audience."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Rhetorical devices: relationships to explain",
+            "description": "Parallel clauses → Unequal associations → Persuasive pressure. Different verbs weight the apparently balanced choice.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Parallel clauses",
+                "detail": "“We can” introduces both choices."
+              },
+              {
+                "id": "node-2",
+                "label": "Unequal associations",
+                "detail": "Counting seems passive; opening seems active."
+              },
+              {
+                "id": "node-3",
+                "label": "Persuasive pressure",
+                "detail": "Listeners are encouraged to choose the second option."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "Matching syntax invites comparison."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "Different verbs weight the apparently balanced choice."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-english-rhetorical-devices-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Original slogan: “Less waiting, more learning.” Explain the contrast and one limitation.",
+          "hints": [
+            "Look for opposing quantities.",
+            "Does it supply evidence?"
+          ],
+          "solution": [
+            "“Less” and “more” create a balanced contrast.",
+            "The slogan associates reduced waiting with increased learning.",
+            "It supplies no evidence that the proposed change will cause that outcome."
+          ],
+          "successCriteria": [
+            "“Less” and “more” create a balanced contrast.",
+            "The slogan associates reduced waiting with increased learning.",
+            "It supplies no evidence that the proposed change will cause that outcome."
+          ]
+        },
+        {
+          "id": "extension-myp5-english-rhetorical-devices-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Original appeal: “Who would choose a darker classroom?” Explain the assumed answer and a fair challenge.",
+          "hints": [
+            "Identify the expected response.",
+            "Consider an omitted alternative."
+          ],
+          "solution": [
+            "The question expects listeners to reject a darker room.",
+            "It makes agreement with the speaker appear obvious.",
+            "A challenge could ask whether better lighting can be achieved by another affordable proposal."
+          ],
+          "successCriteria": [
+            "The question expects listeners to reject a darker room.",
+            "It makes agreement with the speaker appear obvious.",
+            "A challenge could ask whether better lighting can be achieved by another affordable proposal."
+          ]
+        }
+      ]
+    },
+    "myp5-english-non-literary-analysis": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Non-literary analysis in context",
+            "paragraphs": [
+              "Non-literary texts combine information with choices about order, design and audience. A notice may instruct, reassure or persuade at the same time. Establish the practical situation before interpreting tone: a short imperative in an emergency notice works differently from the same words in an advert. Separate the action requested from the justification offered. Consider placement, omitted details and access needs where the supplied material supports them. Avoid inventing a designer’s intention; describe what the text enables or encourages a reader to do."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original notice beside a school printer: “Print both sides. Ask at the desk if you need help. Paper saved here can be used in tomorrow’s art class.” Analyse its purpose.",
+            "steps": [
+              "The opening imperative gives a clear action and the second sentence offers support.",
+              "The final sentence links the action to a nearby shared benefit rather than an abstract claim."
+            ],
+            "conclusion": "The notice instructs users and makes cooperation seem practical and useful to the school community."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is the requested action?",
+            "back": "The behaviour the text asks its reader to perform."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why consider placement?",
+            "back": "It helps identify who encounters the text and which information is immediately useful."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "How can a notice serve two purposes?",
+            "back": "It can give instructions while persuading readers that compliance matters."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What is an omission?",
+            "back": "Relevant information the text does not supply; its significance depends on the reader’s task."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Non-literary analysis: relationships to explain",
+            "description": "Imperative → Support → Shared benefit. A practical benefit supplies a reason to cooperate.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Imperative",
+                "detail": "Print both sides."
+              },
+              {
+                "id": "node-2",
+                "label": "Support",
+                "detail": "Help is available at the desk."
+              },
+              {
+                "id": "node-3",
+                "label": "Shared benefit",
+                "detail": "Saved paper supports art activities."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "The help instruction reduces a possible barrier."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "A practical benefit supplies a reason to cooperate."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-english-non-literary-analysis-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Original notice: “Club meeting moved to Room 12. Same time.” Identify useful information and one missing detail for a new member.",
+          "hints": [
+            "What changed?",
+            "What must the reader already know?"
+          ],
+          "solution": [
+            "Room 12 identifies the new location.",
+            "“Same time” preserves information known to existing members.",
+            "A new member still needs the actual meeting time."
+          ],
+          "successCriteria": [
+            "Room 12 identifies the new location.",
+            "“Same time” preserves information known to existing members.",
+            "A new member still needs the actual meeting time."
+          ]
+        },
+        {
+          "id": "extension-myp5-english-non-literary-analysis-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Original label: “Reusable cup: wash before first use.” Analyse the two functions.",
+          "hints": [
+            "Separate naming from instruction.",
+            "Explain the timing phrase."
+          ],
+          "solution": [
+            "“Reusable cup” identifies the item and a property.",
+            "“Wash” directs the user to act.",
+            "“Before first use” specifies when the action is needed rather than merely recommending cleanliness."
+          ],
+          "successCriteria": [
+            "“Reusable cup” identifies the item and a property.",
+            "“Wash” directs the user to act.",
+            "“Before first use” specifies when the action is needed rather than merely recommending cleanliness."
+          ]
+        }
+      ]
+    },
+    "myp5-english-annotation": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Annotation in context",
+            "paragraphs": [
+              "Annotation is selective thinking recorded beside a text. Mark a detail only when you can attach a question, pattern or tentative inference to it. Too many highlighted words conceal the evidence you need later. Keep literal observations separate from interpretive notes, and revisit an early reading when a later sentence changes it. Track connections such as repeated objects, shifts in pronouns, changes in pace or contrasts between speech and action. An annotation should help answer a question; it does not need to become a polished paragraph."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original passage: “The parcel lay unopened. Nia moved it from the desk to the shelf, then back again.” Annotate for hesitation.",
+            "steps": [
+              "Underline “unopened” and note that the expected action has not happened.",
+              "Link “to the shelf” with “back again”: movement changes location but makes no progress towards opening."
+            ],
+            "conclusion": "The annotations connect avoidance and circular action to hesitation without inventing the parcel’s contents."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What makes annotation selective?",
+            "back": "Each mark serves the reading question or records a relevant uncertainty."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why connect repeated actions?",
+            "back": "Their pattern may reveal development or the absence of progress."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "How should uncertainty be recorded?",
+            "back": "As a question or qualified inference rather than an invented fact."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What should later reading do to early annotations?",
+            "back": "Confirm, refine or challenge them with new evidence."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Annotation: relationships to explain",
+            "description": "Detail → Pattern → Inference. Circular movement supports a reading of hesitation.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Detail",
+                "detail": "The parcel is unopened."
+              },
+              {
+                "id": "node-2",
+                "label": "Pattern",
+                "detail": "It moves away and returns."
+              },
+              {
+                "id": "node-3",
+                "label": "Inference",
+                "detail": "Activity substitutes for a decision."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "The unchanged object links the actions."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "Circular movement supports a reading of hesitation."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-english-annotation-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Original line: “The room was ready; nobody sat down.” Give two connected annotations and an inference.",
+          "hints": [
+            "Mark readiness.",
+            "Mark the unexpected absence of action."
+          ],
+          "solution": [
+            "“Ready” establishes an expectation of use.",
+            "“Nobody sat down” contradicts that expectation.",
+            "The contrast may suggest unease or an interruption whose cause is not supplied."
+          ],
+          "successCriteria": [
+            "“Ready” establishes an expectation of use.",
+            "“Nobody sat down” contradicts that expectation.",
+            "The contrast may suggest unease or an interruption whose cause is not supplied."
+          ]
+        },
+        {
+          "id": "extension-myp5-english-annotation-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A learner highlights every adjective but writes no notes. Explain a better approach for a question about changing mood.",
+          "hints": [
+            "Look for change rather than word class alone.",
+            "Connect a selected detail to an inference."
+          ],
+          "solution": [
+            "Select adjectives that contribute to a shift in mood.",
+            "Record what each suggests and how it differs from an earlier description.",
+            "Leave unrelated adjectives unmarked so the relevant pattern remains visible."
+          ],
+          "successCriteria": [
+            "Select adjectives that contribute to a shift in mood.",
+            "Record what each suggests and how it differs from an earlier description.",
+            "Leave unrelated adjectives unmarked so the relevant pattern remains visible."
+          ]
+        }
+      ]
+    },
+    "myp5-english-evidence-selection": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Evidence selection in context",
+            "paragraphs": [
+              "Evidence must fit the exact scope of a claim. A short quotation that captures a change or contradiction is often more useful than a long passage containing mostly irrelevant information. Check who speaks, when the statement occurs and whether later details qualify it. Select evidence for its explanatory value rather than its dramatic language alone. If the claim is too broad for the available words, narrow the claim. An honest interpretation can acknowledge a counterexample and explain how it modifies the argument rather than hiding it."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original passage: “Ari volunteered first. At the doorway, he asked whether someone might come with him.” Choose evidence for initial confidence followed by uncertainty.",
+            "steps": [
+              "“Volunteered first” supports readiness at the beginning.",
+              "The request for company at the doorway qualifies that readiness at the moment of action."
+            ],
+            "conclusion": "The paired evidence supports a change in confidence; either quotation alone would give an incomplete account."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What makes evidence relevant?",
+            "back": "It directly supports or qualifies the particular claim being made."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why include surrounding context?",
+            "back": "It prevents a quotation from being made to mean something it does not mean in the passage."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What if evidence supports only a narrow claim?",
+            "back": "Narrow the claim instead of stretching the evidence."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why use paired quotations?",
+            "back": "They can establish a contrast or development across a text."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Evidence selection: relationships to explain",
+            "description": "Claim → Paired evidence → Qualified argument. Comparing the moments prevents a one-sided reading.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Claim",
+                "detail": "Confidence becomes less secure."
+              },
+              {
+                "id": "node-2",
+                "label": "Paired evidence",
+                "detail": "Volunteering contrasts with asking for company."
+              },
+              {
+                "id": "node-3",
+                "label": "Qualified argument",
+                "detail": "Readiness does not remove uncertainty."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "The claim determines which moments matter."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "Comparing the moments prevents a one-sided reading."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-english-evidence-selection-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Original passage: “She promised to stay. By morning her coat was gone, but a note said she would return.” Select evidence against the claim that she abandoned everyone permanently.",
+          "hints": [
+            "Find the detail about future action.",
+            "Distinguish departure from permanence."
+          ],
+          "solution": [
+            "“Her coat was gone” supports departure.",
+            "“She would return” explicitly challenges permanence.",
+            "The stronger claim is that she left temporarily according to the note, though the promise is not yet fulfilled."
+          ],
+          "successCriteria": [
+            "“Her coat was gone” supports departure.",
+            "“She would return” explicitly challenges permanence.",
+            "The stronger claim is that she left temporarily according to the note, though the promise is not yet fulfilled."
+          ]
+        },
+        {
+          "id": "extension-myp5-english-evidence-selection-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "For a claim about hurried movement, choose between “the red bag” and “he stumbled through the closing doors”, and justify.",
+          "hints": [
+            "Which phrase describes an action?",
+            "Connect the action to urgency."
+          ],
+          "solution": [
+            "“He stumbled through the closing doors” is more relevant.",
+            "Stumbling suggests disrupted or hurried movement.",
+            "The closing doors create time pressure; the bag’s colour alone does not establish haste."
+          ],
+          "successCriteria": [
+            "“He stumbled through the closing doors” is more relevant.",
+            "Stumbling suggests disrupted or hurried movement.",
+            "The closing doors create time pressure; the bag’s colour alone does not establish haste."
+          ]
+        }
+      ]
+    },
+    "myp5-english-thesis-construction": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Thesis construction in context",
+            "paragraphs": [
+              "A thesis gives a defensible answer to a question and indicates the reasoning that will support it. It should go beyond naming a topic or announcing that techniques are present. Combine an interpretive claim with the relationships that matter: a contrast, a progression, a contradiction or a pattern. Keep its scale proportionate to the supplied passage. Qualifying words can make a thesis more precise when they identify a real limit; vague hedging cannot rescue a claim that lacks evidence. Revisit the thesis after drafting to ensure the paragraphs actually establish it."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original passage: “The town praised the new bridge. Below it, the old ferry waited without passengers.” Write a thesis about change.",
+            "steps": [
+              "Identify the contrast between public praise and the abandoned ferry.",
+              "Link the contrast to unequal experiences of progress rather than claiming that all change is harmful."
+            ],
+            "conclusion": "The passage presents progress as publicly celebrated yet unevenly felt, contrasting collective praise with the ferry’s quiet loss of purpose."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "How does a thesis differ from a topic?",
+            "back": "It makes an arguable claim about the topic."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What should a thesis forecast?",
+            "back": "The main relationship or reasoning the response will demonstrate."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Why qualify a claim?",
+            "back": "To match its scope to the available evidence."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "When should a thesis be revised?",
+            "back": "When the evidence or drafted argument supports a different or narrower conclusion."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Thesis construction: relationships to explain",
+            "description": "Question → Contrast → Thesis. The contrast supports an arguable interpretation.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Question",
+                "detail": "How is change presented?"
+              },
+              {
+                "id": "node-2",
+                "label": "Contrast",
+                "detail": "Praise above; disuse below."
+              },
+              {
+                "id": "node-3",
+                "label": "Thesis",
+                "detail": "Progress brings unequal experiences."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "The question directs attention to competing responses."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "The contrast supports an arguable interpretation."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-english-thesis-construction-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Improve “The writer uses imagery” for the original line “The classroom emptied, but one question remained on the board.”",
+          "hints": [
+            "Name the meaning, not only the device.",
+            "Connect absence with persistence."
+          ],
+          "solution": [
+            "A thesis could argue that the line presents learning as unfinished after formal activity ends.",
+            "The emptied room establishes physical absence.",
+            "The remaining question gives intellectual uncertainty a continuing presence."
+          ],
+          "successCriteria": [
+            "A thesis could argue that the line presents learning as unfinished after formal activity ends.",
+            "The emptied room establishes physical absence.",
+            "The remaining question gives intellectual uncertainty a continuing presence."
+          ]
+        },
+        {
+          "id": "extension-myp5-english-thesis-construction-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Explain why “This passage proves everyone fears change” overreaches when it describes one hesitant character.",
+          "hints": [
+            "Check the population named in the claim.",
+            "Check the strength of “proves”."
+          ],
+          "solution": [
+            "One character cannot represent everyone without further support.",
+            "“Proves” treats an interpretation as certain.",
+            "A defensible thesis would describe how the passage presents that character’s hesitation about a particular change."
+          ],
+          "successCriteria": [
+            "One character cannot represent everyone without further support.",
+            "“Proves” treats an interpretation as certain.",
+            "A defensible thesis would describe how the passage presents that character’s hesitation about a particular change."
+          ]
+        }
+      ]
+    },
+    "myp5-english-commentary": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Commentary in context",
+            "paragraphs": [
+              "Commentary explains the reasoning between evidence and a claim. It does not merely translate a quotation into different words. Focus on a choice that could have been made differently: a verb, image, ordering of information or change in rhythm. Explain its associations in this context, then show how those associations develop your interpretation. Avoid treating an effect on every reader as guaranteed. A convincing paragraph describes how a text invites a response and acknowledges when tone, context or another detail makes the invitation uncertain."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original line: “The apology balanced on the edge of his tongue.” Explain its effect.",
+            "steps": [
+              "“Balanced” suggests something unstable that could move in either direction.",
+              "The “edge” places the apology close to being spoken while keeping it withheld."
+            ],
+            "conclusion": "The physical image dramatises hesitation between admitting fault and remaining silent."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What gap does commentary fill?",
+            "back": "The reasoning from a selected detail to an interpretive claim."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why consider an alternative word?",
+            "back": "It helps explain what is distinctive about the actual choice."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What is paraphrase?",
+            "back": "Restating content without necessarily analysing how it works."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "How can reader effects be phrased carefully?",
+            "back": "The wording may invite or encourage a response rather than causing it in every reader."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Commentary: relationships to explain",
+            "description": "Word choice → Association → Meaning. The physical association clarifies the emotional conflict.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Word choice",
+                "detail": "The apology “balanced”."
+              },
+              {
+                "id": "node-2",
+                "label": "Association",
+                "detail": "Instability and imminent movement."
+              },
+              {
+                "id": "node-3",
+                "label": "Meaning",
+                "detail": "Speaking remains possible but unresolved."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "The verb turns speech into a precarious object."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "The physical association clarifies the emotional conflict."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-english-commentary-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Original line: “The promise shrank each time he repeated it.” Add commentary beyond “the promise became smaller”.",
+          "hints": [
+            "Treat size as an image.",
+            "Connect repetition with credibility."
+          ],
+          "solution": [
+            "Shrinking gives an abstract promise a physical size.",
+            "Repeated speech reduces rather than strengthens its apparent force.",
+            "The image may suggest declining credibility or confidence in fulfilment."
+          ],
+          "successCriteria": [
+            "Shrinking gives an abstract promise a physical size.",
+            "Repeated speech reduces rather than strengthens its apparent force.",
+            "The image may suggest declining credibility or confidence in fulfilment."
+          ]
+        },
+        {
+          "id": "extension-myp5-english-commentary-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A response says “This makes the reader sad.” Improve it for “She set two places, then returned one plate to the cupboard.”",
+          "hints": [
+            "Identify the changed expectation.",
+            "Use a qualified effect."
+          ],
+          "solution": [
+            "Setting two places implies expected company.",
+            "Removing one plate reverses that expectation.",
+            "The quiet correction may invite sadness about absence without naming its cause."
+          ],
+          "successCriteria": [
+            "Setting two places implies expected company.",
+            "Removing one plate reverses that expectation.",
+            "The quiet correction may invite sadness about absence without naming its cause."
+          ]
+        }
+      ]
+    },
+    "myp5-english-paragraph-structure": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Paragraph structure in context",
+            "paragraphs": [
+              "A paragraph should develop one stage of an argument rather than collect disconnected quotations. Begin with a claim that answers part of the question, introduce evidence precisely, and explain how it supports or qualifies that claim. A second piece of evidence can extend the argument or expose a complication. The final sentence should move the reasoning forward rather than repeat the opening mechanically. Paragraph structures are planning supports, not compulsory sentence counts. Adjust the order when a comparison or counterargument is clearer another way."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original line: “The alarm stopped. Her fingers still shook.” Build a paragraph about continuing tension.",
+            "steps": [
+              "Claim: the passage separates the end of an external disturbance from the persistence of fear.",
+              "Evidence and analysis: the short statement “The alarm stopped” suggests closure, but “still” extends the bodily response beyond it."
+            ],
+            "conclusion": "The contrast shows that apparent safety does not immediately restore calm."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What should a paragraph develop?",
+            "back": "One connected stage of the argument."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What links evidence to a claim?",
+            "back": "Analysis that explains the relevant wording or structure."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What can a second quotation do?",
+            "back": "Extend, compare with or complicate the first piece of evidence."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Must every paragraph follow a fixed sentence count?",
+            "back": "No; the reasoning should determine the length and arrangement."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Paragraph structure: relationships to explain",
+            "description": "Claim → Evidence → Explanation. Analysis explains why the contrast matters.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Claim",
+                "detail": "Tension outlasts the alarm."
+              },
+              {
+                "id": "node-2",
+                "label": "Evidence",
+                "detail": "“Stopped” contrasts with “still”."
+              },
+              {
+                "id": "node-3",
+                "label": "Explanation",
+                "detail": "External quiet and bodily fear diverge."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "The claim selects a relevant contrast."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "Analysis explains why the contrast matters."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-english-paragraph-structure-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Original sentence: “The crowd cheered; on the bench, one player untied his boots.” Outline a paragraph about contrasting responses.",
+          "hints": [
+            "Identify the collective action.",
+            "Find the separate individual action."
+          ],
+          "solution": [
+            "Claim: celebration is contrasted with private withdrawal.",
+            "The crowd’s cheering conveys public enthusiasm, while the player turns to a small practical action.",
+            "The contrast suggests that a shared event can carry different personal meanings, though the player’s exact feelings remain unstated."
+          ],
+          "successCriteria": [
+            "Claim: celebration is contrasted with private withdrawal.",
+            "The crowd’s cheering conveys public enthusiasm, while the player turns to a small practical action.",
+            "The contrast suggests that a shared event can carry different personal meanings, though the player’s exact feelings remain unstated."
+          ]
+        },
+        {
+          "id": "extension-myp5-english-paragraph-structure-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A paragraph lists three devices and ends “therefore it is effective”. Explain three improvements.",
+          "hints": [
+            "Give the paragraph an argument.",
+            "Replace labels with explanation."
+          ],
+          "solution": [
+            "State what the passage communicates about the question.",
+            "Select evidence for a connected pattern and explain its effects.",
+            "End with a specific conclusion about meaning rather than the unsupported word “effective”."
+          ],
+          "successCriteria": [
+            "State what the passage communicates about the question.",
+            "Select evidence for a connected pattern and explain its effects.",
+            "End with a specific conclusion about meaning rather than the unsupported word “effective”."
+          ]
+        }
+      ]
+    },
+    "myp5-english-timed-writing": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Timed writing in context",
+            "paragraphs": [
+              "Timed writing is a process of allocating attention, not simply writing faster. Read the command and scope first, choose a manageable argument, and reserve time to check whether each paragraph answers the question. A plan needs claims and evidence, not complete sentences. If time runs short, prioritise a coherent explanation over an extra undeveloped point. Review high-impact problems first: a misread task, unsupported claim or unclear comparison matters more than a decorative phrase. Practice timings are personal rehearsal tools and do not replace a teacher’s assessment instructions."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "In a hypothetical 35-minute analysis, reserve 5 minutes to plan and 5 to review. Allocate the remaining time to two developed paragraphs.",
+            "steps": [
+              "35 − 5 − 5 = 25 minutes remain for drafting.",
+              "A workable split is 12 minutes for the first paragraph and 13 for the second, adjusting if one needs more comparison."
+            ],
+            "conclusion": "The full plan totals 35 minutes and protects review time without pretending that every paragraph needs equal time."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What belongs in a brief plan?",
+            "back": "Claims, relevant evidence and the intended order of reasoning."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What should be cut first when time is short?",
+            "back": "A weak extra point or unnecessary wording before essential explanation."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What is a high-impact review check?",
+            "back": "Whether the response answers the command and supports its central claims."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Are practice time allocations official requirements?",
+            "back": "No; adapt them to the actual task and teacher’s instructions."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Timed writing: relationships to explain",
+            "description": "Task reading → Drafting budget → Review reserve. A protected reserve allows corrections before submission.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Task reading",
+                "detail": "Identify command and scope."
+              },
+              {
+                "id": "node-2",
+                "label": "Drafting budget",
+                "detail": "Develop selected claims with evidence."
+              },
+              {
+                "id": "node-3",
+                "label": "Review reserve",
+                "detail": "Repair the most consequential weaknesses."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "Understanding scope limits unnecessary drafting."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "A protected reserve allows corrections before submission."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-english-timed-writing-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A 30-minute rehearsal uses 4 minutes reading, 5 planning and 18 drafting. How much remains, and what should review prioritise?",
+          "hints": [
+            "Add time already used.",
+            "Check meaning before polish."
+          ],
+          "solution": [
+            "4 + 5 + 18 = 27 minutes have been used.",
+            "Three minutes remain.",
+            "Check that the answer addresses the question and that the main claim has evidence before polishing vocabulary."
+          ],
+          "successCriteria": [
+            "4 + 5 + 18 = 27 minutes have been used.",
+            "Three minutes remain.",
+            "Check that the answer addresses the question and that the main claim has evidence before polishing vocabulary."
+          ]
+        },
+        {
+          "id": "extension-myp5-english-timed-writing-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "With four minutes left, a learner has two explained paragraphs and an unsupported third idea. Explain a sensible decision.",
+          "hints": [
+            "Compare depth with an unfinished addition.",
+            "Consider the conclusion already supported."
+          ],
+          "solution": [
+            "Review the two completed paragraphs for accuracy and relevance.",
+            "Add a concise conclusion connecting their established claims if the task needs one.",
+            "Avoid inserting an unsupported third idea solely to increase the number of points."
+          ],
+          "successCriteria": [
+            "Review the two completed paragraphs for accuracy and relevance.",
+            "Add a concise conclusion connecting their established claims if the task needs one.",
+            "Avoid inserting an unsupported third idea solely to increase the number of points."
+          ]
+        }
+      ]
+    },
+    "myp5-english-unseen-analysis": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Unseen analysis in context",
+            "paragraphs": [
+              "An unseen text rewards patient attention to what is actually supplied. Begin with the literal situation, then notice voice, patterns and changes. An unfamiliar image does not need an exotic interpretation to be meaningful. Form a provisional reading and test it against the ending or another detail that resists it. Use the title or stated context when available, but do not invent biography or historical circumstances. A strong response can explain ambiguity: uncertainty about motive may itself be part of the passage’s effect."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original passage: “Every day Bo counted the boats. Today he counted the empty ropes.” Analyse the change.",
+            "steps": [
+              "The repeated counting establishes continuity in Bo’s habit.",
+              "The object changes from boats to empty ropes, making absence visible through what remains."
+            ],
+            "conclusion": "The passage suggests loss or departure through a changed object of attention, without explaining where the boats went."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What should come before symbolic interpretation?",
+            "back": "An accurate account of the literal situation."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why test an early reading against the ending?",
+            "back": "Later details may revise the apparent meaning of the beginning."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What context is safe to use?",
+            "back": "Context supplied with the text or otherwise reliably established."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Can ambiguity be analysed?",
+            "back": "Yes; explain which details permit competing readings and why certainty is limited."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Unseen analysis: relationships to explain",
+            "description": "Literal pattern → Changed object → Provisional reading. The remaining ropes imply what is missing.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Literal pattern",
+                "detail": "Bo counts daily."
+              },
+              {
+                "id": "node-2",
+                "label": "Changed object",
+                "detail": "Boats become empty ropes."
+              },
+              {
+                "id": "node-3",
+                "label": "Provisional reading",
+                "detail": "Absence becomes the focus."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "Repetition makes the changed detail noticeable."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "The remaining ropes imply what is missing."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-english-unseen-analysis-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Original line: “She folded the map along a road that no longer existed.” Give a literal observation and two defensible interpretive steps.",
+          "hints": [
+            "What does the map still show?",
+            "Distinguish record from present reality."
+          ],
+          "solution": [
+            "The map retains a road that is now absent.",
+            "Folding along it brings the old route into the character’s present action.",
+            "This may suggest attachment to a changed place, though the reason is unspecified."
+          ],
+          "successCriteria": [
+            "The map retains a road that is now absent.",
+            "Folding along it brings the old route into the character’s present action.",
+            "This may suggest attachment to a changed place, though the reason is unspecified."
+          ]
+        },
+        {
+          "id": "extension-myp5-english-unseen-analysis-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "An unseen passage names no date. A learner claims it is definitely about a particular war. Explain the problem and a repair.",
+          "hints": [
+            "Which evidence fixes the historical event?",
+            "Retain what the text does support."
+          ],
+          "solution": [
+            "No date or specific event is supplied to establish that war.",
+            "The claim imports context rather than deriving it from evidence.",
+            "Analyse the depicted conflict or loss at the level supported by the passage, presenting any wider connection as tentative."
+          ],
+          "successCriteria": [
+            "No date or specific event is supplied to establish that war.",
+            "The claim imports context rather than deriving it from evidence.",
+            "Analyse the depicted conflict or loss at the level supported by the passage, presenting any wider connection as tentative."
+          ]
+        }
+      ]
+    },
+    "myp5-english-persuasive-texts": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Persuasive texts in context",
+            "paragraphs": [
+              "A persuasive argument links a proposal to reasons that matter to its intended audience. Distinguish the claim, supporting evidence and the warrant: the assumption connecting the evidence to the claim. Acknowledging a cost can strengthen credibility when the argument responds to it rather than dismissing it. Check whether examples are representative and whether a proposed benefit has a plausible mechanism. Persuasive force and factual reliability are separate questions; an emotionally appealing account can still rest on weak evidence."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original proposal: “Add a sheltered bicycle rack. On three wet days, our current rack filled. A one-month trial could show whether a larger shelter is needed.” Analyse its reasoning.",
+            "steps": [
+              "The proposal uses limited observations of demand in wet weather as support.",
+              "A trial recognises that three days cannot establish demand across the whole year.",
+              "A full rack shows use, but does not by itself establish that shelter is needed or would attract more users."
+            ],
+            "conclusion": "The observations support investigating capacity. A trial should also test whether shelter improves access in wet weather, while retaining the limit of the three-day evidence."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is a warrant?",
+            "back": "The assumption connecting evidence to a claim."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why examine representativeness?",
+            "back": "A few vivid examples may not reflect the wider situation."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "How can a concession strengthen an argument?",
+            "back": "It acknowledges a genuine limitation and explains a response."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Is emotional appeal the same as evidence?",
+            "back": "No; emotion can motivate attention without establishing factual claims."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Persuasive texts: relationships to explain",
+            "description": "Observation → Proposal → Evaluation. The trial can reduce uncertainty about a larger commitment.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Observation",
+                "detail": "The rack filled on three wet days."
+              },
+              {
+                "id": "node-2",
+                "label": "Proposal",
+                "detail": "Test a sheltered alternative."
+              },
+              {
+                "id": "node-3",
+                "label": "Evaluation",
+                "detail": "Measure use before deciding on expansion."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "Observed demand supplies a reason for a trial."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "The trial can reduce uncertainty about a larger commitment."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-english-persuasive-texts-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Original claim: “Two pupils liked the new timetable, so everyone prefers it.” Identify the reasoning gap and improve the conclusion.",
+          "hints": [
+            "Compare sample size with population.",
+            "Keep the finding that is actually supported."
+          ],
+          "solution": [
+            "Two pupils provide evidence only about those responses.",
+            "The claim generalises to everyone without representative evidence.",
+            "A sound conclusion is that both respondents preferred it; wider preferences require further investigation."
+          ],
+          "successCriteria": [
+            "Two pupils provide evidence only about those responses.",
+            "The claim generalises to everyone without representative evidence.",
+            "A sound conclusion is that both respondents preferred it; wider preferences require further investigation."
+          ]
+        },
+        {
+          "id": "extension-myp5-english-persuasive-texts-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Original appeal: “The garden costs money, but volunteers can maintain two beds during a trial.” Explain the concession and response.",
+          "hints": [
+            "Find the acknowledged drawback.",
+            "What part of the burden is addressed?"
+          ],
+          "solution": [
+            "The cost is acknowledged rather than hidden.",
+            "Volunteer maintenance is offered to address part of the ongoing work.",
+            "The response does not by itself establish that all materials or supervision costs are covered."
+          ],
+          "successCriteria": [
+            "The cost is acknowledged rather than hidden.",
+            "Volunteer maintenance is offered to address part of the ongoing work.",
+            "The response does not by itself establish that all materials or supervision costs are covered."
+          ]
+        }
+      ]
+    },
+    "myp5-english-speeches": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Speeches in context",
+            "paragraphs": [
+              "A speech is heard over time, so signposting and repetition can help listeners follow an argument they cannot easily reread. Pronouns establish relationships: we may invite solidarity, but it can also assume agreement. Pauses, sentence length and direct address can shape emphasis when performance details are supplied. Analyse the words separately from any invented delivery. A speech to classmates may draw on shared experience, whereas a public audience may need more context. Consider who is included in an appeal and whose different circumstances complicate it."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original school speech: “Some of us arrive early. Some arrive after long journeys. All of us need a place to begin calmly.” Analyse the inclusive appeal.",
+            "steps": [
+              "The first two sentences acknowledge different routines through repeated structure.",
+              "“All of us” then joins those differences around a common need."
+            ],
+            "conclusion": "The speech builds inclusion by recognising unequal circumstances before proposing shared support."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "Why is signposting useful in speech?",
+            "back": "Listeners need to follow an argument as it unfolds in real time."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What can “we” imply?",
+            "back": "A shared identity or agreement, which may need examination."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "When can delivery be analysed?",
+            "back": "When it is observed or supplied, not merely imagined."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "How does repeated syntax aid listening?",
+            "back": "It makes relationships between successive points easier to recognise."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Speeches: relationships to explain",
+            "description": "Different journeys → Repeated structure → Common need. The shift to “all” connects difference with common purpose.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Different journeys",
+                "detail": "The audience does not arrive in one way."
+              },
+              {
+                "id": "node-2",
+                "label": "Repeated structure",
+                "detail": "Each group receives parallel attention."
+              },
+              {
+                "id": "node-3",
+                "label": "Common need",
+                "detail": "A calm start becomes a shared concern."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "Parallel phrasing acknowledges both situations."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "The shift to “all” connects difference with common purpose."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-english-speeches-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Original speech: “First, listen. Next, record the problem. Finally, agree a response.” Explain its suitability for spoken instructions.",
+          "hints": [
+            "Notice the sequence words.",
+            "Count the actions."
+          ],
+          "solution": [
+            "First, next and finally mark an audible order.",
+            "Each short sentence contains one main action.",
+            "The structure helps listeners retain the procedure without rereading a long sentence."
+          ],
+          "successCriteria": [
+            "First, next and finally mark an audible order.",
+            "Each short sentence contains one main action.",
+            "The structure helps listeners retain the procedure without rereading a long sentence."
+          ]
+        },
+        {
+          "id": "extension-myp5-english-speeches-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Original speech says “We all have spare time after school.” Evaluate the inclusive pronoun.",
+          "hints": [
+            "What assumption follows “all”?",
+            "Consider a listener with caring duties."
+          ],
+          "solution": [
+            "“We” attempts to unite the audience.",
+            "“All” assumes every listener has the same availability.",
+            "Listeners with work, journeys or caring duties may be excluded, so the claim needs qualification."
+          ],
+          "successCriteria": [
+            "“We” attempts to unite the audience.",
+            "“All” assumes every listener has the same availability.",
+            "Listeners with work, journeys or caring duties may be excluded, so the claim needs qualification."
+          ]
+        }
+      ]
+    },
+    "myp5-english-advertisements": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Advertisements in context",
+            "paragraphs": [
+              "Advertisements direct attention towards a response, but their appeal and their verifiable product claims should be examined separately. A large headline may create an emotional promise while smaller text limits the conditions. Analyse the hierarchy between image, slogan, description and call to action. Consider what information a reader needs to judge the offer, without assuming that missing information proves deception. For invented classroom adverts, describe the supplied design accurately and distinguish what is shown from what the advert merely invites the viewer to imagine."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original fictional advert: “A quieter corner.” Beneath a photograph of a desk screen, small text reads “Reduces visual distraction; does not block sound.” The button says “Check measurements”. Analyse the claim.",
+            "steps": [
+              "The headline suggests calm broadly, but the small print limits the product to visual distraction.",
+              "The measurements button directs readers to check suitability rather than assuming the screen fits every desk."
+            ],
+            "conclusion": "The advert combines an emotional appeal with a narrower practical description that should govern the reader’s expectations."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is a call to action?",
+            "back": "The response an advert explicitly invites, such as checking details or ordering."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why compare headline and small print?",
+            "back": "Their scope may differ, changing what is actually promised."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What is visual hierarchy?",
+            "back": "The relative prominence of elements that guides attention."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Does an appealing image prove a product works?",
+            "back": "No; it can suggest a desirable experience without demonstrating performance."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Advertisements: relationships to explain",
+            "description": "Headline → Qualification → Reader action. The practical limit makes fit relevant to the decision.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Headline",
+                "detail": "A quieter corner suggests calm."
+              },
+              {
+                "id": "node-2",
+                "label": "Qualification",
+                "detail": "The screen affects sight, not sound."
+              },
+              {
+                "id": "node-3",
+                "label": "Reader action",
+                "detail": "Check dimensions for the actual setting."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "Small print narrows the broad impression."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "The practical limit makes fit relevant to the decision."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-english-advertisements-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Original advert: “Fits your day.” Details: “Notebook with 80 pages, A5 size.” Separate emotional appeal from measurable information.",
+          "hints": [
+            "Which words can be checked directly?",
+            "What lifestyle is suggested?"
+          ],
+          "solution": [
+            "“Fits your day” suggests convenience or flexibility.",
+            "Eighty pages and A5 size are measurable specifications.",
+            "The slogan alone does not establish that the notebook suits every person’s routine."
+          ],
+          "successCriteria": [
+            "“Fits your day” suggests convenience or flexibility.",
+            "Eighty pages and A5 size are measurable specifications.",
+            "The slogan alone does not establish that the notebook suits every person’s routine."
+          ]
+        },
+        {
+          "id": "extension-myp5-english-advertisements-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A fictional advert shows one happy user and says “Join thousands”. What can and cannot be concluded?",
+          "hints": [
+            "Distinguish depiction from evidence.",
+            "What does the number refer to?"
+          ],
+          "solution": [
+            "The image presents a positive experience for one depicted user.",
+            "“Join thousands” claims a large group without specifying satisfaction or results.",
+            "Neither element establishes that every purchaser will have the same experience."
+          ],
+          "successCriteria": [
+            "The image presents a positive experience for one depicted user.",
+            "“Join thousands” claims a large group without specifying satisfaction or results.",
+            "Neither element establishes that every purchaser will have the same experience."
+          ]
+        }
+      ]
+    },
+    "myp5-english-articles": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Articles in context",
+            "paragraphs": [
+              "An article can report events while framing their significance through headlines, ordering and source selection. Distinguish the reporter’s statement from an attributed opinion. A quotation establishes that someone made a claim, not automatically that the claim is true. Numbers need denominators, time periods and relevant comparisons. The first paragraph often gives prominence to one interpretation; later qualifications may narrow it. Analyse these relationships without assuming that every difference in emphasis is deliberate deception."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original fictional article: headline “Visitors double”; body “The exhibition received 40 visitors this Saturday, compared with 20 on the previous rainy Saturday.” Evaluate the framing.",
+            "steps": [
+              "40 is twice 20, so the headline accurately expresses the numerical change.",
+              "The comparison covers only two Saturdays and includes a difference in weather."
+            ],
+            "conclusion": "The headline is numerically correct, but it cannot establish a lasting trend or identify what caused the increase."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What does attribution identify?",
+            "back": "Who made a statement or supplied information."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why inspect a denominator?",
+            "back": "A percentage or proportion is meaningful only in relation to its base."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What can a quotation establish directly?",
+            "back": "That the attributed person made the stated claim, subject to accurate reporting."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why read beyond a headline?",
+            "back": "Later details may qualify the scope or certainty of its framing."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Articles: relationships to explain",
+            "description": "Headline → Underlying figures → Bounded conclusion. Context limits the inference drawn from the change.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Headline",
+                "detail": "Visitors double."
+              },
+              {
+                "id": "node-2",
+                "label": "Underlying figures",
+                "detail": "40 compared with 20 on another day."
+              },
+              {
+                "id": "node-3",
+                "label": "Bounded conclusion",
+                "detail": "A two-day comparison, not a proven trend."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "The headline compresses the numbers."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "Context limits the inference drawn from the change."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-english-articles-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Original article: “The organiser called the event a success; no attendance figures were released.” What kind of evidence is supplied?",
+          "hints": [
+            "Who evaluates the event?",
+            "What measure is absent?"
+          ],
+          "solution": [
+            "Success is the organiser’s attributed judgement.",
+            "No attendance figures are provided to assess that dimension independently.",
+            "The sentence supports a claim about the organiser’s view, not an established measure of overall success."
+          ],
+          "successCriteria": [
+            "Success is the organiser’s attributed judgement.",
+            "No attendance figures are provided to assess that dimension independently.",
+            "The sentence supports a claim about the organiser’s view, not an established measure of overall success."
+          ]
+        },
+        {
+          "id": "extension-myp5-english-articles-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A headline says “Most residents agree”, but the body reports 18 of 20 people at a supporters’ meeting. Evaluate.",
+          "hints": [
+            "Calculate what “most” describes here.",
+            "Inspect how the group was selected."
+          ],
+          "solution": [
+            "Eighteen of twenty is most of the meeting attendees.",
+            "A supporters’ meeting is not necessarily representative of all residents.",
+            "The headline broadens the finding beyond the group actually surveyed."
+          ],
+          "successCriteria": [
+            "Eighteen of twenty is most of the meeting attendees.",
+            "A supporters’ meeting is not necessarily representative of all residents.",
+            "The headline broadens the finding beyond the group actually surveyed."
+          ]
+        }
+      ]
+    },
+    "myp5-english-visual-texts": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Visual texts in context",
+            "paragraphs": [
+              "Visual analysis begins with observable relationships: size, position, colour contrast, framing and the direction of attention. Explain how these choices interact rather than assigning a fixed meaning to each colour or shape. Written words can anchor an image’s interpretation, while an image can complicate a slogan. Distinguish a supplied description from features that are not shown. A large object may gain salience without symbolising power in every context. Keep cultural meanings and audience responses provisional unless reliable contextual evidence supports them."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original poster description: a small seedling stands in the lower corner; a large watering can tilts towards it. Text reads “Small starts need support.” Analyse image and words together.",
+            "steps": [
+              "The difference in size and the can’s direction make the seedling appear dependent on care.",
+              "The slogan guides the literal plant image towards a broader idea about helping beginnings develop."
+            ],
+            "conclusion": "Text and composition work together to present support as an active relationship rather than an isolated quality of the seedling."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is salience?",
+            "back": "The prominence that draws attention to an element."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why avoid fixed colour meanings?",
+            "back": "Associations vary with context, culture and surrounding choices."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "How can text anchor an image?",
+            "back": "It directs attention towards a particular interpretation."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What does framing affect?",
+            "back": "What is included, excluded and emphasised within the view."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Visual texts: relationships to explain",
+            "description": "Composition → Caption → Interpretation. Image and words jointly support the broader reading.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Composition",
+                "detail": "A large can points towards a small plant."
+              },
+              {
+                "id": "node-2",
+                "label": "Caption",
+                "detail": "Small starts need support."
+              },
+              {
+                "id": "node-3",
+                "label": "Interpretation",
+                "detail": "Care connects a beginning to growth."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "The caption gives the size relationship a conceptual focus."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "Image and words jointly support the broader reading."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-english-visual-texts-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Original poster: three equal-sized circles are separated; a line connects only two. Text: “Who is missing?” Analyse a plausible effect.",
+          "hints": [
+            "Compare connection and separation.",
+            "Use the question as context."
+          ],
+          "solution": [
+            "The equal size presents the circles as comparable.",
+            "The unconnected third circle becomes conspicuous through the missing line.",
+            "The question invites reflection on exclusion rather than proving whom the circles represent."
+          ],
+          "successCriteria": [
+            "The equal size presents the circles as comparable.",
+            "The unconnected third circle becomes conspicuous through the missing line.",
+            "The question invites reflection on exclusion rather than proving whom the circles represent."
+          ]
+        },
+        {
+          "id": "extension-myp5-english-visual-texts-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A supplied image description mentions monochrome shapes only. A response analyses a red background. Explain the error and repair.",
+          "hints": [
+            "Check what is actually supplied.",
+            "Keep observable features."
+          ],
+          "solution": [
+            "The response invents a colour absent from the description.",
+            "Its interpretation therefore rests on unsupported evidence.",
+            "Analyse the stated monochrome contrast, shape or placement instead."
+          ],
+          "successCriteria": [
+            "The response invents a colour absent from the description.",
+            "Its interpretation therefore rests on unsupported evidence.",
+            "Analyse the stated monochrome contrast, shape or placement instead."
+          ]
+        }
+      ]
+    },
+    "myp5-english-poetry": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Poetry in context",
+            "paragraphs": [
+              "Poetry can make meaning through the interaction of image, sound, syntax and lineation. A line break may delay completion, isolate a word or create a temporary reading that the next line revises. Do not assume a pause at every break; punctuation and grammar also shape reading. The speaker is a constructed voice, and the poem need not be autobiographical. Analyse how a feature works in this poem rather than attaching a standard emotion to rhyme or a short line. Where alternatives remain possible, explain the evidence for each."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original two-line poem: “I left the window open / to a season that had gone.” Analyse the line break and image.",
+            "steps": [
+              "The first line establishes a literal action and an expectation that something may enter.",
+              "The second line supplies an absent season as the object of welcome, shifting the action towards longing for what cannot return in that moment."
+            ],
+            "conclusion": "The delayed completion turns an ordinary open window into an image of attachment to an absent time."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is enjambment?",
+            "back": "The continuation of syntax beyond a line break without a full grammatical stop."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Is the poetic speaker necessarily the poet?",
+            "back": "No; the speaker is a voice constructed by the poem."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Why read across a line break?",
+            "back": "The next line may complete or revise the meaning temporarily suggested."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Does rhyme guarantee a cheerful tone?",
+            "back": "No; sound patterns interact with subject, wording and structure."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Poetry: relationships to explain",
+            "description": "First line → Second line → Revised meaning. Completion changes how the opening is understood.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "First line",
+                "detail": "An open window creates expectation."
+              },
+              {
+                "id": "node-2",
+                "label": "Second line",
+                "detail": "The welcome is directed to an absent season."
+              },
+              {
+                "id": "node-3",
+                "label": "Revised meaning",
+                "detail": "A literal action becomes an image of longing."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "The break delays what the window is opened to."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "Completion changes how the opening is understood."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-english-poetry-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Original poem: “The rain rehearsed / its answer on the roof.” Explain the personification and effect of the break.",
+          "hints": [
+            "What human action is given to rain?",
+            "What information is delayed?"
+          ],
+          "solution": [
+            "“Rehearsed” gives rain a purposeful human activity.",
+            "The break delays what it rehearses: an “answer”.",
+            "The wording may make the repeated sound seem like speech being prepared rather than random noise."
+          ],
+          "successCriteria": [
+            "“Rehearsed” gives rain a purposeful human activity.",
+            "The break delays what it rehearses: an “answer”.",
+            "The wording may make the repeated sound seem like speech being prepared rather than random noise."
+          ]
+        },
+        {
+          "id": "extension-myp5-english-poetry-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Original line: “Home, home, the sign insisted.” Explain why repetition alone does not prove comfort.",
+          "hints": [
+            "Who or what repeats the word?",
+            "Consider the verb “insisted”."
+          ],
+          "solution": [
+            "Repeating “home” emphasises the idea of belonging.",
+            "“Insisted” can suggest pressure or a claim that needs defending.",
+            "The line may therefore question comfort as well as evoke it; wider context would help decide."
+          ],
+          "successCriteria": [
+            "Repeating “home” emphasises the idea of belonging.",
+            "“Insisted” can suggest pressure or a claim that needs defending.",
+            "The line may therefore question comfort as well as evoke it; wider context would help decide."
+          ]
+        }
+      ]
+    },
+    "myp5-english-prose": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Prose in context",
+            "paragraphs": [
+              "Prose narration controls access to information. A first-person narrator can describe private thoughts but cannot directly know another character’s mind without a stated basis. A third-person narrative may be limited to one perspective or move more broadly. Distinguish what happens from the narrator’s interpretation of it. Contradictions between a confident statement and observed behaviour can invite readers to question reliability. Pacing also matters: several sentences on a brief action can slow attention and reveal what the narration treats as significant."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original passage: “I had forgotten the letter completely. I checked the drawer before breakfast, after lunch, and once more at dusk.” Analyse reliability.",
+            "steps": [
+              "The opening claim says the narrator no longer remembers or thinks about the letter.",
+              "The three checks contradict that claim through repeated behaviour across the day."
+            ],
+            "conclusion": "The discrepancy invites doubt about the narrator’s self-description, though it does not establish whether the misrepresentation is conscious."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is narrative perspective?",
+            "back": "The position and limits from which events are presented."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "How can behaviour challenge narration?",
+            "back": "Actions may contradict what the narrator claims about motives or feelings."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Does first-person narration guarantee honesty?",
+            "back": "No; knowledge, memory and self-presentation can all be limited."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "How can prose slow time?",
+            "back": "By devoting detailed description or several sentences to a brief moment."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Prose: relationships to explain",
+            "description": "Narrator’s claim → Reported behaviour → Reliability question. The contradiction creates a reason to read critically.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Narrator’s claim",
+                "detail": "The letter is forgotten."
+              },
+              {
+                "id": "node-2",
+                "label": "Reported behaviour",
+                "detail": "The drawer is checked three times."
+              },
+              {
+                "id": "node-3",
+                "label": "Reliability question",
+                "detail": "The self-description does not fit the actions."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "Actions provide a test of the claim."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "The contradiction creates a reason to read critically."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-english-prose-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Original passage: “Mina smiled. I knew she forgave me.” Identify observation and inference.",
+          "hints": [
+            "Which action is visible?",
+            "Can the narrator directly know forgiveness?"
+          ],
+          "solution": [
+            "Mina’s smile is the reported observable action.",
+            "Forgiveness is the narrator’s interpretation of it.",
+            "The smile alone may have other explanations, so the certainty of “knew” can be questioned."
+          ],
+          "successCriteria": [
+            "Mina’s smile is the reported observable action.",
+            "Forgiveness is the narrator’s interpretation of it.",
+            "The smile alone may have other explanations, so the certainty of “knew” can be questioned."
+          ]
+        },
+        {
+          "id": "extension-myp5-english-prose-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A paragraph spends six sentences describing a hand approaching a door handle. Explain a likely structural effect without inventing the plot.",
+          "hints": [
+            "Compare narrated time with reading time.",
+            "What is made prominent?"
+          ],
+          "solution": [
+            "The physical action could take only a short time.",
+            "Extended description slows the reader’s attention and emphasises the approach.",
+            "This can build anticipation, but the reason for it must come from other supplied details."
+          ],
+          "successCriteria": [
+            "The physical action could take only a short time.",
+            "Extended description slows the reader’s attention and emphasises the approach.",
+            "This can build anticipation, but the reason for it must come from other supplied details."
+          ]
+        }
+      ]
+    },
+    "myp5-english-drama": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Drama in context",
+            "paragraphs": [
+              "Drama distributes meaning across dialogue, stage directions, pauses and relationships in space. Words may state one intention while movement suggests another, creating subtext. A script leaves some choices to performance, so distinguish specified actions from your proposed interpretation. Stage directions can shape what an audience sees, but they do not automatically reveal a character’s private thoughts. Analyse timing and entrances as well as language. When proposing a performance, explain how a choice could make a reading visible without claiming that every audience will respond identically."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original script: “SAM: Take it. [He keeps his hand on the book.] ELI: Are you sure?” Analyse the conflict.",
+            "steps": [
+              "The imperative offers the book verbally.",
+              "The retained hand prevents or complicates the transfer, and Eli’s question draws attention to the mismatch."
+            ],
+            "conclusion": "The scene creates subtext of reluctance through the relationship between dialogue and action."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is subtext?",
+            "back": "An implied meaning or intention beneath the literal words."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why distinguish script from performance proposal?",
+            "back": "A proposed choice is an interpretation, not evidence already supplied."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What can a pause change?",
+            "back": "Emphasis, pace or the apparent relationship between speakers."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Do stage directions prove a private thought?",
+            "back": "No; they specify actions or conditions from which thoughts may be inferred."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Drama: relationships to explain",
+            "description": "Dialogue → Action → Subtext. The mismatch supports an interpretation of conflict.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Dialogue",
+                "detail": "Sam says “Take it”."
+              },
+              {
+                "id": "node-2",
+                "label": "Action",
+                "detail": "His hand remains on the book."
+              },
+              {
+                "id": "node-3",
+                "label": "Subtext",
+                "detail": "The offer is complicated by reluctance."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "The action interrupts fulfilment of the words."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "The mismatch supports an interpretation of conflict."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-english-drama-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Original script: “AVA: Nothing has changed. [She removes a name card from the table.]” Analyse the contradiction.",
+          "hints": [
+            "Identify the spoken claim.",
+            "Identify the visible alteration."
+          ],
+          "solution": [
+            "Ava denies change in her dialogue.",
+            "Removing a name card visibly alters who is represented at the table.",
+            "The contradiction may imply denial or concealment, without establishing the absent person’s story."
+          ],
+          "successCriteria": [
+            "Ava denies change in her dialogue.",
+            "Removing a name card visibly alters who is represented at the table.",
+            "The contradiction may imply denial or concealment, without establishing the absent person’s story."
+          ]
+        },
+        {
+          "id": "extension-myp5-english-drama-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A script supplies “[pause]” but no duration. Explain how two proposed performances could differ.",
+          "hints": [
+            "Vary duration without inventing a specified fact.",
+            "Connect timing to a possible reading."
+          ],
+          "solution": [
+            "A brief pause could suggest ordinary hesitation.",
+            "A longer pause could make avoidance or tension more noticeable.",
+            "These are performance interpretations; the script itself does not specify which duration is required."
+          ],
+          "successCriteria": [
+            "A brief pause could suggest ordinary hesitation.",
+            "A longer pause could make avoidance or tension more noticeable.",
+            "These are performance interpretations; the script itself does not specify which duration is required."
+          ]
+        }
+      ]
+    },
+    "myp5-english-comparative-analysis": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Comparative analysis in context",
+            "paragraphs": [
+              "Comparison needs a shared basis: the same theme, relationship or technique considered in both texts. Organise around an argument about similarities and differences rather than writing two separate summaries. Similar imagery can serve different purposes, while different techniques can produce related effects. Use evidence from both texts in each major comparison where practical. Avoid ranking one as better unless the task supplies a relevant criterion. A useful comparative claim explains what the contrast reveals about the texts’ distinct presentations of the shared concern."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original lines: A, “She locked the gate to keep the garden safe.” B, “He opened the gate so the garden could be shared.” Compare protection and access.",
+            "steps": [
+              "Both lines connect a gate with decisions about the garden’s use.",
+              "A associates protection with restriction, while B associates value with participation."
+            ],
+            "conclusion": "The shared object exposes different priorities: safety through control and benefit through access."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is a basis of comparison?",
+            "back": "A shared concern or feature considered across both texts."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why avoid two isolated summaries?",
+            "back": "They leave the reader to construct the comparison instead of explaining it."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Can the same image have different functions?",
+            "back": "Yes; its wording, context and relationships determine its use."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "When is ranking appropriate?",
+            "back": "When a relevant criterion and the task justify evaluation."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Comparative analysis: relationships to explain",
+            "description": "Shared object → Different actions → Comparative claim. Their contrasting purposes support the broader claim.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Shared object",
+                "detail": "A gate controls entry."
+              },
+              {
+                "id": "node-2",
+                "label": "Different actions",
+                "detail": "One locks; the other opens."
+              },
+              {
+                "id": "node-3",
+                "label": "Comparative claim",
+                "detail": "Protection and sharing receive different priority."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "The shared object makes the actions directly comparable."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "Their contrasting purposes support the broader claim."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-english-comparative-analysis-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Original lines: A, “The bell freed us.” B, “The bell sent us back.” Compare the bell’s function.",
+          "hints": [
+            "Identify what is shared.",
+            "Compare the verbs."
+          ],
+          "solution": [
+            "Both lines give the bell power over movement or routine.",
+            "“Freed” frames it as release, while “sent us back” frames it as renewed obligation.",
+            "The contrast shows different experiences of the same kind of signal."
+          ],
+          "successCriteria": [
+            "Both lines give the bell power over movement or routine.",
+            "“Freed” frames it as release, while “sent us back” frames it as renewed obligation.",
+            "The contrast shows different experiences of the same kind of signal."
+          ]
+        },
+        {
+          "id": "extension-myp5-english-comparative-analysis-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A comparison says only “Both texts use imagery.” Improve its analytical direction.",
+          "hints": [
+            "Ask what each image does.",
+            "Name a meaningful difference or similarity."
+          ],
+          "solution": [
+            "Identify the specific images in each text.",
+            "Explain how each presents the shared theme.",
+            "State what their similarity or difference reveals, rather than stopping at a shared technique label."
+          ],
+          "successCriteria": [
+            "Identify the specific images in each text.",
+            "Explain how each presents the shared theme.",
+            "State what their similarity or difference reveals, rather than stopping at a shared technique label."
+          ]
+        }
+      ]
+    },
+    "myp5-english-authorial-choices": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Authorial choices in context",
+            "paragraphs": [
+              "An authorial choice is a feature of how a text is made: selection of detail, voice, order, naming, syntax or omission. Analysis should show how a choice changes the information or associations available to a reader. You can compare the actual wording with a plausible alternative to clarify its effect, but the alternative is your analytical device, not another version of the text. Avoid claiming access to the author’s private intentions. Explain the function the choice performs in the supplied passage and consider how other choices reinforce or complicate it."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original passage: “Someone knocked. Someone waited. At last, my brother called my name.” Analyse the delayed identification.",
+            "steps": [
+              "Repeating “someone” withholds the visitor’s identity and creates uncertainty.",
+              "Naming “my brother” later changes the knock from an unknown event into a personal relationship."
+            ],
+            "conclusion": "The delayed naming makes the reader experience uncertainty before recognition."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What counts as an authorial choice?",
+            "back": "A decision about the text’s language, selection, arrangement or perspective."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why compare an alternative wording?",
+            "back": "It helps isolate what the actual choice contributes."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Can an analysis establish private intention directly?",
+            "back": "Usually not; it can explain textual function and supported effects."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What can omission do?",
+            "back": "Withhold information, focus attention or preserve uncertainty."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Authorial choices: relationships to explain",
+            "description": "Withholding → Delay → Recognition. Naming resolves identity and personalises the scene.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Withholding",
+                "detail": "The visitor is “someone”."
+              },
+              {
+                "id": "node-2",
+                "label": "Delay",
+                "detail": "Repeated actions postpone identification."
+              },
+              {
+                "id": "node-3",
+                "label": "Recognition",
+                "detail": "“My brother” changes the relationship."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "Repetition extends uncertainty."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "Naming resolves identity and personalises the scene."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-english-authorial-choices-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Original passage calls a person “the customer” until the final word, “Dad”. Explain the effect of that naming change.",
+          "hints": [
+            "Compare role with relationship.",
+            "Consider what is withheld."
+          ],
+          "solution": [
+            "“The customer” presents a public transactional role.",
+            "“Dad” introduces a personal relationship at the end.",
+            "The delayed recognition invites a rereading of the earlier interaction."
+          ],
+          "successCriteria": [
+            "“The customer” presents a public transactional role.",
+            "“Dad” introduces a personal relationship at the end.",
+            "The delayed recognition invites a rereading of the earlier interaction."
+          ]
+        },
+        {
+          "id": "extension-myp5-english-authorial-choices-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Explain why “the writer wanted everyone to feel angry” is too strong without further evidence.",
+          "hints": [
+            "Separate function from intention.",
+            "Check the claim about every reader."
+          ],
+          "solution": [
+            "The statement claims private intention without evidence.",
+            "It also assumes a uniform audience response.",
+            "A stronger analysis identifies wording that may invite anger and explains why in this context."
+          ],
+          "successCriteria": [
+            "The statement claims private intention without evidence.",
+            "It also assumes a uniform audience response.",
+            "A stronger analysis identifies wording that may invite anger and explains why in this context."
+          ]
+        }
+      ]
+    },
+    "myp5-english-tone": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Tone in context",
+            "paragraphs": [
+              "Tone is an attitude conveyed through language and form. It may be mixed or change within a sentence. Use a precise description such as restrained frustration, cautious optimism or dry amusement, then justify it with wording and structure. Do not infer tone solely from the topic: a serious event can be narrated ironically or with detachment. Irony requires a gap between literal wording and contextual meaning; a positive adjective is not automatically sarcastic. Track qualifications, punctuation and contrasts that revise an opening impression."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original comment: “At last, a timetable we can read. Now we only need buses that follow it.” Analyse the tonal shift.",
+            "steps": [
+              "The first sentence expresses relief through “At last”.",
+              "The second adds a practical failure, undercutting the apparent solution."
+            ],
+            "conclusion": "The comment combines appreciation with dry frustration about the remaining problem."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is tone?",
+            "back": "The attitude conveyed by wording and form towards the subject or audience."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why use a qualified tone label?",
+            "back": "A text may combine attitudes rather than express one simple emotion."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What supports a claim of irony?",
+            "back": "A contextual gap between literal wording and implied meaning."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Can subject matter alone determine tone?",
+            "back": "No; the same subject can be treated in very different ways."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Tone: relationships to explain",
+            "description": "Opening relief → Qualification → Mixed attitude. The contrast supports a mixed tonal description.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Opening relief",
+                "detail": "The timetable is readable."
+              },
+              {
+                "id": "node-2",
+                "label": "Qualification",
+                "detail": "Actual buses still fail to follow it."
+              },
+              {
+                "id": "node-3",
+                "label": "Mixed attitude",
+                "detail": "Approval is tempered by frustration."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "The second sentence limits the achievement."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "The contrast supports a mixed tonal description."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-english-tone-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Original comment: “A useful beginning, provided someone continues it.” Analyse its attitude.",
+          "hints": [
+            "Notice the positive judgement.",
+            "Notice the condition."
+          ],
+          "solution": [
+            "“Useful” gives the beginning value.",
+            "“Provided” makes that value conditional on continuation.",
+            "The tone is cautiously supportive rather than unreservedly enthusiastic."
+          ],
+          "successCriteria": [
+            "“Useful” gives the beginning value.",
+            "“Provided” makes that value conditional on continuation.",
+            "The tone is cautiously supportive rather than unreservedly enthusiastic."
+          ]
+        },
+        {
+          "id": "extension-myp5-english-tone-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Original comment: “Wonderful: another form to fill in.” Explain why context matters before calling it sarcastic.",
+          "hints": [
+            "The adjective and situation may conflict.",
+            "Could the form be welcome in some contexts?"
+          ],
+          "solution": [
+            "“Wonderful” is literally positive.",
+            "If more forms are an unwanted burden, the contrast could imply sarcasm.",
+            "Without that context, a welcome opportunity requiring a form could make the statement sincere."
+          ],
+          "successCriteria": [
+            "“Wonderful” is literally positive.",
+            "If more forms are an unwanted burden, the contrast could imply sarcasm.",
+            "Without that context, a welcome opportunity requiring a form could make the statement sincere."
+          ]
+        }
+      ]
+    },
+    "myp5-english-structure": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Structure in context",
+            "paragraphs": [
+              "Structure concerns the order and relationship of parts. An opening can establish an expectation that an ending fulfils, reverses or leaves unresolved. A return to an earlier object may show change even when the object itself stays the same. Analyse shifts in focus, chronology, pace and perspective, not only beginning, middle and end. Explain why information appears where it does: delayed knowledge can alter a reader’s judgement. Avoid assuming that a circular structure means nothing has changed; the returning detail may acquire a different significance."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original miniature narrative: “At dawn, the chair was empty. All day we argued over who should sit there. At dusk, we carried it outside together.” Analyse the ending.",
+            "steps": [
+              "The opening makes the empty chair a problem of possession or status.",
+              "The shared final action changes the focus from winning the seat to dealing with it collectively."
+            ],
+            "conclusion": "The return to the chair creates continuity while the changed action suggests a revised relationship."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What does structural analysis explain?",
+            "back": "How arrangement and relationships between parts contribute to meaning."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What can delayed information do?",
+            "back": "Change how earlier events or claims are understood."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Does a returning object imply no change?",
+            "back": "No; a new context or action can transform its significance."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What is a structural shift?",
+            "back": "A meaningful change in focus, time, pace, perspective or pattern."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Structure: relationships to explain",
+            "description": "Opening problem → Middle conflict → Ending revision. The collective ending changes the terms of the dispute.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Opening problem",
+                "detail": "An empty chair invites disagreement."
+              },
+              {
+                "id": "node-2",
+                "label": "Middle conflict",
+                "detail": "People argue over who should sit."
+              },
+              {
+                "id": "node-3",
+                "label": "Ending revision",
+                "detail": "They move it together."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "The opening object becomes the focus of conflict."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "The collective ending changes the terms of the dispute."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-english-structure-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Original passage opens “I would never return” and ends “I recognised the door before I reached it.” Explain the structural relationship.",
+          "hints": [
+            "Compare the promise with the final location.",
+            "What has changed in expectation?"
+          ],
+          "solution": [
+            "The opening establishes a firm refusal.",
+            "The ending places the speaker back near a familiar door.",
+            "The contrast revises the opening certainty and invites questions about what caused the return."
+          ],
+          "successCriteria": [
+            "The opening establishes a firm refusal.",
+            "The ending places the speaker back near a familiar door.",
+            "The contrast revises the opening certainty and invites questions about what caused the return."
+          ]
+        },
+        {
+          "id": "extension-myp5-english-structure-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A narrative reveals only at the end that a letter was never posted. Explain how this can affect earlier scenes of waiting.",
+          "hints": [
+            "What did readers assume about delivery?",
+            "Reinterpret the waiting."
+          ],
+          "solution": [
+            "Earlier waiting may appear to anticipate a reply.",
+            "The final disclosure removes the assumed opportunity for the recipient to answer.",
+            "Readers may reinterpret the silence as a consequence of the unsent letter rather than rejection."
+          ],
+          "successCriteria": [
+            "Earlier waiting may appear to anticipate a reply.",
+            "The final disclosure removes the assumed opportunity for the recipient to answer.",
+            "Readers may reinterpret the silence as a consequence of the unsent letter rather than rejection."
+          ]
+        }
+      ]
+    },
+    "myp5-english-diction": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Diction in context",
+            "paragraphs": [
+              "Diction is the selection of words and the associations they bring. Denotation concerns a word’s core meaning; connotation concerns further suggestions in context. Compare close alternatives to explain the precision of a verb or adjective. Snatched, took and received can describe possession changing hands while presenting different kinds of agency and force. Register also matters: formal, colloquial or technical wording shapes the relationship with an audience. Avoid treating a dictionary definition as the whole analysis; connect the chosen word to the passage’s action, voice and argument."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original line: “She rationed her smiles during the interview.” Analyse “rationed”.",
+            "steps": [
+              "The verb usually suggests limiting a scarce supply.",
+              "Applied to smiles, it makes friendliness seem controlled and deliberately distributed."
+            ],
+            "conclusion": "The diction suggests careful self-presentation rather than spontaneous warmth."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is denotation?",
+            "back": "A word’s core or literal meaning."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What is connotation?",
+            "back": "Associations a word brings beyond its core meaning in context."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Why compare near synonyms?",
+            "back": "Their differences reveal the particular force of the chosen word."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What is register?",
+            "back": "A level or style of language associated with a situation or relationship."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Diction: relationships to explain",
+            "description": "Chosen verb → Association → Characterisation. Applying it to expression shapes the portrayal.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Chosen verb",
+                "detail": "Rationed."
+              },
+              {
+                "id": "node-2",
+                "label": "Association",
+                "detail": "Scarcity and controlled distribution."
+              },
+              {
+                "id": "node-3",
+                "label": "Characterisation",
+                "detail": "Smiles seem managed rather than spontaneous."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "The ordinary use of the verb supplies an association."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "Applying it to expression shapes the portrayal."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-english-diction-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Original line: “He rescued the last biscuit.” Compare “rescued” with “took”.",
+          "hints": [
+            "What danger does rescue imply?",
+            "Consider comic exaggeration."
+          ],
+          "solution": [
+            "“Took” would report acquisition neutrally.",
+            "“Rescued” treats the biscuit as if it faced danger or loss.",
+            "The exaggerated importance can create humour, depending on the surrounding tone."
+          ],
+          "successCriteria": [
+            "“Took” would report acquisition neutrally.",
+            "“Rescued” treats the biscuit as if it faced danger or loss.",
+            "The exaggerated importance can create humour, depending on the surrounding tone."
+          ]
+        },
+        {
+          "id": "extension-myp5-english-diction-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Original line: “The rumour seeped through the school.” Explain the verb’s contribution.",
+          "hints": [
+            "Think about gradual movement of liquid.",
+            "Connect that movement to information."
+          ],
+          "solution": [
+            "“Seeped” suggests slow movement through small openings.",
+            "The rumour appears to spread indirectly rather than by one public announcement.",
+            "The image can imply difficulty containing it without proving who began it."
+          ],
+          "successCriteria": [
+            "“Seeped” suggests slow movement through small openings.",
+            "The rumour appears to spread indirectly rather than by one public announcement.",
+            "The image can imply difficulty containing it without proving who began it."
+          ]
+        }
+      ]
+    },
+    "myp5-english-imagery": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Imagery in context",
+            "paragraphs": [
+              "Imagery evokes sensory experience and can connect an abstract idea to something perceptible. Identify the sensory field and the specific comparison before explaining associations. A metaphor may select one property of an object without transferring all its properties. For example, describing silence as thick can emphasise pressure or resistance without claiming it has literal mass. Images gain meaning through context and interaction: a repeated light image can change from guidance to exposure. Avoid simply listing senses; explain how the image shapes the reader’s understanding of this moment."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original line: “Their whispers stitched the room together.” Analyse the image.",
+            "steps": [
+              "Stitching joins separate pieces through repeated small actions.",
+              "Applied to whispers, the image presents quiet speech as creating connections across the room."
+            ],
+            "conclusion": "The metaphor suggests social connection through low voices, while context would determine whether that connection is supportive or conspiratorial."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What does sensory imagery do?",
+            "back": "It evokes an experience associated with sight, sound, touch, taste or smell."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Does metaphor transfer every property?",
+            "back": "No; analysis should identify the properties relevant in context."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Why track repeated images?",
+            "back": "Their meaning can develop or change across a text."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What should follow identification of a sense?",
+            "back": "An explanation of how the image contributes to meaning."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Imagery: relationships to explain",
+            "description": "Source image → Target action → Possible meaning. The comparison explains connection without fixing its moral value.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Source image",
+                "detail": "Stitches join separate pieces."
+              },
+              {
+                "id": "node-2",
+                "label": "Target action",
+                "detail": "Whispers pass between people."
+              },
+              {
+                "id": "node-3",
+                "label": "Possible meaning",
+                "detail": "Quiet speech creates a connected group."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "The physical process supplies a model for social contact."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "The comparison explains connection without fixing its moral value."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-english-imagery-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Original line: “The silence pressed against the windows.” Explain the sensory association.",
+          "hints": [
+            "Identify a physical action given to silence.",
+            "What atmosphere could pressure create?"
+          ],
+          "solution": [
+            "“Pressed” gives silence an imagined tactile force.",
+            "The windows suggest a boundary under that pressure.",
+            "The image may make quietness feel enclosing or tense rather than empty."
+          ],
+          "successCriteria": [
+            "“Pressed” gives silence an imagined tactile force.",
+            "The windows suggest a boundary under that pressure.",
+            "The image may make quietness feel enclosing or tense rather than empty."
+          ]
+        },
+        {
+          "id": "extension-myp5-english-imagery-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Original line: “Her idea was a match in a wet room.” Give a qualified interpretation.",
+          "hints": [
+            "What can a match provide?",
+            "What difficulty does wetness introduce?"
+          ],
+          "solution": [
+            "A match suggests a small potential source of light or change.",
+            "Wetness makes ignition or persistence uncertain.",
+            "The image may suggest fragile hope in difficult conditions, rather than guaranteed success."
+          ],
+          "successCriteria": [
+            "A match suggests a small potential source of light or change.",
+            "Wetness makes ignition or persistence uncertain.",
+            "The image may suggest fragile hope in difficult conditions, rather than guaranteed success."
+          ]
+        }
+      ]
+    },
+    "myp5-english-symbolism": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Symbolism in context",
+            "paragraphs": [
+              "A symbol is a detail that acquires significance beyond its literal role through pattern, context or association. Do not assign symbolic meaning to every object automatically. Show how repetition, placement, actions or contrasts support the interpretation. The same object can carry different meanings in different works, and its significance may change within one text. Distinguish a symbol from a simple metaphor: an object can remain physically present while participating in a wider pattern. A strong analysis explains the literal action first, then tests the broader meaning against the evidence."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original passage: “He polished the unused trophy each Sunday. When his sister won, he placed her medal beside it.” Analyse the trophy’s changing significance.",
+            "steps": [
+              "Repeated polishing gives the trophy importance despite its lack of present use.",
+              "Placing the sister’s medal beside it changes the display from solitary past achievement to shared recognition."
+            ],
+            "conclusion": "The objects may symbolise a movement from guarding personal status towards making room for another person’s achievement."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What supports a symbolic reading?",
+            "back": "Patterns, actions, context or emphasis that extend a detail’s literal role."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Do objects have universal meanings?",
+            "back": "No; symbolic significance depends on the particular text and context."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Why begin with the literal action?",
+            "back": "It anchors the broader interpretation in observable evidence."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Can a symbol’s significance change?",
+            "back": "Yes; new actions or relationships can alter its associations."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Symbolism: relationships to explain",
+            "description": "Repeated care → New placement → Changed significance. The new relationship between objects supports a broader shift.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Repeated care",
+                "detail": "An old trophy is polished weekly."
+              },
+              {
+                "id": "node-2",
+                "label": "New placement",
+                "detail": "A sister’s medal is added."
+              },
+              {
+                "id": "node-3",
+                "label": "Changed significance",
+                "detail": "Recognition becomes shared."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "Repetition establishes the object’s personal importance."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "The new relationship between objects supports a broader shift."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-english-symbolism-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Original passage: “The spare chair stayed against the wall for months. Today they moved it into the circle.” Analyse a possible symbolic change.",
+          "hints": [
+            "Compare separation with inclusion.",
+            "Retain the literal movement."
+          ],
+          "solution": [
+            "The chair literally moves from the edge into a group arrangement.",
+            "Its long separation makes the new placement significant.",
+            "It may symbolise increased belonging or readiness to include someone, without identifying who will sit there."
+          ],
+          "successCriteria": [
+            "The chair literally moves from the edge into a group arrangement.",
+            "Its long separation makes the new placement significant.",
+            "It may symbolise increased belonging or readiness to include someone, without identifying who will sit there."
+          ]
+        },
+        {
+          "id": "extension-myp5-english-symbolism-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A learner says every locked box symbolises childhood. Explain why that is weak and how to improve it.",
+          "hints": [
+            "Look for textual support.",
+            "Consider other possible associations."
+          ],
+          "solution": [
+            "A locked box has no fixed universal meaning of childhood.",
+            "The reading needs details such as contents, repeated memories or a character’s relationship to it.",
+            "Without those details, secrecy, protection or restriction may be equally plausible and should remain tentative."
+          ],
+          "successCriteria": [
+            "A locked box has no fixed universal meaning of childhood.",
+            "The reading needs details such as contents, repeated memories or a character’s relationship to it.",
+            "Without those details, secrecy, protection or restriction may be equally plausible and should remain tentative."
+          ]
+        }
+      ]
+    },
+    "myp5-english-audience-purpose-context": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Audience, purpose and context in context",
+            "paragraphs": [
+              "Audience, purpose and context are related but distinct. Audience concerns who is addressed and what they can be expected to know. Purpose concerns the response or understanding the text seeks. Context includes the situation in which it is produced or encountered. A text may have several audiences or purposes, and its actual readers may differ from its intended readers. Use supplied evidence such as location, vocabulary, form of address and requested action. Avoid stereotyping an audience or assuming a purpose from a topic alone."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original message on a club sign-up form: “New members: choose one workshop below. No experience needed; equipment is provided.” Analyse audience and purpose.",
+            "steps": [
+              "“New members” directly identifies people entering the club.",
+              "The instruction requests a selection, while reassurance about experience and equipment addresses likely barriers to joining."
+            ],
+            "conclusion": "The message helps newcomers act on the form and reduces uncertainty about participation."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "How does audience differ from purpose?",
+            "back": "Audience is who is addressed; purpose is what the text seeks to achieve."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What can location reveal?",
+            "back": "The situation in which readers encounter and use a text."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Can a text have multiple purposes?",
+            "back": "Yes; it may inform, instruct and reassure at the same time."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why avoid audience stereotypes?",
+            "back": "Readers within a group can have different knowledge, needs and responses."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Audience, purpose and context: relationships to explain",
+            "description": "Audience → Likely uncertainty → Purpose. Addressing the barriers supports the requested action.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Audience",
+                "detail": "New club members."
+              },
+              {
+                "id": "node-2",
+                "label": "Likely uncertainty",
+                "detail": "Experience and equipment requirements."
+              },
+              {
+                "id": "node-3",
+                "label": "Purpose",
+                "detail": "Enable a workshop choice with reassurance."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "The named audience makes these barriers relevant."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "Addressing the barriers supports the requested action."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-english-audience-purpose-context-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Original sign inside a quiet study room: “Take calls outside. Others are concentrating.” Identify audience, action and justification.",
+          "hints": [
+            "Use the sign’s location.",
+            "Separate command from reason."
+          ],
+          "solution": [
+            "The audience is people using the study room.",
+            "The requested action is to take calls outside.",
+            "The justification appeals to consideration for other people’s concentration."
+          ],
+          "successCriteria": [
+            "The audience is people using the study room.",
+            "The requested action is to take calls outside.",
+            "The justification appeals to consideration for other people’s concentration."
+          ]
+        },
+        {
+          "id": "extension-myp5-english-audience-purpose-context-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "An online guide uses unexplained specialist abbreviations but says it is for complete beginners. Evaluate that choice.",
+          "hints": [
+            "Compare assumed knowledge with named audience.",
+            "Suggest a specific repair."
+          ],
+          "solution": [
+            "Unexplained abbreviations assume prior knowledge.",
+            "That assumption conflicts with the stated beginner audience and may obstruct understanding.",
+            "Define each abbreviation at first use and provide a plain example where needed."
+          ],
+          "successCriteria": [
+            "Unexplained abbreviations assume prior knowledge.",
+            "That assumption conflicts with the stated beginner audience and may obstruct understanding.",
+            "Define each abbreviation at first use and provide a plain example where needed."
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -1,3 +1,4 @@
+import { APP_ORIGIN } from '@/lib/appOrigin';
 import Article from '@/components/Article';
 import SEO from '@/components/SEO';
 import BreadcrumbsJsonLd from '@/components/BreadcrumbsJsonLd';
@@ -6,7 +7,7 @@ import { Link } from 'react-router';
 export default function AIAnswerReviewer() {
   return (
     <>
-      <SEO title="Using Answer Reviewer | VertexED" description="Find a reasoning gap, check the feedback and make a fresh attempt." canonical="https://www.vertexed.app/resources/ai-answer-reviewer" ogType="article" />
+      <SEO title="Using Answer Reviewer | VertexED" description="Find a reasoning gap, check the feedback and make a fresh attempt." canonical={`${APP_ORIGIN}/resources/ai-answer-reviewer`} ogType="article" />
       <BreadcrumbsJsonLd />
       <Article title="Using Answer Reviewer" subtitle="Find a reasoning gap, check the feedback and make a fresh attempt." kicker="Study guide">
 

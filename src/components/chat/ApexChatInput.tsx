@@ -22,14 +22,21 @@ export default function ApexChatInput({
   const isDisabled = disabled || loading;
   return (
     <div className={`apex-chat-input-row ${compact ? 'apex-chat-input-compact' : ''}`}>
-      <input
-        className="neu-input-el flex-1 text-sm min-w-0"
+      <textarea
+        rows={compact ? 2 : 3}
+        className="neu-input-el flex-1 text-base min-w-0 resize-y max-h-64 leading-relaxed"
         placeholder={placeholder}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && !isDisabled && onSend()}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' && !e.shiftKey && !e.nativeEvent.isComposing && !isDisabled && value.trim()) {
+            e.preventDefault();
+            onSend();
+          }
+        }}
         disabled={isDisabled}
         aria-label="Message the AI tutor"
+        aria-description="Enter sends your message. Shift plus Enter adds a new line."
       />
       <button
         type="button"

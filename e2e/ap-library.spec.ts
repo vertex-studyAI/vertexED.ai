@@ -38,7 +38,9 @@ for (const width of [1440, 1024, 390]) {
     const hint = page.getByText('Show a hint', { exact: true }).first();
     await hint.focus(); await page.keyboard.press('Enter');
     await expect(page.locator('.ap-question details').first()).toHaveAttribute('open', '');
+    await expect(page.getByRole('list', { name: 'Hint steps for attempt 1' }).getByRole('listitem')).toHaveCount(3);
     await page.getByText('Review reasoning and checkpoints', { exact: true }).first().click();
+    await expect(page.locator('.ap-question').first().getByText(/Editorial practice guide:.*2 marks.*foundation.*calculator not required/)).toBeVisible();
     await expect(page.locator('.ap-question').first().getByText(/not an official scoring rubric/)).toBeVisible();
     await page.getByRole('link', { name: 'Next module →' }).click();
     await expect(page.getByLabel('Your working for attempt 1', { exact: true })).toHaveValue('');

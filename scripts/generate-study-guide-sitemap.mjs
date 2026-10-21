@@ -1,9 +1,10 @@
+import { resolveAppOrigin } from '../contracts/appOrigin.js';
 import { writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { approvedStaticPaths, readPublicationApprovals } from './content-publication.mjs';
 import { readLegacyPublication } from './legacy-content-publication.mjs';
 
-const siteUrl = "https://www.vertexed.app";
+const siteUrl = resolveAppOrigin(process.env);
 const projectRoot = resolve(import.meta.dirname, "..");
 const sitemapPath = resolve(projectRoot, "public/sitemap.xml");
 // Keep the sitemap limited to pages a search visitor can actually read. Account-only

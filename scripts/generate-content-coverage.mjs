@@ -9,9 +9,10 @@ import { buildProvenanceLedger } from './generate-study-guide-provenance.mjs';
 import { contentHash, approvedStaticPaths, readPublicationApprovals } from './content-publication.mjs';
 import { moduleContentPath } from './content-publication-modules.mjs';
 import { ARCHIVE_FILE, readLegacyPublication } from './legacy-content-publication.mjs';
+import { readLearningLibrary } from './generate-learning-library.mjs';
 
 const root = resolve(import.meta.dirname, '..');
-const output = resolve(root, 'docs/evidence/content-coverage-20261016.json');
+const output = resolve(root, 'docs/evidence/content-coverage-20261019.json');
 const stable = (value) => contentHash(JSON.stringify(value));
 const slug = (value) => value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
@@ -21,7 +22,7 @@ async function loadTypeScript(relativePath) {
   return import(`data:text/javascript;base64,${Buffer.from(code).toString('base64')}`);
 }
 
-async function boardSubjects(courses) {
+export async function boardSubjects(courses) {
   const source = await readFile(resolve(root, 'src/lib/curriculum.ts'), 'utf8');
   const parsed = ts.createSourceFile('curriculum.ts', source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TS);
   const statement = parsed.statements.find((item) => ts.isVariableStatement(item)
@@ -46,6 +47,27 @@ export async function buildContentCoverage() {
   const approvalEntries = new Map((await readPublicationApprovals()).map((entry) => [entry.path, entry]));
   const moduleApproved = (file, id, item) => hasExactContentApproval(approvalEntries.get(moduleContentPath(file, id)), stable(item));
   const rows = [];
+  const mypLessons = [];
+  const sharedLessons = await readLearningLibrary();
+  for (const lesson of sharedLessons) {
+    const asset = `/learning-library/${lesson.id}.json`;
+    rows.push({ ...base(`learning-library:${lesson.id}`, 'SHARED_ORIGINAL', lesson.subject, lesson.topic),
+      unit: lesson.unit, level: lesson.level, prerequisites: lesson.prerequisites, skills: lesson.objectives,
+      contentTypes: ['notes', 'worked-example', 'misconception', 'flashcards', 'practice', 'revision-checklist',
+        ...(lesson.diagrams?.length ? ['labelled-diagram'] : []), ...(lesson.teachingSequence ? ['guided-study'] : []), ...(lesson.revisionGuide ? ['revision-guide'] : [])],
+      difficulties: [...new Set(lesson.questions.map(q => q.difficulty))],
+      questionIds: lesson.questions.map(q => `${lesson.id}:${q.id}`), questionCount: lesson.questions.length,
+      reviewCardCount: lesson.flashcards.length, markTotal: lesson.questions.reduce((sum, q) => sum + q.marks, 0),
+      sourceFile: `src/content/learning-library/${lesson.id}.json`, deliveryAsset: asset,
+      exportAsset: `/learning-library/${lesson.id}.md`, deliveryRoute: `/resources/foundations/${lesson.id}`, contentVersion: lesson.revision,
+      contentHash: contentHash(`${JSON.stringify(lesson)}\n`),
+      partialSyllabusMappings: lesson.syllabusMappings ?? [],
+      answerVersion: stable(lesson.questions.map(q => ({ id: q.id, answer: q.answer, solution: q.solution, markingPoints: q.markingPoints, numericAnswer: q.numericAnswer }))),
+      publicationStatus: approved.has(asset) ? 'published' : 'held',
+      validation: { structural: 'tests/authored-learning-library.test.mjs', objectiveKeys: 'numeric answer fields checked by explicit independent calculations; prose keys require subject review', subjectReview: 'not-run' },
+      gaps: ['independent-subject-review', 'rights-and-attribution-review', lesson.syllabusMappings?.length ? 'complete-board-level-syllabus-mapping' : 'specific-board-level-syllabus-mapping', 'cross-device-foundation-progress-sync'],
+    });
+  }
   const courses = [];
   const courseSummaries = [];
   for (const name of (await readdir(resolve(root, 'src/content/ap'))).filter((entry) => entry.endsWith('.json')).sort()) {
@@ -55,10 +77,11 @@ export async function buildContentCoverage() {
     for (const unit of course.modules) {
       const row = { ...base(`AP:${course.slug}:${unit.id}`, 'AP', course.title, unit.title),
         unit: unit.frameworkUnit, skills: [unit.focus, ...(unit.objectives ?? [])], prerequisites: unit.prerequisites ?? [],
-        contentTypes: ['explanation', 'worked-example', 'misconception', 'practice', ...(unit.reviewCards?.length ? ['review-cards'] : [])],
+        contentTypes: ['explanation', 'worked-example', 'misconception', 'practice', ...(unit.reviewCards?.length ? ['review-cards'] : []), ...(unit.studyPack ? ['notes', 'flashcards', 'labelled-diagram'] : [])],
         difficulties: [...new Set(unit.questions.map((question) => question.difficulty ?? 'unspecified'))],
-        questionIds: unit.questions.map((question) => `${course.slug}:${question.id}`), questionCount: unit.questions.length,
-        reviewCardCount: unit.reviewCards?.length ?? 0, retryLinks: unit.questions.filter((q) => q.retryOf).map((q) => ({ id: q.id, retryOf: q.retryOf })),
+        questionIds: unit.questions.map((question) => `${course.slug}:${unit.id}:${question.id}`), questionCount: unit.questions.length,
+        reviewCardCount: (unit.reviewCards?.length ?? 0) + (unit.studyPack?.flashcards.length ?? 0),
+        workedExampleCount: 1 + (unit.studyPack?.workedExamples.length ?? 0), diagramCount: unit.studyPack?.diagrams.length ?? 0, retryLinks: unit.questions.filter((q) => q.retryOf).map((q) => ({ id: q.id, retryOf: q.retryOf })),
         syllabusVersion: { declared: '2026-27', verifiedMapping: false, note: course.frameworkNote },
         examComponents: [{ declared: course.assessment, completeMapping: false }], sources: [course.officialUrl],
         sourceFile: `src/content/ap/${name}`, deliveryRoute: `/ap/${course.slug}`, deliveryAsset: path,
@@ -67,7 +90,7 @@ export async function buildContentCoverage() {
         validation: { structural: 'tests/ap-content.test.mjs', objectiveKeys: course.slug === 'calculus-ab' && unit.id === 'unit-1' ? 'tests/content-answer-validation.test.mjs (q3-q5 only)' : 'not-independently-validated', subjectReview: 'not-run' },
       };
       if (!unit.prerequisites?.length) row.gaps.push('explicit-prerequisites');
-      if (!unit.reviewCards?.length) row.gaps.push('review-cards');
+      if (!unit.reviewCards?.length && !unit.studyPack?.flashcards.length) row.gaps.push('review-cards');
       if (unit.questions.some((q) => !q.marks || !q.calculatorPolicy)) row.gaps.push('mark-values-and-calculator-policy');
       if (!unit.questions.some((q) => q.difficulty === 'transfer')) row.gaps.push('designated-distinct-transfer-question');
       rows.push(row);
@@ -79,11 +102,13 @@ export async function buildContentCoverage() {
   for (const subject of mypManifest.subjects) {
     const path = `/myp5-content/${subject.slug}.json`;
     const payload = JSON.parse(await readFile(resolve(root, 'public', path.slice(1)), 'utf8'));
+    mypLessons.push(...payload.lessons);
     for (const lesson of payload.lessons) {
       rows.push({ ...base(`IB_MYP:${lesson.id}`, 'IB_MYP', subject.slug, lesson.topic),
         unit: lesson.id, level: 'MYP 5 (editorial selection)', syllabusVersion: { declared: lesson.curriculumVersion, verifiedMapping: false },
         skills: lesson.objectives, prerequisites: lesson.prerequisiteIds ?? [],
-        contentTypes: ['explanation', 'worked-example', 'misconception', 'practice', 'review-checklist'],
+        contentTypes: ['explanation', 'worked-example', 'misconception', 'practice', 'review-checklist', ...(lesson.studyPack ? ['notes', 'flashcards', 'labelled-diagram'] : [])],
+        reviewCardCount: lesson.studyPack?.flashcards.length ?? 0, workedExampleCount: 1 + (lesson.studyPack?.workedExamples.length ?? 0), diagramCount: lesson.studyPack?.diagrams.length ?? 0,
         difficulties: [...new Set(lesson.practice.map((q) => q.difficulty))],
         questionIds: lesson.practice.map((q) => q.id), questionCount: lesson.practice.length,
         markTotal: lesson.practice.reduce((sum, q) => sum + q.marks, 0),
@@ -174,7 +199,14 @@ export async function buildContentCoverage() {
   }
   for (const item of legacy.sections) rows.push({ ...legacyRow(item, `teaching-section:${item.file}:${item.name}`, item.name),
     authoredEntries: typeof item.value === 'string' ? 1 : Array.isArray(item.value) ? item.value.length : Object.values(item.value).reduce((sum, value) => sum + (Array.isArray(value) ? value.length : 1), 0) });
-  return { schemaVersion: 1, generatedBy: 'scripts/generate-content-coverage.mjs', snapshotDate: '2026-10-16',
+  const resourceCounts = (units) => ({
+    studyPacks: units.filter(unit => unit.studyPack).length,
+    additionalNoteWords: units.reduce((sum, unit) => sum + (unit.studyPack?.notes.flatMap(note => note.paragraphs).join(' ').split(/\s+/).length ?? 0), 0),
+    workedExamples: units.reduce((sum, unit) => sum + 1 + (unit.studyPack?.workedExamples.length ?? 0), 0),
+    flashcards: units.reduce((sum, unit) => sum + (unit.reviewCards?.length ?? 0) + (unit.studyPack?.flashcards.length ?? 0), 0),
+    diagrams: units.reduce((sum, unit) => sum + (unit.studyPack?.diagrams.length ?? 0), 0),
+  });
+  return { schemaVersion: 1, generatedBy: 'scripts/generate-content-coverage.mjs', snapshotDate: '2026-10-19',
     evidenceBoundary: 'Authored inventory and partial machine validation, not approval or full syllabus coverage. Null values remain unknown. Review records are never inferred from tests or source claims.',
     gates: ['CUR-01', 'CUR-02', 'CUR-03', 'CUR-04', 'CUR-05', 'CUR-06', 'CUR-07', 'CUR-08', 'PUB-02'],
     implementationProvenance: { relatedOpenPullRequest: 'https://github.com/vertex-studyAI/vertexED.ai/pull/1069', inspected: '2026-10-16',
@@ -186,8 +218,17 @@ export async function buildContentCoverage() {
       distinctRuntimeBoundaries: ['AI-generated responses require source/provenance and AI policy checks; static approval is not inferred.', 'User-owned notes and saved work retain their own permissions and history; this publication transform does not delete them.'],
     },
     adaptiveHistoryBoundary: { status: 'implemented-awaiting-final-build-verification', catalogue: 'ADAPTIVE_QUESTION_METADATA retains stable descriptive IDs without prompts, keys or solutions.', assessment: 'Only an exact approved contentRevision contributes assessment evidence. Legacy and held raw records remain preserved and unverified.', activeQuestions: ADAPTIVE_QUESTION_BANK.filter((q) => moduleApproved('src/content/adaptiveQuestionBank.mjs', q.id, q)).length },
-    summary: { ap: { courses: courses.length, modules: courses.reduce((n, c) => n + c.modules.length, 0), questions: courses.reduce((n, c) => n + c.modules.reduce((s, u) => s + u.questions.length, 0), 0) },
-      myp: { subjects: mypManifest.subjects.length, lessons: mypManifest.lessonCount, questions: mypManifest.questionCount },
+    summary: { ap: { courses: courses.length, modules: courses.reduce((n, c) => n + c.modules.length, 0), questions: courses.reduce((n, c) => n + c.modules.reduce((s, u) => s + u.questions.length, 0), 0), ...resourceCounts(courses.flatMap(course => course.modules)) },
+      myp: { subjects: mypManifest.subjects.length, lessons: mypManifest.lessonCount, questions: mypManifest.questionCount, ...resourceCounts(mypLessons) },
+      sharedLearningLibrary: { lessons: sharedLessons.length, subjects: new Set(sharedLessons.map(lesson => lesson.subject)).size,
+        noteWords: sharedLessons.reduce((sum, lesson) => sum + lesson.notes.flatMap(section => section.paragraphs).join(' ').split(/\s+/).length, 0),
+        workedExamples: sharedLessons.reduce((sum, lesson) => sum + lesson.workedExamples.length, 0),
+        questions: sharedLessons.reduce((sum, lesson) => sum + lesson.questions.length, 0),
+        flashcards: sharedLessons.reduce((sum, lesson) => sum + lesson.flashcards.length, 0),
+        diagrams: sharedLessons.reduce((sum, lesson) => sum + (lesson.diagrams?.length ?? 0), 0),
+        teachingSequences: sharedLessons.filter(lesson => lesson.teachingSequence).length,
+        revisionGuides: sharedLessons.filter(lesson => lesson.revisionGuide).length,
+        approvedLessons: sharedLessons.filter(lesson => approved.has(`/learning-library/${lesson.id}.json`)).length },
       guides: guides.summary, adaptiveQuestions: ADAPTIVE_QUESTION_BANK.length, formulaReferences: FORMULA_REFERENCE.length,
       examDrills: EXAM_DRILLS.length, complexDefinitions: Object.keys(COMPLEX_DEFINITIONS).length, approvedStaticAssets: approved.size, mandatoryCourseGaps: mandatoryGaps.length,
       legacyEditorialArticles: 23, archiveSamples: archiveSampleCount, additionalTeachingModules: legacy.modules.length - 24, teachingSections: legacy.sections.length,

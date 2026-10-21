@@ -28,6 +28,7 @@ const UserSettings = lazy(() => import("@/pages/UserSettings"));
 const Brand = lazy(() => import("@/pages/Brand"));
 const StudyTools = lazy(() => import("@/pages/StudyTools"));
 const ResourcesIndex = lazy(() => import("@/pages/resources/Index"));
+const FoundationLessons = lazy(() => import("@/pages/resources/FoundationLessons"));
 const AIStudyPlannerArticle = lazy(() => import("@/pages/resources/AIStudyPlanner"));
 const PaperMakerGuide = lazy(() => import("@/pages/resources/PaperMakerGuide"));
 const NotesToFlashcardsArticle = lazy(() => import("@/pages/resources/NotesToFlashcards"));
@@ -150,6 +151,8 @@ return (
 <Route index element={<AuthLandingRedirect />} />
 <Route path="home" element={<AuthLandingRedirect />} />
 						<Route path="resources" element={<ResourcesIndex />} />
+<Route path="resources/foundations" element={<FoundationLessons />} />
+<Route path="resources/foundations/:lessonId" element={<FoundationLessons />} />
 						<Route path="resources/ai-study-planner" element={<AIStudyPlannerArticle />} />
 						<Route path="resources/ib-igcse-paper-maker" element={<PaperMakerGuide />} />
 						<Route path="resources/notes-to-flashcards" element={<NotesToFlashcardsArticle />} />

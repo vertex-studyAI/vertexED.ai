@@ -58,7 +58,7 @@ test('conversations save, resume on another device, retain sources, export and c
   const download = second.waitForEvent('download'); await second.getByRole('button', { name: 'Export conversations' }).click();
   await (await download).saveAs(testInfo.outputPath('conversation-export.json'));
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  await page.getByText(/^Conversation history \(\d+\)$/).click();
+  await expect(page.getByRole('button', { name: 'New conversation' })).toBeVisible();
   for (const width of [1440, 1024, 390]) {
     await page.setViewportSize({ width, height: 1000 });
     for (const theme of ['light', 'dark'] as const) {
@@ -113,5 +113,34 @@ test('Unicode conversation links retain history when citation metadata is malfor
   expect(JSON.stringify(cloud.get(learner))).toContain(thread);
   // Assert the delivered answer and saved identity. WebKit may emit a cancelled
   // old-document fetch error during navigation; that is not a URI/citation failure.
-  await expect(page.getByRole('heading', { name: 'AI Tutor', exact: true })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Apex AI Tutor', exact: true })).toBeVisible();
+});
+
+test('Apex supports multiline working and the local reviewer checks first errors at all layouts', async ({ page }, testInfo) => {
+  const cloud: Cloud = new Map(); await login(page, cloud);
+  const composer = page.getByRole('textbox', { name: 'Message the AI tutor' });
+  await composer.fill('First line'); await composer.press('Shift+Enter'); await composer.pressSequentially('Second line');
+  await expect(composer).toHaveValue('First line\nSecond line');
+  await expect(page.locator('.apex-bubble-user')).toHaveCount(0);
+  await composer.press('Enter');
+  await expect(page.locator('.apex-bubble-user')).toContainText('Second line');
+  await page.goto('/answer-reviewer');
+  await page.getByText('Check polynomial derivative steps without AI', { exact: true }).click();
+  await page.getByLabel('Original polynomial', { exact: true }).fill('3x^4-2x+7');
+  await page.getByLabel('Your derivative expressions', { exact: true }).fill('12x^3-2\n12x^4-2x');
+  await page.getByRole('button', { name: 'Check derivative steps', exact: true }).focus();
+  await page.keyboard.press('Enter');
+  await expect(page.getByText('First mismatch: line 2', { exact: true })).toBeVisible();
+  await expect(page.getByText(/powers were not reduced/)).toBeVisible();
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  for (const width of [1440, 1024, 390]) {
+    await page.setViewportSize({ width, height: 900 });
+    await expect(page.getByRole('button', { name: 'Check derivative steps', exact: true })).toBeVisible();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
+    await page.screenshot({ path: testInfo.outputPath(`polynomial-review-${width}.png`), fullPage: true, animations: 'disabled' });
+  }
+  await page.getByLabel('Your derivative expressions', { exact: true }).fill('12x^3-2');
+  await expect(page.getByText('First mismatch: line 2', { exact: true })).toHaveCount(0);
+  await page.getByRole('button', { name: 'Check derivative steps', exact: true }).click();
+  await expect(page.getByText('Expressions verified', { exact: true })).toBeVisible();
 });

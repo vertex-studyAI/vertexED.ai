@@ -1,3 +1,4 @@
+import { APP_ORIGIN } from '@/lib/appOrigin';
 import { Link, useParams } from "react-router";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 
@@ -6,7 +7,7 @@ import SEO from "@/components/SEO";
 import { CURRICULA, FEATURES, isFeatureSlug } from '@/content/curriculumDirectory';
 import { BOARD_CONFIGS } from "@/lib/curriculum";
 
-const SITE_URL = "https://www.vertexed.app";
+const SITE_URL = `${APP_ORIGIN}`;
 
 export default function CurriculumFeature() {
   const { curriculum: curriculumSlug, feature: featureSlug } = useParams();

@@ -9,7 +9,7 @@ export const AP_COURSES: ApCourseSummary[] = [
     "officialUrl": "https://apstudents.collegeboard.org/courses/ap-2-d-art-and-design",
     "frameworkNote": "Checked against the official course page on 15 October 2026 for 2026-27. This is an original four-part portfolio skill sequence across inquiry, making and presentation, not prescribed College Board units. Text exercises support planning and reflection; they do not create, assess or certify a portfolio. Check current submission and AI rules with your teacher.",
     "assessment": "portfolio",
-    "contentSha256": "bc212d36e0ba8387d64e862f9fceaeab81dd0265cedda9fbfdf76e5e63ff26fa",
+    "contentSha256": "282640ae50026051c3e2851284c1b54387ef789743c3a06e0c7569aa1dc44db5",
     "modules": [
       {
         "id": "2-d-art-and-design-1",
@@ -36,7 +36,7 @@ export const AP_COURSES: ApCourseSummary[] = [
         "focus": "Sequence work and write concrete process statements."
       }
     ],
-    "questionCount": 8
+    "questionCount": 16
   },
   {
     "slug": "3-d-art-and-design",
@@ -46,7 +46,7 @@ export const AP_COURSES: ApCourseSummary[] = [
     "officialUrl": "https://apstudents.collegeboard.org/courses/ap-3-d-art-and-design",
     "frameworkNote": "Checked against the official course page on 15 October 2026 for 2026-27. This is an original four-part portfolio skill sequence across inquiry, making and presentation, not prescribed College Board units. Text exercises support planning and reflection; they do not create, assess or certify a portfolio. Check current submission and AI rules with your teacher.",
     "assessment": "portfolio",
-    "contentSha256": "14723e0cfc633a6a766534b95ca53a44ad5e0eb1c5dd7f1cb7c4768a408beb20",
+    "contentSha256": "4c4a85cf0c4fe98c9776cd141f75b575f6cc4079d53922cb6ff6332aea255944",
     "modules": [
       {
         "id": "3-d-art-and-design-1",
@@ -73,7 +73,7 @@ export const AP_COURSES: ApCourseSummary[] = [
         "focus": "Represent volume, scale and process accurately."
       }
     ],
-    "questionCount": 8
+    "questionCount": 16
   },
   {
     "slug": "african-american-studies",
@@ -83,7 +83,7 @@ export const AP_COURSES: ApCourseSummary[] = [
     "officialUrl": "https://apstudents.collegeboard.org/courses/ap-african-american-studies",
     "frameworkNote": "2026–27 structure checked against College Board on 15 October 2026: 4 units. Original VertexED focused lessons and self-check questions sample each unit; they do not replace the full course framework, required materials or teacher review. The course also includes an individual student project; these exercises are preparation, not a submitted or assessed project.",
     "assessment": "mixed",
-    "contentSha256": "66979f8e43bd6dbf2892d24f789de5e101142a97f98f241b3f238140ded414e3",
+    "contentSha256": "c625ac0a90ef0528d6dabf04ffeb00e020119bb0bd93250414fb1971f9280562",
     "modules": [
       {
         "id": "african-american-studies-unit-1",
@@ -110,7 +110,7 @@ export const AP_COURSES: ApCourseSummary[] = [
         "focus": "Compare change strategies without treating a movement as a single voice."
       }
     ],
-    "questionCount": 8
+    "questionCount": 16
   },
   {
     "slug": "art-history",
@@ -120,7 +120,7 @@ export const AP_COURSES: ApCourseSummary[] = [
     "officialUrl": "https://apstudents.collegeboard.org/courses/ap-art-history",
     "frameworkNote": "Checked against the official ten-unit sequence on 15 October 2026 for 2026-27. These original analytical lessons use clearly hypothetical visual scenarios. They supplement, and do not reproduce or replace, the required image set, identification study and close viewing of actual works.",
     "assessment": "exam",
-    "contentSha256": "6fc1e2e5c682e6ca18f387399e57cbb093de6bb6ad8720ea0f6861ff4562782c",
+    "contentSha256": "e0b606728e1789c14d3ce2e4c0fcdc678a9fa4d4e12b3781cbb4a627f59bb40f",
     "modules": [
       {
         "id": "art-history-1",
@@ -183,7 +183,7 @@ export const AP_COURSES: ApCourseSummary[] = [
         "focus": "Global contemporary: consider site, medium and audience."
       }
     ],
-    "questionCount": 20
+    "questionCount": 40
   },
   {
     "slug": "biology",
@@ -193,7 +193,7 @@ export const AP_COURSES: ApCourseSummary[] = [
     "officialUrl": "https://apstudents.collegeboard.org/courses/ap-biology",
     "frameworkNote": "Unit map checked against College Board on 15 October 2026 for the 2026-27 course. Each unit has one focused original revision lesson, not exhaustive topic coverage or an official practice paper. Uses the current eight-unit map and Fall 2025 framework update. These text exercises do not fulfil laboratory requirements.",
     "assessment": "exam",
-    "contentSha256": "a9a3fa6ec260bdcc9cf2f02ff1efd1e429f4ab7f8e645944f340aef8c0934358",
+    "contentSha256": "d6496ef7063ebd90b11f276c78f9ed664da4a97918acba89882d5809a0266ad2",
     "modules": [
       {
         "id": "unit-1",
@@ -244,7 +244,7 @@ export const AP_COURSES: ApCourseSummary[] = [
         "focus": "Track both rate limits and energy transfers."
       }
     ],
-    "questionCount": 16
+    "questionCount": 32
   },
   {
     "slug": "business-personal-finance",
@@ -254,7 +254,7 @@ export const AP_COURSES: ApCourseSummary[] = [
     "officialUrl": "https://apstudents.collegeboard.org/courses/ap-business-personal-finance",
     "frameworkNote": "Checked against the new 2026-27 course on 15 October 2026. The sequence includes Units 1-5, with separate modules for both parts of Unit 3. Exercises are hypothetical educational cases, not personal financial advice. They do not complete the required course projects or establish real investment outcomes.",
     "assessment": "mixed",
-    "contentSha256": "1906fdaeea3ec46b5e2ea707479cec5f90c6334fd04cb30fad87c0e55867df27",
+    "contentSha256": "1dde454f8e921949de08397712117cec9b79a04bbbaea6ad5b3613e4057480c4",
     "modules": [
       {
         "id": "business-personal-finance-1",
@@ -293,7 +293,7 @@ export const AP_COURSES: ApCourseSummary[] = [
         "focus": "Unit 5: connect net income, goals, risk and diversification."
       }
     ],
-    "questionCount": 12
+    "questionCount": 24
   },
   {
     "slug": "calculus-ab",
@@ -301,9 +301,9 @@ export const AP_COURSES: ApCourseSummary[] = [
     "category": "Maths and computer science",
     "summary": "Work through limits, derivatives, accumulation and differential equations.",
     "officialUrl": "https://apstudents.collegeboard.org/courses/ap-calculus-ab",
-    "frameworkNote": "Unit map checked against College Board on 15 October 2026 for the 2026-27 course. Each unit has one focused original revision lesson, not exhaustive topic coverage or an official practice paper. ",
+    "frameworkNote": "Eight-unit overview rechecked against College Board on 19 October 2026. These original revision lessons, recall cards and practice problems are partial preparation, not exhaustive CED topic coverage or official exam questions. Mark allocations are editorial practice rubrics. Independent subject review and exact syllabus-version mapping remain pending.",
     "assessment": "exam",
-    "contentSha256": "058cc618507c7d8dd29dce381dbb2d675cd3b7423bffdcf760725869e0e3af81",
+    "contentSha256": "23fe65b1811abc4d96f4461636bc74351e01d370c252aa2fe6fbb5c212145b2f",
     "modules": [
       {
         "id": "unit-1",
@@ -354,7 +354,7 @@ export const AP_COURSES: ApCourseSummary[] = [
         "focus": "Integrate the vertical separation."
       }
     ],
-    "questionCount": 19
+    "questionCount": 51
   },
   {
     "slug": "calculus-bc",
@@ -364,7 +364,7 @@ export const AP_COURSES: ApCourseSummary[] = [
     "officialUrl": "https://apstudents.collegeboard.org/courses/ap-calculus-bc",
     "frameworkNote": "Unit map checked against College Board on 15 October 2026 for the 2026-27 course. Each unit has one focused original revision lesson, not exhaustive topic coverage or an official practice paper. ",
     "assessment": "exam",
-    "contentSha256": "2c58e8957dc8b4355febf940900067e6e2d20f5e95bddde22e1f181dcd94d150",
+    "contentSha256": "8afeca9bbcf37f0a16685bcec3270679cb71c04c6f09106f56e5ba1c445f4e65",
     "modules": [
       {
         "id": "unit-1",
@@ -427,7 +427,7 @@ export const AP_COURSES: ApCourseSummary[] = [
         "focus": "Separate a necessary condition from a sufficient test."
       }
     ],
-    "questionCount": 20
+    "questionCount": 40
   },
   {
     "slug": "chemistry",
@@ -437,7 +437,7 @@ export const AP_COURSES: ApCourseSummary[] = [
     "officialUrl": "https://apstudents.collegeboard.org/courses/ap-chemistry",
     "frameworkNote": "Unit map checked against College Board on 15 October 2026 for the 2026-27 course. Each unit has one focused original revision lesson, not exhaustive topic coverage or an official practice paper. Nine-unit map verified at https://apcentral.collegeboard.org/courses/ap-chemistry after the AP Students page timed out. Uses the Fall 2024 framework titles and boundaries; text exercises do not replace laboratory work.",
     "assessment": "exam",
-    "contentSha256": "0aeca8f7a098d684b8b3cd0af222c70d9616636c41917c9627cbbccc8bead787",
+    "contentSha256": "ed4fff8ea0bbd27331adb09fd9cdf45df1ade3583342f724d392fb8396a98e3b",
     "modules": [
       {
         "id": "unit-1",
@@ -494,7 +494,7 @@ export const AP_COURSES: ApCourseSummary[] = [
         "focus": "Connect thermodynamic favourability with cell potential."
       }
     ],
-    "questionCount": 18
+    "questionCount": 36
   },
   {
     "slug": "chinese-language-and-culture",
@@ -504,7 +504,7 @@ export const AP_COURSES: ApCourseSummary[] = [
     "officialUrl": "https://apstudents.collegeboard.org/courses/ap-chinese-language-and-culture",
     "frameworkNote": "Checked against the revised 2026-27 framework on 15 October 2026: six thematic units and a course project supporting exam speaking tasks. The 2027 project packet is due for release in January 2027. These original fictional text scenarios are practice, not authentic cultural sources or a completed project. Add authentic target-language research, listening, conversation and teacher feedback; text answers do not assess pronunciation or oral proficiency. Examples use simplified characters; learners may consult their course guidance on accepted script.",
     "assessment": "mixed",
-    "contentSha256": "a3fdb82af49f29242754c14845d3be1b923672d7658c636a53f1a00c2a127ece",
+    "contentSha256": "3d367356ecbef7677c2e1b435c91d057ee51923f149babb2c88e9217bb43c154",
     "modules": [
       {
         "id": "chinese-language-and-culture-1",
@@ -543,7 +543,7 @@ export const AP_COURSES: ApCourseSummary[] = [
         "focus": "Global contexts: define the action and expected outcome."
       }
     ],
-    "questionCount": 12
+    "questionCount": 24
   },
   {
     "slug": "comparative-government-and-politics",
@@ -553,7 +553,7 @@ export const AP_COURSES: ApCourseSummary[] = [
     "officialUrl": "https://apstudents.collegeboard.org/courses/ap-comparative-government-and-politics",
     "frameworkNote": "2026–27 structure checked against College Board on 15 October 2026: 5 units. Original VertexED focused lessons and self-check questions sample each unit; they do not replace the full course framework, required materials or teacher review. ",
     "assessment": "exam",
-    "contentSha256": "c129b591ebdf8f06ec6b1308f49f47360426a069de3764007e937c0cb94b2039",
+    "contentSha256": "dc505cbdbb25a3c38cf31f38b7ace0367eddd3cb2fd5034a77bd3e39f0734810",
     "modules": [
       {
         "id": "comparative-government-and-politics-unit-1",
@@ -586,7 +586,7 @@ export const AP_COURSES: ApCourseSummary[] = [
         "focus": "Separate economic measures from political processes."
       }
     ],
-    "questionCount": 10
+    "questionCount": 20
   },
   {
     "slug": "computer-science-a",
@@ -596,7 +596,7 @@ export const AP_COURSES: ApCourseSummary[] = [
     "officialUrl": "https://apstudents.collegeboard.org/courses/ap-computer-science-a",
     "frameworkNote": "Unit map checked against College Board on 15 October 2026 for the 2026-27 course. Each unit has one focused original revision lesson, not exhaustive topic coverage or an official practice paper. Uses the revised four-unit framework first effective Fall 2025, not the older ten-unit sequence.",
     "assessment": "exam",
-    "contentSha256": "d0beb54028c781fe7585b0978c98a5bfc64dbc75ac6efe997c9a128e64744988",
+    "contentSha256": "e3002e45c91e66ea978a57043fc5fc37bdd77f70de0f21461a411a4e170afe7a",
     "modules": [
       {
         "id": "unit-1",
@@ -623,7 +623,7 @@ export const AP_COURSES: ApCourseSummary[] = [
         "focus": "Visit each valid element without skipping shifted entries."
       }
     ],
-    "questionCount": 8
+    "questionCount": 16
   },
   {
     "slug": "computer-science-principles",
@@ -633,7 +633,7 @@ export const AP_COURSES: ApCourseSummary[] = [
     "officialUrl": "https://apstudents.collegeboard.org/courses/ap-computer-science-principles",
     "frameworkNote": "Unit map checked against College Board on 15 October 2026 for the 2026-27 course. Each unit has one focused original revision lesson, not exhaustive topic coverage or an official practice paper. The official framework uses five Big Ideas rather than numbered units. Includes revision of concepts relevant to the Create task, not a submission or replacement for independently authored assessed work.",
     "assessment": "mixed",
-    "contentSha256": "7c230d41e5f016e8b945c0ec5dfb21851cfcf4e4ae58d1fe54502076d7c93055",
+    "contentSha256": "f7ae76ec2a179761403cb4f9c655376ec88fefcede10c705ead50d1ed110eff4",
     "modules": [
       {
         "id": "unit-1",
@@ -666,7 +666,7 @@ export const AP_COURSES: ApCourseSummary[] = [
         "focus": "Evaluate benefits alongside who is excluded."
       }
     ],
-    "questionCount": 10
+    "questionCount": 20
   },
   {
     "slug": "cybersecurity",
@@ -676,7 +676,7 @@ export const AP_COURSES: ApCourseSummary[] = [
     "officialUrl": "https://apstudents.collegeboard.org/courses/ap-cybersecurity",
     "frameworkNote": "Checked against the new five-unit 2026-27 course on 15 October 2026. All scenarios are fictional defensive exercises. They require no probing, credential collection or changes to real systems. Text practice does not replace supervised labs, authorised hands-on work or required course assessments.",
     "assessment": "exam",
-    "contentSha256": "7e9edbb0d52cefd1663872610eff2fc0baeb1c03ddff4fe920a9ee2a7f10972d",
+    "contentSha256": "d1c74233645a88bcbfeb08e9d69269d64ffcd2acacc2e4cbc0c569b2f7cd7493",
     "modules": [
       {
         "id": "cybersecurity-1",
@@ -709,7 +709,7 @@ export const AP_COURSES: ApCourseSummary[] = [
         "focus": "Unit 5: distinguish encryption, hashing and permission checks."
       }
     ],
-    "questionCount": 10
+    "questionCount": 20
   },
   {
     "slug": "drawing",
@@ -719,7 +719,7 @@ export const AP_COURSES: ApCourseSummary[] = [
     "officialUrl": "https://apstudents.collegeboard.org/courses/ap-drawing",
     "frameworkNote": "Checked against the official course page on 15 October 2026 for 2026-27. This is an original four-part portfolio skill sequence across inquiry, making and presentation, not prescribed College Board units. Text exercises support planning and reflection; they do not create, assess or certify a portfolio. Check current submission and AI rules with your teacher.",
     "assessment": "portfolio",
-    "contentSha256": "c928ab7a045bf6964f6ba01c7283574a8e16e217a79f3bc9c5e72f578322f7f1",
+    "contentSha256": "98e575fcfc0ed7f1220e410d0d137c0e9d0467477c20d1e884fefe0617ce7c8c",
     "modules": [
       {
         "id": "drawing-1",
@@ -746,7 +746,7 @@ export const AP_COURSES: ApCourseSummary[] = [
         "focus": "Show how observation and revision changed the work."
       }
     ],
-    "questionCount": 8
+    "questionCount": 16
   },
   {
     "slug": "english-language-and-composition",
@@ -756,7 +756,7 @@ export const AP_COURSES: ApCourseSummary[] = [
     "officialUrl": "https://apstudents.collegeboard.org/courses/ap-english-language-and-composition",
     "frameworkNote": "2026–27 structure checked against College Board on 15 October 2026: 9 units. Original VertexED focused lessons and self-check questions sample each unit; they do not replace the full course framework, required materials or teacher review. College Board organises this course into nine numbered skill cycles without fixed topic titles. Module titles here are original teaching labels. All example sentences are original, not exam passages.",
     "assessment": "exam",
-    "contentSha256": "e8cde5001b7c3e96c6f11f2c49dacdd38a5abecb20c57f47958f88f23cb6952d",
+    "contentSha256": "e0d76cd7812f2245c20e3b18b358192f032eae51bf89a5d246ae4c92eb09769b",
     "modules": [
       {
         "id": "english-language-and-composition-unit-1",
@@ -813,7 +813,7 @@ export const AP_COURSES: ApCourseSummary[] = [
         "focus": "Reconcile evidence while keeping a clear judgement."
       }
     ],
-    "questionCount": 18
+    "questionCount": 36
   },
   {
     "slug": "english-literature-and-composition",
@@ -823,7 +823,7 @@ export const AP_COURSES: ApCourseSummary[] = [
     "officialUrl": "https://apstudents.collegeboard.org/courses/ap-english-literature-and-composition",
     "frameworkNote": "2026–27 structure checked against College Board on 15 October 2026: 9 units. Original VertexED focused lessons and self-check questions sample each unit; they do not replace the full course framework, required materials or teacher review. Nine units follow three cycles of short fiction, poetry, and longer fiction or drama. All micro-passages and scenarios here are original. These focused exercises do not substitute for reading complete literary works.",
     "assessment": "exam",
-    "contentSha256": "319d7eb1b114bb9965c8c89000d4c3726d0b596358db58d9d51a3e26730a2ddc",
+    "contentSha256": "845a82b9644a25858ba0ef907bbe715007bd05472138a9e4da22f9e8fa3eae7d",
     "modules": [
       {
         "id": "english-literature-and-composition-unit-1",
@@ -880,7 +880,7 @@ export const AP_COURSES: ApCourseSummary[] = [
         "focus": "Build an argument that accounts for the ending’s complications."
       }
     ],
-    "questionCount": 18
+    "questionCount": 36
   },
   {
     "slug": "environmental-science",
@@ -890,7 +890,7 @@ export const AP_COURSES: ApCourseSummary[] = [
     "officialUrl": "https://apstudents.collegeboard.org/courses/ap-environmental-science",
     "frameworkNote": "Unit map checked against College Board on 15 October 2026 for the 2026-27 course. Each unit has one focused original revision lesson, not exhaustive topic coverage or an official practice paper. Uses the current nine-unit map and Fall 2026 CED listing. Numerical scenarios are original models; fieldwork and laboratory requirements remain separate.",
     "assessment": "exam",
-    "contentSha256": "02d8e23ac089df37ecbca3850c97c71edb68de4ec4bd144f0bbf2cf04d878f0e",
+    "contentSha256": "5808387b6bc6b10917d0bc3d81e3dbfdb523498f31f5e5fa14922670a462cd45",
     "modules": [
       {
         "id": "unit-1",
@@ -947,7 +947,7 @@ export const AP_COURSES: ApCourseSummary[] = [
         "focus": "Distinguish a forcing from a feedback response."
       }
     ],
-    "questionCount": 18
+    "questionCount": 36
   },
   {
     "slug": "european-history",
@@ -957,7 +957,7 @@ export const AP_COURSES: ApCourseSummary[] = [
     "officialUrl": "https://apstudents.collegeboard.org/courses/ap-european-history",
     "frameworkNote": "2026–27 structure checked against College Board on 15 October 2026: 9 units. Original VertexED focused lessons and self-check questions sample each unit; they do not replace the full course framework, required materials or teacher review. Nine units follow the current framework. May 2027 short-answer and long-essay exam updates do not alter the course content; these original exercises are skill practice, not official exam questions.",
     "assessment": "exam",
-    "contentSha256": "cee7bf467181d80cf734355dec2ac5d94d08b2775ef588cf2369a9fa45138562",
+    "contentSha256": "7deca29fd63df6fa0e01a43e50edc69f178da53bc92d492cc577e409cb090c59",
     "modules": [
       {
         "id": "european-history-unit-1",
@@ -1014,7 +1014,7 @@ export const AP_COURSES: ApCourseSummary[] = [
         "focus": "Compare cooperation with persistent political tensions."
       }
     ],
-    "questionCount": 18
+    "questionCount": 36
   },
   {
     "slug": "french-language-and-culture",
@@ -1024,7 +1024,7 @@ export const AP_COURSES: ApCourseSummary[] = [
     "officialUrl": "https://apstudents.collegeboard.org/courses/ap-french-language-and-culture",
     "frameworkNote": "Checked against the revised 2026-27 framework on 15 October 2026: six thematic units and a course project supporting exam speaking tasks. The 2027 project packet is due for release in January 2027. These original fictional text scenarios are practice, not authentic cultural sources or a completed project. Add authentic target-language research, listening, conversation and teacher feedback; text answers do not assess pronunciation or oral proficiency.",
     "assessment": "mixed",
-    "contentSha256": "8e62b7e9a595297a1046638c257eb1affa65f6379cce162afc2e07ebb3cc2b73",
+    "contentSha256": "52c5af00e79679f2289bfc3af9e42d059f5b48af5c59749282e426a16ac195a3",
     "modules": [
       {
         "id": "french-language-and-culture-1",
@@ -1063,7 +1063,7 @@ export const AP_COURSES: ApCourseSummary[] = [
         "focus": "Global contexts: compare options and acknowledge constraints."
       }
     ],
-    "questionCount": 12
+    "questionCount": 24
   },
   {
     "slug": "german-language-and-culture",
@@ -1073,7 +1073,7 @@ export const AP_COURSES: ApCourseSummary[] = [
     "officialUrl": "https://apstudents.collegeboard.org/courses/ap-german-language-and-culture",
     "frameworkNote": "Checked against the revised 2026-27 framework on 15 October 2026: six thematic units and a course project supporting exam speaking tasks. The 2027 project packet is due for release in January 2027. These original fictional text scenarios are practice, not authentic cultural sources or a completed project. Add authentic target-language research, listening, conversation and teacher feedback; text answers do not assess pronunciation or oral proficiency.",
     "assessment": "mixed",
-    "contentSha256": "9dcffa1987503fb3ce30636318b67c57b0133c632f43057e062d041425cf6275",
+    "contentSha256": "f7e78940f503bcf7ef0f786c8b1fd3596ad671b4979fcd1699f61a8d77c6bb87",
     "modules": [
       {
         "id": "german-language-and-culture-1",
@@ -1112,7 +1112,7 @@ export const AP_COURSES: ApCourseSummary[] = [
         "focus": "Global contexts: use conditions and consequences."
       }
     ],
-    "questionCount": 12
+    "questionCount": 24
   },
   {
     "slug": "human-geography",
@@ -1122,7 +1122,7 @@ export const AP_COURSES: ApCourseSummary[] = [
     "officialUrl": "https://apstudents.collegeboard.org/courses/ap-human-geography",
     "frameworkNote": "2026–27 structure checked against College Board on 15 October 2026: 7 units. Original VertexED focused lessons and self-check questions sample each unit; they do not replace the full course framework, required materials or teacher review. ",
     "assessment": "exam",
-    "contentSha256": "878abf5c1b1521432018e29e0a63d24ba25fc1bb94d5e33c75befbddb1ac3dc1",
+    "contentSha256": "a8a3a10ad262f38c32a719ed64d7355e9e502bd4929c3b386e6d03ad59b58cde",
     "modules": [
       {
         "id": "human-geography-unit-1",
@@ -1167,7 +1167,7 @@ export const AP_COURSES: ApCourseSummary[] = [
         "focus": "Distinguish output, well-being and unequal connections."
       }
     ],
-    "questionCount": 14
+    "questionCount": 28
   },
   {
     "slug": "italian-language-and-culture",
@@ -1177,7 +1177,7 @@ export const AP_COURSES: ApCourseSummary[] = [
     "officialUrl": "https://apstudents.collegeboard.org/courses/ap-italian-language-and-culture",
     "frameworkNote": "Checked against the revised 2026-27 framework on 15 October 2026: six thematic units and a course project supporting exam speaking tasks. The 2027 project packet is due for release in January 2027. These original fictional text scenarios are practice, not authentic cultural sources or a completed project. Add authentic target-language research, listening, conversation and teacher feedback; text answers do not assess pronunciation or oral proficiency.",
     "assessment": "mixed",
-    "contentSha256": "b6398f7f6a5d5eba3cad35715ed9cc322621dcdaa0c98f9fc2fab1f551b336bc",
+    "contentSha256": "80741fe9435927348d7df630d110767eb574bfbcc21e800cbf61e3e056bcc695",
     "modules": [
       {
         "id": "italian-language-and-culture-1",
@@ -1216,7 +1216,7 @@ export const AP_COURSES: ApCourseSummary[] = [
         "focus": "Global contexts: state conditions and trade-offs."
       }
     ],
-    "questionCount": 12
+    "questionCount": 24
   },
   {
     "slug": "japanese-language-and-culture",
@@ -1226,7 +1226,7 @@ export const AP_COURSES: ApCourseSummary[] = [
     "officialUrl": "https://apstudents.collegeboard.org/courses/ap-japanese-language-and-culture",
     "frameworkNote": "Checked against the revised 2026-27 framework on 15 October 2026: six thematic units and a course project supporting exam speaking tasks. The 2027 project packet is due for release in January 2027. These original fictional text scenarios are practice, not authentic cultural sources or a completed project. Add authentic target-language research, listening, conversation and teacher feedback; text answers do not assess pronunciation or oral proficiency.",
     "assessment": "mixed",
-    "contentSha256": "38733f65b74ea155f0c938aa5c6d5e6554c77b50a7ea9060d5eea8b0eaa93b0c",
+    "contentSha256": "0600c1395316b9107628dafef323720a99874e1f7c584b6541445ff0f7988f98",
     "modules": [
       {
         "id": "japanese-language-and-culture-1",
@@ -1265,7 +1265,7 @@ export const AP_COURSES: ApCourseSummary[] = [
         "focus": "Global contexts: explain purpose and evaluate outcomes."
       }
     ],
-    "questionCount": 12
+    "questionCount": 24
   },
   {
     "slug": "latin",
@@ -1275,7 +1275,7 @@ export const AP_COURSES: ApCourseSummary[] = [
     "officialUrl": "https://apstudents.collegeboard.org/courses/ap-latin",
     "frameworkNote": "Checked on 15 October 2026 against the six-unit framework revised for 2025-26 and current in 2026-27. It includes Pliny, Vergil, teacher-selected texts and an annual course project. All Latin sentences here are original teaching examples, not quotations from required texts. Study the assigned passages and current project materials with your teacher.",
     "assessment": "mixed",
-    "contentSha256": "c6a715929c1241dcfa1c7df88b5523ca4b0cc7b39b4444cc8c188e66998d7c80",
+    "contentSha256": "95494f5baa4a912c9e083b204864a9b5efe426dd943ec839f2e732408e25e083",
     "modules": [
       {
         "id": "latin-1",
@@ -1314,7 +1314,7 @@ export const AP_COURSES: ApCourseSummary[] = [
         "focus": "Unit 6 project: distinguish translation, context and interpretation."
       }
     ],
-    "questionCount": 12
+    "questionCount": 24
   },
   {
     "slug": "macroeconomics",
@@ -1324,7 +1324,7 @@ export const AP_COURSES: ApCourseSummary[] = [
     "officialUrl": "https://apstudents.collegeboard.org/courses/ap-macroeconomics",
     "frameworkNote": "2026–27 structure checked against College Board on 15 October 2026: 6 units. Original VertexED focused lessons and self-check questions sample each unit; they do not replace the full course framework, required materials or teacher review. ",
     "assessment": "exam",
-    "contentSha256": "af928059333de7b181883bae0855eb300c744c8995eed7549dea26f369400dd0",
+    "contentSha256": "cf84519353e1a6913902f32657165183c6ac240df84a852f676f8da65d7b15ad",
     "modules": [
       {
         "id": "macroeconomics-unit-1",
@@ -1363,7 +1363,7 @@ export const AP_COURSES: ApCourseSummary[] = [
         "focus": "Track currency demand before predicting appreciation."
       }
     ],
-    "questionCount": 12
+    "questionCount": 24
   },
   {
     "slug": "microeconomics",
@@ -1373,7 +1373,7 @@ export const AP_COURSES: ApCourseSummary[] = [
     "officialUrl": "https://apstudents.collegeboard.org/courses/ap-microeconomics",
     "frameworkNote": "2026–27 structure checked against College Board on 15 October 2026: 6 units. Original VertexED focused lessons and self-check questions sample each unit; they do not replace the full course framework, required materials or teacher review. ",
     "assessment": "exam",
-    "contentSha256": "2d875b0fb3d7a2bfc4bb983e4e314044deef79ae61e3288bbe2be06cf8d6d9a6",
+    "contentSha256": "3fc7e84e72699280a4d65dab44d8bb22f6fa2bb13e7c9f2008c058d897eb90bb",
     "modules": [
       {
         "id": "microeconomics-unit-1",
@@ -1412,7 +1412,7 @@ export const AP_COURSES: ApCourseSummary[] = [
         "focus": "Compare private incentives with social costs and benefits."
       }
     ],
-    "questionCount": 12
+    "questionCount": 24
   },
   {
     "slug": "music-theory",
@@ -1422,7 +1422,7 @@ export const AP_COURSES: ApCourseSummary[] = [
     "officialUrl": "https://apstudents.collegeboard.org/courses/ap-music-theory",
     "frameworkNote": "Checked against the official eight-unit sequence on 15 October 2026 for 2026-27. These original text exercises support notation and analysis. They do not replace audio dictation, sight-singing, score study or teacher feedback. Pitch names use scientific octave labels where needed.",
     "assessment": "exam",
-    "contentSha256": "16ef35ade671e04c060e9457645eb9d8b00aa54a002f9b7458784493e6a1e493",
+    "contentSha256": "17eda3d77f2dadff5390759673db2eef00403fa7573db024a7af582daa4df648",
     "modules": [
       {
         "id": "music-theory-1",
@@ -1473,7 +1473,7 @@ export const AP_COURSES: ApCourseSummary[] = [
         "focus": "Distinguish pitch collection from formal return."
       }
     ],
-    "questionCount": 16
+    "questionCount": 32
   },
   {
     "slug": "physics-1-algebra-based",
@@ -1483,7 +1483,7 @@ export const AP_COURSES: ApCourseSummary[] = [
     "officialUrl": "https://apstudents.collegeboard.org/courses/ap-physics-1-algebra-based",
     "frameworkNote": "Unit map checked against College Board on 15 October 2026 for the 2026-27 course. Each unit has one focused original revision lesson, not exhaustive topic coverage or an official practice paper. Uses the current eight-unit framework, including fluids in Unit 8. These models do not replace experimental investigations.",
     "assessment": "exam",
-    "contentSha256": "1892fa19661ae4192be2e551f6c92676a7d62038f552650e831737048645a662",
+    "contentSha256": "415e6fd56ce252626fd473d63c190befd6ababa720abf40d4085850ea985357c",
     "modules": [
       {
         "id": "unit-1",
@@ -1534,7 +1534,7 @@ export const AP_COURSES: ApCourseSummary[] = [
         "focus": "Use depth and displaced volume with clear assumptions."
       }
     ],
-    "questionCount": 16
+    "questionCount": 32
   },
   {
     "slug": "physics-2-algebra-based",
@@ -1544,7 +1544,7 @@ export const AP_COURSES: ApCourseSummary[] = [
     "officialUrl": "https://apstudents.collegeboard.org/courses/ap-physics-2-algebra-based",
     "frameworkNote": "Unit map checked against College Board on 15 October 2026 for the 2026-27 course. Each unit has one focused original revision lesson, not exhaustive topic coverage or an official practice paper. Preserves official Units 9–15, continuing Physics 1 numbering. Fluids belong to Physics 1 in the current framework, not this course.",
     "assessment": "exam",
-    "contentSha256": "3450b0581672d7233aa71cc5b022ff1fea0498883d9219874faf169a06580678",
+    "contentSha256": "36a5aadc7b635edf112928f84bdfa1b4230c971b98777f8a4bd149c2c6db2709",
     "modules": [
       {
         "id": "unit-9",
@@ -1589,7 +1589,7 @@ export const AP_COURSES: ApCourseSummary[] = [
         "focus": "Distinguish energy per photon from photon number."
       }
     ],
-    "questionCount": 14
+    "questionCount": 28
   },
   {
     "slug": "physics-c-electricity-and-magnetism",
@@ -1599,7 +1599,7 @@ export const AP_COURSES: ApCourseSummary[] = [
     "officialUrl": "https://apstudents.collegeboard.org/courses/ap-physics-c-electricity-and-magnetism",
     "frameworkNote": "Unit map checked against College Board on 15 October 2026 for the 2026-27 course. Each unit has one focused original revision lesson, not exhaustive topic coverage or an official practice paper. Preserves official Units 8–13, continuing Physics C: Mechanics numbering. Idealised field and circuit models are revision exercises, not laboratory completion evidence.",
     "assessment": "exam",
-    "contentSha256": "c9959851f81d2dfc5cacf1e38552875b53a779d62d04b30669a211bfabc73e1d",
+    "contentSha256": "10b812ee26cf598a78871534e641a288ea338042a33aaffb9604b72a6a3e42a3",
     "modules": [
       {
         "id": "unit-8",
@@ -1638,7 +1638,7 @@ export const AP_COURSES: ApCourseSummary[] = [
         "focus": "Differentiate magnetic flux rather than field alone."
       }
     ],
-    "questionCount": 12
+    "questionCount": 24
   },
   {
     "slug": "physics-c-mechanics",
@@ -1648,7 +1648,7 @@ export const AP_COURSES: ApCourseSummary[] = [
     "officialUrl": "https://apstudents.collegeboard.org/courses/ap-physics-c-mechanics",
     "frameworkNote": "Unit map checked against College Board on 15 October 2026 for the 2026-27 course. Each unit has one focused original revision lesson, not exhaustive topic coverage or an official practice paper. Uses the revised seven-unit framework. Gravitation and orbits are integrated into forces and rotating systems; the historical separate gravitation unit is not used.",
     "assessment": "exam",
-    "contentSha256": "b98efa58bd8d508bcb777a9e1ba213134635a85ce88ce93e75912fbcd3f09398",
+    "contentSha256": "8701118e7606d747af7a88bb6100db986c48cc7bfdbae6c9f7e11b8ff70e6d03",
     "modules": [
       {
         "id": "unit-1",
@@ -1693,7 +1693,7 @@ export const AP_COURSES: ApCourseSummary[] = [
         "focus": "Recognise restoring acceleration proportional to displacement."
       }
     ],
-    "questionCount": 14
+    "questionCount": 28
   },
   {
     "slug": "precalculus",
@@ -1703,7 +1703,7 @@ export const AP_COURSES: ApCourseSummary[] = [
     "officialUrl": "https://apstudents.collegeboard.org/courses/ap-precalculus",
     "frameworkNote": "Unit map checked against College Board on 15 October 2026 for the 2026-27 course. Each unit has one focused original revision lesson, not exhaustive topic coverage or an official practice paper. Unit 4 is included as course enrichment and is not assessed on the AP Exam.",
     "assessment": "exam",
-    "contentSha256": "e247256cfbcd621ac38d1e2d302c5e7b8e48a319eab3439ef79ee7fa82a44790",
+    "contentSha256": "85288db38a260be2cb8ecf2f030c30b1a9e50ce1c141b04a19ebbbf55baa79c5",
     "modules": [
       {
         "id": "unit-1",
@@ -1730,7 +1730,7 @@ export const AP_COURSES: ApCourseSummary[] = [
         "focus": "Follow a point through a linear transformation. This unit is not assessed on the AP Exam."
       }
     ],
-    "questionCount": 8
+    "questionCount": 16
   },
   {
     "slug": "psychology",
@@ -1740,7 +1740,7 @@ export const AP_COURSES: ApCourseSummary[] = [
     "officialUrl": "https://apstudents.collegeboard.org/courses/ap-psychology",
     "frameworkNote": "2026–27 structure checked against College Board on 15 October 2026: 5 units. Original VertexED focused lessons and self-check questions sample each unit; they do not replace the full course framework, required materials or teacher review. Uses the revised five-unit framework, with research methods and data interpretation integrated throughout. Health scenarios are academic research exercises, not diagnoses or treatment advice.",
     "assessment": "exam",
-    "contentSha256": "72ed293e9d36fe4ae6dbafbcd0ef4c24d1c19359bfd4d652101c96a16cfbef99",
+    "contentSha256": "0e522789242ec2271aa3d491a960c6c801b44cb582d9fd60a25ab5300a72fa23",
     "modules": [
       {
         "id": "psychology-unit-1",
@@ -1773,7 +1773,7 @@ export const AP_COURSES: ApCourseSummary[] = [
         "focus": "Evaluate psychological claims without diagnosing from a brief description."
       }
     ],
-    "questionCount": 10
+    "questionCount": 20
   },
   {
     "slug": "research",
@@ -1783,7 +1783,7 @@ export const AP_COURSES: ApCourseSummary[] = [
     "officialUrl": "https://apstudents.collegeboard.org/courses/ap-research",
     "frameworkNote": "Checked against the official course page on 15 October 2026 for 2026-27. This is an original five-part research skill sequence, not prescribed units. It supports the course’s inquiry and communication goals but does not conduct research, supply participant data or replace the student’s own paper, presentation, oral defence and teacher-supervised process.",
     "assessment": "research",
-    "contentSha256": "3231e7514bac28c1448427fd9cec73c027098c01c23702962c9cceab392dfae4",
+    "contentSha256": "31e6a85a276c445ca44d25ba99a42487087fae318f8f90b9198960d8bdd89d18",
     "modules": [
       {
         "id": "research-1",
@@ -1816,7 +1816,7 @@ export const AP_COURSES: ApCourseSummary[] = [
         "focus": "Communicate the argument and reflect on revisions."
       }
     ],
-    "questionCount": 10
+    "questionCount": 20
   },
   {
     "slug": "seminar",
@@ -1826,7 +1826,7 @@ export const AP_COURSES: ApCourseSummary[] = [
     "officialUrl": "https://apstudents.collegeboard.org/courses/ap-seminar",
     "frameworkNote": "Checked against the official course page on 15 October 2026 for 2026-27. This is an original five-part skill sequence across inquiry, analysis, perspectives, synthesis and communication, not prescribed units. Practice scenarios do not replace required source materials, student-authored assessments or the course’s collaboration and process requirements.",
     "assessment": "mixed",
-    "contentSha256": "3a369c08f2ca7acb99c913b15426f46767b2843bf1d8520e258631b81dafa21e",
+    "contentSha256": "bc38ccf7056579f285a24a678961ec565c36b599917b21cc16efb52624a1a1e3",
     "modules": [
       {
         "id": "seminar-1",
@@ -1859,7 +1859,7 @@ export const AP_COURSES: ApCourseSummary[] = [
         "focus": "Make the evidence understandable and contributions traceable."
       }
     ],
-    "questionCount": 10
+    "questionCount": 20
   },
   {
     "slug": "spanish-language-and-culture",
@@ -1869,7 +1869,7 @@ export const AP_COURSES: ApCourseSummary[] = [
     "officialUrl": "https://apstudents.collegeboard.org/courses/ap-spanish-language-and-culture",
     "frameworkNote": "Checked against the revised 2026-27 framework on 15 October 2026: six thematic units and a course project supporting exam speaking tasks. The 2027 project packet is due for release in January 2027. These original fictional text scenarios are practice, not authentic cultural sources or a completed project. Add authentic target-language research, listening, conversation and teacher feedback; text answers do not assess pronunciation or oral proficiency.",
     "assessment": "mixed",
-    "contentSha256": "fa37780eedd8102546d46259bd360479fa17db6800135c9164b35c5717f78cec",
+    "contentSha256": "00908dd70179b7b9fd8935ef734f274dac8c7bb6d3a995d323a8de318fdd2032",
     "modules": [
       {
         "id": "spanish-language-and-culture-1",
@@ -1908,7 +1908,7 @@ export const AP_COURSES: ApCourseSummary[] = [
         "focus": "Global contexts: combine recommendation and condition."
       }
     ],
-    "questionCount": 12
+    "questionCount": 24
   },
   {
     "slug": "spanish-literature-and-culture",
@@ -1918,7 +1918,7 @@ export const AP_COURSES: ApCourseSummary[] = [
     "officialUrl": "https://apstudents.collegeboard.org/courses/ap-spanish-literature-and-culture",
     "frameworkNote": "Checked against the official eight-unit sequence on 15 October 2026 for 2026-27. All short literary examples here are original teaching passages, not excerpts from the required reading list. They rehearse analysis and do not replace reading the assigned works, studying their contexts or listening practice.",
     "assessment": "exam",
-    "contentSha256": "1cdd017363153afec64b03c8871a0511c4b53dac2c9617bec3a1c34dc86648e6",
+    "contentSha256": "9b8c983941e717b4ee9e1c43a8788944ffaf8407794a6056725401a149534170",
     "modules": [
       {
         "id": "spanish-literature-and-culture-1",
@@ -1969,7 +1969,7 @@ export const AP_COURSES: ApCourseSummary[] = [
         "focus": "Contemporary United States and Spain: connect language and identity."
       }
     ],
-    "questionCount": 16
+    "questionCount": 32
   },
   {
     "slug": "statistics",
@@ -1979,7 +1979,7 @@ export const AP_COURSES: ApCourseSummary[] = [
     "officialUrl": "https://apstudents.collegeboard.org/courses/ap-statistics",
     "frameworkNote": "Unit map checked against College Board on 15 October 2026 for the 2026-27 course. Each unit has one focused original revision lesson, not exhaustive topic coverage or an official practice paper. Uses the Fall 2026 five-unit revision, confirmed at https://apcentral.collegeboard.org/courses/ap-statistics/future-revisions. Historical nine-unit numbering is not used; removed slope-inference and goodness-of-fit topics are not presented as current requirements.",
     "assessment": "exam",
-    "contentSha256": "0dba812a436742ee02271eaa2840bd3705c75843d95065f89c97d2ea04fd509f",
+    "contentSha256": "e2b9618cc2b3d9542a989222ab117a521bfc7ff5a17d1a956c12bb34c5335b4e",
     "modules": [
       {
         "id": "unit-1",
@@ -2012,7 +2012,7 @@ export const AP_COURSES: ApCourseSummary[] = [
         "focus": "Measure an observation’s distance from its fitted prediction."
       }
     ],
-    "questionCount": 10
+    "questionCount": 20
   },
   {
     "slug": "united-states-government-and-politics",
@@ -2022,7 +2022,7 @@ export const AP_COURSES: ApCourseSummary[] = [
     "officialUrl": "https://apstudents.collegeboard.org/courses/ap-united-states-government-and-politics",
     "frameworkNote": "2026–27 structure checked against College Board on 15 October 2026: 5 units. Original VertexED focused lessons and self-check questions sample each unit; they do not replace the full course framework, required materials or teacher review. These are academic explanations of course concepts, not legal advice or a complete treatment of required documents and Supreme Court cases.",
     "assessment": "exam",
-    "contentSha256": "1dc59b100949880c12cee64223d95d91a0de434f602b6e433ac4336dae6f1c7f",
+    "contentSha256": "ea79a69c8a9c621b5dc4cee26c7f4cff1620c9c956f4b13b5f562046984b5c31",
     "modules": [
       {
         "id": "united-states-government-and-politics-unit-1",
@@ -2055,7 +2055,7 @@ export const AP_COURSES: ApCourseSummary[] = [
         "focus": "Distinguish turnout, representation and policy influence."
       }
     ],
-    "questionCount": 10
+    "questionCount": 20
   },
   {
     "slug": "united-states-history",
@@ -2065,7 +2065,7 @@ export const AP_COURSES: ApCourseSummary[] = [
     "officialUrl": "https://apstudents.collegeboard.org/courses/ap-united-states-history",
     "frameworkNote": "2026–27 structure checked against College Board on 15 October 2026: 9 units. Original VertexED focused lessons and self-check questions sample each unit; they do not replace the full course framework, required materials or teacher review. Nine chronological periods follow the current framework. College Board announced May 2027 changes to short-answer and long-essay questions without changing course content; these original exercises are not a replica of an exam format.",
     "assessment": "exam",
-    "contentSha256": "70304efe80521b1e2178274d9f596d48c0182ffc42cef82aeb889ccf7c3e856e",
+    "contentSha256": "637bd5dd939d0d41365719dd57874caebeadf5019026005ec568ee895aadd0b8",
     "modules": [
       {
         "id": "united-states-history-unit-1",
@@ -2122,7 +2122,7 @@ export const AP_COURSES: ApCourseSummary[] = [
         "focus": "Use dated evidence to explain continuity and change."
       }
     ],
-    "questionCount": 18
+    "questionCount": 36
   },
   {
     "slug": "world-history-modern",
@@ -2132,7 +2132,7 @@ export const AP_COURSES: ApCourseSummary[] = [
     "officialUrl": "https://apstudents.collegeboard.org/courses/ap-world-history-modern",
     "frameworkNote": "2026–27 structure checked against College Board on 15 October 2026: 9 units. Original VertexED focused lessons and self-check questions sample each unit; they do not replace the full course framework, required materials or teacher review. Nine units cover the current modern-world framework from about 1200. May 2027 short-answer and long-essay exam changes do not alter course content; no exercise here is an official exam item.",
     "assessment": "exam",
-    "contentSha256": "ed37f1e97a42d2ba8be145bb4d9f0cfffd0ab2c488a0c833add4225eefa37928",
+    "contentSha256": "3dae5caf12fed3873944ce724f96c803390ec91603543de3b74887e21149aa3a",
     "modules": [
       {
         "id": "world-history-modern-unit-1",
@@ -2189,7 +2189,7 @@ export const AP_COURSES: ApCourseSummary[] = [
         "focus": "Evaluate interdependence through specific mechanisms."
       }
     ],
-    "questionCount": 18
+    "questionCount": 36
   }
 ];
 export const AP_TOTALS = { courses: AP_COURSES.length, modules: AP_COURSES.reduce((sum, course) => sum + course.modules.length, 0), questions: AP_COURSES.reduce((sum, course) => sum + course.questionCount, 0) };

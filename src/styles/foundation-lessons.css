@@ -1,0 +1,52 @@
+.foundation-library { max-width: 1120px; margin-inline: auto; color: hsl(var(--foreground)); font-size: 16px; line-height: 1.75; overflow-wrap: anywhere; }
+.foundation-library header { margin-block: 24px; border-bottom: 2px solid hsl(var(--primary)); padding-bottom: 24px; }
+.foundation-library h1 { font-size: clamp(1.75rem, 4vw, 2.75rem); line-height: 1.2; font-weight: 650; margin-block: 12px; max-width: 30ch; }
+.foundation-library h2 { font-size: 1.4rem; line-height: 1.4; font-weight: 650; margin-block: 16px 8px; }
+.foundation-library h3 { font-size: 1.1rem; font-weight: 650; margin-block: 12px 8px; }
+.foundation-library p { margin-block: 12px; max-width: 78ch; }
+.foundation-library a { color: hsl(var(--primary)); text-decoration: underline; text-underline-offset: 4px; }
+.foundation-library section, .foundation-library article { background: hsl(var(--card)); border: 1px solid hsl(var(--border)); border-radius: 12px; padding: 24px; margin-block: 16px; }
+.foundation-library article { border-inline-start: 3px solid hsl(var(--primary)); }
+.foundation-library ul, .foundation-library ol { padding-inline-start: 24px; }
+.foundation-library ul { list-style: disc; } .foundation-library ol { list-style: decimal; }
+.foundation-library li { margin-block: 8px; }
+.foundation-eyebrow, .foundation-meta { font-size: 14px; color: hsl(var(--muted-foreground)); }
+.foundation-eyebrow { color: hsl(var(--primary)); font-weight: 600; }
+.foundation-toolbar, .foundation-filters { display: flex; flex-wrap: wrap; gap: 12px; margin-block: 24px; }
+.foundation-library button { min-height: 44px; border: 1px solid hsl(var(--border)); border-radius: 8px; padding: 8px 16px; background: hsl(var(--background)); color: hsl(var(--foreground)); font-size: 14px; }
+.foundation-library button:hover, .foundation-library button[aria-pressed=true] { border-color: hsl(var(--primary)); color: hsl(var(--primary)); }
+.foundation-library button:disabled { opacity: .55; cursor: not-allowed; }
+.foundation-library :is(button, input, select, textarea, a, summary):focus-visible { outline: 2px solid hsl(var(--primary)); outline-offset: 3px; }
+.foundation-library label { display: block; font-weight: 500; }
+.foundation-library :is(input:not([type=checkbox]), select, textarea) { display: block; width: 100%; min-height: 44px; margin-block: 8px 16px; padding: 10px 12px; border: 1px solid hsl(var(--border)); border-radius: 8px; background: hsl(var(--background)); color: hsl(var(--foreground)); font-size: 16px; }
+.foundation-filters label { flex: 1 1 240px; min-width: 0; }
+.foundation-results { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+.foundation-results > a { display: block; border: 1px solid hsl(var(--border)); border-radius: 12px; padding: 24px; background: hsl(var(--card)); text-decoration: none; color: hsl(var(--foreground)); }
+.foundation-results span { font-size: 14px; color: hsl(var(--muted-foreground)); }
+.foundation-results strong { color: hsl(var(--primary)); }
+.foundation-library .foundation-tabs { display: flex; height: auto; justify-content: flex-start; flex-wrap: wrap; gap: 4px; background: hsl(var(--muted)); }
+.foundation-library .foundation-tabs button[data-state=active] { background: hsl(var(--primary)); color: hsl(var(--primary-foreground)); }
+.foundation-library button.foundation-save { background: hsl(var(--primary)); color: hsl(var(--primary-foreground)); border-color: hsl(var(--primary)); }
+/* Reading and answer controls must remain clear of the shared floating launchers. */
+body:has(.foundation-library) .vee-launcher { position: relative !important; inset: auto !important; transform: none !important; margin: 16px 24px 16px auto; display: flex; max-width: 130px; }
+body:has(.foundation-library) .feedback-launcher { position: static !important; }
+.foundation-library details { margin-top: 16px; border-top: 1px solid hsl(var(--border)); padding-top: 12px; }
+.foundation-library summary { cursor: pointer; color: hsl(var(--primary)); }
+.foundation-library .foundation-check { display: flex; align-items: flex-start; gap: 12px; padding: 12px; border-bottom: 1px solid hsl(var(--border)); }
+.foundation-check input { width: 20px; height: 20px; margin-top: 4px; flex-shrink: 0; accent-color: hsl(var(--primary)); }
+.foundation-study-links { display: flex; flex-wrap: wrap; gap: 8px; }
+.foundation-study-links button { text-align: start; white-space: normal; }
+.foundation-library [tabindex="-1"] { scroll-margin-top: 112px; }
+.foundation-library [tabindex="-1"]:focus { outline: 2px solid hsl(var(--primary)); outline-offset: 4px; }
+.foundation-diagram { margin-block: 32px; padding-block: 16px; border-block: 2px solid hsl(var(--primary)); }
+.foundation-library .foundation-diagram ol { list-style: none; padding: 0; max-width: 640px; margin: 24px auto; }
+.foundation-library .foundation-diagram li { margin: 0; }
+.foundation-diagram-node { padding: 16px 24px; border: 1px solid hsl(var(--primary)); border-radius: 12px; background: hsl(var(--card)); }
+.foundation-diagram-node strong { color: hsl(var(--primary)); }
+.foundation-diagram-link { display: flex; align-items: center; gap: 12px; padding: 12px 24px; color: hsl(var(--primary)); }
+.foundation-diagram-link svg { flex-shrink: 0; }
+.foundation-formulas > div { padding: 16px 0; border-bottom: 1px solid hsl(var(--border)); }
+.foundation-formulas dt { font-weight: 650; color: hsl(var(--primary)); }
+.foundation-formulas dd { margin: 8px 0 0; }
+@media (max-width: 640px) { .foundation-results { grid-template-columns: 1fr; } .foundation-library section, .foundation-library article { padding: 16px; } }
+@media (prefers-reduced-motion: reduce) { .foundation-library *, .foundation-library *::before, .foundation-library *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }

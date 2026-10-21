@@ -2,6 +2,7 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { buildContentCoverage } from './generate-content-coverage.mjs';
+import { buildCurriculumScope } from './report-curriculum-scope.mjs';
 
 const root = resolve(import.meta.dirname, '..');
 const output = resolve(root, 'docs/evidence/content-ecosystem-20261019.json');
@@ -9,6 +10,7 @@ export const REQUESTED_PROGRAMMES = ['IB_MYP', 'IB_DP', 'AP', 'GCSE', 'IGCSE', '
 
 export async function buildEcosystemReport() {
   const inventory = await buildContentCoverage();
+  const scope = await buildCurriculumScope();
   return {
     version: 'vertexed-content-ecosystem-v1',
     boundary: 'Authored source inventory. Counts are not independent review, live availability or exhaustive syllabus coverage. Unknown denominators remain null.',
@@ -24,9 +26,23 @@ export async function buildEcosystemReport() {
       };
     }),
     sharedOriginalResources: inventory.rows.filter(row => row.programme === 'SHARED_ORIGINAL').length,
+    authoredLearningLibrary: inventory.summary.sharedLearningLibrary,
+    curriculumScope: { report: 'docs/evidence/curriculum-scope-20261019.json', ...scope.summary },
+    partialSyllabusCrosswalk: scope.partialSyllabusCrosswalk,
     existingInventorySummary: inventory.summary,
     courseSummaries: inventory.courseSummaries,
     engineering: { privateStudySets: 'source-based-generation; requires supplied material',
+      apMypReaders: { studyPackVersion: '2026-10-21.1',
+        resources: ['notes', 'additional-worked-examples', 'flashcards', 'labelled-concept-diagrams', 'integrated-question-banks'],
+        apWorking: 'temporary in-memory answers with course-text export',
+        mypWorking: 'existing scoped device drafts; globally unique question identities',
+        validation: 'exact payload hashes; shared resource schema; internal editorial and selected numerical checks',
+        publication: 'all new packs remain subject to exact-hash editorial approval' },
+      foundationReader: { route: '/resources/foundations', publication: 'exact-hash-approved-assets-only',
+        studyModes: ['notes', 'labelled-diagrams-where-authored', 'guided-study-where-authored', 'flashcards', 'practice', 'revision-guide-where-authored', 'revision-checklist'],
+        progress: 'account-and-content-hash-scoped-device-only; explicit save; conflict and corruption protection',
+        grading: 'MCQ key and numeric-value comparison only; no full-mark or mastery attribution',
+        exports: ['learner-answers-json', 'separately-approved-lesson-markdown'] },
       hierarchy: ['curriculum', 'board', 'syllabusVersion', 'subject', 'unit', 'topic', 'subtopic'],
       modes: ['lesson', 'flashcards', 'quiz', 'study-guide'],
       persistence: 'existing owner-scoped notebook snapshot; device checkpoint and account sync',

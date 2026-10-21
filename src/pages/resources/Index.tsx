@@ -1,3 +1,4 @@
+import { APP_ORIGIN } from '@/lib/appOrigin';
 import { AP_COURSES } from '@/content/apCatalogue';
 import { useMemo } from 'react';
 import { Link, useSearchParams } from 'react-router';
@@ -175,12 +176,12 @@ export default function ResourcesIndex() {
       <SEO
         title="Learning library | VertexED"
         description="Browse MYP and AP course directories, available study materials, curriculum desks, editorial guides, study tools and legacy archives."
-        canonical="https://www.vertexed.app/resources"
+        canonical={`${APP_ORIGIN}/resources`}
         jsonLd={{
           '@context': 'https://schema.org',
           '@type': 'CollectionPage',
           name: 'VertexED learning library',
-          url: 'https://www.vertexed.app/resources',
+          url: `${APP_ORIGIN}/resources`,
           description: 'Course directories, available learning material and study tools, with review holds labelled.',
         }}
       />
@@ -198,6 +199,7 @@ export default function ResourcesIndex() {
               <Link to="/myp">Open MYP 5 <ArrowRight aria-hidden /></Link>
               <Link to="/ap">Explore all AP courses</Link>
               <Link to="/curricula">Browse curricula</Link>
+              <Link to="/resources/foundations">Foundation lessons</Link>
             </div>
           </div>
           <dl className="library-stats" aria-label="Library coverage">

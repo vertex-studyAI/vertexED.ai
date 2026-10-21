@@ -4,6 +4,7 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { createHash } from 'node:crypto';
 import ts from 'typescript';
+import { isStudyPack, isAdditionalMypPractice } from '../contracts/studyPack.js';
 
 const root = resolve(import.meta.dirname, '..');
 const contentDirectory = resolve(root, 'public/myp5-content');
@@ -69,11 +70,28 @@ if (questionCount !== 616) throw new Error(`Expected 616 MYP questions, received
 
 const lessonById = new Map(MYP5_LESSONS.map((lesson) => [lesson.id, lesson]));
 const sourceById = new Map(MYP_CONTENT_SOURCES.map((source) => [source.id, source]));
-const manifest = { version: 'vertexed-myp5-content-v1', lessonCount: 205, questionCount: 616, subjects: [] };
+const manifest = { version: 'vertexed-myp5-content-v1', lessonCount: 205, questionCount: 0, subjects: [] };
+const questionIds = new Set();
 
 if (!check) await mkdir(contentDirectory, { recursive: true });
 for (const subject of MYP5_SUBJECTS) {
-  const lessons = MYP5_LESSONS.filter((lesson) => lesson.subjectSlug === subject.slug);
+  const originalLessons = MYP5_LESSONS.filter((lesson) => lesson.subjectSlug === subject.slug);
+  const supplement = JSON.parse(await readFile(resolve(root, 'src/content/myp5-resources', `${subject.slug}.json`), 'utf8'));
+  if (supplement.subjectSlug !== subject.slug || Object.keys(supplement.lessons ?? {}).length !== originalLessons.length)
+    throw new Error(`${subject.slug}: incomplete resource supplements`);
+  const lessons = originalLessons.map((lesson) => {
+    const addition = supplement.lessons[lesson.id];
+    if (!addition || !isStudyPack(addition.studyPack) || !isAdditionalMypPractice(addition.additionalPractice))
+      throw new Error(`${lesson.id}: invalid study pack or additional practice`);
+    const practice = [...lesson.practice, ...addition.additionalPractice];
+    if (new Set(practice.map((question) => question.id)).size !== practice.length)
+      throw new Error(`${lesson.id}: duplicate practice question IDs`);
+    for (const question of practice) {
+      if (questionIds.has(question.id)) throw new Error(`Duplicate MYP question ID: ${question.id}`);
+      questionIds.add(question.id);
+    }
+    return { ...lesson, studyPack: addition.studyPack, practice };
+  });
   if (lessons.length !== subject.topics.length) {
     throw new Error(`${subject.slug}: expected ${subject.topics.length} lessons, received ${lessons.length}`);
   }
@@ -90,6 +108,7 @@ for (const subject of MYP5_SUBJECTS) {
     return [id, { id, subjectSlug: prerequisite.subjectSlug, topic: prerequisite.topic }];
   }));
   const subjectQuestionCount = lessons.reduce((total, lesson) => total + lesson.practice.length, 0);
+  manifest.questionCount += subjectQuestionCount;
   const payload = {
     version: 'vertexed-myp5-content-v1',
     subjectSlug: subject.slug,

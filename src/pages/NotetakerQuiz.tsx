@@ -1,3 +1,4 @@
+import { APP_ORIGIN } from '@/lib/appOrigin';
 import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router";
@@ -1318,7 +1319,7 @@ export default function NotetakerQuiz(): React.JSX.Element {
       <Helmet>
         <title>AI Notes, Flashcards, and Quizzes - VertexED</title>
         <meta name="description" content="Turn notes into smart summaries, flashcards, quizzes, and audio-assisted study material." />
-        <link rel="canonical" href="https://www.vertexed.app/notetaker" />
+        <link rel="canonical" href={`${APP_ORIGIN}/notetaker`} />
       </Helmet>
 
       <PageSection>

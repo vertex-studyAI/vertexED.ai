@@ -1,3 +1,4 @@
+import { APP_ORIGIN } from '@/lib/appOrigin';
 import SEO from "@/components/SEO";
 import PageSection from "@/components/PageSection";
 import Article from "@/components/Article";
@@ -9,7 +10,7 @@ export default function TermsOfService() {
       <SEO
         title="Terms of Service - VertexED"
         description="Terms governing use of VertexED study tools and AI features."
-        canonical="https://www.vertexed.app/terms"
+        canonical={`${APP_ORIGIN}/terms`}
       />
       <PageSection className="max-w-3xl mx-auto py-10">
         <Article title="Terms of Service">
@@ -95,7 +96,7 @@ export default function TermsOfService() {
 
           <h2>Contact</h2>
           <p>
-            Questions about these Terms: <a href="mailto:legal@vertexed.app">legal@vertexed.app</a>
+            Questions about these Terms: <a href="mailto:vertexed.25@gmail.com">vertexed.25@gmail.com</a>
           </p>
         </Article>
       </PageSection>

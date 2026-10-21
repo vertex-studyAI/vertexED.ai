@@ -17,6 +17,7 @@ test('unverified detailed guide claims are not promoted in the public sitemap', 
   assert.match(generator, /entry\.editorialStatus === "approved"/);
   assert.match(generator, /entry\.publicationStatus === "published"/);
   assert.equal(provenance.summary.approved, 0);
-  assert.doesNotMatch(sitemap, /<loc>https:\/\/www\.vertexed\.app\/study-guides\/myp\//);
-  assert.match(sitemap, /<loc>https:\/\/www\.vertexed\.app\/study-guides<\/loc>/);
+  assert.doesNotMatch(sitemap, /<loc>https:\/\/[^/]+\/study-guides\/myp\//);
+  assert.match(sitemap, /<loc>https:\/\/vertex-ed-ai\.vercel\.app\/study-guides<\/loc>/);
+  assert.doesNotMatch(sitemap, /https:\/\/(?:www\.)?vertexed\.(?:app|ai)/);
 });

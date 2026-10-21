@@ -45,10 +45,126 @@
             "Distinguish an outward shift"
           ],
           "id": "macroeconomics-unit-1-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Ask what is forgone when choosing one additional unit.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A producer can make 24 units of X or 8 of Y. Find the opportunity cost of one Y and of one X.",
+          "answer": "One Y costs 3 X; one X costs 1/3 Y.",
+          "checkpoints": [
+            "Divide 24 by 8 for Y cost.",
+            "Take the reciprocal for X cost.",
+            "Attach the correct good units to each result."
+          ],
+          "hints": [
+            "Ask what is forgone when choosing one additional unit.",
+            "The two costs use different units."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Separate actual production from potential production.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "An economy moves from an interior point to its existing frontier after unemployed workers find jobs. Is this necessarily an outward shift of productive capacity?",
+          "answer": "No. Output rises through greater use of existing resources; an outward shift would require increased resources, improved technology or another capacity change.",
+          "checkpoints": [
+            "Identify the original underutilisation.",
+            "Distinguish movement to the frontier from a shift.",
+            "Name a capacity-changing cause."
+          ],
+          "hints": [
+            "Separate actual production from potential production.",
+            "The stated frontier has not changed."
+          ]
         }
       ],
       "id": "macroeconomics-unit-1",
-      "frameworkUnit": "Unit 1"
+      "frameworkUnit": "Unit 1",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through scarcity and comparative advantage",
+            "paragraphs": [
+              "Scarcity forces choices even when resources are used efficiently. A production possibilities frontier separates feasible combinations from combinations unavailable with the current resources and technology. Moving towards the frontier uses idle resources; shifting the frontier outward represents greater productive capacity. Comparative advantage depends on lower opportunity cost, not on producing the greatest absolute quantity. To evaluate possible trade, compute each producer’s cost of one good in units of the other and seek a trading price between their costs. Specialisation can expand consumption possibilities, but the simple model does not establish how gains are distributed or account for every transition cost."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Country A can produce 30 units of grain or 10 cloth; B can produce 20 grain or 20 cloth. Identify comparative advantages and a mutually beneficial grain price for one cloth.",
+            "steps": [
+              "A’s cloth costs 3 grain; B’s cloth costs 1 grain. B has comparative advantage in cloth and A in grain.",
+              "A price of 2 grain per cloth lies between 1 and 3: B receives more grain than its opportunity cost and A pays less than its own cost."
+            ],
+            "conclusion": "The proposed trade ratio of 2 grain per cloth can benefit both in this model."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What determines comparative advantage?",
+            "back": "Lower opportunity cost."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Does absolute advantage guarantee comparative advantage in every good?",
+            "back": "No."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What does moving from inside to the frontier show?",
+            "back": "More complete resource use."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What bounds a mutually beneficial trade ratio?",
+            "back": "The two opportunity costs in the simple two-producer model."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Scarcity and comparative advantage: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Production alternatives",
+                "detail": "Record feasible outputs under common resource limits."
+              },
+              {
+                "id": "n2",
+                "label": "Opportunity costs",
+                "detail": "Express the forgone alternative per additional unit."
+              },
+              {
+                "id": "n3",
+                "label": "Specialisation and trade",
+                "detail": "Compare costs and choose terms that can create gains."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "determine"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "guide"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Output, prices and unemployment",
@@ -88,10 +204,126 @@
             "Reject unadjusted inference"
           ],
           "id": "macroeconomics-unit-2-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "The index-point change is not the percentage change.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A price index rises from 160 to 168. Find inflation.",
+          "answer": "Inflation is (168−160)/160×100=5%.",
+          "checkpoints": [
+            "Find the index change of 8.",
+            "Use the initial index as denominator.",
+            "Calculate 5%."
+          ],
+          "hints": [
+            "The index-point change is not the percentage change.",
+            "Divide by 160, not 168."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Use the defined labour-force population.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "A population has 900 employed, 100 unemployed and 500 outside the labour force. Find the unemployment rate.",
+          "answer": "The labour force is 1000, so unemployment is 100/1000×100=10%; the 500 outside it are excluded from this denominator.",
+          "checkpoints": [
+            "Add employed and unemployed to find 1000.",
+            "Divide unemployed by the labour force.",
+            "Explain why the outside group is excluded."
+          ],
+          "hints": [
+            "Use the defined labour-force population.",
+            "Do not divide by all 1500 people."
+          ]
         }
       ],
       "id": "macroeconomics-unit-2",
-      "frameworkUnit": "Unit 2"
+      "frameworkUnit": "Unit 2",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through output, prices and unemployment",
+            "paragraphs": [
+              "GDP measures the market value of final production within an economy over a period, avoiding double counting of intermediate goods. Nominal GDP uses current prices, whereas real GDP holds prices constant using a specified measurement method to isolate output change. A price index compares a basket or aggregate across periods; its level is not the inflation rate. The unemployment rate uses unemployed people actively seeking and available for work as a share of the labour force in the simplified definition. People outside the labour force are not automatically counted as unemployed, so a falling rate alone need not indicate improving employment."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "An economy produces 100 units at price 2 in year 1 and 120 at price 3 in year 2. Using year-1 prices, calculate nominal and real GDP growth.",
+            "steps": [
+              "Nominal GDP rises from 200 to 360, an 80% increase.",
+              "Real GDP rises from 200 to 240 at the base price, a 20% increase; the rest of the nominal change reflects price changes and their interaction."
+            ],
+            "conclusion": "Nominal growth is 80%, while real output growth is 20%."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What does real GDP seek to isolate?",
+            "back": "Changes in production rather than prices."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Is an index level of 140 an inflation rate of 140%?",
+            "back": "No; inflation is the percentage change in the index."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What is the labour-force denominator?",
+            "back": "Employed plus unemployed people meeting the definition."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why exclude intermediate goods from final expenditure GDP?",
+            "back": "To avoid double counting their value."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Output, prices and unemployment: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Current-price output",
+                "detail": "Multiply quantities by current prices for nominal GDP."
+              },
+              {
+                "id": "n2",
+                "label": "Constant-price output",
+                "detail": "Use a common price basis for real-output comparisons."
+              },
+              {
+                "id": "n3",
+                "label": "Growth interpretation",
+                "detail": "Separate price changes from quantity changes."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "contrasts with"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "supports"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Aggregate demand and short-run output",
@@ -131,10 +363,126 @@
             "State both outcomes"
           ],
           "id": "macroeconomics-unit-3-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Solve ΔY=kΔA for ΔA.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "With MPC=0.50 in the simple spending model, how much autonomous spending closes an output gap of 80?",
+          "answer": "The multiplier is 2, so required autonomous spending is 80/2=40.",
+          "checkpoints": [
+            "Calculate the multiplier.",
+            "Divide the desired output change by it.",
+            "Report 40 with the simple-model assumption."
+          ],
+          "hints": [
+            "Solve ΔY=kΔA for ΔA.",
+            "Do not multiply the gap by the multiplier."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "The shock acts directly on production costs.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "An oil-price increase raises firms’ production costs. In a basic AD–AS model, identify the initial curve shift and likely price/output directions.",
+          "answer": "Short-run aggregate supply shifts left; the price level rises and real output falls, holding aggregate demand unchanged.",
+          "checkpoints": [
+            "Identify higher costs as an SRAS shift.",
+            "State the leftward direction.",
+            "Give higher prices and lower output with AD held fixed."
+          ],
+          "hints": [
+            "The shock acts directly on production costs.",
+            "Trace the new intersection with unchanged demand."
+          ]
         }
       ],
       "id": "macroeconomics-unit-3",
-      "frameworkUnit": "Unit 3"
+      "frameworkUnit": "Unit 3",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through aggregate demand and short-run output",
+            "paragraphs": [
+              "Aggregate demand combines planned spending on domestic output by households, firms, government and foreign buyers net of imports. A shift in aggregate demand changes short-run output and the price level depending on aggregate supply conditions. In the simple fixed-price expenditure model, an initial spending change creates successive income and consumption rounds; the multiplier is 1/(1−MPC) only under its stated assumptions. Taxes, imports, interest-rate responses and capacity constraints can reduce or alter that result. A supply shock differs from a demand shift: higher production costs can raise prices while reducing short-run output, creating a policy trade-off."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "In a simple fixed-price model with MPC=0.60 and no taxes or imports, autonomous investment rises by 30. Find the total output change and the first two induced consumption rounds.",
+            "steps": [
+              "The multiplier is 1/(1−0.60)=2.5, so ΔY=2.5×30=75.",
+              "The first induced consumption round is 18 and the next is 10.8; later rounds form a declining geometric series."
+            ],
+            "conclusion": "The model predicts an output increase of 75, with induced rounds 18 and 10.8 initially."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What does MPC measure?",
+            "back": "The fraction of additional disposable income consumed."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What is the simple spending multiplier?",
+            "back": "1/(1−MPC) under the model assumptions."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What does a negative supply shock do initially?",
+            "back": "It can lower output while raising the price level."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why is the simple multiplier conditional?",
+            "back": "Leakages, prices, rates and capacity can change the response."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Aggregate demand and short-run output: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Autonomous spending increase",
+                "detail": "An initial expenditure adds income to recipients."
+              },
+              {
+                "id": "n2",
+                "label": "Induced consumption",
+                "detail": "Recipients spend a fraction of extra income."
+              },
+              {
+                "id": "n3",
+                "label": "Successive rounds",
+                "detail": "Further incomes generate a diminishing series under the fixed-price model."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "creates"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "creates"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Money, banks and interest rates",
@@ -174,10 +522,126 @@
             "Identify approximation"
           ],
           "id": "macroeconomics-unit-4-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Yield uses gain divided by purchase price.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A one-year bond pays 1100 at maturity and costs 1000. If its price rises to 1050 with payment unchanged, compare yields.",
+          "answer": "The original yield is 10%; the new yield is 50/1050≈4.76%, so the higher price lowers yield.",
+          "checkpoints": [
+            "Calculate the original 100/1000.",
+            "Calculate the new 50/1050.",
+            "State the inverse price-yield relation."
+          ],
+          "hints": [
+            "Yield uses gain divided by purchase price.",
+            "The final payment stays fixed."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Nominal positivity does not ensure real positivity.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "A nominal interest rate is 4% and expected inflation is 6%. Find the approximate real rate and interpret it.",
+          "answer": "The approximate real rate is −2%; the monetary return is expected to buy less after inflation, despite a positive nominal payment.",
+          "checkpoints": [
+            "Subtract expected inflation.",
+            "Obtain −2%.",
+            "Interpret negative expected purchasing-power return."
+          ],
+          "hints": [
+            "Nominal positivity does not ensure real positivity.",
+            "Compare money growth with price growth."
+          ]
         }
       ],
       "id": "macroeconomics-unit-4",
-      "frameworkUnit": "Unit 4"
+      "frameworkUnit": "Unit 4",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through money, banks and interest rates",
+            "paragraphs": [
+              "Money serves as a medium of exchange, unit of account and store of value, but its purchasing power can change with prices. Financial assets differ in liquidity and risk, so a bond is not identical to transaction money. A fixed-payment bond’s price and yield move inversely: paying less for the same promised payment raises the yield measure. Nominal interest rates describe monetary payments, while real rates adjust for inflation; expected inflation matters for decisions made in advance. Bank lending involves balance-sheet changes and constraints, so a simple reserve-multiplier exercise should not be treated as a complete description of modern lending or monetary policy."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A one-year bond pays 1050 at maturity and sells for 1000 today. Find its nominal yield and approximate real yield if expected inflation is 2%.",
+            "steps": [
+              "Nominal yield=(1050−1000)/1000=5%.",
+              "Approximate real yield is 5%−2%=3%; the exact purchasing-power adjustment is 1.05/1.02−1≈2.94%."
+            ],
+            "conclusion": "Nominal yield is 5%, with an approximate real yield of 3%."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What are three functions of money?",
+            "back": "Medium of exchange, unit of account and store of value."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "How do fixed-payment bond price and yield relate?",
+            "back": "Inversely."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What is the approximate real interest rate?",
+            "back": "Nominal rate minus inflation."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why use expected inflation for an advance decision?",
+            "back": "Actual future inflation is not yet known."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Money, banks and interest rates: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Nominal financial return",
+                "detail": "Calculate money received relative to money invested."
+              },
+              {
+                "id": "n2",
+                "label": "Inflation adjustment",
+                "detail": "Account for changing purchasing power."
+              },
+              {
+                "id": "n3",
+                "label": "Real return",
+                "detail": "Interpret the gain in goods and services rather than currency units alone."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "requires"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "yields"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Stabilisation, inflation and growth",
@@ -217,10 +681,126 @@
             "Link rates to investment"
           ],
           "id": "macroeconomics-unit-5-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Compare income after tax under flexible and fixed tax payments.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "During a downturn, tax payments fall under existing income-tax rules. Explain how this can stabilise disposable income without a new policy vote.",
+          "answer": "Lower tax payments partly cushion the fall in household disposable income, supporting consumption relative to a fixed-tax scenario; the response follows existing rules.",
+          "checkpoints": [
+            "Identify the automatic tax response.",
+            "Explain the disposable-income cushion.",
+            "Connect it to spending without new discretionary legislation."
+          ],
+          "hints": [
+            "Compare income after tax under flexible and fixed tax payments.",
+            "The rule changes the payment automatically."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Trace which side of the model changes.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "A country raises spending but makes no lasting change in labour, capital or technology. Does the basic model imply permanently higher potential output?",
+          "answer": "No. Demand can affect actual output, but potential output requires changes in productive capacity; temporary stimulus alone does not establish such a change.",
+          "checkpoints": [
+            "Distinguish actual from potential output.",
+            "Identify the demand-side change.",
+            "Name a capacity condition needed for a lasting potential-output claim."
+          ],
+          "hints": [
+            "Trace which side of the model changes.",
+            "Higher spending does not itself prove higher capacity."
+          ]
         }
       ],
       "id": "macroeconomics-unit-5",
-      "frameworkUnit": "Unit 5"
+      "frameworkUnit": "Unit 5",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through stabilisation, inflation and growth",
+            "paragraphs": [
+              "Stabilisation policy seeks to reduce fluctuations around sustainable output, but timing, expectations and supply conditions affect its impact. Expansionary demand policy can raise output when unused capacity exists; near potential output, more of the effect may appear in prices. Automatic stabilisers respond through existing rules as income changes, whereas discretionary measures require new decisions. Long-run growth depends on productive capacity, including capital, skills, technology and institutions, rather than a permanent sequence of demand boosts alone. Government borrowing can affect interest rates and private investment in a loanable-funds model, although the size and direction of effects depend on wider conditions."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "In a simple loanable-funds graph, government borrowing increases while private saving supply is unchanged. Trace the predicted interest-rate and investment effects.",
+            "steps": [
+              "Additional borrowing shifts demand for loanable funds right, raising the equilibrium real interest rate in the model.",
+              "At the higher rate, some private investment projects no longer meet their required return, so private investment can fall."
+            ],
+            "conclusion": "The model predicts upward pressure on real rates and possible crowding out of private investment."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is an automatic stabiliser?",
+            "back": "A fiscal mechanism that changes with income under existing rules."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why can demand stimulus raise prices near capacity?",
+            "back": "Output has less room to expand."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What supports long-run productive growth?",
+            "back": "Capital, skills, technology and other capacity improvements."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What does crowding out describe?",
+            "back": "Reduced private activity associated with government borrowing or spending through an identified mechanism."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Stabilisation, inflation and growth: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Demand stimulus",
+                "detail": "Raises desired expenditure."
+              },
+              {
+                "id": "n2",
+                "label": "Capacity conditions",
+                "detail": "Determine how much production can respond."
+              },
+              {
+                "id": "n3",
+                "label": "Output and price response",
+                "detail": "Unused capacity permits more output response; tight capacity can increase price pressure."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "interacts with"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "shapes"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Exchange rates and international flows",
@@ -260,10 +840,126 @@
             "Explain currency purchase"
           ],
           "id": "macroeconomics-unit-6-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Read the quote’s units first.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "One domestic unit buys 0.50 foreign units, then 0.60. Find the percentage change and identify appreciation or depreciation.",
+          "answer": "The domestic currency appreciates by (0.60−0.50)/0.50×100=20% in this quotation.",
+          "checkpoints": [
+            "Identify more foreign currency per domestic unit.",
+            "Use the initial quote as denominator.",
+            "Calculate 20% appreciation."
+          ],
+          "hints": [
+            "Read the quote’s units first.",
+            "The domestic unit’s foreign purchasing power rises."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Multiply the domestic price by foreign units per domestic unit.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "A domestic good costs 100 domestic units. The exchange rate rises from 0.8 to 1.0 foreign units per domestic unit. Find its foreign price and explain the possible export effect.",
+          "answer": "Its foreign price rises from 80 to 100 foreign units. With other conditions unchanged, the higher price can reduce foreign demand for the good.",
+          "checkpoints": [
+            "Convert the initial price to 80.",
+            "Convert the new price to 100.",
+            "Link the increase to possible lower demand, conditionally."
+          ],
+          "hints": [
+            "Multiply the domestic price by foreign units per domestic unit.",
+            "Do not assert that quantities change mechanically without demand response."
+          ]
         }
       ],
       "id": "macroeconomics-unit-6",
-      "frameworkUnit": "Unit 6"
+      "frameworkUnit": "Unit 6",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through exchange rates and international flows",
+            "paragraphs": [
+              "An exchange rate must be read with its units. If one domestic currency unit buys more foreign currency, the domestic currency appreciates; the reciprocal quotation moves in the opposite numerical direction. Appreciation can make foreign goods cheaper for domestic buyers and domestic goods more expensive for foreigners, other things equal. Trade volumes also depend on contracts, demand responses and production conditions, so exchange-rate direction does not guarantee an immediate trade-balance change. Financial flows can respond to expected returns, risk and future exchange-rate expectations. Balance-of-payments categories record transactions, not a simple ranking of whether an economy is doing well."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "An exchange rate changes from 2 domestic units per foreign unit to 2.5. A foreign item costs 40 foreign units. Find its domestic price before and after, and identify the currency movement.",
+            "steps": [
+              "The item costs 80 domestic units initially and 100 afterwards.",
+              "More domestic currency is needed for one foreign unit, so the domestic currency depreciates; the domestic price rises 25%."
+            ],
+            "conclusion": "The item’s domestic price rises from 80 to 100 as the domestic currency depreciates."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is domestic appreciation in foreign-units-per-domestic-unit terms?",
+            "back": "The quoted number rises."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What happens to the reciprocal quote?",
+            "back": "It falls."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Why might depreciation support exports?",
+            "back": "Domestic goods can become cheaper in foreign-currency terms, other things equal."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why can interest-rate differences fail to predict currency flows alone?",
+            "back": "Risk and expected future exchange rates also affect returns."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Exchange rates and international flows: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Exchange-rate quote",
+                "detail": "State domestic and foreign currency units explicitly."
+              },
+              {
+                "id": "n2",
+                "label": "Relative goods prices",
+                "detail": "Convert prices using the correct multiplication or division."
+              },
+              {
+                "id": "n3",
+                "label": "Trade response",
+                "detail": "Consider buyer demand, contracts and adjustment time."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "changes"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "influences"
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

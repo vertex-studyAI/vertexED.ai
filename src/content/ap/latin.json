@@ -45,10 +45,126 @@
             "Checks agreement"
           ],
           "id": "latin-1-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Translate the original sentence 'nauta pueris aquam portat'.",
+          "hint": "Find portat and its singular subject.",
+          "hints": [
+            "Find portat and its singular subject.",
+            "Distinguish object from recipient."
+          ],
+          "answer": "The sailor carries water to or for the boys. Nauta is the nominative subject and aquam the accusative object. Pueris is the dative recipient in this reading.",
+          "checkpoints": [
+            "The sailor carries water to or for the boys.",
+            "Nauta is the nominative subject and aquam the accusative object.",
+            "Pueris is the dative recipient in this reading."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "Why cannot puellae always be translated 'the girls'?",
+          "hint": "List possible case-number values.",
+          "hints": [
+            "List possible case-number values.",
+            "Use syntax to choose."
+          ],
+          "answer": "Puellae may be nominative plural, genitive singular or dative singular. The ending alone does not settle its role. The verb and surrounding construction determine the appropriate reading.",
+          "checkpoints": [
+            "Puellae may be nominative plural, genitive singular or dative singular.",
+            "The ending alone does not settle its role.",
+            "The verb and surrounding construction determine the appropriate reading."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "frameworkUnit": "Unit 1",
-      "id": "latin-1"
+      "id": "latin-1",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Build a sentence from its inflections in depth",
+            "paragraphs": [
+              "Begin a Latin sentence by identifying the finite verb's person and number, then test candidate subjects against it. A noun's case ending can have more than one possible analysis, so agreement and the verb's construction must work together. The nominative commonly identifies the subject and the accusative a direct object, but a preposition may also govern an accusative. Adjectives agree in case, number and gender, not necessarily in identical endings. Translate the relationships into natural English only after the Latin structure is secure; English word order should not decide who acts."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Translate the original practice sentence 'puellae librum magistro dant'.",
+            "steps": [
+              "Dant is third-person plural, 'they give'; puellae can supply the nominative plural subject.",
+              "Librum is the accusative object and magistro the dative recipient."
+            ],
+            "conclusion": "'The girls give a book to the teacher.'"
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What does dant indicate?",
+            "back": "Third-person plural present active."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What is librum here?",
+            "back": "Accusative singular direct object."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What is magistro here?",
+            "back": "Dative singular recipient."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Must agreeing adjectives have identical endings?",
+            "back": "No; they agree in case, number and gender."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Giving a book",
+            "description": "Inflections distinguish agent, object and recipient.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Puellae",
+                "detail": "The girls perform dant."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Librum",
+                "detail": "The book is given."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Magistro",
+                "detail": "The teacher receives it."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "give"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "to"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Trace viewpoint in an event narrative",
@@ -88,10 +204,126 @@
             "Limits the reliability claim"
           ],
           "id": "latin-2-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Translate the original 'putat puerum discessisse'.",
+          "hint": "Identify the perfect infinitive.",
+          "hints": [
+            "Identify the perfect infinitive.",
+            "Relate it to present putat."
+          ],
+          "answer": "He or she thinks that the boy has departed. Puerum is the reported subject. Discessisse places departure before the thinking.",
+          "checkpoints": [
+            "He or she thinks that the boy has departed.",
+            "Puerum is the reported subject.",
+            "Discessisse places departure before the thinking."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "Contrast 'dixit amicum venire' with 'dixit amicum venisse'.",
+          "hint": "Compare present and perfect infinitives.",
+          "hints": [
+            "Compare present and perfect infinitives.",
+            "Keep the reporting verb unchanged."
+          ],
+          "answer": "The first says the friend was coming at the time of the report. The second says the friend had come earlier. The infinitive expresses relative time, not a change in the reporting verb.",
+          "checkpoints": [
+            "The first says the friend was coming at the time of the report.",
+            "The second says the friend had come earlier.",
+            "The infinitive expresses relative time, not a change in the reporting verb."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "frameworkUnit": "Unit 2",
-      "id": "latin-2"
+      "id": "latin-2",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Trace viewpoint in an event narrative in depth",
+            "paragraphs": [
+              "Indirect statement commonly makes the reported subject accusative and uses an infinitive. The infinitive's tense is relative to the reporting verb: present for contemporaneous action, perfect for earlier action and future for later action. Thus a past reporting verb does not make a present infinitive express a prior event. Distinguish what the narrator asserts from what a named speaker reports. A statement may be grammatically clear while its truth remains contested within the narrative. Accurate translation preserves the attribution instead of silently treating every reported claim as the narrator's verified observation."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Translate the original sentence 'nuntius dixit milites pontem custodire'.",
+            "steps": [
+              "Dixit supplies the past reporting action; milites is the accusative subject of custodire.",
+              "The present infinitive makes guarding contemporaneous with the report."
+            ],
+            "conclusion": "'The messenger said that the soldiers were guarding the bridge.'"
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What introduces indirect statement here?",
+            "back": "Dixit."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What is milites in the reported clause?",
+            "back": "Accusative subject."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What time does a present infinitive express?",
+            "back": "Time contemporaneous with the reporting verb."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Does reported speech prove its claim true?",
+            "back": "No; attribution remains part of the meaning."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Two levels of narration",
+            "description": "The report and its content remain distinct.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Messenger",
+                "detail": "Performs the act of saying."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Soldiers",
+                "detail": "Subject of the reported action."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Bridge",
+                "detail": "Object of their guarding."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "reports that"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "guard"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Read purpose and social relationship",
@@ -131,10 +363,126 @@
             "Avoids treating tone as isolated vocabulary"
           ],
           "id": "latin-3-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Translate the original 'legatos mittit ut pacem petant'.",
+          "hint": "Identify mittit and the subjunctive.",
+          "hints": [
+            "Identify mittit and the subjunctive.",
+            "Translate the aim."
+          ],
+          "answer": "He or she sends envoys to seek peace. Petant is present subjunctive after a present main verb. The sentence does not say peace was obtained.",
+          "checkpoints": [
+            "He or she sends envoys to seek peace.",
+            "Petant is present subjunctive after a present main verb.",
+            "The sentence does not say peace was obtained."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "Explain the difference between purpose and outcome in a letter requesting help.",
+          "hint": "Identify intention.",
+          "hints": [
+            "Identify intention.",
+            "Look for separate result evidence."
+          ],
+          "answer": "A request can explain why the writer sent the letter. It does not establish that the recipient acted. A later response or narrated event is needed to support that outcome.",
+          "checkpoints": [
+            "A request can explain why the writer sent the letter.",
+            "It does not establish that the recipient acted.",
+            "A later response or narrated event is needed to support that outcome."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "frameworkUnit": "Unit 3",
-      "id": "latin-3"
+      "id": "latin-3",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Read purpose and social relationship in depth",
+            "paragraphs": [
+              "A purpose clause explains an intended aim and normally uses the subjunctive with ut, or ne for a negative purpose. Sequence of tenses often places a present subjunctive after a primary-tense main verb and an imperfect subjunctive after a historical-tense main verb. This pattern helps organise the sentence but does not prove that the intention succeeded. In a letter, requests and reassurances also depend on the writer's relationship to the recipient. A polite or affectionate tone may serve persuasion as well as express feeling, so connect interpretation to specific language."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Translate the original sentence 'ianuam clausit ne canis exiret'.",
+            "steps": [
+              "Clausit is a completed closing; ne introduces a negative purpose.",
+              "Exiret is imperfect subjunctive, aligned with the historical main verb."
+            ],
+            "conclusion": "'He or she closed the door so that the dog would not go out.' The dog's eventual behaviour is not stated."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What introduces negative purpose?",
+            "back": "Ne."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What mood does exiret have?",
+            "back": "Subjunctive."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What tense does exiret have?",
+            "back": "Imperfect."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Does a purpose clause establish success?",
+            "back": "No; it states intention."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Preventing an exit",
+            "description": "The construction separates action and intended consequence.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Door closed",
+                "detail": "The main action."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Ne clause",
+                "detail": "Negative purpose."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Dog remaining inside",
+                "detail": "The intended result, not a confirmed outcome."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "is explained by"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "expresses"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Read poetry through syntax and metre",
@@ -174,10 +522,126 @@
             "Checks context"
           ],
           "id": "latin-4-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Analyse the original 'longam puella narrat fabulam'.",
+          "hint": "Match adjective and noun.",
+          "hints": [
+            "Match adjective and noun.",
+            "Translate the finite verb."
+          ],
+          "answer": "Longam agrees with fabulam in feminine accusative singular. Puella is the subject of narrat. The girl tells a long story.",
+          "checkpoints": [
+            "Longam agrees with fabulam in feminine accusative singular.",
+            "Puella is the subject of narrat.",
+            "The girl tells a long story."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "Why is counting six written words not a method for identifying hexameter?",
+          "hint": "Feet are rhythmic units.",
+          "hints": [
+            "Feet are rhythmic units.",
+            "Words can cross their boundaries."
+          ],
+          "answer": "Hexameter has six metrical feet, not six words. Syllable quantities determine the pattern. Word boundaries need not coincide with foot boundaries.",
+          "checkpoints": [
+            "Hexameter has six metrical feet, not six words.",
+            "Syllable quantities determine the pattern.",
+            "Word boundaries need not coincide with foot boundaries."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "frameworkUnit": "Unit 4",
-      "id": "latin-4"
+      "id": "latin-4",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Read poetry through syntax and metre in depth",
+            "paragraphs": [
+              "Poetic word order can separate an adjective from its noun while preserving agreement. Identify the grammatical unit before interpreting the delay or emphasis caused by separation. Syllable quantity, which structures classical hexameter, differs from stress: a long syllable can arise through a long vowel or through its consonantal environment. A dactyl has a long followed by two shorts, and a spondee two longs. Scansion needs the actual words, vowel quantities and elision rules; naming a metre is not evidence that an invented prose sentence fits it."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Analyse the original prose sentence 'alta per silvas resonat vox'; no metrical claim is made.",
+            "steps": [
+              "Alta agrees with vox, feminine nominative singular, across the intervening words.",
+              "Per silvas means 'through the woods'; resonat is the finite verb."
+            ],
+            "conclusion": "'A loud voice resounds through the woods.' The separated adjective brings its quality forward."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What connects alta and vox?",
+            "back": "Feminine nominative singular agreement."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What does per govern here?",
+            "back": "Accusative silvas."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What is a dactyl's quantity pattern?",
+            "back": "Long-short-short."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Is syllable quantity identical to stress?",
+            "back": "No."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Recovering a separated phrase",
+            "description": "Agreement links words across intervening material.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Alta",
+                "detail": "Feminine nominative singular adjective."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Per silvas resonat",
+                "detail": "Intervening place expression and verb."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Vox",
+                "detail": "The noun completed by alta."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "is separated by"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "reconnects with"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Support an interpretation of epic choice",
@@ -217,10 +681,126 @@
             "Explains textual support"
           ],
           "id": "latin-5-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Translate the original 'sole oriente, agricolae laborabant'.",
+          "hint": "Identify the present participle.",
+          "hints": [
+            "Identify the present participle.",
+            "Relate its time to laborabant."
+          ],
+          "answer": "The farmers were working as the sun was rising. Sole oriente is an ablative absolute. The present participle makes the rising simultaneous with the work.",
+          "checkpoints": [
+            "The farmers were working as the sun was rising.",
+            "Sole oriente is an ablative absolute.",
+            "The present participle makes the rising simultaneous with the work."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "A leader leaves after an omen; why is 'the leader is cowardly' not established by sequence alone?",
+          "hint": "Separate action from motive.",
+          "hints": [
+            "Separate action from motive.",
+            "Seek evaluative evidence."
+          ],
+          "answer": "The sequence shows departure after the omen. Fear or cowardice is an interpretation requiring further support. Speech, narrator comment or a pattern of choices could strengthen or challenge that reading.",
+          "checkpoints": [
+            "The sequence shows departure after the omen.",
+            "Fear or cowardice is an interpretation requiring further support.",
+            "Speech, narrator comment or a pattern of choices could strengthen or challenge that reading."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "frameworkUnit": "Unit 5",
-      "id": "latin-5"
+      "id": "latin-5",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Support an interpretation of epic choice in depth",
+            "paragraphs": [
+              "An ablative absolute typically combines a noun or pronoun in the ablative with a participle, providing a circumstance grammatically separate from the main clause. A perfect passive participle usually places that circumstance before the main action; a present participle commonly makes it simultaneous. Translation may use when, after, because or although if context supports the relationship. The construction alone does not determine a character's moral motive. For an epic interpretation, connect choices to the passage's actual actions, speeches and framing before applying a broad theme such as duty or anger."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Translate the original 'ponte rupto, milites viam aliam petiverunt'.",
+            "steps": [
+              "Ponte rupto is ablative singular with a perfect passive participle: the bridge having been broken.",
+              "The main action is the soldiers seeking another route."
+            ],
+            "conclusion": "'After the bridge had been broken, the soldiers sought another road.' A deliberate cause of the break is not supplied."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is ponte rupto?",
+            "back": "An ablative absolute."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What time does rupto suggest?",
+            "back": "Completion before the main action."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What does a present participle commonly suggest?",
+            "back": "Simultaneous action."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Can the construction alone prove fear?",
+            "back": "No; motive requires contextual evidence."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Bridge and route",
+            "description": "A prior circumstance frames the soldiers' action.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Broken bridge",
+                "detail": "Completed background circumstance."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Blocked passage",
+                "detail": "A practical implication supported by context."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Another road",
+                "detail": "The route the soldiers seek."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "can create"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "helps explain"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Prepare a passage-based project argument",
@@ -260,10 +840,126 @@
             "Preserves legitimate uncertainty"
           ],
           "id": "latin-6-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Translate the original 'non omnes consilium probaverunt' and state its scope.",
+          "hint": "Track non omnes.",
+          "hints": [
+            "Track non omnes.",
+            "Do not turn a partial negative into none."
+          ],
+          "answer": "Not everyone approved the plan. At least some did not approve. The sentence does not say that nobody approved.",
+          "checkpoints": [
+            "Not everyone approved the plan.",
+            "At least some did not approve.",
+            "The sentence does not say that nobody approved."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "Design a two-column note for an ambiguous passage.",
+          "hint": "Separate secure reading and inference.",
+          "hints": [
+            "Separate secure reading and inference.",
+            "Keep uncertainty visible."
+          ],
+          "answer": "One column records forms, syntax and literal meaning. The other records interpretations with supporting words. Unresolved alternatives remain labelled instead of being presented as settled facts.",
+          "checkpoints": [
+            "One column records forms, syntax and literal meaning.",
+            "The other records interpretations with supporting words.",
+            "Unresolved alternatives remain labelled instead of being presented as settled facts."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "frameworkUnit": "Unit 6",
-      "id": "latin-6"
+      "id": "latin-6",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Prepare a passage-based project argument in depth",
+            "paragraphs": [
+              "A passage-based argument should keep translation, observation and interpretation distinct. A finite verb's mood or a pronoun's antecedent may change who is responsible for an action, so these details belong in the evidence record. A contextual source can clarify a convention without proving how this particular passage uses it. Compare plausible readings and identify the wording that favours one. An argument is stronger when it states a bounded inference and acknowledges an unresolved grammatical ambiguity than when it substitutes broad historical background for the text's actual relationships."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Evaluate the original sentence 'cives ducem laudaverunt, sed poeta tacuit' as evidence of unanimous praise.",
+            "steps": [
+              "Translate: 'The citizens praised the leader, but the poet remained silent.'",
+              "The adversative sed distinguishes the poet's silence from the citizens' praise."
+            ],
+            "conclusion": "The sentence supports praise by the citizens, not unanimous approval or a certain motive for the poet's silence."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What should a passage claim cite?",
+            "back": "Specific wording or a grammatical relationship."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What does sed signal?",
+            "back": "Contrast."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Does silence necessarily mean disapproval?",
+            "back": "No."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What should contextual research do?",
+            "back": "Clarify relevant context without replacing textual evidence."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Testing a universal claim",
+            "description": "One contrast restricts the scope of the conclusion.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Citizens' praise",
+                "detail": "An explicitly stated action."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Poet's silence",
+                "detail": "A contrasting response."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Qualified inference",
+                "detail": "Praise is documented, unanimity is not."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "is contrasted with"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "requires"
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

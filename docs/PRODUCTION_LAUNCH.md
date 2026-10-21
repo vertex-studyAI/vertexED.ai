@@ -38,7 +38,7 @@ Remove `VITE_GEMINI_API_KEY` if still set — Gemini is server-only.
 4. Confirm `/api/health?readiness=1` reports `databaseConnection`, `atomicRateLimitRpc`, `learnerStateStorage`, `batchLearnerStateSync`, `examSessionStorage`, `observabilityStorage`, and `singletonIntegrity` as `true`.
    - If it reports historical singleton duplicates, stop and reconcile those learner-owned rows explicitly; the migration intentionally deletes nothing.
 5. Enable Email + Google OAuth, but disable direct signup in Auth settings so private-beta account creation remains server-gated.
-6. Supabase Site URL: `https://www.vertexed.app`. Allow the application callback `https://www.vertexed.app/auth/callback` and its recovery/invitation query variants, plus explicitly trusted development origins. Google Cloud's redirect URI is the Supabase `/auth/v1/callback`, not this application callback. Enable manual linking for Connect Google.
+6. Required Supabase Site URL: `https://vertex-ed-ai.vercel.app`. Allow the exact application callback `https://vertex-ed-ai.vercel.app/auth/callback` and its recovery/invitation query variants, plus explicitly trusted development origins. Remove expired custom-domain callbacks. Google Cloud's redirect URI is the Supabase `/auth/v1/callback`, not this application callback. Verify manual linking for Connect Google separately. On 21 October the dashboard still showed the expired Site URL; consult `docs/PRODUCT_FINALIZATION_20261021.md` for the latest configuration receipt rather than treating this checklist as proof of the saved setting.
 
 ## Post-deploy verification (15 min)
 

@@ -1,3 +1,4 @@
+import { APP_ORIGIN } from '@/lib/appOrigin';
 import React from "react";
 import SEO from "@/components/SEO";
 import { ArrowRight, BookOpenCheck, Linkedin, ShieldCheck, Target } from "lucide-react";
@@ -39,14 +40,14 @@ export default function About(): React.JSX.Element {
       <SEO
         title="About VertexED - founding team and story"
         description="Meet the co-founders of VertexED, a learning workspace built for curriculum-led practice, exam preparation and understanding that lasts beyond the paper."
-        canonical="https://www.vertexed.app/about"
+        canonical={`${APP_ORIGIN}/about`}
         jsonLd={[
           {
             "@context": "https://schema.org",
             "@type": "Organization",
             name: "VertexED",
-            url: "https://www.vertexed.app",
-            logo: "https://www.vertexed.app/logo.png",
+            url: `${APP_ORIGIN}`,
+            logo: `${APP_ORIGIN}/logo.png`,
             foundingDate: "2025",
             founders: team.map((p) => ({
               "@type": "Person",

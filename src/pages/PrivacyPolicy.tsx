@@ -1,3 +1,4 @@
+import { APP_ORIGIN } from '@/lib/appOrigin';
 import SEO from "@/components/SEO";
 import PageSection from "@/components/PageSection";
 import Article from "@/components/Article";
@@ -8,7 +9,7 @@ export default function PrivacyPolicy() {
       <SEO
         title="Privacy Policy - VertexED"
         description="How VertexED collects, uses, and protects your study data."
-        canonical="https://www.vertexed.app/privacy"
+        canonical={`${APP_ORIGIN}/privacy`}
       />
       <PageSection className="max-w-3xl mx-auto py-10">
         <Article title="Privacy Policy">
@@ -80,7 +81,7 @@ export default function PrivacyPolicy() {
             User Settings lets you download a combined export of server-held account data and account-scoped data on the current
             device. You can also delete your account there. Depending on where you live, you may have additional rights to access,
             correct, restrict, object to, or obtain a copy of personal data. For a request that Settings cannot handle, contact{" "}
-            <a href="mailto:privacy@vertexed.app">privacy@vertexed.app</a>.
+            <a href="mailto:vertexed.25@gmail.com">vertexed.25@gmail.com</a>.
           </p>
 
           <h2>Children</h2>

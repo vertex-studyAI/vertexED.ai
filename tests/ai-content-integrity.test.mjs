@@ -131,6 +131,8 @@ test('topic notes validate complete structure, source references and request met
   assert.match(result.body.generation.requestKey, /^sha256:[a-f0-9]{64}$/);
   const invalid = structuredClone(lesson); invalid.workedExamples[0].sourceIds = ['invented'];
   assert.equal((await request(notebookHandler, { mode: 'lesson', sources }, completion(JSON.stringify(invalid)))).status, 502);
+  const inline = structuredClone(lesson); inline.sections[0].explanation += ' [Source: invented]';
+  assert.equal((await request(notebookHandler, { mode: 'lesson', sources }, completion(JSON.stringify(inline)))).status, 502);
   const badCourse = await request(notebookHandler, { mode: 'lesson', sources, curriculum: { ...curriculum, syllabusVersion: '' } }, completion(JSON.stringify(lesson)));
   assert.equal(badCourse.status, 400); assert.equal(badCourse.providerCalls, 0);
 });

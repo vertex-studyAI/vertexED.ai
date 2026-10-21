@@ -48,7 +48,7 @@ test('learning library links every content collection at required widths', async
     await page.goto('/resources');
     await expect(page.getByRole('heading', { name: 'Find your topic. Take the next step.' })).toBeVisible();
     await expect(page.getByText('205', { exact: true })).toBeVisible();
-    await expect(page.getByText('616', { exact: true })).toBeVisible();
+    await expect(page.getByText('1026', { exact: true })).toBeVisible();
     await expect(page.getByTestId('library-item')).toHaveCount(17);
     await expect(page.locator('html')).toHaveJSProperty('scrollWidth', width);
     await page.screenshot({ path: `test-results/learning-library-${width}.png`, fullPage: true });

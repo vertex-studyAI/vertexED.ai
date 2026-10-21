@@ -1,312 +1,312 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://www.vertexed.app/</loc>
+    <loc>https://vertex-ed-ai.vercel.app/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/features</loc>
+    <loc>https://vertex-ed-ai.vercel.app/features</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/study-guides</loc>
+    <loc>https://vertex-ed-ai.vercel.app/study-guides</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/curricula</loc>
+    <loc>https://vertex-ed-ai.vercel.app/curricula</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/ap</loc>
+    <loc>https://vertex-ed-ai.vercel.app/ap</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/myp</loc>
+    <loc>https://vertex-ed-ai.vercel.app/myp</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/myp/eassessment</loc>
+    <loc>https://vertex-ed-ai.vercel.app/myp/eassessment</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/study-tools</loc>
+    <loc>https://vertex-ed-ai.vercel.app/study-tools</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/resources</loc>
+    <loc>https://vertex-ed-ai.vercel.app/resources</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/archives</loc>
+    <loc>https://vertex-ed-ai.vercel.app/archives</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/about</loc>
+    <loc>https://vertex-ed-ai.vercel.app/about</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/vertex-ed</loc>
+    <loc>https://vertex-ed-ai.vercel.app/vertex-ed</loc>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/privacy</loc>
+    <loc>https://vertex-ed-ai.vercel.app/privacy</loc>
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/terms</loc>
+    <loc>https://vertex-ed-ai.vercel.app/terms</loc>
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/curricula/ib-myp/study-planner</loc>
+    <loc>https://vertex-ed-ai.vercel.app/curricula/ib-myp/study-planner</loc>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/curricula/ib-myp/study-zone</loc>
+    <loc>https://vertex-ed-ai.vercel.app/curricula/ib-myp/study-zone</loc>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/curricula/ib-myp/paper-maker</loc>
+    <loc>https://vertex-ed-ai.vercel.app/curricula/ib-myp/paper-maker</loc>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/curricula/ib-myp/answer-reviewer</loc>
+    <loc>https://vertex-ed-ai.vercel.app/curricula/ib-myp/answer-reviewer</loc>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/curricula/ib-myp/ai-notes</loc>
+    <loc>https://vertex-ed-ai.vercel.app/curricula/ib-myp/ai-notes</loc>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/curricula/ib-myp/ai-tutor</loc>
+    <loc>https://vertex-ed-ai.vercel.app/curricula/ib-myp/ai-tutor</loc>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/curricula/ib-dp/study-planner</loc>
+    <loc>https://vertex-ed-ai.vercel.app/curricula/ib-dp/study-planner</loc>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/curricula/ib-dp/study-zone</loc>
+    <loc>https://vertex-ed-ai.vercel.app/curricula/ib-dp/study-zone</loc>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/curricula/ib-dp/paper-maker</loc>
+    <loc>https://vertex-ed-ai.vercel.app/curricula/ib-dp/paper-maker</loc>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/curricula/ib-dp/answer-reviewer</loc>
+    <loc>https://vertex-ed-ai.vercel.app/curricula/ib-dp/answer-reviewer</loc>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/curricula/ib-dp/ai-notes</loc>
+    <loc>https://vertex-ed-ai.vercel.app/curricula/ib-dp/ai-notes</loc>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/curricula/ib-dp/ai-tutor</loc>
+    <loc>https://vertex-ed-ai.vercel.app/curricula/ib-dp/ai-tutor</loc>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/curricula/igcse/study-planner</loc>
+    <loc>https://vertex-ed-ai.vercel.app/curricula/igcse/study-planner</loc>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/curricula/igcse/study-zone</loc>
+    <loc>https://vertex-ed-ai.vercel.app/curricula/igcse/study-zone</loc>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/curricula/igcse/paper-maker</loc>
+    <loc>https://vertex-ed-ai.vercel.app/curricula/igcse/paper-maker</loc>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/curricula/igcse/answer-reviewer</loc>
+    <loc>https://vertex-ed-ai.vercel.app/curricula/igcse/answer-reviewer</loc>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/curricula/igcse/ai-notes</loc>
+    <loc>https://vertex-ed-ai.vercel.app/curricula/igcse/ai-notes</loc>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/curricula/igcse/ai-tutor</loc>
+    <loc>https://vertex-ed-ai.vercel.app/curricula/igcse/ai-tutor</loc>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/curricula/gcse/study-planner</loc>
+    <loc>https://vertex-ed-ai.vercel.app/curricula/gcse/study-planner</loc>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/curricula/gcse/study-zone</loc>
+    <loc>https://vertex-ed-ai.vercel.app/curricula/gcse/study-zone</loc>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/curricula/gcse/paper-maker</loc>
+    <loc>https://vertex-ed-ai.vercel.app/curricula/gcse/paper-maker</loc>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/curricula/gcse/answer-reviewer</loc>
+    <loc>https://vertex-ed-ai.vercel.app/curricula/gcse/answer-reviewer</loc>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/curricula/gcse/ai-notes</loc>
+    <loc>https://vertex-ed-ai.vercel.app/curricula/gcse/ai-notes</loc>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/curricula/gcse/ai-tutor</loc>
+    <loc>https://vertex-ed-ai.vercel.app/curricula/gcse/ai-tutor</loc>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/curricula/a-level/study-planner</loc>
+    <loc>https://vertex-ed-ai.vercel.app/curricula/a-level/study-planner</loc>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/curricula/a-level/study-zone</loc>
+    <loc>https://vertex-ed-ai.vercel.app/curricula/a-level/study-zone</loc>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/curricula/a-level/paper-maker</loc>
+    <loc>https://vertex-ed-ai.vercel.app/curricula/a-level/paper-maker</loc>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/curricula/a-level/answer-reviewer</loc>
+    <loc>https://vertex-ed-ai.vercel.app/curricula/a-level/answer-reviewer</loc>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/curricula/a-level/ai-notes</loc>
+    <loc>https://vertex-ed-ai.vercel.app/curricula/a-level/ai-notes</loc>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/curricula/a-level/ai-tutor</loc>
+    <loc>https://vertex-ed-ai.vercel.app/curricula/a-level/ai-tutor</loc>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/curricula/ap/study-planner</loc>
+    <loc>https://vertex-ed-ai.vercel.app/curricula/ap/study-planner</loc>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/curricula/ap/study-zone</loc>
+    <loc>https://vertex-ed-ai.vercel.app/curricula/ap/study-zone</loc>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/curricula/ap/paper-maker</loc>
+    <loc>https://vertex-ed-ai.vercel.app/curricula/ap/paper-maker</loc>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/curricula/ap/answer-reviewer</loc>
+    <loc>https://vertex-ed-ai.vercel.app/curricula/ap/answer-reviewer</loc>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/curricula/ap/ai-notes</loc>
+    <loc>https://vertex-ed-ai.vercel.app/curricula/ap/ai-notes</loc>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/curricula/ap/ai-tutor</loc>
+    <loc>https://vertex-ed-ai.vercel.app/curricula/ap/ai-tutor</loc>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/curricula/cbse/study-planner</loc>
+    <loc>https://vertex-ed-ai.vercel.app/curricula/cbse/study-planner</loc>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/curricula/cbse/study-zone</loc>
+    <loc>https://vertex-ed-ai.vercel.app/curricula/cbse/study-zone</loc>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/curricula/cbse/paper-maker</loc>
+    <loc>https://vertex-ed-ai.vercel.app/curricula/cbse/paper-maker</loc>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/curricula/cbse/answer-reviewer</loc>
+    <loc>https://vertex-ed-ai.vercel.app/curricula/cbse/answer-reviewer</loc>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/curricula/cbse/ai-notes</loc>
+    <loc>https://vertex-ed-ai.vercel.app/curricula/cbse/ai-notes</loc>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/curricula/cbse/ai-tutor</loc>
+    <loc>https://vertex-ed-ai.vercel.app/curricula/cbse/ai-tutor</loc>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/curricula/icse/study-planner</loc>
+    <loc>https://vertex-ed-ai.vercel.app/curricula/icse/study-planner</loc>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/curricula/icse/study-zone</loc>
+    <loc>https://vertex-ed-ai.vercel.app/curricula/icse/study-zone</loc>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/curricula/icse/paper-maker</loc>
+    <loc>https://vertex-ed-ai.vercel.app/curricula/icse/paper-maker</loc>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/curricula/icse/answer-reviewer</loc>
+    <loc>https://vertex-ed-ai.vercel.app/curricula/icse/answer-reviewer</loc>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/curricula/icse/ai-notes</loc>
+    <loc>https://vertex-ed-ai.vercel.app/curricula/icse/ai-notes</loc>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.vertexed.app/curricula/icse/ai-tutor</loc>
+    <loc>https://vertex-ed-ai.vercel.app/curricula/icse/ai-tutor</loc>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>

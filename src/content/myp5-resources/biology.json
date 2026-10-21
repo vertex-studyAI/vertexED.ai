@@ -1,0 +1,1493 @@
+{
+  "subjectSlug": "biology",
+  "lessons": {
+    "myp5-biology-cells": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Water entry creates turgor",
+            "paragraphs": [
+              "Diffusion is the net movement of particles down a concentration gradient because of their random motion. Individual particles can move in either direction even when net movement has a preferred direction. Osmosis concerns water moving through a partially permeable membrane, from higher to lower water potential. In a simple classroom comparison with the same pressure, a more concentrated solution of a non-penetrating solute has lower water potential. Plant cell walls resist expansion as water enters, producing turgor. Animal cells lack that rigid wall, so the same surroundings can affect their shape differently."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-cells-worked",
+            "prompt": "A plant cell is placed in a more dilute solution, with a membrane that retains its solutes. Predict water movement and the role of the wall.",
+            "steps": [
+              "Water enters by osmosis from the higher water potential outside to the lower water potential inside.",
+              "The expanding contents press against the cell wall, which resists further expansion."
+            ],
+            "conclusion": "The cell becomes more turgid; the wall does not prevent all water movement."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-cells-card-1",
+            "front": "What makes diffusion a net process?",
+            "back": "Particles move both ways but more move down the gradient."
+          },
+          {
+            "id": "extension-cells-card-2",
+            "front": "What membrane does osmosis require?",
+            "back": "A partially permeable membrane."
+          },
+          {
+            "id": "extension-cells-card-3",
+            "front": "What gives a plant cell turgor?",
+            "back": "Water entering and contents pressing against the resistant wall."
+          },
+          {
+            "id": "extension-cells-card-4",
+            "front": "Does the cell wall replace the cell membrane?",
+            "back": "No; they have different structural and transport roles."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-cells-diagram",
+            "title": "Water entry creates turgor",
+            "description": "The membrane permits water movement while the wall resists expansion.",
+            "nodes": [
+              {
+                "id": "extension-cells-node-1",
+                "label": "Dilute surroundings",
+                "detail": "Higher water potential"
+              },
+              {
+                "id": "extension-cells-node-2",
+                "label": "Water enters cell",
+                "detail": "Osmosis through the membrane"
+              },
+              {
+                "id": "extension-cells-node-3",
+                "label": "Wall resists expansion",
+                "detail": "Pressure develops and the cell becomes turgid"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-cells-node-1",
+                "to": "extension-cells-node-2",
+                "label": "water moves down the potential gradient"
+              },
+              {
+                "from": "extension-cells-node-2",
+                "to": "extension-cells-node-3",
+                "label": "expanding contents press against the wall"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-biology-cells-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A concentrated external solution causes a plant cell to lose water. Explain the direction and likely effect on turgor.",
+          "hints": [
+            "Compare water potentials.",
+            "Turgor depends on pressure against the wall."
+          ],
+          "solution": [
+            "Water leaves by osmosis towards the lower external water potential.",
+            "The contents exert less pressure on the wall, so turgor decreases."
+          ],
+          "successCriteria": [
+            "Correct direction.",
+            "Water-potential explanation.",
+            "Reduced turgor."
+          ]
+        },
+        {
+          "id": "extension-myp5-biology-cells-practice-2",
+          "difficulty": "Advanced",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "A cell’s image is 18 mm wide at magnification ×600. Find actual width in millimetres and micrometres.",
+          "hints": [
+            "Actual size equals image size divided by magnification.",
+            "One millimetre is 1000 micrometres."
+          ],
+          "solution": [
+            "Actual width = 18/600 = 0.030 mm.",
+            "0.030 × 1000 = 30 micrometres."
+          ],
+          "successCriteria": [
+            "Correct division.",
+            "0.030 mm.",
+            "30 micrometres."
+          ]
+        }
+      ]
+    },
+    "myp5-biology-genetics": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Combine independent offspring probabilities",
+            "paragraphs": [
+              "A probability from a genetic cross describes a model for each offspring, not a quota that a family must fulfil. If a recessive phenotype requires two recessive alleles, two carrier parents can produce that phenotype even when neither shows it. Separate gamete formation from fertilisation: each parent contributes one allele for the modelled gene. Independence between births means an earlier outcome does not force a different next outcome. Real traits may involve several genes, environmental influences or inheritance patterns beyond simple dominance, so a one-gene cross should state its assumptions and avoid claiming that every human characteristic follows it."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-genetics-worked",
+            "prompt": "In a fictional one-gene model, Aa × aa produces offspring. Find the probability that two independent offspring both have genotype aa.",
+            "steps": [
+              "The first parent supplies A or a with equal probability; the second always supplies a, so P(aa) = 1/2.",
+              "For two independent offspring, P(both aa) = 1/2 × 1/2 = 1/4."
+            ],
+            "conclusion": "A probability of one-quarter is not a guaranteed family ratio."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-genetics-card-1",
+            "front": "What is a carrier in a simple recessive model?",
+            "back": "A heterozygote with one recessive allele who does not show the recessive phenotype."
+          },
+          {
+            "id": "extension-genetics-card-2",
+            "front": "Does a 1:1 expected ratio force alternating outcomes?",
+            "back": "No; outcomes vary randomly."
+          },
+          {
+            "id": "extension-genetics-card-3",
+            "front": "What does each gamete carry in a one-gene model?",
+            "back": "One allele for that gene."
+          },
+          {
+            "id": "extension-genetics-card-4",
+            "front": "When may probabilities be multiplied?",
+            "back": "For the specified independent events."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-genetics-diagram",
+            "title": "Combine independent offspring probabilities",
+            "description": "A cross supplies each probability before events are combined.",
+            "nodes": [
+              {
+                "id": "extension-genetics-node-1",
+                "label": "Parental cross",
+                "detail": "Aa × aa"
+              },
+              {
+                "id": "extension-genetics-node-2",
+                "label": "One offspring",
+                "detail": "P(aa) = 1/2"
+              },
+              {
+                "id": "extension-genetics-node-3",
+                "label": "Two independent offspring",
+                "detail": "P(both aa) = 1/4"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-genetics-node-1",
+                "to": "extension-genetics-node-2",
+                "label": "identify equally likely gametes"
+              },
+              {
+                "from": "extension-genetics-node-2",
+                "to": "extension-genetics-node-3",
+                "label": "multiply independent probabilities"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-biology-genetics-practice-1",
+          "difficulty": "Standard",
+          "command": "Determine",
+          "marks": 3,
+          "prompt": "For a simple dominant model, cross AA with aa. State offspring genotypes and whether the recessive phenotype occurs.",
+          "hints": [
+            "List each parent’s possible gamete allele.",
+            "Combine one allele from each."
+          ],
+          "solution": [
+            "Every offspring receives A from one parent and a from the other, giving Aa.",
+            "All show the dominant phenotype; none show the recessive phenotype in this model."
+          ],
+          "successCriteria": [
+            "A and a gametes.",
+            "All Aa.",
+            "Dominant phenotype only."
+          ]
+        },
+        {
+          "id": "extension-myp5-biology-genetics-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "In a Bb × Bb model, three offspring have the dominant phenotype. What is the recessive-phenotype probability for a fourth independent offspring?",
+          "hints": [
+            "Previous births do not change parental allele probabilities.",
+            "Use the same Punnett-square result again."
+          ],
+          "solution": [
+            "The fourth offspring still has probability 1/4 of genotype bb and the recessive phenotype.",
+            "Earlier outcomes do not create an obligation to complete an exact 3:1 family ratio."
+          ],
+          "successCriteria": [
+            "Probability 1/4.",
+            "Identifies bb.",
+            "Independence explanation."
+          ]
+        }
+      ]
+    },
+    "myp5-biology-evolution": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Selection acts on existing variation",
+            "paragraphs": [
+              "Natural selection changes the frequencies of inherited variants through differences in survival and reproduction. A new environmental condition does not cause every organism to develop the particular mutation it needs. Variation may already exist, and new mutations are not directed towards an organism’s needs. Selection then changes which variants contribute more descendants. Small populations can also change through genetic drift, where chance affects allele frequencies. Distinguishing selection from drift requires evidence connecting inherited traits to reproductive success, not simply observing that one trait became more common after an environmental event."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-evolution-worked",
+            "prompt": "A fictional insect population contains an inherited resistance variant before pesticide exposure. Resistant insects leave more offspring after exposure. Explain the change over generations.",
+            "steps": [
+              "Inherited variation exists before the environmental change.",
+              "Resistant insects contribute more descendants under exposure, increasing the resistance allele’s frequency."
+            ],
+            "conclusion": "This is selection among variants, not insects intentionally acquiring a needed trait."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-evolution-card-1",
+            "front": "What must selected variation be for evolutionary inheritance?",
+            "back": "Heritable."
+          },
+          {
+            "id": "extension-evolution-card-2",
+            "front": "Does selection create useful mutations on demand?",
+            "back": "No."
+          },
+          {
+            "id": "extension-evolution-card-3",
+            "front": "What is genetic drift?",
+            "back": "Chance-driven change in allele frequencies."
+          },
+          {
+            "id": "extension-evolution-card-4",
+            "front": "What outcome directly matters to selection?",
+            "back": "Relative contribution of surviving offspring to later generations."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-evolution-diagram",
+            "title": "Selection acts on existing variation",
+            "description": "Environmental conditions change which inherited variants reproduce more.",
+            "nodes": [
+              {
+                "id": "extension-evolution-node-1",
+                "label": "Inherited variation",
+                "detail": "Some insects already carry resistance"
+              },
+              {
+                "id": "extension-evolution-node-2",
+                "label": "Differential reproduction",
+                "detail": "Exposure favours resistant survivors"
+              },
+              {
+                "id": "extension-evolution-node-3",
+                "label": "Later generations",
+                "detail": "Resistance becomes more frequent"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-evolution-node-1",
+                "to": "extension-evolution-node-2",
+                "label": "environment changes relative success"
+              },
+              {
+                "from": "extension-evolution-node-2",
+                "to": "extension-evolution-node-3",
+                "label": "offspring inherit the successful variant"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-biology-evolution-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Two equally fit colour forms are sampled by chance when five seeds found a new island population. Explain why colour frequencies may differ from the original population.",
+          "hints": [
+            "The founders are a small sample.",
+            "No survival advantage is stated."
+          ],
+          "solution": [
+            "Chance sampling can include unequal numbers of the colour variants.",
+            "The founder population may therefore have different frequencies through drift without evidence of colour-based selection."
+          ],
+          "successCriteria": [
+            "Small-sample chance.",
+            "Changed frequencies.",
+            "Does not invent a fitness advantage."
+          ]
+        },
+        {
+          "id": "extension-myp5-biology-evolution-practice-2",
+          "difficulty": "Advanced",
+          "command": "Evaluate",
+          "marks": 3,
+          "prompt": "A bacterial population is more resistant after treatment. Does this observation alone prove treatment created resistance mutations specifically because they were needed?",
+          "hints": [
+            "Separate mutation origin from selection.",
+            "Existing resistant variants could increase."
+          ],
+          "solution": [
+            "Previously present resistant variants may have survived and reproduced more successfully.",
+            "The observation supports a frequency change but does not show directed mutation; evidence about variation before treatment is needed."
+          ],
+          "successCriteria": [
+            "Existing-variation alternative.",
+            "Selection mechanism.",
+            "Limits mutation inference."
+          ]
+        }
+      ]
+    },
+    "myp5-biology-ecology": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "A transect links location and abundance",
+            "paragraphs": [
+              "A transect samples variation along an environmental gradient, such as increasing distance from a shoreline. Recording the same-sized quadrat at regular positions helps relate species distribution to that gradient. Replicate transects in independently chosen locations improve coverage; many quadrats along one line do not represent every part of a habitat. Abiotic measurements should be taken alongside biological counts when testing an association. Even a clear association between moisture and plant abundance does not alone prove moisture causes the pattern, because light, soil chemistry and disturbance may also vary along the same line."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-ecology-worked",
+            "prompt": "A hypothetical transect gives plant counts of 12, 9, 5 and 2 at distances 0, 5, 10 and 15 m from a stream in equal quadrats. Describe the pattern and a limit.",
+            "steps": [
+              "Counts decline with distance, from 12 near the stream to 2 at 15 m.",
+              "The data show an association; moisture and other conditions were not independently manipulated."
+            ],
+            "conclusion": "Replicate transects and abiotic measurements would test whether the pattern is consistent."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-ecology-card-1",
+            "front": "What does a transect examine?",
+            "back": "Change in organisms across a spatial gradient."
+          },
+          {
+            "id": "extension-ecology-card-2",
+            "front": "Why keep quadrat area constant?",
+            "back": "To make counts comparable."
+          },
+          {
+            "id": "extension-ecology-card-3",
+            "front": "What improves spatial coverage?",
+            "back": "Replicate transects in appropriately selected locations."
+          },
+          {
+            "id": "extension-ecology-card-4",
+            "front": "Does spatial association establish causation?",
+            "back": "No; other variables may covary."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-ecology-diagram",
+            "title": "A transect links location and abundance",
+            "description": "Equal sampling areas reveal a spatial pattern without proving its cause.",
+            "nodes": [
+              {
+                "id": "extension-ecology-node-1",
+                "label": "Near stream: 0 m",
+                "detail": "12 plants per quadrat"
+              },
+              {
+                "id": "extension-ecology-node-2",
+                "label": "Middle: 10 m",
+                "detail": "5 plants per quadrat"
+              },
+              {
+                "id": "extension-ecology-node-3",
+                "label": "Farther: 15 m",
+                "detail": "2 plants per quadrat"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-ecology-node-1",
+                "to": "extension-ecology-node-2",
+                "label": "abundance declines along the gradient"
+              },
+              {
+                "from": "extension-ecology-node-2",
+                "to": "extension-ecology-node-3",
+                "label": "decline continues farther from water"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-biology-ecology-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "Equal 1 m² quadrats at a site contain 6, 8, 10 and 8 plants. Estimate density and abundance over a comparable 50 m² area.",
+          "hints": [
+            "Find the mean count per square metre.",
+            "Scale by total comparable area."
+          ],
+          "solution": [
+            "Mean density = 32/4 = 8 plants/m².",
+            "Estimated abundance = 8 × 50 = 400 plants, assuming representative sampling."
+          ],
+          "successCriteria": [
+            "Mean 8.",
+            "400 plants.",
+            "Representative-area assumption."
+          ]
+        },
+        {
+          "id": "extension-myp5-biology-ecology-practice-2",
+          "difficulty": "Advanced",
+          "command": "Evaluate",
+          "marks": 3,
+          "prompt": "A transect crosses both a moisture gradient and a path-disturbance gradient. Plant counts fall along it. Can moisture alone be identified as the cause?",
+          "hints": [
+            "Two plausible influences change together.",
+            "Consider comparisons that separate them."
+          ],
+          "solution": [
+            "Moisture and disturbance are confounded, so the count pattern alone cannot isolate moisture.",
+            "Measure both and compare replicated locations where the gradients differ, or use an appropriate controlled investigation."
+          ],
+          "successCriteria": [
+            "Names both factors.",
+            "Rejects unique attribution.",
+            "Specific separating comparison."
+          ]
+        }
+      ]
+    },
+    "myp5-biology-physiology": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Double circulation connects lungs and tissues",
+            "paragraphs": [
+              "The mammalian circulatory system links two exchange circuits. The right side of the heart sends blood to the lungs, where carbon dioxide leaves and oxygen enters. The left side sends oxygenated blood to body tissues. Arteries carry blood away from the heart and veins carry blood towards it; those names describe direction rather than oxygen content. Pulmonary vessels therefore illustrate why artery cannot simply mean oxygenated. Capillary walls are thin and close to cells, supporting exchange. Blood movement maintains concentration gradients, while diffusion carries substances across the exchange surfaces."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-physiology-worked",
+            "prompt": "Trace a red blood cell from the right ventricle to a body-tissue capillary.",
+            "steps": [
+              "It travels through the pulmonary artery to lung capillaries, where it takes up oxygen.",
+              "It returns through pulmonary veins to the left atrium, then left ventricle, and leaves through systemic arteries."
+            ],
+            "conclusion": "It reaches body capillaries, where oxygen can diffuse towards respiring tissues."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-physiology-card-1",
+            "front": "What defines an artery?",
+            "back": "It carries blood away from the heart."
+          },
+          {
+            "id": "extension-physiology-card-2",
+            "front": "Which circuit leaves the right ventricle?",
+            "back": "The pulmonary circuit to the lungs."
+          },
+          {
+            "id": "extension-physiology-card-3",
+            "front": "Why are capillary walls thin?",
+            "back": "They provide a short exchange distance."
+          },
+          {
+            "id": "extension-physiology-card-4",
+            "front": "Why is pulmonary artery blood relatively low in oxygen?",
+            "back": "It is travelling from the heart to the lungs for gas exchange."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-physiology-diagram",
+            "title": "Double circulation connects lungs and tissues",
+            "description": "Blood passes through the heart between the two capillary networks.",
+            "nodes": [
+              {
+                "id": "extension-physiology-node-1",
+                "label": "Right heart",
+                "detail": "Pumps towards lung capillaries"
+              },
+              {
+                "id": "extension-physiology-node-2",
+                "label": "Lungs and left heart",
+                "detail": "Oxygen uptake, then return for pumping"
+              },
+              {
+                "id": "extension-physiology-node-3",
+                "label": "Body tissues",
+                "detail": "Oxygen delivered through systemic capillaries"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-physiology-node-1",
+                "to": "extension-physiology-node-2",
+                "label": "pulmonary circulation oxygenates blood"
+              },
+              {
+                "from": "extension-physiology-node-2",
+                "to": "extension-physiology-node-3",
+                "label": "left heart drives systemic circulation"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-biology-physiology-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Why is “all veins carry deoxygenated blood” incorrect in mammalian circulation?",
+          "hints": [
+            "Vein names refer to direction.",
+            "Use pulmonary veins as a counterexample."
+          ],
+          "solution": [
+            "Veins carry blood towards the heart.",
+            "Pulmonary veins bring oxygenated blood from the lungs to the left atrium, contradicting the claim."
+          ],
+          "successCriteria": [
+            "Correct direction definition.",
+            "Pulmonary vein example.",
+            "Oxygenated return from lungs."
+          ]
+        },
+        {
+          "id": "extension-myp5-biology-physiology-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "How can faster removal of absorbed oxygen by blood help maintain diffusion from an alveolus?",
+          "hints": [
+            "Consider the concentration difference across the exchange surface.",
+            "Diffusion depends on the gradient."
+          ],
+          "solution": [
+            "Blood flow carries absorbed oxygen away and brings blood with a lower oxygen concentration.",
+            "This helps maintain a gradient from alveolar air into blood, supporting continued net diffusion."
+          ],
+          "successCriteria": [
+            "Removal of absorbed oxygen.",
+            "Lower-oxygen blood supplied.",
+            "Maintained diffusion gradient."
+          ]
+        }
+      ]
+    },
+    "myp5-biology-homeostasis": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Glucose feedback reduces a rise",
+            "paragraphs": [
+              "Negative feedback links a regulated variable, a detector and a response that opposes a deviation. Blood glucose regulation provides a school-level example involving hormonal signals. Following a rise in blood glucose, insulin helps body cells take up glucose and promotes storage, reducing the raised concentration. As the level returns towards its regulated range, the original stimulus decreases. Homeostasis does not mean that a variable stays exactly constant at every instant. Delays, changing inputs and the response time of effectors produce fluctuations, so interpreting a graph requires considering both direction and timing of the response."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-homeostasis-worked",
+            "prompt": "A hypothetical glucose trace rises after a meal and later moves towards its earlier range. Explain a negative-feedback contribution without claiming the trace measures hormones directly.",
+            "steps": [
+              "Raised glucose can stimulate insulin release, supporting uptake and storage of glucose.",
+              "These responses reduce the original rise, and the stimulus weakens as glucose returns towards its range."
+            ],
+            "conclusion": "The trace is consistent with regulation, but hormone measurements would be needed to observe insulin directly."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-homeostasis-card-1",
+            "front": "What makes feedback negative?",
+            "back": "The response opposes the original deviation."
+          },
+          {
+            "id": "extension-homeostasis-card-2",
+            "front": "What is regulated in this example?",
+            "back": "Blood glucose concentration."
+          },
+          {
+            "id": "extension-homeostasis-card-3",
+            "front": "What does insulin promote in this school model?",
+            "back": "Glucose uptake and storage."
+          },
+          {
+            "id": "extension-homeostasis-card-4",
+            "front": "Does homeostasis require an exactly flat graph?",
+            "back": "No; regulated variables fluctuate within a range."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-homeostasis-diagram",
+            "title": "Glucose feedback reduces a rise",
+            "description": "The response weakens the stimulus that initiated it.",
+            "nodes": [
+              {
+                "id": "extension-homeostasis-node-1",
+                "label": "Glucose rises",
+                "detail": "A deviation after nutrient absorption"
+              },
+              {
+                "id": "extension-homeostasis-node-2",
+                "label": "Insulin response",
+                "detail": "Uptake and storage increase"
+              },
+              {
+                "id": "extension-homeostasis-node-3",
+                "label": "Glucose moves towards range",
+                "detail": "The stimulus for the response decreases"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-homeostasis-node-1",
+                "to": "extension-homeostasis-node-2",
+                "label": "triggers hormonal signalling"
+              },
+              {
+                "from": "extension-homeostasis-node-2",
+                "to": "extension-homeostasis-node-3",
+                "label": "opposes the initial rise"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-biology-homeostasis-practice-1",
+          "difficulty": "Standard",
+          "command": "Identify",
+          "marks": 3,
+          "prompt": "In a simple glucose-control model, classify high blood glucose, insulin signalling and increased cellular uptake as deviation, signal or response.",
+          "hints": [
+            "Separate the measured variable from the messenger.",
+            "Uptake is an action by responding cells."
+          ],
+          "solution": [
+            "High blood glucose is the deviation; insulin provides a hormonal signal.",
+            "Increased uptake is a response that helps reduce the deviation."
+          ],
+          "successCriteria": [
+            "Correct deviation.",
+            "Correct signal.",
+            "Correct response."
+          ]
+        },
+        {
+          "id": "extension-myp5-biology-homeostasis-practice-2",
+          "difficulty": "Advanced",
+          "command": "Evaluate",
+          "marks": 3,
+          "prompt": "A regulated variable briefly overshoots its target after a disturbance. Does this prove no negative feedback exists?",
+          "hints": [
+            "Responses may be delayed.",
+            "Look for whether the response opposes the deviation over time."
+          ],
+          "solution": [
+            "A delay can allow overshoot even when feedback is operating.",
+            "The time course and response direction are needed; one overshoot alone does not disprove regulation."
+          ],
+          "successCriteria": [
+            "Recognises delay.",
+            "Considers response direction.",
+            "Qualified conclusion."
+          ]
+        }
+      ]
+    },
+    "myp5-biology-reproduction": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Chromosome number across sexual reproduction",
+            "paragraphs": [
+              "Meiosis reduces chromosome number while creating varied combinations of inherited information. Homologous chromosome pairs separate so that each gamete receives one member of each pair. Independent assortment and crossing over can generate different combinations; fertilisation then combines gametes from two parents. Mitosis, by contrast, normally preserves chromosome number in daughter cells for growth and repair. Chromosome number alone does not measure organism complexity. In a numerical problem, distinguish chromosomes from chromatids and state whether the cell is a body cell, gamete or zygote before applying the halving or doubling relationship."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-reproduction-worked",
+            "prompt": "A fictional organism has 18 chromosomes in a typical diploid body cell. Compare chromosome counts after mitosis, in gametes and after fertilisation.",
+            "steps": [
+              "Mitosis normally gives daughter cells with 18 chromosomes each.",
+              "Meiosis gives gametes with 9; fusion of two such gametes restores 18 in the zygote."
+            ],
+            "conclusion": "The counts describe cells of the stated organism, not all species."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-reproduction-card-1",
+            "front": "What does meiosis do to chromosome number?",
+            "back": "It halves the diploid number to produce haploid cells."
+          },
+          {
+            "id": "extension-reproduction-card-2",
+            "front": "What restores diploid number?",
+            "back": "Fusion of haploid gametes at fertilisation."
+          },
+          {
+            "id": "extension-reproduction-card-3",
+            "front": "What normally preserves chromosome number?",
+            "back": "Mitosis."
+          },
+          {
+            "id": "extension-reproduction-card-4",
+            "front": "Name a source of meiotic genetic variation.",
+            "back": "Independent assortment or crossing over."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-reproduction-diagram",
+            "title": "Chromosome number across sexual reproduction",
+            "description": "Meiosis and fertilisation have complementary effects.",
+            "nodes": [
+              {
+                "id": "extension-reproduction-node-1",
+                "label": "Diploid parent cell",
+                "detail": "18 chromosomes"
+              },
+              {
+                "id": "extension-reproduction-node-2",
+                "label": "Haploid gamete",
+                "detail": "9 chromosomes after meiosis"
+              },
+              {
+                "id": "extension-reproduction-node-3",
+                "label": "Diploid zygote",
+                "detail": "9 + 9 = 18 after fertilisation"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-reproduction-node-1",
+                "to": "extension-reproduction-node-2",
+                "label": "halve chromosome number"
+              },
+              {
+                "from": "extension-reproduction-node-2",
+                "to": "extension-reproduction-node-3",
+                "label": "combine two gametes"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-biology-reproduction-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "A fictional species has gametes with 7 chromosomes. Find its normal zygote count and typical body-cell count.",
+          "hints": [
+            "Two gametes combine.",
+            "Body cells retain the diploid count."
+          ],
+          "solution": [
+            "The zygote has 7 + 7 = 14 chromosomes.",
+            "Typical diploid body cells also have 14 chromosomes."
+          ],
+          "successCriteria": [
+            "Two gametes combined.",
+            "Zygote 14.",
+            "Body cell 14."
+          ]
+        },
+        {
+          "id": "extension-myp5-biology-reproduction-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Why can genetically similar cloned plants develop different heights when grown with different light levels?",
+          "hints": [
+            "Cloning concerns inherited information.",
+            "Phenotype also depends on environment."
+          ],
+          "solution": [
+            "The plants can share their starting genetic information while experiencing different conditions.",
+            "Light affects growth processes, so environmental differences can produce different heights without implying different starting genotypes."
+          ],
+          "successCriteria": [
+            "Shared starting genotype.",
+            "Environmental effect on growth.",
+            "Distinguishes genotype and phenotype."
+          ]
+        }
+      ]
+    },
+    "myp5-biology-biotechnology": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Yeast transforms a substrate",
+            "paragraphs": [
+              "Biotechnology uses organisms, cells or biological molecules to produce a useful process or product. Fermentation illustrates how a biological pathway can transform a starting material under specified conditions. In a school model, yeast can convert glucose into ethanol and carbon dioxide when oxygen is limited, while also releasing energy for the cells. A product claim must be evaluated against an appropriate comparison and defined outcome. More bubbles do not by themselves establish greater product purity or overall process efficiency. Measurements of input amounts, product amounts, time and unwanted outputs answer different questions about the process."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-biotechnology-worked",
+            "prompt": "A supplied fictional yeast dataset records 24 cm³ carbon dioxide in 6 min for condition A and 30 cm³ in 10 min for B. Compare average gas-production rates.",
+            "steps": [
+              "A averages 24/6 = 4 cm³/min; B averages 30/10 = 3 cm³/min.",
+              "A has the higher average rate despite B’s larger total collected volume."
+            ],
+            "conclusion": "Gas rate alone does not determine ethanol purity or total production cost."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-biotechnology-card-1",
+            "front": "Can biotechnology use isolated enzymes?",
+            "back": "Yes; whole living organisms need not be in the final product."
+          },
+          {
+            "id": "extension-biotechnology-card-2",
+            "front": "What gases does yeast fermentation release in the school model?",
+            "back": "Carbon dioxide."
+          },
+          {
+            "id": "extension-biotechnology-card-3",
+            "front": "Why distinguish product amount from production rate?",
+            "back": "Rate includes the time taken."
+          },
+          {
+            "id": "extension-biotechnology-card-4",
+            "front": "What does product purity describe?",
+            "back": "The proportion of the sample that is the intended substance."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-biotechnology-diagram",
+            "title": "Yeast transforms a substrate",
+            "description": "The school model tracks a biological conversion rather than equating bubbles with purity.",
+            "nodes": [
+              {
+                "id": "extension-biotechnology-node-1",
+                "label": "Glucose input",
+                "detail": "Substrate used by yeast"
+              },
+              {
+                "id": "extension-biotechnology-node-2",
+                "label": "Fermentation pathway",
+                "detail": "Biological reactions under suitable low-oxygen conditions"
+              },
+              {
+                "id": "extension-biotechnology-node-3",
+                "label": "Products",
+                "detail": "Ethanol and carbon dioxide"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-biotechnology-node-1",
+                "to": "extension-biotechnology-node-2",
+                "label": "enters the biological pathway"
+              },
+              {
+                "from": "extension-biotechnology-node-2",
+                "to": "extension-biotechnology-node-3",
+                "label": "forms specified products"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-biology-biotechnology-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "A supplied fermentation record shows 42 cm³ gas collected over 7 min. Find average rate and name one limitation of using it to compare product quality.",
+          "hints": [
+            "Divide volume by time.",
+            "Gas amount is not a direct purity measurement."
+          ],
+          "solution": [
+            "Average rate = 42/7 = 6 cm³/min.",
+            "This measures gas production, not purity of the desired liquid product or absence of contaminants."
+          ],
+          "successCriteria": [
+            "Correct division.",
+            "6 cm³/min.",
+            "Relevant quality limitation."
+          ]
+        },
+        {
+          "id": "extension-myp5-biology-biotechnology-practice-2",
+          "difficulty": "Advanced",
+          "command": "Evaluate",
+          "marks": 3,
+          "prompt": "A new enzyme process uses less heating energy but produces more waste liquid. Can lower heating energy alone establish lower overall environmental impact?",
+          "hints": [
+            "There are multiple impact pathways.",
+            "Use equal product output as the comparison basis."
+          ],
+          "solution": [
+            "Lower heating energy supports a narrower energy-use claim.",
+            "A whole-process comparison must also assess waste quantity, composition and treatment for equivalent product output."
+          ],
+          "successCriteria": [
+            "Narrow supported claim.",
+            "Waste impact considered.",
+            "Equivalent-output comparison."
+          ]
+        }
+      ]
+    },
+    "myp5-biology-ecosystems": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "One producer supports several feeding routes",
+            "paragraphs": [
+              "Food-web arrows track transfers from a consumed resource to its consumer. A single organism can occupy more than one feeding role, so a web captures relationships that one chain omits. Changes in one population can affect competitors, predators and prey, but the direction and size of those effects depend on alternative foods and other limiting factors. Energy available for production generally decreases across trophic transfers because some material is not eaten or assimilated and organisms use energy in respiration. Nutrient atoms can cycle through organisms and the environment, whereas energy continually enters and leaves the ecosystem."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-ecosystems-worked",
+            "prompt": "In a fictional web, grass feeds rabbits and insects; both are eaten by birds of prey. Predict a possible consequence of fewer rabbits and qualify it.",
+            "steps": [
+              "Predators may shift towards insects if insects are suitable and available prey.",
+              "Greater insect consumption could reduce insect numbers, but other foods and predator population changes may alter the outcome."
+            ],
+            "conclusion": "The web suggests possible pathways rather than guaranteeing a single numerical result."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-ecosystems-card-1",
+            "front": "Which direction does a feeding arrow point?",
+            "back": "From resource or prey to consumer."
+          },
+          {
+            "id": "extension-ecosystems-card-2",
+            "front": "Why use a food web?",
+            "back": "It represents multiple interconnected feeding relationships."
+          },
+          {
+            "id": "extension-ecosystems-card-3",
+            "front": "What happens to energy used in respiration?",
+            "back": "It is eventually transferred to surroundings, largely as thermal energy."
+          },
+          {
+            "id": "extension-ecosystems-card-4",
+            "front": "Do nutrient cycling and energy flow mean the same thing?",
+            "back": "No; nutrients cycle while energy requires continuing input."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-ecosystems-diagram",
+            "title": "One producer supports several feeding routes",
+            "description": "Changing one prey route can affect use of an alternative.",
+            "nodes": [
+              {
+                "id": "extension-ecosystems-node-1",
+                "label": "Grass",
+                "detail": "Primary producer"
+              },
+              {
+                "id": "extension-ecosystems-node-2",
+                "label": "Rabbits and insects",
+                "detail": "Alternative primary consumers"
+              },
+              {
+                "id": "extension-ecosystems-node-3",
+                "label": "Birds of prey",
+                "detail": "Can consume more than one prey type"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-ecosystems-node-1",
+                "to": "extension-ecosystems-node-2",
+                "label": "energy enters herbivore production"
+              },
+              {
+                "from": "extension-ecosystems-node-2",
+                "to": "extension-ecosystems-node-3",
+                "label": "prey transfers energy to predators"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-biology-ecosystems-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "A supplied budget gives 8000 kJ producer production and 1000 kJ herbivore production over the same area and interval. Find transfer efficiency.",
+          "hints": [
+            "Use output divided by input.",
+            "Multiply by one hundred for a percentage."
+          ],
+          "solution": [
+            "Efficiency = 1000/8000 × 100%.",
+            "The transfer efficiency is 12.5%."
+          ],
+          "successCriteria": [
+            "Correct ratio.",
+            "Percentage conversion.",
+            "12.5%."
+          ]
+        },
+        {
+          "id": "extension-myp5-biology-ecosystems-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Why can removing one predator affect two prey species differently in a food web?",
+          "hints": [
+            "Prey may compete or have different other predators.",
+            "Indirect effects can oppose direct effects."
+          ],
+          "solution": [
+            "Reduced predation may initially benefit both prey, but their competition and other feeding links can differ.",
+            "One prey could then outcompete the other, so the web does not require equal population changes."
+          ],
+          "successCriteria": [
+            "Direct predation effect.",
+            "Indirect interaction.",
+            "Qualified unequal response."
+          ]
+        }
+      ]
+    },
+    "myp5-biology-human-impact": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Effort changes the meaning of a count",
+            "paragraphs": [
+              "Habitat conservation can target both the amount of habitat and connections between habitat patches. A corridor may allow organisms to move, find mates and recolonise sites, but its effectiveness depends on the species and corridor conditions. A strip suitable for one organism may be a barrier or exposure risk for another. Evaluate an intervention with measures matched to its goal, such as movement, breeding success or persistence over time. A single increase in sightings may reflect changed observation effort rather than a larger population. Comparable sampling and a suitable reference site improve interpretation of the result."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-human-impact-worked",
+            "prompt": "A fictional corridor study records 8 crossings before and 20 after construction, but observation time rises from 4 to 10 hours. Compare crossing rates.",
+            "steps": [
+              "Before: 8/4 = 2 crossings/hour. After: 20/10 = 2 crossings/hour.",
+              "The total count increases because observation effort increases; the observed rate is unchanged."
+            ],
+            "conclusion": "These data alone do not establish improved movement or population recovery."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-human-impact-card-1",
+            "front": "What is a habitat corridor intended to connect?",
+            "back": "Separated habitat patches."
+          },
+          {
+            "id": "extension-human-impact-card-2",
+            "front": "Why standardise observation effort?",
+            "back": "Counts depend on how long and how intensively observers search."
+          },
+          {
+            "id": "extension-human-impact-card-3",
+            "front": "Does more movement prove population recovery?",
+            "back": "No; survival and reproduction need separate evidence."
+          },
+          {
+            "id": "extension-human-impact-card-4",
+            "front": "Why evaluate corridors by species?",
+            "back": "Different organisms have different movement and habitat requirements."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-human-impact-diagram",
+            "title": "Effort changes the meaning of a count",
+            "description": "Comparable rates prevent longer observation being mistaken for more activity.",
+            "nodes": [
+              {
+                "id": "extension-human-impact-node-1",
+                "label": "Before",
+                "detail": "8 crossings in 4 hours"
+              },
+              {
+                "id": "extension-human-impact-node-2",
+                "label": "Standardise effort",
+                "detail": "Divide each count by observation time"
+              },
+              {
+                "id": "extension-human-impact-node-3",
+                "label": "After",
+                "detail": "20 crossings in 10 hours: both 2/hour"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-human-impact-node-1",
+                "to": "extension-human-impact-node-2",
+                "label": "calculate crossings per hour"
+              },
+              {
+                "from": "extension-human-impact-node-2",
+                "to": "extension-human-impact-node-3",
+                "label": "compare rates rather than raw counts"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-biology-human-impact-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "Observers record 15 animals in 3 hours at A and 24 in 6 hours at B using the same method. Compare sighting rates.",
+          "hints": [
+            "Divide counts by hours.",
+            "Keep conclusions limited to sightings."
+          ],
+          "solution": [
+            "A: 15/3 = 5 sightings/hour; B: 24/6 = 4 sightings/hour.",
+            "A has the higher observed rate; this alone does not give exact population sizes."
+          ],
+          "successCriteria": [
+            "A rate 5/hour.",
+            "B rate 4/hour.",
+            "Qualified population interpretation."
+          ]
+        },
+        {
+          "id": "extension-myp5-biology-human-impact-practice-2",
+          "difficulty": "Advanced",
+          "command": "Evaluate",
+          "marks": 3,
+          "prompt": "A corridor increases movement of a focal species but also allows an invasive predator to enter. How should its success be judged?",
+          "hints": [
+            "Consider both intended and unintended effects.",
+            "Measure outcomes beyond crossings."
+          ],
+          "solution": [
+            "Improved focal-species movement supports one intended outcome.",
+            "Predator spread may offset benefits, so survival, reproduction and community effects are needed for a balanced judgement."
+          ],
+          "successCriteria": [
+            "Intended benefit.",
+            "Unintended predator effect.",
+            "Relevant broader outcome measures."
+          ]
+        }
+      ]
+    },
+    "myp5-biology-experimental-design": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Block before random allocation",
+            "paragraphs": [
+              "A control treatment helps distinguish an intervention’s effect from the background changes that would occur without it. Random assignment reduces systematic differences between groups, although small samples can still differ by chance. Blocking can account for a known source of variation: for example, compare treatments within similar starting-size groups. Measurements should be defined before inspecting the results, with the same method used across conditions. Blinding an observer to treatment labels can reduce judgement bias when scoring a subjective outcome. These design choices address different problems, so simply adding repeats does not replace a suitable comparison or consistent measurement."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-experimental-design-worked",
+            "prompt": "A fictional seedling study compares two light regimes. Starting heights vary widely. Propose allocation and measurement choices.",
+            "steps": [
+              "Group seedlings by similar initial height, then randomly assign plants within each group to the light regimes.",
+              "Measure height change over the same interval using the same method and, where practical, coded labels."
+            ],
+            "conclusion": "Blocking reduces starting-size imbalance; randomisation and consistent measurement address different biases."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-experimental-design-card-1",
+            "front": "What does random assignment address?",
+            "back": "Systematic allocation differences between treatment groups."
+          },
+          {
+            "id": "extension-experimental-design-card-2",
+            "front": "What is blocking?",
+            "back": "Comparing treatments within groups sharing a relevant characteristic."
+          },
+          {
+            "id": "extension-experimental-design-card-3",
+            "front": "Why use blinded scoring?",
+            "back": "To reduce observer expectations affecting judgement."
+          },
+          {
+            "id": "extension-experimental-design-card-4",
+            "front": "What should be specified before observing results?",
+            "back": "The outcome measure and comparison plan."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-experimental-design-diagram",
+            "title": "Block before random allocation",
+            "description": "Comparable starting groups are split across treatments.",
+            "nodes": [
+              {
+                "id": "extension-experimental-design-node-1",
+                "label": "Variable initial sizes",
+                "detail": "Small and large seedlings differ initially"
+              },
+              {
+                "id": "extension-experimental-design-node-2",
+                "label": "Size blocks",
+                "detail": "Group plants with similar starting height"
+              },
+              {
+                "id": "extension-experimental-design-node-3",
+                "label": "Random allocation within blocks",
+                "detail": "Both light regimes receive comparable starting plants"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-experimental-design-node-1",
+                "to": "extension-experimental-design-node-2",
+                "label": "group on known variation"
+              },
+              {
+                "from": "extension-experimental-design-node-2",
+                "to": "extension-experimental-design-node-3",
+                "label": "spread each block across conditions"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-biology-experimental-design-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A plant-growth study measures final height only, but treatment A plants started taller. Why is the conclusion about growth weak?",
+          "hints": [
+            "Final height includes initial height.",
+            "Compare change or account for the baseline."
+          ],
+          "solution": [
+            "Greater final height may reflect the pre-existing difference rather than greater growth.",
+            "Record initial height and compare change with suitable allocation or baseline adjustment."
+          ],
+          "successCriteria": [
+            "Baseline confound.",
+            "Distinguishes height from growth.",
+            "Specific improved measurement."
+          ]
+        },
+        {
+          "id": "extension-myp5-biology-experimental-design-practice-2",
+          "difficulty": "Advanced",
+          "command": "Evaluate",
+          "marks": 3,
+          "prompt": "An observer knows which flowers received a treatment and rates their colour on a subjective scale. Identify a possible bias and a practical improvement.",
+          "hints": [
+            "Expectations can affect scoring.",
+            "Hide treatment identity while preserving records."
+          ],
+          "solution": [
+            "Knowledge of treatment could influence colour ratings.",
+            "Use coded samples with a predefined colour reference so scoring is blinded and consistent."
+          ],
+          "successCriteria": [
+            "Observer expectation bias.",
+            "Coded or blinded samples.",
+            "Predefined scoring reference."
+          ]
+        }
+      ]
+    },
+    "myp5-biology-scientific-evaluation": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "An effect estimate needs context",
+            "paragraphs": [
+              "Evaluating a biological claim requires separating the estimated effect from uncertainty and practical importance. Two group means can differ slightly even when individual responses vary greatly. More independent observations can improve the estimate, but a larger sample does not correct a systematically biased method. A statistically detectable difference may also be too small to matter for the stated purpose. Conclusions should specify the tested population, conditions and outcome. Repetition in different settings examines generalisability, while checking raw measurements and methods helps establish whether the original conclusion follows from the evidence."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-scientific-evaluation-worked",
+            "prompt": "A fictional study reports average growth of 12 cm without treatment and 15 cm with treatment, based on comparable initial sizes. Calculate absolute and relative differences, then identify missing evidence.",
+            "steps": [
+              "Absolute difference = 15 − 12 = 3 cm.",
+              "Relative increase = 3/12 × 100% = 25%."
+            ],
+            "conclusion": "Sample size, variation and allocation are needed to judge confidence and causation."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-scientific-evaluation-card-1",
+            "front": "What is an absolute difference?",
+            "back": "One measurement minus the comparison measurement, retaining units."
+          },
+          {
+            "id": "extension-scientific-evaluation-card-2",
+            "front": "What is a relative change?",
+            "back": "Difference divided by the specified baseline."
+          },
+          {
+            "id": "extension-scientific-evaluation-card-3",
+            "front": "Can a larger sample fix systematic measurement bias?",
+            "back": "No."
+          },
+          {
+            "id": "extension-scientific-evaluation-card-4",
+            "front": "What limits generalisation?",
+            "back": "The populations and conditions actually tested."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-scientific-evaluation-diagram",
+            "title": "An effect estimate needs context",
+            "description": "A numerical contrast is only one part of evaluation.",
+            "nodes": [
+              {
+                "id": "extension-scientific-evaluation-node-1",
+                "label": "Control mean",
+                "detail": "12 cm"
+              },
+              {
+                "id": "extension-scientific-evaluation-node-2",
+                "label": "Treatment mean",
+                "detail": "15 cm: difference 3 cm"
+              },
+              {
+                "id": "extension-scientific-evaluation-node-3",
+                "label": "Relative contrast",
+                "detail": "3/12 = 25%, with uncertainty still needed"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-scientific-evaluation-node-1",
+                "to": "extension-scientific-evaluation-node-2",
+                "label": "compare on the same scale"
+              },
+              {
+                "from": "extension-scientific-evaluation-node-2",
+                "to": "extension-scientific-evaluation-node-3",
+                "label": "relate difference to the baseline"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-biology-scientific-evaluation-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "A fictional intervention raises mean germination from 60% to 75%. Give the percentage-point increase and relative percentage increase.",
+          "hints": [
+            "Subtract percentages for percentage points.",
+            "Use sixty as the relative baseline."
+          ],
+          "solution": [
+            "Increase = 15 percentage points.",
+            "Relative increase = 15/60 × 100% = 25%."
+          ],
+          "successCriteria": [
+            "15 percentage points.",
+            "Uses 60% baseline.",
+            "25% relative increase."
+          ]
+        },
+        {
+          "id": "extension-myp5-biology-scientific-evaluation-practice-2",
+          "difficulty": "Advanced",
+          "command": "Evaluate",
+          "marks": 3,
+          "prompt": "A large study uses a miscalibrated ruler that adds 2 cm to every length. Does its large sample guarantee accurate absolute heights?",
+          "hints": [
+            "Separate sample size from instrument bias.",
+            "The same offset affects every measurement."
+          ],
+          "solution": [
+            "More observations do not remove the shared 2 cm offset.",
+            "Calibration correction is needed for accurate absolute heights, even if the sample estimates relative variation precisely."
+          ],
+          "successCriteria": [
+            "Identifies systematic offset.",
+            "Explains sample-size limit.",
+            "Requires calibration correction."
+          ]
+        }
+      ]
+    }
+  }
+}

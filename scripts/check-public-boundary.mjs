@@ -12,7 +12,7 @@ import { lookup } from 'node:dns/promises';
 
 const args = process.argv.slice(2);
 const baseIdx = args.indexOf('--base');
-const base = baseIdx >= 0 ? args[baseIdx + 1] : 'https://www.vertexed.app';
+const base = baseIdx >= 0 ? args[baseIdx + 1] : 'https://vertex-ed-ai.vercel.app';
 const host = new URL(base).hostname;
 
 function line(label, value) {

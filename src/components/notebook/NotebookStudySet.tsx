@@ -21,7 +21,7 @@ export default function NotebookStudySet({ notebook, owner, disabled, refresh, o
   const [error, setError] = useState('');
   const running = useRef(false);
   const mounted = useRef(true);
-  useEffect(() => { mounted.current = true; return () => { mounted.current = false; running.current = false; }; }, []);
+  useEffect(() => { mounted.current = true; return () => { mounted.current = false; running.current = false; onBusy(false); }; }, [onBusy]);
 
   const saveCourse = () => {
     if (disabled || getUserContentStorageScope() !== owner) return;
@@ -31,7 +31,7 @@ export default function NotebookStudySet({ notebook, owner, disabled, refresh, o
   };
 
   const start = async () => {
-    if (running.current || disabled) return;
+    if (running.current || disabled || getUserContentStorageScope() !== owner) return;
     if (!validCurriculumPath(course)) { setError('Enter a board, syllabus version, subject and topic.'); return; }
     const sources = buildGroundingPayload(notebook);
     if (!sources.length) { setError('Add and select a source before creating a study set.'); return; }
@@ -50,7 +50,10 @@ export default function NotebookStudySet({ notebook, owner, disabled, refresh, o
         request: { sources, curriculum: course, notebookTitle: notebook.title },
         isCurrent,
         findSaved: key => getNotebook(notebook.id)?.outputs.find(output => output.generation?.requestKey === key),
-        generate: generateNotebookOutput,
+        generate: request => {
+          if ((getNotebook(notebook.id)?.outputs.length ?? 40) >= 40) throw new Error('This notebook has reached its saved-version limit. Export a backup and start a new notebook before generating more.');
+          return generateNotebookOutput(request);
+        },
         save: result => {
           const saved = saveOutput(notebook.id, { kind: result.mode, title: result.title, content: result.content,
             generatedAt: result.generatedAt, generation: result.generation, flashcards: result.flashcards, quiz: result.quiz,
@@ -71,8 +74,7 @@ export default function NotebookStudySet({ notebook, owner, disabled, refresh, o
       if (mounted.current) { setMessage('Study set stopped. Completed resources are preserved.'); setError(cause instanceof Error ? cause.message : 'Generation failed. Try again when ready.'); }
     } finally {
       running.current = false;
-      onBusy(false);
-      if (mounted.current) setBusy(false);
+      if (mounted.current) { onBusy(false); setBusy(false); }
     }
   };
 
@@ -85,9 +87,9 @@ export default function NotebookStudySet({ notebook, owner, disabled, refresh, o
         <legend className="sr-only">Course context</legend>
         {CURRICULUM_FIELDS.map(field => <label key={field} className="text-sm space-y-1">
           <span>{labels[field]}</span>
-          {field === 'curriculum' ? <select value={course.curriculum} onChange={event => setCourse({ ...course, curriculum: event.target.value })} className="form-control-select w-full min-h-11 text-base">
+          {field === 'curriculum' ? <select aria-label={labels[field]} value={course.curriculum} onChange={event => setCourse({ ...course, curriculum: event.target.value })} className="form-control-select w-full min-h-11 text-base">
             {STUDY_CURRICULA.map(value => <option key={value} value={value}>{value.replace(/_/g, ' ')}</option>)}
-          </select> : <input value={course[field]} maxLength={160} onChange={event => setCourse({ ...course, [field]: event.target.value })} className="form-control-input w-full min-h-11 text-base" />}
+          </select> : <input value={course[field]} maxLength={160} onChange={event => setCourse({ ...course, [field]: event.target.value })} className="form-control w-full min-h-11 text-base" />}
         </label>)}
         <button type="button" onClick={saveCourse} className="btn-glass min-h-11 text-sm">Save course details</button>
       </fieldset>

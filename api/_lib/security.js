@@ -1,12 +1,9 @@
+import { appAllowedOrigins } from '../../contracts/appOrigin.js';
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const REVIEW_IMAGE_DATA_URL_RE = /^data:image\/(?:png|jpe?g|webp|gif);base64,/i;
 const BASE64_RE = /^[A-Za-z0-9+/]+={0,2}$/;
 
-const DEFAULT_ALLOWED_ORIGINS = [
-  'https://www.vertexed.app',
-  'https://vertexed.app',
-];
 
 export function isProduction() {
   return process.env.VERCEL_ENV === 'production' || process.env.NODE_ENV === 'production';
@@ -46,11 +43,7 @@ export function applyApiSecurityHeaders(res) {
 }
 
 function getAllowedOrigins() {
-  const extra = (process.env.ALLOWED_ORIGINS || '')
-    .split(',')
-    .map((value) => value.trim())
-    .filter(Boolean);
-  const origins = [...DEFAULT_ALLOWED_ORIGINS, ...extra];
+  const origins = appAllowedOrigins(process.env);
   if (!isProduction()) {
     origins.push('http://localhost:8080', 'http://127.0.0.1:8080', 'http://localhost:5173', 'http://127.0.0.1:5173');
   }

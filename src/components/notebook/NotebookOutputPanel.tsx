@@ -52,11 +52,15 @@ export default function NotebookOutputPanel({ output, notebookTitle, onAskQuesti
 
   const pushFlashcards = () => {
     if (!output.flashcards?.length) return;
+    try {
     const added = mergeFlashcardsIntoDeck(output.flashcards, `nb-${notebookTitle.slice(0, 20)}`);
     toast({
       title: added > 0 ? `${added} cards added to SR deck` : 'Cards already in deck',
       description: added > 0 ? 'Review them in AI Notes study mode.' : undefined,
     });
+    } catch (cause) {
+      toast({ title: 'Flashcards not saved', description: cause instanceof Error ? cause.message : 'Try again when browser storage is available.', variant: 'destructive' });
+    }
   };
 
   const isAudio =

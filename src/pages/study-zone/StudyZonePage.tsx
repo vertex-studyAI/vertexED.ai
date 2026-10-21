@@ -1,3 +1,4 @@
+import { APP_ORIGIN } from '@/lib/appOrigin';
 import React, { lazy, Suspense, useEffect, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link, useSearchParams } from "react-router";
@@ -173,7 +174,7 @@ const StudyZonePage: React.FC = () => {
       <Helmet>
         <title>Study Zone - VertexED</title>
         <meta name="description" content="Focus tools for one study session: a timer, calculator, graphing, notes, and a short reset between blocks." />
-        <link rel="canonical" href="https://www.vertexed.app/study-zone" />
+        <link rel="canonical" href={`${APP_ORIGIN}/study-zone`} />
       </Helmet>
 
       <div className="flex flex-wrap gap-3">

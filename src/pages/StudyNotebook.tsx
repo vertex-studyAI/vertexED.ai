@@ -285,7 +285,7 @@ export default function StudyNotebook() {
   };
 
   const handleGenerate = async (kind: NotebookOutputKind) => {
-    if (!active) return;
+    if (!active || generating || studySetBusy) return;
     const sources = buildGroundingPayload(active);
     if (sources.length === 0) {
       toast({
@@ -318,6 +318,7 @@ export default function StudyNotebook() {
         sourceIds: (result.sources ?? []).map(source => source.id),
       });
       setSelectedQuizId(null);
+      setSelectedResourceId(null);
       refresh();
       logStudyActivity(`Generated ${NOTEBOOK_OUTPUT_META[kind].label} in Study Notebook`);
       toast({ title: `${NOTEBOOK_OUTPUT_META[kind].label} ready` });
@@ -708,7 +709,7 @@ export default function StudyNotebook() {
 
               {active ? <><NotebookStudySet key={`${user?.id}:${active.id}`} notebook={active} owner={user?.id ?? ''}
                 disabled={!notebookHydrated || !!generating} refresh={refresh} onBusy={setStudySetBusy}
-                onSelect={kind => { setStudioTab(kind); setStudioGroup(kind === 'quiz' || kind === 'flashcards' ? 'review' : 'learn'); }} />
+                onSelect={kind => { setSelectedResourceId(null); setSelectedQuizId(null); setStudioTab(kind); setStudioGroup(kind === 'quiz' || kind === 'flashcards' ? 'review' : 'learn'); }} />
               <div className="border-b border-border/40">
                 <div className="flex gap-1 p-2 overflow-x-auto">
                   <StudioTabButton
@@ -870,7 +871,7 @@ export default function StudyNotebook() {
                         {previousResources.map((output, index) => <option key={output.id} value={output.id}>{index === 0 ? 'Latest' : `Earlier ${index}`} · {output.editedFrom ? 'Edited copy' : 'Generated'} · {new Date(output.generatedAt).toLocaleString()}</option>)}
                       </select>
                     </label>}
-                    {currentOutput && !generating && !studySetBusy && <NotebookResourceEditor key={currentOutput.id} output={currentOutput} onSave={content => {
+                    {currentOutput && !generating && !studySetBusy && <NotebookResourceEditor key={`editor-${currentOutput.id}`} output={currentOutput} onSave={content => {
                       if (!notebookHydrated || getUserContentStorageScope() !== user?.id) throw new Error('Wait for your account to finish loading.');
                       const saved = reviseNotebookOutput(active.id, currentOutput.id, content);
                       setSelectedResourceId(saved.outputs[0].id); refresh();

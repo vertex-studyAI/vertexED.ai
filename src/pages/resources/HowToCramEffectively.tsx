@@ -1,3 +1,4 @@
+import { APP_ORIGIN } from '@/lib/appOrigin';
 import React from "react";
 import Article from "@/components/Article";
 import SEO from "@/components/SEO";
@@ -9,7 +10,7 @@ export default function HowToCramEffectively() {
       <SEO
         title="How to cram when the exam is tomorrow | VertexED"
         description="Not ideal - but if you are down to one day, triage high-yield topics, blurting, cheat sheets, and six hours of sleep beat an all-nighter."
-        canonical="https://www.vertexed.app/resources/how-to-cram-effectively"
+        canonical={`${APP_ORIGIN}/resources/how-to-cram-effectively`}
         keywords="how to cram for exams, last minute study tips, emergency revision, high yield studying, exam panic, VertexED"
         jsonLd={[
           {
@@ -20,14 +21,14 @@ export default function HowToCramEffectively() {
             author: {
               "@type": "Organization",
               name: "VertexED Team",
-              url: "https://www.vertexed.app"
+              url: `${APP_ORIGIN}`
             },
             publisher: {
               "@type": "Organization",
               name: "VertexED",
               logo: {
                 "@type": "ImageObject",
-                url: "https://www.vertexed.app/logo.png"
+                url: `${APP_ORIGIN}/logo.png`
               }
             },
             datePublished: "2025-12-24",
