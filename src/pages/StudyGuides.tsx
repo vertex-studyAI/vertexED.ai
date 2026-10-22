@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router";
 import { BookOpen, ChevronDown, ChevronRight, FileText, GraduationCap, Loader2, Search } from "lucide-react";
 
+import GuideWikiChat from "@/components/study-guides/GuideWikiChat";
 import LiquidGlass from "@/components/LiquidGlass";
 import PageSection from "@/components/PageSection";
 import RichMarkdown from "@/components/RichMarkdown";
@@ -440,6 +441,8 @@ function StudyGuidesLibrary({ routePath }: { routePath?: string }) {
                 {error && <div className="study-guides-error">{error}</div>}
                 {!error && <RichMarkdown className="study-guides-markdown">{content}</RichMarkdown>}
               </LiquidGlass>
+
+              <GuideWikiChat subjectName={subject?.name} pageLabel={activePage ? pageLabel(activePage) : undefined} guidePath={activePage?.path} />
             </div>
           </>
         )}

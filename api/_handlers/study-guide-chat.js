@@ -6,6 +6,9 @@ import { formatSourcesForPrompt, validateSourceCitations } from '../_lib/groundi
 import { callChatProvider, extractGeneratedText, extractGoogleGeneratedText, resolveChatProvider } from '../_lib/aiProviders.js';
 import { routeAiRequest } from '../_lib/aiRouting.js';
 import { VERTEX_AGENTS } from '../_lib/vertexAgents.js';
+import { answerWithWikiTools } from '../_lib/wikiTutor.js';
+import { ToolLoopError } from '../_lib/mcpToolLoop.js';
+import { getAiUsageSignal } from '../_lib/aiUsage.js';
 
 const MAX_QUESTION_CHARS = 2000;
 
@@ -52,6 +55,24 @@ export default async function handler(req, res) {
       .map((entry) => `${entry?.role === 'assistant' ? 'Tutor' : 'Student'}: ${String(entry?.text ?? '').slice(0, 600)}`)
       .join('\n');
     const prompt = `Use only the retrieved MYP study-guide passages below for factual claims. If they do not answer the question, say so plainly. Be concise, explain exam technique when relevant, and cite factual claims inline as [Source: id] using only exact IDs from SOURCE headers.\n\nRETRIEVED PASSAGES:\n${sourceText}\n\nRECENT CONVERSATION:\n${recentHistory || '(none)'}\n\nSTUDENT QUESTION: ${trimmedQuestion}`;
+    if (openAiConfig?.name === 'openai') {
+      const route = routeAiRequest({ capability: 'study-guide-chat', provider: 'openai', text: trimmedQuestion, defaultModel: process.env.OPENAI_STUDY_GUIDE_MODEL || openAiConfig.primaryModel, maxTokens: 700 });
+      const models = [...new Set([route.model, openAiConfig.fallbackModel].filter(Boolean))];
+      const deadline = Date.now() + 25000;
+      for (const model of models) {
+        try {
+          const result = await answerWithWikiTools({
+            config: openAiConfig, model, currentGuidePath, maxTokens: route.maxTokens,
+            signal: getAiUsageSignal(), timeoutMs: deadline - Date.now(),
+            systemInstruction: VERTEX_AGENTS.guideTutor.instructions,
+            prompt: `Current guide: ${currentGuidePath || '(none)'}\nRecent conversation:\n${recentHistory || '(none)'}\nStudent question: ${trimmedQuestion}`,
+          });
+          return res.status(200).json(result);
+        } catch (error) {
+          if (!(error instanceof ToolLoopError) || !error.status || error.status === 401 || model === models.at(-1)) throw error;
+        }
+      }
+    }
     let response;
     let answer;
     if (googleApiKey) {
@@ -113,9 +134,10 @@ export default async function handler(req, res) {
       citations: grounding.citations,
       sources: groundingSources
         .filter((source) => citedIds.has(source.id))
-        .map(({ id, title: label, path, content }) => ({ id, label, path, excerpt: content.slice(0, 320) })),
+        .map(({ id, title, path, content }) => ({ id, title, path, excerpt: content.slice(0, 320) })),
     });
   } catch (error) {
+    if (error instanceof ToolLoopError) return res.status(502).json({ error: 'The guide tutor could not complete a sourced answer. Please try again shortly.' });
     console.error('study-guide-chat error:', error instanceof Error ? error.name : 'UnknownError');
     return res.status(500).json({ error: 'Could not search the study guides.' });
   }

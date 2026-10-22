@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "myp-wiki": {
+      "command": "node",
+      "args": ["mcp/stdio.js"]
+    }
+  }
+}

@@ -1,0 +1,162 @@
+{
+  "reviewed_at_utc": "2026-10-22T12:44:21.636984+00:00",
+  "status": "APPLIED_TO_LOCAL_CANDIDATE_NOT_DEPLOYED",
+  "base_commit": "2b4a963839bab0010917dcc6e866f7b14c687311",
+  "policy": {
+    "old_version": "beta-usd-2026-10-16-v1",
+    "new_version": "beta-usd-2026-10-22-v2",
+    "old_expiry": "2026-10-23T00:00:00.000Z",
+    "new_expiry": "2026-10-29T00:00:00.000Z",
+    "new_expiry_ist": "2026-10-29 05:30 IST",
+    "historical_validity_floor_retained": "2026-10-16T00:00:00Z",
+    "window_days_from_review_date": 7
+  },
+  "unchanged": {
+    "account_daily_microusd": 1000000,
+    "project_daily_microusd": 10000000,
+    "account_unresolved_concurrency": 2,
+    "project_unresolved_concurrency": 8,
+    "models_and_snapshots": true,
+    "context_bounds": true,
+    "rates": true,
+    "cost_arithmetic": true,
+    "protocol_and_input_bounds": true,
+    "standard_tier_only": true,
+    "database_schema_and_data": true,
+    "expiry_failure_semantics": true
+  },
+  "official_verified_facts": [
+    {
+      "url": "https://developers.openai.com/api/docs/models/gpt-4.1-mini",
+      "snapshot": "gpt-4.1-mini-2025-04-14",
+      "context_tokens": 1047576,
+      "max_output_tokens": 32768,
+      "usd_per_million_input_tokens": 0.4,
+      "usd_per_million_cached_input_tokens": 0.1,
+      "usd_per_million_output_tokens": 1.6
+    },
+    {
+      "url": "https://developers.openai.com/api/docs/models/gpt-4o-mini",
+      "snapshot": "gpt-4o-mini-2024-07-18",
+      "context_tokens": 128000,
+      "max_output_tokens": 16384,
+      "usd_per_million_input_tokens": 0.15,
+      "usd_per_million_cached_input_tokens": 0.075,
+      "usd_per_million_output_tokens": 0.6
+    },
+    {
+      "url": "https://developers.openai.com/api/reference/resources/chat/subresources/completions/methods/create",
+      "verified": "Explicit service_tier default selects standard pricing. max_completion_tokens bounds generated tokens. The policy forces this tier and validates actual reported model, tier, and token usage."
+    },
+    {
+      "url": "https://developers.openai.com/api/docs/deprecations",
+      "announced": "2026-10-14",
+      "affected_snapshots": [
+        "gpt-4.1-mini-2025-04-14",
+        "gpt-4o-mini-2024-07-18"
+      ],
+      "shutdown_date": "2027-01-14",
+      "renewal_before_shutdown": true,
+      "migration": "Separate future task; this proposal changes no model."
+    }
+  ],
+  "ledger_review": {
+    "evidence_path": "supabase/migrations/20261016123000_ai_usage_service_only.sql",
+    "evidence_sha256": "2de530c318bacc5d9c3d9b5df05b7cda512649107696e0426a868d1b75b190d7",
+    "status": "STATIC_SOURCE_REVIEW_NO_LIVE_SQL_CLAIM",
+    "account_and_project_sums": "read_ai_usage and reserve_ai_usage select by DB UTC usage_day and account_hash; no policy_version partition/filter.",
+    "unresolved_capacity": "All reserved/dispatched/uncertain records count across all days; renewal does not release or delete them.",
+    "utc_period": "Observed time and usage_day derive from database clock_timestamp; policy version and review date do not establish a new period.",
+    "idempotency": "Unique key remains account_hash plus operation_hash. Existing operation with a different policy_version is denied as idempotency_conflict; no second dispatch.",
+    "settlement": "Uses reservation ID and user ID, not current policy_version; previously dispatched work can settle.",
+    "version_validation": "Any allowed 1-80-character version is accepted; no migration or privileged reset is required for a new dated version."
+  },
+  "acceptance_boundary": "Public official pricing/contract review is sufficient to date this same-contract renewal. Existing AI-06 live SQL, deployment, provider acceptance, latency and cost gates remain open and are not certified by this patch.",
+  "tests": {
+    "command": "node --test --test-concurrency=1 tests/ai-usage-policy.test.mjs tests/ai-usage-runtime.test.mjs tests/ai-usage-api.test.mjs tests/ai-usage-schema.test.mjs",
+    "node": "22.23.2",
+    "log": "tests.log",
+    "exit_code": 0,
+    "new_coverage": [
+      "Admission just before expiry, denial at expiry and one millisecond after",
+      "Zero reservation RPC and zero provider calls at/after expiry",
+      "Allowance view becomes unavailable at expiry while read-only historical account snapshot remains available"
+    ],
+    "paid_provider_calls": 0,
+    "live_database_calls": 0,
+    "individual_files": [
+      {
+        "test_file": "tests/ai-usage-policy.test.mjs",
+        "exit_code": 0,
+        "log": "ai-usage-policy.test.mjs.log",
+        "tests": 4,
+        "pass": 4,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      {
+        "test_file": "tests/ai-usage-runtime.test.mjs",
+        "exit_code": 0,
+        "log": "ai-usage-runtime.test.mjs.log",
+        "tests": 11,
+        "pass": 11,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      {
+        "test_file": "tests/ai-usage-api.test.mjs",
+        "exit_code": 0,
+        "log": "ai-usage-api.test.mjs.log",
+        "tests": 10,
+        "pass": 10,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      {
+        "test_file": "tests/ai-usage-schema.test.mjs",
+        "exit_code": 0,
+        "log": "ai-usage-schema.test.mjs.log",
+        "tests": 6,
+        "pass": 6,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      }
+    ],
+    "individual_direct_command": "node <test_file> for each of the four listed files; full TAP receipts saved individually",
+    "total_tests": 31,
+    "total_pass": 31
+  },
+  "changes": [
+    {
+      "path": "api/_lib/aiUsagePolicy.js",
+      "before_sha256": "4098ea12b578326dd17e1651535af76ee14c170864d07ce806450413a8ef558e",
+      "after_sha256": "e66636f42652c0375a6ef12af2642c3c8e6140632051b0868c3e495ea8494020"
+    },
+    {
+      "path": "tests/ai-usage-policy.test.mjs",
+      "before_sha256": "c7e4a02d5aae264e3e8abbbe0e66707033354b5eb238df8ff5821bb5bcbf6f93",
+      "after_sha256": "88f2ff476b41fe103a916f66d91130a25f10018c45133507aa4d7c67c2f3ec11"
+    },
+    {
+      "path": "tests/ai-usage-api.test.mjs",
+      "before_sha256": "b06e0a54e15cb5218d60d0493d3f968508cea5fe4750b08cbc65a5a842f95f67",
+      "after_sha256": "fa254d6911864bc7ea4669a52e41f78503c142b4f2213570b50c9f85fbbe45c8"
+    },
+    {
+      "path": "tests/ai-usage-runtime.test.mjs",
+      "before_sha256": "e0f2b1b88f6c2f73a9bb91ddad5aacafdbdbe75059716e32ff8eee16f2a785f5",
+      "after_sha256": "4174d26409f1f1b1e97dc297e990dd3e206014533199c67597abbc8a5758f6e9"
+    }
+  ],
+  "integration": "Included in the local tutor candidate; paid-provider acceptance and live SQL/deployment gates remain open. Original completion-gate receipts remain historical.",
+  "patch_sha256": "27fd18c2ffcf0eddc808110db294c3006ede0b6215f1c17c84334c4fba21a443",
+  "git_apply_check": {
+    "target": "/workspace/scratch/b8009898ecdb/vertexed_verified",
+    "exit_code": 0,
+    "shared_source_modified": false
+  }
+}

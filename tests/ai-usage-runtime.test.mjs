@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { fetchPaidProviderResponse, runAiUsageContext, readAiUsage } from '../api/_lib/aiUsage.js';
+import { AI_USAGE_POLICY } from '../api/_lib/aiUsagePolicy.js';
 import { callChatProvider } from '../api/_lib/aiProviders.js';
 import { fetchProvider } from '../api/_lib/providerRequest.js';
 import { ProviderTimeoutError } from '../api/_lib/fetchWithTimeout.js';
@@ -11,6 +12,17 @@ test('no trusted account or stable operation identity means zero provider calls'
   await assert.rejects(fetchPaidProviderResponse(request({ fetchImpl: async () => { count++; return paidResponse(); } })), { code: 'AI_USAGE_UNAVAILABLE' });
   assert.throws(() => runAiUsageContext({ userId: AI_USER, operationId: '' }, () => {}), { code: 'AI_OPERATION_ID_REQUIRED' });
   assert.equal(count, 0);
+});
+test('pricing expiry blocks before reservation or provider dispatch', async () => {
+  const expires = Date.parse(AI_USAGE_POLICY.expiresAt);
+  for (const now of [expires, expires + 1]) {
+    const fixture = usageFixture(); let providerCalls = 0;
+    await assert.rejects(fixture.run(() => fetchPaidProviderResponse(request({ fetchImpl: async () => {
+      providerCalls++; return paidResponse();
+    } })), { now: () => now }), { code: 'AI_USAGE_UNAVAILABLE', status: 503, retryAfter: 30 });
+    assert.equal(providerCalls, 0);
+    assert.equal(fixture.calls.length, 0);
+  }
 });
 test('reserve then mark precede provider; exact validated actual usage settles once', async () => {
   const fixture = usageFixture(); let count = 0;

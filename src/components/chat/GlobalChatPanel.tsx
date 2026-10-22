@@ -47,7 +47,8 @@ export default function GlobalChatPanel({ openRequest = 0, hideLauncher = false,
     !["/login", "/signup", "/auth/callback", "/onboarding", "/", "/home", "/about", "/features"].includes(
       location.pathname,
     ) &&
-    !location.pathname.startsWith("/resources");
+    !location.pathname.startsWith("/resources") &&
+    !location.pathname.startsWith("/study-guides");
   const canShowChat = visibleRoute && (isAuthenticated || isStudyGuideRoute);
 
   const openChat = () => {
