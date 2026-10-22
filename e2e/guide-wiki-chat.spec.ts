@@ -150,6 +150,8 @@ async function openGuide(page: Page, path = '/study-guides/myp/physics') {
   await expect(tutor(page)).toHaveCount(1);
   await expect(tutor(page).getByRole('textbox', { name: 'Message the AI tutor' })).toBeEditable();
   await expect(tutor(page).getByText('Conversation history saved to your account.', { exact: true })).toBeVisible();
+  // The below-content method section now has its own lazy boundary.
+  await expect(page.getByRole('heading', { name: 'A study loop with a visible reason for every step.', exact: true })).toBeVisible();
 }
 
 async function reachable(control: Locator) {
@@ -209,6 +211,11 @@ for (const viewport of [
     await reachable(panel.getByRole('button', { name: 'Send', exact: true }));
     await reachable(collapse);
     await page.screenshot({ path: info.outputPath(`guide-tutor-${viewport.width}x${viewport.height}.png`), animations: 'disabled' });
+    if (viewport.name === 'desktop') {
+      await page.getByRole('heading', { name: 'A study loop with a visible reason for every step.', exact: true })
+        .evaluate(element => element.scrollIntoView({ block: 'center', behavior: 'instant' }));
+      await page.screenshot({ path: info.outputPath('guide-method-band-1440x900.png'), animations: 'disabled' });
+    }
     expect(state.pageErrors).toEqual([]);
     // Delete only the fixture's device cache: reloading must restore the account copy.
     await page.evaluate(key => localStorage.removeItem(key), historyKey);

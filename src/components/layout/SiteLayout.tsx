@@ -11,7 +11,6 @@ import CloudSaveBanner from "@/components/CloudSaveBanner";
 import ThemeToggle from "@/components/ThemeToggle";
 import PageLoader from "@/components/PageLoader";
 import GlobalStudySearch from "@/components/GlobalStudySearch";
-import LearningMethodBand from "@/components/LearningMethodBand";
 import { useStudySessionTracker } from "@/hooks/useStudySessionTracker";
 import { toast } from "@/hooks/use-toast";
 import { logoutWithLocalFallback } from "@/lib/logoutFlow.mjs";
@@ -25,6 +24,7 @@ import { BetaAccessDisplayContext } from '@/contexts/BetaAccessDisplayContext';
 
 const GlobalChatPanel = lazy(() => import("@/components/chat/GlobalChatPanel"));
 const ApexCompanion = lazy(() => import("@/components/ApexCompanion"));
+const LearningMethodBand = lazy(() => import("@/components/LearningMethodBand"));
 
 export default function SiteLayout() {
   const { isAuthenticated, logout, user } = useAuth();
@@ -412,7 +412,7 @@ export default function SiteLayout() {
             <Outlet />
           </Suspense>
         </RouteErrorBoundary>
-        {showLearningMethod && <LearningMethodBand pathname={location.pathname} />}
+        {showLearningMethod && <Suspense fallback={null}><LearningMethodBand pathname={location.pathname} /></Suspense>}
       </main>
 
       {shouldLoadGlobalChat && (
