@@ -43,6 +43,16 @@ export default function SiteLayout() {
   const menuButtonRef = useRef<HTMLButtonElement | null>(null);
   const mobileNavRef = useRef<HTMLElement | null>(null);
   const headerRef = useRef<HTMLElement | null>(null);
+  useEffect(() => {
+    const header = headerRef.current;
+    if (!header) return;
+    const updateHeight = () => document.documentElement.style.setProperty("--vertex-header-height", `${Math.ceil(header.getBoundingClientRect().height)}px`);
+    updateHeight();
+    const observer = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(updateHeight);
+    observer?.observe(header);
+    window.addEventListener("resize", updateHeight);
+    return () => { observer?.disconnect(); window.removeEventListener("resize", updateHeight); document.documentElement.style.removeProperty("--vertex-header-height"); };
+  }, []);
   const isActive = (to: string) => {
     if (to.includes("?")) return location.pathname + location.search === to;
     if (to === "/learn") return location.pathname === "/learn" && !location.search.includes("tab=");
@@ -50,15 +60,14 @@ export default function SiteLayout() {
     if (hash) return location.pathname === pathname && location.hash === `#${hash}`;
     return location.pathname === pathname || (pathname !== "/" && location.pathname.startsWith(`${pathname}/`));
   };
-  const isStudyGuideRoute = location.pathname.startsWith("/study-guides");
   const chatEligibleRoute =
     shouldOfferApex(location.pathname) &&
     location.pathname !== "/chatbot" && location.pathname !== "/learn" &&
     !["/login", "/signup", "/auth/callback", "/onboarding", "/", "/home", "/about", "/features"].includes(
       location.pathname,
     ) &&
-    !location.pathname.startsWith("/resources");
-  const shouldLoadGlobalChat = chatEligibleRoute && (isAuthenticated || isStudyGuideRoute);
+    !location.pathname.startsWith("/resources") && !location.pathname.startsWith("/study-guides");
+  const shouldLoadGlobalChat = chatEligibleRoute && isAuthenticated;
   const companionEligible = shouldOfferApex(location.pathname) && location.pathname !== "/learn";
   const companionVisible = companionEligible && settings.studyCompanion && !settings.simpleMode;
   const showLearningMethod = ![
@@ -448,7 +457,7 @@ export default function SiteLayout() {
             <a href="mailto:vertexed.25@gmail.com" className="hover:text-foreground transition">Contact</a>
             {companionEligible && (
               <Suspense fallback={null}>
-                <ApexCompanion docked={footerVisible || accessPanelVisible || location.pathname === "/user-settings" || location.pathname === "/study-zone" || location.pathname === "/saved-work" || location.pathname.startsWith("/myp") || location.pathname === "/ap" || location.pathname.startsWith("/ap/")} suspended={menuOpen || (shouldLoadGlobalChat && tutorOpen)}
+                <ApexCompanion docked={footerVisible || accessPanelVisible || location.pathname === "/user-settings" || location.pathname === "/study-zone" || location.pathname === "/saved-work" || location.pathname.startsWith("/study-guides") || location.pathname.startsWith("/myp") || location.pathname === "/ap" || location.pathname.startsWith("/ap/")} suspended={menuOpen || (shouldLoadGlobalChat && tutorOpen)}
                   onOpenTutor={shouldLoadGlobalChat ? () => setTutorRequest((request) => request + 1) : undefined} />
               </Suspense>
             )}

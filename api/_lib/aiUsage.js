@@ -30,6 +30,9 @@ export function runAiUsageContext({ userId, operationId, requestFingerprint, rpc
   return requests.run({ userId, operationId, requestFingerprint, rpc, now, signal, dispatchIndex: 0, failure: null }, task);
 }
 
+/** Internal cancellation signal for non-provider work in the same request. */
+export function getAiUsageSignal() { return requests.getStore()?.signal; }
+
 export function sendAiUsageError(res, error) {
   const failure = error instanceof AiUsageError ? error : new AiUsageError();
   res.setHeader('Cache-Control', 'private, no-store');
@@ -87,7 +90,7 @@ export async function fetchPaidProviderResponse({ capability, provider, model, u
   let dispatched = false;
   let finished = false;
   try {
-    const prepared = preparePaidRequest({ provider, model, url, options }, context.now());
+    const prepared = preparePaidRequest({ capability, provider, model, url, options }, context.now());
     const signal = options?.signal && context.signal ? AbortSignal.any([options.signal, context.signal]) : options?.signal || context.signal;
     prepared.options.signal = signal;
     const operationId = `${context.operationId}:${context.dispatchIndex++}`;
