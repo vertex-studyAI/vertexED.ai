@@ -1,0 +1,123 @@
+name: VertexED WebKit theme diagnostic (not certification)
+
+on:
+  push:
+    branches: [diagnostics/vertexed-webkit-theme-20261022]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: vertexed-webkit-theme-diagnostic-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  diagnose:
+    if: github.repository == 'vertex-studyAI/vertexED.ai' && github.event_name == 'push' && github.ref == 'refs/heads/diagnostics/vertexed-webkit-theme-20261022'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      CI: '1'
+      VERTEXED_REFERENCE_BUILT: '1'
+      ROLLUP_SKIP_NODEJS_NATIVE: 'true'
+      CONTROL_SHA: 38fe9fdf37f89918a11f4744fcbe031da1976e5d
+    steps:
+      - name: Read proposed diagnostic packet
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5, existing CI pin
+        with:
+          ref: ${{ github.sha }}
+          path: proposal
+          fetch-depth: 2
+          persist-credentials: false
+      - name: Guard one-commit bounded proposal
+        working-directory: proposal
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD^1)" = "$CONTROL_SHA"
+          git diff --name-only HEAD^1 HEAD | sort > /tmp/actual-diagnostic-files
+          printf '%s\n' '.github/workflows/vertexed-webkit-theme-diagnostic.yml' 'diagnostics/theme-frame-diagnostic.patch' | sort > /tmp/allowed-diagnostic-files
+          diff -u /tmp/allowed-diagnostic-files /tmp/actual-diagnostic-files
+      - name: Checkout unchanged control
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          ref: 38fe9fdf37f89918a11f4744fcbe031da1976e5d
+          path: source
+          persist-credentials: false
+      - name: Setup exact CI Node
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '22.22.0'
+          cache: npm
+          cache-dependency-path: source/package-lock.json
+      - name: Verify source and install locked dependencies
+        working-directory: source
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$CONTROL_SHA"
+          test -z "$(git status --porcelain)"
+          npm ci
+          node -e "if(require('@playwright/test/package.json').version !== '1.64.1') process.exit(1)"
+          npx playwright install --with-deps webkit
+          mkdir -p ../evidence
+          { node --version; npx playwright --version; uname -a; sha256sum package-lock.json; } > ../evidence/runtime.txt
+      - name: Record exact one-case selection
+        working-directory: source
+        shell: bash
+        run: |
+          set -euo pipefail
+          npx playwright test --config=playwright.astra.config.ts --project=webkit e2e/learning-os.spec.ts --grep='planner navigation jumps dates, crosses month boundaries and adds to the chosen day at 1440$' --list | tee ../evidence/selected-tests.txt
+          grep -Eq 'Total: 1 test in 1 file' ../evidence/selected-tests.txt
+      - name: Unchanged control, planner navigation at 1440
+        id: control
+        continue-on-error: true
+        working-directory: source
+        env:
+          PLAYWRIGHT_HTML_OUTPUT_DIR: ../evidence/control-html
+        shell: bash
+        run: |
+          set -euo pipefail
+          npx playwright test --config=playwright.astra.config.ts --project=webkit e2e/learning-os.spec.ts --grep='planner navigation jumps dates, crosses month boundaries and adds to the chosen day at 1440$' --workers=1 --output=../evidence/control-results 2>&1 | tee ../evidence/control.log
+      - name: Apply diagnostic logging only
+        working-directory: source
+        shell: bash
+        run: |
+          set -euo pipefail
+          # Build-generated files are left intact; only these exact source files are patched.
+          git apply --check ../proposal/diagnostics/theme-frame-diagnostic.patch
+          git apply ../proposal/diagnostics/theme-frame-diagnostic.patch
+          git diff -- e2e/theme-controls.ts e2e/learning-os.spec.ts > ../evidence/applied-diagnostic.patch
+      - name: Instrumented variant, same one test and original retry/timeouts
+        id: diagnostic
+        continue-on-error: true
+        working-directory: source
+        env:
+          PLAYWRIGHT_HTML_OUTPUT_DIR: ../evidence/diagnostic-html
+        shell: bash
+        run: |
+          set -euo pipefail
+          npx playwright test --config=playwright.astra.config.ts --project=webkit e2e/learning-os.spec.ts --grep='planner navigation jumps dates, crosses month boundaries and adds to the chosen day at 1440$' --workers=1 --output=../evidence/diagnostic-results 2>&1 | tee ../evidence/diagnostic.log
+      - name: Record outcomes without claiming repair
+        if: always()
+        shell: bash
+        env:
+          CONTROL_OUTCOME: ${{ steps.control.outcome }}
+          DIAGNOSTIC_OUTCOME: ${{ steps.diagnostic.outcome }}
+        run: |
+          mkdir -p evidence
+          printf 'control=%s\ndiagnostic=%s\nclassification=DIAGNOSTIC_ONLY_NOT_REPAIR_OR_RELEASE_CERTIFICATION\n' "$CONTROL_OUTCOME" "$DIAGNOSTIC_OUTCOME" | tee evidence/outcomes.txt >> "$GITHUB_STEP_SUMMARY"
+      - name: Retain logs and failure traces
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: vertexed-webkit-theme-diagnostic-${{ github.sha }}
+          path: evidence
+          if-no-files-found: warn
+          retention-days: 7
+      - name: Propagate nonpassing outcome
+        if: always()
+        env:
+          CONTROL_OUTCOME: ${{ steps.control.outcome }}
+          DIAGNOSTIC_OUTCOME: ${{ steps.diagnostic.outcome }}
+        run: test "$CONTROL_OUTCOME" = success && test "$DIAGNOSTIC_OUTCOME" = success

@@ -1,0 +1,39 @@
+--- a/e2e/theme-controls.ts
++++ b/e2e/theme-controls.ts
+@@ -34,8 +34,20 @@
+       return actual.length === expected.length && actual.every((channel, index) => Math.abs(channel - expected[index]) <= 1);
+     };
+     const isOpaque = (paint: string) => renderedColor(paint)[3] === 255;
++    // Diagnostic only: no extra waits, timer mocks, focus changes or pass criteria.
++    const report = (stage: string, frame: number) => console.info('[theme-frame-diagnostic]', JSON.stringify({
++      stage, frame, time: performance.now(), visibility: document.visibilityState,
++      hidden: document.hidden, focused: document.hasFocus(), theme: document.documentElement.className,
++      foreground, background,
++      bodyText: renderedColor(getComputedStyle(document.body).color),
++      bodyBackground: renderedColor(getComputedStyle(document.body).backgroundColor),
++      rootBackground: renderedColor(getComputedStyle(document.documentElement).backgroundColor),
++    }));
++    report('predicate-enter', -1);
+     for (let frame = 0; frame < 3; frame += 1) {
++      report('before-frame', frame);
+       await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
++      report('after-frame', frame);
+       if (!matches(getComputedStyle(document.body).color, foreground) ||
+           !matches(getComputedStyle(document.body).backgroundColor, background) ||
+           !isOpaque(getComputedStyle(document.documentElement).backgroundColor)) return false;
+--- a/e2e/learning-os.spec.ts
++++ b/e2e/learning-os.spec.ts
+@@ -4,6 +4,13 @@
+ import { selectTheme } from './theme-controls';
+ import { expect, test, type Locator, type Page } from '@playwright/test';
+ import { CONCEPT_GRAPH } from '../src/lib/learningModel.mjs';
++
++// Diagnostic-only console capture. No test timing or assertions changed.
++test.beforeEach(({ page }) => {
++  page.on('console', message => {
++    if (message.text().startsWith('[theme-frame-diagnostic]')) console.log(message.text());
++  });
++});
+ 
+ const productionBundle = process.env.VERTEXED_REFERENCE_BUILT === '1';
+ const heldPracticeReason = 'Seeded practice questions are held from production pending subject review.';
