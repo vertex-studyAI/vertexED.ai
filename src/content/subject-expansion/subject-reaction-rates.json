@@ -1,0 +1,265 @@
+{
+  "schemaVersion": 1,
+  "id": "subject-reaction-rates",
+  "revision": "2026-10-21.4",
+  "subject": "Chemistry",
+  "unit": "Rates of reaction",
+  "topic": "Reaction rates, collision models and fair comparisons",
+  "level": "secondary-foundation",
+  "editorialStatus": "unreviewed",
+  "origin": "original-authorship-review-pending",
+  "scope": "Original shared study module on reaction rates, collision models and fair comparisons. Numerical datasets and quoted passages are invented teaching examples. This is not a complete course, official examination material or verified board-specific alignment.",
+  "prerequisites": [
+    "Read coordinates and gradients on a graph.",
+    "Calculate a change divided by a time interval."
+  ],
+  "objectives": [
+    "Calculate average rates from measurements.",
+    "Explain rate changes using the collision model.",
+    "Distinguish rate evidence from total yield."
+  ],
+  "notes": [
+    {
+      "heading": "A rate refers to a stated interval",
+      "paragraphs": [
+        "A reaction rate can be measured through the disappearance of a reactant or appearance of a product. Average rate is a measured change divided by its time interval. State which quantity is being measured, because a gas-volume rate and a concentration rate have different units. A curve's gradient can change during the reaction, so the average over the full run need not equal the initial rate. To estimate the rate at one instant from a smooth graph, use a tangent and sufficiently separated points on that tangent."
+      ]
+    },
+    {
+      "heading": "Explain the mechanism, not only the trend",
+      "paragraphs": [
+        "In a simple collision model, particles must collide with enough energy and an appropriate orientation to react. Increasing temperature changes the energy distribution and usually increases the fraction of collisions that can overcome the activation barrier. Increasing the concentration of a reacting solution can increase collision frequency in a specified system. Breaking a fixed mass of solid into smaller pieces increases exposed surface area. A catalyst supplies an alternative reaction pathway with lower activation energy; it is not a source of extra reactant and does not change the reaction's enthalpy change."
+      ]
+    },
+    {
+      "heading": "Separate rate from yield and control the comparison",
+      "paragraphs": [
+        "A faster reaction can reach the same final product amount sooner. A taller plateau may instead reflect a different amount of limiting reactant, a collection error or another changed condition. Keep the quantities and apparatus comparable before attributing a graph difference to temperature or a catalyst. If mass loss is measured, evaporation can be a competing explanation and should be controlled. Repeated readings can reveal variation but cannot repair a systematic leak. Report uncertainty in the rate and identify whether the claim concerns an initial slope, a later interval or the final amount."
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "prompt": "A fictional experiment collects 18 cm³ of gas at 10 s and 42 cm³ at 30 s. Find the mean rate over that interval.",
+      "steps": [
+        "The volume increase is 42-18=24 cm³.",
+        "The elapsed time is 30-10=20 s; divide the two changes."
+      ],
+      "answer": "1.2 cm³/s."
+    },
+    {
+      "prompt": "Two controlled runs reach the same 80 cm³ plateau, but B reaches it sooner. Compare rate and collected yield.",
+      "steps": [
+        "The shorter completion time supports a higher overall average collection rate in B.",
+        "Equal final volumes indicate equal collected gas amounts under the same conditions, not equal rates at every instant."
+      ],
+      "answer": "B reaches the same collected yield sooner."
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "A catalyst raises the particles' temperature.",
+      "correction": "Its key role is to provide an alternative lower-barrier pathway."
+    },
+    {
+      "claim": "Repeating a leaking gas experiment removes the leak bias.",
+      "correction": "Repetition may reproduce the same systematic error."
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "card-1",
+      "front": "How is average rate calculated?",
+      "back": "Change in a measured quantity divided by elapsed time."
+    },
+    {
+      "id": "card-2",
+      "front": "What gives an instantaneous graph rate?",
+      "back": "The gradient of a tangent at the point."
+    },
+    {
+      "id": "card-3",
+      "front": "How does a catalyst change the pathway?",
+      "back": "It provides a pathway with lower activation energy."
+    },
+    {
+      "id": "card-4",
+      "front": "Why does powder often react faster than a lump of equal mass?",
+      "back": "It exposes more surface to the other reactant."
+    },
+    {
+      "id": "card-5",
+      "front": "Does a faster run necessarily give more final product?",
+      "back": "No. Rate and final yield are distinct."
+    }
+  ],
+  "questions": [
+    {
+      "id": "interval",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "Gas volume rises from 12 to 48 cm³ between 5 and 25 s. Find the average rate for that interval.",
+      "answer": "1.8 cm³/s.",
+      "solution": [
+        "Calculate ΔV=36 cm³ and Δt=20 s.",
+        "Divide 36 by 20."
+      ],
+      "markingPoints": [
+        "Use both changes.",
+        "Give 1.8 cm³/s."
+      ],
+      "marks": 2,
+      "calculator": "not-required"
+    },
+    {
+      "id": "surface",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "Compare equal masses of one solid as a single lump and as small chips in excess acid under otherwise identical conditions. Explain an expected initial-rate difference.",
+      "answer": "Chips usually react faster initially because more solid surface is exposed.",
+      "solution": [
+        "Equal mass does not imply equal exposed area.",
+        "More accessible surface allows more reacting contacts per unit time."
+      ],
+      "markingPoints": [
+        "Identify greater exposed area.",
+        "Connect it to the initial rate."
+      ],
+      "marks": 2,
+      "calculator": "not-required"
+    },
+    {
+      "id": "catalyst",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "A learner says a catalyst lowers the energy of the products and therefore increases the reaction enthalpy change. Correct the statement.",
+      "answer": "A catalyst lowers the pathway's activation energy; the reactant and product energy levels and enthalpy change remain unchanged.",
+      "solution": [
+        "Separate the energy barrier from the endpoint energies.",
+        "Compare pathways with the same reactants and products."
+      ],
+      "markingPoints": [
+        "Correct the activation-energy claim.",
+        "Keep the endpoint difference unchanged."
+      ],
+      "marks": 2,
+      "calculator": "not-required"
+    },
+    {
+      "id": "comparison",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "Run A uses twice as much limiting reactant as B and collects gas faster at the start. Can the rate difference be attributed only to a catalyst added to A?",
+      "answer": "No. Reactant amount and possibly concentration or surface area also changed.",
+      "solution": [
+        "Identify more than one changed variable.",
+        "Propose matching reactant amounts, concentrations and apparatus before isolating the catalyst effect."
+      ],
+      "markingPoints": [
+        "Reject a single-cause conclusion.",
+        "Give a controlled comparison."
+      ],
+      "marks": 2,
+      "calculator": "not-required"
+    }
+  ],
+  "revisionChecklist": [
+    "Check that you can calculate average rates from measurements without copying the worked solution.",
+    "Check that you can explain rate changes using the collision model without copying the worked solution.",
+    "Check that you can distinguish rate evidence from total yield without copying the worked solution."
+  ],
+  "diagrams": [
+    {
+      "id": "reasoning-route",
+      "title": "Reasoning route: Rates of reaction",
+      "description": "Use the sequence to organise an explanation of reaction rates, collision models and fair comparisons; it is not a measured mastery score.",
+      "steps": [
+        {
+          "label": "Measure change",
+          "detail": "Choose a reactant or product signal and time interval."
+        },
+        {
+          "label": "Explain the gradient",
+          "detail": "Connect controlled conditions with the reaction pathway."
+        },
+        {
+          "label": "Test alternatives",
+          "detail": "Separate rate, final amount and measurement artefacts."
+        }
+      ],
+      "links": [
+        "Use this definition to choose the method",
+        "Use the result to evaluate the conclusion"
+      ]
+    }
+  ],
+  "teachingSequence": [
+    {
+      "title": "A rate refers to a stated interval",
+      "guidance": "Use changes in volume and time between the same two endpoints, including their units.",
+      "noteHeadings": [
+        "A rate refers to a stated interval"
+      ],
+      "workedExampleNumbers": [
+        1
+      ],
+      "questionIds": [
+        "interval"
+      ]
+    },
+    {
+      "title": "Explain the mechanism, not only the trend",
+      "guidance": "The faster run motivates a mechanism question, not a conclusion about its cause. Explain surface area and activation energy separately.",
+      "noteHeadings": [
+        "Explain the mechanism, not only the trend"
+      ],
+      "workedExampleNumbers": [
+        2
+      ],
+      "questionIds": [
+        "surface",
+        "catalyst"
+      ]
+    },
+    {
+      "title": "Separate rate from yield and control the comparison",
+      "guidance": "Compare the final plateau with the time to reach it, then identify uncontrolled changes in the proposed experiment.",
+      "noteHeadings": [
+        "Separate rate from yield and control the comparison"
+      ],
+      "workedExampleNumbers": [
+        2
+      ],
+      "questionIds": [
+        "comparison"
+      ]
+    }
+  ],
+  "revisionGuide": {
+    "summary": "Review reaction rates, collision models and fair comparisons by connecting definitions, the two worked examples and the limits of each conclusion. These questions use editorial self-review points, not an official examination rubric.",
+    "keyIdeas": [
+      "How is average rate calculated? Change in a measured quantity divided by elapsed time.",
+      "What gives an instantaneous graph rate? The gradient of a tangent at the point.",
+      "How does a catalyst change the pathway? It provides a pathway with lower activation energy."
+    ],
+    "formulas": [
+      {
+        "expression": "mean rate=change in measured quantity/elapsed time",
+        "meaning": "Average rate over the chosen interval.",
+        "conditions": "Use both endpoints from that interval and specify units; this is not necessarily the instantaneous rate."
+      }
+    ],
+    "recallPrompts": [
+      "How is average rate calculated?",
+      "What gives an instantaneous graph rate?",
+      "How does a catalyst change the pathway?"
+    ],
+    "practiceQuestionIds": [
+      "interval",
+      "surface",
+      "catalyst",
+      "comparison"
+    ],
+    "revisit": "Attempt the questions without the notes, compare your reasoning with the points, and retry any step you cannot yet explain. Self-review does not certify mastery."
+  }
+}

@@ -1,6 +1,6 @@
 # Provenance, corroboration and historical explanations
 
-Subject: History · Unit: Historical enquiry · Revision: 2026-10-21.2
+Subject: History · Unit: Historical enquiry · Revision: 2026-10-21.3
 
 **Review draft — not independently approved. Practice marks are editorial, not official exam marks.**
 
@@ -41,6 +41,10 @@ Absence of a reference is not automatically evidence that an event did not happe
 ## Detecting dependence between apparently corroborating sources
 
 Two accounts agreeing is stronger corroboration when their agreement comes from independent access to evidence. If a later newspaper copies an earlier report, the two texts may repeat one observation rather than supply two independent observations. Trace dates, wording, attribution and possible shared informants before counting sources. Dependence does not make the later account useless: it may reveal how a story circulated or was framed for a different audience. Usefulness therefore remains tied to the historical question. A source can be weak evidence for an event’s exact size yet useful evidence for contemporary publicity. The documents described here are invented teaching examples.
+
+## Define what independent corroboration would establish
+
+A source's value depends on the historical question being asked. A campaign speech can be strong evidence of public messaging while being weak evidence that its promises were fulfilled. A later copy can reveal transmission or reception even if it adds no independent witness. Check dates, audience, purpose and access to information before comparing claims. Numerical disagreement needs investigation of definitions and counting methods, not an automatic preference for the larger or earlier figure. Claims about causes usually require more than chronological order and should address plausible alternative explanations.
 
 ## Diagram: Trace a repeated historical claim
 
@@ -88,15 +92,15 @@ Worked examples: 4
 
 Practise: q5, application-check, error-analysis
 
-### Retrieval practice
+### Apply and test the limits
 
-Close the notes and answer these extra prompts from memory. Self-review with the held explanation, name one gap, then retry later. This is study practice, not an automatic mark or mastery measurement.
+Revisit the last worked example, then read the new section and tackle these different situations. Identify the assumptions before answering. Compare your reasoning with each marking point; these open responses require self-review, not automatic marks.
 
-Read: Usefulness depends on the question
+Read: Define what independent corroboration would establish
 
-Worked examples: 1
+Worked examples: 4
 
-Practise: retrieval-01, retrieval-02, retrieval-03, retrieval-04, retrieval-05, retrieval-06, retrieval-07, retrieval-08, retrieval-09, retrieval-10, retrieval-11, retrieval-12, retrieval-13, retrieval-14, retrieval-15, retrieval-16, retrieval-17, retrieval-18
+Practise: depth-speech-outcome, depth-conflicting-counts, depth-retrospective-memory
 
 ## Worked example 1
 
@@ -314,257 +318,59 @@ Marking points (one practice mark each):
 
 - An independent record could test the attendance claim rather than merely repeat it.
 
-## Practice 8 — foundation · 1 marks
+## Practice 8 — standard · 3 marks
 
-Retrieval 1 — Provenance, corroboration and historical explanations: Answer from memory: What questions help establish provenance?
+In a fictional town, a candidate promises in a speech to build three bridges. A historian cites the speech as proof that three bridges were completed. Evaluate the use and name better outcome evidence.
 
-Answer: Who created the source, when, for whom and for what purpose?
+Answer: The speech supports a claim about the promise, not completion. Construction records, dated maps or inspected surviving structures could address completion.
 
-1. Identify the target idea: What questions help establish provenance?
+1. Separate an intended future action from evidence that it occurred.
 
-2. Compare your response with the held study explanation: Who created the source, when, for whom and for what purpose?
-
-Marking points (one practice mark each):
-
-- Accurately address: What questions help establish provenance?
-
-## Practice 9 — standard · 1 marks
-
-Retrieval 2 — Provenance, corroboration and historical explanations: State the condition or distinction precisely: What must be specified before judging a source's usefulness?
-
-Answer: The historical question being investigated.
-
-1. Identify the target idea: What must be specified before judging a source's usefulness?
-
-2. Compare your response with the held study explanation: The historical question being investigated.
+2. Match the proposed evidence to the outcome question.
 
 Marking points (one practice mark each):
 
-- Accurately address: What must be specified before judging a source's usefulness?
+- Identify the promise as supported.
 
-## Practice 10 — extension · 1 marks
+- Reject completion as established by the speech.
 
-Retrieval 3 — Provenance, corroboration and historical explanations: Explain the idea in your own words: Why can three agreeing sources provide only one line of evidence?
+- Name relevant completion evidence.
 
-Answer: They may all copy or depend on the same original account.
+## Practice 9 — extension · 3 marks
 
-1. Identify the target idea: Why can three agreeing sources provide only one line of evidence?
+Two independent fictional reports give 300 and 450 people at a rally. One counted at noon; the other counted everyone who entered over three hours. Explain why the figures need not directly contradict each other.
 
-2. Compare your response with the held study explanation: They may all copy or depend on the same original account.
+Answer: They measure different populations: attendance at one moment versus cumulative entrants. People may arrive and leave, and repeat entry may also affect the cumulative count.
 
-Marking points (one practice mark each):
+1. Compare time windows and counting definitions.
 
-- Accurately address: Why can three agreeing sources provide only one line of evidence?
-
-## Practice 11 — foundation · 1 marks
-
-Retrieval 4 — Provenance, corroboration and historical explanations: Answer from memory: Why avoid hindsight when explaining decisions?
-
-Answer: Actors did not necessarily possess later knowledge of outcomes.
-
-1. Identify the target idea: Why avoid hindsight when explaining decisions?
-
-2. Compare your response with the held study explanation: Actors did not necessarily possess later knowledge of outcomes.
+2. Investigate whether entrants were unique before reconciling totals.
 
 Marking points (one practice mark each):
 
-- Accurately address: Why avoid hindsight when explaining decisions?
+- Distinguish snapshot and cumulative counts.
 
-## Practice 12 — standard · 1 marks
+- Explain arrival/departure effects.
 
-Retrieval 5 — Provenance, corroboration and historical explanations: State the condition or distinction precisely: What distinguishes a causal explanation from a timeline?
+- Identify repeat-entry or method checks.
 
-Answer: It explains a mechanism linking factors to an outcome and evaluates alternatives.
+## Practice 10 — standard · 3 marks
 
-1. Identify the target idea: What distinguishes a causal explanation from a timeline?
+A fictional participant writes a memoir forty years after a strike. Give one potential value and two limitations for reconstructing decisions made during the strike.
 
-2. Compare your response with the held study explanation: It explains a mechanism linking factors to an outcome and evaluates alternatives.
+Answer: It may reveal the participant's recollections and later interpretation. Memory can change over time, and later outcomes or self-presentation may shape the account.
 
-Marking points (one practice mark each):
+1. Identify the author's access as a participant without assuming perfect recall.
 
-- Accurately address: What distinguishes a causal explanation from a timeline?
-
-## Practice 13 — extension · 1 marks
-
-Retrieval 6 — Provenance, corroboration and historical explanations: Explain the idea in your own words: Why can a source be useful for attitudes but weak for event totals?
-
-Answer: Its author may directly reveal a viewpoint without having reliable access to complete numerical evidence.
-
-1. Identify the target idea: Why can a source be useful for attitudes but weak for event totals?
-
-2. Compare your response with the held study explanation: Its author may directly reveal a viewpoint without having reliable access to complete numerical evidence.
+2. Compare relevant claims with contemporaneous and independent evidence.
 
 Marking points (one practice mark each):
 
-- Accurately address: Why can a source be useful for attitudes but weak for event totals?
+- State a question the memoir can illuminate.
 
-## Practice 14 — foundation · 1 marks
+- Explain a memory limitation.
 
-Retrieval 7 — Provenance, corroboration and historical explanations: Answer from memory: Why check whether sources depend on each other?
-
-Answer: Agreement may repeat one underlying report rather than independently corroborate it.
-
-1. Identify the target idea: Why check whether sources depend on each other?
-
-2. Compare your response with the held study explanation: Agreement may repeat one underlying report rather than independently corroborate it.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why check whether sources depend on each other?
-
-## Practice 15 — standard · 1 marks
-
-Retrieval 8 — Provenance, corroboration and historical explanations: State the condition or distinction precisely: Can a dependent source remain useful?
-
-Answer: Yes, for questions such as circulation, framing or reception, depending on its provenance and content.
-
-1. Identify the target idea: Can a dependent source remain useful?
-
-2. Compare your response with the held study explanation: Yes, for questions such as circulation, framing or reception, depending on its provenance and content.
-
-Marking points (one practice mark each):
-
-- Accurately address: Can a dependent source remain useful?
-
-## Practice 16 — extension · 1 marks
-
-Retrieval 9 — Provenance, corroboration and historical explanations: Explain the idea in your own words: What questions help establish provenance?
-
-Answer: Who created the source, when, for whom and for what purpose?
-
-1. Identify the target idea: What questions help establish provenance?
-
-2. Compare your response with the held study explanation: Who created the source, when, for whom and for what purpose?
-
-Marking points (one practice mark each):
-
-- Accurately address: What questions help establish provenance?
-
-## Practice 17 — foundation · 1 marks
-
-Retrieval 10 — Provenance, corroboration and historical explanations: Answer from memory: What must be specified before judging a source's usefulness?
-
-Answer: The historical question being investigated.
-
-1. Identify the target idea: What must be specified before judging a source's usefulness?
-
-2. Compare your response with the held study explanation: The historical question being investigated.
-
-Marking points (one practice mark each):
-
-- Accurately address: What must be specified before judging a source's usefulness?
-
-## Practice 18 — standard · 1 marks
-
-Retrieval 11 — Provenance, corroboration and historical explanations: State the condition or distinction precisely: Why can three agreeing sources provide only one line of evidence?
-
-Answer: They may all copy or depend on the same original account.
-
-1. Identify the target idea: Why can three agreeing sources provide only one line of evidence?
-
-2. Compare your response with the held study explanation: They may all copy or depend on the same original account.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why can three agreeing sources provide only one line of evidence?
-
-## Practice 19 — extension · 1 marks
-
-Retrieval 12 — Provenance, corroboration and historical explanations: Explain the idea in your own words: Why avoid hindsight when explaining decisions?
-
-Answer: Actors did not necessarily possess later knowledge of outcomes.
-
-1. Identify the target idea: Why avoid hindsight when explaining decisions?
-
-2. Compare your response with the held study explanation: Actors did not necessarily possess later knowledge of outcomes.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why avoid hindsight when explaining decisions?
-
-## Practice 20 — foundation · 1 marks
-
-Retrieval 13 — Provenance, corroboration and historical explanations: Answer from memory: What distinguishes a causal explanation from a timeline?
-
-Answer: It explains a mechanism linking factors to an outcome and evaluates alternatives.
-
-1. Identify the target idea: What distinguishes a causal explanation from a timeline?
-
-2. Compare your response with the held study explanation: It explains a mechanism linking factors to an outcome and evaluates alternatives.
-
-Marking points (one practice mark each):
-
-- Accurately address: What distinguishes a causal explanation from a timeline?
-
-## Practice 21 — standard · 1 marks
-
-Retrieval 14 — Provenance, corroboration and historical explanations: State the condition or distinction precisely: Why can a source be useful for attitudes but weak for event totals?
-
-Answer: Its author may directly reveal a viewpoint without having reliable access to complete numerical evidence.
-
-1. Identify the target idea: Why can a source be useful for attitudes but weak for event totals?
-
-2. Compare your response with the held study explanation: Its author may directly reveal a viewpoint without having reliable access to complete numerical evidence.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why can a source be useful for attitudes but weak for event totals?
-
-## Practice 22 — extension · 1 marks
-
-Retrieval 15 — Provenance, corroboration and historical explanations: Explain the idea in your own words: Why check whether sources depend on each other?
-
-Answer: Agreement may repeat one underlying report rather than independently corroborate it.
-
-1. Identify the target idea: Why check whether sources depend on each other?
-
-2. Compare your response with the held study explanation: Agreement may repeat one underlying report rather than independently corroborate it.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why check whether sources depend on each other?
-
-## Practice 23 — foundation · 1 marks
-
-Retrieval 16 — Provenance, corroboration and historical explanations: Answer from memory: Can a dependent source remain useful?
-
-Answer: Yes, for questions such as circulation, framing or reception, depending on its provenance and content.
-
-1. Identify the target idea: Can a dependent source remain useful?
-
-2. Compare your response with the held study explanation: Yes, for questions such as circulation, framing or reception, depending on its provenance and content.
-
-Marking points (one practice mark each):
-
-- Accurately address: Can a dependent source remain useful?
-
-## Practice 24 — standard · 1 marks
-
-Retrieval 17 — Provenance, corroboration and historical explanations: State the condition or distinction precisely: What questions help establish provenance?
-
-Answer: Who created the source, when, for whom and for what purpose?
-
-1. Identify the target idea: What questions help establish provenance?
-
-2. Compare your response with the held study explanation: Who created the source, when, for whom and for what purpose?
-
-Marking points (one practice mark each):
-
-- Accurately address: What questions help establish provenance?
-
-## Practice 25 — extension · 1 marks
-
-Retrieval 18 — Provenance, corroboration and historical explanations: Explain the idea in your own words: What must be specified before judging a source's usefulness?
-
-Answer: The historical question being investigated.
-
-1. Identify the target idea: What must be specified before judging a source's usefulness?
-
-2. Compare your response with the held study explanation: The historical question being investigated.
-
-Marking points (one practice mark each):
-
-- Accurately address: What must be specified before judging a source's usefulness?
+- Explain hindsight or self-presentation and propose comparison.
 
 ## Revision checklist
 
@@ -598,6 +404,6 @@ Two accounts agreeing is stronger corroboration when their agreement comes from 
 
 - What questions help establish provenance?
 
-Mixed practice: q1, application-check, error-analysis
+Mixed practice: q1, application-check, error-analysis, depth-speech-outcome, depth-conflicting-counts, depth-retrospective-memory
 
 After checking your answer, write the specific rule or assumption you missed. Retry the linked questions without the worked example in a later session. A checked answer or completed checklist is not a measurement of mastery.

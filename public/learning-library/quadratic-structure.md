@@ -1,6 +1,6 @@
 # Quadratic forms, roots, turning points and discriminants
 
-Subject: Mathematics · Unit: Algebra · Revision: 2026-10-21.2
+Subject: Mathematics · Unit: Algebra · Revision: 2026-10-21.3
 
 **Review draft — not independently approved. Practice marks are editorial, not official exam marks.**
 
@@ -62,6 +62,10 @@ For revision, take one expression and identify what each form makes visible. The
 
 A quadratic with a repeated real root touches the horizontal axis at its turning point rather than crossing it. Factored form, completed-square form and the discriminant describe the same situation in different ways. Match coefficients carefully when comparing a perfect square with the original expression, especially when the leading coefficient is not one. A zero discriminant gives one distinct real root with multiplicity two; it does not give two different roots or no roots. Expanding a proposed factorisation is a useful independent check. The sign of the leading coefficient then identifies whether the touching point is a minimum or maximum.
 
+## Use roots and coefficients to check a constructed quadratic
+
+For ax²+bx+c with a≠0, the roots' sum is -b/a and their product is c/a when counted with multiplicity. These relations follow by expanding a(x-r)(x-s). They provide useful checks and let you construct a quadratic from roots, but do not determine the leading coefficient unless additional information is given. The discriminant describes real-root count, not whether a polynomial or graph exists. A repeated root is both a solution and the point where a quadratic touches the axis.
+
 ## Diagram: Connect three views of a repeated root
 
 Read the labelled relationships to follow this worked application. f(x) = (2x - 3)². The repeated root is x = 3/2; the turning point is (3/2, 0), and the graph touches without crossing. This is an explanatory process diagram, not a scale drawing or a record of a learner attempt.
@@ -108,15 +112,15 @@ Worked examples: 5
 
 Practise: q7, q8, application-check, error-analysis
 
-### Retrieval practice
+### Apply and test the limits
 
-Close the notes and answer these extra prompts from memory. Self-review with the held explanation, name one gap, then retry later. This is study practice, not an automatic mark or mastery measurement.
+Revisit the last worked example, then read the new section and tackle these different situations. Identify the assumptions before answering. Compare your reasoning with each marking point; these open responses require self-review, not automatic marks.
 
-Read: Three forms answer different questions
+Read: Use roots and coefficients to check a constructed quadratic
 
-Worked examples: 1
+Worked examples: 5
 
-Practise: retrieval-01, retrieval-02, retrieval-03, retrieval-04, retrieval-05, retrieval-06, retrieval-07, retrieval-08, retrieval-09, retrieval-10, retrieval-11, retrieval-12, retrieval-13, retrieval-14, retrieval-15
+Practise: depth-construct-roots, depth-root-relations, depth-parameter-discriminant
 
 ## Worked example 1
 
@@ -409,215 +413,59 @@ Marking points (one practice mark each):
 
 - Both give 12/(2 × 4) = 3/2, not an absence of real solutions.
 
-## Practice 11 — foundation · 1 marks
+## Practice 11 — standard · 3 marks
 
-Retrieval 1 — Quadratic forms, roots, turning points and discriminants: Answer from memory: Which quadratic form displays a turning point directly?
+Construct a quadratic with roots -2 and 5 and leading coefficient 3, and expand it.
 
-Answer: a(x-h)²+k, with vertex (h,k).
+Answer: 3(x+2)(x-5)=3x²-9x-30.
 
-1. Identify the target idea: Which quadratic form displays a turning point directly?
+1. Each root supplies a factor that vanishes there.
 
-2. Compare your response with the held study explanation: a(x-h)²+k, with vertex (h,k).
-
-Marking points (one practice mark each):
-
-- Accurately address: Which quadratic form displays a turning point directly?
-
-## Practice 12 — standard · 1 marks
-
-Retrieval 2 — Quadratic forms, roots, turning points and discriminants: State the condition or distinction precisely: What is the symmetry axis of ax²+bx+c?
-
-Answer: x=-b/(2a), for a≠0.
-
-1. Identify the target idea: What is the symmetry axis of ax²+bx+c?
-
-2. Compare your response with the held study explanation: x=-b/(2a), for a≠0.
+2. Multiply the factors, then apply leading coefficient 3.
 
 Marking points (one practice mark each):
 
-- Accurately address: What is the symmetry axis of ax²+bx+c?
+- Use factors x+2 and x-5.
 
-## Practice 13 — extension · 1 marks
+- Apply factor 3.
 
-Retrieval 3 — Quadratic forms, roots, turning points and discriminants: Explain the idea in your own words: When does the zero-product rule apply?
+- Expand to 3x²-9x-30.
 
-Answer: When the product equals zero.
+## Practice 12 — extension · 3 marks
 
-1. Identify the target idea: When does the zero-product rule apply?
+The roots of 2x²-7x+3 are r and s. Find r+s, rs and r²+s² without solving separately for both roots.
 
-2. Compare your response with the held study explanation: When the product equals zero.
+Answer: r+s=7/2, rs=3/2 and r²+s²=37/4.
 
-Marking points (one practice mark each):
+1. Read sum and product from the coefficients.
 
-- Accurately address: When does the zero-product rule apply?
-
-## Practice 14 — foundation · 1 marks
-
-Retrieval 4 — Quadratic forms, roots, turning points and discriminants: Answer from memory: What square term is used to complete x²+px?
-
-Answer: (x+p/2)², with (p/2)² subtracted to compensate.
-
-1. Identify the target idea: What square term is used to complete x²+px?
-
-2. Compare your response with the held study explanation: (x+p/2)², with (p/2)² subtracted to compensate.
+2. Use r²+s²=(r+s)²-2rs=49/4-3.
 
 Marking points (one practice mark each):
 
-- Accurately address: What square term is used to complete x²+px?
+- Find sum 7/2.
 
-## Practice 15 — standard · 1 marks
+- Find product 3/2.
 
-Retrieval 5 — Quadratic forms, roots, turning points and discriminants: State the condition or distinction precisely: What is the discriminant of a quadratic equation?
+- Find 37/4 using the identity.
 
-Answer: b²-4ac.
+## Practice 13 — extension · 3 marks
 
-1. Identify the target idea: What is the discriminant of a quadratic equation?
+For which real values of k does x²+kx+9=0 have two distinct real roots?
 
-2. Compare your response with the held study explanation: b²-4ac.
+Answer: k<-6 or k>6.
 
-Marking points (one practice mark each):
+1. Require discriminant k²-36>0 for distinct real roots.
 
-- Accurately address: What is the discriminant of a quadratic equation?
-
-## Practice 16 — extension · 1 marks
-
-Retrieval 6 — Quadratic forms, roots, turning points and discriminants: Explain the idea in your own words: What does a zero discriminant mean?
-
-Answer: One repeated real root.
-
-1. Identify the target idea: What does a zero discriminant mean?
-
-2. Compare your response with the held study explanation: One repeated real root.
+2. Solve k²>36, retaining both positive and negative branches.
 
 Marking points (one practice mark each):
 
-- Accurately address: What does a zero discriminant mean?
+- Use strict positive discriminant.
 
-## Practice 17 — foundation · 1 marks
+- Obtain k²>36.
 
-Retrieval 7 — Quadratic forms, roots, turning points and discriminants: Answer from memory: What does a negative discriminant mean over the reals?
-
-Answer: No real roots, not an undefined quadratic function.
-
-1. Identify the target idea: What does a negative discriminant mean over the reals?
-
-2. Compare your response with the held study explanation: No real roots, not an undefined quadratic function.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does a negative discriminant mean over the reals?
-
-## Practice 18 — standard · 1 marks
-
-Retrieval 8 — Quadratic forms, roots, turning points and discriminants: State the condition or distinction precisely: What decides whether a parabola's vertex is a minimum or maximum?
-
-Answer: The sign of a: positive gives a minimum, negative a maximum.
-
-1. Identify the target idea: What decides whether a parabola's vertex is a minimum or maximum?
-
-2. Compare your response with the held study explanation: The sign of a: positive gives a minimum, negative a maximum.
-
-Marking points (one practice mark each):
-
-- Accurately address: What decides whether a parabola's vertex is a minimum or maximum?
-
-## Practice 19 — extension · 1 marks
-
-Retrieval 9 — Quadratic forms, roots, turning points and discriminants: Explain the idea in your own words: Why keep a surd root during working?
-
-Answer: It preserves exactness until rounding is required.
-
-1. Identify the target idea: Why keep a surd root during working?
-
-2. Compare your response with the held study explanation: It preserves exactness until rounding is required.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why keep a surd root during working?
-
-## Practice 20 — foundation · 1 marks
-
-Retrieval 10 — Quadratic forms, roots, turning points and discriminants: Answer from memory: Why check a model's domain after solving?
-
-Answer: Some algebraic roots or turning points may be outside permitted values.
-
-1. Identify the target idea: Why check a model's domain after solving?
-
-2. Compare your response with the held study explanation: Some algebraic roots or turning points may be outside permitted values.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why check a model's domain after solving?
-
-## Practice 21 — standard · 1 marks
-
-Retrieval 11 — Quadratic forms, roots, turning points and discriminants: State the condition or distinction precisely: What does a zero quadratic discriminant mean?
-
-Answer: One distinct real root of multiplicity two.
-
-1. Identify the target idea: What does a zero quadratic discriminant mean?
-
-2. Compare your response with the held study explanation: One distinct real root of multiplicity two.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does a zero quadratic discriminant mean?
-
-## Practice 22 — extension · 1 marks
-
-Retrieval 12 — Quadratic forms, roots, turning points and discriminants: Explain the idea in your own words: How can you check a proposed completed square?
-
-Answer: Expand it and compare all coefficients with the original quadratic.
-
-1. Identify the target idea: How can you check a proposed completed square?
-
-2. Compare your response with the held study explanation: Expand it and compare all coefficients with the original quadratic.
-
-Marking points (one practice mark each):
-
-- Accurately address: How can you check a proposed completed square?
-
-## Practice 23 — foundation · 1 marks
-
-Retrieval 13 — Quadratic forms, roots, turning points and discriminants: Answer from memory: Which quadratic form displays a turning point directly?
-
-Answer: a(x-h)²+k, with vertex (h,k).
-
-1. Identify the target idea: Which quadratic form displays a turning point directly?
-
-2. Compare your response with the held study explanation: a(x-h)²+k, with vertex (h,k).
-
-Marking points (one practice mark each):
-
-- Accurately address: Which quadratic form displays a turning point directly?
-
-## Practice 24 — standard · 1 marks
-
-Retrieval 14 — Quadratic forms, roots, turning points and discriminants: State the condition or distinction precisely: What is the symmetry axis of ax²+bx+c?
-
-Answer: x=-b/(2a), for a≠0.
-
-1. Identify the target idea: What is the symmetry axis of ax²+bx+c?
-
-2. Compare your response with the held study explanation: x=-b/(2a), for a≠0.
-
-Marking points (one practice mark each):
-
-- Accurately address: What is the symmetry axis of ax²+bx+c?
-
-## Practice 25 — extension · 1 marks
-
-Retrieval 15 — Quadratic forms, roots, turning points and discriminants: Explain the idea in your own words: When does the zero-product rule apply?
-
-Answer: When the product equals zero.
-
-1. Identify the target idea: When does the zero-product rule apply?
-
-2. Compare your response with the held study explanation: When the product equals zero.
-
-Marking points (one practice mark each):
-
-- Accurately address: When does the zero-product rule apply?
+- State both intervals.
 
 ## Revision checklist
 
@@ -653,7 +501,7 @@ A quadratic with a repeated real root touches the horizontal axis at its turning
 
 - Which quadratic form displays a turning point directly?
 
-Mixed practice: q1, application-check, error-analysis
+Mixed practice: q1, application-check, error-analysis, depth-construct-roots, depth-root-relations, depth-parameter-discriminant
 
 After checking your answer, write the specific rule or assumption you missed. Retry the linked questions without the worked example in a later session. A checked answer or completed checklist is not a measurement of mastery.
 

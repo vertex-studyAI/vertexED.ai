@@ -1,6 +1,6 @@
 # Regular -er verbs, negation and connected sentences
 
-Subject: French · Unit: Communicating routines · Revision: 2026-10-21.2
+Subject: French · Unit: Communicating routines · Revision: 2026-10-21.3
 
 **Review draft — not independently approved. Practice marks are editorial, not official exam marks.**
 
@@ -41,6 +41,10 @@ Separate grammatical accuracy from whether all requested details have been commu
 ## Maintaining subject agreement after a contrast
 
 In a connected French description, each new subject controls its own present-tense ending. A contrast word such as mais does not transfer the subject of the first clause into the second. For regular -er verbs, identify the infinitive, remove -er and choose the ending for the stated subject. Written negation surrounds the conjugated verb with ne and pas; ne becomes n’ before a vowel sound. Keep a final proofreading pass for accents and elision separate from the agreement check. The regular pattern does not cover every verb ending in -er: aller is a familiar exception. The examples here deliberately use regular verbs and simple main clauses.
+
+## Negation, elision and agreement with coordinated subjects
+
+In standard written French, ne and pas normally surround the conjugated verb. Before a vowel sound or mute h, ne becomes n'; je also becomes j' before the relevant vowel sound. Elision changes spelling, not the subject or the verb ending. Two named people joined by et take a plural verb. A subject containing moi normally corresponds to nous, while a group containing toi but not moi corresponds to vous. In these exercises the verbs are regular -er verbs; do not extend their endings to every verb family.
 
 ## Diagram: Edit a French contrast
 
@@ -88,15 +92,15 @@ Worked examples: 4
 
 Practise: q5, application-check, error-analysis
 
-### Retrieval practice
+### Apply and test the limits
 
-Close the notes and answer these extra prompts from memory. Self-review with the held explanation, name one gap, then retry later. This is study practice, not an automatic mark or mastery measurement.
+Revisit the last worked example, then read the new section and tackle these different situations. Identify the assumptions before answering. Compare your reasoning with each marking point; these open responses require self-review, not automatic marks.
 
-Read: The regular -er pattern
+Read: Negation, elision and agreement with coordinated subjects
 
-Worked examples: 1
+Worked examples: 4
 
-Practise: retrieval-01, retrieval-02, retrieval-03, retrieval-04, retrieval-05, retrieval-06, retrieval-07, retrieval-08, retrieval-09, retrieval-10, retrieval-11, retrieval-12, retrieval-13, retrieval-14, retrieval-15, retrieval-16, retrieval-17, retrieval-18
+Practise: depth-elision-negative, depth-coordinated-subject, depth-question-answer
 
 ## Worked example 1
 
@@ -314,257 +318,59 @@ Marking points (one practice mark each):
 
 - Retain ne ... pas around the corrected conjugated verb.
 
-## Practice 8 — foundation · 1 marks
+## Practice 8 — foundation · 3 marks
 
-Retrieval 1 — Regular -er verbs, negation and connected sentences: Answer from memory: Give the nous and vous forms of parler.
+Rewrite 'J'aime le chocolat' as a standard written negative and explain the spelling of the negative particle.
 
-Answer: Nous parlons; vous parlez.
+Answer: Je n'aime pas le chocolat.
 
-1. Identify the target idea: Give the nous and vous forms of parler.
+1. Place the negative pair around aime.
 
-2. Compare your response with the held study explanation: Nous parlons; vous parlez.
-
-Marking points (one practice mark each):
-
-- Accurately address: Give the nous and vous forms of parler.
-
-## Practice 9 — standard · 1 marks
-
-Retrieval 2 — Regular -er verbs, negation and connected sentences: State the condition or distinction precisely: Which verb form follows on in the present?
-
-Answer: Third-person singular, as in on parle, even when on means we.
-
-1. Identify the target idea: Which verb form follows on in the present?
-
-2. Compare your response with the held study explanation: Third-person singular, as in on parle, even when on means we.
+2. Use n' before aime; je is no longer directly before the vowel.
 
 Marking points (one practice mark each):
 
-- Accurately address: Which verb form follows on in the present?
+- Write Je n'aime pas le chocolat.
 
-## Practice 10 — extension · 1 marks
+- Place pas after the verb.
 
-Retrieval 3 — Regular -er verbs, negation and connected sentences: Explain the idea in your own words: Where do ne and pas go in a simple present-tense negative?
+- Explain ne becoming n'.
 
-Answer: Around the conjugated verb: Je ne travaille pas ici.
+## Practice 9 — standard · 3 marks
 
-1. Identify the target idea: Where do ne and pas go in a simple present-tense negative?
+Complete 'Lina et moi ___ le français' with étudier in the present, then replace the subject with a pronoun.
 
-2. Compare your response with the held study explanation: Around the conjugated verb: Je ne travaille pas ici.
+Answer: Lina et moi étudions le français. Nous étudions le français.
 
-Marking points (one practice mark each):
+1. Lina et moi includes the speaker, so it corresponds to nous.
 
-- Accurately address: Where do ne and pas go in a simple present-tense negative?
-
-## Practice 11 — foundation · 1 marks
-
-Retrieval 4 — Regular -er verbs, negation and connected sentences: Answer from memory: Write the standard negative of J'aime.
-
-Answer: Je n'aime pas.
-
-1. Identify the target idea: Write the standard negative of J'aime.
-
-2. Compare your response with the held study explanation: Je n'aime pas.
+2. Use the nous ending -ons on the stem étudi-.
 
 Marking points (one practice mark each):
 
-- Accurately address: Write the standard negative of J'aime.
+- Choose étudions.
 
-## Practice 12 — standard · 1 marks
+- Identify nous.
 
-Retrieval 5 — Regular -er verbs, negation and connected sentences: State the condition or distinction precisely: Must Je travaille always translate as I work rather than I am working?
+- Retain the sentence meaning.
 
-Answer: No. The surrounding context determines the appropriate English present-tense translation.
+## Practice 10 — standard · 3 marks
 
-1. Identify the target idea: Must Je travaille always translate as I work rather than I am working?
+Answer in French: 'Est-ce que vous parlez espagnol ?' Say that you speak French but do not speak Spanish, using je and standard written negation.
 
-2. Compare your response with the held study explanation: No. The surrounding context determines the appropriate English present-tense translation.
+Answer: Je parle français, mais je ne parle pas espagnol.
 
-Marking points (one practice mark each):
+1. Use parle with the first-person singular subject.
 
-- Accurately address: Must Je travaille always translate as I work rather than I am working?
-
-## Practice 13 — extension · 1 marks
-
-Retrieval 6 — Regular -er verbs, negation and connected sentences: Explain the idea in your own words: Why recheck contractions after making a French sentence negative?
-
-Answer: Adding ne or n' changes which words are adjacent, so the affirmative contraction may no longer appear in the same form.
-
-1. Identify the target idea: Why recheck contractions after making a French sentence negative?
-
-2. Compare your response with the held study explanation: Adding ne or n' changes which words are adjacent, so the affirmative contraction may no longer appear in the same form.
+2. Use mais for the contrast and ne...pas around the second parle.
 
 Marking points (one practice mark each):
 
-- Accurately address: Why recheck contractions after making a French sentence negative?
+- State Je parle français.
 
-## Practice 14 — foundation · 1 marks
+- Express contrast with mais.
 
-Retrieval 7 — Regular -er verbs, negation and connected sentences: Answer from memory: Does mais change the subject agreement rule?
-
-Answer: No. Each clause’s verb agrees with its own subject.
-
-1. Identify the target idea: Does mais change the subject agreement rule?
-
-2. Compare your response with the held study explanation: No. Each clause’s verb agrees with its own subject.
-
-Marking points (one practice mark each):
-
-- Accurately address: Does mais change the subject agreement rule?
-
-## Practice 15 — standard · 1 marks
-
-Retrieval 8 — Regular -er verbs, negation and connected sentences: State the condition or distinction precisely: What is the regular -er present ending for nous?
-
-Answer: -ons, added to the regular stem; check spelling-change exceptions separately.
-
-1. Identify the target idea: What is the regular -er present ending for nous?
-
-2. Compare your response with the held study explanation: -ons, added to the regular stem; check spelling-change exceptions separately.
-
-Marking points (one practice mark each):
-
-- Accurately address: What is the regular -er present ending for nous?
-
-## Practice 16 — extension · 1 marks
-
-Retrieval 9 — Regular -er verbs, negation and connected sentences: Explain the idea in your own words: Give the nous and vous forms of parler.
-
-Answer: Nous parlons; vous parlez.
-
-1. Identify the target idea: Give the nous and vous forms of parler.
-
-2. Compare your response with the held study explanation: Nous parlons; vous parlez.
-
-Marking points (one practice mark each):
-
-- Accurately address: Give the nous and vous forms of parler.
-
-## Practice 17 — foundation · 1 marks
-
-Retrieval 10 — Regular -er verbs, negation and connected sentences: Answer from memory: Which verb form follows on in the present?
-
-Answer: Third-person singular, as in on parle, even when on means we.
-
-1. Identify the target idea: Which verb form follows on in the present?
-
-2. Compare your response with the held study explanation: Third-person singular, as in on parle, even when on means we.
-
-Marking points (one practice mark each):
-
-- Accurately address: Which verb form follows on in the present?
-
-## Practice 18 — standard · 1 marks
-
-Retrieval 11 — Regular -er verbs, negation and connected sentences: State the condition or distinction precisely: Where do ne and pas go in a simple present-tense negative?
-
-Answer: Around the conjugated verb: Je ne travaille pas ici.
-
-1. Identify the target idea: Where do ne and pas go in a simple present-tense negative?
-
-2. Compare your response with the held study explanation: Around the conjugated verb: Je ne travaille pas ici.
-
-Marking points (one practice mark each):
-
-- Accurately address: Where do ne and pas go in a simple present-tense negative?
-
-## Practice 19 — extension · 1 marks
-
-Retrieval 12 — Regular -er verbs, negation and connected sentences: Explain the idea in your own words: Write the standard negative of J'aime.
-
-Answer: Je n'aime pas.
-
-1. Identify the target idea: Write the standard negative of J'aime.
-
-2. Compare your response with the held study explanation: Je n'aime pas.
-
-Marking points (one practice mark each):
-
-- Accurately address: Write the standard negative of J'aime.
-
-## Practice 20 — foundation · 1 marks
-
-Retrieval 13 — Regular -er verbs, negation and connected sentences: Answer from memory: Must Je travaille always translate as I work rather than I am working?
-
-Answer: No. The surrounding context determines the appropriate English present-tense translation.
-
-1. Identify the target idea: Must Je travaille always translate as I work rather than I am working?
-
-2. Compare your response with the held study explanation: No. The surrounding context determines the appropriate English present-tense translation.
-
-Marking points (one practice mark each):
-
-- Accurately address: Must Je travaille always translate as I work rather than I am working?
-
-## Practice 21 — standard · 1 marks
-
-Retrieval 14 — Regular -er verbs, negation and connected sentences: State the condition or distinction precisely: Why recheck contractions after making a French sentence negative?
-
-Answer: Adding ne or n' changes which words are adjacent, so the affirmative contraction may no longer appear in the same form.
-
-1. Identify the target idea: Why recheck contractions after making a French sentence negative?
-
-2. Compare your response with the held study explanation: Adding ne or n' changes which words are adjacent, so the affirmative contraction may no longer appear in the same form.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why recheck contractions after making a French sentence negative?
-
-## Practice 22 — extension · 1 marks
-
-Retrieval 15 — Regular -er verbs, negation and connected sentences: Explain the idea in your own words: Does mais change the subject agreement rule?
-
-Answer: No. Each clause’s verb agrees with its own subject.
-
-1. Identify the target idea: Does mais change the subject agreement rule?
-
-2. Compare your response with the held study explanation: No. Each clause’s verb agrees with its own subject.
-
-Marking points (one practice mark each):
-
-- Accurately address: Does mais change the subject agreement rule?
-
-## Practice 23 — foundation · 1 marks
-
-Retrieval 16 — Regular -er verbs, negation and connected sentences: Answer from memory: What is the regular -er present ending for nous?
-
-Answer: -ons, added to the regular stem; check spelling-change exceptions separately.
-
-1. Identify the target idea: What is the regular -er present ending for nous?
-
-2. Compare your response with the held study explanation: -ons, added to the regular stem; check spelling-change exceptions separately.
-
-Marking points (one practice mark each):
-
-- Accurately address: What is the regular -er present ending for nous?
-
-## Practice 24 — standard · 1 marks
-
-Retrieval 17 — Regular -er verbs, negation and connected sentences: State the condition or distinction precisely: Give the nous and vous forms of parler.
-
-Answer: Nous parlons; vous parlez.
-
-1. Identify the target idea: Give the nous and vous forms of parler.
-
-2. Compare your response with the held study explanation: Nous parlons; vous parlez.
-
-Marking points (one practice mark each):
-
-- Accurately address: Give the nous and vous forms of parler.
-
-## Practice 25 — extension · 1 marks
-
-Retrieval 18 — Regular -er verbs, negation and connected sentences: Explain the idea in your own words: Which verb form follows on in the present?
-
-Answer: Third-person singular, as in on parle, even when on means we.
-
-1. Identify the target idea: Which verb form follows on in the present?
-
-2. Compare your response with the held study explanation: Third-person singular, as in on parle, even when on means we.
-
-Marking points (one practice mark each):
-
-- Accurately address: Which verb form follows on in the present?
+- Write the correct negative Spanish clause.
 
 ## Revision checklist
 
@@ -598,6 +404,6 @@ In a connected French description, each new subject controls its own present-ten
 
 - Give the nous and vous forms of parler.
 
-Mixed practice: q1, application-check, error-analysis
+Mixed practice: q1, application-check, error-analysis, depth-elision-negative, depth-coordinated-subject, depth-question-answer
 
 After checking your answer, write the specific rule or assumption you missed. Retry the linked questions without the worked example in a later session. A checked answer or completed checklist is not a measurement of mastery.

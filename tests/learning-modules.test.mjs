@@ -20,9 +20,9 @@ test('four extended lessons have original modules, diagrams and complete local e
     assert.equal(lesson.teachingSequence.length, 5);
     assert.equal(lesson.workedExamples.length, 6);
     assert.equal(lesson.flashcards.length, 14);
-    assert.equal(lesson.questions.length, 25);
+    assert.equal(lesson.questions.length, 15);
     assert.deepEqual(new Set(lesson.teachingSequence.flatMap(step => step.questionIds)), new Set(lesson.questions.map(question => question.id)));
-    assert.deepEqual(new Set(lesson.syllabusMappings.flatMap(mapping => mapping.questionIds)), new Set(lesson.questions.filter(question => !['application-check', 'error-analysis'].includes(question.id) && !question.id.startsWith('retrieval-')).map(question => question.id)));
+    assert.deepEqual(new Set(lesson.syllabusMappings.flatMap(mapping => mapping.questionIds)), new Set(lesson.questions.filter(question => !['application-check', 'error-analysis'].includes(question.id) && !question.id.startsWith('depth-')).map(question => question.id)));
     const markdown = renderLearningLesson(lesson, sources);
     for (const diagram of lesson.diagrams) {
       assert.ok(markdown.includes(diagram.description));

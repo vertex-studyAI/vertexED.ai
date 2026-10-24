@@ -1,6 +1,6 @@
 # Exponential growth, decay and changing time units
 
-Subject: Mathematics · Unit: Functions and modelling · Revision: 2026-10-21.2
+Subject: Mathematics · Unit: Functions and modelling · Revision: 2026-10-21.3
 
 **Review draft — not independently approved. Practice marks are editorial, not official exam marks.**
 
@@ -62,6 +62,10 @@ When revising, identify the initial value, multiplier and time unit before touch
 
 A percentage change acts on the current quantity. After a decrease, an equal percentage increase uses a smaller base and therefore does not generally restore the original value. Represent each change as a multiplier and compose the multipliers in order. To reverse a decrease by a factor r, use the reciprocal multiplier 1/r, provided r is positive. The restoring percentage increase is then (1/r - 1) times 100%. This is arithmetic within a fictional model, not a forecast. A repeated-growth interpretation also requires equal time intervals and a constant factor; the percentage rule alone does not establish that those assumptions hold in real data.
 
+## Compare factors over the same interval
+
+A growth factor belongs to a time interval. A two-year factor cannot be used once per year without changing the model. To recover a factor for a shorter interval, use a root under the assumption of uniform exponential change. A percentage decrease can also be reversed only relative to the reduced value; it does not have the same denominator as the original change. For inequalities, consider whether the factor is above or below one before interpreting logarithms or integer thresholds. Check the neighbouring integer to confirm the first or last qualifying interval.
+
 ## Diagram: Compose percentage factors
 
 Read the labelled relationships to follow this worked application. The final quantity is 240, an overall decrease of 4%. This is an explanatory process diagram, not a scale drawing or a record of a learner attempt.
@@ -108,15 +112,15 @@ Worked examples: 5
 
 Practise: q7, q8, application-check, error-analysis
 
-### Retrieval practice
+### Apply and test the limits
 
-Close the notes and answer these extra prompts from memory. Self-review with the held explanation, name one gap, then retry later. This is study practice, not an automatic mark or mastery measurement.
+Revisit the last worked example, then read the new section and tackle these different situations. Identify the assumptions before answering. Compare your reasoning with each marking point; these open responses require self-review, not automatic marks.
 
-Read: Equal intervals and equal factors
+Read: Compare factors over the same interval
 
-Worked examples: 1
+Worked examples: 5
 
-Practise: retrieval-01, retrieval-02, retrieval-03, retrieval-04, retrieval-05, retrieval-06, retrieval-07, retrieval-08, retrieval-09, retrieval-10, retrieval-11, retrieval-12, retrieval-13, retrieval-14, retrieval-15
+Practise: depth-two-year-factor, depth-decay-threshold, depth-two-factors
 
 ## Worked example 1
 
@@ -409,215 +413,59 @@ Marking points (one practice mark each):
 
 - Equivalently, the restoring factor is 1/0.8 = 1.25.
 
-## Practice 11 — foundation · 1 marks
+## Practice 11 — standard · 3 marks
 
-Retrieval 1 — Exponential growth, decay and changing time units: Answer from memory: What does A represent in A b^t?
+An idealised quantity rises from 200 to 242 in two years with a constant positive annual multiplier. Find that multiplier and the modelled year-one value.
 
-Answer: The model value at t=0.
+Answer: Annual multiplier 1.1; year-one value 220.
 
-1. Identify the target idea: What does A represent in A b^t?
+1. Solve b²=242/200=1.21 and choose the positive root.
 
-2. Compare your response with the held study explanation: The model value at t=0.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does A represent in A b^t?
-
-## Practice 12 — standard · 1 marks
-
-Retrieval 2 — Exponential growth, decay and changing time units: State the condition or distinction precisely: What multiplier represents a 7% decrease?
-
-Answer: 0.93.
-
-1. Identify the target idea: What multiplier represents a 7% decrease?
-
-2. Compare your response with the held study explanation: 0.93.
+2. Multiply 200 by 1.1 for one year.
 
 Marking points (one practice mark each):
 
-- Accurately address: What multiplier represents a 7% decrease?
+- Set up b²=1.21.
 
-## Practice 13 — extension · 1 marks
+- Find b=1.1.
 
-Retrieval 3 — Exponential growth, decay and changing time units: Explain the idea in your own words: What table feature distinguishes positive exponential change over equal intervals?
+- Find year-one value 220.
 
-Answer: A constant ratio, rather than a constant difference.
+## Practice 12 — extension · 3 marks
 
-1. Identify the target idea: What table feature distinguishes positive exponential change over equal intervals?
+A model has A_n=100(1/2)^n for integer n≥0. Find the first n for which A_n<4, checking the preceding value.
 
-2. Compare your response with the held study explanation: A constant ratio, rather than a constant difference.
+Answer: n=5: A_5=3.125, while A_4=6.25.
 
-Marking points (one practice mark each):
+1. Evaluate the halving sequence near the threshold.
 
-- Accurately address: What table feature distinguishes positive exponential change over equal intervals?
-
-## Practice 14 — foundation · 1 marks
-
-Retrieval 4 — Exponential growth, decay and changing time units: Answer from memory: How do two successive multipliers combine?
-
-Answer: Multiply them.
-
-1. Identify the target idea: How do two successive multipliers combine?
-
-2. Compare your response with the held study explanation: Multiply them.
+2. Use the strict inequality and monotonic decrease to establish the first qualifying index.
 
 Marking points (one practice mark each):
 
-- Accurately address: How do two successive multipliers combine?
+- Find n=5.
 
-## Practice 15 — standard · 1 marks
+- Check 3.125<4.
 
-Retrieval 5 — Exponential growth, decay and changing time units: State the condition or distinction precisely: How do you undo a multiplier of 0.75?
+- Check 6.25≥4 at n=4.
 
-Answer: Multiply by 1/0.75=4/3.
+## Practice 13 — standard · 3 marks
 
-1. Identify the target idea: How do you undo a multiplier of 0.75?
+A fictional price increases by 10% in each of two years. A learner calls the overall increase 20%. Find the actual increase and explain the difference.
 
-2. Compare your response with the held study explanation: Multiply by 1/0.75=4/3.
+Answer: The overall increase is 21%, since 1.1²=1.21.
 
-Marking points (one practice mark each):
+1. The second increase applies to the already increased value.
 
-- Accurately address: How do you undo a multiplier of 0.75?
-
-## Practice 16 — extension · 1 marks
-
-Retrieval 6 — Exponential growth, decay and changing time units: Explain the idea in your own words: What exponent represents doubling every six hours with t in hours?
-
-Answer: t/6 in A×2^(t/6).
-
-1. Identify the target idea: What exponent represents doubling every six hours with t in hours?
-
-2. Compare your response with the held study explanation: t/6 in A×2^(t/6).
+2. For an initial 100, the sequence is 100,110,121.
 
 Marking points (one practice mark each):
 
-- Accurately address: What exponent represents doubling every six hours with t in hours?
+- Multiply the factors.
 
-## Practice 17 — foundation · 1 marks
+- Find 21%.
 
-Retrieval 7 — Exponential growth, decay and changing time units: Answer from memory: How is monthly multiplier g converted to an annual multiplier?
-
-Answer: g^12.
-
-1. Identify the target idea: How is monthly multiplier g converted to an annual multiplier?
-
-2. Compare your response with the held study explanation: g^12.
-
-Marking points (one practice mark each):
-
-- Accurately address: How is monthly multiplier g converted to an annual multiplier?
-
-## Practice 18 — standard · 1 marks
-
-Retrieval 8 — Exponential growth, decay and changing time units: State the condition or distinction precisely: What must be checked for an integer-update threshold?
-
-Answer: The neighbouring integer counts and the direction/strictness of the inequality.
-
-1. Identify the target idea: What must be checked for an integer-update threshold?
-
-2. Compare your response with the held study explanation: The neighbouring integer counts and the direction/strictness of the inequality.
-
-Marking points (one practice mark each):
-
-- Accurately address: What must be checked for an integer-update threshold?
-
-## Practice 19 — extension · 1 marks
-
-Retrieval 9 — Exponential growth, decay and changing time units: Explain the idea in your own words: Does A b^t with 0<b<1 reach zero at finite t?
-
-Answer: Not in this positive exponential model.
-
-1. Identify the target idea: Does A b^t with 0<b<1 reach zero at finite t?
-
-2. Compare your response with the held study explanation: Not in this positive exponential model.
-
-Marking points (one practice mark each):
-
-- Accurately address: Does A b^t with 0<b<1 reach zero at finite t?
-
-## Practice 20 — foundation · 1 marks
-
-Retrieval 10 — Exponential growth, decay and changing time units: Answer from memory: Why is extrapolation beyond fitted data uncertain?
-
-Answer: The constant-factor assumption may stop holding.
-
-1. Identify the target idea: Why is extrapolation beyond fitted data uncertain?
-
-2. Compare your response with the held study explanation: The constant-factor assumption may stop holding.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why is extrapolation beyond fitted data uncertain?
-
-## Practice 21 — standard · 1 marks
-
-Retrieval 11 — Exponential growth, decay and changing time units: State the condition or distinction precisely: Why do equal percentage decreases and increases fail to cancel?
-
-Answer: They act on different bases, so their multipliers have product below one for equal nonzero magnitudes less than 100%.
-
-1. Identify the target idea: Why do equal percentage decreases and increases fail to cancel?
-
-2. Compare your response with the held study explanation: They act on different bases, so their multipliers have product below one for equal nonzero magnitudes less than 100%.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why do equal percentage decreases and increases fail to cancel?
-
-## Practice 22 — extension · 1 marks
-
-Retrieval 12 — Exponential growth, decay and changing time units: Explain the idea in your own words: How do you reverse a positive multiplier r?
-
-Answer: Multiply by its reciprocal 1/r.
-
-1. Identify the target idea: How do you reverse a positive multiplier r?
-
-2. Compare your response with the held study explanation: Multiply by its reciprocal 1/r.
-
-Marking points (one practice mark each):
-
-- Accurately address: How do you reverse a positive multiplier r?
-
-## Practice 23 — foundation · 1 marks
-
-Retrieval 13 — Exponential growth, decay and changing time units: Answer from memory: What does A represent in A b^t?
-
-Answer: The model value at t=0.
-
-1. Identify the target idea: What does A represent in A b^t?
-
-2. Compare your response with the held study explanation: The model value at t=0.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does A represent in A b^t?
-
-## Practice 24 — standard · 1 marks
-
-Retrieval 14 — Exponential growth, decay and changing time units: State the condition or distinction precisely: What multiplier represents a 7% decrease?
-
-Answer: 0.93.
-
-1. Identify the target idea: What multiplier represents a 7% decrease?
-
-2. Compare your response with the held study explanation: 0.93.
-
-Marking points (one practice mark each):
-
-- Accurately address: What multiplier represents a 7% decrease?
-
-## Practice 25 — extension · 1 marks
-
-Retrieval 15 — Exponential growth, decay and changing time units: Explain the idea in your own words: What table feature distinguishes positive exponential change over equal intervals?
-
-Answer: A constant ratio, rather than a constant difference.
-
-1. Identify the target idea: What table feature distinguishes positive exponential change over equal intervals?
-
-2. Compare your response with the held study explanation: A constant ratio, rather than a constant difference.
-
-Marking points (one practice mark each):
-
-- Accurately address: What table feature distinguishes positive exponential change over equal intervals?
+- Explain the changed base for year two.
 
 ## Revision checklist
 
@@ -653,7 +501,7 @@ A percentage change acts on the current quantity. After a decrease, an equal per
 
 - What does A represent in A b^t?
 
-Mixed practice: q1, application-check, error-analysis
+Mixed practice: q1, application-check, error-analysis, depth-two-year-factor, depth-decay-threshold, depth-two-factors
 
 After checking your answer, write the specific rule or assumption you missed. Retry the linked questions without the worked example in a later session. A checked answer or completed checklist is not a measurement of mastery.
 

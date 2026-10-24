@@ -1,6 +1,6 @@
 # Diffusion, osmosis and active transport
 
-Subject: Biology · Unit: Cells · Revision: 2026-10-21.2
+Subject: Biology · Unit: Cells · Revision: 2026-10-21.3
 
 **Review draft — not independently approved. Practice marks are editorial, not official exam marks.**
 
@@ -41,6 +41,10 @@ The concentration producing approximately zero net mass change can estimate an i
 ## Using relative mass change in an osmosis comparison
 
 Compare percentage mass changes when tissue pieces begin with different masses. The denominator is the initial mass, because the question is how large the change is relative to the starting amount. A negative result indicates net mass loss, not a negative amount of tissue. In an osmosis investigation, standardise blotting before weighing so surface liquid does not masquerade as tissue water uptake. A near-zero change is consistent with little net water movement under those conditions; water molecules can still cross in both directions. Replicates, comparable tissue pieces and controlled exposure times make the comparison more interpretable. These are fictional data, not evidence that an actual investigation was performed.
+
+## Distinguish a gradient from the evidence for a mechanism
+
+Direction alone is not enough unless the relevant gradient is specified. Diffusion describes net movement down a concentration gradient for the substance considered, while osmosis describes net water movement across a selectively permeable membrane in terms of water potential. An inhibitor experiment can support a role for cellular energy, but an inhibitor may also damage cells or affect other processes. Include appropriate controls and test membrane integrity before attributing every change to one transport mechanism. A measured zero net flux can coexist with movement in both directions.
 
 ## Diagram: Compare osmosis mass data
 
@@ -88,15 +92,15 @@ Worked examples: 4
 
 Practise: q5, application-check, error-analysis
 
-### Retrieval practice
+### Apply and test the limits
 
-Close the notes and answer these extra prompts from memory. Self-review with the held explanation, name one gap, then retry later. This is study practice, not an automatic mark or mastery measurement.
+Revisit the last worked example, then read the new section and tackle these different situations. Identify the assumptions before answering. Compare your reasoning with each marking point; these open responses require self-review, not automatic marks.
 
-Read: Random motion and net movement
+Read: Distinguish a gradient from the evidence for a mechanism
 
-Worked examples: 1
+Worked examples: 4
 
-Practise: retrieval-01, retrieval-02, retrieval-03, retrieval-04, retrieval-05, retrieval-06, retrieval-07, retrieval-08, retrieval-09, retrieval-10, retrieval-11, retrieval-12, retrieval-13, retrieval-14, retrieval-15, retrieval-16, retrieval-17, retrieval-18
+Practise: depth-surface-volume, depth-inhibitor-evidence, depth-water-potential
 
 ## Worked example 1
 
@@ -314,257 +318,59 @@ Marking points (one practice mark each):
 
 - Consistent blotting reduces differences caused by liquid remaining on the surface.
 
-## Practice 8 — foundation · 1 marks
+## Practice 8 — standard · 3 marks
 
-Retrieval 1 — Diffusion, osmosis and active transport: Answer from memory: Why say net movement in diffusion?
+Two idealised cubic cells have side lengths 1 and 2 arbitrary units. Calculate surface-area-to-volume ratios and explain one implication for exchange per unit volume.
 
-Answer: Individual particles cross both ways; the difference between opposing rates creates the net flow.
+Answer: The ratios are 6:1 and 3:1. The larger cube has less exchange surface per unit volume.
 
-1. Identify the target idea: Why say net movement in diffusion?
+1. Use surface area 6l² and volume l³, giving ratio 6/l.
 
-2. Compare your response with the held study explanation: Individual particles cross both ways; the difference between opposing rates creates the net flow.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why say net movement in diffusion?
-
-## Practice 9 — standard · 1 marks
-
-Retrieval 2 — Diffusion, osmosis and active transport: State the condition or distinction precisely: What additional condition distinguishes osmosis from ordinary diffusion in solution?
-
-Answer: Water moves through a selectively permeable membrane.
-
-1. Identify the target idea: What additional condition distinguishes osmosis from ordinary diffusion in solution?
-
-2. Compare your response with the held study explanation: Water moves through a selectively permeable membrane.
+2. A lower ratio can constrain exchange relative to internal demand; it does not by itself measure actual transport rate.
 
 Marking points (one practice mark each):
 
-- Accurately address: What additional condition distinguishes osmosis from ordinary diffusion in solution?
+- Find ratio 6:1.
 
-## Practice 10 — extension · 1 marks
+- Find ratio 3:1.
 
-Retrieval 3 — Diffusion, osmosis and active transport: Explain the idea in your own words: What distinguishes active transport from facilitated diffusion?
+- Explain reduced surface per unit volume without claiming a measured rate.
 
-Answer: Active transport can move against a relevant gradient using an energy source.
+## Practice 9 — extension · 3 marks
 
-1. Identify the target idea: What distinguishes active transport from facilitated diffusion?
+In a fictional experiment, solute uptake decreases after an energy-production inhibitor is added. Explain why this alone does not prove the solute normally uses active transport, and propose a useful control.
 
-2. Compare your response with the held study explanation: Active transport can move against a relevant gradient using an energy source.
+Answer: The inhibitor may damage membranes or affect other processes. Compare with a solvent-only control and assess cell viability or membrane integrity.
 
-Marking points (one practice mark each):
+1. Identify an alternative mechanism for reduced uptake.
 
-- Accurately address: What distinguishes active transport from facilitated diffusion?
-
-## Practice 11 — foundation · 1 marks
-
-Retrieval 4 — Diffusion, osmosis and active transport: Answer from memory: Why can a plant cell become turgid without immediately bursting?
-
-Answer: The cell wall resists expansion as pressure develops.
-
-1. Identify the target idea: Why can a plant cell become turgid without immediately bursting?
-
-2. Compare your response with the held study explanation: The cell wall resists expansion as pressure develops.
+2. Keep other conditions the same and check that the cells remain viable.
 
 Marking points (one practice mark each):
 
-- Accurately address: Why can a plant cell become turgid without immediately bursting?
+- Give an alternative explanation.
 
-## Practice 12 — standard · 1 marks
+- Propose a solvent-only comparison.
 
-Retrieval 5 — Diffusion, osmosis and active transport: State the condition or distinction precisely: Which mass is the denominator in percentage mass change?
+- Include a viability or membrane-integrity check.
 
-Answer: Initial mass, not final mass.
+## Practice 10 — standard · 3 marks
 
-1. Identify the target idea: Which mass is the denominator in percentage mass change?
+A membrane lets water pass but not a dissolved solute. Side A has higher water potential than side B. State the initial net movement and explain whether individual water molecules can move in the opposite direction.
 
-2. Compare your response with the held study explanation: Initial mass, not final mass.
+Answer: Net water movement is A to B. Individual molecules move both ways, but more cross toward B initially.
 
-Marking points (one practice mark each):
+1. Use the stated water-potential difference rather than guessing from side labels.
 
-- Accurately address: Which mass is the denominator in percentage mass change?
-
-## Practice 13 — extension · 1 marks
-
-Retrieval 6 — Diffusion, osmosis and active transport: Explain the idea in your own words: Does zero net mass change mean no water crossed a membrane?
-
-Answer: No. It can reflect equal average movement in opposite directions.
-
-1. Identify the target idea: Does zero net mass change mean no water crossed a membrane?
-
-2. Compare your response with the held study explanation: No. It can reflect equal average movement in opposite directions.
+2. Distinguish net movement from individual molecular motion.
 
 Marking points (one practice mark each):
 
-- Accurately address: Does zero net mass change mean no water crossed a membrane?
+- State A to B.
 
-## Practice 14 — foundation · 1 marks
+- Name the water-potential gradient.
 
-Retrieval 7 — Diffusion, osmosis and active transport: Answer from memory: Which mass is the denominator for percentage mass change?
-
-Answer: The initial mass: (final - initial)/initial × 100%.
-
-1. Identify the target idea: Which mass is the denominator for percentage mass change?
-
-2. Compare your response with the held study explanation: The initial mass: (final - initial)/initial × 100%.
-
-Marking points (one practice mark each):
-
-- Accurately address: Which mass is the denominator for percentage mass change?
-
-## Practice 15 — standard · 1 marks
-
-Retrieval 8 — Diffusion, osmosis and active transport: State the condition or distinction precisely: Does zero net water movement mean molecular motion stops?
-
-Answer: No. Movements in opposite directions can balance.
-
-1. Identify the target idea: Does zero net water movement mean molecular motion stops?
-
-2. Compare your response with the held study explanation: No. Movements in opposite directions can balance.
-
-Marking points (one practice mark each):
-
-- Accurately address: Does zero net water movement mean molecular motion stops?
-
-## Practice 16 — extension · 1 marks
-
-Retrieval 9 — Diffusion, osmosis and active transport: Explain the idea in your own words: Why say net movement in diffusion?
-
-Answer: Individual particles cross both ways; the difference between opposing rates creates the net flow.
-
-1. Identify the target idea: Why say net movement in diffusion?
-
-2. Compare your response with the held study explanation: Individual particles cross both ways; the difference between opposing rates creates the net flow.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why say net movement in diffusion?
-
-## Practice 17 — foundation · 1 marks
-
-Retrieval 10 — Diffusion, osmosis and active transport: Answer from memory: What additional condition distinguishes osmosis from ordinary diffusion in solution?
-
-Answer: Water moves through a selectively permeable membrane.
-
-1. Identify the target idea: What additional condition distinguishes osmosis from ordinary diffusion in solution?
-
-2. Compare your response with the held study explanation: Water moves through a selectively permeable membrane.
-
-Marking points (one practice mark each):
-
-- Accurately address: What additional condition distinguishes osmosis from ordinary diffusion in solution?
-
-## Practice 18 — standard · 1 marks
-
-Retrieval 11 — Diffusion, osmosis and active transport: State the condition or distinction precisely: What distinguishes active transport from facilitated diffusion?
-
-Answer: Active transport can move against a relevant gradient using an energy source.
-
-1. Identify the target idea: What distinguishes active transport from facilitated diffusion?
-
-2. Compare your response with the held study explanation: Active transport can move against a relevant gradient using an energy source.
-
-Marking points (one practice mark each):
-
-- Accurately address: What distinguishes active transport from facilitated diffusion?
-
-## Practice 19 — extension · 1 marks
-
-Retrieval 12 — Diffusion, osmosis and active transport: Explain the idea in your own words: Why can a plant cell become turgid without immediately bursting?
-
-Answer: The cell wall resists expansion as pressure develops.
-
-1. Identify the target idea: Why can a plant cell become turgid without immediately bursting?
-
-2. Compare your response with the held study explanation: The cell wall resists expansion as pressure develops.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why can a plant cell become turgid without immediately bursting?
-
-## Practice 20 — foundation · 1 marks
-
-Retrieval 13 — Diffusion, osmosis and active transport: Answer from memory: Which mass is the denominator in percentage mass change?
-
-Answer: Initial mass, not final mass.
-
-1. Identify the target idea: Which mass is the denominator in percentage mass change?
-
-2. Compare your response with the held study explanation: Initial mass, not final mass.
-
-Marking points (one practice mark each):
-
-- Accurately address: Which mass is the denominator in percentage mass change?
-
-## Practice 21 — standard · 1 marks
-
-Retrieval 14 — Diffusion, osmosis and active transport: State the condition or distinction precisely: Does zero net mass change mean no water crossed a membrane?
-
-Answer: No. It can reflect equal average movement in opposite directions.
-
-1. Identify the target idea: Does zero net mass change mean no water crossed a membrane?
-
-2. Compare your response with the held study explanation: No. It can reflect equal average movement in opposite directions.
-
-Marking points (one practice mark each):
-
-- Accurately address: Does zero net mass change mean no water crossed a membrane?
-
-## Practice 22 — extension · 1 marks
-
-Retrieval 15 — Diffusion, osmosis and active transport: Explain the idea in your own words: Which mass is the denominator for percentage mass change?
-
-Answer: The initial mass: (final - initial)/initial × 100%.
-
-1. Identify the target idea: Which mass is the denominator for percentage mass change?
-
-2. Compare your response with the held study explanation: The initial mass: (final - initial)/initial × 100%.
-
-Marking points (one practice mark each):
-
-- Accurately address: Which mass is the denominator for percentage mass change?
-
-## Practice 23 — foundation · 1 marks
-
-Retrieval 16 — Diffusion, osmosis and active transport: Answer from memory: Does zero net water movement mean molecular motion stops?
-
-Answer: No. Movements in opposite directions can balance.
-
-1. Identify the target idea: Does zero net water movement mean molecular motion stops?
-
-2. Compare your response with the held study explanation: No. Movements in opposite directions can balance.
-
-Marking points (one practice mark each):
-
-- Accurately address: Does zero net water movement mean molecular motion stops?
-
-## Practice 24 — standard · 1 marks
-
-Retrieval 17 — Diffusion, osmosis and active transport: State the condition or distinction precisely: Why say net movement in diffusion?
-
-Answer: Individual particles cross both ways; the difference between opposing rates creates the net flow.
-
-1. Identify the target idea: Why say net movement in diffusion?
-
-2. Compare your response with the held study explanation: Individual particles cross both ways; the difference between opposing rates creates the net flow.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why say net movement in diffusion?
-
-## Practice 25 — extension · 1 marks
-
-Retrieval 18 — Diffusion, osmosis and active transport: Explain the idea in your own words: What additional condition distinguishes osmosis from ordinary diffusion in solution?
-
-Answer: Water moves through a selectively permeable membrane.
-
-1. Identify the target idea: What additional condition distinguishes osmosis from ordinary diffusion in solution?
-
-2. Compare your response with the held study explanation: Water moves through a selectively permeable membrane.
-
-Marking points (one practice mark each):
-
-- Accurately address: What additional condition distinguishes osmosis from ordinary diffusion in solution?
+- Explain two-way individual movement.
 
 ## Revision checklist
 
@@ -598,6 +404,6 @@ Compare percentage mass changes when tissue pieces begin with different masses. 
 
 - Why say net movement in diffusion?
 
-Mixed practice: q1, application-check, error-analysis
+Mixed practice: q1, application-check, error-analysis, depth-surface-volume, depth-inhibitor-evidence, depth-water-potential
 
 After checking your answer, write the specific rule or assumption you missed. Retry the linked questions without the worked example in a later session. A checked answer or completed checklist is not a measurement of mastery.

@@ -1,6 +1,6 @@
 # Arithmetic sequences, finite sums and model checks
 
-Subject: Mathematics · Unit: Sequences and series · Revision: 2026-10-21.2
+Subject: Mathematics · Unit: Sequences and series · Revision: 2026-10-21.3
 
 **Review draft — not independently approved. Practice marks are editorial, not official exam marks.**
 
@@ -59,6 +59,10 @@ Check the result independently where possible. Reconstruct two given terms from 
 ## Separating a term from a cumulative total
 
 A weekly quantity and the amount accumulated over several weeks answer different questions. If the weekly quantities increase by a fixed difference, they form an arithmetic sequence; their cumulative total is a sum of that sequence. Label the first week before substituting into a term formula so that the number of increases is one fewer than the week number. For a total, pair first and last terms or use the mean term multiplied by the number of terms. Check units as well: a weekly contribution has currency units in this discrete example, while the sum is the accumulated currency over the stated weeks. Extending the pattern assumes that the same increase remains feasible.
+
+## Recover a rule from cumulative totals
+
+A cumulative sum and an individual term are different objects. If S_n is the total through term n, subtract S_(n-1) to recover the nth term. This difference can reveal a constant step even when the total itself is quadratic. Conversely, consecutive term differences must be constant for an arithmetic sequence; a few increasing values alone are insufficient. When a sequence crosses a threshold, solve for its index and then apply the positive-integer domain. A first crossing should be checked against the preceding term, especially when the inequality is strict.
 
 ## Diagram: From a first term to a finite total
 
@@ -131,15 +135,15 @@ Worked examples: 6
 
 Practise: application-check, error-analysis
 
-### Retrieval practice
+### Apply and test the limits
 
-Close the notes and answer these extra prompts from memory. Self-review with the held explanation, name one gap, then retry later. This is study practice, not an automatic mark or mastery measurement.
+Revisit the last worked example, then read the new section and tackle these different situations. Identify the assumptions before answering. Compare your reasoning with each marking point; these open responses require self-review, not automatic marks.
 
-Read: A sequence is an indexed rule
+Read: Recover a rule from cumulative totals
 
-Worked examples: 1
+Worked examples: 6
 
-Practise: retrieval-01, retrieval-02, retrieval-03, retrieval-04, retrieval-05, retrieval-06, retrieval-07, retrieval-08, retrieval-09, retrieval-10, retrieval-11, retrieval-12, retrieval-13
+Practise: depth-cumulative-rule, depth-strict-crossing, depth-equal-sums
 
 ## Worked example 1
 
@@ -498,187 +502,59 @@ Marking points (one practice mark each):
 
 - Substituting n = 1 into the repaired rule returns the stated initial value.
 
-## Practice 13 — foundation · 1 marks
+## Practice 13 — extension · 3 marks
 
-Retrieval 1 — Arithmetic sequences, finite sums and model checks: Answer from memory: What makes a sequence arithmetic?
+A sequence has cumulative sum S_n=2n²+3n for positive integer n, with S_0=0. Find u_n and show that the sequence is arithmetic.
 
-Answer: A constant difference u_(n+1) - u_n across its stated domain.
+Answer: u_n=S_n-S_(n-1)=4n+1, so the first term is 5 and the common difference is 4.
 
-1. Identify the target idea: What makes a sequence arithmetic?
+1. Expand S_(n-1)=2n²-n-1.
 
-2. Compare your response with the held study explanation: A constant difference u_(n+1) - u_n across its stated domain.
-
-Marking points (one practice mark each):
-
-- Accurately address: What makes a sequence arithmetic?
-
-## Practice 14 — standard · 1 marks
-
-Retrieval 2 — Arithmetic sequences, finite sums and model checks: State the condition or distinction precisely: Why does u_n contain n - 1?
-
-Answer: Starting at index 1, reaching index n requires n - 1 additions.
-
-1. Identify the target idea: Why does u_n contain n - 1?
-
-2. Compare your response with the held study explanation: Starting at index 1, reaching index n requires n - 1 additions.
+2. Subtract to obtain 4n+1 and compare consecutive terms.
 
 Marking points (one practice mark each):
 
-- Accurately address: Why does u_n contain n - 1?
+- Use the difference of cumulative sums.
 
-## Practice 15 — extension · 1 marks
+- Obtain 4n+1.
 
-Retrieval 3 — Arithmetic sequences, finite sums and model checks: Explain the idea in your own words: How do you recover d from u_p and u_q?
+- Identify first term 5 and difference 4.
 
-Answer: d = (u_q - u_p)/(q - p), for p ≠ q.
+## Practice 14 — standard · 3 marks
 
-1. Identify the target idea: How do you recover d from u_p and u_q?
+For u_n=47-3(n-1), n≥1 an integer, find the first negative term and its index.
 
-2. Compare your response with the held study explanation: d = (u_q - u_p)/(q - p), for p ≠ q.
+Answer: u_17=-1 is the first negative term; u_16=2.
 
-Marking points (one practice mark each):
+1. Solve 50-3n<0 to get n>50/3.
 
-- Accurately address: How do you recover d from u_p and u_q?
-
-## Practice 16 — foundation · 1 marks
-
-Retrieval 4 — Arithmetic sequences, finite sums and model checks: Answer from memory: State two equivalent arithmetic sum formulas.
-
-Answer: S_n = n(a + u_n)/2 = n[2a + (n - 1)d]/2.
-
-1. Identify the target idea: State two equivalent arithmetic sum formulas.
-
-2. Compare your response with the held study explanation: S_n = n(a + u_n)/2 = n[2a + (n - 1)d]/2.
+2. Choose n=17 and check both it and n=16.
 
 Marking points (one practice mark each):
 
-- Accurately address: State two equivalent arithmetic sum formulas.
+- Use a strict negative inequality.
 
-## Practice 17 — standard · 1 marks
+- Find index 17 and term -1.
 
-Retrieval 5 — Arithmetic sequences, finite sums and model checks: State the condition or distinction precisely: What does a series represent?
+- Check preceding term 2.
 
-Answer: A sum of terms, rather than the ordered sequence itself.
+## Practice 15 — extension · 3 marks
 
-1. Identify the target idea: What does a series represent?
+An arithmetic sequence has u_2+u_8=30. Find u_5 and S_9 without determining the common difference.
 
-2. Compare your response with the held study explanation: A sum of terms, rather than the ordered sequence itself.
+Answer: u_5=15 and S_9=135.
 
-Marking points (one practice mark each):
+1. The pair u_2 and u_8 is symmetric about u_5, so their sum equals 2u_5.
 
-- Accurately address: What does a series represent?
-
-## Practice 18 — extension · 1 marks
-
-Retrieval 6 — Arithmetic sequences, finite sums and model checks: Explain the idea in your own words: How many integer terms run from p to q inclusive?
-
-Answer: q - p + 1, assuming q ≥ p.
-
-1. Identify the target idea: How many integer terms run from p to q inclusive?
-
-2. Compare your response with the held study explanation: q - p + 1, assuming q ≥ p.
+2. The mean of the first nine arithmetic terms is the middle term, giving 9×15.
 
 Marking points (one practice mark each):
 
-- Accurately address: How many integer terms run from p to q inclusive?
+- Explain symmetry of the given pair.
 
-## Practice 19 — foundation · 1 marks
+- Find u_5=15.
 
-Retrieval 7 — Arithmetic sequences, finite sums and model checks: Answer from memory: How do cumulative sums give terms p through q?
-
-Answer: S_q - S_(p-1); subtracting S_p would omit the first required term.
-
-1. Identify the target idea: How do cumulative sums give terms p through q?
-
-2. Compare your response with the held study explanation: S_q - S_(p-1); subtracting S_p would omit the first required term.
-
-Marking points (one practice mark each):
-
-- Accurately address: How do cumulative sums give terms p through q?
-
-## Practice 20 — standard · 1 marks
-
-Retrieval 8 — Arithmetic sequences, finite sums and model checks: State the condition or distinction precisely: What must be checked after solving for an index?
-
-Answer: The index must be an allowed integer and respect any length or contextual constraints.
-
-1. Identify the target idea: What must be checked after solving for an index?
-
-2. Compare your response with the held study explanation: The index must be an allowed integer and respect any length or contextual constraints.
-
-Marking points (one practice mark each):
-
-- Accurately address: What must be checked after solving for an index?
-
-## Practice 21 — extension · 1 marks
-
-Retrieval 9 — Arithmetic sequences, finite sums and model checks: Explain the idea in your own words: What happens when d = 0?
-
-Answer: All terms equal a, and S_n = na. Do not divide by d to find an index.
-
-1. Identify the target idea: What happens when d = 0?
-
-2. Compare your response with the held study explanation: All terms equal a, and S_n = na. Do not divide by d to find an index.
-
-Marking points (one practice mark each):
-
-- Accurately address: What happens when d = 0?
-
-## Practice 22 — foundation · 1 marks
-
-Retrieval 10 — Arithmetic sequences, finite sums and model checks: Answer from memory: What is a residual?
-
-Answer: Observed value minus the model prediction, using the stated sign convention.
-
-1. Identify the target idea: What is a residual?
-
-2. Compare your response with the held study explanation: Observed value minus the model prediction, using the stated sign convention.
-
-Marking points (one practice mark each):
-
-- Accurately address: What is a residual?
-
-## Practice 23 — standard · 1 marks
-
-Retrieval 11 — Arithmetic sequences, finite sums and model checks: State the condition or distinction precisely: Why state the model-fitting method?
-
-Answer: An endpoint estimate and a fit using all observations can give different parameters.
-
-1. Identify the target idea: Why state the model-fitting method?
-
-2. Compare your response with the held study explanation: An endpoint estimate and a fit using all observations can give different parameters.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why state the model-fitting method?
-
-## Practice 24 — extension · 1 marks
-
-Retrieval 12 — Arithmetic sequences, finite sums and model checks: Explain the idea in your own words: Does changing the sigma index letter change a sum?
-
-Answer: No, if the bound variable is replaced consistently and the limits are unchanged.
-
-1. Identify the target idea: Does changing the sigma index letter change a sum?
-
-2. Compare your response with the held study explanation: No, if the bound variable is replaced consistently and the limits are unchanged.
-
-Marking points (one practice mark each):
-
-- Accurately address: Does changing the sigma index letter change a sum?
-
-## Practice 25 — foundation · 1 marks
-
-Retrieval 13 — Arithmetic sequences, finite sums and model checks: Answer from memory: How many increases separate term 1 and term n?
-
-Answer: n - 1 increases.
-
-1. Identify the target idea: How many increases separate term 1 and term n?
-
-2. Compare your response with the held study explanation: n - 1 increases.
-
-Marking points (one practice mark each):
-
-- Accurately address: How many increases separate term 1 and term n?
+- Find S_9=135.
 
 ## Revision checklist
 
@@ -724,7 +600,7 @@ Conditions: 1 ≤ p ≤ q, integer bounds and S_0 = 0.
 
 - Give a situation in which an arithmetic extrapolation becomes impossible.
 
-Mixed practice: q2, q6, q8, q10, application-check, error-analysis
+Mixed practice: q2, q6, q8, q10, application-check, error-analysis, depth-cumulative-rule, depth-strict-crossing, depth-equal-sums
 
 After checking your reasoning, return on a later day without the notes. Change the sign of d and the sigma bounds; compare the method, not just the remembered answer.
 

@@ -1,0 +1,1895 @@
+{
+  "schemaVersion": 1,
+  "checkedOn": "2026-10-22",
+  "boundary": "Actual authored topic lessons and questions for 26 non-maths priority course targets. Selected official sections were inspected; this is not full specification inspection, independent subject review or whole-course completion. Remaining lists are a strand backlog, not an exhaustive point denominator.",
+  "summary": {
+    "lessons": 19,
+    "courseTargets": 26,
+    "subjects": 12,
+    "noteWords": 6894,
+    "questions": 114,
+    "workedExamples": 38,
+    "flashcards": 95,
+    "tieredCourseTargets": 6,
+    "completedCourses": 0,
+    "independentlyReviewedLessons": 0,
+    "publishedLessons": 0
+  },
+  "dependencies": [
+    {
+      "path": "src/content/subject-units/authoring.mjs",
+      "hash": "sha256:edbd7e8922fbe32180996e087e1bb1cbd4ca52ff534c44a7788fd8f5b674618d"
+    },
+    {
+      "path": "src/content/subject-units/index.mjs",
+      "hash": "sha256:9c90d2ac5e15cfcab555b11d3eaaa6a55e87bab66ec2c56e0dd2f628a69d2174"
+    },
+    {
+      "path": "src/content/subject-units/coverage.mjs",
+      "hash": "sha256:c6ee3d8609471f982aab891a33e90a94d26ce58829cb570926e256a757fa0f4b"
+    },
+    {
+      "path": "contracts/learningLibrary.js",
+      "hash": "sha256:ac1bca9e71e410d102e26638688695003b9339aed56345d2c18f6a2e7ae6524e"
+    }
+  ],
+  "sources": {
+    "gcse-biology": {
+      "url": "https://www.aqa.org.uk/subjects/biology/gcse/biology-8461/specification/subject-content/cell-biology",
+      "locator": "4.1.1.1–4.1.1.5",
+      "version": "Live specification inspected 22 October 2026 for the 2027 planning cohort",
+      "inspection": "selected-html-sections"
+    },
+    "igcse-biology": {
+      "url": "https://www.cambridgeinternational.org/Images/697203-2026-2028-syllabus.pdf",
+      "version": "2026–2028 version 3",
+      "locator": "Page 14, 2.1 and 2.2; Core/Supplement columns",
+      "inspection": "selected-text-and-rendered-page"
+    },
+    "gcse-chemistry": {
+      "url": "https://www.aqa.org.uk/subjects/chemistry/gcse/chemistry-8462/specification/subject-content/atomic-structure-and-the-periodic-table",
+      "locator": "4.1.1: particle counts, isotopes and electron arrangements",
+      "version": "Live specification inspected 22 October 2026 for the 2027 planning cohort",
+      "inspection": "selected-html-sections"
+    },
+    "igcse-chemistry": {
+      "url": "https://www.cambridgeinternational.org/Images/697205-2026-2028-syllabus.pdf",
+      "version": "2026–2028 version 2",
+      "locator": "Page 13, 2.2 and 2.3; Core/Supplement columns",
+      "inspection": "selected-text-and-rendered-page"
+    },
+    "gcse-physics": {
+      "url": "https://www.aqa.org.uk/subjects/physics/gcse/physics-8463/specification/subject-content/electricity",
+      "locator": "4.2.1.2–4.2.1.4",
+      "version": "Live specification inspected 22 October 2026 for the 2027 planning cohort",
+      "inspection": "selected-html-sections"
+    },
+    "igcse-physics": {
+      "url": "https://www.cambridgeinternational.org/Images/697209-2026-2028-syllabus.pdf",
+      "version": "2026–2028 version 2",
+      "locator": "Pages 28–29, 4.2.2–4.2.4; page 28 rendered",
+      "inspection": "selected-text-and-rendered-page"
+    },
+    "al-biology": {
+      "url": "https://www.aqa.org.uk/subjects/biology/a-level/biology-7402/specification/subject-content/cells",
+      "locator": "3.2.3",
+      "version": "Live specification inspected 22 October 2026 for the 2027 planning cohort",
+      "inspection": "selected-html-sections"
+    },
+    "al-chemistry": {
+      "url": "https://www.aqa.org.uk/subjects/chemistry/a-level/chemistry-7405/specification/subject-content/physical-chemistry",
+      "locator": "3.1.2",
+      "version": "Live specification inspected 22 October 2026 for the 2027 planning cohort",
+      "inspection": "selected-html-sections"
+    },
+    "al-physics": {
+      "url": "https://www.aqa.org.uk/subjects/physics/a-level/physics-7408/specification/subject-content/particles-and-radiation",
+      "locator": "3.2.2",
+      "version": "Live specification inspected 22 October 2026 for the 2027 planning cohort",
+      "inspection": "selected-html-sections"
+    },
+    "gcse-history": {
+      "url": "https://www.aqa.org.uk/subjects/history/gcse/history-8145/specification/subject-content/understanding-the-modern-world",
+      "locator": "AB, Part one: transition and crises, 1918–1923",
+      "version": "Live specification inspected 22 October 2026 for the 2027 planning cohort",
+      "inspection": "selected-html-sections"
+    },
+    "igcse-history": {
+      "url": "https://www.cambridgeinternational.org/Images/721327-2027-2028-syllabus.pdf",
+      "version": "2027–2028 version 1",
+      "locator": "Page 15, Option B key question 1; page 30 series prescriptions",
+      "inspection": "selected-pdf-text"
+    },
+    "al-history": {
+      "url": "https://www.aqa.org.uk/subjects/history/a-level/history-7042/specification/subject-content/1c-the-tudors-england-1485-1603",
+      "locator": "1C, Henry VII, 1485–1509: security and authority",
+      "version": "Live specification inspected 22 October 2026 for the 2027 planning cohort",
+      "inspection": "selected-html-sections"
+    },
+    "gcse-literature": {
+      "url": "https://www.aqa.org.uk/subjects/english/gcse/english-8702/specification/subject-content/shakespeare-and-the-19th-century-novel",
+      "locator": "3.1.1 Macbeth; 3.1.2 A Christmas Carol; whole-text requirement",
+      "version": "Live specification inspected 22 October 2026 for the 2027 planning cohort",
+      "inspection": "selected-html-sections"
+    },
+    "al-literature": {
+      "url": "https://www.aqa.org.uk/subjects/english/a-level/english-7712/specification/subject-content/love-through-the-ages",
+      "locator": "3.1, Othello selected Shakespeare text",
+      "version": "Live specification inspected 22 October 2026 for the 2027 planning cohort",
+      "inspection": "selected-html-sections"
+    },
+    "gcse-computing": {
+      "url": "https://www.aqa.org.uk/subjects/computer-science/gcse/computer-science-8525/specification/subject-content/fundamentals-of-data-representation",
+      "locator": "3.3.1–3.3.4; AQA eight-bit scope",
+      "version": "Live specification inspected 22 October 2026 for the 2027 planning cohort",
+      "inspection": "selected-html-sections"
+    },
+    "igcse-computing": {
+      "url": "https://www.cambridgeinternational.org/Images/697167-2026-2028-syllabus.pdf",
+      "version": "2026–2028 version 6",
+      "locator": "Pages 11–12, 1.1; sixteen-bit conversion and eight-bit two’s complement",
+      "inspection": "selected-pdf-text"
+    },
+    "al-computing": {
+      "url": "https://www.aqa.org.uk/subjects/computer-science/a-level/computer-science-7517/specification/subject-content/fundamentals-of-algorithms",
+      "locator": "4.3.4",
+      "version": "Live specification inspected 22 October 2026 for the 2027 planning cohort",
+      "inspection": "selected-html-sections"
+    },
+    "gcse-geography": {
+      "url": "https://www.aqa.org.uk/subjects/geography/gcse/geography-8035/specification/subject-content/living-with-the-physical-environment",
+      "locator": "3.1.1.1–3.1.1.2; named examples remain required",
+      "version": "Live specification inspected 22 October 2026 for the 2027 planning cohort",
+      "inspection": "selected-html-sections"
+    },
+    "igcse-geography": {
+      "url": "https://www.cambridgeinternational.org/Images/718150-2027-2029-syllabus.pdf",
+      "version": "2027–2029 syllabus",
+      "locator": "Page 17, topic 4; selected boundary, earthquake and risk content",
+      "inspection": "selected-pdf-text"
+    },
+    "gcse-business": {
+      "url": "https://www.aqa.org.uk/subjects/business/gcse/business-8132/specification/subject-content/business-in-the-real-world",
+      "locator": "3.1.1 and 3.1.3; objectives and enterprise",
+      "version": "Live specification inspected 22 October 2026 for the 2027 planning cohort",
+      "inspection": "selected-html-sections"
+    },
+    "igcse-business": {
+      "url": "https://www.cambridgeinternational.org/Images/718123-2027-2029-syllabus.pdf",
+      "version": "2027–2029 syllabus, code 0264",
+      "locator": "Pages 11–12, 1.1, 1.3.1 and 1.5",
+      "inspection": "selected-pdf-text"
+    },
+    "al-business": {
+      "url": "https://www.aqa.org.uk/subjects/business/a-level/business-7132/specification/subject-content/managers-leadership-and-decision-making",
+      "locator": "3.2.2; page explicitly retains 7132 for 2027",
+      "version": "Live specification inspected 22 October 2026 for the 2027 planning cohort",
+      "inspection": "selected-html-sections"
+    },
+    "igcse-economics": {
+      "url": "https://www.cambridgeinternational.org/Images/718148-2027-2029-syllabus.pdf",
+      "version": "2027–2029 syllabus",
+      "locator": "Pages 11–12, 1.1–1.4 selected scarcity and PPC concepts",
+      "inspection": "selected-pdf-text"
+    },
+    "al-economics": {
+      "url": "https://www.aqa.org.uk/subjects/economics/a-level/economics-7136/specification/subject-content/individuals-firms-markets-and-market-failure",
+      "locator": "3.1.1.4–3.1.1.5",
+      "version": "Live specification inspected 22 October 2026 for the 2027 planning cohort",
+      "inspection": "selected-html-sections"
+    },
+    "gcse-language": {
+      "url": "https://www.aqa.org.uk/subjects/english/gcse/english-8700/specification/subject-content",
+      "locator": "Reading, comparison, synthesis and writing; March 2026 specification revision",
+      "version": "Live specification inspected 22 October 2026 for the 2027 planning cohort",
+      "inspection": "selected-html-sections"
+    },
+    "igcse-language": {
+      "url": "https://www.cambridgeinternational.org/Images/718783-2027-2029-syllabus.pdf",
+      "version": "2027–2029 syllabus",
+      "locator": "Page 11 reading/writing; pages 13–17 revised assessment, not replicated by these exercises",
+      "inspection": "selected-pdf-text"
+    }
+  },
+  "lessonReceipts": [
+    {
+      "lessonId": "unit-cells-and-microscopy",
+      "subject": "Biology",
+      "sourceFile": "src/content/subject-units/sciences.mjs",
+      "sourceHash": "sha256:360469f69b62bfe9a48bccfbe985619db90d2da23ffe3ad6b7aed8db28da9335",
+      "asset": "/learning-library/unit-cells-and-microscopy.json",
+      "markdown": "/learning-library/unit-cells-and-microscopy.md",
+      "contentHash": "sha256:cc1bdcb54c259b586459d9fa16d3eb2a6c3ffe23823ca13fddaa161bf0eddfd8",
+      "markdownHash": "sha256:01a7f1441c2038e27aa2b94b401b99a81e5d95afe10314c166a972b3d8cfeccd",
+      "answerVersion": "sha256:9fe8a827bfa82b9fd1fd8d4c795ce1058484386d10ecdd4231625822987f96b8",
+      "noteWords": 389,
+      "questions": 6,
+      "workedExamples": 2,
+      "flashcards": 5,
+      "publication": {
+        "jsonStatus": 403,
+        "markdownStatus": 403
+      },
+      "editorialStatus": "unreviewed"
+    },
+    {
+      "lessonId": "unit-atoms-isotopes-and-ions",
+      "subject": "Chemistry",
+      "sourceFile": "src/content/subject-units/sciences.mjs",
+      "sourceHash": "sha256:360469f69b62bfe9a48bccfbe985619db90d2da23ffe3ad6b7aed8db28da9335",
+      "asset": "/learning-library/unit-atoms-isotopes-and-ions.json",
+      "markdown": "/learning-library/unit-atoms-isotopes-and-ions.md",
+      "contentHash": "sha256:299166d56758570f887c045edc17f309bd9795d185bf82f769aac61d2bd09ece",
+      "markdownHash": "sha256:1c8288df105275e23bf6a097dcfa58c25a2556ca9f1c4e1cf2d0f909929a8a17",
+      "answerVersion": "sha256:613694e7f12adf88be3c96b507e293a36ba875c6f2c245b80a0515660b79f15e",
+      "noteWords": 379,
+      "questions": 6,
+      "workedExamples": 2,
+      "flashcards": 5,
+      "publication": {
+        "jsonStatus": 403,
+        "markdownStatus": 403
+      },
+      "editorialStatus": "unreviewed"
+    },
+    {
+      "lessonId": "unit-current-resistance-circuits",
+      "subject": "Physics",
+      "sourceFile": "src/content/subject-units/sciences.mjs",
+      "sourceHash": "sha256:360469f69b62bfe9a48bccfbe985619db90d2da23ffe3ad6b7aed8db28da9335",
+      "asset": "/learning-library/unit-current-resistance-circuits.json",
+      "markdown": "/learning-library/unit-current-resistance-circuits.md",
+      "contentHash": "sha256:a10a0d28d9945703c43fbd28c2dc308601f7279d6a58154b96b057319778a50f",
+      "markdownHash": "sha256:bdd450ae6b417ec7be35f7fea62d85f4210345c63b11be109e19a9864854023d",
+      "answerVersion": "sha256:75458fa8d246a15fe7ce3753ab55ea8870adb50d54032c6aa9824183f4fc7d6e",
+      "noteWords": 360,
+      "questions": 6,
+      "workedExamples": 2,
+      "flashcards": 5,
+      "publication": {
+        "jsonStatus": 403,
+        "markdownStatus": 403
+      },
+      "editorialStatus": "unreviewed"
+    },
+    {
+      "lessonId": "unit-a-level-membrane-transport",
+      "subject": "Biology",
+      "sourceFile": "src/content/subject-units/sciences.mjs",
+      "sourceHash": "sha256:360469f69b62bfe9a48bccfbe985619db90d2da23ffe3ad6b7aed8db28da9335",
+      "asset": "/learning-library/unit-a-level-membrane-transport.json",
+      "markdown": "/learning-library/unit-a-level-membrane-transport.md",
+      "contentHash": "sha256:d32020a60a302483d2cc7f8db0b1db02c4ae02dcc39b78f7bf3cde3b2850032e",
+      "markdownHash": "sha256:322e6ff72ad2764c1047d00936dcce72aa3659807b08f14f762aa5a53fa21fa2",
+      "answerVersion": "sha256:11efd39daa70582a158e5bddcbd542fb3f23681c9bd8e77adef34249fa2bde7c",
+      "noteWords": 345,
+      "questions": 6,
+      "workedExamples": 2,
+      "flashcards": 5,
+      "publication": {
+        "jsonStatus": 403,
+        "markdownStatus": 403
+      },
+      "editorialStatus": "unreviewed"
+    },
+    {
+      "lessonId": "unit-a-level-amount-substance",
+      "subject": "Chemistry",
+      "sourceFile": "src/content/subject-units/sciences.mjs",
+      "sourceHash": "sha256:360469f69b62bfe9a48bccfbe985619db90d2da23ffe3ad6b7aed8db28da9335",
+      "asset": "/learning-library/unit-a-level-amount-substance.json",
+      "markdown": "/learning-library/unit-a-level-amount-substance.md",
+      "contentHash": "sha256:f9b1ff2b8213bde45f62042a21f0e2d45db1d4c5b2e1191a3710372518bc9aee",
+      "markdownHash": "sha256:2d882688133d751d0679a87da66b3df7fb9a5c9f8d9ee71a746f8c07dada8729",
+      "answerVersion": "sha256:a7200e9e4b6240359c1d7c702a475e9f8a661941527b504730c4fa6535f36052",
+      "noteWords": 353,
+      "questions": 6,
+      "workedExamples": 2,
+      "flashcards": 5,
+      "publication": {
+        "jsonStatus": 403,
+        "markdownStatus": 403
+      },
+      "editorialStatus": "unreviewed"
+    },
+    {
+      "lessonId": "unit-a-level-quantum-phenomena",
+      "subject": "Physics",
+      "sourceFile": "src/content/subject-units/sciences.mjs",
+      "sourceHash": "sha256:360469f69b62bfe9a48bccfbe985619db90d2da23ffe3ad6b7aed8db28da9335",
+      "asset": "/learning-library/unit-a-level-quantum-phenomena.json",
+      "markdown": "/learning-library/unit-a-level-quantum-phenomena.md",
+      "contentHash": "sha256:52db5021eaabe9cd9663def878b7cc6b66b477f74e4f64348de00a7afcc28c7f",
+      "markdownHash": "sha256:2e0d5fdf426b8404ad6755525d34e32a74daa3296563101853831c59977967ea",
+      "answerVersion": "sha256:2d8fe1aeb67c24cb7d634908a28c6c1fa984176e7b1c93af4103f18eed6ee786",
+      "noteWords": 333,
+      "questions": 6,
+      "workedExamples": 2,
+      "flashcards": 5,
+      "publication": {
+        "jsonStatus": 403,
+        "markdownStatus": 403
+      },
+      "editorialStatus": "unreviewed"
+    },
+    {
+      "lessonId": "unit-germany-weimar-crises",
+      "subject": "History",
+      "sourceFile": "src/content/subject-units/history.mjs",
+      "sourceHash": "sha256:d1808a0cd5bfb5be1c8a785c83591aee13041c807da339bcf877299887bfb37a",
+      "asset": "/learning-library/unit-germany-weimar-crises.json",
+      "markdown": "/learning-library/unit-germany-weimar-crises.md",
+      "contentHash": "sha256:2b233d87574fa6d36df1cefe5ed74f7601f7914f03b68ff1e1612adc197d34bc",
+      "markdownHash": "sha256:102f17cd4848bc1b8e8fd31159ebe87126c7447837a253aaaccca9b7923be221",
+      "answerVersion": "sha256:8651439179e6f6835577e18fdcce29d9f06efd1302b3a6b4f35cf05ecca57170",
+      "noteWords": 388,
+      "questions": 6,
+      "workedExamples": 2,
+      "flashcards": 5,
+      "publication": {
+        "jsonStatus": 403,
+        "markdownStatus": 403
+      },
+      "editorialStatus": "unreviewed"
+    },
+    {
+      "lessonId": "unit-versailles-settlement",
+      "subject": "History",
+      "sourceFile": "src/content/subject-units/history.mjs",
+      "sourceHash": "sha256:d1808a0cd5bfb5be1c8a785c83591aee13041c807da339bcf877299887bfb37a",
+      "asset": "/learning-library/unit-versailles-settlement.json",
+      "markdown": "/learning-library/unit-versailles-settlement.md",
+      "contentHash": "sha256:bfc2785df5dc7e4739aefebdedc904ad9dff36b5278513d4fd9f29fb8eb0949f",
+      "markdownHash": "sha256:c7ed14352263dbc52a551dbd56b9ae54b54e667ba2deb4fee49f8c94c2a082be",
+      "answerVersion": "sha256:7f5c0dbc3857bcb64966e5d055b5affffa7fc18e845fc41ccf2ea8ed178b582a",
+      "noteWords": 381,
+      "questions": 6,
+      "workedExamples": 2,
+      "flashcards": 5,
+      "publication": {
+        "jsonStatus": 403,
+        "markdownStatus": 403
+      },
+      "editorialStatus": "unreviewed"
+    },
+    {
+      "lessonId": "unit-a-level-henry-vii-security",
+      "subject": "History",
+      "sourceFile": "src/content/subject-units/history.mjs",
+      "sourceHash": "sha256:d1808a0cd5bfb5be1c8a785c83591aee13041c807da339bcf877299887bfb37a",
+      "asset": "/learning-library/unit-a-level-henry-vii-security.json",
+      "markdown": "/learning-library/unit-a-level-henry-vii-security.md",
+      "contentHash": "sha256:fb88542a2dcb46129d1562cb3612e5926dfcdc08a75ae9557c8a4283cf0de769",
+      "markdownHash": "sha256:99c4fb68b04ca21de15a0fa6245a4777cb008df4fcb81978869f7e16b1fe460f",
+      "answerVersion": "sha256:660a977b7c33487b581f37341edd7aee9d3f087b4c38efee7a9798fa52695a99",
+      "noteWords": 351,
+      "questions": 6,
+      "workedExamples": 2,
+      "flashcards": 5,
+      "publication": {
+        "jsonStatus": 403,
+        "markdownStatus": 403
+      },
+      "editorialStatus": "unreviewed"
+    },
+    {
+      "lessonId": "unit-macbeth-ambition-agency",
+      "subject": "English",
+      "sourceFile": "src/content/subject-units/literature.mjs",
+      "sourceHash": "sha256:048fe00e147e52762dce74f68f4458cd99856b6d87c8da1aa5eac1b298527d3d",
+      "asset": "/learning-library/unit-macbeth-ambition-agency.json",
+      "markdown": "/learning-library/unit-macbeth-ambition-agency.md",
+      "contentHash": "sha256:17f500a9730261f18a6a7d3242bd57b2d2c715c752c1c684b7c6d3622531e132",
+      "markdownHash": "sha256:27958c4e9844ea409e8431490c236bdc03854736794ea9c4781d5f6f843882cd",
+      "answerVersion": "sha256:dfa0f9d251c0ce02d102b4658e5fa9402663288f3fc656a891192bf00b9d57f0",
+      "noteWords": 368,
+      "questions": 6,
+      "workedExamples": 2,
+      "flashcards": 5,
+      "publication": {
+        "jsonStatus": 403,
+        "markdownStatus": 403
+      },
+      "editorialStatus": "unreviewed"
+    },
+    {
+      "lessonId": "unit-christmas-carol-change",
+      "subject": "English",
+      "sourceFile": "src/content/subject-units/literature.mjs",
+      "sourceHash": "sha256:048fe00e147e52762dce74f68f4458cd99856b6d87c8da1aa5eac1b298527d3d",
+      "asset": "/learning-library/unit-christmas-carol-change.json",
+      "markdown": "/learning-library/unit-christmas-carol-change.md",
+      "contentHash": "sha256:1055db6c03102d5307125c0d0114fc7d716c4353448e90610db33b906d3e811d",
+      "markdownHash": "sha256:f2938da00bb451144fc8a9c090a85e8eb72ffe17cb8c2091690ba27f6975dd1c",
+      "answerVersion": "sha256:154f3bf3ea926256a9234213e1cebe925d51ac38b47e55ef5d80651628ab2228",
+      "noteWords": 341,
+      "questions": 6,
+      "workedExamples": 2,
+      "flashcards": 5,
+      "publication": {
+        "jsonStatus": 403,
+        "markdownStatus": 403
+      },
+      "editorialStatus": "unreviewed"
+    },
+    {
+      "lessonId": "unit-a-level-othello-knowledge",
+      "subject": "English",
+      "sourceFile": "src/content/subject-units/literature.mjs",
+      "sourceHash": "sha256:048fe00e147e52762dce74f68f4458cd99856b6d87c8da1aa5eac1b298527d3d",
+      "asset": "/learning-library/unit-a-level-othello-knowledge.json",
+      "markdown": "/learning-library/unit-a-level-othello-knowledge.md",
+      "contentHash": "sha256:5f273d9aae0c674d07f5644a2098fa175983faad9d7b515f5a80c66be7db25b0",
+      "markdownHash": "sha256:5f4a02a99df35151b2b8cce026e3c748d7793a358632cd168f3abbe5ab36ec71",
+      "answerVersion": "sha256:1bec7cad1203924871872b419fbc33497926126203eaf5ea76d9d61b1639b0df",
+      "noteWords": 358,
+      "questions": 6,
+      "workedExamples": 2,
+      "flashcards": 5,
+      "publication": {
+        "jsonStatus": 403,
+        "markdownStatus": 403
+      },
+      "editorialStatus": "unreviewed"
+    },
+    {
+      "lessonId": "unit-binary-hex-and-shifts",
+      "subject": "Computer Science",
+      "sourceFile": "src/content/subject-units/computing.mjs",
+      "sourceHash": "sha256:36980d9e9cf4a57394cf45cb8038b4d348ffae5ec88bdb1dd482880933f7ddc8",
+      "asset": "/learning-library/unit-binary-hex-and-shifts.json",
+      "markdown": "/learning-library/unit-binary-hex-and-shifts.md",
+      "contentHash": "sha256:604f159421677482ef7c36a07effb44fc56f4595d17098ea5ba1ad95925d5e77",
+      "markdownHash": "sha256:bd506b326944c1b679180daafb28418c1f86e458cbb7977c4b119702a58ac725",
+      "answerVersion": "sha256:6c789548be968eb5ab53f6ac1b95b71c0caa8d51bcfe51bd62f44bf3695c3185",
+      "noteWords": 323,
+      "questions": 6,
+      "workedExamples": 2,
+      "flashcards": 5,
+      "publication": {
+        "jsonStatus": 403,
+        "markdownStatus": 403
+      },
+      "editorialStatus": "unreviewed"
+    },
+    {
+      "lessonId": "unit-a-level-search-complexity",
+      "subject": "Computer Science",
+      "sourceFile": "src/content/subject-units/computing.mjs",
+      "sourceHash": "sha256:36980d9e9cf4a57394cf45cb8038b4d348ffae5ec88bdb1dd482880933f7ddc8",
+      "asset": "/learning-library/unit-a-level-search-complexity.json",
+      "markdown": "/learning-library/unit-a-level-search-complexity.md",
+      "contentHash": "sha256:b0729c7a81b511e687a8c59af9a2ddf5e4ceaf62a474e92b0951d1659d935edf",
+      "markdownHash": "sha256:faecc10999b9670086680b679b44ed0d7eaab857b7e3657bae9c91240a910e1c",
+      "answerVersion": "sha256:48179f5ecc848a123fb07166c51c8a088b55486094e88cde6f5449273145ceda",
+      "noteWords": 348,
+      "questions": 6,
+      "workedExamples": 2,
+      "flashcards": 5,
+      "publication": {
+        "jsonStatus": 403,
+        "markdownStatus": 403
+      },
+      "editorialStatus": "unreviewed"
+    },
+    {
+      "lessonId": "unit-tectonic-processes-risk",
+      "subject": "Geography",
+      "sourceFile": "src/content/subject-units/social-sciences.mjs",
+      "sourceHash": "sha256:821c488d82284cd8231878d1919ba3679ae55a0e05d20a866aec1966702f04b9",
+      "asset": "/learning-library/unit-tectonic-processes-risk.json",
+      "markdown": "/learning-library/unit-tectonic-processes-risk.md",
+      "contentHash": "sha256:5bddd4b661bcddab89b3c3a8ca607fe158af6278c1e19efe8497a6a6a69a5327",
+      "markdownHash": "sha256:b764a449b9a5ded859b1cd420bdb58efd0888f9c624b238a5b2c9d73b65aea40",
+      "answerVersion": "sha256:1cbb45c39e197ab167ba03dabfb8869d11ac468f91ce4f481aa18ebf980e03d3",
+      "noteWords": 397,
+      "questions": 6,
+      "workedExamples": 2,
+      "flashcards": 5,
+      "publication": {
+        "jsonStatus": 403,
+        "markdownStatus": 403
+      },
+      "editorialStatus": "unreviewed"
+    },
+    {
+      "lessonId": "unit-enterprise-objectives-stakeholders",
+      "subject": "Business",
+      "sourceFile": "src/content/subject-units/social-sciences.mjs",
+      "sourceHash": "sha256:821c488d82284cd8231878d1919ba3679ae55a0e05d20a866aec1966702f04b9",
+      "asset": "/learning-library/unit-enterprise-objectives-stakeholders.json",
+      "markdown": "/learning-library/unit-enterprise-objectives-stakeholders.md",
+      "contentHash": "sha256:e69c834744cef92b210040040df6a7962937fb45289626f2e53cd210cd6f6a11",
+      "markdownHash": "sha256:0533b8aed2dd5c3259d21bb0d85b387c29ca2fd5e8f746532f6b80a7447d5540",
+      "answerVersion": "sha256:723f05e02a9e3b76d0fc4a8ac5a27fc487a2d76ca9609dde7076cdb4400b8de4",
+      "noteWords": 353,
+      "questions": 6,
+      "workedExamples": 2,
+      "flashcards": 5,
+      "publication": {
+        "jsonStatus": 403,
+        "markdownStatus": 403
+      },
+      "editorialStatus": "unreviewed"
+    },
+    {
+      "lessonId": "unit-scarcity-production-possibilities",
+      "subject": "Economics",
+      "sourceFile": "src/content/subject-units/social-sciences.mjs",
+      "sourceHash": "sha256:821c488d82284cd8231878d1919ba3679ae55a0e05d20a866aec1966702f04b9",
+      "asset": "/learning-library/unit-scarcity-production-possibilities.json",
+      "markdown": "/learning-library/unit-scarcity-production-possibilities.md",
+      "contentHash": "sha256:6fbbad21806edda650cfa53ac202d9fd1ac9976ad6bbfd94cbfd8bb5e5dac0b4",
+      "markdownHash": "sha256:d5de62204ace96cd9f1c08199827d5b684d164733cae9dd93ebc3ed34a679c94",
+      "answerVersion": "sha256:e79d6f907579b3a788307857cf9b2311138e63fb41e7df9f61bb68745b7cab9e",
+      "noteWords": 364,
+      "questions": 6,
+      "workedExamples": 2,
+      "flashcards": 5,
+      "publication": {
+        "jsonStatus": 403,
+        "markdownStatus": 403
+      },
+      "editorialStatus": "unreviewed"
+    },
+    {
+      "lessonId": "unit-a-level-decision-trees",
+      "subject": "Business",
+      "sourceFile": "src/content/subject-units/social-sciences.mjs",
+      "sourceHash": "sha256:821c488d82284cd8231878d1919ba3679ae55a0e05d20a866aec1966702f04b9",
+      "asset": "/learning-library/unit-a-level-decision-trees.json",
+      "markdown": "/learning-library/unit-a-level-decision-trees.md",
+      "contentHash": "sha256:381a14e31945a1b85b395ada1e6e2984d6bb7cd85384adb73115b6f617a4cec7",
+      "markdownHash": "sha256:027b135e5ef42ff75197906728945834cd4fe016d0b26fe0c8dc27d0cf10398b",
+      "answerVersion": "sha256:c7d065b708532561fee12244de85e6526caea0b96593ff463ee5015aff7d4f62",
+      "noteWords": 339,
+      "questions": 6,
+      "workedExamples": 2,
+      "flashcards": 5,
+      "publication": {
+        "jsonStatus": 403,
+        "markdownStatus": 403
+      },
+      "editorialStatus": "unreviewed"
+    },
+    {
+      "lessonId": "unit-reading-inference-comparison",
+      "subject": "English",
+      "sourceFile": "src/content/subject-units/language.mjs",
+      "sourceHash": "sha256:38d7ed35142f7528325b8b5227a9a53c0ddd9967cb2e8fdea712e8a61d3c3f35",
+      "asset": "/learning-library/unit-reading-inference-comparison.json",
+      "markdown": "/learning-library/unit-reading-inference-comparison.md",
+      "contentHash": "sha256:150d79cd55135ab50ec4f733b7419b188340c62b11534f49e9c53adc78284df7",
+      "markdownHash": "sha256:a0a4f576ddd880f4bb8198eec70632540e53a2541d1b91a20741d7cc01458e32",
+      "answerVersion": "sha256:5132309dd39d0983013f39ff42de674d59ce0df27b75f39a99e30c149b5a4ea7",
+      "noteWords": 424,
+      "questions": 6,
+      "workedExamples": 2,
+      "flashcards": 5,
+      "publication": {
+        "jsonStatus": 403,
+        "markdownStatus": 403
+      },
+      "editorialStatus": "unreviewed"
+    }
+  ],
+  "targets": [
+    {
+      "programme": "GCSE",
+      "subject": "Biology",
+      "qualificationCode": "8461",
+      "sourceId": "gcse-biology",
+      "lessonIds": [
+        "unit-cells-and-microscopy"
+      ],
+      "pointScope": "Selected 4.1.1 cell structure, specialisation and microscopy",
+      "remaining": [
+        "Other topic strands in the full specification",
+        "Further images, unfamiliar data and extended assessment tasks",
+        "Supervised practical work and independent subject review"
+      ],
+      "status": "source-checked-partial-authoring",
+      "complete": false,
+      "independentlyReviewed": false,
+      "verifiedCoveragePercent": null,
+      "routes": [
+        {
+          "tier": "Foundation",
+          "lessons": [
+            {
+              "lessonId": "unit-cells-and-microscopy",
+              "noteHeadings": [
+                "Common structures: GCSE Foundation/Higher; IGCSE Core/Extended",
+                "Specialisation and organisation: both tiers",
+                "Images, scale and resolution: both tiers",
+                "Unit conversion: GCSE Foundation/Higher; IGCSE Extended only"
+              ],
+              "questionIds": [
+                "cell-functions",
+                "bacterial-contrast",
+                "same-unit-scale",
+                "resolution-test",
+                "mixed-unit-scale",
+                "organisation-chain"
+              ],
+              "noteBoundary": "These sections are selected for this programme/tier. The complete shared lesson also displays explicitly labelled extensions. Economics A-Level uses the IGCSE-labelled prerequisite questions as well as its A-Level questions."
+            }
+          ]
+        },
+        {
+          "tier": "Higher",
+          "lessons": [
+            {
+              "lessonId": "unit-cells-and-microscopy",
+              "noteHeadings": [
+                "Common structures: GCSE Foundation/Higher; IGCSE Core/Extended",
+                "Specialisation and organisation: both tiers",
+                "Images, scale and resolution: both tiers",
+                "Unit conversion: GCSE Foundation/Higher; IGCSE Extended only"
+              ],
+              "questionIds": [
+                "cell-functions",
+                "bacterial-contrast",
+                "same-unit-scale",
+                "resolution-test",
+                "mixed-unit-scale",
+                "organisation-chain"
+              ],
+              "noteBoundary": "These sections are selected for this programme/tier. The complete shared lesson also displays explicitly labelled extensions. Economics A-Level uses the IGCSE-labelled prerequisite questions as well as its A-Level questions."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "programme": "IGCSE",
+      "subject": "Biology",
+      "qualificationCode": "0610",
+      "sourceId": "igcse-biology",
+      "lessonIds": [
+        "unit-cells-and-microscopy"
+      ],
+      "pointScope": "Selected 2.1 cell structures/functions and 2.2 specimen size",
+      "remaining": [
+        "Other topic strands in the full specification",
+        "Further images, unfamiliar data and extended assessment tasks",
+        "Supervised practical work and independent subject review"
+      ],
+      "status": "source-checked-partial-authoring",
+      "complete": false,
+      "independentlyReviewed": false,
+      "verifiedCoveragePercent": null,
+      "routes": [
+        {
+          "tier": "Core",
+          "lessons": [
+            {
+              "lessonId": "unit-cells-and-microscopy",
+              "noteHeadings": [
+                "Common structures: GCSE Foundation/Higher; IGCSE Core/Extended",
+                "Specialisation and organisation: both tiers",
+                "Images, scale and resolution: both tiers"
+              ],
+              "questionIds": [
+                "cell-functions",
+                "bacterial-contrast",
+                "same-unit-scale",
+                "resolution-test",
+                "organisation-chain"
+              ],
+              "noteBoundary": "These sections are selected for this programme/tier. The complete shared lesson also displays explicitly labelled extensions. Economics A-Level uses the IGCSE-labelled prerequisite questions as well as its A-Level questions."
+            }
+          ]
+        },
+        {
+          "tier": "Extended",
+          "lessons": [
+            {
+              "lessonId": "unit-cells-and-microscopy",
+              "noteHeadings": [
+                "Common structures: GCSE Foundation/Higher; IGCSE Core/Extended",
+                "Specialisation and organisation: both tiers",
+                "Images, scale and resolution: both tiers",
+                "Unit conversion: GCSE Foundation/Higher; IGCSE Extended only"
+              ],
+              "questionIds": [
+                "cell-functions",
+                "bacterial-contrast",
+                "same-unit-scale",
+                "resolution-test",
+                "mixed-unit-scale",
+                "organisation-chain"
+              ],
+              "noteBoundary": "These sections are selected for this programme/tier. The complete shared lesson also displays explicitly labelled extensions. Economics A-Level uses the IGCSE-labelled prerequisite questions as well as its A-Level questions."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "programme": "GCSE",
+      "subject": "Chemistry",
+      "qualificationCode": "8462",
+      "sourceId": "gcse-chemistry",
+      "lessonIds": [
+        "unit-atoms-isotopes-and-ions"
+      ],
+      "pointScope": "Selected 4.1.1 particle counts, isotopes and electron arrangements",
+      "remaining": [
+        "Other topic strands in the full specification",
+        "Further images, unfamiliar data and extended assessment tasks",
+        "Supervised practical work and independent subject review"
+      ],
+      "status": "source-checked-partial-authoring",
+      "complete": false,
+      "independentlyReviewed": false,
+      "verifiedCoveragePercent": null,
+      "routes": [
+        {
+          "tier": "Foundation",
+          "lessons": [
+            {
+              "lessonId": "unit-atoms-isotopes-and-ions",
+              "noteHeadings": [
+                "Particles and identity: both tiers",
+                "Ions and isotopes: both tiers",
+                "Electron arrangements: both tiers",
+                "Isotope means: GCSE Foundation/Higher; IGCSE Extended only"
+              ],
+              "questionIds": [
+                "magnesium-counts",
+                "chloride-counts",
+                "shell-position",
+                "isotope-identity",
+                "weighted-isotopes"
+              ],
+              "noteBoundary": "These sections are selected for this programme/tier. The complete shared lesson also displays explicitly labelled extensions. Economics A-Level uses the IGCSE-labelled prerequisite questions as well as its A-Level questions."
+            }
+          ]
+        },
+        {
+          "tier": "Higher",
+          "lessons": [
+            {
+              "lessonId": "unit-atoms-isotopes-and-ions",
+              "noteHeadings": [
+                "Particles and identity: both tiers",
+                "Ions and isotopes: both tiers",
+                "Electron arrangements: both tiers",
+                "Isotope means: GCSE Foundation/Higher; IGCSE Extended only"
+              ],
+              "questionIds": [
+                "magnesium-counts",
+                "chloride-counts",
+                "shell-position",
+                "isotope-identity",
+                "weighted-isotopes"
+              ],
+              "noteBoundary": "These sections are selected for this programme/tier. The complete shared lesson also displays explicitly labelled extensions. Economics A-Level uses the IGCSE-labelled prerequisite questions as well as its A-Level questions."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "programme": "IGCSE",
+      "subject": "Chemistry",
+      "qualificationCode": "0620",
+      "sourceId": "igcse-chemistry",
+      "lessonIds": [
+        "unit-atoms-isotopes-and-ions"
+      ],
+      "pointScope": "Selected 2.2 atomic structure and 2.3 isotopes",
+      "remaining": [
+        "Other topic strands in the full specification",
+        "Further images, unfamiliar data and extended assessment tasks",
+        "Supervised practical work and independent subject review"
+      ],
+      "status": "source-checked-partial-authoring",
+      "complete": false,
+      "independentlyReviewed": false,
+      "verifiedCoveragePercent": null,
+      "routes": [
+        {
+          "tier": "Core",
+          "lessons": [
+            {
+              "lessonId": "unit-atoms-isotopes-and-ions",
+              "noteHeadings": [
+                "Particles and identity: both tiers",
+                "Ions and isotopes: both tiers",
+                "Electron arrangements: both tiers"
+              ],
+              "questionIds": [
+                "magnesium-counts",
+                "chloride-counts",
+                "shell-position",
+                "isotope-identity"
+              ],
+              "noteBoundary": "These sections are selected for this programme/tier. The complete shared lesson also displays explicitly labelled extensions. Economics A-Level uses the IGCSE-labelled prerequisite questions as well as its A-Level questions."
+            }
+          ]
+        },
+        {
+          "tier": "Extended",
+          "lessons": [
+            {
+              "lessonId": "unit-atoms-isotopes-and-ions",
+              "noteHeadings": [
+                "Particles and identity: both tiers",
+                "Ions and isotopes: both tiers",
+                "Electron arrangements: both tiers",
+                "Isotope means: GCSE Foundation/Higher; IGCSE Extended only"
+              ],
+              "questionIds": [
+                "magnesium-counts",
+                "chloride-counts",
+                "shell-position",
+                "isotope-identity",
+                "weighted-isotopes",
+                "chemical-isotopes"
+              ],
+              "noteBoundary": "These sections are selected for this programme/tier. The complete shared lesson also displays explicitly labelled extensions. Economics A-Level uses the IGCSE-labelled prerequisite questions as well as its A-Level questions."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "programme": "GCSE",
+      "subject": "Physics",
+      "qualificationCode": "8463",
+      "sourceId": "gcse-physics",
+      "lessonIds": [
+        "unit-current-resistance-circuits"
+      ],
+      "pointScope": "Selected 4.2.1 charge/current/resistance and measurements",
+      "remaining": [
+        "Other topic strands in the full specification",
+        "Further images, unfamiliar data and extended assessment tasks",
+        "Supervised practical work and independent subject review"
+      ],
+      "status": "source-checked-partial-authoring",
+      "complete": false,
+      "independentlyReviewed": false,
+      "verifiedCoveragePercent": null,
+      "routes": [
+        {
+          "tier": "Foundation",
+          "lessons": [
+            {
+              "lessonId": "unit-current-resistance-circuits",
+              "noteHeadings": [
+                "What flows: both tiers",
+                "Measurements: both tiers",
+                "Current-voltage relationships: GCSE Foundation/Higher; IGCSE Extended only",
+                "Controlling a wire investigation: both tiers",
+                "Charge calculation: GCSE Foundation/Higher; IGCSE Extended only"
+              ],
+              "questionIds": [
+                "meter-connections",
+                "resistance-value",
+                "lamp-current",
+                "wire-control",
+                "charge-transfer"
+              ],
+              "noteBoundary": "These sections are selected for this programme/tier. The complete shared lesson also displays explicitly labelled extensions. Economics A-Level uses the IGCSE-labelled prerequisite questions as well as its A-Level questions."
+            }
+          ]
+        },
+        {
+          "tier": "Higher",
+          "lessons": [
+            {
+              "lessonId": "unit-current-resistance-circuits",
+              "noteHeadings": [
+                "What flows: both tiers",
+                "Measurements: both tiers",
+                "Current-voltage relationships: GCSE Foundation/Higher; IGCSE Extended only",
+                "Controlling a wire investigation: both tiers",
+                "Charge calculation: GCSE Foundation/Higher; IGCSE Extended only"
+              ],
+              "questionIds": [
+                "meter-connections",
+                "resistance-value",
+                "lamp-current",
+                "wire-control",
+                "charge-transfer"
+              ],
+              "noteBoundary": "These sections are selected for this programme/tier. The complete shared lesson also displays explicitly labelled extensions. Economics A-Level uses the IGCSE-labelled prerequisite questions as well as its A-Level questions."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "programme": "IGCSE",
+      "subject": "Physics",
+      "qualificationCode": "0625",
+      "sourceId": "igcse-physics",
+      "lessonIds": [
+        "unit-current-resistance-circuits"
+      ],
+      "pointScope": "Selected 4.2.2 current and 4.2.3–4.2.4 measurement/resistance",
+      "remaining": [
+        "Other topic strands in the full specification",
+        "Further images, unfamiliar data and extended assessment tasks",
+        "Supervised practical work and independent subject review"
+      ],
+      "status": "source-checked-partial-authoring",
+      "complete": false,
+      "independentlyReviewed": false,
+      "verifiedCoveragePercent": null,
+      "routes": [
+        {
+          "tier": "Core",
+          "lessons": [
+            {
+              "lessonId": "unit-current-resistance-circuits",
+              "noteHeadings": [
+                "What flows: both tiers",
+                "Measurements: both tiers",
+                "Controlling a wire investigation: both tiers"
+              ],
+              "questionIds": [
+                "meter-connections",
+                "resistance-value",
+                "lamp-current",
+                "wire-control"
+              ],
+              "noteBoundary": "These sections are selected for this programme/tier. The complete shared lesson also displays explicitly labelled extensions. Economics A-Level uses the IGCSE-labelled prerequisite questions as well as its A-Level questions."
+            }
+          ]
+        },
+        {
+          "tier": "Extended",
+          "lessons": [
+            {
+              "lessonId": "unit-current-resistance-circuits",
+              "noteHeadings": [
+                "What flows: both tiers",
+                "Measurements: both tiers",
+                "Current-voltage relationships: GCSE Foundation/Higher; IGCSE Extended only",
+                "Controlling a wire investigation: both tiers",
+                "Charge calculation: GCSE Foundation/Higher; IGCSE Extended only"
+              ],
+              "questionIds": [
+                "meter-connections",
+                "resistance-value",
+                "lamp-current",
+                "wire-control",
+                "charge-transfer",
+                "opposite-directions"
+              ],
+              "noteBoundary": "These sections are selected for this programme/tier. The complete shared lesson also displays explicitly labelled extensions. Economics A-Level uses the IGCSE-labelled prerequisite questions as well as its A-Level questions."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "programme": "A_LEVELS",
+      "subject": "Biology",
+      "qualificationCode": "7402",
+      "sourceId": "al-biology",
+      "lessonIds": [
+        "unit-a-level-membrane-transport"
+      ],
+      "pointScope": "3.2.3 membrane transport and practical interpretation",
+      "remaining": [
+        "Other topic strands in the full specification",
+        "Further images, unfamiliar data and extended assessment tasks",
+        "Supervised practical work and independent subject review"
+      ],
+      "status": "source-checked-partial-authoring",
+      "complete": false,
+      "independentlyReviewed": false,
+      "verifiedCoveragePercent": null,
+      "routes": [
+        {
+          "tier": "untiered",
+          "lessons": [
+            {
+              "lessonId": "unit-a-level-membrane-transport",
+              "noteHeadings": [
+                "A selective, dynamic boundary",
+                "Passive and active routes",
+                "Co-transport in the ileum",
+                "Practical inference and its limits"
+              ],
+              "questionIds": [
+                "bilayer-ion",
+                "potential-direction",
+                "pump-inhibition",
+                "mass-change",
+                "beetroot-confound",
+                "carrier-plateau"
+              ],
+              "noteBoundary": "These sections are selected for this programme/tier. The complete shared lesson also displays explicitly labelled extensions. Economics A-Level uses the IGCSE-labelled prerequisite questions as well as its A-Level questions."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "programme": "A_LEVELS",
+      "subject": "Chemistry",
+      "qualificationCode": "7405",
+      "sourceId": "al-chemistry",
+      "lessonIds": [
+        "unit-a-level-amount-substance"
+      ],
+      "pointScope": "Selected 3.1.2 amount, solutions, gases, formulae and titration",
+      "remaining": [
+        "Yield and atom-economy applications",
+        "All other physical, inorganic and organic strands",
+        "Further images, unfamiliar data and extended assessment tasks",
+        "Supervised practical work and independent subject review"
+      ],
+      "status": "source-checked-partial-authoring",
+      "complete": false,
+      "independentlyReviewed": false,
+      "verifiedCoveragePercent": null,
+      "routes": [
+        {
+          "tier": "untiered",
+          "lessons": [
+            {
+              "lessonId": "unit-a-level-amount-substance",
+              "noteHeadings": [
+                "Amounts are counts, not masses",
+                "Solutions and reaction ratios",
+                "Gas and formula reasoning",
+                "Titration quality"
+              ],
+              "questionIds": [
+                "moles-mass",
+                "acid-ratio",
+                "ideal-gas",
+                "molecular-formula",
+                "burette-uncertainty",
+                "flask-water"
+              ],
+              "noteBoundary": "These sections are selected for this programme/tier. The complete shared lesson also displays explicitly labelled extensions. Economics A-Level uses the IGCSE-labelled prerequisite questions as well as its A-Level questions."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "programme": "A_LEVELS",
+      "subject": "Physics",
+      "qualificationCode": "7408",
+      "sourceId": "al-physics",
+      "lessonIds": [
+        "unit-a-level-quantum-phenomena"
+      ],
+      "pointScope": "3.2.2 photon, spectral and matter-wave explanations",
+      "remaining": [
+        "Other topic strands in the full specification",
+        "Further images, unfamiliar data and extended assessment tasks",
+        "Supervised practical work and independent subject review"
+      ],
+      "status": "source-checked-partial-authoring",
+      "complete": false,
+      "independentlyReviewed": false,
+      "verifiedCoveragePercent": null,
+      "routes": [
+        {
+          "tier": "untiered",
+          "lessons": [
+            {
+              "lessonId": "unit-a-level-quantum-phenomena",
+              "noteHeadings": [
+                "One photon, one energy transfer",
+                "Energy accounting and stopping potential",
+                "Excitation, ionisation and spectra",
+                "Matter waves and model limits"
+              ],
+              "questionIds": [
+                "below-threshold",
+                "photo-energy",
+                "threshold-number",
+                "level-transition",
+                "momentum-change",
+                "intensity-contrast"
+              ],
+              "noteBoundary": "These sections are selected for this programme/tier. The complete shared lesson also displays explicitly labelled extensions. Economics A-Level uses the IGCSE-labelled prerequisite questions as well as its A-Level questions."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "programme": "GCSE",
+      "subject": "History",
+      "qualificationCode": "8145",
+      "sourceId": "gcse-history",
+      "lessonIds": [
+        "unit-germany-weimar-crises"
+      ],
+      "pointScope": "AB transition and early Weimar crises, 1918–1923",
+      "remaining": [
+        "Germany 1890–1918 and 1924–1945",
+        "BB inter-war conflict and tension",
+        "AA Health and the people",
+        "BC Elizabethan England and 2027 Spanish Armada environment",
+        "Authentic source sets and full assessment practice"
+      ],
+      "status": "source-checked-partial-authoring",
+      "complete": false,
+      "independentlyReviewed": false,
+      "verifiedCoveragePercent": null,
+      "routes": [
+        {
+          "tier": "untiered",
+          "lessons": [
+            {
+              "lessonId": "unit-germany-weimar-crises",
+              "noteHeadings": [
+                "Defeat and a contested beginning",
+                "Threats did not all come from the same side",
+                "The 1923 crisis and inflation",
+                "Causation and interpretation"
+              ],
+              "questionIds": [
+                "defeat-legitimacy",
+                "putsch-comparison",
+                "ruhr-chain",
+                "unequal-effects",
+                "interpretation-test",
+                "chronology-repair"
+              ],
+              "noteBoundary": "These sections are selected for this programme/tier. The complete shared lesson also displays explicitly labelled extensions. Economics A-Level uses the IGCSE-labelled prerequisite questions as well as its A-Level questions."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "programme": "IGCSE",
+      "subject": "History",
+      "qualificationCode": "0470",
+      "sourceId": "igcse-history",
+      "lessonIds": [
+        "unit-versailles-settlement"
+      ],
+      "pointScope": "Option B Versailles: aims, terms, consequences and evaluation",
+      "remaining": [
+        "Authentic Versailles source sets and further detail to 1923",
+        "Other five Option B core questions, including June 2027 Soviet-control prescription",
+        "Germany depth study 1918–1945",
+        "Papers 1, 2 and 4 extended practice"
+      ],
+      "status": "source-checked-partial-authoring",
+      "complete": false,
+      "independentlyReviewed": false,
+      "verifiedCoveragePercent": null,
+      "routes": [
+        {
+          "tier": "untiered",
+          "lessons": [
+            {
+              "lessonId": "unit-versailles-settlement",
+              "noteHeadings": [
+                "A peace negotiated between different priorities",
+                "Terms and the distinction between 1919 and 1921",
+                "Consequences were mediated by decisions",
+                "How to judge fairness and sources"
+              ],
+              "questionIds": [
+                "aims-conflict",
+                "restriction-effect",
+                "reparations-date",
+                "fairness-criteria",
+                "source-purpose",
+                "ruhr-not-inevitable"
+              ],
+              "noteBoundary": "These sections are selected for this programme/tier. The complete shared lesson also displays explicitly labelled extensions. Economics A-Level uses the IGCSE-labelled prerequisite questions as well as its A-Level questions."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "programme": "A_LEVELS",
+      "subject": "History",
+      "qualificationCode": "7042",
+      "sourceId": "al-history",
+      "lessonIds": [
+        "unit-a-level-henry-vii-security"
+      ],
+      "pointScope": "1C Henry VII: dynastic security, elites and rebellion",
+      "remaining": [
+        "Henry VII economy, religion, culture and fuller diplomacy",
+        "Remaining Tudors 1509–1603",
+        "2O Germany 1918–1945",
+        "Authentic sources and historical interpretations",
+        "Learner-led civil-rights investigation with centre-approved question"
+      ],
+      "status": "source-checked-partial-authoring",
+      "complete": false,
+      "independentlyReviewed": false,
+      "verifiedCoveragePercent": null,
+      "routes": [
+        {
+          "tier": "untiered",
+          "lessons": [
+            {
+              "lessonId": "unit-a-level-henry-vii-security",
+              "noteHeadings": [
+                "Victory did not automatically secure legitimacy",
+                "Pretenders and foreign assistance",
+                "Control through existing structures",
+                "Rebellion, succession and a qualified verdict"
+              ],
+              "questionIds": [
+                "legitimacy-sequence",
+                "foreign-pretenders",
+                "noble-dependence",
+                "rebellion-types",
+                "succession-setback",
+                "interpretation-plan"
+              ],
+              "noteBoundary": "These sections are selected for this programme/tier. The complete shared lesson also displays explicitly labelled extensions. Economics A-Level uses the IGCSE-labelled prerequisite questions as well as its A-Level questions."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "programme": "GCSE",
+      "subject": "English Literature",
+      "qualificationCode": "8702",
+      "sourceId": "gcse-literature",
+      "lessonIds": [
+        "unit-macbeth-ambition-agency",
+        "unit-christmas-carol-change"
+      ],
+      "pointScope": "Selected whole-text thematic arguments in Macbeth and A Christmas Carol",
+      "remaining": [
+        "Further scene/extract study of both whole texts",
+        "An Inspector Calls",
+        "All 15 Power and Conflict poems and comparison",
+        "Unseen poetry analysis/comparison",
+        "Extended essays with independent review"
+      ],
+      "status": "source-checked-partial-authoring",
+      "complete": false,
+      "independentlyReviewed": false,
+      "verifiedCoveragePercent": null,
+      "routes": [
+        {
+          "tier": "untiered",
+          "lessons": [
+            {
+              "lessonId": "unit-macbeth-ambition-agency",
+              "noteHeadings": [
+                "Prophecy offers a possibility, not an instruction",
+                "Soliloquy makes conflict available to the audience",
+                "A partnership changes after the murder",
+                "Guilt, context and the ending"
+              ],
+              "questionIds": [
+                "prediction-choice",
+                "soliloquy-effect",
+                "lady-influence",
+                "banquet-stage",
+                "guilt-contrast",
+                "whole-play-plan"
+              ],
+              "noteBoundary": "These sections are selected for this programme/tier. The complete shared lesson also displays explicitly labelled extensions. Economics A-Level uses the IGCSE-labelled prerequisite questions as well as its A-Level questions."
+            },
+            {
+              "lessonId": "unit-christmas-carol-change",
+              "noteHeadings": [
+                "Isolation establishes a problem of relationship",
+                "The past makes alternative selves imaginable",
+                "The present challenges abstraction",
+                "The future and the ending test change"
+              ],
+              "questionIds": [
+                "opening-relationships",
+                "past-complexity",
+                "fezziwig-bob",
+                "personification-social",
+                "future-agency",
+                "ending-evaluation"
+              ],
+              "noteBoundary": "These sections are selected for this programme/tier. The complete shared lesson also displays explicitly labelled extensions. Economics A-Level uses the IGCSE-labelled prerequisite questions as well as its A-Level questions."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "programme": "A_LEVELS",
+      "subject": "English Literature",
+      "qualificationCode": "7712",
+      "sourceId": "al-literature",
+      "lessonIds": [
+        "unit-a-level-othello-knowledge"
+      ],
+      "pointScope": "Othello: testimony, dramatic irony, love and judgement",
+      "remaining": [
+        "Further Othello scene/whole-text assessment",
+        "The Great Gatsby and complete Pre-1900 anthology",
+        "The Handmaid’s Tale, A Streetcar Named Desire and Feminine Gospels",
+        "Unseen poems and prose",
+        "Learner-led Frankenstein/Never Let Me Go study with centre approval"
+      ],
+      "status": "source-checked-partial-authoring",
+      "complete": false,
+      "independentlyReviewed": false,
+      "verifiedCoveragePercent": null,
+      "routes": [
+        {
+          "tier": "untiered",
+          "lessons": [
+            {
+              "lessonId": "unit-a-level-othello-knowledge",
+              "noteHeadings": [
+                "Public testimony and a marriage under scrutiny",
+                "Iago stages interpretation",
+                "A prop becomes a false proof",
+                "Alternative readings and the final act"
+              ],
+              "questionIds": [
+                "senate-agency",
+                "irony-trust",
+                "prop-inference",
+                "staged-overhearing",
+                "readings-interaction",
+                "recognition-repair"
+              ],
+              "noteBoundary": "These sections are selected for this programme/tier. The complete shared lesson also displays explicitly labelled extensions. Economics A-Level uses the IGCSE-labelled prerequisite questions as well as its A-Level questions."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "programme": "GCSE",
+      "subject": "Computer Science",
+      "qualificationCode": "8525",
+      "sourceId": "gcse-computing",
+      "lessonIds": [
+        "unit-binary-hex-and-shifts"
+      ],
+      "pointScope": "3.3.1–3.3.4 selected eight-bit conversions, addition and shifts",
+      "remaining": [
+        "Further binary arithmetic and information units",
+        "Text, image, sound and compression",
+        "Algorithms, programming and computational thinking",
+        "Systems, networks, security and impacts",
+        "Practical programming tasks"
+      ],
+      "status": "source-checked-partial-authoring",
+      "complete": false,
+      "independentlyReviewed": false,
+      "verifiedCoveragePercent": null,
+      "routes": [
+        {
+          "tier": "untiered",
+          "lessons": [
+            {
+              "lessonId": "unit-binary-hex-and-shifts",
+              "noteHeadings": [
+                "Place value: GCSE/IGCSE untiered",
+                "Hexadecimal and arithmetic: GCSE/IGCSE untiered",
+                "Logical shifts: GCSE/IGCSE untiered"
+              ],
+              "questionIds": [
+                "binary-denary",
+                "denary-binary",
+                "binary-add",
+                "right-shift"
+              ],
+              "noteBoundary": "These sections are selected for this programme/tier. The complete shared lesson also displays explicitly labelled extensions. Economics A-Level uses the IGCSE-labelled prerequisite questions as well as its A-Level questions."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "programme": "IGCSE",
+      "subject": "Computer Science",
+      "qualificationCode": "0478",
+      "sourceId": "igcse-computing",
+      "lessonIds": [
+        "unit-binary-hex-and-shifts"
+      ],
+      "pointScope": "1.1 conversions, arithmetic, shifts and two’s complement",
+      "remaining": [
+        "Further sixteen-bit conversion and signed-number practice",
+        "Text, sound, images and compression",
+        "Transmission, hardware, software, internet and emerging technologies",
+        "Algorithms, programming, databases and logic",
+        "Practical programming and full assessment tasks"
+      ],
+      "status": "source-checked-partial-authoring",
+      "complete": false,
+      "independentlyReviewed": false,
+      "verifiedCoveragePercent": null,
+      "routes": [
+        {
+          "tier": "untiered",
+          "lessons": [
+            {
+              "lessonId": "unit-binary-hex-and-shifts",
+              "noteHeadings": [
+                "Place value: GCSE/IGCSE untiered",
+                "Hexadecimal and arithmetic: GCSE/IGCSE untiered",
+                "Logical shifts: GCSE/IGCSE untiered",
+                "Signed values and wider conversion: IGCSE untiered"
+              ],
+              "questionIds": [
+                "binary-denary",
+                "denary-binary",
+                "binary-add",
+                "right-shift",
+                "overflow-eight",
+                "twos-complement"
+              ],
+              "noteBoundary": "These sections are selected for this programme/tier. The complete shared lesson also displays explicitly labelled extensions. Economics A-Level uses the IGCSE-labelled prerequisite questions as well as its A-Level questions."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "programme": "A_LEVELS",
+      "subject": "Computer Science",
+      "qualificationCode": "7517",
+      "sourceId": "al-computing",
+      "lessonIds": [
+        "unit-a-level-search-complexity"
+      ],
+      "pointScope": "4.3.4 linear, binary and binary-tree searching",
+      "remaining": [
+        "Other algorithms and data structures",
+        "Programming paradigms and theory of computation",
+        "Representation, systems, architecture, networks and databases",
+        "Computing impacts and big data",
+        "Learner’s independent programming project"
+      ],
+      "status": "source-checked-partial-authoring",
+      "complete": false,
+      "independentlyReviewed": false,
+      "verifiedCoveragePercent": null,
+      "routes": [
+        {
+          "tier": "untiered",
+          "lessons": [
+            {
+              "lessonId": "unit-a-level-search-complexity",
+              "noteHeadings": [
+                "Linear search and its contract",
+                "Binary search and what remains possible",
+                "Tracing and growth rates",
+                "Binary search trees need a shape assumption"
+              ],
+              "questionIds": [
+                "linear-duplicates",
+                "binary-trace",
+                "missing-search",
+                "nonprogress-bug",
+                "complexity-choice",
+                "bst-chain"
+              ],
+              "noteBoundary": "These sections are selected for this programme/tier. The complete shared lesson also displays explicitly labelled extensions. Economics A-Level uses the IGCSE-labelled prerequisite questions as well as its A-Level questions."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "programme": "GCSE",
+      "subject": "Geography",
+      "qualificationCode": "8035",
+      "sourceId": "gcse-geography",
+      "lessonIds": [
+        "unit-tectonic-processes-risk"
+      ],
+      "pointScope": "Selected 3.1.1.1–3.1.1.2 processes, effects and risk management",
+      "remaining": [
+        "Required checked named contrasting-wealth tectonic examples",
+        "Weather hazards, climate, ecosystems and landscapes",
+        "Human geography and resource management",
+        "Geographical applications, skills and fieldwork"
+      ],
+      "status": "source-checked-partial-authoring",
+      "complete": false,
+      "independentlyReviewed": false,
+      "verifiedCoveragePercent": null,
+      "routes": [
+        {
+          "tier": "untiered",
+          "lessons": [
+            {
+              "lessonId": "unit-tectonic-processes-risk",
+              "noteHeadings": [
+                "Moving plates and different boundaries",
+                "Earthquakes and their effects",
+                "Risk is not magnitude alone",
+                "Management and evidence"
+              ],
+              "questionIds": [
+                "margin-contrast",
+                "focus-epicentre",
+                "risk-controls",
+                "warning-prediction",
+                "fictional-rates",
+                "stay-or-leave"
+              ],
+              "noteBoundary": "These sections are selected for this programme/tier. The complete shared lesson also displays explicitly labelled extensions. Economics A-Level uses the IGCSE-labelled prerequisite questions as well as its A-Level questions."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "programme": "IGCSE",
+      "subject": "Geography",
+      "qualificationCode": "0460",
+      "sourceId": "igcse-geography",
+      "lessonIds": [
+        "unit-tectonic-processes-risk"
+      ],
+      "pointScope": "Selected topic 4 boundary processes, earthquakes and risk",
+      "remaining": [
+        "Named places and maps, full volcano features/classification and hazard measures",
+        "Other physical geography topics",
+        "Human geography topics",
+        "Integrated geographical skills and selected investigation/coursework route"
+      ],
+      "status": "source-checked-partial-authoring",
+      "complete": false,
+      "independentlyReviewed": false,
+      "verifiedCoveragePercent": null,
+      "routes": [
+        {
+          "tier": "untiered",
+          "lessons": [
+            {
+              "lessonId": "unit-tectonic-processes-risk",
+              "noteHeadings": [
+                "Moving plates and different boundaries",
+                "Earthquakes and their effects",
+                "Risk is not magnitude alone",
+                "Management and evidence"
+              ],
+              "questionIds": [
+                "margin-contrast",
+                "focus-epicentre",
+                "risk-controls",
+                "warning-prediction",
+                "fictional-rates",
+                "stay-or-leave"
+              ],
+              "noteBoundary": "These sections are selected for this programme/tier. The complete shared lesson also displays explicitly labelled extensions. Economics A-Level uses the IGCSE-labelled prerequisite questions as well as its A-Level questions."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "programme": "GCSE",
+      "subject": "Business",
+      "qualificationCode": "8132",
+      "sourceId": "gcse-business",
+      "lessonIds": [
+        "unit-enterprise-objectives-stakeholders"
+      ],
+      "pointScope": "Selected 3.1 enterprise, objectives and stakeholder reasoning",
+      "remaining": [
+        "Ownership, growth, location and planning depth",
+        "External influences",
+        "Operations, human resources, marketing and finance",
+        "Extended applied case assessments"
+      ],
+      "status": "source-checked-partial-authoring",
+      "complete": false,
+      "independentlyReviewed": false,
+      "verifiedCoveragePercent": null,
+      "routes": [
+        {
+          "tier": "untiered",
+          "lessons": [
+            {
+              "lessonId": "unit-enterprise-objectives-stakeholders",
+              "noteHeadings": [
+                "Resources and enterprise",
+                "Value and alternatives",
+                "Objectives and a usable plan",
+                "Stakeholders can cooperate and conflict"
+              ],
+              "questionIds": [
+                "factor-classification",
+                "best-alternative",
+                "objective-quality",
+                "stakeholder-conflict",
+                "plan-limits"
+              ],
+              "noteBoundary": "These sections are selected for this programme/tier. The complete shared lesson also displays explicitly labelled extensions. Economics A-Level uses the IGCSE-labelled prerequisite questions as well as its A-Level questions."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "programme": "IGCSE",
+      "subject": "Business Studies",
+      "qualificationCode": "0264",
+      "sourceId": "igcse-business",
+      "lessonIds": [
+        "unit-enterprise-objectives-stakeholders"
+      ],
+      "pointScope": "Selected 1.1, 1.3.1 and 1.5 enterprise and objectives",
+      "remaining": [
+        "Economic sectors, growth/size, business organisation",
+        "People, marketing and operations",
+        "Financial information and decisions",
+        "External influences, sustainability and ethical issues",
+        "Extended applied cases"
+      ],
+      "status": "source-checked-partial-authoring",
+      "complete": false,
+      "independentlyReviewed": false,
+      "verifiedCoveragePercent": null,
+      "routes": [
+        {
+          "tier": "untiered",
+          "lessons": [
+            {
+              "lessonId": "unit-enterprise-objectives-stakeholders",
+              "noteHeadings": [
+                "Resources and enterprise",
+                "Value and alternatives",
+                "Objectives and a usable plan",
+                "Stakeholders can cooperate and conflict"
+              ],
+              "questionIds": [
+                "factor-classification",
+                "best-alternative",
+                "value-versus-profit",
+                "objective-quality",
+                "stakeholder-conflict",
+                "plan-limits"
+              ],
+              "noteBoundary": "These sections are selected for this programme/tier. The complete shared lesson also displays explicitly labelled extensions. Economics A-Level uses the IGCSE-labelled prerequisite questions as well as its A-Level questions."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "programme": "A_LEVELS",
+      "subject": "Business",
+      "qualificationCode": "7132",
+      "sourceId": "al-business",
+      "lessonIds": [
+        "unit-a-level-decision-trees"
+      ],
+      "pointScope": "3.2.2 decision-tree interpretation, calculation and evaluation",
+      "remaining": [
+        "Multistage decision-tree practice",
+        "Leadership and stakeholder management",
+        "Marketing, operations, finance and human resources",
+        "Strategic position, direction, methods and change",
+        "Full applied assessments for 7132"
+      ],
+      "status": "source-checked-partial-authoring",
+      "complete": false,
+      "independentlyReviewed": false,
+      "verifiedCoveragePercent": null,
+      "routes": [
+        {
+          "tier": "untiered",
+          "lessons": [
+            {
+              "lessonId": "unit-a-level-decision-trees",
+              "noteHeadings": [
+                "Represent the decision before calculating",
+                "Expected value is a weighted mean",
+                "Work backwards and test assumptions",
+                "A justified choice needs more than the mean"
+              ],
+              "questionIds": [
+                "expected-gain",
+                "invalid-probabilities",
+                "cost-double-count",
+                "probability-threshold",
+                "survival-constraint",
+                "evidence-quality"
+              ],
+              "noteBoundary": "These sections are selected for this programme/tier. The complete shared lesson also displays explicitly labelled extensions. Economics A-Level uses the IGCSE-labelled prerequisite questions as well as its A-Level questions."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "programme": "IGCSE",
+      "subject": "Economics",
+      "qualificationCode": "0455",
+      "sourceId": "igcse-economics",
+      "lessonIds": [
+        "unit-scarcity-production-possibilities"
+      ],
+      "pointScope": "Selected 1.1, 1.3 and 1.4 scarcity, opportunity cost and PPC",
+      "remaining": [
+        "Factor rewards and changes in resource quantity/quality",
+        "Markets and resource allocation",
+        "Microeconomic decision makers",
+        "Macroeconomic policies",
+        "Development and international trade/globalisation"
+      ],
+      "status": "source-checked-partial-authoring",
+      "complete": false,
+      "independentlyReviewed": false,
+      "verifiedCoveragePercent": null,
+      "routes": [
+        {
+          "tier": "untiered",
+          "lessons": [
+            {
+              "lessonId": "unit-scarcity-production-possibilities",
+              "noteHeadings": [
+                "Scarcity and allocation: IGCSE and A-Level",
+                "Opportunity cost and a two-good model",
+                "Movement, unused resources and growth"
+              ],
+              "questionIds": [
+                "free-service",
+                "frontier-cost",
+                "capacity-vs-use",
+                "technology-shift"
+              ],
+              "noteBoundary": "These sections are selected for this programme/tier. The complete shared lesson also displays explicitly labelled extensions. Economics A-Level uses the IGCSE-labelled prerequisite questions as well as its A-Level questions."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "programme": "A_LEVELS",
+      "subject": "Economics",
+      "qualificationCode": "7136",
+      "sourceId": "al-economics",
+      "lessonIds": [
+        "unit-scarcity-production-possibilities"
+      ],
+      "pointScope": "3.1.1.4–3.1.1.5 scarcity and productive/allocative efficiency",
+      "remaining": [
+        "Individual decisions, markets and elasticities",
+        "Production, costs, competition and labour markets",
+        "Distribution and market failure",
+        "Macroeconomics, policy and international economics",
+        "Extended quantitative and evaluative assessments"
+      ],
+      "status": "source-checked-partial-authoring",
+      "complete": false,
+      "independentlyReviewed": false,
+      "verifiedCoveragePercent": null,
+      "routes": [
+        {
+          "tier": "untiered",
+          "lessons": [
+            {
+              "lessonId": "unit-scarcity-production-possibilities",
+              "noteHeadings": [
+                "Scarcity and allocation: IGCSE and A-Level",
+                "Opportunity cost and a two-good model",
+                "Movement, unused resources and growth",
+                "Efficiency and judgement: A-Level extension"
+              ],
+              "questionIds": [
+                "free-service",
+                "frontier-cost",
+                "capacity-vs-use",
+                "technology-shift",
+                "efficiency-distinction",
+                "curvature-cost"
+              ],
+              "noteBoundary": "These sections are selected for this programme/tier. The complete shared lesson also displays explicitly labelled extensions. Economics A-Level uses the IGCSE-labelled prerequisite questions as well as its A-Level questions."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "programme": "GCSE",
+      "subject": "English Language",
+      "qualificationCode": "8700",
+      "sourceId": "gcse-language",
+      "lessonIds": [
+        "unit-reading-inference-comparison"
+      ],
+      "pointScope": "Reading inference, method, comparison, synthesis and purposeful writing",
+      "remaining": [
+        "Sustained 19th-, 20th- and 21st-century reading",
+        "Creative and transactional writing depth",
+        "Spoken-language tasks",
+        "Full current-format assessment practice"
+      ],
+      "status": "source-checked-partial-authoring",
+      "complete": false,
+      "independentlyReviewed": false,
+      "verifiedCoveragePercent": null,
+      "routes": [
+        {
+          "tier": "untiered",
+          "lessons": [
+            {
+              "lessonId": "unit-reading-inference-comparison",
+              "noteHeadings": [
+                "Original practice passage A: a traveller",
+                "Original practice passage B: a station notice",
+                "Evidence before inference",
+                "Language and sequence work together",
+                "Comparison, summary and purposeful writing"
+              ],
+              "questionIds": [
+                "explicit-detail",
+                "supported-inference",
+                "clock-language",
+                "notice-summary",
+                "comparison-purpose",
+                "evaluation-letter"
+              ],
+              "noteBoundary": "These sections are selected for this programme/tier. The complete shared lesson also displays explicitly labelled extensions. Economics A-Level uses the IGCSE-labelled prerequisite questions as well as its A-Level questions."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "programme": "IGCSE",
+      "subject": "English",
+      "qualificationCode": "0500",
+      "sourceId": "igcse-language",
+      "lessonIds": [
+        "unit-reading-inference-comparison"
+      ],
+      "pointScope": "Selected reading/writing skills for candidate First Language route",
+      "remaining": [
+        "Full-length 2027 reading tasks",
+        "Directed writing and composition",
+        "Confirm Paper 2 or coursework route for the learner",
+        "Speaking/listening if entered",
+        "Confirm learner’s actual first/second-language qualification"
+      ],
+      "status": "source-checked-partial-authoring",
+      "complete": false,
+      "independentlyReviewed": false,
+      "verifiedCoveragePercent": null,
+      "routes": [
+        {
+          "tier": "untiered",
+          "lessons": [
+            {
+              "lessonId": "unit-reading-inference-comparison",
+              "noteHeadings": [
+                "Original practice passage A: a traveller",
+                "Original practice passage B: a station notice",
+                "Evidence before inference",
+                "Language and sequence work together",
+                "Comparison, summary and purposeful writing"
+              ],
+              "questionIds": [
+                "explicit-detail",
+                "supported-inference",
+                "clock-language",
+                "notice-summary",
+                "comparison-purpose",
+                "evaluation-letter"
+              ],
+              "noteBoundary": "These sections are selected for this programme/tier. The complete shared lesson also displays explicitly labelled extensions. Economics A-Level uses the IGCSE-labelled prerequisite questions as well as its A-Level questions."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

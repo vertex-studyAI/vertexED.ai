@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "lessonId": "logical-transitions",
+  "revision": "2026-10-21.3",
+  "notes": [
+    {
+      "heading": "Distinguish concession, correction and sequence",
+      "paragraphs": [
+        "Transitions describe the logical relationship between propositions. Concession retains a difficulty while stating an unexpected outcome. Correction replaces or narrows an earlier idea, while a time transition only orders events. Choosing a transition cannot supply evidence that the surrounding sentences lack. Read the two claims without the transition, state their relationship in plain language, then select a word that expresses that relationship. Finally check punctuation: a conjunctive adverb does not by itself join two independent clauses with a comma."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "depth-concession",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "Original fictional text: 'The trail was steep. ___, the group reached the shelter before sunset.' Choose Nevertheless or Consequently and explain the implied expectation.",
+      "answer": "Nevertheless fits: the steep trail might have delayed the group, yet they arrived before sunset.",
+      "solution": [
+        "Identify the obstacle and the outcome that runs against its expected effect.",
+        "Consequently would suggest the steepness caused timely arrival, which the text does not support."
+      ],
+      "markingPoints": [
+        "Choose Nevertheless.",
+        "Explain the expectation of delay.",
+        "Explain why Consequently is unsupported."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-correction",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "Original fictional text: 'The box contains no metal tools. ___, it holds only wooden models.' Choose Instead or Meanwhile and justify the relationship.",
+      "answer": "Instead fits because the second statement supplies the alternative contents; Meanwhile would introduce a time relationship.",
+      "solution": [
+        "Compare what the box does not contain with what it actually contains.",
+        "Select the replacement relationship, not simultaneity."
+      ],
+      "markingPoints": [
+        "Choose Instead.",
+        "Explain alternative contents.",
+        "Reject the unsupported time relationship."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-sequence-causation",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "Original fictional text: 'The library extended its hours in March. By April, recorded visits had risen.' Add one transition that preserves timing without asserting cause, and state what a causal claim would additionally need.",
+      "answer": "Subsequently is one possible transition. A causal claim needs evidence addressing alternatives such as seasonal demand, publicity or changes in counting.",
+      "solution": [
+        "Use a temporal link rather than therefore.",
+        "State a comparison or evidence that would separate the extended-hours effect from other changes."
+      ],
+      "markingPoints": [
+        "Supply a suitable temporal transition.",
+        "Avoid treating sequence as proof of cause.",
+        "Name an alternative and useful additional evidence."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    }
+  ]
+}

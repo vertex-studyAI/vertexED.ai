@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "lessonId": "chemical-amounts",
+  "revision": "2026-10-21.3",
+  "notes": [
+    {
+      "heading": "Keep concentration, dilution and reaction ratios distinct",
+      "paragraphs": [
+        "Concentration describes an amount per volume, while a balanced equation relates reacting amounts. Before using a concentration expressed in moles per cubic decimetre, convert the volume to cubic decimetres. Dilution changes concentration by adding solvent without changing the amount of solute, provided none is lost or reacts. Mixing two reactants is different: first calculate their amounts, then compare the stoichiometric requirements. A unit check can expose a factor-of-one-thousand error even when the algebra appears correct."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "depth-solution-moles",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "A solution has concentration 0.20 mol dm⁻³. Calculate the amount of solute in 75 cm³, showing the volume conversion.",
+      "answer": "0.015 mol.",
+      "solution": [
+        "Convert 75 cm³ to 0.075 dm³.",
+        "Use n=cV=0.20×0.075."
+      ],
+      "markingPoints": [
+        "Convert volume correctly.",
+        "Use n=cV.",
+        "State 0.015 mol."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-dilution",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "25 cm³ of a 0.80 mol dm⁻³ solution is diluted to a final volume of 100 cm³ without reaction or solute loss. Find the final concentration and explain the conservation used.",
+      "answer": "0.20 mol dm⁻³; the solute amount remains 0.020 mol.",
+      "solution": [
+        "Initial amount is 0.80×0.025=0.020 mol.",
+        "Divide by final volume 0.100 dm³."
+      ],
+      "markingPoints": [
+        "Find 0.020 mol.",
+        "Use the final volume.",
+        "State concentration and conservation of solute amount."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-neutralisation",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "In an idealised reaction H₂SO₄+2NaOH→Na₂SO₄+2H₂O, mix 0.030 mol acid with 0.040 mol NaOH. Find the limiting reactant and the acid remaining after complete reaction.",
+      "answer": "NaOH limits the reaction; 0.010 mol acid remains.",
+      "solution": [
+        "The 0.040 mol NaOH consumes 0.040/2=0.020 mol acid.",
+        "Subtract the reacted acid from 0.030 mol."
+      ],
+      "markingPoints": [
+        "Use the 1:2 ratio.",
+        "Identify NaOH as limiting.",
+        "Find 0.010 mol acid remaining."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    }
+  ]
+}

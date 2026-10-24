@@ -1,6 +1,6 @@
 # Photosynthesis, limiting factors and evaluating rate evidence
 
-Subject: Biology · Unit: Bioenergetics · Revision: 2026-10-21.2
+Subject: Biology · Unit: Bioenergetics · Revision: 2026-10-21.3
 
 **Review draft — not independently approved. Practice marks are editorial, not official exam marks.**
 
@@ -62,6 +62,10 @@ The crosswalk covers selected theory and data-reasoning components of AQA 8461 p
 
 A gas-exchange measurement can reflect more than photosynthesis alone. In a simplified model, oxygen production by photosynthesis and oxygen use in respiration occur during the same interval. The net measured oxygen gain is their difference. Zero net gain therefore does not imply that both processes have stopped; their rates may balance. A rate change after increasing light suggests an effect of light under those conditions, but a plateau does not by itself identify the next limiting factor. Use additional controlled comparisons to test alternatives. The numerical example is an invented steady-rate model, and assumes no other gas exchanges or storage effects contribute to the measurement.
 
+## Explain interacting limits using controlled comparisons
+
+A plateau in a rate graph says that increasing the tested factor no longer increases the measured response under those conditions. It does not identify the limiting factor without additional comparisons. Change one candidate factor while controlling others and observe whether the plateau moves. When using net oxygen output, remember that respiration occurs alongside photosynthesis. Light intensity, temperature, carbon dioxide supply and the measurement method can each affect the result. Repeated readings help assess variability, while a controlled design addresses confounding; these are complementary tasks.
+
 ## Diagram: Interpret a net oxygen measurement
 
 Read the labelled relationships to follow this worked application. Net gain is 30 oxygen units. This is an explanatory process diagram, not a scale drawing or a record of a learner attempt.
@@ -108,15 +112,15 @@ Worked examples: 5
 
 Practise: q7, q8, application-check, error-analysis
 
-### Retrieval practice
+### Apply and test the limits
 
-Close the notes and answer these extra prompts from memory. Self-review with the held explanation, name one gap, then retry later. This is study practice, not an automatic mark or mastery measurement.
+Revisit the last worked example, then read the new section and tackle these different situations. Identify the assumptions before answering. Compare your reasoning with each marking point; these open responses require self-review, not automatic marks.
 
-Read: Matter and energy in the reaction
+Read: Explain interacting limits using controlled comparisons
 
-Worked examples: 1
+Worked examples: 5
 
-Practise: retrieval-01, retrieval-02, retrieval-03, retrieval-04, retrieval-05, retrieval-06, retrieval-07, retrieval-08, retrieval-09, retrieval-10, retrieval-11, retrieval-12, retrieval-13, retrieval-14, retrieval-15
+Practise: depth-gross-net, depth-factor-comparison, depth-bubble-volume
 
 ## Worked example 1
 
@@ -409,215 +413,59 @@ Marking points (one practice mark each):
 
 - An additional measurement or comparison is needed to separate the underlying rates.
 
-## Practice 11 — foundation · 1 marks
+## Practice 11 — standard · 3 marks
 
-Retrieval 1 — Photosynthesis, limiting factors and evaluating rate evidence: Answer from memory: What supplies the carbon in photosynthetic carbohydrate?
+In an invented constant-rate model, net oxygen output is 6 units/min and respiration consumes 3 units/min. Find gross photosynthetic oxygen production and net output over 8 minutes.
 
-Answer: Carbon dioxide.
+Answer: Gross production is 9 units/min; net output over 8 minutes is 48 units.
 
-1. Identify the target idea: What supplies the carbon in photosynthetic carbohydrate?
+1. Use net=gross-respiration, so gross=6+3.
 
-2. Compare your response with the held study explanation: Carbon dioxide.
-
-Marking points (one practice mark each):
-
-- Accurately address: What supplies the carbon in photosynthetic carbohydrate?
-
-## Practice 12 — standard · 1 marks
-
-Retrieval 2 — Photosynthesis, limiting factors and evaluating rate evidence: State the condition or distinction precisely: What does light supply to photosynthesis?
-
-Answer: Energy, not the carbon atoms.
-
-1. Identify the target idea: What does light supply to photosynthesis?
-
-2. Compare your response with the held study explanation: Energy, not the carbon atoms.
+2. Multiply the net rate by 8, not the gross rate.
 
 Marking points (one practice mark each):
 
-- Accurately address: What does light supply to photosynthesis?
+- Form the rate relationship.
 
-## Practice 13 — extension · 1 marks
+- Find gross rate 9.
 
-Retrieval 3 — Photosynthesis, limiting factors and evaluating rate evidence: Explain the idea in your own words: What does limiting factor mean in a particular experiment?
+- Find net total 48.
 
-Answer: A condition that constrains the rate under those tested circumstances.
+## Practice 12 — extension · 3 marks
 
-1. Identify the target idea: What does limiting factor mean in a particular experiment?
+Two fictional plants have equal mass and are measured at the same light and temperature. At the higher CO₂ supply, oxygen output rises from 4 to 7 units/min. What is supported, and why is 'CO₂ is always the only limit' too strong?
 
-2. Compare your response with the held study explanation: A condition that constrains the rate under those tested circumstances.
+Answer: CO₂ supply affected the measured rate under the tested conditions. Other factors can limit rates at different levels or may still constrain the new rate.
 
-Marking points (one practice mark each):
+1. Restrict the conclusion to the controlled comparison.
 
-- Accurately address: What does limiting factor mean in a particular experiment?
-
-## Practice 14 — foundation · 1 marks
-
-Retrieval 4 — Photosynthesis, limiting factors and evaluating rate evidence: Answer from memory: What does a plateau in rate versus light indicate?
-
-Answer: Little further rate response to more light, not necessarily a zero rate.
-
-1. Identify the target idea: What does a plateau in rate versus light indicate?
-
-2. Compare your response with the held study explanation: Little further rate response to more light, not necessarily a zero rate.
+2. One changed factor producing a response does not establish exclusive limitation everywhere.
 
 Marking points (one practice mark each):
 
-- Accurately address: What does a plateau in rate versus light indicate?
+- Identify evidence for a CO₂ effect.
 
-## Practice 15 — standard · 1 marks
+- State the tested-condition scope.
 
-Retrieval 5 — Photosynthesis, limiting factors and evaluating rate evidence: State the condition or distinction precisely: Why can excessive temperature reduce photosynthetic rate?
+- Explain why sole universal limitation does not follow.
 
-Answer: It can impair enzymes and other cellular processes.
+## Practice 13 — standard · 3 marks
 
-1. Identify the target idea: Why can excessive temperature reduce photosynthetic rate?
+In fictional observations, A produces 20 bubbles/min averaging 0.05 cm³ each; B produces 15 bubbles/min averaging 0.10 cm³ each. Compare estimated oxygen-volume rates and assess the ranking by bubble count alone.
 
-2. Compare your response with the held study explanation: It can impair enzymes and other cellular processes.
+Answer: A gives 1.0 cm³/min and B 1.5 cm³/min. Bubble counts alone rank them incorrectly because bubble sizes differ.
 
-Marking points (one practice mark each):
+1. Multiply bubble number by mean bubble volume.
 
-- Accurately address: Why can excessive temperature reduce photosynthetic rate?
-
-## Practice 16 — extension · 1 marks
-
-Retrieval 6 — Photosynthesis, limiting factors and evaluating rate evidence: Explain the idea in your own words: How is a gas-output rate calculated?
-
-Answer: Measured gas change divided by elapsed time, with consistent units.
-
-1. Identify the target idea: How is a gas-output rate calculated?
-
-2. Compare your response with the held study explanation: Measured gas change divided by elapsed time, with consistent units.
+2. Compare volume rates and note that these are estimates from the stated means.
 
 Marking points (one practice mark each):
 
-- Accurately address: How is a gas-output rate calculated?
+- Calculate A=1.0.
 
-## Practice 17 — foundation · 1 marks
+- Calculate B=1.5.
 
-Retrieval 7 — Photosynthesis, limiting factors and evaluating rate evidence: Answer from memory: Under the ideal inverse-square model, what happens when lamp distance doubles?
-
-Answer: Intensity becomes one quarter.
-
-1. Identify the target idea: Under the ideal inverse-square model, what happens when lamp distance doubles?
-
-2. Compare your response with the held study explanation: Intensity becomes one quarter.
-
-Marking points (one practice mark each):
-
-- Accurately address: Under the ideal inverse-square model, what happens when lamp distance doubles?
-
-## Practice 18 — standard · 1 marks
-
-Retrieval 8 — Photosynthesis, limiting factors and evaluating rate evidence: State the condition or distinction precisely: Why are bubble counts an imperfect volume proxy?
-
-Answer: Bubble volumes may differ.
-
-1. Identify the target idea: Why are bubble counts an imperfect volume proxy?
-
-2. Compare your response with the held study explanation: Bubble volumes may differ.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why are bubble counts an imperfect volume proxy?
-
-## Practice 19 — extension · 1 marks
-
-Retrieval 9 — Photosynthesis, limiting factors and evaluating rate evidence: Explain the idea in your own words: Why can measured oxygen output differ from gross photosynthesis?
-
-Answer: Respiration and other gas-exchange effects can alter the net output.
-
-1. Identify the target idea: Why can measured oxygen output differ from gross photosynthesis?
-
-2. Compare your response with the held study explanation: Respiration and other gas-exchange effects can alter the net output.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why can measured oxygen output differ from gross photosynthesis?
-
-## Practice 20 — foundation · 1 marks
-
-Retrieval 10 — Photosynthesis, limiting factors and evaluating rate evidence: Answer from memory: Why are mineral nitrogen sources needed when plants make protein?
-
-Answer: Amino acids contain nitrogen, which is not supplied by carbon dioxide and water alone.
-
-1. Identify the target idea: Why are mineral nitrogen sources needed when plants make protein?
-
-2. Compare your response with the held study explanation: Amino acids contain nitrogen, which is not supplied by carbon dioxide and water alone.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why are mineral nitrogen sources needed when plants make protein?
-
-## Practice 21 — standard · 1 marks
-
-Retrieval 11 — Photosynthesis, limiting factors and evaluating rate evidence: State the condition or distinction precisely: What is net oxygen gain in the simplified two-process model?
-
-Answer: Oxygen produced by photosynthesis minus oxygen used in respiration.
-
-1. Identify the target idea: What is net oxygen gain in the simplified two-process model?
-
-2. Compare your response with the held study explanation: Oxygen produced by photosynthesis minus oxygen used in respiration.
-
-Marking points (one practice mark each):
-
-- Accurately address: What is net oxygen gain in the simplified two-process model?
-
-## Practice 22 — extension · 1 marks
-
-Retrieval 12 — Photosynthesis, limiting factors and evaluating rate evidence: Explain the idea in your own words: What can zero net gas exchange conceal?
-
-Answer: Two nonzero processes operating at equal opposing rates.
-
-1. Identify the target idea: What can zero net gas exchange conceal?
-
-2. Compare your response with the held study explanation: Two nonzero processes operating at equal opposing rates.
-
-Marking points (one practice mark each):
-
-- Accurately address: What can zero net gas exchange conceal?
-
-## Practice 23 — foundation · 1 marks
-
-Retrieval 13 — Photosynthesis, limiting factors and evaluating rate evidence: Answer from memory: What supplies the carbon in photosynthetic carbohydrate?
-
-Answer: Carbon dioxide.
-
-1. Identify the target idea: What supplies the carbon in photosynthetic carbohydrate?
-
-2. Compare your response with the held study explanation: Carbon dioxide.
-
-Marking points (one practice mark each):
-
-- Accurately address: What supplies the carbon in photosynthetic carbohydrate?
-
-## Practice 24 — standard · 1 marks
-
-Retrieval 14 — Photosynthesis, limiting factors and evaluating rate evidence: State the condition or distinction precisely: What does light supply to photosynthesis?
-
-Answer: Energy, not the carbon atoms.
-
-1. Identify the target idea: What does light supply to photosynthesis?
-
-2. Compare your response with the held study explanation: Energy, not the carbon atoms.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does light supply to photosynthesis?
-
-## Practice 25 — extension · 1 marks
-
-Retrieval 15 — Photosynthesis, limiting factors and evaluating rate evidence: Explain the idea in your own words: What does limiting factor mean in a particular experiment?
-
-Answer: A condition that constrains the rate under those tested circumstances.
-
-1. Identify the target idea: What does limiting factor mean in a particular experiment?
-
-2. Compare your response with the held study explanation: A condition that constrains the rate under those tested circumstances.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does limiting factor mean in a particular experiment?
+- Explain the count-only ranking error.
 
 ## Revision checklist
 
@@ -653,7 +501,7 @@ A gas-exchange measurement can reflect more than photosynthesis alone. In a simp
 
 - What supplies the carbon in photosynthetic carbohydrate?
 
-Mixed practice: q1, application-check, error-analysis
+Mixed practice: q1, application-check, error-analysis, depth-gross-net, depth-factor-comparison, depth-bubble-volume
 
 After checking your answer, write the specific rule or assumption you missed. Retry the linked questions without the worked example in a later session. A checked answer or completed checklist is not a measurement of mastery.
 

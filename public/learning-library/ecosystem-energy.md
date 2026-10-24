@@ -1,6 +1,6 @@
 # Energy transfer, productivity and ecosystem models
 
-Subject: Environmental Science · Unit: Ecosystems · Revision: 2026-10-21.2
+Subject: Environmental Science · Unit: Ecosystems · Revision: 2026-10-21.3
 
 **Review draft — not independently approved. Practice marks are editorial, not official exam marks.**
 
@@ -39,6 +39,10 @@ A food web helps predict possible pathways of influence, but a change in one pop
 ## Comparing productivity over a common area and time
 
 Energy-transfer comparisons need matching units and boundaries. A transfer percentage compares energy incorporated at the next trophic level with the energy available at the previous one over the same area and interval. Gross primary productivity includes the energy fixed by producers before their respiratory use is subtracted; net primary productivity is the remainder available for growth and other transfers. Not all net production is consumed by herbivores, and not all consumed energy becomes herbivore biomass. Keep these stages distinct rather than using one unexplained ten-percent rule. The example values are fictional and do not represent a measured ecosystem or a universal ecological constant.
+
+## Match the time interval before comparing stocks and flows
+
+Standing biomass is the material present at a moment; productivity is the rate at which new biomass or stored chemical energy is produced. A small standing stock can support substantial annual production if it turns over rapidly. Transfers should use compatible areas, intervals and energy units, with the denominator named. Consumer ingestion, assimilation and production refer to different stages: not all ingested energy is assimilated, and some assimilated energy supports respiration. Numerical efficiency therefore depends on which stage is being compared, not merely on placing two available numbers into a percentage.
 
 ## Diagram: Separate productivity stages
 
@@ -86,15 +90,15 @@ Worked examples: 4
 
 Practise: q5, application-check, error-analysis
 
-### Retrieval practice
+### Apply and test the limits
 
-Close the notes and answer these extra prompts from memory. Self-review with the held explanation, name one gap, then retry later. This is study practice, not an automatic mark or mastery measurement.
+Revisit the last worked example, then read the new section and tackle these different situations. Identify the assumptions before answering. Compare your reasoning with each marking point; these open responses require self-review, not automatic marks.
 
-Read: Energy enters and is transferred
+Read: Match the time interval before comparing stocks and flows
 
-Worked examples: 1
+Worked examples: 4
 
-Practise: retrieval-01, retrieval-02, retrieval-03, retrieval-04, retrieval-05, retrieval-06, retrieval-07, retrieval-08, retrieval-09, retrieval-10, retrieval-11, retrieval-12, retrieval-13, retrieval-14, retrieval-15, retrieval-16, retrieval-17, retrieval-18
+Practise: depth-turnover, depth-consumer-budget, depth-area-conversion
 
 ## Worked example 1
 
@@ -312,257 +316,59 @@ Marking points (one practice mark each):
 
 - Consumed energy can be transferred as heat through respiration or leave in waste rather than herbivore production.
 
-## Practice 8 — foundation · 1 marks
+## Practice 8 — standard · 3 marks
 
-Retrieval 1 — Energy transfer, productivity and ecosystem models: Answer from memory: What does a food-web arrow from grass to an insect conventionally show?
+In an invented ecosystem, producer biomass is 20 g m⁻² and annual production is 200 g m⁻² year⁻¹. Consumer biomass is 30 g m⁻² and production is 60 g m⁻² year⁻¹. Explain why an inverted biomass comparison need not imply inverted production.
 
-Answer: Transfer from the resource toward the consumer receiving material and energy.
+Answer: Consumers have more standing biomass, 30 versus 20, but producers have greater annual production, 200 versus 60. Producer production/biomass is 10 per year versus 2 per year for consumers.
 
-1. Identify the target idea: What does a food-web arrow from grass to an insect conventionally show?
+1. Separate stock units from production-rate units.
 
-2. Compare your response with the held study explanation: Transfer from the resource toward the consumer receiving material and energy.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does a food-web arrow from grass to an insect conventionally show?
-
-## Practice 9 — standard · 1 marks
-
-Retrieval 2 — Energy transfer, productivity and ecosystem models: State the condition or distinction precisely: How is net primary productivity related to gross primary productivity?
-
-Answer: NPP equals GPP minus the producers' respiratory use, with matching units and definitions.
-
-1. Identify the target idea: How is net primary productivity related to gross primary productivity?
-
-2. Compare your response with the held study explanation: NPP equals GPP minus the producers' respiratory use, with matching units and definitions.
+2. Compute turnover ratios to explain how a small producer stock can support substantial flow.
 
 Marking points (one practice mark each):
 
-- Accurately address: How is net primary productivity related to gross primary productivity?
+- Identify the inverted standing stocks.
 
-## Practice 10 — extension · 1 marks
+- Compare production in the opposite order.
 
-Retrieval 3 — Energy transfer, productivity and ecosystem models: Explain the idea in your own words: How does biomass differ from productivity?
+- Use turnover ratios 10 and 2 per year.
 
-Answer: Biomass is a stock at a time; productivity is a rate of production.
+## Practice 9 — standard · 3 marks
 
-1. Identify the target idea: How does biomass differ from productivity?
+A fictional consumer ingests 1,000 kJ, loses 300 kJ in unassimilated material and uses 500 kJ in respiration during a defined interval. Assuming these are the only losses, find assimilation and production.
 
-2. Compare your response with the held study explanation: Biomass is a stock at a time; productivity is a rate of production.
+Answer: Assimilation is 700 kJ and production is 200 kJ.
 
-Marking points (one practice mark each):
+1. Subtract unassimilated material from ingestion.
 
-- Accurately address: How does biomass differ from productivity?
-
-## Practice 11 — foundation · 1 marks
-
-Retrieval 4 — Energy transfer, productivity and ecosystem models: Answer from memory: How is a stated trophic transfer efficiency calculated?
-
-Answer: Energy transferred to the specified next level divided by the specified input, multiplied by 100%.
-
-1. Identify the target idea: How is a stated trophic transfer efficiency calculated?
-
-2. Compare your response with the held study explanation: Energy transferred to the specified next level divided by the specified input, multiplied by 100%.
+2. Subtract respiration from assimilation under the stated budget.
 
 Marking points (one practice mark each):
 
-- Accurately address: How is a stated trophic transfer efficiency calculated?
+- Find assimilation 700 kJ.
 
-## Practice 12 — standard · 1 marks
+- Find production 200 kJ.
 
-Retrieval 5 — Energy transfer, productivity and ecosystem models: State the condition or distinction precisely: Why does energy loss to the surroundings matter for ecosystem budgets?
+- Use the given complete-budget assumption.
 
-Answer: It reduces energy available for further biological transfer and requires continuing energy input.
+## Practice 10 — extension · 3 marks
 
-1. Identify the target idea: Why does energy loss to the surroundings matter for ecosystem budgets?
+Plot A produces 6,000 kJ m⁻² year⁻¹ over 2 hectares; plot B produces 90,000,000 kJ per year in total. Using 1 hectare=10,000 m², compare total annual production and explain what is missing for a per-area comparison.
 
-2. Compare your response with the held study explanation: It reduces energy available for further biological transfer and requires continuing energy input.
+Answer: A totals 120,000,000 kJ per year, exceeding B by 30,000,000. B's area is needed to compare production per unit area.
 
-Marking points (one practice mark each):
+1. Convert A's 2 hectares to 20,000 m².
 
-- Accurately address: Why does energy loss to the surroundings matter for ecosystem budgets?
-
-## Practice 13 — extension · 1 marks
-
-Retrieval 6 — Energy transfer, productivity and ecosystem models: Explain the idea in your own words: Why can a small standing producer stock still have high productivity?
-
-Answer: Rapid growth and replacement can generate substantial production over time despite a small instantaneous stock.
-
-1. Identify the target idea: Why can a small standing producer stock still have high productivity?
-
-2. Compare your response with the held study explanation: Rapid growth and replacement can generate substantial production over time despite a small instantaneous stock.
+2. Multiply its areal rate by area, then distinguish total from areal comparison.
 
 Marking points (one practice mark each):
 
-- Accurately address: Why can a small standing producer stock still have high productivity?
+- Convert to 20,000 m².
 
-## Practice 14 — foundation · 1 marks
+- Calculate and compare total production.
 
-Retrieval 7 — Energy transfer, productivity and ecosystem models: Answer from memory: How are gross and net primary productivity related?
-
-Answer: NPP = GPP minus producer respiration over the same area and time.
-
-1. Identify the target idea: How are gross and net primary productivity related?
-
-2. Compare your response with the held study explanation: NPP = GPP minus producer respiration over the same area and time.
-
-Marking points (one practice mark each):
-
-- Accurately address: How are gross and net primary productivity related?
-
-## Practice 15 — standard · 1 marks
-
-Retrieval 8 — Energy transfer, productivity and ecosystem models: State the condition or distinction precisely: Why is transfer efficiency not a universal ten percent?
-
-Answer: It depends on the organisms, pathways, conditions and the quantities used as numerator and denominator.
-
-1. Identify the target idea: Why is transfer efficiency not a universal ten percent?
-
-2. Compare your response with the held study explanation: It depends on the organisms, pathways, conditions and the quantities used as numerator and denominator.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why is transfer efficiency not a universal ten percent?
-
-## Practice 16 — extension · 1 marks
-
-Retrieval 9 — Energy transfer, productivity and ecosystem models: Explain the idea in your own words: What does a food-web arrow from grass to an insect conventionally show?
-
-Answer: Transfer from the resource toward the consumer receiving material and energy.
-
-1. Identify the target idea: What does a food-web arrow from grass to an insect conventionally show?
-
-2. Compare your response with the held study explanation: Transfer from the resource toward the consumer receiving material and energy.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does a food-web arrow from grass to an insect conventionally show?
-
-## Practice 17 — foundation · 1 marks
-
-Retrieval 10 — Energy transfer, productivity and ecosystem models: Answer from memory: How is net primary productivity related to gross primary productivity?
-
-Answer: NPP equals GPP minus the producers' respiratory use, with matching units and definitions.
-
-1. Identify the target idea: How is net primary productivity related to gross primary productivity?
-
-2. Compare your response with the held study explanation: NPP equals GPP minus the producers' respiratory use, with matching units and definitions.
-
-Marking points (one practice mark each):
-
-- Accurately address: How is net primary productivity related to gross primary productivity?
-
-## Practice 18 — standard · 1 marks
-
-Retrieval 11 — Energy transfer, productivity and ecosystem models: State the condition or distinction precisely: How does biomass differ from productivity?
-
-Answer: Biomass is a stock at a time; productivity is a rate of production.
-
-1. Identify the target idea: How does biomass differ from productivity?
-
-2. Compare your response with the held study explanation: Biomass is a stock at a time; productivity is a rate of production.
-
-Marking points (one practice mark each):
-
-- Accurately address: How does biomass differ from productivity?
-
-## Practice 19 — extension · 1 marks
-
-Retrieval 12 — Energy transfer, productivity and ecosystem models: Explain the idea in your own words: How is a stated trophic transfer efficiency calculated?
-
-Answer: Energy transferred to the specified next level divided by the specified input, multiplied by 100%.
-
-1. Identify the target idea: How is a stated trophic transfer efficiency calculated?
-
-2. Compare your response with the held study explanation: Energy transferred to the specified next level divided by the specified input, multiplied by 100%.
-
-Marking points (one practice mark each):
-
-- Accurately address: How is a stated trophic transfer efficiency calculated?
-
-## Practice 20 — foundation · 1 marks
-
-Retrieval 13 — Energy transfer, productivity and ecosystem models: Answer from memory: Why does energy loss to the surroundings matter for ecosystem budgets?
-
-Answer: It reduces energy available for further biological transfer and requires continuing energy input.
-
-1. Identify the target idea: Why does energy loss to the surroundings matter for ecosystem budgets?
-
-2. Compare your response with the held study explanation: It reduces energy available for further biological transfer and requires continuing energy input.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why does energy loss to the surroundings matter for ecosystem budgets?
-
-## Practice 21 — standard · 1 marks
-
-Retrieval 14 — Energy transfer, productivity and ecosystem models: State the condition or distinction precisely: Why can a small standing producer stock still have high productivity?
-
-Answer: Rapid growth and replacement can generate substantial production over time despite a small instantaneous stock.
-
-1. Identify the target idea: Why can a small standing producer stock still have high productivity?
-
-2. Compare your response with the held study explanation: Rapid growth and replacement can generate substantial production over time despite a small instantaneous stock.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why can a small standing producer stock still have high productivity?
-
-## Practice 22 — extension · 1 marks
-
-Retrieval 15 — Energy transfer, productivity and ecosystem models: Explain the idea in your own words: How are gross and net primary productivity related?
-
-Answer: NPP = GPP minus producer respiration over the same area and time.
-
-1. Identify the target idea: How are gross and net primary productivity related?
-
-2. Compare your response with the held study explanation: NPP = GPP minus producer respiration over the same area and time.
-
-Marking points (one practice mark each):
-
-- Accurately address: How are gross and net primary productivity related?
-
-## Practice 23 — foundation · 1 marks
-
-Retrieval 16 — Energy transfer, productivity and ecosystem models: Answer from memory: Why is transfer efficiency not a universal ten percent?
-
-Answer: It depends on the organisms, pathways, conditions and the quantities used as numerator and denominator.
-
-1. Identify the target idea: Why is transfer efficiency not a universal ten percent?
-
-2. Compare your response with the held study explanation: It depends on the organisms, pathways, conditions and the quantities used as numerator and denominator.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why is transfer efficiency not a universal ten percent?
-
-## Practice 24 — standard · 1 marks
-
-Retrieval 17 — Energy transfer, productivity and ecosystem models: State the condition or distinction precisely: What does a food-web arrow from grass to an insect conventionally show?
-
-Answer: Transfer from the resource toward the consumer receiving material and energy.
-
-1. Identify the target idea: What does a food-web arrow from grass to an insect conventionally show?
-
-2. Compare your response with the held study explanation: Transfer from the resource toward the consumer receiving material and energy.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does a food-web arrow from grass to an insect conventionally show?
-
-## Practice 25 — extension · 1 marks
-
-Retrieval 18 — Energy transfer, productivity and ecosystem models: Explain the idea in your own words: How is net primary productivity related to gross primary productivity?
-
-Answer: NPP equals GPP minus the producers' respiratory use, with matching units and definitions.
-
-1. Identify the target idea: How is net primary productivity related to gross primary productivity?
-
-2. Compare your response with the held study explanation: NPP equals GPP minus the producers' respiratory use, with matching units and definitions.
-
-Marking points (one practice mark each):
-
-- Accurately address: How is net primary productivity related to gross primary productivity?
+- Require B's area for a per-area comparison.
 
 ## Revision checklist
 
@@ -596,6 +402,6 @@ Energy-transfer comparisons need matching units and boundaries. A transfer perce
 
 - What does a food-web arrow from grass to an insect conventionally show?
 
-Mixed practice: q1, application-check, error-analysis
+Mixed practice: q1, application-check, error-analysis, depth-turnover, depth-consumer-budget, depth-area-conversion
 
 After checking your answer, write the specific rule or assumption you missed. Retry the linked questions without the worked example in a later session. A checked answer or completed checklist is not a measurement of mastery.

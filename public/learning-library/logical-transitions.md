@@ -1,6 +1,6 @@
 # Choosing transitions from logical relationships
 
-Subject: English · Unit: Purposeful revision · Revision: 2026-10-21.2
+Subject: English · Unit: Purposeful revision · Revision: 2026-10-21.3
 
 **Review draft — not independently approved. Practice marks are editorial, not official exam marks.**
 
@@ -62,6 +62,10 @@ These original exercises address a subset of the SAT transition skill. More pass
 
 A transition specifies how the next statement relates to the previous one. Before choosing a word, summarise that relationship without using any option. A contrast can qualify an encouraging result without claiming the result caused a limitation. Conversely, a result transition such as therefore requires a justified inferential connection, not merely two adjacent statements. After choosing the relationship, check that punctuation suits the clause structure. A semicolon can join two independent clauses before however; a comma alone usually creates a splice in this pattern. The original examples below separate the logical decision from the punctuation decision.
 
+## Distinguish concession, correction and sequence
+
+Transitions describe the logical relationship between propositions. Concession retains a difficulty while stating an unexpected outcome. Correction replaces or narrows an earlier idea, while a time transition only orders events. Choosing a transition cannot supply evidence that the surrounding sentences lack. Read the two claims without the transition, state their relationship in plain language, then select a word that expresses that relationship. Finally check punctuation: a conjunctive adverb does not by itself join two independent clauses with a comma.
+
 ## Diagram: Select logic before punctuation
 
 Read the labelled relationships to follow this worked application. However. The second sentence presents a drawback that qualifies the time saving. This is an explanatory process diagram, not a scale drawing or a record of a learner attempt.
@@ -108,15 +112,15 @@ Worked examples: 5
 
 Practise: q7, q8, application-check, error-analysis
 
-### Retrieval practice
+### Apply and test the limits
 
-Close the notes and answer these extra prompts from memory. Self-review with the held explanation, name one gap, then retry later. This is study practice, not an automatic mark or mastery measurement.
+Revisit the last worked example, then read the new section and tackle these different situations. Identify the assumptions before answering. Compare your reasoning with each marking point; these open responses require self-review, not automatic marks.
 
-Read: Read the relationship before the options
+Read: Distinguish concession, correction and sequence
 
-Worked examples: 1
+Worked examples: 5
 
-Practise: retrieval-01, retrieval-02, retrieval-03, retrieval-04, retrieval-05, retrieval-06, retrieval-07, retrieval-08, retrieval-09, retrieval-10, retrieval-11, retrieval-12, retrieval-13, retrieval-14, retrieval-15
+Practise: depth-concession, depth-correction, depth-sequence-causation
 
 ## Worked example 1
 
@@ -413,215 +417,59 @@ Marking points (one practice mark each):
 
 - A semicolon joins the clauses, while the comma after however sets off the transition.
 
-## Practice 11 — foundation · 1 marks
+## Practice 11 — standard · 3 marks
 
-Retrieval 1 — Choosing transitions from logical relationships: Answer from memory: What should you do before looking at transition choices?
+Original fictional text: 'The trail was steep. ___, the group reached the shelter before sunset.' Choose Nevertheless or Consequently and explain the implied expectation.
 
-Answer: Summarise the connected ideas and identify their relationship.
+Answer: Nevertheless fits: the steep trail might have delayed the group, yet they arrived before sunset.
 
-1. Identify the target idea: What should you do before looking at transition choices?
+1. Identify the obstacle and the outcome that runs against its expected effect.
 
-2. Compare your response with the held study explanation: Summarise the connected ideas and identify their relationship.
-
-Marking points (one practice mark each):
-
-- Accurately address: What should you do before looking at transition choices?
-
-## Practice 12 — standard · 1 marks
-
-Retrieval 2 — Choosing transitions from logical relationships: State the condition or distinction precisely: What does an additive transition signal?
-
-Answer: Another compatible point, not necessarily an example or consequence.
-
-1. Identify the target idea: What does an additive transition signal?
-
-2. Compare your response with the held study explanation: Another compatible point, not necessarily an example or consequence.
+2. Consequently would suggest the steepness caused timely arrival, which the text does not support.
 
 Marking points (one practice mark each):
 
-- Accurately address: What does an additive transition signal?
+- Choose Nevertheless.
 
-## Practice 13 — extension · 1 marks
+- Explain the expectation of delay.
 
-Retrieval 3 — Choosing transitions from logical relationships: Explain the idea in your own words: What relation does for example introduce?
+- Explain why Consequently is unsupported.
 
-Answer: A specific instance of a broader claim.
+## Practice 12 — standard · 3 marks
 
-1. Identify the target idea: What relation does for example introduce?
+Original fictional text: 'The box contains no metal tools. ___, it holds only wooden models.' Choose Instead or Meanwhile and justify the relationship.
 
-2. Compare your response with the held study explanation: A specific instance of a broader claim.
+Answer: Instead fits because the second statement supplies the alternative contents; Meanwhile would introduce a time relationship.
 
-Marking points (one practice mark each):
+1. Compare what the box does not contain with what it actually contains.
 
-- Accurately address: What relation does for example introduce?
-
-## Practice 14 — foundation · 1 marks
-
-Retrieval 4 — Choosing transitions from logical relationships: Answer from memory: What must a contrast marker connect?
-
-Answer: A genuine difference or opposition between the relevant ideas.
-
-1. Identify the target idea: What must a contrast marker connect?
-
-2. Compare your response with the held study explanation: A genuine difference or opposition between the relevant ideas.
+2. Select the replacement relationship, not simultaneity.
 
 Marking points (one practice mark each):
 
-- Accurately address: What must a contrast marker connect?
+- Choose Instead.
 
-## Practice 15 — standard · 1 marks
+- Explain alternative contents.
 
-Retrieval 5 — Choosing transitions from logical relationships: State the condition or distinction precisely: What distinguishes concession?
+- Reject the unsupported time relationship.
 
-Answer: Something holds despite a point that might create a contrary expectation.
+## Practice 13 — extension · 3 marks
 
-1. Identify the target idea: What distinguishes concession?
+Original fictional text: 'The library extended its hours in March. By April, recorded visits had risen.' Add one transition that preserves timing without asserting cause, and state what a causal claim would additionally need.
 
-2. Compare your response with the held study explanation: Something holds despite a point that might create a contrary expectation.
+Answer: Subsequently is one possible transition. A causal claim needs evidence addressing alternatives such as seasonal demand, publicity or changes in counting.
 
-Marking points (one practice mark each):
+1. Use a temporal link rather than therefore.
 
-- Accurately address: What distinguishes concession?
-
-## Practice 16 — extension · 1 marks
-
-Retrieval 6 — Choosing transitions from logical relationships: Explain the idea in your own words: What extra commitment does consequently make?
-
-Answer: That the second idea follows as a result or supported consequence.
-
-1. Identify the target idea: What extra commitment does consequently make?
-
-2. Compare your response with the held study explanation: That the second idea follows as a result or supported consequence.
+2. State a comparison or evidence that would separate the extended-hours effect from other changes.
 
 Marking points (one practice mark each):
 
-- Accurately address: What extra commitment does consequently make?
+- Supply a suitable temporal transition.
 
-## Practice 17 — foundation · 1 marks
+- Avoid treating sequence as proof of cause.
 
-Retrieval 7 — Choosing transitions from logical relationships: Answer from memory: Why is afterward not equivalent to therefore?
-
-Answer: It marks time order without necessarily asserting a causal or logical result.
-
-1. Identify the target idea: Why is afterward not equivalent to therefore?
-
-2. Compare your response with the held study explanation: It marks time order without necessarily asserting a causal or logical result.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why is afterward not equivalent to therefore?
-
-## Practice 18 — standard · 1 marks
-
-Retrieval 8 — Choosing transitions from logical relationships: State the condition or distinction precisely: Why does sentence order matter for a transition?
-
-Answer: It changes which idea is presented as reason, result or qualification.
-
-1. Identify the target idea: Why does sentence order matter for a transition?
-
-2. Compare your response with the held study explanation: It changes which idea is presented as reason, result or qualification.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why does sentence order matter for a transition?
-
-## Practice 19 — extension · 1 marks
-
-Retrieval 9 — Choosing transitions from logical relationships: Explain the idea in your own words: Can a transition alone repair a comma splice?
-
-Answer: No; clause-boundary punctuation must also be correct.
-
-1. Identify the target idea: Can a transition alone repair a comma splice?
-
-2. Compare your response with the held study explanation: No; clause-boundary punctuation must also be correct.
-
-Marking points (one practice mark each):
-
-- Accurately address: Can a transition alone repair a comma splice?
-
-## Practice 20 — foundation · 1 marks
-
-Retrieval 10 — Choosing transitions from logical relationships: Answer from memory: How can you test two plausible transitions?
-
-Answer: Paraphrase each relationship and compare its strength and direction with the evidence.
-
-1. Identify the target idea: How can you test two plausible transitions?
-
-2. Compare your response with the held study explanation: Paraphrase each relationship and compare its strength and direction with the evidence.
-
-Marking points (one practice mark each):
-
-- Accurately address: How can you test two plausible transitions?
-
-## Practice 21 — standard · 1 marks
-
-Retrieval 11 — Choosing transitions from logical relationships: State the condition or distinction precisely: What must therefore be supported by?
-
-Answer: A defensible result or inference relationship between the statements.
-
-1. Identify the target idea: What must therefore be supported by?
-
-2. Compare your response with the held study explanation: A defensible result or inference relationship between the statements.
-
-Marking points (one practice mark each):
-
-- Accurately address: What must therefore be supported by?
-
-## Practice 22 — extension · 1 marks
-
-Retrieval 12 — Choosing transitions from logical relationships: Explain the idea in your own words: Why can however require a semicolon before it?
-
-Answer: When it connects two independent clauses in one sentence, it does not itself license a comma splice.
-
-1. Identify the target idea: Why can however require a semicolon before it?
-
-2. Compare your response with the held study explanation: When it connects two independent clauses in one sentence, it does not itself license a comma splice.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why can however require a semicolon before it?
-
-## Practice 23 — foundation · 1 marks
-
-Retrieval 13 — Choosing transitions from logical relationships: Answer from memory: What should you do before looking at transition choices?
-
-Answer: Summarise the connected ideas and identify their relationship.
-
-1. Identify the target idea: What should you do before looking at transition choices?
-
-2. Compare your response with the held study explanation: Summarise the connected ideas and identify their relationship.
-
-Marking points (one practice mark each):
-
-- Accurately address: What should you do before looking at transition choices?
-
-## Practice 24 — standard · 1 marks
-
-Retrieval 14 — Choosing transitions from logical relationships: State the condition or distinction precisely: What does an additive transition signal?
-
-Answer: Another compatible point, not necessarily an example or consequence.
-
-1. Identify the target idea: What does an additive transition signal?
-
-2. Compare your response with the held study explanation: Another compatible point, not necessarily an example or consequence.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does an additive transition signal?
-
-## Practice 25 — extension · 1 marks
-
-Retrieval 15 — Choosing transitions from logical relationships: Explain the idea in your own words: What relation does for example introduce?
-
-Answer: A specific instance of a broader claim.
-
-1. Identify the target idea: What relation does for example introduce?
-
-2. Compare your response with the held study explanation: A specific instance of a broader claim.
-
-Marking points (one practice mark each):
-
-- Accurately address: What relation does for example introduce?
+- Name an alternative and useful additional evidence.
 
 ## Revision checklist
 
@@ -657,7 +505,7 @@ A transition specifies how the next statement relates to the previous one. Befor
 
 - What should you do before looking at transition choices?
 
-Mixed practice: q1, application-check, error-analysis
+Mixed practice: q1, application-check, error-analysis, depth-concession, depth-correction, depth-sequence-causation
 
 After checking your answer, write the specific rule or assumption you missed. Retry the linked questions without the worked example in a later session. A checked answer or completed checklist is not a measurement of mastery.
 

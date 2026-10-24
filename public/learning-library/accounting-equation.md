@@ -1,6 +1,6 @@
 # Accounting equation and double-entry foundations
 
-Subject: Accountancy · Unit: Recording transactions · Revision: 2026-10-21.2
+Subject: Accountancy · Unit: Recording transactions · Revision: 2026-10-21.3
 
 **Review draft — not independently approved. Practice marks are editorial, not official exam marks.**
 
@@ -41,6 +41,10 @@ Source documents such as invoices and receipts support entries, but their meanin
 ## Credit purchases, cash payments and expense recognition
 
 A transaction can change the composition of assets without changing their total. Buying equipment for cash exchanges one asset for another; it is not automatically an expense of the whole purchase price on that date. Buying equipment on credit increases both assets and liabilities. Paying that supplier later reduces cash and the liability, without creating a second equipment purchase. Separate these events by date and identify the account affected before deciding which side is debited. The accounting equation is a consistency check, not proof that the correct accounts were used: a balanced entry can still misclassify an asset as an expense. Depreciation and tax treatment are outside this example.
+
+## Profit, cash and the timing of recognition
+
+Revenue and cash receipts can occur at different times. When a service is supplied on credit, the receivable increases and the earned revenue contributes to profit; collecting that receivable later exchanges one asset for another. Treating collection as new revenue counts the same service twice. Borrowing increases cash and a liability without creating profit. Owner withdrawals reduce equity without becoming a business expense. Analyse each transaction first by the resource or obligation it changes, then check the equation. A balanced equation is necessary but does not prove that every transaction has been classified correctly.
 
 ## Diagram: Follow a credit purchase
 
@@ -88,15 +92,15 @@ Worked examples: 4
 
 Practise: q5, application-check, error-analysis
 
-### Retrieval practice
+### Apply and test the limits
 
-Close the notes and answer these extra prompts from memory. Self-review with the held explanation, name one gap, then retry later. This is study practice, not an automatic mark or mastery measurement.
+Revisit the last worked example, then read the new section and tackle these different situations. Identify the assumptions before answering. Compare your reasoning with each marking point; these open responses require self-review, not automatic marks.
 
-Read: The business as a separate accounting entity
+Read: Profit, cash and the timing of recognition
 
-Worked examples: 1
+Worked examples: 4
 
-Practise: retrieval-01, retrieval-02, retrieval-03, retrieval-04, retrieval-05, retrieval-06, retrieval-07, retrieval-08, retrieval-09, retrieval-10, retrieval-11, retrieval-12, retrieval-13, retrieval-14, retrieval-15, retrieval-16, retrieval-17, retrieval-18
+Practise: depth-credit-sale, depth-owner-withdrawal, depth-balanced-error
 
 ## Worked example 1
 
@@ -312,257 +316,59 @@ Marking points (one practice mark each):
 
 - Credit cash to record the cash outflow; do not recognise the purchase twice.
 
-## Practice 8 — foundation · 1 marks
+## Practice 8 — standard · 3 marks
 
-Retrieval 1 — Accounting equation and double-entry foundations: Answer from memory: State the accounting equation.
+In a fictional service business with no sales tax, a service worth 600 units is completed on credit. The customer later pays 400. Give the entries for both events and the remaining receivable.
 
-Answer: Assets = liabilities + equity.
+Answer: On completion: debit receivables 600 and credit service revenue 600. On collection: debit cash 400 and credit receivables 400. Receivables remaining: 200.
 
-1. Identify the target idea: State the accounting equation.
+1. Recognise the earned service once, creating revenue and a receivable.
 
-2. Compare your response with the held study explanation: Assets = liabilities + equity.
-
-Marking points (one practice mark each):
-
-- Accurately address: State the accounting equation.
-
-## Practice 9 — standard · 1 marks
-
-Retrieval 2 — Accounting equation and double-entry foundations: State the condition or distinction precisely: What happens when equipment is bought on credit?
-
-Answer: Equipment assets and liabilities both increase by the transaction amount.
-
-1. Identify the target idea: What happens when equipment is bought on credit?
-
-2. Compare your response with the held study explanation: Equipment assets and liabilities both increase by the transaction amount.
+2. Collection changes the composition of assets; 600 - 400 = 200 remains unpaid.
 
 Marking points (one practice mark each):
 
-- Accurately address: What happens when equipment is bought on credit?
+- Record the correct completion entry.
 
-## Practice 10 — extension · 1 marks
+- Record collection without new revenue.
 
-Retrieval 3 — Accounting equation and double-entry foundations: Explain the idea in your own words: Why are owner drawings not an operating expense?
+- State the 200-unit receivable.
 
-Answer: They distribute resources to the owner rather than measure resources consumed to earn business revenue.
+## Practice 9 — standard · 3 marks
 
-1. Identify the target idea: Why are owner drawings not an operating expense?
+A fictional sole trader withdraws 250 units of business cash for personal use. A student records wage expense 250. Correct the classification and explain the effect on profit and equity.
 
-2. Compare your response with the held study explanation: They distribute resources to the owner rather than measure resources consumed to earn business revenue.
+Answer: Debit drawings 250 and credit cash 250. The withdrawal reduces equity by 250 and does not reduce business profit.
 
-Marking points (one practice mark each):
+1. Identify the payment as an owner withdrawal rather than a cost of earning revenue.
 
-- Accurately address: Why are owner drawings not an operating expense?
-
-## Practice 11 — foundation · 1 marks
-
-Retrieval 4 — Accounting equation and double-entry foundations: Answer from memory: Which side normally records an increase in an asset?
-
-Answer: A debit; a decrease in an asset is normally a credit.
-
-1. Identify the target idea: Which side normally records an increase in an asset?
-
-2. Compare your response with the held study explanation: A debit; a decrease in an asset is normally a credit.
+2. Reverse the mistaken expense classification and record drawings.
 
 Marking points (one practice mark each):
 
-- Accurately address: Which side normally records an increase in an asset?
+- Identify drawings.
 
-## Practice 12 — standard · 1 marks
+- Give debit drawings and credit cash.
 
-Retrieval 5 — Accounting equation and double-entry foundations: State the condition or distinction precisely: Why is the cash balance not a measure of profit?
+- Distinguish unchanged profit from reduced equity.
 
-Answer: Cash movements include financing and asset exchanges, while revenue and expense recognition can occur before or after cash settlement.
+## Practice 10 — extension · 3 marks
 
-1. Identify the target idea: Why is the cash balance not a measure of profit?
+A fictional business receives a 1,000-unit bank loan but credits revenue instead of the loan liability. Cash is correctly debited. Explain why the trial balance agrees and identify the misstatements.
 
-2. Compare your response with the held study explanation: Cash movements include financing and asset exchanges, while revenue and expense recognition can occur before or after cash settlement.
+Answer: Equal debit and credit entries still balance. Revenue and profit are overstated by 1,000; the loan liability is understated by 1,000.
 
-Marking points (one practice mark each):
+1. Compare the actual credit with the required liability credit.
 
-- Accurately address: Why is the cash balance not a measure of profit?
-
-## Practice 13 — extension · 1 marks
-
-Retrieval 6 — Accounting equation and double-entry foundations: Explain the idea in your own words: What does agreement of trial-balance totals establish?
-
-Answer: Only that recorded debit and credit totals agree; omissions and several types of misclassification can remain.
-
-1. Identify the target idea: What does agreement of trial-balance totals establish?
-
-2. Compare your response with the held study explanation: Only that recorded debit and credit totals agree; omissions and several types of misclassification can remain.
+2. The trial balance checks numerical equality, not the economic meaning of the account.
 
 Marking points (one practice mark each):
 
-- Accurately address: What does agreement of trial-balance totals establish?
+- Explain equal debit and credit totals.
 
-## Practice 14 — foundation · 1 marks
+- Identify overstated revenue/profit.
 
-Retrieval 7 — Accounting equation and double-entry foundations: Answer from memory: Does settling a supplier payable create another purchase?
-
-Answer: No. It reduces cash and the existing liability.
-
-1. Identify the target idea: Does settling a supplier payable create another purchase?
-
-2. Compare your response with the held study explanation: No. It reduces cash and the existing liability.
-
-Marking points (one practice mark each):
-
-- Accurately address: Does settling a supplier payable create another purchase?
-
-## Practice 15 — standard · 1 marks
-
-Retrieval 8 — Accounting equation and double-entry foundations: State the condition or distinction precisely: Why can a balanced entry still be wrong?
-
-Answer: Equal debits and credits do not prove that the chosen accounts or recognition date are correct.
-
-1. Identify the target idea: Why can a balanced entry still be wrong?
-
-2. Compare your response with the held study explanation: Equal debits and credits do not prove that the chosen accounts or recognition date are correct.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why can a balanced entry still be wrong?
-
-## Practice 16 — extension · 1 marks
-
-Retrieval 9 — Accounting equation and double-entry foundations: Explain the idea in your own words: State the accounting equation.
-
-Answer: Assets = liabilities + equity.
-
-1. Identify the target idea: State the accounting equation.
-
-2. Compare your response with the held study explanation: Assets = liabilities + equity.
-
-Marking points (one practice mark each):
-
-- Accurately address: State the accounting equation.
-
-## Practice 17 — foundation · 1 marks
-
-Retrieval 10 — Accounting equation and double-entry foundations: Answer from memory: What happens when equipment is bought on credit?
-
-Answer: Equipment assets and liabilities both increase by the transaction amount.
-
-1. Identify the target idea: What happens when equipment is bought on credit?
-
-2. Compare your response with the held study explanation: Equipment assets and liabilities both increase by the transaction amount.
-
-Marking points (one practice mark each):
-
-- Accurately address: What happens when equipment is bought on credit?
-
-## Practice 18 — standard · 1 marks
-
-Retrieval 11 — Accounting equation and double-entry foundations: State the condition or distinction precisely: Why are owner drawings not an operating expense?
-
-Answer: They distribute resources to the owner rather than measure resources consumed to earn business revenue.
-
-1. Identify the target idea: Why are owner drawings not an operating expense?
-
-2. Compare your response with the held study explanation: They distribute resources to the owner rather than measure resources consumed to earn business revenue.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why are owner drawings not an operating expense?
-
-## Practice 19 — extension · 1 marks
-
-Retrieval 12 — Accounting equation and double-entry foundations: Explain the idea in your own words: Which side normally records an increase in an asset?
-
-Answer: A debit; a decrease in an asset is normally a credit.
-
-1. Identify the target idea: Which side normally records an increase in an asset?
-
-2. Compare your response with the held study explanation: A debit; a decrease in an asset is normally a credit.
-
-Marking points (one practice mark each):
-
-- Accurately address: Which side normally records an increase in an asset?
-
-## Practice 20 — foundation · 1 marks
-
-Retrieval 13 — Accounting equation and double-entry foundations: Answer from memory: Why is the cash balance not a measure of profit?
-
-Answer: Cash movements include financing and asset exchanges, while revenue and expense recognition can occur before or after cash settlement.
-
-1. Identify the target idea: Why is the cash balance not a measure of profit?
-
-2. Compare your response with the held study explanation: Cash movements include financing and asset exchanges, while revenue and expense recognition can occur before or after cash settlement.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why is the cash balance not a measure of profit?
-
-## Practice 21 — standard · 1 marks
-
-Retrieval 14 — Accounting equation and double-entry foundations: State the condition or distinction precisely: What does agreement of trial-balance totals establish?
-
-Answer: Only that recorded debit and credit totals agree; omissions and several types of misclassification can remain.
-
-1. Identify the target idea: What does agreement of trial-balance totals establish?
-
-2. Compare your response with the held study explanation: Only that recorded debit and credit totals agree; omissions and several types of misclassification can remain.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does agreement of trial-balance totals establish?
-
-## Practice 22 — extension · 1 marks
-
-Retrieval 15 — Accounting equation and double-entry foundations: Explain the idea in your own words: Does settling a supplier payable create another purchase?
-
-Answer: No. It reduces cash and the existing liability.
-
-1. Identify the target idea: Does settling a supplier payable create another purchase?
-
-2. Compare your response with the held study explanation: No. It reduces cash and the existing liability.
-
-Marking points (one practice mark each):
-
-- Accurately address: Does settling a supplier payable create another purchase?
-
-## Practice 23 — foundation · 1 marks
-
-Retrieval 16 — Accounting equation and double-entry foundations: Answer from memory: Why can a balanced entry still be wrong?
-
-Answer: Equal debits and credits do not prove that the chosen accounts or recognition date are correct.
-
-1. Identify the target idea: Why can a balanced entry still be wrong?
-
-2. Compare your response with the held study explanation: Equal debits and credits do not prove that the chosen accounts or recognition date are correct.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why can a balanced entry still be wrong?
-
-## Practice 24 — standard · 1 marks
-
-Retrieval 17 — Accounting equation and double-entry foundations: State the condition or distinction precisely: State the accounting equation.
-
-Answer: Assets = liabilities + equity.
-
-1. Identify the target idea: State the accounting equation.
-
-2. Compare your response with the held study explanation: Assets = liabilities + equity.
-
-Marking points (one practice mark each):
-
-- Accurately address: State the accounting equation.
-
-## Practice 25 — extension · 1 marks
-
-Retrieval 18 — Accounting equation and double-entry foundations: Explain the idea in your own words: What happens when equipment is bought on credit?
-
-Answer: Equipment assets and liabilities both increase by the transaction amount.
-
-1. Identify the target idea: What happens when equipment is bought on credit?
-
-2. Compare your response with the held study explanation: Equipment assets and liabilities both increase by the transaction amount.
-
-Marking points (one practice mark each):
-
-- Accurately address: What happens when equipment is bought on credit?
+- Identify the understated liability.
 
 ## Revision checklist
 
@@ -596,6 +402,6 @@ A transaction can change the composition of assets without changing their total.
 
 - State the accounting equation.
 
-Mixed practice: q1, application-check, error-analysis
+Mixed practice: q1, application-check, error-analysis, depth-credit-sale, depth-owner-withdrawal, depth-balanced-error
 
 After checking your answer, write the specific rule or assumption you missed. Retry the linked questions without the worked example in a later session. A checked answer or completed checklist is not a measurement of mastery.

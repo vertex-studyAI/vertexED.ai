@@ -19,6 +19,14 @@ const question = z.object({
   if (value.type !== 'mcq' && value.options) ctx.addIssue({ code: 'custom', message: 'Options belong only to MCQs.' });
 });
 
+// Separate authored extensions keep historical lesson sources intact. The merged
+// lesson is validated again, including references and cross-pack uniqueness.
+export const foundationDepthSchema = z.object({
+  schemaVersion: z.literal(1), lessonId: id, revision: text(80),
+  notes: z.array(z.object({ heading: text(160), paragraphs: z.array(text(5000)).min(1).max(6) }).strict()).min(1).max(3),
+  questions: z.array(question).min(3),
+}).strict();
+
 export const learningLessonSchema = z.object({
   schemaVersion: z.literal(1), id, revision: text(80), subject: text(120), unit: text(160), topic: text(160),
   level: z.enum(['secondary-foundation', 'secondary-extension', 'introductory-university']),

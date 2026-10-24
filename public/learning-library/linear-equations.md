@@ -1,6 +1,6 @@
 # Linear equations, inequalities and modelling
 
-Subject: Mathematics · Unit: Algebra · Revision: 2026-10-21.2
+Subject: Mathematics · Unit: Algebra · Revision: 2026-10-21.3
 
 **Review draft — not independently approved. Practice marks are editorial, not official exam marks.**
 
@@ -41,6 +41,10 @@ When the unknown cancels, stop interpreting the remaining statement as another i
 ## Testing a budget boundary in the original model
 
 A budget inequality combines a fixed charge with a variable charge and a domain restriction. Solve the algebra first, then impose the practical domain: a whole number of items cannot equal a fractional upper bound. Checking both the largest allowed integer and the next integer shows why rounding down is justified. The equality symbol also matters: at most includes spending the entire budget, whereas less than excludes equality. When dividing by a negative coefficient in a rearranged inequality, reverse the order relation. A final substitution in the original cost expression checks the sign handling and the interpretation together.
+
+## Split parameter cases before dividing
+
+An equation containing a parameter may describe several different solution patterns. In ax=b, divide by a only when a is nonzero. If a=0, the equation instead says 0=b, which is either always true or impossible. The same caution applies to a parameter multiplying an expression. Rational equations also carry original domain restrictions: clearing a denominator can produce a candidate that was never permitted. State these restrictions first and test every candidate in the original equation. A graph or substitution can check an answer but does not repair an invalid division.
 
 ## Diagram: Turn a cost model into a feasible choice
 
@@ -88,15 +92,15 @@ Worked examples: 4
 
 Practise: q5, application-check, error-analysis
 
-### Retrieval practice
+### Apply and test the limits
 
-Close the notes and answer these extra prompts from memory. Self-review with the held explanation, name one gap, then retry later. This is study practice, not an automatic mark or mastery measurement.
+Revisit the last worked example, then read the new section and tackle these different situations. Identify the assumptions before answering. Compare your reasoning with each marking point; these open responses require self-review, not automatic marks.
 
-Read: Equality and inverse operations
+Read: Split parameter cases before dividing
 
-Worked examples: 1
+Worked examples: 4
 
-Practise: retrieval-01, retrieval-02, retrieval-03, retrieval-04, retrieval-05, retrieval-06, retrieval-07, retrieval-08, retrieval-09, retrieval-10, retrieval-11, retrieval-12, retrieval-13, retrieval-14, retrieval-15, retrieval-16, retrieval-17, retrieval-18
+Practise: depth-parameter-cases, depth-rational-restriction, depth-compound-bound
 
 ## Worked example 1
 
@@ -314,257 +318,59 @@ Marking points (one practice mark each):
 
 - A test value such as 0 satisfies the original inequality; the boundary 4 does not.
 
-## Practice 8 — foundation · 1 marks
+## Practice 8 — extension · 3 marks
 
-Retrieval 1 — Linear equations, inequalities and modelling: Answer from memory: What does a solution of an equation do?
+Solve (k-2)x=6 for real x, distinguishing all real values of k.
 
-Answer: It makes the original equality true while respecting its domain.
+Answer: For k≠2, x=6/(k-2). For k=2, there is no solution because 0=6 is false.
 
-1. Identify the target idea: What does a solution of an equation do?
+1. Identify when the coefficient of x vanishes.
 
-2. Compare your response with the held study explanation: It makes the original equality true while respecting its domain.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does a solution of an equation do?
-
-## Practice 9 — standard · 1 marks
-
-Retrieval 2 — Linear equations, inequalities and modelling: State the condition or distinction precisely: What happens if the coefficient of x becomes zero?
-
-Answer: Inspect the remaining statement: true means all permitted inputs; false means no solution.
-
-1. Identify the target idea: What happens if the coefficient of x becomes zero?
-
-2. Compare your response with the held study explanation: Inspect the remaining statement: true means all permitted inputs; false means no solution.
+2. Divide only in the nonzero case and inspect the zero case separately.
 
 Marking points (one practice mark each):
 
-- Accurately address: What happens if the coefficient of x becomes zero?
+- State k≠2 for division.
 
-## Practice 10 — extension · 1 marks
+- Give 6/(k-2).
 
-Retrieval 3 — Linear equations, inequalities and modelling: Explain the idea in your own words: When must an inequality sign reverse?
+- Explain no solution at k=2.
 
-Answer: When both sides are multiplied or divided by a negative number.
+## Practice 9 — standard · 3 marks
 
-1. Identify the target idea: When must an inequality sign reverse?
+Solve (x+1)/(x-2)=2 over the reals, stating the domain restriction and checking the solution.
 
-2. Compare your response with the held study explanation: When both sides are multiplied or divided by a negative number.
+Answer: x≠2; the solution is x=5, which gives 6/3=2.
 
-Marking points (one practice mark each):
+1. Record x≠2 before multiplying by x-2.
 
-- Accurately address: When must an inequality sign reverse?
-
-## Practice 11 — foundation · 1 marks
-
-Retrieval 4 — Linear equations, inequalities and modelling: Answer from memory: Why can cancellation lose information?
-
-Answer: A cancelled factor might equal zero; its restrictions or possible zero solutions must be checked.
-
-1. Identify the target idea: Why can cancellation lose information?
-
-2. Compare your response with the held study explanation: A cancelled factor might equal zero; its restrictions or possible zero solutions must be checked.
+2. Solve x+1=2x-4 and substitute back.
 
 Marking points (one practice mark each):
 
-- Accurately address: Why can cancellation lose information?
+- State x≠2.
 
-## Practice 12 — standard · 1 marks
+- Find x=5.
 
-Retrieval 5 — Linear equations, inequalities and modelling: State the condition or distinction precisely: How do you interpret n≤6.75 for a number of tickets?
+- Check the original equation.
 
-Answer: For nonnegative whole tickets, n can be 0 through 6.
+## Practice 10 — standard · 3 marks
 
-1. Identify the target idea: How do you interpret n≤6.75 for a number of tickets?
+Solve -3≤2x+1<9 and list all integer solutions.
 
-2. Compare your response with the held study explanation: For nonnegative whole tickets, n can be 0 through 6.
+Answer: -2≤x<4; integers -2,-1,0,1,2,3.
 
-Marking points (one practice mark each):
+1. Subtract 1 from all three parts.
 
-- Accurately address: How do you interpret n≤6.75 for a number of tickets?
-
-## Practice 13 — extension · 1 marks
-
-Retrieval 6 — Linear equations, inequalities and modelling: Explain the idea in your own words: What does an identity such as 6=6 mean after eliminating the unknown?
-
-Answer: Every value in the original permitted domain satisfies the equation; it does not mean the unknown equals 6.
-
-1. Identify the target idea: What does an identity such as 6=6 mean after eliminating the unknown?
-
-2. Compare your response with the held study explanation: Every value in the original permitted domain satisfies the equation; it does not mean the unknown equals 6.
+2. Divide by positive 2, retaining closed and open endpoints.
 
 Marking points (one practice mark each):
 
-- Accurately address: What does an identity such as 6=6 mean after eliminating the unknown?
+- Obtain -2≤x<4.
 
-## Practice 14 — foundation · 1 marks
+- Keep endpoint inclusion correct.
 
-Retrieval 7 — Linear equations, inequalities and modelling: Answer from memory: How do you justify a whole-number budget maximum?
-
-Answer: Check that the candidate satisfies the original budget and that the next whole number exceeds it.
-
-1. Identify the target idea: How do you justify a whole-number budget maximum?
-
-2. Compare your response with the held study explanation: Check that the candidate satisfies the original budget and that the next whole number exceeds it.
-
-Marking points (one practice mark each):
-
-- Accurately address: How do you justify a whole-number budget maximum?
-
-## Practice 15 — standard · 1 marks
-
-Retrieval 8 — Linear equations, inequalities and modelling: State the condition or distinction precisely: When does dividing reverse an inequality?
-
-Answer: When dividing both sides by a negative number.
-
-1. Identify the target idea: When does dividing reverse an inequality?
-
-2. Compare your response with the held study explanation: When dividing both sides by a negative number.
-
-Marking points (one practice mark each):
-
-- Accurately address: When does dividing reverse an inequality?
-
-## Practice 16 — extension · 1 marks
-
-Retrieval 9 — Linear equations, inequalities and modelling: Explain the idea in your own words: What does a solution of an equation do?
-
-Answer: It makes the original equality true while respecting its domain.
-
-1. Identify the target idea: What does a solution of an equation do?
-
-2. Compare your response with the held study explanation: It makes the original equality true while respecting its domain.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does a solution of an equation do?
-
-## Practice 17 — foundation · 1 marks
-
-Retrieval 10 — Linear equations, inequalities and modelling: Answer from memory: What happens if the coefficient of x becomes zero?
-
-Answer: Inspect the remaining statement: true means all permitted inputs; false means no solution.
-
-1. Identify the target idea: What happens if the coefficient of x becomes zero?
-
-2. Compare your response with the held study explanation: Inspect the remaining statement: true means all permitted inputs; false means no solution.
-
-Marking points (one practice mark each):
-
-- Accurately address: What happens if the coefficient of x becomes zero?
-
-## Practice 18 — standard · 1 marks
-
-Retrieval 11 — Linear equations, inequalities and modelling: State the condition or distinction precisely: When must an inequality sign reverse?
-
-Answer: When both sides are multiplied or divided by a negative number.
-
-1. Identify the target idea: When must an inequality sign reverse?
-
-2. Compare your response with the held study explanation: When both sides are multiplied or divided by a negative number.
-
-Marking points (one practice mark each):
-
-- Accurately address: When must an inequality sign reverse?
-
-## Practice 19 — extension · 1 marks
-
-Retrieval 12 — Linear equations, inequalities and modelling: Explain the idea in your own words: Why can cancellation lose information?
-
-Answer: A cancelled factor might equal zero; its restrictions or possible zero solutions must be checked.
-
-1. Identify the target idea: Why can cancellation lose information?
-
-2. Compare your response with the held study explanation: A cancelled factor might equal zero; its restrictions or possible zero solutions must be checked.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why can cancellation lose information?
-
-## Practice 20 — foundation · 1 marks
-
-Retrieval 13 — Linear equations, inequalities and modelling: Answer from memory: How do you interpret n≤6.75 for a number of tickets?
-
-Answer: For nonnegative whole tickets, n can be 0 through 6.
-
-1. Identify the target idea: How do you interpret n≤6.75 for a number of tickets?
-
-2. Compare your response with the held study explanation: For nonnegative whole tickets, n can be 0 through 6.
-
-Marking points (one practice mark each):
-
-- Accurately address: How do you interpret n≤6.75 for a number of tickets?
-
-## Practice 21 — standard · 1 marks
-
-Retrieval 14 — Linear equations, inequalities and modelling: State the condition or distinction precisely: What does an identity such as 6=6 mean after eliminating the unknown?
-
-Answer: Every value in the original permitted domain satisfies the equation; it does not mean the unknown equals 6.
-
-1. Identify the target idea: What does an identity such as 6=6 mean after eliminating the unknown?
-
-2. Compare your response with the held study explanation: Every value in the original permitted domain satisfies the equation; it does not mean the unknown equals 6.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does an identity such as 6=6 mean after eliminating the unknown?
-
-## Practice 22 — extension · 1 marks
-
-Retrieval 15 — Linear equations, inequalities and modelling: Explain the idea in your own words: How do you justify a whole-number budget maximum?
-
-Answer: Check that the candidate satisfies the original budget and that the next whole number exceeds it.
-
-1. Identify the target idea: How do you justify a whole-number budget maximum?
-
-2. Compare your response with the held study explanation: Check that the candidate satisfies the original budget and that the next whole number exceeds it.
-
-Marking points (one practice mark each):
-
-- Accurately address: How do you justify a whole-number budget maximum?
-
-## Practice 23 — foundation · 1 marks
-
-Retrieval 16 — Linear equations, inequalities and modelling: Answer from memory: When does dividing reverse an inequality?
-
-Answer: When dividing both sides by a negative number.
-
-1. Identify the target idea: When does dividing reverse an inequality?
-
-2. Compare your response with the held study explanation: When dividing both sides by a negative number.
-
-Marking points (one practice mark each):
-
-- Accurately address: When does dividing reverse an inequality?
-
-## Practice 24 — standard · 1 marks
-
-Retrieval 17 — Linear equations, inequalities and modelling: State the condition or distinction precisely: What does a solution of an equation do?
-
-Answer: It makes the original equality true while respecting its domain.
-
-1. Identify the target idea: What does a solution of an equation do?
-
-2. Compare your response with the held study explanation: It makes the original equality true while respecting its domain.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does a solution of an equation do?
-
-## Practice 25 — extension · 1 marks
-
-Retrieval 18 — Linear equations, inequalities and modelling: Explain the idea in your own words: What happens if the coefficient of x becomes zero?
-
-Answer: Inspect the remaining statement: true means all permitted inputs; false means no solution.
-
-1. Identify the target idea: What happens if the coefficient of x becomes zero?
-
-2. Compare your response with the held study explanation: Inspect the remaining statement: true means all permitted inputs; false means no solution.
-
-Marking points (one practice mark each):
-
-- Accurately address: What happens if the coefficient of x becomes zero?
+- List all six integers.
 
 ## Revision checklist
 
@@ -598,6 +404,6 @@ A budget inequality combines a fixed charge with a variable charge and a domain 
 
 - What does a solution of an equation do?
 
-Mixed practice: q1, application-check, error-analysis
+Mixed practice: q1, application-check, error-analysis, depth-parameter-cases, depth-rational-restriction, depth-compound-bound
 
 After checking your answer, write the specific rule or assumption you missed. Retry the linked questions without the worked example in a later session. A checked answer or completed checklist is not a measurement of mastery.

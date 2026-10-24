@@ -1,6 +1,6 @@
 # Sampling, spatial patterns and fieldwork conclusions
 
-Subject: Geography · Unit: Geographical enquiry · Revision: 2026-10-21.2
+Subject: Geography · Unit: Geographical enquiry · Revision: 2026-10-21.3
 
 **Review draft — not independently approved. Practice marks are editorial, not official exam marks.**
 
@@ -41,6 +41,10 @@ An average summarises a dataset but can conceal variation between sites or times
 ## Recognising clustered samples in a spatial comparison
 
 A large number of measurements can still provide poor coverage if they come from one convenient location. Treat the sampling frame and the distribution of sites as part of the evidence. Repeated readings at one site may estimate local variability, but they do not automatically represent an entire river, town or coast. If the question compares land-use zones, distribute sampling across those zones and keep the measurement procedure consistent. Report access restrictions and missing sites so the reader can judge selection bias. A map of sampled locations often reveals clustering more clearly than a table of totals. The scenario here is fictional and does not document completed fieldwork.
+
+## Compare rates and distributions before drawing a spatial conclusion
+
+Fieldwork observations often differ in their duration, area or number of people exposed. Standardise those denominators before comparing totals. A mean can be affected strongly by a single extreme observation, so describe spread and inspect the raw values as well. Spatial sampling and time sampling answer different questions: distributing sites across neighbourhoods does not remove a morning-only bias. A defensible conclusion names the sampled places and times, notes the limits of the design and proposes a targeted improvement rather than merely asking for more data.
 
 ## Diagram: Check spatial coverage
 
@@ -88,15 +92,15 @@ Worked examples: 4
 
 Practise: q5, application-check, error-analysis
 
-### Retrieval practice
+### Apply and test the limits
 
-Close the notes and answer these extra prompts from memory. Self-review with the held explanation, name one gap, then retry later. This is study practice, not an automatic mark or mastery measurement.
+Revisit the last worked example, then read the new section and tackle these different situations. Identify the assumptions before answering. Compare your reasoning with each marking point; these open responses require self-review, not automatic marks.
 
-Read: From question to measurable variables
+Read: Compare rates and distributions before drawing a spatial conclusion
 
-Worked examples: 1
+Worked examples: 4
 
-Practise: retrieval-01, retrieval-02, retrieval-03, retrieval-04, retrieval-05, retrieval-06, retrieval-07, retrieval-08, retrieval-09, retrieval-10, retrieval-11, retrieval-12, retrieval-13, retrieval-14, retrieval-15, retrieval-16, retrieval-17, retrieval-18
+Practise: depth-unequal-duration, depth-outlier-distribution, depth-time-coverage
 
 ## Worked example 1
 
@@ -314,257 +318,59 @@ Marking points (one practice mark each):
 
 - Spatial representativeness requires evidence from the target range of locations.
 
-## Practice 8 — foundation · 1 marks
+## Practice 8 — standard · 3 marks
 
-Retrieval 1 — Sampling, spatial patterns and fieldwork conclusions: Answer from memory: Why define a measurable version of a broad concept?
+Fictional pedestrian counts are 90 people in 15 minutes at A and 80 in 10 minutes at B. Compare rates and explain why the larger total is not the higher rate.
 
-Answer: It makes the enquiry testable while clarifying what the chosen measure does and does not capture.
+Answer: A averages 6 people per minute and B averages 8; B has the higher rate.
 
-1. Identify the target idea: Why define a measurable version of a broad concept?
+1. Divide each count by its own observation duration.
 
-2. Compare your response with the held study explanation: It makes the enquiry testable while clarifying what the chosen measure does and does not capture.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why define a measurable version of a broad concept?
-
-## Practice 9 — standard · 1 marks
-
-Retrieval 2 — Sampling, spatial patterns and fieldwork conclusions: State the condition or distinction precisely: What is the purpose of stratified sampling?
-
-Answer: To sample within relevant population groups rather than accidentally omitting them.
-
-1. Identify the target idea: What is the purpose of stratified sampling?
-
-2. Compare your response with the held study explanation: To sample within relevant population groups rather than accidentally omitting them.
+2. Compare rates after standardising the unit.
 
 Marking points (one practice mark each):
 
-- Accurately address: What is the purpose of stratified sampling?
+- Find A=6 per minute.
 
-## Practice 10 — extension · 1 marks
+- Find B=8 per minute.
 
-Retrieval 3 — Sampling, spatial patterns and fieldwork conclusions: Explain the idea in your own words: What is a potential weakness of systematic sampling?
+- Explain the unequal-duration issue.
 
-Answer: The interval may coincide with a repeating spatial or temporal pattern.
+## Practice 9 — standard · 3 marks
 
-1. Identify the target idea: What is a potential weakness of systematic sampling?
+Fictional litter counts at five equal-area sites are 2,3,3,4,28. Find the mean and median, then explain what reporting only the mean could hide.
 
-2. Compare your response with the held study explanation: The interval may coincide with a repeating spatial or temporal pattern.
+Answer: Mean 8 and median 3; the site with 28 strongly raises the mean and the sites are uneven.
 
-Marking points (one practice mark each):
+1. Sum to 40 and divide by 5; the middle ordered value is 3.
 
-- Accurately address: What is a potential weakness of systematic sampling?
-
-## Practice 11 — foundation · 1 marks
-
-Retrieval 4 — Sampling, spatial patterns and fieldwork conclusions: Answer from memory: What can repeated measurements reveal?
-
-Answer: Variability under the repeated conditions, not necessarily freedom from systematic error.
-
-1. Identify the target idea: What can repeated measurements reveal?
-
-2. Compare your response with the held study explanation: Variability under the repeated conditions, not necessarily freedom from systematic error.
+2. Report the outlier and range or raw values alongside the mean.
 
 Marking points (one practice mark each):
 
-- Accurately address: What can repeated measurements reveal?
+- Find mean 8.
 
-## Practice 12 — standard · 1 marks
+- Find median 3.
 
-Retrieval 5 — Sampling, spatial patterns and fieldwork conclusions: State the condition or distinction precisely: What should limit the reach of a fieldwork conclusion?
+- Explain the exceptional site and uneven distribution.
 
-Answer: The sampled population, places, times and measurement method.
+## Practice 10 — extension · 3 marks
 
-1. Identify the target idea: What should limit the reach of a fieldwork conclusion?
+A fictional study samples streets in every neighbourhood but counts traffic only from 08:00 to 08:15 on one weekday. What is improved by the spatial coverage, and what conclusion still cannot be supported?
 
-2. Compare your response with the held study explanation: The sampled population, places, times and measurement method.
+Answer: It improves representation across sampled neighbourhoods. It does not establish typical daily or weekend traffic because time coverage is narrow.
 
-Marking points (one practice mark each):
+1. Separate the geographical sampling frame from the time frame.
 
-- Accurately address: What should limit the reach of a fieldwork conclusion?
-
-## Practice 13 — extension · 1 marks
-
-Retrieval 6 — Sampling, spatial patterns and fieldwork conclusions: Explain the idea in your own words: Why must observation durations be considered when comparing counts?
-
-Answer: Unequal durations can produce different totals despite equal underlying rates; compare equivalent durations or rates.
-
-1. Identify the target idea: Why must observation durations be considered when comparing counts?
-
-2. Compare your response with the held study explanation: Unequal durations can produce different totals despite equal underlying rates; compare equivalent durations or rates.
+2. Repeat at planned time periods and days before making a whole-week claim.
 
 Marking points (one practice mark each):
 
-- Accurately address: Why must observation durations be considered when comparing counts?
+- Recognise improved spatial coverage.
 
-## Practice 14 — foundation · 1 marks
+- Identify the narrow time limitation.
 
-Retrieval 7 — Sampling, spatial patterns and fieldwork conclusions: Answer from memory: Why map sampling locations?
-
-Answer: A map can expose clusters and missing areas that a large total sample count conceals.
-
-1. Identify the target idea: Why map sampling locations?
-
-2. Compare your response with the held study explanation: A map can expose clusters and missing areas that a large total sample count conceals.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why map sampling locations?
-
-## Practice 15 — standard · 1 marks
-
-Retrieval 8 — Sampling, spatial patterns and fieldwork conclusions: State the condition or distinction precisely: What can repeated readings at one site establish?
-
-Answer: Variation or precision for that site under the measured conditions, not automatic representation of all sites.
-
-1. Identify the target idea: What can repeated readings at one site establish?
-
-2. Compare your response with the held study explanation: Variation or precision for that site under the measured conditions, not automatic representation of all sites.
-
-Marking points (one practice mark each):
-
-- Accurately address: What can repeated readings at one site establish?
-
-## Practice 16 — extension · 1 marks
-
-Retrieval 9 — Sampling, spatial patterns and fieldwork conclusions: Explain the idea in your own words: Why define a measurable version of a broad concept?
-
-Answer: It makes the enquiry testable while clarifying what the chosen measure does and does not capture.
-
-1. Identify the target idea: Why define a measurable version of a broad concept?
-
-2. Compare your response with the held study explanation: It makes the enquiry testable while clarifying what the chosen measure does and does not capture.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why define a measurable version of a broad concept?
-
-## Practice 17 — foundation · 1 marks
-
-Retrieval 10 — Sampling, spatial patterns and fieldwork conclusions: Answer from memory: What is the purpose of stratified sampling?
-
-Answer: To sample within relevant population groups rather than accidentally omitting them.
-
-1. Identify the target idea: What is the purpose of stratified sampling?
-
-2. Compare your response with the held study explanation: To sample within relevant population groups rather than accidentally omitting them.
-
-Marking points (one practice mark each):
-
-- Accurately address: What is the purpose of stratified sampling?
-
-## Practice 18 — standard · 1 marks
-
-Retrieval 11 — Sampling, spatial patterns and fieldwork conclusions: State the condition or distinction precisely: What is a potential weakness of systematic sampling?
-
-Answer: The interval may coincide with a repeating spatial or temporal pattern.
-
-1. Identify the target idea: What is a potential weakness of systematic sampling?
-
-2. Compare your response with the held study explanation: The interval may coincide with a repeating spatial or temporal pattern.
-
-Marking points (one practice mark each):
-
-- Accurately address: What is a potential weakness of systematic sampling?
-
-## Practice 19 — extension · 1 marks
-
-Retrieval 12 — Sampling, spatial patterns and fieldwork conclusions: Explain the idea in your own words: What can repeated measurements reveal?
-
-Answer: Variability under the repeated conditions, not necessarily freedom from systematic error.
-
-1. Identify the target idea: What can repeated measurements reveal?
-
-2. Compare your response with the held study explanation: Variability under the repeated conditions, not necessarily freedom from systematic error.
-
-Marking points (one practice mark each):
-
-- Accurately address: What can repeated measurements reveal?
-
-## Practice 20 — foundation · 1 marks
-
-Retrieval 13 — Sampling, spatial patterns and fieldwork conclusions: Answer from memory: What should limit the reach of a fieldwork conclusion?
-
-Answer: The sampled population, places, times and measurement method.
-
-1. Identify the target idea: What should limit the reach of a fieldwork conclusion?
-
-2. Compare your response with the held study explanation: The sampled population, places, times and measurement method.
-
-Marking points (one practice mark each):
-
-- Accurately address: What should limit the reach of a fieldwork conclusion?
-
-## Practice 21 — standard · 1 marks
-
-Retrieval 14 — Sampling, spatial patterns and fieldwork conclusions: State the condition or distinction precisely: Why must observation durations be considered when comparing counts?
-
-Answer: Unequal durations can produce different totals despite equal underlying rates; compare equivalent durations or rates.
-
-1. Identify the target idea: Why must observation durations be considered when comparing counts?
-
-2. Compare your response with the held study explanation: Unequal durations can produce different totals despite equal underlying rates; compare equivalent durations or rates.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why must observation durations be considered when comparing counts?
-
-## Practice 22 — extension · 1 marks
-
-Retrieval 15 — Sampling, spatial patterns and fieldwork conclusions: Explain the idea in your own words: Why map sampling locations?
-
-Answer: A map can expose clusters and missing areas that a large total sample count conceals.
-
-1. Identify the target idea: Why map sampling locations?
-
-2. Compare your response with the held study explanation: A map can expose clusters and missing areas that a large total sample count conceals.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why map sampling locations?
-
-## Practice 23 — foundation · 1 marks
-
-Retrieval 16 — Sampling, spatial patterns and fieldwork conclusions: Answer from memory: What can repeated readings at one site establish?
-
-Answer: Variation or precision for that site under the measured conditions, not automatic representation of all sites.
-
-1. Identify the target idea: What can repeated readings at one site establish?
-
-2. Compare your response with the held study explanation: Variation or precision for that site under the measured conditions, not automatic representation of all sites.
-
-Marking points (one practice mark each):
-
-- Accurately address: What can repeated readings at one site establish?
-
-## Practice 24 — standard · 1 marks
-
-Retrieval 17 — Sampling, spatial patterns and fieldwork conclusions: State the condition or distinction precisely: Why define a measurable version of a broad concept?
-
-Answer: It makes the enquiry testable while clarifying what the chosen measure does and does not capture.
-
-1. Identify the target idea: Why define a measurable version of a broad concept?
-
-2. Compare your response with the held study explanation: It makes the enquiry testable while clarifying what the chosen measure does and does not capture.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why define a measurable version of a broad concept?
-
-## Practice 25 — extension · 1 marks
-
-Retrieval 18 — Sampling, spatial patterns and fieldwork conclusions: Explain the idea in your own words: What is the purpose of stratified sampling?
-
-Answer: To sample within relevant population groups rather than accidentally omitting them.
-
-1. Identify the target idea: What is the purpose of stratified sampling?
-
-2. Compare your response with the held study explanation: To sample within relevant population groups rather than accidentally omitting them.
-
-Marking points (one practice mark each):
-
-- Accurately address: What is the purpose of stratified sampling?
+- Propose sampling additional periods and days.
 
 ## Revision checklist
 
@@ -598,6 +404,6 @@ A large number of measurements can still provide poor coverage if they come from
 
 - Why define a measurable version of a broad concept?
 
-Mixed practice: q1, application-check, error-analysis
+Mixed practice: q1, application-check, error-analysis, depth-unequal-duration, depth-outlier-distribution, depth-time-coverage
 
 After checking your answer, write the specific rule or assumption you missed. Retry the linked questions without the worked example in a later session. A checked answer or completed checklist is not a measurement of mastery.

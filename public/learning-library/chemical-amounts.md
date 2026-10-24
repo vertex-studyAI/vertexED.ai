@@ -1,6 +1,6 @@
 # Moles, balanced equations and limiting reactants
 
-Subject: Chemistry · Unit: Quantitative chemistry · Revision: 2026-10-21.2
+Subject: Chemistry · Unit: Quantitative chemistry · Revision: 2026-10-21.3
 
 **Review draft — not independently approved. Practice marks are editorial, not official exam marks.**
 
@@ -41,6 +41,10 @@ Percentage yield compares actual isolated product with theoretical product, usin
 ## Finding an excess reactant after a reaction
 
 The limiting reactant determines the maximum extent of reaction. Divide each available amount by its stoichiometric coefficient and compare the resulting possible reaction extents. Use the smaller extent to calculate product and to find how much of the other reactant was consumed. Subtracting mole amounts directly is valid only when the equation demands a one-to-one ratio. Keep mass conversion separate from the ratio stage: first convert each mass to amount, then apply the balanced equation, and finally convert an amount to mass if needed. A theoretical yield assumes the modelled reaction reaches the stated extent without product loss or competing reactions. It is not a measured yield.
+
+## Keep concentration, dilution and reaction ratios distinct
+
+Concentration describes an amount per volume, while a balanced equation relates reacting amounts. Before using a concentration expressed in moles per cubic decimetre, convert the volume to cubic decimetres. Dilution changes concentration by adding solvent without changing the amount of solute, provided none is lost or reacts. Mixing two reactants is different: first calculate their amounts, then compare the stoichiometric requirements. A unit check can expose a factor-of-one-thousand error even when the algebra appears correct.
 
 ## Diagram: Track reaction extent
 
@@ -88,15 +92,15 @@ Worked examples: 4
 
 Practise: q5, application-check, error-analysis
 
-### Retrieval practice
+### Apply and test the limits
 
-Close the notes and answer these extra prompts from memory. Self-review with the held explanation, name one gap, then retry later. This is study practice, not an automatic mark or mastery measurement.
+Revisit the last worked example, then read the new section and tackle these different situations. Identify the assumptions before answering. Compare your reasoning with each marking point; these open responses require self-review, not automatic marks.
 
-Read: Amount of substance
+Read: Keep concentration, dilution and reaction ratios distinct
 
-Worked examples: 1
+Worked examples: 4
 
-Practise: retrieval-01, retrieval-02, retrieval-03, retrieval-04, retrieval-05, retrieval-06, retrieval-07, retrieval-08, retrieval-09, retrieval-10, retrieval-11, retrieval-12, retrieval-13, retrieval-14, retrieval-15, retrieval-16, retrieval-17, retrieval-18
+Practise: depth-solution-moles, depth-dilution, depth-neutralisation
 
 ## Worked example 1
 
@@ -314,257 +318,59 @@ Marking points (one practice mark each):
 
 - Subtract consumed hydrogen from its own initial amount, not from the oxygen amount.
 
-## Practice 8 — foundation · 1 marks
+## Practice 8 — standard · 3 marks
 
-Retrieval 1 — Moles, balanced equations and limiting reactants: Answer from memory: How do mass and molar mass give amount?
+A solution has concentration 0.20 mol dm⁻³. Calculate the amount of solute in 75 cm³, showing the volume conversion.
 
-Answer: n=m/M, with consistent mass units.
+Answer: 0.015 mol.
 
-1. Identify the target idea: How do mass and molar mass give amount?
+1. Convert 75 cm³ to 0.075 dm³.
 
-2. Compare your response with the held study explanation: n=m/M, with consistent mass units.
-
-Marking points (one practice mark each):
-
-- Accurately address: How do mass and molar mass give amount?
-
-## Practice 9 — standard · 1 marks
-
-Retrieval 2 — Moles, balanced equations and limiting reactants: State the condition or distinction precisely: Why must formulas stay fixed while balancing?
-
-Answer: Changing a subscript changes the substance rather than its amount.
-
-1. Identify the target idea: Why must formulas stay fixed while balancing?
-
-2. Compare your response with the held study explanation: Changing a subscript changes the substance rather than its amount.
+2. Use n=cV=0.20×0.075.
 
 Marking points (one practice mark each):
 
-- Accurately address: Why must formulas stay fixed while balancing?
+- Convert volume correctly.
 
-## Practice 10 — extension · 1 marks
+- Use n=cV.
 
-Retrieval 3 — Moles, balanced equations and limiting reactants: Explain the idea in your own words: What does a coefficient ratio represent?
+- State 0.015 mol.
 
-Answer: The ratio of reacting or produced entities and moles.
+## Practice 9 — standard · 3 marks
 
-1. Identify the target idea: What does a coefficient ratio represent?
+25 cm³ of a 0.80 mol dm⁻³ solution is diluted to a final volume of 100 cm³ without reaction or solute loss. Find the final concentration and explain the conservation used.
 
-2. Compare your response with the held study explanation: The ratio of reacting or produced entities and moles.
+Answer: 0.20 mol dm⁻³; the solute amount remains 0.020 mol.
 
-Marking points (one practice mark each):
+1. Initial amount is 0.80×0.025=0.020 mol.
 
-- Accurately address: What does a coefficient ratio represent?
-
-## Practice 11 — foundation · 1 marks
-
-Retrieval 4 — Moles, balanced equations and limiting reactants: Answer from memory: How can you identify a limiting reactant numerically?
-
-Answer: Compare available moles divided by each coefficient; the smallest limits reaction extent.
-
-1. Identify the target idea: How can you identify a limiting reactant numerically?
-
-2. Compare your response with the held study explanation: Compare available moles divided by each coefficient; the smallest limits reaction extent.
+2. Divide by final volume 0.100 dm³.
 
 Marking points (one practice mark each):
 
-- Accurately address: How can you identify a limiting reactant numerically?
+- Find 0.020 mol.
 
-## Practice 12 — standard · 1 marks
+- Use the final volume.
 
-Retrieval 5 — Moles, balanced equations and limiting reactants: State the condition or distinction precisely: What does a measured yield above 100% suggest?
+- State concentration and conservation of solute amount.
 
-Answer: A measurement, purity, drying or calculation problem, not extra product from nothing.
+## Practice 10 — extension · 3 marks
 
-1. Identify the target idea: What does a measured yield above 100% suggest?
+In an idealised reaction H₂SO₄+2NaOH→Na₂SO₄+2H₂O, mix 0.030 mol acid with 0.040 mol NaOH. Find the limiting reactant and the acid remaining after complete reaction.
 
-2. Compare your response with the held study explanation: A measurement, purity, drying or calculation problem, not extra product from nothing.
+Answer: NaOH limits the reaction; 0.010 mol acid remains.
 
-Marking points (one practice mark each):
+1. The 0.040 mol NaOH consumes 0.040/2=0.020 mol acid.
 
-- Accurately address: What does a measured yield above 100% suggest?
-
-## Practice 13 — extension · 1 marks
-
-Retrieval 6 — Moles, balanced equations and limiting reactants: Explain the idea in your own words: Can a percentage yield above 100% establish unusually successful chemistry?
-
-Answer: No. Check purity, retained solvent, measurements and the assumed product/theoretical calculation.
-
-1. Identify the target idea: Can a percentage yield above 100% establish unusually successful chemistry?
-
-2. Compare your response with the held study explanation: No. Check purity, retained solvent, measurements and the assumed product/theoretical calculation.
+2. Subtract the reacted acid from 0.030 mol.
 
 Marking points (one practice mark each):
 
-- Accurately address: Can a percentage yield above 100% establish unusually successful chemistry?
+- Use the 1:2 ratio.
 
-## Practice 14 — foundation · 1 marks
+- Identify NaOH as limiting.
 
-Retrieval 7 — Moles, balanced equations and limiting reactants: Answer from memory: How do stoichiometric coefficients identify the limiting reactant?
-
-Answer: Compare available amount divided by coefficient; the smallest value limits reaction extent.
-
-1. Identify the target idea: How do stoichiometric coefficients identify the limiting reactant?
-
-2. Compare your response with the held study explanation: Compare available amount divided by coefficient; the smallest value limits reaction extent.
-
-Marking points (one practice mark each):
-
-- Accurately address: How do stoichiometric coefficients identify the limiting reactant?
-
-## Practice 15 — standard · 1 marks
-
-Retrieval 8 — Moles, balanced equations and limiting reactants: State the condition or distinction precisely: How is excess reactant remaining calculated?
-
-Answer: Initial amount minus the amount consumed according to the balanced reaction ratio.
-
-1. Identify the target idea: How is excess reactant remaining calculated?
-
-2. Compare your response with the held study explanation: Initial amount minus the amount consumed according to the balanced reaction ratio.
-
-Marking points (one practice mark each):
-
-- Accurately address: How is excess reactant remaining calculated?
-
-## Practice 16 — extension · 1 marks
-
-Retrieval 9 — Moles, balanced equations and limiting reactants: Explain the idea in your own words: How do mass and molar mass give amount?
-
-Answer: n=m/M, with consistent mass units.
-
-1. Identify the target idea: How do mass and molar mass give amount?
-
-2. Compare your response with the held study explanation: n=m/M, with consistent mass units.
-
-Marking points (one practice mark each):
-
-- Accurately address: How do mass and molar mass give amount?
-
-## Practice 17 — foundation · 1 marks
-
-Retrieval 10 — Moles, balanced equations and limiting reactants: Answer from memory: Why must formulas stay fixed while balancing?
-
-Answer: Changing a subscript changes the substance rather than its amount.
-
-1. Identify the target idea: Why must formulas stay fixed while balancing?
-
-2. Compare your response with the held study explanation: Changing a subscript changes the substance rather than its amount.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why must formulas stay fixed while balancing?
-
-## Practice 18 — standard · 1 marks
-
-Retrieval 11 — Moles, balanced equations and limiting reactants: State the condition or distinction precisely: What does a coefficient ratio represent?
-
-Answer: The ratio of reacting or produced entities and moles.
-
-1. Identify the target idea: What does a coefficient ratio represent?
-
-2. Compare your response with the held study explanation: The ratio of reacting or produced entities and moles.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does a coefficient ratio represent?
-
-## Practice 19 — extension · 1 marks
-
-Retrieval 12 — Moles, balanced equations and limiting reactants: Explain the idea in your own words: How can you identify a limiting reactant numerically?
-
-Answer: Compare available moles divided by each coefficient; the smallest limits reaction extent.
-
-1. Identify the target idea: How can you identify a limiting reactant numerically?
-
-2. Compare your response with the held study explanation: Compare available moles divided by each coefficient; the smallest limits reaction extent.
-
-Marking points (one practice mark each):
-
-- Accurately address: How can you identify a limiting reactant numerically?
-
-## Practice 20 — foundation · 1 marks
-
-Retrieval 13 — Moles, balanced equations and limiting reactants: Answer from memory: What does a measured yield above 100% suggest?
-
-Answer: A measurement, purity, drying or calculation problem, not extra product from nothing.
-
-1. Identify the target idea: What does a measured yield above 100% suggest?
-
-2. Compare your response with the held study explanation: A measurement, purity, drying or calculation problem, not extra product from nothing.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does a measured yield above 100% suggest?
-
-## Practice 21 — standard · 1 marks
-
-Retrieval 14 — Moles, balanced equations and limiting reactants: State the condition or distinction precisely: Can a percentage yield above 100% establish unusually successful chemistry?
-
-Answer: No. Check purity, retained solvent, measurements and the assumed product/theoretical calculation.
-
-1. Identify the target idea: Can a percentage yield above 100% establish unusually successful chemistry?
-
-2. Compare your response with the held study explanation: No. Check purity, retained solvent, measurements and the assumed product/theoretical calculation.
-
-Marking points (one practice mark each):
-
-- Accurately address: Can a percentage yield above 100% establish unusually successful chemistry?
-
-## Practice 22 — extension · 1 marks
-
-Retrieval 15 — Moles, balanced equations and limiting reactants: Explain the idea in your own words: How do stoichiometric coefficients identify the limiting reactant?
-
-Answer: Compare available amount divided by coefficient; the smallest value limits reaction extent.
-
-1. Identify the target idea: How do stoichiometric coefficients identify the limiting reactant?
-
-2. Compare your response with the held study explanation: Compare available amount divided by coefficient; the smallest value limits reaction extent.
-
-Marking points (one practice mark each):
-
-- Accurately address: How do stoichiometric coefficients identify the limiting reactant?
-
-## Practice 23 — foundation · 1 marks
-
-Retrieval 16 — Moles, balanced equations and limiting reactants: Answer from memory: How is excess reactant remaining calculated?
-
-Answer: Initial amount minus the amount consumed according to the balanced reaction ratio.
-
-1. Identify the target idea: How is excess reactant remaining calculated?
-
-2. Compare your response with the held study explanation: Initial amount minus the amount consumed according to the balanced reaction ratio.
-
-Marking points (one practice mark each):
-
-- Accurately address: How is excess reactant remaining calculated?
-
-## Practice 24 — standard · 1 marks
-
-Retrieval 17 — Moles, balanced equations and limiting reactants: State the condition or distinction precisely: How do mass and molar mass give amount?
-
-Answer: n=m/M, with consistent mass units.
-
-1. Identify the target idea: How do mass and molar mass give amount?
-
-2. Compare your response with the held study explanation: n=m/M, with consistent mass units.
-
-Marking points (one practice mark each):
-
-- Accurately address: How do mass and molar mass give amount?
-
-## Practice 25 — extension · 1 marks
-
-Retrieval 18 — Moles, balanced equations and limiting reactants: Explain the idea in your own words: Why must formulas stay fixed while balancing?
-
-Answer: Changing a subscript changes the substance rather than its amount.
-
-1. Identify the target idea: Why must formulas stay fixed while balancing?
-
-2. Compare your response with the held study explanation: Changing a subscript changes the substance rather than its amount.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why must formulas stay fixed while balancing?
+- Find 0.010 mol acid remaining.
 
 ## Revision checklist
 
@@ -598,6 +404,6 @@ The limiting reactant determines the maximum extent of reaction. Divide each ava
 
 - How do mass and molar mass give amount?
 
-Mixed practice: q1, application-check, error-analysis
+Mixed practice: q1, application-check, error-analysis, depth-solution-moles, depth-dilution, depth-neutralisation
 
 After checking your answer, write the specific rule or assumption you missed. Retry the linked questions without the worked example in a later session. A checked answer or completed checklist is not a measurement of mastery.

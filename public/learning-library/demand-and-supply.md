@@ -1,6 +1,6 @@
 # Demand, supply and comparative-static reasoning
 
-Subject: Economics · Unit: Markets · Revision: 2026-10-21.2
+Subject: Economics · Unit: Markets · Revision: 2026-10-21.3
 
 **Review draft — not independently approved. Practice marks are editorial, not official exam marks.**
 
@@ -41,6 +41,10 @@ If demand increases and supply also increases, equilibrium quantity rises under 
 ## Distinguishing a curve shift from a response along a curve
 
 A change in the good’s own price changes quantity demanded along a fixed demand relationship. A change in another determinant, such as income or preferences, can shift that relationship. In a comparative-static model, write the original and revised demand equations explicitly while holding the supply equation fixed if that is the assumption. Solve each equilibrium separately, then compare both price and quantity. The movement along the unchanged supply curve is a response to the new equilibrium price, not evidence that supply shifted. These equations are fictional teaching models. They do not imply that an actual market adjusts instantly or that every relevant determinant has been included.
+
+## Solve constraints using quantities demanded and supplied
+
+An equilibrium satisfies equality between quantity demanded and quantity supplied under the stated curves. A legal price constraint need not clear the market. At a binding ceiling below equilibrium, demand can exceed supply; the difference is a modelled shortage. At a floor above equilibrium, supply can exceed demand. These comparisons do not identify the actual quantity traded unless a rationing or purchase rule is supplied. If a tax creates different buyer and seller prices, include the price wedge explicitly instead of placing the same price into both curves.
 
 ## Diagram: Compare two market equilibria
 
@@ -88,15 +92,15 @@ Worked examples: 4
 
 Practise: q5, application-check, error-analysis
 
-### Retrieval practice
+### Apply and test the limits
 
-Close the notes and answer these extra prompts from memory. Self-review with the held explanation, name one gap, then retry later. This is study practice, not an automatic mark or mastery measurement.
+Revisit the last worked example, then read the new section and tackle these different situations. Identify the assumptions before answering. Compare your reasoning with each marking point; these open responses require self-review, not automatic marks.
 
-Read: Demand is a relationship
+Read: Solve constraints using quantities demanded and supplied
 
-Worked examples: 1
+Worked examples: 4
 
-Practise: retrieval-01, retrieval-02, retrieval-03, retrieval-04, retrieval-05, retrieval-06, retrieval-07, retrieval-08, retrieval-09, retrieval-10, retrieval-11, retrieval-12, retrieval-13, retrieval-14, retrieval-15, retrieval-16, retrieval-17, retrieval-18
+Practise: depth-price-ceiling, depth-unit-tax, depth-equilibrium-observation
 
 ## Worked example 1
 
@@ -314,257 +318,59 @@ Marking points (one practice mark each):
 
 - At P = 40 the unchanged supply equation yields 50, a movement along the curve.
 
-## Practice 8 — foundation · 1 marks
+## Practice 8 — standard · 3 marks
 
-Retrieval 1 — Demand, supply and comparative-static reasoning: Answer from memory: How does demand differ from quantity demanded?
+In a fictional market Qd=80-2P and Qs=20+P. Find equilibrium, then the shortage at a binding ceiling P=15.
 
-Answer: Demand is the relationship across prices; quantity demanded is a particular value at one price.
+Answer: Equilibrium P=20 and Q=40. At P=15, demand is 50 and supply is 35, so shortage is 15.
 
-1. Identify the target idea: How does demand differ from quantity demanded?
+1. Set 80-2P=20+P to solve equilibrium.
 
-2. Compare your response with the held study explanation: Demand is the relationship across prices; quantity demanded is a particular value at one price.
-
-Marking points (one practice mark each):
-
-- Accurately address: How does demand differ from quantity demanded?
-
-## Practice 9 — standard · 1 marks
-
-Retrieval 2 — Demand, supply and comparative-static reasoning: State the condition or distinction precisely: What does a fall in production costs usually do to supply?
-
-Answer: It shifts supply right under otherwise unchanged conditions.
-
-1. Identify the target idea: What does a fall in production costs usually do to supply?
-
-2. Compare your response with the held study explanation: It shifts supply right under otherwise unchanged conditions.
+2. Evaluate both quantities at the ceiling and subtract supply from demand.
 
 Marking points (one practice mark each):
 
-- Accurately address: What does a fall in production costs usually do to supply?
+- Find equilibrium 20,40.
 
-## Practice 10 — extension · 1 marks
+- Find constrained quantities 50 and 35.
 
-Retrieval 3 — Demand, supply and comparative-static reasoning: Explain the idea in your own words: What equation defines equilibrium in a simple market model?
+- Find shortage 15.
 
-Answer: Quantity demanded equals quantity supplied.
+## Practice 9 — extension · 3 marks
 
-1. Identify the target idea: What equation defines equilibrium in a simple market model?
+A fictional market has Qd=60-Pb and Qs=Ps, where Pb is the buyer price and Ps the seller receipt. A unit tax of 10 imposes Pb=Ps+10. Find both prices and the quantity.
 
-2. Compare your response with the held study explanation: Quantity demanded equals quantity supplied.
+Answer: Ps=25, Pb=35 and Q=25.
 
-Marking points (one practice mark each):
+1. Substitute the price wedge into demand: Qd=50-Ps.
 
-- Accurately address: What equation defines equilibrium in a simple market model?
-
-## Practice 11 — foundation · 1 marks
-
-Retrieval 4 — Demand, supply and comparative-static reasoning: Answer from memory: What does a below-equilibrium price imply in the standard model?
-
-Answer: Excess demand at that price.
-
-1. Identify the target idea: What does a below-equilibrium price imply in the standard model?
-
-2. Compare your response with the held study explanation: Excess demand at that price.
+2. Equate with Qs=Ps, then recover the buyer price.
 
 Marking points (one practice mark each):
 
-- Accurately address: What does a below-equilibrium price imply in the standard model?
+- Apply the 10-unit wedge.
 
-## Practice 12 — standard · 1 marks
+- Find seller receipt 25 and buyer price 35.
 
-Retrieval 5 — Demand, supply and comparative-static reasoning: State the condition or distinction precisely: If both demand and supply increase, is the price direction certain?
+- Find quantity 25.
 
-Answer: No; relative shifts matter, though quantity rises under the usual curve assumptions.
+## Practice 10 — extension · 3 marks
 
-1. Identify the target idea: If both demand and supply increase, is the price direction certain?
+Two observations from a fictional market show both price and quantity increasing. A student concludes demand alone increased. Explain why this is one possible explanation but not a unique identification.
 
-2. Compare your response with the held study explanation: No; relative shifts matter, though quantity rises under the usual curve assumptions.
+Answer: A demand increase with unchanged supply can produce the observations, but simultaneous demand and supply shifts can also do so.
 
-Marking points (one practice mark each):
+1. Distinguish observed equilibrium outcomes from the unobserved curves.
 
-- Accurately address: If both demand and supply increase, is the price direction certain?
-
-## Practice 13 — extension · 1 marks
-
-Retrieval 6 — Demand, supply and comparative-static reasoning: Explain the idea in your own words: What should you check before predicting a price change from a diagram?
-
-Answer: Which curves changed, what stayed fixed, the model assumptions, and whether the relative shift sizes matter.
-
-1. Identify the target idea: What should you check before predicting a price change from a diagram?
-
-2. Compare your response with the held study explanation: Which curves changed, what stayed fixed, the model assumptions, and whether the relative shift sizes matter.
+2. For example, demand and supply can both increase, with the demand shift large enough for price to rise.
 
 Marking points (one practice mark each):
 
-- Accurately address: What should you check before predicting a price change from a diagram?
+- Identify the demand-only explanation as possible.
 
-## Practice 14 — foundation · 1 marks
+- Give a simultaneous-shift alternative.
 
-Retrieval 7 — Demand, supply and comparative-static reasoning: Answer from memory: What distinguishes a supply shift from movement along supply?
-
-Answer: A shift changes quantity supplied at a given price; a movement along a fixed curve responds to a changed own price.
-
-1. Identify the target idea: What distinguishes a supply shift from movement along supply?
-
-2. Compare your response with the held study explanation: A shift changes quantity supplied at a given price; a movement along a fixed curve responds to a changed own price.
-
-Marking points (one practice mark each):
-
-- Accurately address: What distinguishes a supply shift from movement along supply?
-
-## Practice 15 — standard · 1 marks
-
-Retrieval 8 — Demand, supply and comparative-static reasoning: State the condition or distinction precisely: Why solve before and after equilibria separately?
-
-Answer: Each equilibrium must satisfy the demand and supply relationships that apply in its own scenario.
-
-1. Identify the target idea: Why solve before and after equilibria separately?
-
-2. Compare your response with the held study explanation: Each equilibrium must satisfy the demand and supply relationships that apply in its own scenario.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why solve before and after equilibria separately?
-
-## Practice 16 — extension · 1 marks
-
-Retrieval 9 — Demand, supply and comparative-static reasoning: Explain the idea in your own words: How does demand differ from quantity demanded?
-
-Answer: Demand is the relationship across prices; quantity demanded is a particular value at one price.
-
-1. Identify the target idea: How does demand differ from quantity demanded?
-
-2. Compare your response with the held study explanation: Demand is the relationship across prices; quantity demanded is a particular value at one price.
-
-Marking points (one practice mark each):
-
-- Accurately address: How does demand differ from quantity demanded?
-
-## Practice 17 — foundation · 1 marks
-
-Retrieval 10 — Demand, supply and comparative-static reasoning: Answer from memory: What does a fall in production costs usually do to supply?
-
-Answer: It shifts supply right under otherwise unchanged conditions.
-
-1. Identify the target idea: What does a fall in production costs usually do to supply?
-
-2. Compare your response with the held study explanation: It shifts supply right under otherwise unchanged conditions.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does a fall in production costs usually do to supply?
-
-## Practice 18 — standard · 1 marks
-
-Retrieval 11 — Demand, supply and comparative-static reasoning: State the condition or distinction precisely: What equation defines equilibrium in a simple market model?
-
-Answer: Quantity demanded equals quantity supplied.
-
-1. Identify the target idea: What equation defines equilibrium in a simple market model?
-
-2. Compare your response with the held study explanation: Quantity demanded equals quantity supplied.
-
-Marking points (one practice mark each):
-
-- Accurately address: What equation defines equilibrium in a simple market model?
-
-## Practice 19 — extension · 1 marks
-
-Retrieval 12 — Demand, supply and comparative-static reasoning: Explain the idea in your own words: What does a below-equilibrium price imply in the standard model?
-
-Answer: Excess demand at that price.
-
-1. Identify the target idea: What does a below-equilibrium price imply in the standard model?
-
-2. Compare your response with the held study explanation: Excess demand at that price.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does a below-equilibrium price imply in the standard model?
-
-## Practice 20 — foundation · 1 marks
-
-Retrieval 13 — Demand, supply and comparative-static reasoning: Answer from memory: If both demand and supply increase, is the price direction certain?
-
-Answer: No; relative shifts matter, though quantity rises under the usual curve assumptions.
-
-1. Identify the target idea: If both demand and supply increase, is the price direction certain?
-
-2. Compare your response with the held study explanation: No; relative shifts matter, though quantity rises under the usual curve assumptions.
-
-Marking points (one practice mark each):
-
-- Accurately address: If both demand and supply increase, is the price direction certain?
-
-## Practice 21 — standard · 1 marks
-
-Retrieval 14 — Demand, supply and comparative-static reasoning: State the condition or distinction precisely: What should you check before predicting a price change from a diagram?
-
-Answer: Which curves changed, what stayed fixed, the model assumptions, and whether the relative shift sizes matter.
-
-1. Identify the target idea: What should you check before predicting a price change from a diagram?
-
-2. Compare your response with the held study explanation: Which curves changed, what stayed fixed, the model assumptions, and whether the relative shift sizes matter.
-
-Marking points (one practice mark each):
-
-- Accurately address: What should you check before predicting a price change from a diagram?
-
-## Practice 22 — extension · 1 marks
-
-Retrieval 15 — Demand, supply and comparative-static reasoning: Explain the idea in your own words: What distinguishes a supply shift from movement along supply?
-
-Answer: A shift changes quantity supplied at a given price; a movement along a fixed curve responds to a changed own price.
-
-1. Identify the target idea: What distinguishes a supply shift from movement along supply?
-
-2. Compare your response with the held study explanation: A shift changes quantity supplied at a given price; a movement along a fixed curve responds to a changed own price.
-
-Marking points (one practice mark each):
-
-- Accurately address: What distinguishes a supply shift from movement along supply?
-
-## Practice 23 — foundation · 1 marks
-
-Retrieval 16 — Demand, supply and comparative-static reasoning: Answer from memory: Why solve before and after equilibria separately?
-
-Answer: Each equilibrium must satisfy the demand and supply relationships that apply in its own scenario.
-
-1. Identify the target idea: Why solve before and after equilibria separately?
-
-2. Compare your response with the held study explanation: Each equilibrium must satisfy the demand and supply relationships that apply in its own scenario.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why solve before and after equilibria separately?
-
-## Practice 24 — standard · 1 marks
-
-Retrieval 17 — Demand, supply and comparative-static reasoning: State the condition or distinction precisely: How does demand differ from quantity demanded?
-
-Answer: Demand is the relationship across prices; quantity demanded is a particular value at one price.
-
-1. Identify the target idea: How does demand differ from quantity demanded?
-
-2. Compare your response with the held study explanation: Demand is the relationship across prices; quantity demanded is a particular value at one price.
-
-Marking points (one practice mark each):
-
-- Accurately address: How does demand differ from quantity demanded?
-
-## Practice 25 — extension · 1 marks
-
-Retrieval 18 — Demand, supply and comparative-static reasoning: Explain the idea in your own words: What does a fall in production costs usually do to supply?
-
-Answer: It shifts supply right under otherwise unchanged conditions.
-
-1. Identify the target idea: What does a fall in production costs usually do to supply?
-
-2. Compare your response with the held study explanation: It shifts supply right under otherwise unchanged conditions.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does a fall in production costs usually do to supply?
+- Explain that two outcomes do not identify which curves changed.
 
 ## Revision checklist
 
@@ -598,6 +404,6 @@ A change in the good’s own price changes quantity demanded along a fixed deman
 
 - How does demand differ from quantity demanded?
 
-Mixed practice: q1, application-check, error-analysis
+Mixed practice: q1, application-check, error-analysis, depth-price-ceiling, depth-unit-tax, depth-equilibrium-observation
 
 After checking your answer, write the specific rule or assumption you missed. Retry the linked questions without the worked example in a later session. A checked answer or completed checklist is not a measurement of mastery.

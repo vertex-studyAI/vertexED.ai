@@ -1,6 +1,6 @@
 # Atomic models, ions, isotopes and electron arrangements
 
-Subject: Chemistry · Unit: Atomic structure · Revision: 2026-10-21.2
+Subject: Chemistry · Unit: Atomic structure · Revision: 2026-10-21.3
 
 **Review draft — not independently approved. Practice marks are editorial, not official exam marks.**
 
@@ -62,6 +62,10 @@ For an explanation, connect each statement to what it supports. A mostly empty v
 
 Atomic number identifies an element through its proton count. An ion retains that identity when electrons are transferred; changing protons would change the element. Work from the signed difference between protons and electrons to find the charge, and use protons plus neutrons for the mass number. These are counts for one specified isotope, not a naturally occurring weighted relative atomic mass. A shell drawing can represent the electron count but does not replace the particle accounting. For the first twenty elements, the simplified shell model is useful within its school-level scope. It should not be used to infer that every atom fills shells according to an unrestricted 2,8,8 pattern.
 
+## Use particle counts and mixture fractions separately
+
+Particle bookkeeping applies to a single atom or ion; isotope averaging applies to a collection. The atomic number fixes the element, the mass number counts protons plus neutrons, and the ionic charge compares protons with electrons. Isotopes of an element can have different neutron counts but the same number of protons. For a mixture of two isotope masses, the average must lie between those masses and move toward the more abundant one. A fractional mean does not mean that an individual nucleus contains a fractional neutron.
+
 ## Diagram: Read particle counts in three steps
 
 Read the labelled relationships to follow this worked application. Atomic number 13; mass number 27; charge 3+. This is an explanatory process diagram, not a scale drawing or a record of a learner attempt.
@@ -108,15 +112,15 @@ Worked examples: 6
 
 Practise: q9, q10, application-check, error-analysis
 
-### Retrieval practice
+### Apply and test the limits
 
-Close the notes and answer these extra prompts from memory. Self-review with the held explanation, name one gap, then retry later. This is study practice, not an automatic mark or mastery measurement.
+Revisit the last worked example, then read the new section and tackle these different situations. Identify the assumptions before answering. Compare your reasoning with each marking point; these open responses require self-review, not automatic marks.
 
-Read: A model is an explanation constrained by evidence
+Read: Use particle counts and mixture fractions separately
 
-Worked examples: 1
+Worked examples: 6
 
-Practise: retrieval-01, retrieval-02, retrieval-03, retrieval-04, retrieval-05, retrieval-06, retrieval-07, retrieval-08, retrieval-09, retrieval-10, retrieval-11, retrieval-12, retrieval-13
+Practise: depth-isotope-fraction, depth-isoelectronic, depth-nuclear-change
 
 ## Worked example 1
 
@@ -467,187 +471,59 @@ Marking points (one practice mark each):
 
 - Removing three electrons leaves 10 and produces charge 3+ without changing the element.
 
-## Practice 13 — foundation · 1 marks
+## Practice 13 — standard · 3 marks
 
-Retrieval 1 — Atomic models, ions, isotopes and electron arrangements: Answer from memory: Which particle count fixes element identity?
+A hypothetical element has only isotopes of masses 20 and 22. Its mean isotope mass is 20.6. Find the percentage of the mass-22 isotope.
 
-Answer: The proton number Z.
+Answer: 30%.
 
-1. Identify the target idea: Which particle count fixes element identity?
+1. Let f be the fraction of mass-22 atoms: 20(1-f)+22f=20.6.
 
-2. Compare your response with the held study explanation: The proton number Z.
-
-Marking points (one practice mark each):
-
-- Accurately address: Which particle count fixes element identity?
-
-## Practice 14 — standard · 1 marks
-
-Retrieval 2 — Atomic models, ions, isotopes and electron arrangements: State the condition or distinction precisely: How many electrons does a neutral atom have?
-
-Answer: The same number as its protons.
-
-1. Identify the target idea: How many electrons does a neutral atom have?
-
-2. Compare your response with the held study explanation: The same number as its protons.
+2. Then 2f=0.6, so f=0.30.
 
 Marking points (one practice mark each):
 
-- Accurately address: How many electrons does a neutral atom have?
+- Form the weighted mean.
 
-## Practice 15 — extension · 1 marks
+- Find fraction 0.30.
 
-Retrieval 3 — Atomic models, ions, isotopes and electron arrangements: Explain the idea in your own words: How do you obtain signed ion charge from particle counts?
+- Convert to 30%.
 
-Answer: Protons minus electrons, in elementary-charge units.
+## Practice 14 — standard · 3 marks
 
-1. Identify the target idea: How do you obtain signed ion charge from particle counts?
+Particle X has 12 protons and 10 electrons; particle Y has 9 protons and 10 electrons. Give their charges and explain why the same electron count does not make them the same element.
 
-2. Compare your response with the held study explanation: Protons minus electrons, in elementary-charge units.
+Answer: X is 2+ and Y is 1−. Different proton counts identify different elements despite equal electron counts.
 
-Marking points (one practice mark each):
+1. Calculate each charge as protons minus electrons in elementary-charge units.
 
-- Accurately address: How do you obtain signed ion charge from particle counts?
-
-## Practice 16 — foundation · 1 marks
-
-Retrieval 4 — Atomic models, ions, isotopes and electron arrangements: Answer from memory: What is the neutron count for mass number A and proton number Z?
-
-Answer: A−Z.
-
-1. Identify the target idea: What is the neutron count for mass number A and proton number Z?
-
-2. Compare your response with the held study explanation: A−Z.
+2. Use atomic number, not electron number, to determine element identity.
 
 Marking points (one practice mark each):
 
-- Accurately address: What is the neutron count for mass number A and proton number Z?
+- Give X as 2+.
 
-## Practice 17 — standard · 1 marks
+- Give Y as 1−.
 
-Retrieval 5 — Atomic models, ions, isotopes and electron arrangements: State the condition or distinction precisely: What differs between isotopes of one element?
+- Explain identity through proton count.
 
-Answer: Neutron count; proton number remains fixed.
+## Practice 15 — extension · 3 marks
 
-1. Identify the target idea: What differs between isotopes of one element?
+An atom initially has 6 protons and 8 neutrons. In a hypothetical nuclear change, one neutron becomes a proton. Ignore the subsequent electron arrangement. State the new atomic number and mass number and whether element identity changes.
 
-2. Compare your response with the held study explanation: Neutron count; proton number remains fixed.
+Answer: Atomic number 7, mass number 14; the element changes.
 
-Marking points (one practice mark each):
+1. The nucleus now contains 7 protons and 7 neutrons.
 
-- Accurately address: What differs between isotopes of one element?
-
-## Practice 18 — extension · 1 marks
-
-Retrieval 6 — Atomic models, ions, isotopes and electron arrangements: Explain the idea in your own words: What changes when an atom forms an ion through ordinary electron transfer?
-
-Answer: Electron count, not the nucleus.
-
-1. Identify the target idea: What changes when an atom forms an ion through ordinary electron transfer?
-
-2. Compare your response with the held study explanation: Electron count, not the nucleus.
+2. The total nucleon count is unchanged but the proton count changes.
 
 Marking points (one practice mark each):
 
-- Accurately address: What changes when an atom forms an ion through ordinary electron transfer?
+- Find 7 protons.
 
-## Practice 19 — foundation · 1 marks
+- Retain mass number 14.
 
-Retrieval 7 — Atomic models, ions, isotopes and electron arrangements: Answer from memory: Why can relative atomic mass be non-integer?
-
-Answer: It is an abundance-weighted mean of isotope masses.
-
-1. Identify the target idea: Why can relative atomic mass be non-integer?
-
-2. Compare your response with the held study explanation: It is an abundance-weighted mean of isotope masses.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why can relative atomic mass be non-integer?
-
-## Practice 20 — standard · 1 marks
-
-Retrieval 8 — Atomic models, ions, isotopes and electron arrangements: State the condition or distinction precisely: What is wrong with averaging isotope masses without weights?
-
-Answer: It assumes equal abundance, which may not match the sample.
-
-1. Identify the target idea: What is wrong with averaging isotope masses without weights?
-
-2. Compare your response with the held study explanation: It assumes equal abundance, which may not match the sample.
-
-Marking points (one practice mark each):
-
-- Accurately address: What is wrong with averaging isotope masses without weights?
-
-## Practice 21 — extension · 1 marks
-
-Retrieval 9 — Atomic models, ions, isotopes and electron arrangements: Explain the idea in your own words: What does mostly low-deflection alpha scattering support?
-
-Answer: Most atomic volume contains no concentrated obstacle to the particles.
-
-1. Identify the target idea: What does mostly low-deflection alpha scattering support?
-
-2. Compare your response with the held study explanation: Most atomic volume contains no concentrated obstacle to the particles.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does mostly low-deflection alpha scattering support?
-
-## Practice 22 — foundation · 1 marks
-
-Retrieval 10 — Atomic models, ions, isotopes and electron arrangements: Answer from memory: What do rare strong alpha deflections support?
-
-Answer: Positive charge concentrated in a small region.
-
-1. Identify the target idea: What do rare strong alpha deflections support?
-
-2. Compare your response with the held study explanation: Positive charge concentrated in a small region.
-
-Marking points (one practice mark each):
-
-- Accurately address: What do rare strong alpha deflections support?
-
-## Practice 23 — standard · 1 marks
-
-Retrieval 11 — Atomic models, ions, isotopes and electron arrangements: State the condition or distinction precisely: What is the first-twenty shell representation of Cl⁻?
-
-Answer: 2,8,8; there are 18 electrons.
-
-1. Identify the target idea: What is the first-twenty shell representation of Cl⁻?
-
-2. Compare your response with the held study explanation: 2,8,8; there are 18 electrons.
-
-Marking points (one practice mark each):
-
-- Accurately address: What is the first-twenty shell representation of Cl⁻?
-
-## Practice 24 — extension · 1 marks
-
-Retrieval 12 — Atomic models, ions, isotopes and electron arrangements: Explain the idea in your own words: What conversion connects nanometres to metres?
-
-Answer: 1 nm=10⁻⁹ m.
-
-1. Identify the target idea: What conversion connects nanometres to metres?
-
-2. Compare your response with the held study explanation: 1 nm=10⁻⁹ m.
-
-Marking points (one practice mark each):
-
-- Accurately address: What conversion connects nanometres to metres?
-
-## Practice 25 — foundation · 1 marks
-
-Retrieval 13 — Atomic models, ions, isotopes and electron arrangements: Answer from memory: Does forming an ion by electron transfer change its mass number?
-
-Answer: No. Mass number counts protons and neutrons, which are unchanged by electron transfer.
-
-1. Identify the target idea: Does forming an ion by electron transfer change its mass number?
-
-2. Compare your response with the held study explanation: No. Mass number counts protons and neutrons, which are unchanged by electron transfer.
-
-Marking points (one practice mark each):
-
-- Accurately address: Does forming an ion by electron transfer change its mass number?
+- Link changed proton count to changed element.
 
 ## Revision checklist
 
@@ -683,7 +559,7 @@ Atomic number identifies an element through its proton count. An ion retains tha
 
 - Which particle count fixes element identity?
 
-Mixed practice: q1, application-check, error-analysis
+Mixed practice: q1, application-check, error-analysis, depth-isotope-fraction, depth-isoelectronic, depth-nuclear-change
 
 After checking your answer, write the specific rule or assumption you missed. Retry the linked questions without the worked example in a later session. A checked answer or completed checklist is not a measurement of mastery.
 

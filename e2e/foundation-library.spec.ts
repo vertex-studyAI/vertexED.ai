@@ -12,8 +12,8 @@ for (const batch of [
   { start: 28, end: 42, screenshotLesson: 'words-in-context' },
 ]) test(`shared lessons ${batch.start + 1} to ${batch.end} render notes, diagrams, guided study, recall and practice`, async ({ page }, info) => {
   test.setTimeout(180000);
-  expect(manifest.entries).toHaveLength(42);
-  const entries = manifest.entries.slice(batch.start, batch.end);
+  expect(manifest.entries).toHaveLength(90);
+  const entries = manifest.entries.filter((item: { id: string }) => !/^(subject|syllabus|unit)-/.test(item.id)).slice(batch.start, batch.end);
   expect(entries).toHaveLength(14);
   await page.route('**/learning-library/*.json', async route => {
     const path = new URL(route.request().url()).pathname;
@@ -33,6 +33,16 @@ for (const batch of [
     await expect(page.getByRole('heading', { name: `${lesson.teachingSequence.length}. ${lesson.teachingSequence.at(-1).title}`, exact: true })).toBeVisible();
     await page.getByRole('button', { name: `Practise question ${lesson.questions.length}`, exact: true }).click();
     await expect(page.getByRole('heading', { name: `Question ${lesson.questions.length}`, exact: true })).toBeFocused();
+    for (const question of lesson.questions.slice(-3)) {
+      expect(question.id).toMatch(/^depth-/);
+      await expect(page.getByText(question.prompt, { exact: true })).toBeVisible();
+    }
+    await page.getByLabel(`Your answer to question ${lesson.questions.length}`, { exact: true }).fill(lesson.questions.at(-1).answer);
+    await page.getByRole('button', { name: `Check question ${lesson.questions.length}`, exact: true }).click();
+    const lastPractice = page.getByRole('article').filter({ has: page.getByRole('heading', { name: `Question ${lesson.questions.length}`, exact: true }) });
+    await expect(lastPractice.getByRole('status')).toHaveText('Self-review required. Compare your reasoning with the solution and marking points.');
+    await lastPractice.getByText('Solution and marking points', { exact: true }).click();
+    await expect(lastPractice.locator('details').getByText(lesson.questions.at(-1).answer, { exact: true })).toBeVisible();
     await page.getByRole('tab', { name: 'Flashcards', exact: true }).click();
     await expect(page.getByRole('button', { name: 'Reveal answer', exact: true })).toHaveCount(entry.flashcardCount);
     await page.getByRole('tab', { name: 'Practise', exact: true }).click();
@@ -52,6 +62,31 @@ for (const batch of [
       await applicationDiagram.scrollIntoViewIfNeeded();
       await applicationDiagram.screenshot({ path: info.outputPath(`application-diagram-${width}-${theme}.png`), animations: 'disabled' });
     }
+  }
+  await page.getByRole('tab', { name: 'Practise', exact: true }).click();
+  const finalQuestion = page.getByRole('article').last();
+  await finalQuestion.getByText('Solution and marking points', { exact: true }).click();
+  for (const width of [1440, 1024, 390]) {
+    // Keep the entire expanded answer below the real sticky navigation. The
+    // normal reader viewport remains separately exercised above at 900px high.
+    await page.setViewportSize({ width, height: 1800 });
+    await page.evaluate(async () => {
+      await document.fonts.ready;
+      await new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
+    });
+    await expect.poll(async () => {
+      const banner = (await page.getByRole('banner').boundingBox())!;
+      await finalQuestion.evaluate((element, offset) => window.scrollTo({ top: window.scrollY + element.getBoundingClientRect().top - offset, behavior: 'instant' }), banner.height + 24);
+      const box = (await finalQuestion.boundingBox())!;
+      const chrome = (await page.getByRole('banner').boundingBox())!;
+      return box.y - (chrome.y + chrome.height);
+    }).toBeGreaterThanOrEqual(0);
+    const bounds = (await finalQuestion.boundingBox())!;
+    const chrome = (await page.getByRole('banner').boundingBox())!;
+    expect(bounds.y).toBeGreaterThanOrEqual(chrome.y + chrome.height);
+    expect(bounds.y + bounds.height).toBeLessThanOrEqual(1800);
+    await finalQuestion.screenshot({ path: info.outputPath(`depth-solution-${width}.png`), animations: 'disabled' });
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width + 1);
   }
 });
 

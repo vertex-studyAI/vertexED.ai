@@ -1,6 +1,6 @@
 # Simultaneous equations: methods, geometry and model checks
 
-Subject: Mathematics · Unit: Algebra · Revision: 2026-10-21.2
+Subject: Mathematics · Unit: Algebra · Revision: 2026-10-21.3
 
 **Review draft — not independently approved. Practice marks are editorial, not official exam marks.**
 
@@ -62,6 +62,10 @@ Revise by selecting a method before calculating, explaining why it removes one v
 
 A system of linear equations describes shared constraints. If one equation is an exact nonzero multiple of another, it supplies no independent new constraint. Elimination then produces an identity, consistent with infinitely many real solutions along one line. If the left sides are proportional but the constants are not, elimination produces a contradiction and no solution. Do not divide by a parameter before checking whether it might be zero. For a consistent dependent system, parameterising one variable makes the solution set explicit. A single coordinate pair is only an example; presenting it alone can conceal the infinitely many solutions.
 
+## Interpret elimination as a statement about all shared solutions
+
+Elimination combines equations that every shared solution must satisfy. When the variables disappear, the remaining statement distinguishes coincident equations from inconsistent ones. Parameters require case splits where coefficients become zero. A nonlinear equation can intersect a line twice, once or not at all, so substituting an expression should be followed by solving and checking all candidates. A numerical answer is only part of a modelling task: restrictions such as nonnegative integer counts can make an algebraically consistent solution infeasible.
+
 ## Diagram: Classify a proportional system
 
 Read the labelled relationships to follow this worked application. (x, y) = (7 - 2t, t) for every real t. This is an explanatory process diagram, not a scale drawing or a record of a learner attempt.
@@ -108,15 +112,15 @@ Worked examples: 5
 
 Practise: q7, q8, application-check, error-analysis
 
-### Retrieval practice
+### Apply and test the limits
 
-Close the notes and answer these extra prompts from memory. Self-review with the held explanation, name one gap, then retry later. This is study practice, not an automatic mark or mastery measurement.
+Revisit the last worked example, then read the new section and tackle these different situations. Identify the assumptions before answering. Compare your reasoning with each marking point; these open responses require self-review, not automatic marks.
 
-Read: What a simultaneous solution means
+Read: Interpret elimination as a statement about all shared solutions
 
-Worked examples: 1
+Worked examples: 5
 
-Practise: retrieval-01, retrieval-02, retrieval-03, retrieval-04, retrieval-05, retrieval-06, retrieval-07, retrieval-08, retrieval-09, retrieval-10, retrieval-11, retrieval-12, retrieval-13, retrieval-14, retrieval-15
+Practise: depth-parameter-system, depth-line-circle, depth-integer-feasibility
 
 ## Worked example 1
 
@@ -409,215 +413,59 @@ Marking points (one practice mark each):
 
 - Subtracting three times the first equation from the second gives 0 = 1.
 
-## Practice 11 — foundation · 1 marks
+## Practice 11 — extension · 3 marks
 
-Retrieval 1 — Simultaneous equations: methods, geometry and model checks: Answer from memory: What must a simultaneous solution satisfy?
+Solve x+y=4 and x+ky=6 for real x,y, distinguishing k=1 from other real k.
 
-Answer: Every original equation at once.
+Answer: For k≠1, y=2/(k-1) and x=4-2/(k-1). For k=1 there is no solution.
 
-1. Identify the target idea: What must a simultaneous solution satisfy?
+1. Subtract the first equation to obtain (k-1)y=2.
 
-2. Compare your response with the held study explanation: Every original equation at once.
-
-Marking points (one practice mark each):
-
-- Accurately address: What must a simultaneous solution satisfy?
-
-## Practice 12 — standard · 1 marks
-
-Retrieval 2 — Simultaneous equations: methods, geometry and model checks: State the condition or distinction precisely: When is substitution particularly convenient?
-
-Answer: When one variable is already isolated or easily isolated.
-
-1. Identify the target idea: When is substitution particularly convenient?
-
-2. Compare your response with the held study explanation: When one variable is already isolated or easily isolated.
+2. Divide only for k≠1; when k=1 the statement 0=2 is impossible.
 
 Marking points (one practice mark each):
 
-- Accurately address: When is substitution particularly convenient?
+- Derive (k-1)y=2.
 
-## Practice 13 — extension · 1 marks
+- Give both values in the nonzero case.
 
-Retrieval 3 — Simultaneous equations: methods, geometry and model checks: Explain the idea in your own words: What must be multiplied when scaling an equation?
+- Explain inconsistency when k=1.
 
-Answer: Every term on both sides, including the constant.
+## Practice 12 — standard · 3 marks
 
-1. Identify the target idea: What must be multiplied when scaling an equation?
+Solve x+y=5 and x²+y²=13 over the reals, giving all ordered pairs.
 
-2. Compare your response with the held study explanation: Every term on both sides, including the constant.
+Answer: (2,3) and (3,2).
 
-Marking points (one practice mark each):
+1. Substitute y=5-x to get 2x²-10x+12=0.
 
-- Accurately address: What must be multiplied when scaling an equation?
-
-## Practice 14 — foundation · 1 marks
-
-Retrieval 4 — Simultaneous equations: methods, geometry and model checks: Answer from memory: What does 0=7 during valid elimination imply?
-
-Answer: The original system is inconsistent: no solution.
-
-1. Identify the target idea: What does 0=7 during valid elimination imply?
-
-2. Compare your response with the held study explanation: The original system is inconsistent: no solution.
+2. Factor to obtain x=2 or 3, then recover y and check both equations.
 
 Marking points (one practice mark each):
 
-- Accurately address: What does 0=7 during valid elimination imply?
+- Form the quadratic.
 
-## Practice 15 — standard · 1 marks
+- Find both x values.
 
-Retrieval 5 — Simultaneous equations: methods, geometry and model checks: State the condition or distinction precisely: What does 0=0 alone tell you?
+- Give and check both ordered pairs.
 
-Answer: That equation adds no restriction; inspect the retained equation(s).
+## Practice 13 — extension · 3 marks
 
-1. Identify the target idea: What does 0=0 alone tell you?
+A fictional venue sells only 4-unit and 7-unit tickets. Exactly 10 tickets bring in 53 units. Show whether nonnegative whole-number counts can satisfy the data.
 
-2. Compare your response with the held study explanation: That equation adds no restriction; inspect the retained equation(s).
+Answer: No. If n counts 7-unit tickets, 7n+4(10-n)=53 gives n=13/3, which is not an integer.
 
-Marking points (one practice mark each):
+1. Use both the ticket-count and revenue constraints.
 
-- Accurately address: What does 0=0 alone tell you?
-
-## Practice 16 — extension · 1 marks
-
-Retrieval 6 — Simultaneous equations: methods, geometry and model checks: Explain the idea in your own words: How many intersections do distinct parallel lines have?
-
-Answer: None.
-
-1. Identify the target idea: How many intersections do distinct parallel lines have?
-
-2. Compare your response with the held study explanation: None.
+2. Distinguish a real algebraic solution from a permissible count.
 
 Marking points (one practice mark each):
 
-- Accurately address: How many intersections do distinct parallel lines have?
+- Form the revenue equation.
 
-## Practice 17 — foundation · 1 marks
+- Find n=13/3.
 
-Retrieval 7 — Simultaneous equations: methods, geometry and model checks: Answer from memory: How do you recover pairs after solving a line/quadratic system?
-
-Answer: Substitute each root into the line separately.
-
-1. Identify the target idea: How do you recover pairs after solving a line/quadratic system?
-
-2. Compare your response with the held study explanation: Substitute each root into the line separately.
-
-Marking points (one practice mark each):
-
-- Accurately address: How do you recover pairs after solving a line/quadratic system?
-
-## Practice 18 — standard · 1 marks
-
-Retrieval 8 — Simultaneous equations: methods, geometry and model checks: State the condition or distinction precisely: Why should variable units be declared in a model?
-
-Answer: They make the equations interpretable and expose incompatible terms.
-
-1. Identify the target idea: Why should variable units be declared in a model?
-
-2. Compare your response with the held study explanation: They make the equations interpretable and expose incompatible terms.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why should variable units be declared in a model?
-
-## Practice 19 — extension · 1 marks
-
-Retrieval 9 — Simultaneous equations: methods, geometry and model checks: Explain the idea in your own words: What must be checked before dividing by k-2?
-
-Answer: Whether k=2 is possible; handle that case separately.
-
-1. Identify the target idea: What must be checked before dividing by k-2?
-
-2. Compare your response with the held study explanation: Whether k=2 is possible; handle that case separately.
-
-Marking points (one practice mark each):
-
-- Accurately address: What must be checked before dividing by k-2?
-
-## Practice 20 — foundation · 1 marks
-
-Retrieval 10 — Simultaneous equations: methods, geometry and model checks: Answer from memory: What is an independent check on an algebraic system solution?
-
-Answer: Substitute the ordered pair into both original equations.
-
-1. Identify the target idea: What is an independent check on an algebraic system solution?
-
-2. Compare your response with the held study explanation: Substitute the ordered pair into both original equations.
-
-Marking points (one practice mark each):
-
-- Accurately address: What is an independent check on an algebraic system solution?
-
-## Practice 21 — standard · 1 marks
-
-Retrieval 11 — Simultaneous equations: methods, geometry and model checks: State the condition or distinction precisely: When are two linear equations dependent?
-
-Answer: One entire equation, including its constant, is a nonzero multiple of the other.
-
-1. Identify the target idea: When are two linear equations dependent?
-
-2. Compare your response with the held study explanation: One entire equation, including its constant, is a nonzero multiple of the other.
-
-Marking points (one practice mark each):
-
-- Accurately address: When are two linear equations dependent?
-
-## Practice 22 — extension · 1 marks
-
-Retrieval 12 — Simultaneous equations: methods, geometry and model checks: Explain the idea in your own words: What does 0 = 1 after valid elimination mean?
-
-Answer: The constraints are inconsistent, so there is no shared solution.
-
-1. Identify the target idea: What does 0 = 1 after valid elimination mean?
-
-2. Compare your response with the held study explanation: The constraints are inconsistent, so there is no shared solution.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does 0 = 1 after valid elimination mean?
-
-## Practice 23 — foundation · 1 marks
-
-Retrieval 13 — Simultaneous equations: methods, geometry and model checks: Answer from memory: What must a simultaneous solution satisfy?
-
-Answer: Every original equation at once.
-
-1. Identify the target idea: What must a simultaneous solution satisfy?
-
-2. Compare your response with the held study explanation: Every original equation at once.
-
-Marking points (one practice mark each):
-
-- Accurately address: What must a simultaneous solution satisfy?
-
-## Practice 24 — standard · 1 marks
-
-Retrieval 14 — Simultaneous equations: methods, geometry and model checks: State the condition or distinction precisely: When is substitution particularly convenient?
-
-Answer: When one variable is already isolated or easily isolated.
-
-1. Identify the target idea: When is substitution particularly convenient?
-
-2. Compare your response with the held study explanation: When one variable is already isolated or easily isolated.
-
-Marking points (one practice mark each):
-
-- Accurately address: When is substitution particularly convenient?
-
-## Practice 25 — extension · 1 marks
-
-Retrieval 15 — Simultaneous equations: methods, geometry and model checks: Explain the idea in your own words: What must be multiplied when scaling an equation?
-
-Answer: Every term on both sides, including the constant.
-
-1. Identify the target idea: What must be multiplied when scaling an equation?
-
-2. Compare your response with the held study explanation: Every term on both sides, including the constant.
-
-Marking points (one practice mark each):
-
-- Accurately address: What must be multiplied when scaling an equation?
+- Reject it for whole-number ticket counts.
 
 ## Revision checklist
 
@@ -653,7 +501,7 @@ A system of linear equations describes shared constraints. If one equation is an
 
 - What must a simultaneous solution satisfy?
 
-Mixed practice: q1, application-check, error-analysis
+Mixed practice: q1, application-check, error-analysis, depth-parameter-system, depth-line-circle, depth-integer-feasibility
 
 After checking your answer, write the specific rule or assumption you missed. Retry the linked questions without the worked example in a later session. A checked answer or completed checklist is not a measurement of mastery.
 

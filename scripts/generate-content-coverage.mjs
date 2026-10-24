@@ -9,7 +9,7 @@ import { buildProvenanceLedger } from './generate-study-guide-provenance.mjs';
 import { contentHash, approvedStaticPaths, readPublicationApprovals } from './content-publication.mjs';
 import { moduleContentPath } from './content-publication-modules.mjs';
 import { ARCHIVE_FILE, readLegacyPublication } from './legacy-content-publication.mjs';
-import { readLearningLibrary } from './generate-learning-library.mjs';
+import { readLearningLibrary, learningLessonSource } from './generate-learning-library.mjs';
 
 const root = resolve(import.meta.dirname, '..');
 const output = resolve(root, 'docs/evidence/content-coverage-20261019.json');
@@ -58,7 +58,7 @@ export async function buildContentCoverage() {
       difficulties: [...new Set(lesson.questions.map(q => q.difficulty))],
       questionIds: lesson.questions.map(q => `${lesson.id}:${q.id}`), questionCount: lesson.questions.length,
       reviewCardCount: lesson.flashcards.length, markTotal: lesson.questions.reduce((sum, q) => sum + q.marks, 0),
-      sourceFile: `src/content/learning-library/${lesson.id}.json`, deliveryAsset: asset,
+      sourceFile: learningLessonSource(lesson), deliveryAsset: asset,
       exportAsset: `/learning-library/${lesson.id}.md`, deliveryRoute: `/resources/foundations/${lesson.id}`, contentVersion: lesson.revision,
       contentHash: contentHash(`${JSON.stringify(lesson)}\n`),
       partialSyllabusMappings: lesson.syllabusMappings ?? [],

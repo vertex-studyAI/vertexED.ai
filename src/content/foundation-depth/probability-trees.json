@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "lessonId": "probability-trees",
+  "revision": "2026-10-21.3",
+  "notes": [
+    {
+      "heading": "Choose the conditioned population before building a tree",
+      "paragraphs": [
+        "A tree can be mathematically tidy and still represent the wrong experiment. Decide whether objects are replaced, whether the next event depends on the previous one, and whether the question is already conditioned on a subgroup. For a diagnostic classification, the positive branch can arise from both the target group and the non-target group. The probability of group membership given a positive result therefore needs the total positive population as its denominator. Use an explicitly fictional classification example to practise this reasoning without confusing it with a real diagnostic recommendation."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "depth-classification-base-rate",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "A fictional classifier flags 90 of 100 defective items and 90 of 900 sound items. Among flagged items, what fraction are defective? Explain why the 90% detection rate is not the answer.",
+      "answer": "1/2 of flagged items are defective: 90/(90+90). The detection rate instead conditions on all defective items.",
+      "solution": [
+        "Count the two groups contributing flagged items.",
+        "Use the 180 flagged items as the conditional denominator."
+      ],
+      "markingPoints": [
+        "Find total flags 180.",
+        "Compute 1/2.",
+        "Distinguish the two conditional denominators."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-replacement-comparison",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "A bag contains 1 red and 2 blue counters. Find the probability of two blue draws with replacement and without replacement, and explain the difference.",
+      "answer": "With replacement: 4/9. Without replacement: 1/3.",
+      "solution": [
+        "With replacement each blue probability is 2/3.",
+        "Without replacement a first blue leaves one blue among two counters, so (2/3)(1/2)=1/3."
+      ],
+      "markingPoints": [
+        "Find 4/9.",
+        "Find 1/3.",
+        "Explain the changed second-draw population."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-exclusive-independent",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "Events A and B have P(A)=0.4 and P(B)=0.3 and are mutually exclusive. Calculate P(A or B) and explain why A and B cannot also be independent.",
+      "answer": "P(A or B)=0.7. Their intersection is 0, while independence would require 0.4×0.3=0.12.",
+      "solution": [
+        "Add probabilities because there is no overlap.",
+        "Compare the actual intersection with the product required for independence."
+      ],
+      "markingPoints": [
+        "Find union 0.7.",
+        "State intersection zero.",
+        "Contrast with product 0.12."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    }
+  ]
+}

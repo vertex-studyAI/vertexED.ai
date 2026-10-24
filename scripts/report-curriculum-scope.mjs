@@ -2,7 +2,7 @@ import { readFile, readdir, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { boardSubjects } from './generate-content-coverage.mjs';
-import { readLearningLibrary } from './generate-learning-library.mjs';
+import { readLearningLibrary, learningLessonSource } from './generate-learning-library.mjs';
 import { buildSyllabusCrosswalk } from './report-syllabus-crosswalk.mjs';
 
 const root = resolve(import.meta.dirname, '..');
@@ -23,6 +23,8 @@ const aliases = {
   German: ['German', 'Language B - German', 'German Language and Culture'],
   Psychology: ['Psychology'], 'Environmental Science': ['Environmental Science'],
   Design: ['Design'], Sciences: ['Sciences'],
+  'Further Mathematics': ['Further Mathematics'],
+  TOK: ['TOK'], 'Extended Essay': ['Extended Essay'], 'Academic Writing': ['Academic Writing'],
 };
 const satDirectory = {
   source: 'https://satsuite.collegeboard.org/practice/content-domains', inspected: '2026-10-19',
@@ -60,7 +62,7 @@ export async function buildCurriculumScope() {
         (programme === 'IB_MYP' && subject === 'Math Standard' && mapping.sourceId === 'ib-myp-mathematics-20261019'))),
       declaredDomains: programme === 'SAT' ? satDirectory.subjects[subject] : [],
       reuseCandidates: candidates.map(lesson => ({ lessonId: lesson.id, unit: lesson.unit, topic: lesson.topic,
-        sourceFile: `src/content/learning-library/${lesson.id}.json`, status: 'unreviewed-foundation-not-course-coverage',
+        sourceFile: learningLessonSource(lesson), status: 'unreviewed-foundation-not-course-coverage',
         alignment: 'candidate-only', prerequisiteOnlyForAdvancedCourses: true })),
       missing: ['authoritative-specification-and-year', 'level-and-assessment-components', 'complete-unit-topic-subtopic-map',
         'topic-specific-resources', 'independent-subject-and-answer-review', 'publication-approval'],

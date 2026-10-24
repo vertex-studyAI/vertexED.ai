@@ -1,7 +1,7 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { readLearningLibrary } from './generate-learning-library.mjs';
+import { readLearningLibrary, learningLessonSource } from './generate-learning-library.mjs';
 import { readSyllabusSources } from './syllabus-sources.mjs';
 import { contentHash } from './content-publication.mjs';
 
@@ -16,7 +16,7 @@ export async function buildSyllabusCrosswalk(lessons) {
       ...(source.inspectionMode ? { inspectionMode: source.inspectionMode, mappingKind: source.mappingKind } : {}),
       lessonId: lesson.id, lessonRevision: lesson.revision, contentHash: contentHash(`${JSON.stringify(lesson)}\n`),
       sourceRecordHash: contentHash(JSON.stringify(source)),
-      sourceFile: `src/content/learning-library/${lesson.id}.json`, deliveryRoute: `/resources/foundations/${lesson.id}`,
+      sourceFile: learningLessonSource(lesson), deliveryRoute: `/resources/foundations/${lesson.id}`,
       independentReview: 'pending', coverageCredit: false };
   }));
   return { schemaVersion: 1, checkedOn: '2026-10-19',

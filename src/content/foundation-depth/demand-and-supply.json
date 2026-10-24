@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "lessonId": "demand-and-supply",
+  "revision": "2026-10-21.3",
+  "notes": [
+    {
+      "heading": "Solve constraints using quantities demanded and supplied",
+      "paragraphs": [
+        "An equilibrium satisfies equality between quantity demanded and quantity supplied under the stated curves. A legal price constraint need not clear the market. At a binding ceiling below equilibrium, demand can exceed supply; the difference is a modelled shortage. At a floor above equilibrium, supply can exceed demand. These comparisons do not identify the actual quantity traded unless a rationing or purchase rule is supplied. If a tax creates different buyer and seller prices, include the price wedge explicitly instead of placing the same price into both curves."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "depth-price-ceiling",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "In a fictional market Qd=80-2P and Qs=20+P. Find equilibrium, then the shortage at a binding ceiling P=15.",
+      "answer": "Equilibrium P=20 and Q=40. At P=15, demand is 50 and supply is 35, so shortage is 15.",
+      "solution": [
+        "Set 80-2P=20+P to solve equilibrium.",
+        "Evaluate both quantities at the ceiling and subtract supply from demand."
+      ],
+      "markingPoints": [
+        "Find equilibrium 20,40.",
+        "Find constrained quantities 50 and 35.",
+        "Find shortage 15."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-unit-tax",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "A fictional market has Qd=60-Pb and Qs=Ps, where Pb is the buyer price and Ps the seller receipt. A unit tax of 10 imposes Pb=Ps+10. Find both prices and the quantity.",
+      "answer": "Ps=25, Pb=35 and Q=25.",
+      "solution": [
+        "Substitute the price wedge into demand: Qd=50-Ps.",
+        "Equate with Qs=Ps, then recover the buyer price."
+      ],
+      "markingPoints": [
+        "Apply the 10-unit wedge.",
+        "Find seller receipt 25 and buyer price 35.",
+        "Find quantity 25."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-equilibrium-observation",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "Two observations from a fictional market show both price and quantity increasing. A student concludes demand alone increased. Explain why this is one possible explanation but not a unique identification.",
+      "answer": "A demand increase with unchanged supply can produce the observations, but simultaneous demand and supply shifts can also do so.",
+      "solution": [
+        "Distinguish observed equilibrium outcomes from the unobserved curves.",
+        "For example, demand and supply can both increase, with the demand shift large enough for price to rise."
+      ],
+      "markingPoints": [
+        "Identify the demand-only explanation as possible.",
+        "Give a simultaneous-shift alternative.",
+        "Explain that two outcomes do not identify which curves changed."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 # Motion graphs, resultant force and Newtonian models
 
-Subject: Physics · Unit: Mechanics · Revision: 2026-10-21.2
+Subject: Physics · Unit: Mechanics · Revision: 2026-10-21.3
 
 **Review draft — not independently approved. Practice marks are editorial, not official exam marks.**
 
@@ -41,6 +41,10 @@ Choose a positive direction before resolving forces and preserve it in velocity 
 ## Separating stopping time, distance and force direction
 
 Constant deceleration is a signed acceleration opposite to a chosen positive velocity. Set a direction convention before using a motion equation and retain the sign until interpreting the result. The stopping time follows from final velocity zero; the stopping distance can be checked with the mean velocity times time under constant acceleration. Resultant force then uses the mass of the chosen object and the same signed acceleration. A force opposing motion is not necessarily equal to every individual resistive force if other forces act. The model here omits reaction time and assumes constant resultant force, so it should not be presented as a complete real stopping-distance prediction.
+
+## Separate signed displacement from total distance
+
+The area under a velocity-time graph is signed displacement. Motion in the opposite direction contributes negative area, while distance adds the magnitudes of all segments. A zero final displacement can therefore accompany substantial travel. Average speed divides total distance by elapsed time; average velocity divides displacement by the same interval. Force determines acceleration in the constant-mass Newtonian model, not the direction of velocity itself. A nonzero velocity can persist with zero resultant force, and a force opposing velocity can slow an object without immediately reversing it.
 
 ## Diagram: Track a constant-deceleration model
 
@@ -88,15 +92,15 @@ Worked examples: 4
 
 Practise: q5, application-check, error-analysis
 
-### Retrieval practice
+### Apply and test the limits
 
-Close the notes and answer these extra prompts from memory. Self-review with the held explanation, name one gap, then retry later. This is study practice, not an automatic mark or mastery measurement.
+Revisit the last worked example, then read the new section and tackle these different situations. Identify the assumptions before answering. Compare your reasoning with each marking point; these open responses require self-review, not automatic marks.
 
-Read: Position, change and direction
+Read: Separate signed displacement from total distance
 
-Worked examples: 1
+Worked examples: 4
 
-Practise: retrieval-01, retrieval-02, retrieval-03, retrieval-04, retrieval-05, retrieval-06, retrieval-07, retrieval-08, retrieval-09, retrieval-10, retrieval-11, retrieval-12, retrieval-13, retrieval-14, retrieval-15, retrieval-16, retrieval-17, retrieval-18
+Practise: depth-return-journey, depth-force-balance, depth-velocity-crossing
 
 ## Worked example 1
 
@@ -314,257 +318,59 @@ Marking points (one practice mark each):
 
 - For this linear speed change, the average is 3, so the distance is 6 m.
 
-## Practice 8 — foundation · 1 marks
+## Practice 8 — standard · 3 marks
 
-Retrieval 1 — Motion graphs, resultant force and Newtonian models: Answer from memory: When can distance be nonzero but displacement zero?
+An idealised trolley moves at +3 m/s for 4 s, then at -2 m/s for 6 s. Ignore the brief change of velocity. Find displacement, distance and average speed.
 
-Answer: When an object returns to its starting position.
+Answer: Displacement 0 m, distance 24 m, average speed 2.4 m/s.
 
-1. Identify the target idea: When can distance be nonzero but displacement zero?
+1. Signed displacements are +12 m and -12 m.
 
-2. Compare your response with the held study explanation: When an object returns to its starting position.
-
-Marking points (one practice mark each):
-
-- Accurately address: When can distance be nonzero but displacement zero?
-
-## Practice 9 — standard · 1 marks
-
-Retrieval 2 — Motion graphs, resultant force and Newtonian models: State the condition or distinction precisely: What does a velocity-time gradient measure?
-
-Answer: Acceleration, with units m/s² when SI axes are used.
-
-1. Identify the target idea: What does a velocity-time gradient measure?
-
-2. Compare your response with the held study explanation: Acceleration, with units m/s² when SI axes are used.
+2. Add magnitudes for distance and divide by total time 10 s.
 
 Marking points (one practice mark each):
 
-- Accurately address: What does a velocity-time gradient measure?
+- Find zero displacement.
 
-## Practice 10 — extension · 1 marks
+- Find distance 24 m.
 
-Retrieval 3 — Motion graphs, resultant force and Newtonian models: Explain the idea in your own words: What does signed area under a velocity-time graph measure?
+- Find average speed 2.4 m/s.
 
-Answer: Displacement; integrate speed for total distance.
+## Practice 9 — standard · 3 marks
 
-1. Identify the target idea: What does signed area under a velocity-time graph measure?
+A 5 kg object moves right at constant velocity on a horizontal surface. A 12 N rightward force acts. Assuming only one other horizontal force, find it and explain your reasoning.
 
-2. Compare your response with the held study explanation: Displacement; integrate speed for total distance.
+Answer: The other horizontal force is 12 N leftward.
 
-Marking points (one practice mark each):
+1. Constant velocity means zero acceleration.
 
-- Accurately address: What does signed area under a velocity-time graph measure?
-
-## Practice 11 — foundation · 1 marks
-
-Retrieval 4 — Motion graphs, resultant force and Newtonian models: Answer from memory: Which force belongs in F=ma?
-
-Answer: The vector sum of external forces acting on the chosen system.
-
-1. Identify the target idea: Which force belongs in F=ma?
-
-2. Compare your response with the held study explanation: The vector sum of external forces acting on the chosen system.
+2. Newton's second law therefore requires zero resultant horizontal force.
 
 Marking points (one practice mark each):
 
-- Accurately address: Which force belongs in F=ma?
+- State zero acceleration.
 
-## Practice 12 — standard · 1 marks
+- Use zero resultant force.
 
-Retrieval 5 — Motion graphs, resultant force and Newtonian models: State the condition or distinction precisely: Why do third-law pairs not cancel in one object's force balance?
+- Give 12 N leftward.
 
-Answer: Each member acts on a different body.
+## Practice 10 — extension · 3 marks
 
-1. Identify the target idea: Why do third-law pairs not cancel in one object's force balance?
+An object starts at velocity +4 m/s and maintains acceleration -2 m/s² for 4 s. Find when it reverses direction, its displacement and total distance.
 
-2. Compare your response with the held study explanation: Each member acts on a different body.
+Answer: It reverses after 2 s; displacement is 0 m and distance is 8 m.
 
-Marking points (one practice mark each):
+1. Use v=4-2t to locate v=0 at t=2 s.
 
-- Accurately address: Why do third-law pairs not cancel in one object's force balance?
-
-## Practice 13 — extension · 1 marks
-
-Retrieval 6 — Motion graphs, resultant force and Newtonian models: Explain the idea in your own words: When does acceleration reduce an object's speed?
-
-Answer: When acceleration points opposite to the object's instantaneous velocity, regardless of the chosen positive direction.
-
-1. Identify the target idea: When does acceleration reduce an object's speed?
-
-2. Compare your response with the held study explanation: When acceleration points opposite to the object's instantaneous velocity, regardless of the chosen positive direction.
+2. The velocity-time graph gives equal signed triangle areas +4 and -4 m.
 
 Marking points (one practice mark each):
 
-- Accurately address: When does acceleration reduce an object's speed?
+- Find reversal at 2 s.
 
-## Practice 14 — foundation · 1 marks
+- Find displacement 0 m.
 
-Retrieval 7 — Motion graphs, resultant force and Newtonian models: Answer from memory: How do you find mean velocity under constant acceleration?
-
-Answer: Use (initial velocity + final velocity)/2 over the interval.
-
-1. Identify the target idea: How do you find mean velocity under constant acceleration?
-
-2. Compare your response with the held study explanation: Use (initial velocity + final velocity)/2 over the interval.
-
-Marking points (one practice mark each):
-
-- Accurately address: How do you find mean velocity under constant acceleration?
-
-## Practice 15 — standard · 1 marks
-
-Retrieval 8 — Motion graphs, resultant force and Newtonian models: State the condition or distinction precisely: What does a negative resultant force mean after choosing a positive direction?
-
-Answer: The force acts opposite to that chosen positive direction; the sign is directional, not a negative magnitude.
-
-1. Identify the target idea: What does a negative resultant force mean after choosing a positive direction?
-
-2. Compare your response with the held study explanation: The force acts opposite to that chosen positive direction; the sign is directional, not a negative magnitude.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does a negative resultant force mean after choosing a positive direction?
-
-## Practice 16 — extension · 1 marks
-
-Retrieval 9 — Motion graphs, resultant force and Newtonian models: Explain the idea in your own words: When can distance be nonzero but displacement zero?
-
-Answer: When an object returns to its starting position.
-
-1. Identify the target idea: When can distance be nonzero but displacement zero?
-
-2. Compare your response with the held study explanation: When an object returns to its starting position.
-
-Marking points (one practice mark each):
-
-- Accurately address: When can distance be nonzero but displacement zero?
-
-## Practice 17 — foundation · 1 marks
-
-Retrieval 10 — Motion graphs, resultant force and Newtonian models: Answer from memory: What does a velocity-time gradient measure?
-
-Answer: Acceleration, with units m/s² when SI axes are used.
-
-1. Identify the target idea: What does a velocity-time gradient measure?
-
-2. Compare your response with the held study explanation: Acceleration, with units m/s² when SI axes are used.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does a velocity-time gradient measure?
-
-## Practice 18 — standard · 1 marks
-
-Retrieval 11 — Motion graphs, resultant force and Newtonian models: State the condition or distinction precisely: What does signed area under a velocity-time graph measure?
-
-Answer: Displacement; integrate speed for total distance.
-
-1. Identify the target idea: What does signed area under a velocity-time graph measure?
-
-2. Compare your response with the held study explanation: Displacement; integrate speed for total distance.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does signed area under a velocity-time graph measure?
-
-## Practice 19 — extension · 1 marks
-
-Retrieval 12 — Motion graphs, resultant force and Newtonian models: Explain the idea in your own words: Which force belongs in F=ma?
-
-Answer: The vector sum of external forces acting on the chosen system.
-
-1. Identify the target idea: Which force belongs in F=ma?
-
-2. Compare your response with the held study explanation: The vector sum of external forces acting on the chosen system.
-
-Marking points (one practice mark each):
-
-- Accurately address: Which force belongs in F=ma?
-
-## Practice 20 — foundation · 1 marks
-
-Retrieval 13 — Motion graphs, resultant force and Newtonian models: Answer from memory: Why do third-law pairs not cancel in one object's force balance?
-
-Answer: Each member acts on a different body.
-
-1. Identify the target idea: Why do third-law pairs not cancel in one object's force balance?
-
-2. Compare your response with the held study explanation: Each member acts on a different body.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why do third-law pairs not cancel in one object's force balance?
-
-## Practice 21 — standard · 1 marks
-
-Retrieval 14 — Motion graphs, resultant force and Newtonian models: State the condition or distinction precisely: When does acceleration reduce an object's speed?
-
-Answer: When acceleration points opposite to the object's instantaneous velocity, regardless of the chosen positive direction.
-
-1. Identify the target idea: When does acceleration reduce an object's speed?
-
-2. Compare your response with the held study explanation: When acceleration points opposite to the object's instantaneous velocity, regardless of the chosen positive direction.
-
-Marking points (one practice mark each):
-
-- Accurately address: When does acceleration reduce an object's speed?
-
-## Practice 22 — extension · 1 marks
-
-Retrieval 15 — Motion graphs, resultant force and Newtonian models: Explain the idea in your own words: How do you find mean velocity under constant acceleration?
-
-Answer: Use (initial velocity + final velocity)/2 over the interval.
-
-1. Identify the target idea: How do you find mean velocity under constant acceleration?
-
-2. Compare your response with the held study explanation: Use (initial velocity + final velocity)/2 over the interval.
-
-Marking points (one practice mark each):
-
-- Accurately address: How do you find mean velocity under constant acceleration?
-
-## Practice 23 — foundation · 1 marks
-
-Retrieval 16 — Motion graphs, resultant force and Newtonian models: Answer from memory: What does a negative resultant force mean after choosing a positive direction?
-
-Answer: The force acts opposite to that chosen positive direction; the sign is directional, not a negative magnitude.
-
-1. Identify the target idea: What does a negative resultant force mean after choosing a positive direction?
-
-2. Compare your response with the held study explanation: The force acts opposite to that chosen positive direction; the sign is directional, not a negative magnitude.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does a negative resultant force mean after choosing a positive direction?
-
-## Practice 24 — standard · 1 marks
-
-Retrieval 17 — Motion graphs, resultant force and Newtonian models: State the condition or distinction precisely: When can distance be nonzero but displacement zero?
-
-Answer: When an object returns to its starting position.
-
-1. Identify the target idea: When can distance be nonzero but displacement zero?
-
-2. Compare your response with the held study explanation: When an object returns to its starting position.
-
-Marking points (one practice mark each):
-
-- Accurately address: When can distance be nonzero but displacement zero?
-
-## Practice 25 — extension · 1 marks
-
-Retrieval 18 — Motion graphs, resultant force and Newtonian models: Explain the idea in your own words: What does a velocity-time gradient measure?
-
-Answer: Acceleration, with units m/s² when SI axes are used.
-
-1. Identify the target idea: What does a velocity-time gradient measure?
-
-2. Compare your response with the held study explanation: Acceleration, with units m/s² when SI axes are used.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does a velocity-time gradient measure?
+- Add triangle magnitudes to obtain distance 8 m.
 
 ## Revision checklist
 
@@ -598,6 +404,6 @@ Constant deceleration is a signed acceleration opposite to a chosen positive vel
 
 - When can distance be nonzero but displacement zero?
 
-Mixed practice: q1, application-check, error-analysis
+Mixed practice: q1, application-check, error-analysis, depth-return-journey, depth-force-balance, depth-velocity-crossing
 
 After checking your answer, write the specific rule or assumption you missed. Retry the linked questions without the worked example in a later session. A checked answer or completed checklist is not a measurement of mastery.

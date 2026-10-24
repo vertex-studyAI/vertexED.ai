@@ -3,14 +3,14 @@ import test from 'node:test';
 import { readLearningLibrary } from '../scripts/generate-learning-library.mjs';
 import { checkFoundationAnswer } from '../src/lib/foundationLibrary.mjs';
 
-const lessons = await readLearningLibrary();
+const lessons = await readLearningLibrary({ includeSubjectExpansion: false });
 const get = id => lessons.find(lesson => lesson.id === id);
 const answer = (id, question = 'application-check') => get(id).questions.find(q => q.id === question).answer;
 
 test('every shared lesson has a connected application pack without inventing syllabus credit', () => {
   assert.equal(lessons.length, 42);
   for (const lesson of lessons) {
-    assert.equal(lesson.revision, '2026-10-21.2');
+    assert.equal(lesson.revision, '2026-10-21.3');
     assert.ok(lesson.diagrams.some(d => d.id === 'application-trace'), lesson.id);
     const linked = new Set(lesson.teachingSequence.flatMap(step => step.questionIds));
     assert.deepEqual(linked, new Set(lesson.questions.map(q => q.id)), lesson.id);
@@ -24,21 +24,20 @@ test('every shared lesson has a connected application pack without inventing syl
   }
 });
 
-test('every shared lesson has at least 25 held prompts, with extra retrieval grounded in its own authored cards', () => {
+test('every shared lesson has explicit depth practice linked to the new teaching section', () => {
   for (const lesson of lessons) {
-    assert.ok(lesson.questions.length >= 25, `${lesson.id}: ${lesson.questions.length}`);
-    const retrieval = lesson.questions.filter(question => question.id.startsWith('retrieval-'));
-    if (!retrieval.length) continue;
-    assert.equal(lesson.questions.length, 25, lesson.id);
-    assert.equal(retrieval.length, 25 - (lesson.questions.length - retrieval.length), lesson.id);
-    for (const question of retrieval) {
-      assert.equal(question.type, 'short');
-      assert.equal(question.calculator, 'not-applicable');
+    const depth = lesson.questions.filter(question => question.id.startsWith('depth-'));
+    assert.equal(depth.length, 3, lesson.id);
+    for (const question of depth) {
+      assert.equal(question.type, 'extended');
       assert.equal(checkFoundationAnswer(question, question.answer).status, 'review');
-      assert.ok(lesson.flashcards.some(card => question.prompt.includes(card.front) && question.answer === card.back), question.id);
+      assert.ok(!lesson.flashcards.some(card => question.answer === card.back), question.id);
+      assert.ok(lesson.revisionGuide.practiceQuestionIds.includes(question.id));
+      assert.ok(!(lesson.syllabusMappings ?? []).some(mapping => mapping.questionIds.includes(question.id)));
     }
-    const retrievalStage = lesson.teachingSequence.find(step => step.title === 'Retrieval practice');
-    assert.deepEqual(retrievalStage?.questionIds, retrieval.map(question => question.id), lesson.id);
+    const depthStage = lesson.teachingSequence.find(step => step.title === 'Apply and test the limits');
+    assert.deepEqual(depthStage?.questionIds, depth.map(question => question.id), lesson.id);
+    assert.deepEqual(depthStage?.noteHeadings, [lesson.notes.at(-1).heading]);
   }
 });
 

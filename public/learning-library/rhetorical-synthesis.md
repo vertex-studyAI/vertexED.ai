@@ -1,6 +1,6 @@
 # Selecting and combining notes for a rhetorical goal
 
-Subject: English · Unit: Purposeful revision · Revision: 2026-10-21.2
+Subject: English · Unit: Purposeful revision · Revision: 2026-10-21.3
 
 **Review draft — not independently approved. Practice marks are editorial, not official exam marks.**
 
@@ -62,6 +62,10 @@ The source crosswalk names the SAT synthesis skill, but this small bank does not
 
 When a writing task asks for a comparison, select facts that describe both objects on the same dimension. A statement can be factually consistent with the notes yet fail the requested goal by discussing an unrelated detail. Preserve qualifiers such as in this sample or during the trial, since removing them broadens the claim. Do not turn a difference into a causal explanation unless the notes supply evidence for the cause. Draft the smallest sentence that accomplishes the stated purpose, then check each assertion against a particular note. The exercise uses original fictional notes and does not describe a real product trial.
 
+## Preserve comparison units and the limits of the notes
+
+A synthesis task asks you to select and connect supplied information for a stated purpose. Do not include every note automatically. Compare the same measure over the same interval, retain qualifiers such as in this trial, and avoid adding a causal explanation unless the notes support one. A sentence can be factually compatible with the notes yet miss the rhetorical goal by focusing on an irrelevant detail. After drafting, check each factual phrase against a specific note and check the whole sentence against the requested purpose.
+
 ## Diagram: Synthesize a bounded comparison
 
 Read the labelled relationships to follow this worked application. In the small trial, filter B removed 92% of the measured particles, compared with 80% for filter A. This is an explanatory process diagram, not a scale drawing or a record of a learner attempt.
@@ -108,15 +112,15 @@ Worked examples: 5
 
 Practise: q7, q8, application-check, error-analysis
 
-### Retrieval practice
+### Apply and test the limits
 
-Close the notes and answer these extra prompts from memory. Self-review with the held explanation, name one gap, then retry later. This is study practice, not an automatic mark or mastery measurement.
+Revisit the last worked example, then read the new section and tackle these different situations. Identify the assumptions before answering. Compare your reasoning with each marking point; these open responses require self-review, not automatic marks.
 
-Read: The goal controls selection
+Read: Preserve comparison units and the limits of the notes
 
-Worked examples: 1
+Worked examples: 5
 
-Practise: retrieval-01, retrieval-02, retrieval-03, retrieval-04, retrieval-05, retrieval-06, retrieval-07, retrieval-08, retrieval-09, retrieval-10, retrieval-11, retrieval-12, retrieval-13, retrieval-14, retrieval-15
+Practise: depth-different-intervals, depth-shared-purpose, depth-qualified-result
 
 ## Worked example 1
 
@@ -413,215 +417,59 @@ Marking points (one practice mark each):
 
 - A corrected comparison reports 92% versus 80% within the stated trial.
 
-## Practice 11 — foundation · 1 marks
+## Practice 11 — standard · 3 marks
 
-Retrieval 1 — Selecting and combining notes for a rhetorical goal: Answer from memory: What should be identified before selecting notes?
+Fictional notes: Machine A made 120 pieces in 2 hours; machine B made 150 pieces in 3 hours; both passed inspection. Goal: compare hourly production. Write one supported sentence.
 
-Answer: The requested rhetorical goal, subject and audience.
+Answer: In the recorded runs, A produced 60 pieces per hour, compared with B's 50.
 
-1. Identify the target idea: What should be identified before selecting notes?
+1. Convert both totals to the same per-hour measure.
 
-2. Compare your response with the held study explanation: The requested rhetorical goal, subject and audience.
-
-Marking points (one practice mark each):
-
-- Accurately address: What should be identified before selecting notes?
-
-## Practice 12 — standard · 1 marks
-
-Retrieval 2 — Selecting and combining notes for a rhetorical goal: State the condition or distinction precisely: Why can an accurate option be unsuitable?
-
-Answer: Its information may not accomplish the goal.
-
-1. Identify the target idea: Why can an accurate option be unsuitable?
-
-2. Compare your response with the held study explanation: Its information may not accomplish the goal.
+2. Use the trial scope and omit unrelated inspection information.
 
 Marking points (one practice mark each):
 
-- Accurately address: Why can an accurate option be unsuitable?
+- Calculate A=60 per hour.
 
-## Practice 13 — extension · 1 marks
+- Calculate B=50 per hour.
 
-Retrieval 3 — Selecting and combining notes for a rhetorical goal: Explain the idea in your own words: What must a shared-feature sentence establish?
+- Write a scoped comparison serving the goal.
 
-Answer: The same relevant property applies to both named subjects.
+## Practice 12 — standard · 3 marks
 
-1. Identify the target idea: What must a shared-feature sentence establish?
+Fictional notes: Project Cedar restores a pond using volunteers; Project Birch restores a meadow using paid contractors; both aim to increase local habitat diversity. Goal: emphasise their common purpose. Write one sentence.
 
-2. Compare your response with the held study explanation: The same relevant property applies to both named subjects.
+Answer: Both Project Cedar and Project Birch aim to increase local habitat diversity.
 
-Marking points (one practice mark each):
+1. Identify the shared aim rather than the different habitats or staffing.
 
-- Accurately address: What must a shared-feature sentence establish?
-
-## Practice 14 — foundation · 1 marks
-
-Retrieval 4 — Selecting and combining notes for a rhetorical goal: Answer from memory: What makes a comparison coherent?
-
-Answer: A common criterion with compatible conditions and units.
-
-1. Identify the target idea: What makes a comparison coherent?
-
-2. Compare your response with the held study explanation: A common criterion with compatible conditions and units.
+2. Retain aim to: the notes do not establish achieved outcomes.
 
 Marking points (one practice mark each):
 
-- Accurately address: What makes a comparison coherent?
+- Name both projects.
 
-## Practice 15 — standard · 1 marks
+- State the shared purpose.
 
-Retrieval 5 — Selecting and combining notes for a rhetorical goal: State the condition or distinction precisely: Why retain a qualifier such as in the pilot?
+- Preserve intended rather than demonstrated success.
 
-Answer: It limits the claim to the evidence actually supplied.
+## Practice 13 — extension · 3 marks
 
-1. Identify the target idea: Why retain a qualifier such as in the pilot?
+Fictional notes: A material resisted scratching in 8 of 10 laboratory trials; outdoor weathering was not tested. Goal: summarise the evidence and its limit. Write one sentence.
 
-2. Compare your response with the held study explanation: It limits the claim to the evidence actually supplied.
+Answer: The material resisted scratching in 8 of 10 laboratory trials, but its outdoor weathering performance remains untested.
 
-Marking points (one practice mark each):
+1. Include the tested outcome with its denominator and setting.
 
-- Accurately address: Why retain a qualifier such as in the pilot?
-
-## Practice 16 — extension · 1 marks
-
-Retrieval 6 — Selecting and combining notes for a rhetorical goal: Explain the idea in your own words: When is a brief identification useful?
-
-Answer: When the intended audience does not know the subject.
-
-1. Identify the target idea: When is a brief identification useful?
-
-2. Compare your response with the held study explanation: When the intended audience does not know the subject.
+2. Name the untested condition without predicting its result.
 
 Marking points (one practice mark each):
 
-- Accurately address: When is a brief identification useful?
+- Retain 8 of 10.
 
-## Practice 17 — foundation · 1 marks
+- Retain laboratory scratch testing.
 
-Retrieval 7 — Selecting and combining notes for a rhetorical goal: Answer from memory: Does a sequence of two events alone establish causation?
-
-Answer: No.
-
-1. Identify the target idea: Does a sequence of two events alone establish causation?
-
-2. Compare your response with the held study explanation: No.
-
-Marking points (one practice mark each):
-
-- Accurately address: Does a sequence of two events alone establish causation?
-
-## Practice 18 — standard · 1 marks
-
-Retrieval 8 — Selecting and combining notes for a rhetorical goal: State the condition or distinction precisely: What is needed for a clear pronoun?
-
-Answer: An identifiable, unambiguous referent.
-
-1. Identify the target idea: What is needed for a clear pronoun?
-
-2. Compare your response with the held study explanation: An identifiable, unambiguous referent.
-
-Marking points (one practice mark each):
-
-- Accurately address: What is needed for a clear pronoun?
-
-## Practice 19 — extension · 1 marks
-
-Retrieval 9 — Selecting and combining notes for a rhetorical goal: Explain the idea in your own words: What three checks help evaluate a synthesis?
-
-Answer: Goal fit, evidence support and clarity.
-
-1. Identify the target idea: What three checks help evaluate a synthesis?
-
-2. Compare your response with the held study explanation: Goal fit, evidence support and clarity.
-
-Marking points (one practice mark each):
-
-- Accurately address: What three checks help evaluate a synthesis?
-
-## Practice 20 — foundation · 1 marks
-
-Retrieval 10 — Selecting and combining notes for a rhetorical goal: Answer from memory: How should the invented studies in this lesson be treated?
-
-Answer: As fictional evidence packets, not real research citations.
-
-1. Identify the target idea: How should the invented studies in this lesson be treated?
-
-2. Compare your response with the held study explanation: As fictional evidence packets, not real research citations.
-
-Marking points (one practice mark each):
-
-- Accurately address: How should the invented studies in this lesson be treated?
-
-## Practice 21 — standard · 1 marks
-
-Retrieval 11 — Selecting and combining notes for a rhetorical goal: State the condition or distinction precisely: What makes two facts useful for a comparison?
-
-Answer: They describe the compared objects on the same relevant dimension.
-
-1. Identify the target idea: What makes two facts useful for a comparison?
-
-2. Compare your response with the held study explanation: They describe the compared objects on the same relevant dimension.
-
-Marking points (one practice mark each):
-
-- Accurately address: What makes two facts useful for a comparison?
-
-## Practice 22 — extension · 1 marks
-
-Retrieval 12 — Selecting and combining notes for a rhetorical goal: Explain the idea in your own words: Why preserve a trial qualifier in a synthesis?
-
-Answer: It prevents a bounded observation from becoming an unsupported universal claim.
-
-1. Identify the target idea: Why preserve a trial qualifier in a synthesis?
-
-2. Compare your response with the held study explanation: It prevents a bounded observation from becoming an unsupported universal claim.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why preserve a trial qualifier in a synthesis?
-
-## Practice 23 — foundation · 1 marks
-
-Retrieval 13 — Selecting and combining notes for a rhetorical goal: Answer from memory: What should be identified before selecting notes?
-
-Answer: The requested rhetorical goal, subject and audience.
-
-1. Identify the target idea: What should be identified before selecting notes?
-
-2. Compare your response with the held study explanation: The requested rhetorical goal, subject and audience.
-
-Marking points (one practice mark each):
-
-- Accurately address: What should be identified before selecting notes?
-
-## Practice 24 — standard · 1 marks
-
-Retrieval 14 — Selecting and combining notes for a rhetorical goal: State the condition or distinction precisely: Why can an accurate option be unsuitable?
-
-Answer: Its information may not accomplish the goal.
-
-1. Identify the target idea: Why can an accurate option be unsuitable?
-
-2. Compare your response with the held study explanation: Its information may not accomplish the goal.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why can an accurate option be unsuitable?
-
-## Practice 25 — extension · 1 marks
-
-Retrieval 15 — Selecting and combining notes for a rhetorical goal: Explain the idea in your own words: What must a shared-feature sentence establish?
-
-Answer: The same relevant property applies to both named subjects.
-
-1. Identify the target idea: What must a shared-feature sentence establish?
-
-2. Compare your response with the held study explanation: The same relevant property applies to both named subjects.
-
-Marking points (one practice mark each):
-
-- Accurately address: What must a shared-feature sentence establish?
+- State outdoor weathering is untested.
 
 ## Revision checklist
 
@@ -657,7 +505,7 @@ When a writing task asks for a comparison, select facts that describe both objec
 
 - What should be identified before selecting notes?
 
-Mixed practice: q1, application-check, error-analysis
+Mixed practice: q1, application-check, error-analysis, depth-different-intervals, depth-shared-purpose, depth-qualified-result
 
 After checking your answer, write the specific rule or assumption you missed. Retry the linked questions without the worked example in a later session. A checked answer or completed checklist is not a measurement of mastery.
 

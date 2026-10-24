@@ -1,6 +1,6 @@
 # Planning investigations and evaluating evidence
 
-Subject: Sciences · Unit: Inquiry and evidence · Revision: 2026-10-21.2
+Subject: Sciences · Unit: Inquiry and evidence · Revision: 2026-10-21.3
 
 **Review draft — not independently approved. Practice marks are editorial, not official exam marks.**
 
@@ -59,6 +59,10 @@ Separate improving internal validity from extending the scope. Better control of
 ## Keeping an anomalous reading visible while testing its cause
 
 An unusual reading should trigger investigation, not automatic deletion. Inspect the original record, measurement procedure and relevant conditions before deciding whether a documented error invalidates it. Report both the observation and any justified exclusion rule. With a small dataset, compare summaries with and without the reading to show sensitivity, but do not select the version that best supports a preferred conclusion. A repeated measurement can help test a suspected equipment or procedural problem; it cannot retrospectively prove that an unexplained value was impossible. These fictional values illustrate transparent analysis, not a completed experiment or a universal outlier-removal method.
+
+## Write the decision rule before inspecting the outcome
+
+A strong investigation states its variables, controls, repeats and analysis before examining whether the expected pattern appears. Blinding labels can reduce expectation effects during measurement; randomising order helps distribute time trends; neither substitutes for calibration. If an observation appears unusual, preserve it and investigate a specific procedural explanation. Report the primary analysis with a transparent sensitivity comparison when justified. A numerical difference is descriptive evidence; whether it supports a broader causal conclusion depends on the design, measurement uncertainty and plausible alternative explanations.
 
 ## Diagram: An investigation as a chain of reasoning
 
@@ -134,15 +138,15 @@ Worked examples: 6
 
 Practise: application-check, error-analysis
 
-### Retrieval practice
+### Apply and test the limits
 
-Close the notes and answer these extra prompts from memory. Self-review with the held explanation, name one gap, then retry later. This is study practice, not an automatic mark or mastery measurement.
+Revisit the last worked example, then read the new section and tackle these different situations. Identify the assumptions before answering. Compare your reasoning with each marking point; these open responses require self-review, not automatic marks.
 
-Read: From curiosity to a testable question
+Read: Write the decision rule before inspecting the outcome
 
-Worked examples: 1
+Worked examples: 6
 
-Practise: retrieval-01, retrieval-02, retrieval-03, retrieval-04, retrieval-05, retrieval-06, retrieval-07, retrieval-08, retrieval-09, retrieval-10, retrieval-11, retrieval-12, retrieval-13
+Practise: depth-calibration-slope, depth-time-confounding, depth-sensitivity-analysis
 
 ## Worked example 1
 
@@ -505,187 +509,59 @@ Marking points (one practice mark each):
 
 - Present the comparison as sensitivity analysis, retaining the full dataset unless an explicit defensible exclusion is established.
 
-## Practice 13 — foundation · 1 marks
+## Practice 13 — standard · 3 marks
 
-Retrieval 1 — Planning investigations and evaluating evidence: Answer from memory: What makes a question operational?
+In a fictional calibration, an instrument reads 0 when the reference is 0 and 12 when the reference is 10. Assuming a linear response through zero, correct an instrument reading of 18.
 
-Answer: It identifies quantities and how the comparison and measurement will be defined.
+Answer: The corrected value is 15 reference units.
 
-1. Identify the target idea: What makes a question operational?
+1. The instrument scale factor is 12/10=1.2.
 
-2. Compare your response with the held study explanation: It identifies quantities and how the comparison and measurement will be defined.
-
-Marking points (one practice mark each):
-
-- Accurately address: What makes a question operational?
-
-## Practice 14 — standard · 1 marks
-
-Retrieval 2 — Planning investigations and evaluating evidence: State the condition or distinction precisely: Independent versus dependent variable?
-
-Answer: The independent variable is deliberately varied; the dependent variable is the measured response.
-
-1. Identify the target idea: Independent versus dependent variable?
-
-2. Compare your response with the held study explanation: The independent variable is deliberately varied; the dependent variable is the measured response.
+2. Divide the measured reading by 1.2, rather than subtracting a constant 2.
 
 Marking points (one practice mark each):
 
-- Accurately address: Independent versus dependent variable?
+- Identify scale factor 1.2.
 
-## Practice 15 — extension · 1 marks
+- Use division to correct scale error.
 
-Retrieval 3 — Planning investigations and evaluating evidence: Explain the idea in your own words: What is a confounding factor?
+- Find 15.
 
-Answer: Another influence changes with the proposed cause and makes their effects difficult to separate.
+## Practice 14 — extension · 3 marks
 
-1. Identify the target idea: What is a confounding factor?
+A fictional experiment tests all low-temperature samples in the morning and all high-temperature samples after the instrument has warmed up. Explain the confound and propose a design improvement.
 
-2. Compare your response with the held study explanation: Another influence changes with the proposed cause and makes their effects difficult to separate.
+Answer: Temperature condition is mixed with time or instrument drift. Alternate or randomise condition order after a defined warm-up and check calibration over time.
 
-Marking points (one practice mark each):
+1. Identify two changes that occur together.
 
-- Accurately address: What is a confounding factor?
-
-## Practice 16 — foundation · 1 marks
-
-Retrieval 4 — Planning investigations and evaluating evidence: Answer from memory: Why justify control variables?
-
-Answer: A useful control addresses a factor that could plausibly influence the response.
-
-1. Identify the target idea: Why justify control variables?
-
-2. Compare your response with the held study explanation: A useful control addresses a factor that could plausibly influence the response.
+2. Arrange testing so the condition is not systematically tied to measurement time.
 
 Marking points (one practice mark each):
 
-- Accurately address: Why justify control variables?
+- Identify time/instrument drift.
 
-## Practice 17 — standard · 1 marks
+- Explain its confounding with temperature.
 
-Retrieval 5 — Planning investigations and evaluating evidence: State the condition or distinction precisely: Accuracy versus precision?
+- Propose balanced order and calibration checks.
 
-Answer: Accuracy is closeness to a reference or true value; precision is agreement among repeated measurements.
+## Practice 15 — standard · 3 marks
 
-1. Identify the target idea: Accuracy versus precision?
+Fictional readings are 5,6,7,18. Calculate the full mean and the mean without 18, then state why the second should not silently replace the first.
 
-2. Compare your response with the held study explanation: Accuracy is closeness to a reference or true value; precision is agreement among repeated measurements.
+Answer: Full mean 9; mean without 18 is 6. Exclusion needs a documented reason independent of whether it improves the desired result.
 
-Marking points (one practice mark each):
+1. Compute 36/4 and 18/3 using the two declared datasets.
 
-- Accurately address: Accuracy versus precision?
-
-## Practice 18 — extension · 1 marks
-
-Retrieval 6 — Planning investigations and evaluating evidence: Explain the idea in your own words: What does instrument resolution describe?
-
-Answer: The smallest displayed increment, not a guarantee of accuracy.
-
-1. Identify the target idea: What does instrument resolution describe?
-
-2. Compare your response with the held study explanation: The smallest displayed increment, not a guarantee of accuracy.
+2. Retain the raw observation and report both analyses with the exclusion rationale.
 
 Marking points (one practice mark each):
 
-- Accurately address: What does instrument resolution describe?
+- Find mean 9.
 
-## Practice 19 — foundation · 1 marks
+- Find mean 6.
 
-Retrieval 7 — Planning investigations and evaluating evidence: Answer from memory: Why retain raw repeats?
-
-Answer: They reveal variability, unusual values and what a mean may conceal.
-
-1. Identify the target idea: Why retain raw repeats?
-
-2. Compare your response with the held study explanation: They reveal variability, unusual values and what a mean may conceal.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why retain raw repeats?
-
-## Practice 20 — standard · 1 marks
-
-Retrieval 8 — Planning investigations and evaluating evidence: State the condition or distinction precisely: What is the half-range here?
-
-Answer: (Maximum - minimum)/2, used only as a simple classroom spread estimate.
-
-1. Identify the target idea: What is the half-range here?
-
-2. Compare your response with the held study explanation: (Maximum - minimum)/2, used only as a simple classroom spread estimate.
-
-Marking points (one practice mark each):
-
-- Accurately address: What is the half-range here?
-
-## Practice 21 — extension · 1 marks
-
-Retrieval 9 — Planning investigations and evaluating evidence: Explain the idea in your own words: What can randomising condition order help with?
-
-Answer: It can reduce an association between condition and time-related changes; it is not a guarantee against all bias.
-
-1. Identify the target idea: What can randomising condition order help with?
-
-2. Compare your response with the held study explanation: It can reduce an association between condition and time-related changes; it is not a guarantee against all bias.
-
-Marking points (one practice mark each):
-
-- Accurately address: What can randomising condition order help with?
-
-## Practice 22 — foundation · 1 marks
-
-Retrieval 10 — Planning investigations and evaluating evidence: Answer from memory: What should happen to an unexpected result?
-
-Answer: Check it, retain the original record and explain any justified exclusion.
-
-1. Identify the target idea: What should happen to an unexpected result?
-
-2. Compare your response with the held study explanation: Check it, retain the original record and explain any justified exclusion.
-
-Marking points (one practice mark each):
-
-- Accurately address: What should happen to an unexpected result?
-
-## Practice 23 — standard · 1 marks
-
-Retrieval 11 — Planning investigations and evaluating evidence: State the condition or distinction precisely: What makes an evaluation useful?
-
-Answer: Link a specific limitation to its likely effect and a targeted improvement.
-
-1. Identify the target idea: What makes an evaluation useful?
-
-2. Compare your response with the held study explanation: Link a specific limitation to its likely effect and a targeted improvement.
-
-Marking points (one practice mark each):
-
-- Accurately address: What makes an evaluation useful?
-
-## Practice 24 — extension · 1 marks
-
-Retrieval 12 — Planning investigations and evaluating evidence: Explain the idea in your own words: Why label invented teaching data?
-
-Answer: So readers do not mistake a practice example for measured evidence.
-
-1. Identify the target idea: Why label invented teaching data?
-
-2. Compare your response with the held study explanation: So readers do not mistake a practice example for measured evidence.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why label invented teaching data?
-
-## Practice 25 — foundation · 1 marks
-
-Retrieval 13 — Planning investigations and evaluating evidence: Answer from memory: Does an unusual observation justify automatic deletion?
-
-Answer: No. Investigate and document the reason; preserve the original observation and any exclusion decision.
-
-1. Identify the target idea: Does an unusual observation justify automatic deletion?
-
-2. Compare your response with the held study explanation: No. Investigate and document the reason; preserve the original observation and any exclusion decision.
-
-Marking points (one practice mark each):
-
-- Accurately address: Does an unusual observation justify automatic deletion?
+- Require transparent justification and preservation.
 
 ## Revision checklist
 
@@ -731,7 +607,7 @@ Conditions: Original value must be nonzero; interpret units and context.
 
 - Rewrite a vague evaluation as weakness, effect and improvement.
 
-Mixed practice: q4, q6, q7, q10, application-check, error-analysis
+Mixed practice: q4, q6, q7, q10, application-check, error-analysis, depth-calibration-slope, depth-time-confounding, depth-sensitivity-analysis
 
 Later, explain the inquiry diagram without looking. Use a different harmless classroom context and check whether your controls and limitations remain relevant; do not conduct a new practical without appropriate approval.
 

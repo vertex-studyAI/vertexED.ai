@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "lessonId": "spanish-present",
+  "revision": "2026-10-21.3",
+  "notes": [
+    {
+      "heading": "Track the subject through questions and connected clauses",
+      "paragraphs": [
+        "Spanish verb endings often identify the subject even when a pronoun is omitted. A reply changes perspective: a question about tú may require a yo answer. Coordinated subjects containing yo normally correspond to nosotros or nosotras, and the ending must change accordingly. Place no directly before the conjugated verb for these simple negative statements. Regular -ar, -er and -ir verbs share some endings but differ in others, especially the nosotros form. Accent marks are part of the written form and should be retained when required."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "depth-question-perspective",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "Answer '¿Vives en Quito?' by saying that you live in Lima and do not live in Quito, using complete regular present-tense clauses.",
+      "answer": "Vivo en Lima y no vivo en Quito.",
+      "solution": [
+        "The reply describes the speaker, so use the yo form vivo.",
+        "Place no before the second conjugated verb."
+      ],
+      "markingPoints": [
+        "Use vivo for the speaker.",
+        "State en Lima.",
+        "Write no vivo en Quito."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-verb-families",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "Complete with regular present-tense nosotros forms: 'Nosotros ___ español, ___ fruta y ___ en Madrid.' Use estudiar, comer and vivir.",
+      "answer": "Nosotros estudiamos español, comemos fruta y vivimos en Madrid.",
+      "solution": [
+        "Use -amos for estudiar, -emos for comer and -imos for vivir.",
+        "Keep the plural first-person subject across all three clauses."
+      ],
+      "markingPoints": [
+        "Write estudiamos.",
+        "Write comemos.",
+        "Write vivimos."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-coordinated-negative",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "Correct 'Ana y yo no trabaja los sábados' and explain both the subject interpretation and negative placement.",
+      "answer": "Ana y yo no trabajamos los sábados.",
+      "solution": [
+        "Ana y yo corresponds to nosotros or nosotras.",
+        "Use trabajamos; no is already correctly placed before the verb."
+      ],
+      "markingPoints": [
+        "Write trabajamos.",
+        "Explain first-person plural agreement.",
+        "Retain and explain no before the verb."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    }
+  ]
+}

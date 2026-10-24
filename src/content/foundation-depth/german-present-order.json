@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "lessonId": "german-present-order",
+  "revision": "2026-10-21.3",
+  "notes": [
+    {
+      "heading": "Count sentence elements rather than individual words",
+      "paragraphs": [
+        "In an ordinary German declarative main clause, the conjugated verb occupies the second position. The first position can contain a multiword phrase such as Am frühen Morgen, which counts as one sentence element. If that phrase comes first, the subject usually follows the finite verb. This rule differs from a yes/no question, which normally begins with the finite verb. Agreement still depends on the subject, even if it moves. These tasks use simple main clauses so that word order and regular present-tense endings can be checked separately."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "depth-multiword-front",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "Rewrite 'Ich lerne am frühen Morgen Deutsch' beginning with 'Am frühen Morgen'. Explain the finite verb's position.",
+      "answer": "Am frühen Morgen lerne ich Deutsch.",
+      "solution": [
+        "Move the complete time phrase to the first position.",
+        "Place lerne second and ich after it; second position is not the second written word."
+      ],
+      "markingPoints": [
+        "Move the complete phrase.",
+        "Keep lerne in second position.",
+        "Place ich after lerne and explain phrase-based counting."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-yes-no-question",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "Turn 'Du wohnst in Bonn' into a yes/no question, then give a positive short answer as the person addressed.",
+      "answer": "Wohnst du in Bonn? Ja, ich wohne in Bonn.",
+      "solution": [
+        "Put the finite verb before du in the question.",
+        "The respondent uses ich and changes wohnst to wohne."
+      ],
+      "markingPoints": [
+        "Form Wohnst du in Bonn?",
+        "Use ich in the response.",
+        "Use wohne with ich."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-plural-fronting",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "Correct 'Heute spielt meine Freunde Fußball' as an ordinary main clause and explain the correction.",
+      "answer": "Heute spielen meine Freunde Fußball.",
+      "solution": [
+        "Meine Freunde is plural and requires spielen.",
+        "Heute already occupies the first position, and the finite verb remains second."
+      ],
+      "markingPoints": [
+        "Change spielt to spielen.",
+        "Explain plural agreement.",
+        "Preserve the correct verb-second order."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    }
+  ]
+}

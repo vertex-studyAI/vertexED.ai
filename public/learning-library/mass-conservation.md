@@ -1,6 +1,6 @@
 # Conservation of mass, formula masses and measurement uncertainty
 
-Subject: Chemistry · Unit: Quantitative chemistry · Revision: 2026-10-21.2
+Subject: Chemistry · Unit: Quantitative chemistry · Revision: 2026-10-21.3
 
 **Review draft — not independently approved. Practice marks are editorial, not official exam marks.**
 
@@ -62,6 +62,10 @@ A useful diagnostic routine asks four questions: Have all relevant substances be
 
 A mass comparison needs an explicit system boundary. When a solid reacts with oxygen from the air, the measured solid can gain mass because matter crosses into the measured system. This is consistent with conservation for a larger system including the air. Conversely, a gas leaving an open container can reduce the measured mass of its contents. Record which objects are on the balance, whether the container is closed and whether material was lost during handling. In a calculation, the mass difference can represent oxygen gained only under assumptions such as complete reaction, no other reactants entering and no product loss. State those assumptions instead of treating every increase as oxygen uptake.
 
+## A measurement model must include the vessel and its uncertainty
+
+Mass comparisons require a consistent system boundary and a clear tare procedure. A vessel's mass is subtracted from the combined reading to obtain the sample mass. If the same stable additive balance offset affects both readings, it can cancel in the difference, though it would still bias either absolute reading. This does not remove all uncertainty: resolution, drift, sample loss and changed conditions may remain. When uncertainty rules are supplied in a problem, use those rules explicitly instead of treating one classroom convention as universal.
+
 ## Diagram: Account for oxygen entering a solid
 
 Read the labelled relationships to follow this worked application. Oxygen gained: 1.60 g. Oxygen is 40% of the oxide mass. This is an explanatory process diagram, not a scale drawing or a record of a learner attempt.
@@ -108,15 +112,15 @@ Worked examples: 6
 
 Practise: q9, q10, application-check, error-analysis
 
-### Retrieval practice
+### Apply and test the limits
 
-Close the notes and answer these extra prompts from memory. Self-review with the held explanation, name one gap, then retry later. This is study practice, not an automatic mark or mastery measurement.
+Revisit the last worked example, then read the new section and tackle these different situations. Identify the assumptions before answering. Compare your reasoning with each marking point; these open responses require self-review, not automatic marks.
 
-Read: Define the system before comparing masses
+Read: A measurement model must include the vessel and its uncertainty
 
-Worked examples: 1
+Worked examples: 6
 
-Practise: retrieval-01, retrieval-02, retrieval-03, retrieval-04, retrieval-05, retrieval-06, retrieval-07, retrieval-08, retrieval-09, retrieval-10, retrieval-11, retrieval-12, retrieval-13
+Practise: depth-tare-cancellation, depth-mass-budget, depth-bounded-uncertainty
 
 ## Worked example 1
 
@@ -465,187 +469,59 @@ Marking points (one practice mark each):
 
 - Counting the reacting air as well as the solid preserves the mass balance.
 
-## Practice 13 — foundation · 1 marks
+## Practice 13 — extension · 3 marks
 
-Retrieval 1 — Conservation of mass, formula masses and measurement uncertainty: Answer from memory: Why define a system boundary before interpreting a mass change?
+A balance consistently reads 0.20 g too high. The empty vessel reads 50.20 g and the vessel plus sample reads 53.70 g. Find the sample mass by subtraction and explain what happens to the constant offset.
 
-Answer: It establishes which entering or leaving materials were included in the measurement.
+Answer: The sample mass is 3.50 g; the same +0.20 g offset cancels in the difference.
 
-1. Identify the target idea: Why define a system boundary before interpreting a mass change?
+1. Subtract the empty-vessel reading from the combined reading.
 
-2. Compare your response with the held study explanation: It establishes which entering or leaving materials were included in the measurement.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why define a system boundary before interpreting a mass change?
-
-## Practice 14 — standard · 1 marks
-
-Retrieval 2 — Conservation of mass, formula masses and measurement uncertainty: State the condition or distinction precisely: What does a coefficient of 3 in 3H₂O multiply?
-
-Answer: The entire formula: six H atoms and three O atoms.
-
-1. Identify the target idea: What does a coefficient of 3 in 3H₂O multiply?
-
-2. Compare your response with the held study explanation: The entire formula: six H atoms and three O atoms.
+2. Express the readings as true masses plus the same offset to show cancellation; changing drift would not necessarily cancel.
 
 Marking points (one practice mark each):
 
-- Accurately address: What does a coefficient of 3 in 3H₂O multiply?
+- Find 3.50 g.
 
-## Practice 15 — extension · 1 marks
+- Explain cancellation of the shared offset.
 
-Retrieval 3 — Conservation of mass, formula masses and measurement uncertainty: Explain the idea in your own words: Why must subscripts stay fixed when balancing an equation?
+- State that stable equal offsets are required.
 
-Answer: They specify the chemical identity of each substance.
+## Practice 14 — standard · 3 marks
 
-1. Identify the target idea: Why must subscripts stay fixed when balancing an equation?
+An idealised closed reaction vessel initially contains 12.0 g of reactants. After reaction, 7.5 g is solid and 1.2 g is liquid, with no other materials. Find the gas mass and explain why ignoring the gas gives an apparent loss.
 
-2. Compare your response with the held study explanation: They specify the chemical identity of each substance.
+Answer: Gas mass is 3.3 g. Counting only solid and liquid omits part of the closed system.
 
-Marking points (one practice mark each):
+1. Use total final mass equal to 12.0 g.
 
-- Accurately address: Why must subscripts stay fixed when balancing an equation?
-
-## Practice 16 — foundation · 1 marks
-
-Retrieval 4 — Conservation of mass, formula masses and measurement uncertainty: Answer from memory: How many oxygen atoms are represented by Al₂(SO₄)₃?
-
-Answer: Twelve.
-
-1. Identify the target idea: How many oxygen atoms are represented by Al₂(SO₄)₃?
-
-2. Compare your response with the held study explanation: Twelve.
+2. Subtract 7.5+1.2=8.7 g from the total.
 
 Marking points (one practice mark each):
 
-- Accurately address: How many oxygen atoms are represented by Al₂(SO₄)₃?
+- Use conservation for the closed system.
 
-## Practice 17 — standard · 1 marks
+- Find 3.3 g.
 
-Retrieval 5 — Conservation of mass, formula masses and measurement uncertainty: State the condition or distinction precisely: How is relative formula mass calculated?
+- Explain the omitted gas.
 
-Answer: Add the relative atomic masses of every atom counted in the formula.
+## Practice 15 — standard · 3 marks
 
-1. Identify the target idea: How is relative formula mass calculated?
+Two independent readings are 10.0±0.1 g and 3.0±0.1 g. Using the stated worst-case bound method, find the difference and its uncertainty.
 
-2. Compare your response with the held study explanation: Add the relative atomic masses of every atom counted in the formula.
+Answer: 7.0±0.2 g.
 
-Marking points (one practice mark each):
+1. The central difference is 10.0-3.0=7.0 g.
 
-- Accurately address: How is relative formula mass calculated?
-
-## Practice 18 — extension · 1 marks
-
-Retrieval 6 — Conservation of mass, formula masses and measurement uncertainty: Explain the idea in your own words: Does relative formula mass carry a gram unit?
-
-Answer: No. It is relative; sample mass in grams is a different quantity.
-
-1. Identify the target idea: Does relative formula mass carry a gram unit?
-
-2. Compare your response with the held study explanation: No. It is relative; sample mass in grams is a different quantity.
+2. Extreme differences range from 9.9-3.1=6.8 to 10.1-2.9=7.2 g.
 
 Marking points (one practice mark each):
 
-- Accurately address: Does relative formula mass carry a gram unit?
+- Find central value 7.0 g.
 
-## Practice 19 — foundation · 1 marks
+- Find the extreme range.
 
-Retrieval 7 — Conservation of mass, formula masses and measurement uncertainty: Answer from memory: What is the percentage-by-mass formula for one element?
-
-Answer: Its total relative-mass contribution divided by Mᵣ, multiplied by 100.
-
-1. Identify the target idea: What is the percentage-by-mass formula for one element?
-
-2. Compare your response with the held study explanation: Its total relative-mass contribution divided by Mᵣ, multiplied by 100.
-
-Marking points (one practice mark each):
-
-- Accurately address: What is the percentage-by-mass formula for one element?
-
-## Practice 20 — standard · 1 marks
-
-Retrieval 8 — Conservation of mass, formula masses and measurement uncertainty: State the condition or distinction precisely: Why can a metal's solid product gain mass in air?
-
-Answer: Atoms from a gaseous reactant can enter the measured solid.
-
-1. Identify the target idea: Why can a metal's solid product gain mass in air?
-
-2. Compare your response with the held study explanation: Atoms from a gaseous reactant can enter the measured solid.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why can a metal's solid product gain mass in air?
-
-## Practice 21 — extension · 1 marks
-
-Retrieval 9 — Conservation of mass, formula masses and measurement uncertainty: Explain the idea in your own words: Why can a carbonate's remaining solid lose mass on decomposition?
-
-Answer: A gaseous product can leave the measured system.
-
-1. Identify the target idea: Why can a carbonate's remaining solid lose mass on decomposition?
-
-2. Compare your response with the held study explanation: A gaseous product can leave the measured system.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why can a carbonate's remaining solid lose mass on decomposition?
-
-## Practice 22 — foundation · 1 marks
-
-Retrieval 10 — Conservation of mass, formula masses and measurement uncertainty: Answer from memory: How is the range of repeat readings found?
-
-Answer: Maximum minus minimum.
-
-1. Identify the target idea: How is the range of repeat readings found?
-
-2. Compare your response with the held study explanation: Maximum minus minimum.
-
-Marking points (one practice mark each):
-
-- Accurately address: How is the range of repeat readings found?
-
-## Practice 23 — standard · 1 marks
-
-Retrieval 11 — Conservation of mass, formula masses and measurement uncertainty: State the condition or distinction precisely: What does close agreement among repeats establish directly?
-
-Answer: Repeatability under the tested conditions, not guaranteed accuracy.
-
-1. Identify the target idea: What does close agreement among repeats establish directly?
-
-2. Compare your response with the held study explanation: Repeatability under the tested conditions, not guaranteed accuracy.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does close agreement among repeats establish directly?
-
-## Practice 24 — extension · 1 marks
-
-Retrieval 12 — Conservation of mass, formula masses and measurement uncertainty: Explain the idea in your own words: When should half-range be used as an uncertainty estimate?
-
-Answer: When that convention is stated or justified, with its limitations explained.
-
-1. Identify the target idea: When should half-range be used as an uncertainty estimate?
-
-2. Compare your response with the held study explanation: When that convention is stated or justified, with its limitations explained.
-
-Marking points (one practice mark each):
-
-- Accurately address: When should half-range be used as an uncertainty estimate?
-
-## Practice 25 — foundation · 1 marks
-
-Retrieval 13 — Conservation of mass, formula masses and measurement uncertainty: Answer from memory: Why can a reacting solid gain mass in air?
-
-Answer: It can incorporate matter such as oxygen from outside the initially measured solid.
-
-1. Identify the target idea: Why can a reacting solid gain mass in air?
-
-2. Compare your response with the held study explanation: It can incorporate matter such as oxygen from outside the initially measured solid.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why can a reacting solid gain mass in air?
+- State ±0.2 g under the specified method.
 
 ## Revision checklist
 
@@ -681,7 +557,7 @@ A mass comparison needs an explicit system boundary. When a solid reacts with ox
 
 - Why define a system boundary before interpreting a mass change?
 
-Mixed practice: q1, application-check, error-analysis
+Mixed practice: q1, application-check, error-analysis, depth-tare-cancellation, depth-mass-budget, depth-bounded-uncertainty
 
 After checking your answer, write the specific rule or assumption you missed. Retry the linked questions without the worked example in a later session. A checked answer or completed checklist is not a measurement of mastery.
 

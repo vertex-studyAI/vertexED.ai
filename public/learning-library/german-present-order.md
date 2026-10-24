@@ -1,6 +1,6 @@
 # Present-tense agreement and main-clause word order
 
-Subject: German · Unit: Everyday communication · Revision: 2026-10-21.2
+Subject: German · Unit: Everyday communication · Revision: 2026-10-21.3
 
 **Review draft — not independently approved. Practice marks are editorial, not official exam marks.**
 
@@ -39,6 +39,10 @@ Read a short paragraph clause by clause. Underline the finite verb, identify its
 ## Moving a time phrase without moving the finite verb out of second position
 
 German main-clause word order counts constituents rather than individual words. A time phrase such as Am Montag occupies one position even though it contains two words. If it comes first, the finite verb remains in second position and the subject normally follows it. The verb ending still agrees with the subject; changing word order does not change wir into ihr. Keep the main-clause rule separate from subordinate-clause patterns, which are outside this exercise. For a regular present form, identify the stem and subject before checking position. This two-pass method prevents a grammatically correct ending from hiding a misplaced verb, or correct word order from hiding the wrong ending.
+
+## Count sentence elements rather than individual words
+
+In an ordinary German declarative main clause, the conjugated verb occupies the second position. The first position can contain a multiword phrase such as Am frühen Morgen, which counts as one sentence element. If that phrase comes first, the subject usually follows the finite verb. This rule differs from a yes/no question, which normally begins with the finite verb. Agreement still depends on the subject, even if it moves. These tasks use simple main clauses so that word order and regular present-tense endings can be checked separately.
 
 ## Diagram: Front a German time phrase
 
@@ -86,15 +90,15 @@ Worked examples: 4
 
 Practise: q5, application-check, error-analysis
 
-### Retrieval practice
+### Apply and test the limits
 
-Close the notes and answer these extra prompts from memory. Self-review with the held explanation, name one gap, then retry later. This is study practice, not an automatic mark or mastery measurement.
+Revisit the last worked example, then read the new section and tackle these different situations. Identify the assumptions before answering. Compare your reasoning with each marking point; these open responses require self-review, not automatic marks.
 
-Read: Stem and subject agreement
+Read: Count sentence elements rather than individual words
 
-Worked examples: 1
+Worked examples: 4
 
-Practise: retrieval-01, retrieval-02, retrieval-03, retrieval-04, retrieval-05, retrieval-06, retrieval-07, retrieval-08, retrieval-09, retrieval-10, retrieval-11, retrieval-12, retrieval-13, retrieval-14, retrieval-15, retrieval-16, retrieval-17, retrieval-18
+Practise: depth-multiword-front, depth-yes-no-question, depth-plural-fronting
 
 ## Worked example 1
 
@@ -312,257 +316,59 @@ Marking points (one practice mark each):
 
 - Place wir after lernen and retain the remaining meaning.
 
-## Practice 8 — foundation · 1 marks
+## Practice 8 — standard · 3 marks
 
-Retrieval 1 — Present-tense agreement and main-clause word order: Answer from memory: Give the ich form of wohnen.
+Rewrite 'Ich lerne am frühen Morgen Deutsch' beginning with 'Am frühen Morgen'. Explain the finite verb's position.
 
-Answer: Ich wohne.
+Answer: Am frühen Morgen lerne ich Deutsch.
 
-1. Identify the target idea: Give the ich form of wohnen.
+1. Move the complete time phrase to the first position.
 
-2. Compare your response with the held study explanation: Ich wohne.
-
-Marking points (one practice mark each):
-
-- Accurately address: Give the ich form of wohnen.
-
-## Practice 9 — standard · 1 marks
-
-Retrieval 2 — Present-tense agreement and main-clause word order: State the condition or distinction precisely: Give the wir form of lernen.
-
-Answer: Wir lernen.
-
-1. Identify the target idea: Give the wir form of lernen.
-
-2. Compare your response with the held study explanation: Wir lernen.
+2. Place lerne second and ich after it; second position is not the second written word.
 
 Marking points (one practice mark each):
 
-- Accurately address: Give the wir form of lernen.
+- Move the complete phrase.
 
-## Practice 10 — extension · 1 marks
+- Keep lerne in second position.
 
-Retrieval 3 — Present-tense agreement and main-clause word order: Explain the idea in your own words: What occupies second constituent position in an ordinary declarative main clause?
+- Place ich after lerne and explain phrase-based counting.
 
-Answer: The finite verb.
+## Practice 9 — standard · 3 marks
 
-1. Identify the target idea: What occupies second constituent position in an ordinary declarative main clause?
+Turn 'Du wohnst in Bonn' into a yes/no question, then give a positive short answer as the person addressed.
 
-2. Compare your response with the held study explanation: The finite verb.
+Answer: Wohnst du in Bonn? Ja, ich wohne in Bonn.
 
-Marking points (one practice mark each):
+1. Put the finite verb before du in the question.
 
-- Accurately address: What occupies second constituent position in an ordinary declarative main clause?
-
-## Practice 11 — foundation · 1 marks
-
-Retrieval 4 — Present-tense agreement and main-clause word order: Answer from memory: Complete: Heute ___ ich Deutsch. (lernen)
-
-Answer: Lerne: Heute lerne ich Deutsch.
-
-1. Identify the target idea: Complete: Heute ___ ich Deutsch. (lernen)
-
-2. Compare your response with the held study explanation: Lerne: Heute lerne ich Deutsch.
+2. The respondent uses ich and changes wohnst to wohne.
 
 Marking points (one practice mark each):
 
-- Accurately address: Complete: Heute ___ ich Deutsch. (lernen)
+- Form Wohnst du in Bonn?
 
-## Practice 12 — standard · 1 marks
+- Use ich in the response.
 
-Retrieval 5 — Present-tense agreement and main-clause word order: State the condition or distinction precisely: How does formal Sie conjugate wohnen?
+- Use wohne with ich.
 
-Answer: Sie wohnen, whether addressing one person or several.
+## Practice 10 — standard · 3 marks
 
-1. Identify the target idea: How does formal Sie conjugate wohnen?
+Correct 'Heute spielt meine Freunde Fußball' as an ordinary main clause and explain the correction.
 
-2. Compare your response with the held study explanation: Sie wohnen, whether addressing one person or several.
+Answer: Heute spielen meine Freunde Fußball.
 
-Marking points (one practice mark each):
+1. Meine Freunde is plural and requires spielen.
 
-- Accurately address: How does formal Sie conjugate wohnen?
-
-## Practice 13 — extension · 1 marks
-
-Retrieval 6 — Present-tense agreement and main-clause word order: Explain the idea in your own words: What three separate checks help revise a beginner German main statement?
-
-Answer: Identify the subject, choose the agreeing finite verb, and check its constituent position.
-
-1. Identify the target idea: What three separate checks help revise a beginner German main statement?
-
-2. Compare your response with the held study explanation: Identify the subject, choose the agreeing finite verb, and check its constituent position.
+2. Heute already occupies the first position, and the finite verb remains second.
 
 Marking points (one practice mark each):
 
-- Accurately address: What three separate checks help revise a beginner German main statement?
+- Change spielt to spielen.
 
-## Practice 14 — foundation · 1 marks
+- Explain plural agreement.
 
-Retrieval 7 — Present-tense agreement and main-clause word order: Answer from memory: Does verb-second mean the second written word?
-
-Answer: No. It means the second constituent position in a declarative main clause.
-
-1. Identify the target idea: Does verb-second mean the second written word?
-
-2. Compare your response with the held study explanation: No. It means the second constituent position in a declarative main clause.
-
-Marking points (one practice mark each):
-
-- Accurately address: Does verb-second mean the second written word?
-
-## Practice 15 — standard · 1 marks
-
-Retrieval 8 — Present-tense agreement and main-clause word order: State the condition or distinction precisely: Does fronting a time phrase change the verb’s subject?
-
-Answer: No. The finite verb still agrees with the same subject.
-
-1. Identify the target idea: Does fronting a time phrase change the verb’s subject?
-
-2. Compare your response with the held study explanation: No. The finite verb still agrees with the same subject.
-
-Marking points (one practice mark each):
-
-- Accurately address: Does fronting a time phrase change the verb’s subject?
-
-## Practice 16 — extension · 1 marks
-
-Retrieval 9 — Present-tense agreement and main-clause word order: Explain the idea in your own words: Give the ich form of wohnen.
-
-Answer: Ich wohne.
-
-1. Identify the target idea: Give the ich form of wohnen.
-
-2. Compare your response with the held study explanation: Ich wohne.
-
-Marking points (one practice mark each):
-
-- Accurately address: Give the ich form of wohnen.
-
-## Practice 17 — foundation · 1 marks
-
-Retrieval 10 — Present-tense agreement and main-clause word order: Answer from memory: Give the wir form of lernen.
-
-Answer: Wir lernen.
-
-1. Identify the target idea: Give the wir form of lernen.
-
-2. Compare your response with the held study explanation: Wir lernen.
-
-Marking points (one practice mark each):
-
-- Accurately address: Give the wir form of lernen.
-
-## Practice 18 — standard · 1 marks
-
-Retrieval 11 — Present-tense agreement and main-clause word order: State the condition or distinction precisely: What occupies second constituent position in an ordinary declarative main clause?
-
-Answer: The finite verb.
-
-1. Identify the target idea: What occupies second constituent position in an ordinary declarative main clause?
-
-2. Compare your response with the held study explanation: The finite verb.
-
-Marking points (one practice mark each):
-
-- Accurately address: What occupies second constituent position in an ordinary declarative main clause?
-
-## Practice 19 — extension · 1 marks
-
-Retrieval 12 — Present-tense agreement and main-clause word order: Explain the idea in your own words: Complete: Heute ___ ich Deutsch. (lernen)
-
-Answer: Lerne: Heute lerne ich Deutsch.
-
-1. Identify the target idea: Complete: Heute ___ ich Deutsch. (lernen)
-
-2. Compare your response with the held study explanation: Lerne: Heute lerne ich Deutsch.
-
-Marking points (one practice mark each):
-
-- Accurately address: Complete: Heute ___ ich Deutsch. (lernen)
-
-## Practice 20 — foundation · 1 marks
-
-Retrieval 13 — Present-tense agreement and main-clause word order: Answer from memory: How does formal Sie conjugate wohnen?
-
-Answer: Sie wohnen, whether addressing one person or several.
-
-1. Identify the target idea: How does formal Sie conjugate wohnen?
-
-2. Compare your response with the held study explanation: Sie wohnen, whether addressing one person or several.
-
-Marking points (one practice mark each):
-
-- Accurately address: How does formal Sie conjugate wohnen?
-
-## Practice 21 — standard · 1 marks
-
-Retrieval 14 — Present-tense agreement and main-clause word order: State the condition or distinction precisely: What three separate checks help revise a beginner German main statement?
-
-Answer: Identify the subject, choose the agreeing finite verb, and check its constituent position.
-
-1. Identify the target idea: What three separate checks help revise a beginner German main statement?
-
-2. Compare your response with the held study explanation: Identify the subject, choose the agreeing finite verb, and check its constituent position.
-
-Marking points (one practice mark each):
-
-- Accurately address: What three separate checks help revise a beginner German main statement?
-
-## Practice 22 — extension · 1 marks
-
-Retrieval 15 — Present-tense agreement and main-clause word order: Explain the idea in your own words: Does verb-second mean the second written word?
-
-Answer: No. It means the second constituent position in a declarative main clause.
-
-1. Identify the target idea: Does verb-second mean the second written word?
-
-2. Compare your response with the held study explanation: No. It means the second constituent position in a declarative main clause.
-
-Marking points (one practice mark each):
-
-- Accurately address: Does verb-second mean the second written word?
-
-## Practice 23 — foundation · 1 marks
-
-Retrieval 16 — Present-tense agreement and main-clause word order: Answer from memory: Does fronting a time phrase change the verb’s subject?
-
-Answer: No. The finite verb still agrees with the same subject.
-
-1. Identify the target idea: Does fronting a time phrase change the verb’s subject?
-
-2. Compare your response with the held study explanation: No. The finite verb still agrees with the same subject.
-
-Marking points (one practice mark each):
-
-- Accurately address: Does fronting a time phrase change the verb’s subject?
-
-## Practice 24 — standard · 1 marks
-
-Retrieval 17 — Present-tense agreement and main-clause word order: State the condition or distinction precisely: Give the ich form of wohnen.
-
-Answer: Ich wohne.
-
-1. Identify the target idea: Give the ich form of wohnen.
-
-2. Compare your response with the held study explanation: Ich wohne.
-
-Marking points (one practice mark each):
-
-- Accurately address: Give the ich form of wohnen.
-
-## Practice 25 — extension · 1 marks
-
-Retrieval 18 — Present-tense agreement and main-clause word order: Explain the idea in your own words: Give the wir form of lernen.
-
-Answer: Wir lernen.
-
-1. Identify the target idea: Give the wir form of lernen.
-
-2. Compare your response with the held study explanation: Wir lernen.
-
-Marking points (one practice mark each):
-
-- Accurately address: Give the wir form of lernen.
+- Preserve the correct verb-second order.
 
 ## Revision checklist
 
@@ -596,6 +402,6 @@ German main-clause word order counts constituents rather than individual words. 
 
 - Give the ich form of wohnen.
 
-Mixed practice: q1, application-check, error-analysis
+Mixed practice: q1, application-check, error-analysis, depth-multiword-front, depth-yes-no-question, depth-plural-fronting
 
 After checking your answer, write the specific rule or assumption you missed. Retry the linked questions without the worked example in a later session. A checked answer or completed checklist is not a measurement of mastery.

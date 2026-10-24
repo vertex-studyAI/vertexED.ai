@@ -1,6 +1,6 @@
 # Sentence boundaries, clause relationships and transitions
 
-Subject: English · Unit: Writing conventions · Revision: 2026-10-21.2
+Subject: English · Unit: Writing conventions · Revision: 2026-10-21.3
 
 **Review draft — not independently approved. Practice marks are editorial, not official exam marks.**
 
@@ -41,6 +41,10 @@ Read the sentence after removing a parenthetical phrase. If the remaining core i
 ## Repairing a comma splice while preserving the relationship
 
 A sentence boundary repair must preserve meaning as well as grammar. Identify each independent clause by its subject and finite predicate before deciding how to join it. Two independent clauses can become separate sentences, can be joined with a semicolon, or can use a comma plus an appropriate coordinating conjunction. Choosing because or although changes the relationship by subordinating one clause, so use that repair only when the intended logic supports it. A transition such as however is not a coordinating conjunction. Read the repaired sentence aloud for sense, then check the clause structure rather than relying only on where a pause sounds natural.
+
+## Check the clause before choosing a mark
+
+Punctuation reflects grammatical relationships. A semicolon normally links independent clauses; a colon normally follows a complete clause and introduces an explanation, list or elaboration. A dependent clause beginning with although or because cannot stand as a complete sentence in standard edited prose unless it is intentionally used as a fragment in a context that permits one. Do not rely only on how long a pause sounds. Identify each clause's subject, finite verb and dependency, then choose punctuation that preserves the intended relationship.
 
 ## Diagram: Repair a boundary deliberately
 
@@ -88,15 +92,15 @@ Worked examples: 4
 
 Practise: q5, application-check, error-analysis
 
-### Retrieval practice
+### Apply and test the limits
 
-Close the notes and answer these extra prompts from memory. Self-review with the held explanation, name one gap, then retry later. This is study practice, not an automatic mark or mastery measurement.
+Revisit the last worked example, then read the new section and tackle these different situations. Identify the assumptions before answering. Compare your reasoning with each marking point; these open responses require self-review, not automatic marks.
 
-Read: Clauses before punctuation
+Read: Check the clause before choosing a mark
 
-Worked examples: 1
+Worked examples: 4
 
-Practise: retrieval-01, retrieval-02, retrieval-03, retrieval-04, retrieval-05, retrieval-06, retrieval-07, retrieval-08, retrieval-09, retrieval-10, retrieval-11, retrieval-12, retrieval-13, retrieval-14, retrieval-15, retrieval-16, retrieval-17, retrieval-18
+Practise: depth-colon-elaboration, depth-dependent-first, depth-conjunctive-adverb
 
 ## Worked example 1
 
@@ -314,257 +318,59 @@ Marking points (one practice mark each):
 
 - Adding the team repeated the measurement completes the sentence and explicitly marks the causal reading.
 
-## Practice 8 — foundation · 1 marks
+## Practice 8 — standard · 3 marks
 
-Retrieval 1 — Sentence boundaries, clause relationships and transitions: Answer from memory: What makes a clause independent?
+Edit 'The team reached one conclusion, the sensor needed recalibration' using a colon, and explain why it is suitable.
 
-Answer: It can function as a complete sentence expressing a complete grammatical thought.
+Answer: The team reached one conclusion: the sensor needed recalibration.
 
-1. Identify the target idea: What makes a clause independent?
+1. The words before the colon form a complete independent clause.
 
-2. Compare your response with the held study explanation: It can function as a complete sentence expressing a complete grammatical thought.
-
-Marking points (one practice mark each):
-
-- Accurately address: What makes a clause independent?
-
-## Practice 9 — standard · 1 marks
-
-Retrieval 2 — Sentence boundaries, clause relationships and transitions: State the condition or distinction precisely: What is a comma splice?
-
-Answer: Two independent clauses joined only by a comma in a context requiring a stronger boundary or conjunction.
-
-1. Identify the target idea: What is a comma splice?
-
-2. Compare your response with the held study explanation: Two independent clauses joined only by a comma in a context requiring a stronger boundary or conjunction.
+2. The following clause states the conclusion being introduced.
 
 Marking points (one practice mark each):
 
-- Accurately address: What is a comma splice?
+- Place the colon after conclusion.
 
-## Practice 10 — extension · 1 marks
+- Identify the complete introductory clause.
 
-Retrieval 3 — Sentence boundaries, clause relationships and transitions: Explain the idea in your own words: What can a semicolon connect?
+- Explain the elaboration relationship.
 
-Answer: Closely related independent clauses without a coordinating conjunction.
+## Practice 9 — standard · 3 marks
 
-1. Identify the target idea: What can a semicolon connect?
+Repair 'Because the train was delayed. The group arrived late.' as one standard sentence without changing the stated cause.
 
-2. Compare your response with the held study explanation: Closely related independent clauses without a coordinating conjunction.
+Answer: Because the train was delayed, the group arrived late.
 
-Marking points (one practice mark each):
+1. The because-clause is dependent.
 
-- Accurately address: What can a semicolon connect?
-
-## Practice 11 — foundation · 1 marks
-
-Retrieval 4 — Sentence boundaries, clause relationships and transitions: Answer from memory: What usually must precede a colon introducing an explanation?
-
-Answer: A complete introductory clause.
-
-1. Identify the target idea: What usually must precede a colon introducing an explanation?
-
-2. Compare your response with the held study explanation: A complete introductory clause.
+2. Join it to the following independent clause with a comma after the introductory dependent clause.
 
 Marking points (one practice mark each):
 
-- Accurately address: What usually must precede a colon introducing an explanation?
+- Join the two clauses.
 
-## Practice 12 — standard · 1 marks
+- Use the introductory comma.
 
-Retrieval 5 — Sentence boundaries, clause relationships and transitions: State the condition or distinction precisely: What should determine a transition word?
+- Explain why the because-clause cannot stand alone here.
 
-Answer: The logical relationship between the surrounding ideas, followed by a separate punctuation check.
+## Practice 10 — extension · 3 marks
 
-1. Identify the target idea: What should determine a transition word?
+Repair 'The sample was small, therefore the estimate was uncertain' with a semicolon, and identify both independent clauses.
 
-2. Compare your response with the held study explanation: The logical relationship between the surrounding ideas, followed by a separate punctuation check.
+Answer: The sample was small; therefore, the estimate was uncertain. The independent clauses are 'The sample was small' and 'the estimate was uncertain'.
 
-Marking points (one practice mark each):
+1. Replace the comma splice with a semicolon before the conjunctive adverb.
 
-- Accurately address: What should determine a transition word?
-
-## Practice 13 — extension · 1 marks
-
-Retrieval 6 — Sentence boundaries, clause relationships and transitions: Explain the idea in your own words: Why should you identify clauses before editing punctuation?
-
-Answer: The grammatical relationship determines the boundary; punctuation cannot reliably repair an unidentified structural problem.
-
-1. Identify the target idea: Why should you identify clauses before editing punctuation?
-
-2. Compare your response with the held study explanation: The grammatical relationship determines the boundary; punctuation cannot reliably repair an unidentified structural problem.
+2. Set off therefore with the following comma; the causal claim is already supplied by the sentence.
 
 Marking points (one practice mark each):
 
-- Accurately address: Why should you identify clauses before editing punctuation?
+- Use semicolon before therefore.
 
-## Practice 14 — foundation · 1 marks
+- Use comma after therefore.
 
-Retrieval 7 — Sentence boundaries, clause relationships and transitions: Answer from memory: Why is a pause not a sufficient punctuation rule?
-
-Answer: Punctuation must fit the clause structure and relationship, which a spoken pause alone does not establish.
-
-1. Identify the target idea: Why is a pause not a sufficient punctuation rule?
-
-2. Compare your response with the held study explanation: Punctuation must fit the clause structure and relationship, which a spoken pause alone does not establish.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why is a pause not a sufficient punctuation rule?
-
-## Practice 15 — standard · 1 marks
-
-Retrieval 8 — Sentence boundaries, clause relationships and transitions: State the condition or distinction precisely: What does because do to an otherwise independent clause?
-
-Answer: It makes it subordinate, requiring a suitable main clause for a complete sentence in this context.
-
-1. Identify the target idea: What does because do to an otherwise independent clause?
-
-2. Compare your response with the held study explanation: It makes it subordinate, requiring a suitable main clause for a complete sentence in this context.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does because do to an otherwise independent clause?
-
-## Practice 16 — extension · 1 marks
-
-Retrieval 9 — Sentence boundaries, clause relationships and transitions: Explain the idea in your own words: What makes a clause independent?
-
-Answer: It can function as a complete sentence expressing a complete grammatical thought.
-
-1. Identify the target idea: What makes a clause independent?
-
-2. Compare your response with the held study explanation: It can function as a complete sentence expressing a complete grammatical thought.
-
-Marking points (one practice mark each):
-
-- Accurately address: What makes a clause independent?
-
-## Practice 17 — foundation · 1 marks
-
-Retrieval 10 — Sentence boundaries, clause relationships and transitions: Answer from memory: What is a comma splice?
-
-Answer: Two independent clauses joined only by a comma in a context requiring a stronger boundary or conjunction.
-
-1. Identify the target idea: What is a comma splice?
-
-2. Compare your response with the held study explanation: Two independent clauses joined only by a comma in a context requiring a stronger boundary or conjunction.
-
-Marking points (one practice mark each):
-
-- Accurately address: What is a comma splice?
-
-## Practice 18 — standard · 1 marks
-
-Retrieval 11 — Sentence boundaries, clause relationships and transitions: State the condition or distinction precisely: What can a semicolon connect?
-
-Answer: Closely related independent clauses without a coordinating conjunction.
-
-1. Identify the target idea: What can a semicolon connect?
-
-2. Compare your response with the held study explanation: Closely related independent clauses without a coordinating conjunction.
-
-Marking points (one practice mark each):
-
-- Accurately address: What can a semicolon connect?
-
-## Practice 19 — extension · 1 marks
-
-Retrieval 12 — Sentence boundaries, clause relationships and transitions: Explain the idea in your own words: What usually must precede a colon introducing an explanation?
-
-Answer: A complete introductory clause.
-
-1. Identify the target idea: What usually must precede a colon introducing an explanation?
-
-2. Compare your response with the held study explanation: A complete introductory clause.
-
-Marking points (one practice mark each):
-
-- Accurately address: What usually must precede a colon introducing an explanation?
-
-## Practice 20 — foundation · 1 marks
-
-Retrieval 13 — Sentence boundaries, clause relationships and transitions: Answer from memory: What should determine a transition word?
-
-Answer: The logical relationship between the surrounding ideas, followed by a separate punctuation check.
-
-1. Identify the target idea: What should determine a transition word?
-
-2. Compare your response with the held study explanation: The logical relationship between the surrounding ideas, followed by a separate punctuation check.
-
-Marking points (one practice mark each):
-
-- Accurately address: What should determine a transition word?
-
-## Practice 21 — standard · 1 marks
-
-Retrieval 14 — Sentence boundaries, clause relationships and transitions: State the condition or distinction precisely: Why should you identify clauses before editing punctuation?
-
-Answer: The grammatical relationship determines the boundary; punctuation cannot reliably repair an unidentified structural problem.
-
-1. Identify the target idea: Why should you identify clauses before editing punctuation?
-
-2. Compare your response with the held study explanation: The grammatical relationship determines the boundary; punctuation cannot reliably repair an unidentified structural problem.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why should you identify clauses before editing punctuation?
-
-## Practice 22 — extension · 1 marks
-
-Retrieval 15 — Sentence boundaries, clause relationships and transitions: Explain the idea in your own words: Why is a pause not a sufficient punctuation rule?
-
-Answer: Punctuation must fit the clause structure and relationship, which a spoken pause alone does not establish.
-
-1. Identify the target idea: Why is a pause not a sufficient punctuation rule?
-
-2. Compare your response with the held study explanation: Punctuation must fit the clause structure and relationship, which a spoken pause alone does not establish.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why is a pause not a sufficient punctuation rule?
-
-## Practice 23 — foundation · 1 marks
-
-Retrieval 16 — Sentence boundaries, clause relationships and transitions: Answer from memory: What does because do to an otherwise independent clause?
-
-Answer: It makes it subordinate, requiring a suitable main clause for a complete sentence in this context.
-
-1. Identify the target idea: What does because do to an otherwise independent clause?
-
-2. Compare your response with the held study explanation: It makes it subordinate, requiring a suitable main clause for a complete sentence in this context.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does because do to an otherwise independent clause?
-
-## Practice 24 — standard · 1 marks
-
-Retrieval 17 — Sentence boundaries, clause relationships and transitions: State the condition or distinction precisely: What makes a clause independent?
-
-Answer: It can function as a complete sentence expressing a complete grammatical thought.
-
-1. Identify the target idea: What makes a clause independent?
-
-2. Compare your response with the held study explanation: It can function as a complete sentence expressing a complete grammatical thought.
-
-Marking points (one practice mark each):
-
-- Accurately address: What makes a clause independent?
-
-## Practice 25 — extension · 1 marks
-
-Retrieval 18 — Sentence boundaries, clause relationships and transitions: Explain the idea in your own words: What is a comma splice?
-
-Answer: Two independent clauses joined only by a comma in a context requiring a stronger boundary or conjunction.
-
-1. Identify the target idea: What is a comma splice?
-
-2. Compare your response with the held study explanation: Two independent clauses joined only by a comma in a context requiring a stronger boundary or conjunction.
-
-Marking points (one practice mark each):
-
-- Accurately address: What is a comma splice?
+- Identify both complete clauses.
 
 ## Revision checklist
 
@@ -598,6 +404,6 @@ A sentence boundary repair must preserve meaning as well as grammar. Identify ea
 
 - What makes a clause independent?
 
-Mixed practice: q1, application-check, error-analysis
+Mixed practice: q1, application-check, error-analysis, depth-colon-elaboration, depth-dependent-first, depth-conjunctive-adverb
 
 After checking your answer, write the specific rule or assumption you missed. Retry the linked questions without the worked example in a later session. A checked answer or completed checklist is not a measurement of mastery.

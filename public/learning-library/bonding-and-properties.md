@@ -1,6 +1,6 @@
 # Bonding, structure and explanations of material properties
 
-Subject: Chemistry · Unit: Structure and bonding · Revision: 2026-10-21.2
+Subject: Chemistry · Unit: Structure and bonding · Revision: 2026-10-21.3
 
 **Review draft — not independently approved. Practice marks are editorial, not official exam marks.**
 
@@ -41,6 +41,10 @@ Macroscopic evidence often supports a family of models rather than uniquely iden
 ## Testing a structure explanation against two states
 
 A conductivity claim needs both a charged carrier and a reason that carrier can move. An ionic solid contains charged ions, yet its lattice prevents the ions from moving freely through the material. Melting changes that mobility without turning the ions into neutral atoms. The same evidence should be checked against an alternative model: a typical simple molecular substance has no mobile charged particles even when molten. Conductivity alone is not a unique fingerprint, so combine observations with melting behaviour and composition when available. In an exam explanation, connect the observed property to the particle model explicitly rather than stopping at the label ionic or covalent. Do not describe an ionic lattice as separate molecules.
+
+## Separate structure, carriers and the bonds that change
+
+A property explanation needs a structure and a mechanism. High melting temperature suggests substantial attractions must be overcome, but it does not uniquely identify ionic bonding. Some giant covalent structures also require breaking many strong bonds. Electrical conduction needs mobile charged particles: metal electrons, molten ions, or other carriers specified by the structure. For a simple molecular substance, melting usually changes intermolecular organisation while covalent bonds within molecules remain. Similar appearances therefore do not imply the same particle model, and a single property should be combined with other evidence.
 
 ## Diagram: Connect state to conductivity
 
@@ -88,15 +92,15 @@ Worked examples: 4
 
 Practise: q5, application-check, error-analysis
 
-### Retrieval practice
+### Apply and test the limits
 
-Close the notes and answer these extra prompts from memory. Self-review with the held explanation, name one gap, then retry later. This is study practice, not an automatic mark or mastery measurement.
+Revisit the last worked example, then read the new section and tackle these different situations. Identify the assumptions before answering. Compare your reasoning with each marking point; these open responses require self-review, not automatic marks.
 
-Read: Attraction and structure
+Read: Separate structure, carriers and the bonds that change
 
-Worked examples: 1
+Worked examples: 4
 
-Practise: retrieval-01, retrieval-02, retrieval-03, retrieval-04, retrieval-05, retrieval-06, retrieval-07, retrieval-08, retrieval-09, retrieval-10, retrieval-11, retrieval-12, retrieval-13, retrieval-14, retrieval-15, retrieval-16, retrieval-17, retrieval-18
+Practise: depth-melting-molecules, depth-graphite-diamond, depth-two-observations
 
 ## Worked example 1
 
@@ -314,257 +318,59 @@ Marking points (one practice mark each):
 
 - A property pattern supports a model but does not uniquely identify a substance without further evidence.
 
-## Practice 8 — foundation · 1 marks
+## Practice 8 — standard · 3 marks
 
-Retrieval 1 — Bonding, structure and explanations of material properties: Answer from memory: What holds an ionic lattice together?
+An idealised sample of a simple molecular solid melts without chemical decomposition. A learner says all covalent bonds inside its molecules break. Correct the account.
 
-Answer: Electrostatic attraction between oppositely charged ions throughout an extended structure.
+Answer: The molecules remain intact; enough intermolecular attractions are overcome to allow molecular movement past one another.
 
-1. Identify the target idea: What holds an ionic lattice together?
+1. Distinguish covalent bonds within a molecule from attractions between molecules.
 
-2. Compare your response with the held study explanation: Electrostatic attraction between oppositely charged ions throughout an extended structure.
-
-Marking points (one practice mark each):
-
-- Accurately address: What holds an ionic lattice together?
-
-## Practice 9 — standard · 1 marks
-
-Retrieval 2 — Bonding, structure and explanations of material properties: State the condition or distinction precisely: Why distinguish molecular from network covalent structures?
-
-Answer: They have different extents of bonding and therefore different property explanations.
-
-1. Identify the target idea: Why distinguish molecular from network covalent structures?
-
-2. Compare your response with the held study explanation: They have different extents of bonding and therefore different property explanations.
+2. Melting is a change of physical arrangement here, not decomposition into atoms.
 
 Marking points (one practice mark each):
 
-- Accurately address: Why distinguish molecular from network covalent structures?
+- Identify intermolecular attractions.
 
-## Practice 10 — extension · 1 marks
+- State that molecules remain intact.
 
-Retrieval 3 — Bonding, structure and explanations of material properties: Explain the idea in your own words: What two conditions are required for electrical conduction?
+- Distinguish melting from decomposition.
 
-Answer: Charged particles must be present and able to move through the material.
+## Practice 9 — extension · 3 marks
 
-1. Identify the target idea: What two conditions are required for electrical conduction?
+Both diamond and graphite are giant covalent forms of carbon. Explain why the statement 'all giant covalent solids cannot conduct' is too broad.
 
-2. Compare your response with the held study explanation: Charged particles must be present and able to move through the material.
+Answer: Graphite has delocalised electrons that can move along its layers and conduct. Diamond lacks comparable mobile charge carriers in the simple model.
 
-Marking points (one practice mark each):
+1. A structure category alone does not settle charge-carrier mobility.
 
-- Accurately address: What two conditions are required for electrical conduction?
-
-## Practice 11 — foundation · 1 marks
-
-Retrieval 4 — Bonding, structure and explanations of material properties: Answer from memory: What carries current in a metal?
-
-Answer: Delocalised electrons.
-
-1. Identify the target idea: What carries current in a metal?
-
-2. Compare your response with the held study explanation: Delocalised electrons.
+2. Compare electron arrangements, not only whether covalent bonds exist.
 
 Marking points (one practice mark each):
 
-- Accurately address: What carries current in a metal?
+- Identify graphite as a counterexample.
 
-## Practice 12 — standard · 1 marks
+- Name mobile delocalised electrons.
 
-Retrieval 5 — Bonding, structure and explanations of material properties: State the condition or distinction precisely: What attractions are mainly overcome when a simple molecular liquid boils?
+- Contrast diamond's lack of mobile carriers.
 
-Answer: Intermolecular attractions, not the internal covalent bonds in every molecule.
+## Practice 10 — standard · 3 marks
 
-1. Identify the target idea: What attractions are mainly overcome when a simple molecular liquid boils?
+Solid A and solid B both have high melting temperatures. A conducts when molten but not as a solid; B does not conduct in either tested state. What can you infer, and what remains uncertain?
 
-2. Compare your response with the held study explanation: Intermolecular attractions, not the internal covalent bonds in every molecule.
+Answer: A is consistent with an ionic model. B is compatible with some giant covalent structures, but these observations do not uniquely identify either substance.
 
-Marking points (one practice mark each):
+1. Use the change in carrier mobility to explain A.
 
-- Accurately address: What attractions are mainly overcome when a simple molecular liquid boils?
-
-## Practice 13 — extension · 1 marks
-
-Retrieval 6 — Bonding, structure and explanations of material properties: Explain the idea in your own words: What should a structure-property explanation connect?
-
-Answer: The observation, the particles and their arrangement or mobility, and a mechanism linking that structure to the property.
-
-1. Identify the target idea: What should a structure-property explanation connect?
-
-2. Compare your response with the held study explanation: The observation, the particles and their arrangement or mobility, and a mechanism linking that structure to the property.
+2. High melting temperature and nonconduction constrain models but do not provide a unique chemical identity.
 
 Marking points (one practice mark each):
 
-- Accurately address: What should a structure-property explanation connect?
+- Explain A through mobile molten ions.
 
-## Practice 14 — foundation · 1 marks
+- Offer a plausible nonconducting model for B.
 
-Retrieval 7 — Bonding, structure and explanations of material properties: Answer from memory: What two conditions are needed for electrical conduction?
-
-Answer: Charged particles must be present and able to move through the material.
-
-1. Identify the target idea: What two conditions are needed for electrical conduction?
-
-2. Compare your response with the held study explanation: Charged particles must be present and able to move through the material.
-
-Marking points (one practice mark each):
-
-- Accurately address: What two conditions are needed for electrical conduction?
-
-## Practice 15 — standard · 1 marks
-
-Retrieval 8 — Bonding, structure and explanations of material properties: State the condition or distinction precisely: What changes when an ionic lattice melts?
-
-Answer: The ions become mobile; melting does not require them to become neutral atoms.
-
-1. Identify the target idea: What changes when an ionic lattice melts?
-
-2. Compare your response with the held study explanation: The ions become mobile; melting does not require them to become neutral atoms.
-
-Marking points (one practice mark each):
-
-- Accurately address: What changes when an ionic lattice melts?
-
-## Practice 16 — extension · 1 marks
-
-Retrieval 9 — Bonding, structure and explanations of material properties: Explain the idea in your own words: What holds an ionic lattice together?
-
-Answer: Electrostatic attraction between oppositely charged ions throughout an extended structure.
-
-1. Identify the target idea: What holds an ionic lattice together?
-
-2. Compare your response with the held study explanation: Electrostatic attraction between oppositely charged ions throughout an extended structure.
-
-Marking points (one practice mark each):
-
-- Accurately address: What holds an ionic lattice together?
-
-## Practice 17 — foundation · 1 marks
-
-Retrieval 10 — Bonding, structure and explanations of material properties: Answer from memory: Why distinguish molecular from network covalent structures?
-
-Answer: They have different extents of bonding and therefore different property explanations.
-
-1. Identify the target idea: Why distinguish molecular from network covalent structures?
-
-2. Compare your response with the held study explanation: They have different extents of bonding and therefore different property explanations.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why distinguish molecular from network covalent structures?
-
-## Practice 18 — standard · 1 marks
-
-Retrieval 11 — Bonding, structure and explanations of material properties: State the condition or distinction precisely: What two conditions are required for electrical conduction?
-
-Answer: Charged particles must be present and able to move through the material.
-
-1. Identify the target idea: What two conditions are required for electrical conduction?
-
-2. Compare your response with the held study explanation: Charged particles must be present and able to move through the material.
-
-Marking points (one practice mark each):
-
-- Accurately address: What two conditions are required for electrical conduction?
-
-## Practice 19 — extension · 1 marks
-
-Retrieval 12 — Bonding, structure and explanations of material properties: Explain the idea in your own words: What carries current in a metal?
-
-Answer: Delocalised electrons.
-
-1. Identify the target idea: What carries current in a metal?
-
-2. Compare your response with the held study explanation: Delocalised electrons.
-
-Marking points (one practice mark each):
-
-- Accurately address: What carries current in a metal?
-
-## Practice 20 — foundation · 1 marks
-
-Retrieval 13 — Bonding, structure and explanations of material properties: Answer from memory: What attractions are mainly overcome when a simple molecular liquid boils?
-
-Answer: Intermolecular attractions, not the internal covalent bonds in every molecule.
-
-1. Identify the target idea: What attractions are mainly overcome when a simple molecular liquid boils?
-
-2. Compare your response with the held study explanation: Intermolecular attractions, not the internal covalent bonds in every molecule.
-
-Marking points (one practice mark each):
-
-- Accurately address: What attractions are mainly overcome when a simple molecular liquid boils?
-
-## Practice 21 — standard · 1 marks
-
-Retrieval 14 — Bonding, structure and explanations of material properties: State the condition or distinction precisely: What should a structure-property explanation connect?
-
-Answer: The observation, the particles and their arrangement or mobility, and a mechanism linking that structure to the property.
-
-1. Identify the target idea: What should a structure-property explanation connect?
-
-2. Compare your response with the held study explanation: The observation, the particles and their arrangement or mobility, and a mechanism linking that structure to the property.
-
-Marking points (one practice mark each):
-
-- Accurately address: What should a structure-property explanation connect?
-
-## Practice 22 — extension · 1 marks
-
-Retrieval 15 — Bonding, structure and explanations of material properties: Explain the idea in your own words: What two conditions are needed for electrical conduction?
-
-Answer: Charged particles must be present and able to move through the material.
-
-1. Identify the target idea: What two conditions are needed for electrical conduction?
-
-2. Compare your response with the held study explanation: Charged particles must be present and able to move through the material.
-
-Marking points (one practice mark each):
-
-- Accurately address: What two conditions are needed for electrical conduction?
-
-## Practice 23 — foundation · 1 marks
-
-Retrieval 16 — Bonding, structure and explanations of material properties: Answer from memory: What changes when an ionic lattice melts?
-
-Answer: The ions become mobile; melting does not require them to become neutral atoms.
-
-1. Identify the target idea: What changes when an ionic lattice melts?
-
-2. Compare your response with the held study explanation: The ions become mobile; melting does not require them to become neutral atoms.
-
-Marking points (one practice mark each):
-
-- Accurately address: What changes when an ionic lattice melts?
-
-## Practice 24 — standard · 1 marks
-
-Retrieval 17 — Bonding, structure and explanations of material properties: State the condition or distinction precisely: What holds an ionic lattice together?
-
-Answer: Electrostatic attraction between oppositely charged ions throughout an extended structure.
-
-1. Identify the target idea: What holds an ionic lattice together?
-
-2. Compare your response with the held study explanation: Electrostatic attraction between oppositely charged ions throughout an extended structure.
-
-Marking points (one practice mark each):
-
-- Accurately address: What holds an ionic lattice together?
-
-## Practice 25 — extension · 1 marks
-
-Retrieval 18 — Bonding, structure and explanations of material properties: Explain the idea in your own words: Why distinguish molecular from network covalent structures?
-
-Answer: They have different extents of bonding and therefore different property explanations.
-
-1. Identify the target idea: Why distinguish molecular from network covalent structures?
-
-2. Compare your response with the held study explanation: They have different extents of bonding and therefore different property explanations.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why distinguish molecular from network covalent structures?
+- State the limits of identification.
 
 ## Revision checklist
 
@@ -598,6 +404,6 @@ A conductivity claim needs both a charged carrier and a reason that carrier can 
 
 - What holds an ionic lattice together?
 
-Mixed practice: q1, application-check, error-analysis
+Mixed practice: q1, application-check, error-analysis, depth-melting-molecules, depth-graphite-diamond, depth-two-observations
 
 After checking your answer, write the specific rule or assumption you missed. Retry the linked questions without the worked example in a later session. A checked answer or completed checklist is not a measurement of mastery.

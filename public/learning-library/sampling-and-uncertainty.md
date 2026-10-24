@@ -1,6 +1,6 @@
 # Sampling distributions, uncertainty and confidence intervals
 
-Subject: Mathematics · Unit: Introductory statistics · Revision: 2026-10-21.2
+Subject: Mathematics · Unit: Introductory statistics · Revision: 2026-10-21.3
 
 **Review draft — not independently approved. Practice marks are editorial, not official exam marks.**
 
@@ -39,6 +39,10 @@ A narrow interval does not guarantee that the sample represents the intended pop
 ## Reducing sampling variation without repairing bias
 
 Under an independent identically distributed sampling model, the standard error of a mean scales as the population standard deviation divided by the square root of sample size. Replacing the unknown population spread with a sample estimate adds an estimation step. Increasing sample size can reduce random sampling variation while leaving systematic selection or measurement bias intact. A large volunteer survey may give a precise estimate for its respondents without representing nonrespondents. State the sampling model before interpreting a narrow interval, and keep confidence in a procedure distinct from a probability that a fixed parameter moves between intervals. The arithmetic here isolates the standard-error scaling rather than certifying a real survey.
+
+## Separate interval width, bias and repeated-sampling coverage
+
+An interval's width reflects the assumed sampling model and procedure. It does not automatically account for selection bias, an invalid measurement or dependence among observations. Under independent common-variance sampling, standard error decreases with the square root of sample size, so four times as many observations are needed to halve it. Comparing two samples also requires considering both sources of variability. A wide interval need not mean a poor study, and a narrow interval need not mean a correct answer if its underlying assumptions fail.
 
 ## Diagram: Separate precision and representativeness
 
@@ -86,15 +90,15 @@ Worked examples: 4
 
 Practise: q5, application-check, error-analysis
 
-### Retrieval practice
+### Apply and test the limits
 
-Close the notes and answer these extra prompts from memory. Self-review with the held explanation, name one gap, then retry later. This is study practice, not an automatic mark or mastery measurement.
+Revisit the last worked example, then read the new section and tackle these different situations. Identify the assumptions before answering. Compare your reasoning with each marking point; these open responses require self-review, not automatic marks.
 
-Read: Parameters and repeated sampling
+Read: Separate interval width, bias and repeated-sampling coverage
 
-Worked examples: 1
+Worked examples: 4
 
-Practise: retrieval-01, retrieval-02, retrieval-03, retrieval-04, retrieval-05, retrieval-06, retrieval-07, retrieval-08, retrieval-09, retrieval-10, retrieval-11, retrieval-12, retrieval-13, retrieval-14, retrieval-15, retrieval-16, retrieval-17, retrieval-18
+Practise: depth-sample-target, depth-known-sigma-interval, depth-cluster-dependence
 
 ## Worked example 1
 
@@ -312,257 +316,59 @@ Marking points (one practice mark each):
 
 - Assess representativeness separately from any model-based standard-error reduction.
 
-## Practice 8 — foundation · 1 marks
+## Practice 8 — standard · 3 marks
 
-Retrieval 1 — Sampling distributions, uncertainty and confidence intervals: Answer from memory: How does a parameter differ from a statistic?
+Under independent sampling with known population standard deviation 15, find the minimum integer n making the standard error of the mean at most 2.
 
-Answer: A parameter describes the target population or model; a statistic is calculated from a sample.
+Answer: n=57.
 
-1. Identify the target idea: How does a parameter differ from a statistic?
+1. Solve 15/√n≤2, giving n≥56.25.
 
-2. Compare your response with the held study explanation: A parameter describes the target population or model; a statistic is calculated from a sample.
-
-Marking points (one practice mark each):
-
-- Accurately address: How does a parameter differ from a statistic?
-
-## Practice 9 — standard · 1 marks
-
-Retrieval 2 — Sampling distributions, uncertainty and confidence intervals: State the condition or distinction precisely: What varies in a sampling distribution of the mean?
-
-Answer: The sample mean across repetitions of the specified sampling procedure.
-
-1. Identify the target idea: What varies in a sampling distribution of the mean?
-
-2. Compare your response with the held study explanation: The sample mean across repetitions of the specified sampling procedure.
+2. Round up to the next integer because the condition is an upper bound on standard error.
 
 Marking points (one practice mark each):
 
-- Accurately address: What varies in a sampling distribution of the mean?
+- Use 15/√n.
 
-## Practice 10 — extension · 1 marks
+- Find n≥56.25.
 
-Retrieval 3 — Sampling distributions, uncertainty and confidence intervals: Explain the idea in your own words: Under independent common-variance sampling, what is the standard error of the mean?
+- Choose 57.
 
-Answer: σ/√n, where σ is the population standard deviation.
+## Practice 9 — standard · 3 marks
 
-1. Identify the target idea: Under independent common-variance sampling, what is the standard error of the mean?
+Use the supplied normal-model 95% interval rule mean ±1.96σ/√n. A sample mean is 50, known σ=10, and n=100 independent observations. Calculate the interval.
 
-2. Compare your response with the held study explanation: σ/√n, where σ is the population standard deviation.
+Answer: [48.04, 51.96].
 
-Marking points (one practice mark each):
+1. Standard error is 10/10=1.
 
-- Accurately address: Under independent common-variance sampling, what is the standard error of the mean?
-
-## Practice 11 — foundation · 1 marks
-
-Retrieval 4 — Sampling distributions, uncertainty and confidence intervals: Answer from memory: What sample-size change halves standard error under that model?
-
-Answer: Multiply sample size by four.
-
-1. Identify the target idea: What sample-size change halves standard error under that model?
-
-2. Compare your response with the held study explanation: Multiply sample size by four.
+2. Margin is 1.96; subtract and add it to the mean.
 
 Marking points (one practice mark each):
 
-- Accurately address: What sample-size change halves standard error under that model?
+- Find standard error 1.
 
-## Practice 12 — standard · 1 marks
+- Find margin 1.96.
 
-Retrieval 5 — Sampling distributions, uncertainty and confidence intervals: State the condition or distinction precisely: What does 95% coverage describe in a frequentist confidence procedure?
+- Give both endpoints.
 
-Answer: The long-run proportion of constructed intervals containing the fixed parameter under the procedure's assumptions.
+## Practice 10 — extension · 3 marks
 
-1. Identify the target idea: What does 95% coverage describe in a frequentist confidence procedure?
+A researcher measures 100 leaves from one tree and treats them as 100 independent trees when estimating a forest-wide mean. Explain the sampling-unit error and a better design.
 
-2. Compare your response with the held study explanation: The long-run proportion of constructed intervals containing the fixed parameter under the procedure's assumptions.
+Answer: Leaves from one tree share conditions and do not represent 100 independent trees. Sample multiple trees across the forest and account for leaves clustered within trees.
 
-Marking points (one practice mark each):
+1. Distinguish the observed leaf unit from the population-level tree sampling unit.
 
-- Accurately address: What does 95% coverage describe in a frequentist confidence procedure?
-
-## Practice 13 — extension · 1 marks
-
-Retrieval 6 — Sampling distributions, uncertainty and confidence intervals: Explain the idea in your own words: Why can a very narrow interval still be misleading?
-
-Answer: It may omit systematic sampling or measurement bias and rely on assumptions that do not hold.
-
-1. Identify the target idea: Why can a very narrow interval still be misleading?
-
-2. Compare your response with the held study explanation: It may omit systematic sampling or measurement bias and rely on assumptions that do not hold.
+2. Address dependence and spatial selection in the design and analysis.
 
 Marking points (one practice mark each):
 
-- Accurately address: Why can a very narrow interval still be misleading?
+- Identify shared-tree dependence.
 
-## Practice 14 — foundation · 1 marks
+- Reject the 100-independent-trees claim.
 
-Retrieval 7 — Sampling distributions, uncertainty and confidence intervals: Answer from memory: How much must sample size increase to halve standard error under the same independent model?
-
-Answer: By a factor of four, with the population spread held fixed.
-
-1. Identify the target idea: How much must sample size increase to halve standard error under the same independent model?
-
-2. Compare your response with the held study explanation: By a factor of four, with the population spread held fixed.
-
-Marking points (one practice mark each):
-
-- Accurately address: How much must sample size increase to halve standard error under the same independent model?
-
-## Practice 15 — standard · 1 marks
-
-Retrieval 8 — Sampling distributions, uncertainty and confidence intervals: State the condition or distinction precisely: Can a narrow sampling interval coexist with substantial bias?
-
-Answer: Yes. An interval calculation can omit systematic selection or measurement error.
-
-1. Identify the target idea: Can a narrow sampling interval coexist with substantial bias?
-
-2. Compare your response with the held study explanation: Yes. An interval calculation can omit systematic selection or measurement error.
-
-Marking points (one practice mark each):
-
-- Accurately address: Can a narrow sampling interval coexist with substantial bias?
-
-## Practice 16 — extension · 1 marks
-
-Retrieval 9 — Sampling distributions, uncertainty and confidence intervals: Explain the idea in your own words: How does a parameter differ from a statistic?
-
-Answer: A parameter describes the target population or model; a statistic is calculated from a sample.
-
-1. Identify the target idea: How does a parameter differ from a statistic?
-
-2. Compare your response with the held study explanation: A parameter describes the target population or model; a statistic is calculated from a sample.
-
-Marking points (one practice mark each):
-
-- Accurately address: How does a parameter differ from a statistic?
-
-## Practice 17 — foundation · 1 marks
-
-Retrieval 10 — Sampling distributions, uncertainty and confidence intervals: Answer from memory: What varies in a sampling distribution of the mean?
-
-Answer: The sample mean across repetitions of the specified sampling procedure.
-
-1. Identify the target idea: What varies in a sampling distribution of the mean?
-
-2. Compare your response with the held study explanation: The sample mean across repetitions of the specified sampling procedure.
-
-Marking points (one practice mark each):
-
-- Accurately address: What varies in a sampling distribution of the mean?
-
-## Practice 18 — standard · 1 marks
-
-Retrieval 11 — Sampling distributions, uncertainty and confidence intervals: State the condition or distinction precisely: Under independent common-variance sampling, what is the standard error of the mean?
-
-Answer: σ/√n, where σ is the population standard deviation.
-
-1. Identify the target idea: Under independent common-variance sampling, what is the standard error of the mean?
-
-2. Compare your response with the held study explanation: σ/√n, where σ is the population standard deviation.
-
-Marking points (one practice mark each):
-
-- Accurately address: Under independent common-variance sampling, what is the standard error of the mean?
-
-## Practice 19 — extension · 1 marks
-
-Retrieval 12 — Sampling distributions, uncertainty and confidence intervals: Explain the idea in your own words: What sample-size change halves standard error under that model?
-
-Answer: Multiply sample size by four.
-
-1. Identify the target idea: What sample-size change halves standard error under that model?
-
-2. Compare your response with the held study explanation: Multiply sample size by four.
-
-Marking points (one practice mark each):
-
-- Accurately address: What sample-size change halves standard error under that model?
-
-## Practice 20 — foundation · 1 marks
-
-Retrieval 13 — Sampling distributions, uncertainty and confidence intervals: Answer from memory: What does 95% coverage describe in a frequentist confidence procedure?
-
-Answer: The long-run proportion of constructed intervals containing the fixed parameter under the procedure's assumptions.
-
-1. Identify the target idea: What does 95% coverage describe in a frequentist confidence procedure?
-
-2. Compare your response with the held study explanation: The long-run proportion of constructed intervals containing the fixed parameter under the procedure's assumptions.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does 95% coverage describe in a frequentist confidence procedure?
-
-## Practice 21 — standard · 1 marks
-
-Retrieval 14 — Sampling distributions, uncertainty and confidence intervals: State the condition or distinction precisely: Why can a very narrow interval still be misleading?
-
-Answer: It may omit systematic sampling or measurement bias and rely on assumptions that do not hold.
-
-1. Identify the target idea: Why can a very narrow interval still be misleading?
-
-2. Compare your response with the held study explanation: It may omit systematic sampling or measurement bias and rely on assumptions that do not hold.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why can a very narrow interval still be misleading?
-
-## Practice 22 — extension · 1 marks
-
-Retrieval 15 — Sampling distributions, uncertainty and confidence intervals: Explain the idea in your own words: How much must sample size increase to halve standard error under the same independent model?
-
-Answer: By a factor of four, with the population spread held fixed.
-
-1. Identify the target idea: How much must sample size increase to halve standard error under the same independent model?
-
-2. Compare your response with the held study explanation: By a factor of four, with the population spread held fixed.
-
-Marking points (one practice mark each):
-
-- Accurately address: How much must sample size increase to halve standard error under the same independent model?
-
-## Practice 23 — foundation · 1 marks
-
-Retrieval 16 — Sampling distributions, uncertainty and confidence intervals: Answer from memory: Can a narrow sampling interval coexist with substantial bias?
-
-Answer: Yes. An interval calculation can omit systematic selection or measurement error.
-
-1. Identify the target idea: Can a narrow sampling interval coexist with substantial bias?
-
-2. Compare your response with the held study explanation: Yes. An interval calculation can omit systematic selection or measurement error.
-
-Marking points (one practice mark each):
-
-- Accurately address: Can a narrow sampling interval coexist with substantial bias?
-
-## Practice 24 — standard · 1 marks
-
-Retrieval 17 — Sampling distributions, uncertainty and confidence intervals: State the condition or distinction precisely: How does a parameter differ from a statistic?
-
-Answer: A parameter describes the target population or model; a statistic is calculated from a sample.
-
-1. Identify the target idea: How does a parameter differ from a statistic?
-
-2. Compare your response with the held study explanation: A parameter describes the target population or model; a statistic is calculated from a sample.
-
-Marking points (one practice mark each):
-
-- Accurately address: How does a parameter differ from a statistic?
-
-## Practice 25 — extension · 1 marks
-
-Retrieval 18 — Sampling distributions, uncertainty and confidence intervals: Explain the idea in your own words: What varies in a sampling distribution of the mean?
-
-Answer: The sample mean across repetitions of the specified sampling procedure.
-
-1. Identify the target idea: What varies in a sampling distribution of the mean?
-
-2. Compare your response with the held study explanation: The sample mean across repetitions of the specified sampling procedure.
-
-Marking points (one practice mark each):
-
-- Accurately address: What varies in a sampling distribution of the mean?
+- Propose multiple trees with clustering accounted for.
 
 ## Revision checklist
 
@@ -596,6 +402,6 @@ Under an independent identically distributed sampling model, the standard error 
 
 - How does a parameter differ from a statistic?
 
-Mixed practice: q1, application-check, error-analysis
+Mixed practice: q1, application-check, error-analysis, depth-sample-target, depth-known-sigma-interval, depth-cluster-dependence
 
 After checking your answer, write the specific rule or assumption you missed. Retry the linked questions without the worked example in a later session. A checked answer or completed checklist is not a measurement of mastery.

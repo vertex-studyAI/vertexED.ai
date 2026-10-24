@@ -1,0 +1,275 @@
+{
+  "schemaVersion": 1,
+  "id": "subject-thermal-energy",
+  "revision": "2026-10-21.4",
+  "subject": "Physics",
+  "unit": "Energy and heating",
+  "topic": "Heating, phase change and energy-transfer efficiency",
+  "level": "secondary-foundation",
+  "editorialStatus": "unreviewed",
+  "origin": "original-authorship-review-pending",
+  "scope": "Original shared study module on heating, phase change and energy-transfer efficiency. Numerical datasets and quoted passages are invented teaching examples. This is not a complete course, official examination material or verified board-specific alignment.",
+  "prerequisites": [
+    "Rearrange a formula with multiplication.",
+    "Distinguish energy from power and temperature."
+  ],
+  "objectives": [
+    "Use specific heat capacity with consistent units.",
+    "Distinguish temperature change from phase change.",
+    "Account for useful and dissipated energy."
+  ],
+  "notes": [
+    {
+      "heading": "Energy change during heating",
+      "paragraphs": [
+        "Specific heat capacity describes the energy required per kilogram per degree of temperature increase when the material remains in the same phase. In the ideal model E=mcΔT, m is mass in kilograms, c is specific heat capacity, and ΔT is the temperature change. A Celsius temperature difference has the same numerical size as a kelvin difference. This does not mean an absolute Celsius temperature equals an absolute kelvin temperature. Identify the initial and final temperatures and subtract them; do not insert the final temperature in place of the change."
+      ]
+    },
+    {
+      "heading": "Phase change is a different process",
+      "paragraphs": [
+        "During an ideal phase change at constant pressure, transferred energy can change the physical state without increasing temperature. Use E=mL for a specified latent heat L. A heating process that crosses a melting or boiling point may require separate stages: heating one phase, changing phase, and heating the new phase. Different phases may have different specific heat capacities. The constant-temperature section of a heating curve does not imply zero energy transfer. Describe energy transfer and the particle arrangement without claiming that the particles themselves expand in size."
+      ]
+    },
+    {
+      "heading": "Connect electrical input to useful heating",
+      "paragraphs": [
+        "Power is energy transferred per unit time, so a heater supplied at constant power P for time t receives energy Pt. Not all of this necessarily heats the intended sample: the container and surroundings may receive energy too. Useful energy divided by total input gives efficiency for a defined purpose. An experimental estimate of specific heat capacity is affected by losses and by whether the apparatus heat capacity was included. Identify the system boundary and the role of insulation before interpreting a discrepancy as a failure of energy conservation."
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "prompt": "An idealised 0.50 kg sample has c=800 J/(kg °C) and warms from 20°C to 35°C. Find the heating energy.",
+      "steps": [
+        "The temperature increase is 15°C.",
+        "Use E=0.50×800×15."
+      ],
+      "answer": "6,000 J."
+    },
+    {
+      "prompt": "A 200 W heater runs for 60 s and 9,000 J heats the sample. Find the useful-heating efficiency.",
+      "steps": [
+        "Input energy is 200×60=12,000 J.",
+        "Efficiency is 9,000/12,000=0.75."
+      ],
+      "answer": "75%."
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "A temperature plateau means no energy is transferred.",
+      "correction": "Energy can change phase while temperature stays constant."
+    },
+    {
+      "claim": "All electrical input must heat only the sample.",
+      "correction": "Other parts of the apparatus and the surroundings may also receive energy."
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "card-1",
+      "front": "What does ΔT mean?",
+      "back": "Final temperature minus initial temperature."
+    },
+    {
+      "id": "card-2",
+      "front": "What condition is needed for E=mcΔT in this simple model?",
+      "back": "Heating within one phase using the appropriate specific heat capacity."
+    },
+    {
+      "id": "card-3",
+      "front": "What equation describes a phase change?",
+      "back": "E=mL for the specified latent heat."
+    },
+    {
+      "id": "card-4",
+      "front": "What is power?",
+      "back": "Energy transfer per unit time."
+    },
+    {
+      "id": "card-5",
+      "front": "How is efficiency defined?",
+      "back": "Useful output divided by total input for a stated purpose."
+    }
+  ],
+  "questions": [
+    {
+      "id": "heating",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "A 2 kg sample with c=500 J/(kg °C) warms by 12°C without phase change. Find the energy transferred to it.",
+      "answer": "12,000 J.",
+      "solution": [
+        "Use E=mcΔT.",
+        "Multiply 2×500×12."
+      ],
+      "markingPoints": [
+        "Use the correct relationship.",
+        "Give 12,000 J."
+      ],
+      "marks": 2,
+      "calculator": "not-required"
+    },
+    {
+      "id": "latent",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "An ideal melting process changes 0.20 kg of solid to liquid at its melting temperature. L=300,000 J/kg. Find the energy.",
+      "answer": "60,000 J.",
+      "solution": [
+        "The temperature is constant but phase changes.",
+        "Use E=mL=0.20×300,000."
+      ],
+      "markingPoints": [
+        "Use latent rather than specific heat.",
+        "Give 60,000 J."
+      ],
+      "marks": 2,
+      "calculator": "not-required"
+    },
+    {
+      "id": "power-time",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "A 150 W heater supplies 18,000 J at constant power. How long does it run?",
+      "answer": "120 s.",
+      "solution": [
+        "Rearrange E=Pt to t=E/P.",
+        "Divide 18,000 J by 150 J/s."
+      ],
+      "markingPoints": [
+        "Rearrange correctly.",
+        "Find 120 s with units."
+      ],
+      "marks": 2,
+      "calculator": "not-required"
+    },
+    {
+      "id": "loss-bias",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "A learner computes c=Pt/(mΔT), assuming all heater energy reaches the sample, although some is lost to the room. Does this overestimate or underestimate c in that model?",
+      "answer": "It overestimates c.",
+      "solution": [
+        "Pt exceeds the energy actually responsible for the measured sample temperature rise.",
+        "Dividing the overly large numerator by the same mΔT gives an overly large estimate."
+      ],
+      "markingPoints": [
+        "Identify the direction of the energy error.",
+        "Explain the upward bias in c."
+      ],
+      "marks": 2,
+      "calculator": "not-required"
+    }
+  ],
+  "revisionChecklist": [
+    "Check that you can use specific heat capacity with consistent units without copying the worked solution.",
+    "Check that you can distinguish temperature change from phase change without copying the worked solution.",
+    "Check that you can account for useful and dissipated energy without copying the worked solution."
+  ],
+  "diagrams": [
+    {
+      "id": "reasoning-route",
+      "title": "Reasoning route: Energy and heating",
+      "description": "Use the sequence to organise an explanation of heating, phase change and energy-transfer efficiency; it is not a measured mastery score.",
+      "steps": [
+        {
+          "label": "Define the stage",
+          "detail": "Identify mass, phase, temperature change and the system."
+        },
+        {
+          "label": "Choose an energy model",
+          "detail": "Use mcΔT, mL or several consecutive stages."
+        },
+        {
+          "label": "Audit the budget",
+          "detail": "Compare useful energy with input and account for other transfers."
+        }
+      ],
+      "links": [
+        "Use this definition to choose the method",
+        "Use the result to evaluate the conclusion"
+      ]
+    }
+  ],
+  "teachingSequence": [
+    {
+      "title": "Energy change during heating",
+      "guidance": "Use the temperature change rather than the final temperature, and check the sample mass and units.",
+      "noteHeadings": [
+        "Energy change during heating"
+      ],
+      "workedExampleNumbers": [
+        1
+      ],
+      "questionIds": [
+        "heating"
+      ]
+    },
+    {
+      "title": "Phase change is a different process",
+      "guidance": "Contrast warming in example 1 with a phase change at fixed temperature; use latent heat rather than specific heat capacity.",
+      "noteHeadings": [
+        "Phase change is a different process"
+      ],
+      "workedExampleNumbers": [
+        1
+      ],
+      "questionIds": [
+        "latent"
+      ]
+    },
+    {
+      "title": "Connect electrical input to useful heating",
+      "guidance": "Separate electrical input from energy reaching the sample and reason through the direction of a systematic error.",
+      "noteHeadings": [
+        "Connect electrical input to useful heating"
+      ],
+      "workedExampleNumbers": [
+        2
+      ],
+      "questionIds": [
+        "power-time",
+        "loss-bias"
+      ]
+    }
+  ],
+  "revisionGuide": {
+    "summary": "Review heating, phase change and energy-transfer efficiency by connecting definitions, the two worked examples and the limits of each conclusion. These questions use editorial self-review points, not an official examination rubric.",
+    "keyIdeas": [
+      "What does ΔT mean? Final temperature minus initial temperature.",
+      "What condition is needed for E=mcΔT in this simple model? Heating within one phase using the appropriate specific heat capacity.",
+      "What equation describes a phase change? E=mL for the specified latent heat."
+    ],
+    "formulas": [
+      {
+        "expression": "E=mcΔT",
+        "meaning": "Energy transferred to a sample during heating.",
+        "conditions": "No phase change; specific heat capacity c is treated as constant."
+      },
+      {
+        "expression": "E=mL",
+        "meaning": "Energy transferred during a phase change.",
+        "conditions": "Use the latent heat L for the specified transition under the stated conditions."
+      },
+      {
+        "expression": "E=Pt; efficiency=useful energy/input energy",
+        "meaning": "Relate input power, time and useful transfer.",
+        "conditions": "Power must be constant for E=Pt; multiply the efficiency ratio by 100 for a percentage."
+      }
+    ],
+    "recallPrompts": [
+      "What does ΔT mean?",
+      "What condition is needed for E=mcΔT in this simple model?",
+      "What equation describes a phase change?"
+    ],
+    "practiceQuestionIds": [
+      "heating",
+      "latent",
+      "power-time",
+      "loss-bias"
+    ],
+    "revisit": "Attempt the questions without the notes, compare your reasoning with the points, and retry any step you cannot yet explain. Self-review does not certify mastery."
+  }
+}

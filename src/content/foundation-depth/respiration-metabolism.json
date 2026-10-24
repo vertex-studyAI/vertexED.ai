@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "lessonId": "respiration-metabolism",
+  "revision": "2026-10-21.3",
+  "notes": [
+    {
+      "heading": "Interpret physiological proxies within the given model",
+      "paragraphs": [
+        "Ventilation brings air into and out of the lungs, while cellular respiration releases usable energy through reactions inside cells. A breathing count measures frequency; ventilation volume also depends on the volume per breath. Oxygen uptake and carbon dioxide output can inform a model of aerobic metabolism, but a simple count alone cannot determine cellular ATP production. Time-series comparisons require consistent intervals and clear baselines. All data below are invented teaching examples, and the arithmetic does not establish a health assessment or an exercise recommendation."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "depth-minute-volume",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "In a fictional model, breathing frequency is 12 breaths/min with 0.50 L per breath at rest, then 20 breaths/min with 0.75 L per breath. Find the two ventilation volumes per minute and their ratio.",
+      "answer": "6 L/min and 15 L/min; the second is 2.5 times the first.",
+      "solution": [
+        "Multiply breaths per minute by litres per breath in each condition.",
+        "Compare 15/6 rather than comparing frequencies alone."
+      ],
+      "markingPoints": [
+        "Find rest volume 6 L/min.",
+        "Find second volume 15 L/min.",
+        "Find ratio 2.5."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-variable-recovery",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "A fictional excess oxygen-uptake rate falls linearly from 0.60 L/min at t=0 to 0 at t=4 min. Find the excess oxygen volume using the rate-time graph.",
+      "answer": "1.20 L.",
+      "solution": [
+        "The area is a triangle of base 4 min and height 0.60 L/min.",
+        "Compute (1/2)×4×0.60 and check that time cancels from the units."
+      ],
+      "markingPoints": [
+        "Identify a triangular area.",
+        "Compute 1.20.",
+        "State litres with a unit check."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-plant-darkness",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "A living plant is moved into darkness briefly in a simplified model where photosynthesis stops but respiration continues. Predict the direction of its net oxygen exchange and explain the energy source.",
+      "answer": "It takes up oxygen overall for aerobic respiration, using stored organic substrates such as sugars.",
+      "solution": [
+        "Separate the stopped photosynthetic oxygen production from continuing respiratory use.",
+        "Respiration can use stored substrates even without current light."
+      ],
+      "markingPoints": [
+        "Predict net oxygen uptake.",
+        "Identify continuing aerobic respiration.",
+        "Identify stored organic substrate as the energy source."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 # Binary numbers, finite precision and encoding
 
-Subject: Computer Science · Unit: Data representation · Revision: 2026-10-21.2
+Subject: Computer Science · Unit: Data representation · Revision: 2026-10-21.3
 
 **Review draft — not independently approved. Practice marks are editorial, not official exam marks.**
 
@@ -41,6 +41,10 @@ Some decimal fractions have no finite binary expansion, just as one third has no
 ## Keeping image storage units and assumptions explicit
 
 An uncompressed raster model assigns a fixed number of bits to each pixel. Multiplying width, height and colour depth gives bits, not bytes. Divide by eight before using a storage unit defined in bytes. State whether a kilobyte means 1,000 bytes or a kibibyte means 1,024 bytes. This simple model omits headers, metadata, row padding and compression, so its result is a payload estimate rather than a guaranteed file size. Increasing each image dimension by a factor of two quadruples pixel count; doubling colour depth then doubles the bits needed again. More representable colours do not guarantee a more accurate image if the source information was already poor.
+
+## Interpret a bit pattern using an explicit encoding
+
+A bit pattern has no unique meaning without its encoding. The same eight bits can represent an unsigned number, a signed number, part of a character or a colour component. In an eight-bit two's-complement integer, the most significant bit has weight -128 and the remaining weights are positive powers of two. Fixed width also limits which arithmetic results fit. Character count and byte count differ for variable-length encodings, so storage calculations need the actual encoding and assumptions about overhead rather than a universal one-byte-per-character rule.
 
 ## Diagram: Calculate a raster payload
 
@@ -88,15 +92,15 @@ Worked examples: 4
 
 Practise: q5, application-check, error-analysis
 
-### Retrieval practice
+### Apply and test the limits
 
-Close the notes and answer these extra prompts from memory. Self-review with the held explanation, name one gap, then retry later. This is study practice, not an automatic mark or mastery measurement.
+Revisit the last worked example, then read the new section and tackle these different situations. Identify the assumptions before answering. Compare your reasoning with each marking point; these open responses require self-review, not automatic marks.
 
-Read: Binary is positional notation
+Read: Interpret a bit pattern using an explicit encoding
 
-Worked examples: 1
+Worked examples: 4
 
-Practise: retrieval-01, retrieval-02, retrieval-03, retrieval-04, retrieval-05, retrieval-06, retrieval-07, retrieval-08, retrieval-09, retrieval-10, retrieval-11, retrieval-12, retrieval-13, retrieval-14, retrieval-15, retrieval-16, retrieval-17, retrieval-18
+Practise: depth-signed-pattern, depth-overflow, depth-utf8-length
 
 ## Worked example 1
 
@@ -314,257 +318,59 @@ Marking points (one practice mark each):
 
 - Multiply the original 6,000-byte payload by 4 to obtain 24,000 bytes.
 
-## Practice 8 — foundation · 1 marks
+## Practice 8 — standard · 3 marks
 
-Retrieval 1 — Binary numbers, finite precision and encoding: Answer from memory: How many distinct patterns are possible with n bits?
+Interpret 11111101 as both an 8-bit unsigned integer and an 8-bit two's-complement integer.
 
-Answer: 2ⁿ.
+Answer: 253 unsigned and -3 signed.
 
-1. Identify the target idea: How many distinct patterns are possible with n bits?
+1. The unsigned weights sum to 253.
 
-2. Compare your response with the held study explanation: 2ⁿ.
-
-Marking points (one practice mark each):
-
-- Accurately address: How many distinct patterns are possible with n bits?
-
-## Practice 9 — standard · 1 marks
-
-Retrieval 2 — Binary numbers, finite precision and encoding: State the condition or distinction precisely: What is the largest unsigned n-bit integer?
-
-Answer: 2ⁿ-1, when zero is included.
-
-1. Identify the target idea: What is the largest unsigned n-bit integer?
-
-2. Compare your response with the held study explanation: 2ⁿ-1, when zero is included.
+2. For two's complement, replace the leading 128 weight with -128, equivalently subtract 256.
 
 Marking points (one practice mark each):
 
-- Accurately address: What is the largest unsigned n-bit integer?
+- Find unsigned 253.
 
-## Practice 10 — extension · 1 marks
+- Use the signed leading-bit interpretation.
 
-Retrieval 3 — Binary numbers, finite precision and encoding: Explain the idea in your own words: How many bits are in one byte?
+- Find signed -3.
 
-Answer: Eight.
+## Practice 9 — standard · 3 marks
 
-1. Identify the target idea: How many bits are in one byte?
+An 8-bit unsigned counter uses wraparound arithmetic. It contains 250 and is increased by 12. Give the mathematical sum and the stored value.
 
-2. Compare your response with the held study explanation: Eight.
+Answer: The mathematical sum is 262; the stored value is 6.
 
-Marking points (one practice mark each):
+1. Eight bits represent values 0 through 255.
 
-- Accurately address: How many bits are in one byte?
-
-## Practice 11 — foundation · 1 marks
-
-Retrieval 4 — Binary numbers, finite precision and encoding: Answer from memory: Does a bit pattern determine its own meaning?
-
-Answer: No. The format and context specify how to interpret it.
-
-1. Identify the target idea: Does a bit pattern determine its own meaning?
-
-2. Compare your response with the held study explanation: No. The format and context specify how to interpret it.
+2. Reduce 262 modulo 256 under the stated wraparound rule.
 
 Marking points (one practice mark each):
 
-- Accurately address: Does a bit pattern determine its own meaning?
+- Find sum 262.
 
-## Practice 12 — standard · 1 marks
+- State the representable range.
 
-Retrieval 5 — Binary numbers, finite precision and encoding: State the condition or distinction precisely: What distinguishes lossless from lossy compression?
+- Find stored value 6.
 
-Answer: Lossless permits exact recovery of the original data; lossy intentionally discards some information.
+## Practice 10 — extension · 3 marks
 
-1. Identify the target idea: What distinguishes lossless from lossy compression?
+A fictional message contains 40 ASCII characters encoded in UTF-8 plus 10 other characters, each specified to take 3 bytes. Ignoring overhead, calculate bytes and explain why counting 50 characters is insufficient.
 
-2. Compare your response with the held study explanation: Lossless permits exact recovery of the original data; lossy intentionally discards some information.
+Answer: 70 bytes; variable byte lengths mean 50 characters need not mean 50 bytes.
 
-Marking points (one practice mark each):
+1. ASCII characters take 40×1=40 bytes here.
 
-- Accurately address: What distinguishes lossless from lossy compression?
-
-## Practice 13 — extension · 1 marks
-
-Retrieval 6 — Binary numbers, finite precision and encoding: Explain the idea in your own words: How do range and precision differ in a number representation?
-
-Answer: Range describes how large or small represented values can be; precision concerns how finely values can be distinguished.
-
-1. Identify the target idea: How do range and precision differ in a number representation?
-
-2. Compare your response with the held study explanation: Range describes how large or small represented values can be; precision concerns how finely values can be distinguished.
+2. Add 10×3=30 bytes, using the stated encoding lengths.
 
 Marking points (one practice mark each):
 
-- Accurately address: How do range and precision differ in a number representation?
+- Compute 40 bytes.
 
-## Practice 14 — foundation · 1 marks
+- Compute and add 30 bytes.
 
-Retrieval 7 — Binary numbers, finite precision and encoding: Answer from memory: What unit results from pixels multiplied by bits per pixel?
-
-Answer: Bits; divide by eight to convert to bytes.
-
-1. Identify the target idea: What unit results from pixels multiplied by bits per pixel?
-
-2. Compare your response with the held study explanation: Bits; divide by eight to convert to bytes.
-
-Marking points (one practice mark each):
-
-- Accurately address: What unit results from pixels multiplied by bits per pixel?
-
-## Practice 15 — standard · 1 marks
-
-Retrieval 8 — Binary numbers, finite precision and encoding: State the condition or distinction precisely: How does doubling both raster dimensions affect raw payload?
-
-Answer: It quadruples the payload if colour depth remains fixed and overhead is ignored.
-
-1. Identify the target idea: How does doubling both raster dimensions affect raw payload?
-
-2. Compare your response with the held study explanation: It quadruples the payload if colour depth remains fixed and overhead is ignored.
-
-Marking points (one practice mark each):
-
-- Accurately address: How does doubling both raster dimensions affect raw payload?
-
-## Practice 16 — extension · 1 marks
-
-Retrieval 9 — Binary numbers, finite precision and encoding: Explain the idea in your own words: How many distinct patterns are possible with n bits?
-
-Answer: 2ⁿ.
-
-1. Identify the target idea: How many distinct patterns are possible with n bits?
-
-2. Compare your response with the held study explanation: 2ⁿ.
-
-Marking points (one practice mark each):
-
-- Accurately address: How many distinct patterns are possible with n bits?
-
-## Practice 17 — foundation · 1 marks
-
-Retrieval 10 — Binary numbers, finite precision and encoding: Answer from memory: What is the largest unsigned n-bit integer?
-
-Answer: 2ⁿ-1, when zero is included.
-
-1. Identify the target idea: What is the largest unsigned n-bit integer?
-
-2. Compare your response with the held study explanation: 2ⁿ-1, when zero is included.
-
-Marking points (one practice mark each):
-
-- Accurately address: What is the largest unsigned n-bit integer?
-
-## Practice 18 — standard · 1 marks
-
-Retrieval 11 — Binary numbers, finite precision and encoding: State the condition or distinction precisely: How many bits are in one byte?
-
-Answer: Eight.
-
-1. Identify the target idea: How many bits are in one byte?
-
-2. Compare your response with the held study explanation: Eight.
-
-Marking points (one practice mark each):
-
-- Accurately address: How many bits are in one byte?
-
-## Practice 19 — extension · 1 marks
-
-Retrieval 12 — Binary numbers, finite precision and encoding: Explain the idea in your own words: Does a bit pattern determine its own meaning?
-
-Answer: No. The format and context specify how to interpret it.
-
-1. Identify the target idea: Does a bit pattern determine its own meaning?
-
-2. Compare your response with the held study explanation: No. The format and context specify how to interpret it.
-
-Marking points (one practice mark each):
-
-- Accurately address: Does a bit pattern determine its own meaning?
-
-## Practice 20 — foundation · 1 marks
-
-Retrieval 13 — Binary numbers, finite precision and encoding: Answer from memory: What distinguishes lossless from lossy compression?
-
-Answer: Lossless permits exact recovery of the original data; lossy intentionally discards some information.
-
-1. Identify the target idea: What distinguishes lossless from lossy compression?
-
-2. Compare your response with the held study explanation: Lossless permits exact recovery of the original data; lossy intentionally discards some information.
-
-Marking points (one practice mark each):
-
-- Accurately address: What distinguishes lossless from lossy compression?
-
-## Practice 21 — standard · 1 marks
-
-Retrieval 14 — Binary numbers, finite precision and encoding: State the condition or distinction precisely: How do range and precision differ in a number representation?
-
-Answer: Range describes how large or small represented values can be; precision concerns how finely values can be distinguished.
-
-1. Identify the target idea: How do range and precision differ in a number representation?
-
-2. Compare your response with the held study explanation: Range describes how large or small represented values can be; precision concerns how finely values can be distinguished.
-
-Marking points (one practice mark each):
-
-- Accurately address: How do range and precision differ in a number representation?
-
-## Practice 22 — extension · 1 marks
-
-Retrieval 15 — Binary numbers, finite precision and encoding: Explain the idea in your own words: What unit results from pixels multiplied by bits per pixel?
-
-Answer: Bits; divide by eight to convert to bytes.
-
-1. Identify the target idea: What unit results from pixels multiplied by bits per pixel?
-
-2. Compare your response with the held study explanation: Bits; divide by eight to convert to bytes.
-
-Marking points (one practice mark each):
-
-- Accurately address: What unit results from pixels multiplied by bits per pixel?
-
-## Practice 23 — foundation · 1 marks
-
-Retrieval 16 — Binary numbers, finite precision and encoding: Answer from memory: How does doubling both raster dimensions affect raw payload?
-
-Answer: It quadruples the payload if colour depth remains fixed and overhead is ignored.
-
-1. Identify the target idea: How does doubling both raster dimensions affect raw payload?
-
-2. Compare your response with the held study explanation: It quadruples the payload if colour depth remains fixed and overhead is ignored.
-
-Marking points (one practice mark each):
-
-- Accurately address: How does doubling both raster dimensions affect raw payload?
-
-## Practice 24 — standard · 1 marks
-
-Retrieval 17 — Binary numbers, finite precision and encoding: State the condition or distinction precisely: How many distinct patterns are possible with n bits?
-
-Answer: 2ⁿ.
-
-1. Identify the target idea: How many distinct patterns are possible with n bits?
-
-2. Compare your response with the held study explanation: 2ⁿ.
-
-Marking points (one practice mark each):
-
-- Accurately address: How many distinct patterns are possible with n bits?
-
-## Practice 25 — extension · 1 marks
-
-Retrieval 18 — Binary numbers, finite precision and encoding: Explain the idea in your own words: What is the largest unsigned n-bit integer?
-
-Answer: 2ⁿ-1, when zero is included.
-
-1. Identify the target idea: What is the largest unsigned n-bit integer?
-
-2. Compare your response with the held study explanation: 2ⁿ-1, when zero is included.
-
-Marking points (one practice mark each):
-
-- Accurately address: What is the largest unsigned n-bit integer?
+- Explain character count versus byte count.
 
 ## Revision checklist
 
@@ -598,6 +404,6 @@ An uncompressed raster model assigns a fixed number of bits to each pixel. Multi
 
 - How many distinct patterns are possible with n bits?
 
-Mixed practice: q1, application-check, error-analysis
+Mixed practice: q1, application-check, error-analysis, depth-signed-pattern, depth-overflow, depth-utf8-length
 
 After checking your answer, write the specific rule or assumption you missed. Retry the linked questions without the worked example in a later session. A checked answer or completed checklist is not a measurement of mastery.

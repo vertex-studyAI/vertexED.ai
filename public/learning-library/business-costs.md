@@ -1,6 +1,6 @@
 # Costs, revenue and break-even decisions
 
-Subject: Business · Unit: Operations and finance · Revision: 2026-10-21.2
+Subject: Business · Unit: Operations and finance · Revision: 2026-10-21.3
 
 **Review draft — not independently approved. Practice marks are editorial, not official exam marks.**
 
@@ -41,6 +41,10 @@ Capacity can make a mathematically calculated break-even level operationally unr
 ## Capacity can rule out a calculated break-even point
 
 A break-even calculation identifies a sales quantity under a stated cost and price model. It does not establish that a firm can produce or sell that quantity. Compare the result with capacity, expected demand and the relevant time period. If capacity is below break-even, calculate the loss at capacity before suggesting a change. Increasing price, lowering variable cost and reducing fixed cost affect different parts of the model; none is guaranteed to be feasible. Distinguish unit contribution from total profit: contribution first covers fixed costs. The fictional figures here teach model interpretation and are not a recommendation for a real investment or business decision.
+
+## Handle step costs and contribution before predicting profit
+
+The straight-line break-even model assumes fixed costs stay fixed over the range studied and that unit contribution remains constant. Additional capacity can introduce a step in fixed costs, while discounts can change the revenue per unit. Calculate each relevant range separately and check whether its proposed break-even output belongs inside that range. Margin of safety compares expected sales with the applicable break-even quantity, and it can shrink even while sales rise. All classroom calculations here use invented businesses and specified prices; they are model exercises rather than forecasts.
 
 ## Diagram: Check commercial feasibility
 
@@ -88,15 +92,15 @@ Worked examples: 4
 
 Practise: q5, application-check, error-analysis
 
-### Retrieval practice
+### Apply and test the limits
 
-Close the notes and answer these extra prompts from memory. Self-review with the held explanation, name one gap, then retry later. This is study practice, not an automatic mark or mastery measurement.
+Revisit the last worked example, then read the new section and tackle these different situations. Identify the assumptions before answering. Compare your reasoning with each marking point; these open responses require self-review, not automatic marks.
 
-Read: Classifying costs within a stated range
+Read: Handle step costs and contribution before predicting profit
 
-Worked examples: 1
+Worked examples: 4
 
-Practise: retrieval-01, retrieval-02, retrieval-03, retrieval-04, retrieval-05, retrieval-06, retrieval-07, retrieval-08, retrieval-09, retrieval-10, retrieval-11, retrieval-12, retrieval-13, retrieval-14, retrieval-15, retrieval-16, retrieval-17, retrieval-18
+Practise: depth-step-cost, depth-target-profit, depth-margin-safety
 
 ## Worked example 1
 
@@ -314,257 +318,59 @@ Marking points (one practice mark each):
 
 - Adding variable cost 10 gives price 20, but unchanged demand at that price is an assumption.
 
-## Practice 8 — foundation · 1 marks
+## Practice 8 — extension · 3 marks
 
-Retrieval 1 — Costs, revenue and break-even decisions: Answer from memory: What makes a cost fixed in a break-even model?
+A fictional workshop charges 15 per unit and spends 9 in variable cost per unit. Fixed costs are 600 for output up to 100 units and 900 for output from 101 to 200. Find all whole-number break-even outputs in those ranges.
 
-Answer: It does not change with output within the stated period and relevant range.
+Answer: 100 units in the first range and 150 units in the second.
 
-1. Identify the target idea: What makes a cost fixed in a break-even model?
+1. Contribution is 15-9=6 per unit.
 
-2. Compare your response with the held study explanation: It does not change with output within the stated period and relevant range.
-
-Marking points (one practice mark each):
-
-- Accurately address: What makes a cost fixed in a break-even model?
-
-## Practice 9 — standard · 1 marks
-
-Retrieval 2 — Costs, revenue and break-even decisions: State the condition or distinction precisely: How is contribution per unit calculated?
-
-Answer: Selling price per unit minus variable cost per unit.
-
-1. Identify the target idea: How is contribution per unit calculated?
-
-2. Compare your response with the held study explanation: Selling price per unit minus variable cost per unit.
+2. Solve 600/6=100 and 900/6=150, then verify that each lies in its applicable range.
 
 Marking points (one practice mark each):
 
-- Accurately address: How is contribution per unit calculated?
+- Find contribution 6.
 
-## Practice 10 — extension · 1 marks
+- Find both candidate outputs.
 
-Retrieval 3 — Costs, revenue and break-even decisions: Explain the idea in your own words: When does fixed cost divided by contribution give a meaningful break-even quantity?
+- Check their range validity.
 
-Answer: When contribution per unit is positive and the linear model assumptions apply.
+## Practice 9 — standard · 3 marks
 
-1. Identify the target idea: When does fixed cost divided by contribution give a meaningful break-even quantity?
+A fictional shop has fixed costs 450, price 12 and variable cost 7 per item. Find the minimum whole number of sales for profit of at least 163 units.
 
-2. Compare your response with the held study explanation: When contribution per unit is positive and the linear model assumptions apply.
+Answer: 123 sales; profit is 165. At 122 sales profit is 160.
 
-Marking points (one practice mark each):
+1. Write 5q-450≥163, giving q≥122.6.
 
-- Accurately address: When does fixed cost divided by contribution give a meaningful break-even quantity?
-
-## Practice 11 — foundation · 1 marks
-
-Retrieval 4 — Costs, revenue and break-even decisions: Answer from memory: How is margin of safety in units calculated?
-
-Answer: Actual or forecast sales units minus break-even sales units.
-
-1. Identify the target idea: How is margin of safety in units calculated?
-
-2. Compare your response with the held study explanation: Actual or forecast sales units minus break-even sales units.
+2. Round up because the goal is a minimum and verify adjacent integers.
 
 Marking points (one practice mark each):
 
-- Accurately address: How is margin of safety in units calculated?
+- Form the profit inequality.
 
-## Practice 12 — standard · 1 marks
+- Choose 123.
 
-Retrieval 5 — Costs, revenue and break-even decisions: State the condition or distinction precisely: Why can a profitable business still have a cash shortage?
+- Check 122 is insufficient.
 
-Answer: Cash receipts and payments may occur at different times from the recognition of revenue and expenses.
+## Practice 10 — standard · 3 marks
 
-1. Identify the target idea: Why can a profitable business still have a cash shortage?
+A fictional firm's break-even quantity is 240 and expected sales are 300. Calculate its margin of safety in units and as a percentage of expected sales.
 
-2. Compare your response with the held study explanation: Cash receipts and payments may occur at different times from the recognition of revenue and expenses.
+Answer: 60 units and 20%.
 
-Marking points (one practice mark each):
+1. Subtract break-even sales from expected sales: 300-240=60.
 
-- Accurately address: Why can a profitable business still have a cash shortage?
-
-## Practice 13 — extension · 1 marks
-
-Retrieval 6 — Costs, revenue and break-even decisions: Explain the idea in your own words: What does sensitivity analysis add to a break-even figure?
-
-Answer: It shows how the conclusion depends on assumptions such as price, unit variable cost and fixed cost.
-
-1. Identify the target idea: What does sensitivity analysis add to a break-even figure?
-
-2. Compare your response with the held study explanation: It shows how the conclusion depends on assumptions such as price, unit variable cost and fixed cost.
+2. Divide by expected sales, not break-even sales: 60/300×100=20.
 
 Marking points (one practice mark each):
 
-- Accurately address: What does sensitivity analysis add to a break-even figure?
+- Find 60 units.
 
-## Practice 14 — foundation · 1 marks
+- Use expected sales as denominator.
 
-Retrieval 7 — Costs, revenue and break-even decisions: Answer from memory: Why compare break-even output with capacity?
-
-Answer: A calculated sales threshold may be physically unattainable in the stated period.
-
-1. Identify the target idea: Why compare break-even output with capacity?
-
-2. Compare your response with the held study explanation: A calculated sales threshold may be physically unattainable in the stated period.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why compare break-even output with capacity?
-
-## Practice 15 — standard · 1 marks
-
-Retrieval 8 — Costs, revenue and break-even decisions: State the condition or distinction precisely: How does contribution differ from profit?
-
-Answer: Total contribution is sales revenue less variable costs; profit also subtracts fixed costs.
-
-1. Identify the target idea: How does contribution differ from profit?
-
-2. Compare your response with the held study explanation: Total contribution is sales revenue less variable costs; profit also subtracts fixed costs.
-
-Marking points (one practice mark each):
-
-- Accurately address: How does contribution differ from profit?
-
-## Practice 16 — extension · 1 marks
-
-Retrieval 9 — Costs, revenue and break-even decisions: Explain the idea in your own words: What makes a cost fixed in a break-even model?
-
-Answer: It does not change with output within the stated period and relevant range.
-
-1. Identify the target idea: What makes a cost fixed in a break-even model?
-
-2. Compare your response with the held study explanation: It does not change with output within the stated period and relevant range.
-
-Marking points (one practice mark each):
-
-- Accurately address: What makes a cost fixed in a break-even model?
-
-## Practice 17 — foundation · 1 marks
-
-Retrieval 10 — Costs, revenue and break-even decisions: Answer from memory: How is contribution per unit calculated?
-
-Answer: Selling price per unit minus variable cost per unit.
-
-1. Identify the target idea: How is contribution per unit calculated?
-
-2. Compare your response with the held study explanation: Selling price per unit minus variable cost per unit.
-
-Marking points (one practice mark each):
-
-- Accurately address: How is contribution per unit calculated?
-
-## Practice 18 — standard · 1 marks
-
-Retrieval 11 — Costs, revenue and break-even decisions: State the condition or distinction precisely: When does fixed cost divided by contribution give a meaningful break-even quantity?
-
-Answer: When contribution per unit is positive and the linear model assumptions apply.
-
-1. Identify the target idea: When does fixed cost divided by contribution give a meaningful break-even quantity?
-
-2. Compare your response with the held study explanation: When contribution per unit is positive and the linear model assumptions apply.
-
-Marking points (one practice mark each):
-
-- Accurately address: When does fixed cost divided by contribution give a meaningful break-even quantity?
-
-## Practice 19 — extension · 1 marks
-
-Retrieval 12 — Costs, revenue and break-even decisions: Explain the idea in your own words: How is margin of safety in units calculated?
-
-Answer: Actual or forecast sales units minus break-even sales units.
-
-1. Identify the target idea: How is margin of safety in units calculated?
-
-2. Compare your response with the held study explanation: Actual or forecast sales units minus break-even sales units.
-
-Marking points (one practice mark each):
-
-- Accurately address: How is margin of safety in units calculated?
-
-## Practice 20 — foundation · 1 marks
-
-Retrieval 13 — Costs, revenue and break-even decisions: Answer from memory: Why can a profitable business still have a cash shortage?
-
-Answer: Cash receipts and payments may occur at different times from the recognition of revenue and expenses.
-
-1. Identify the target idea: Why can a profitable business still have a cash shortage?
-
-2. Compare your response with the held study explanation: Cash receipts and payments may occur at different times from the recognition of revenue and expenses.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why can a profitable business still have a cash shortage?
-
-## Practice 21 — standard · 1 marks
-
-Retrieval 14 — Costs, revenue and break-even decisions: State the condition or distinction precisely: What does sensitivity analysis add to a break-even figure?
-
-Answer: It shows how the conclusion depends on assumptions such as price, unit variable cost and fixed cost.
-
-1. Identify the target idea: What does sensitivity analysis add to a break-even figure?
-
-2. Compare your response with the held study explanation: It shows how the conclusion depends on assumptions such as price, unit variable cost and fixed cost.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does sensitivity analysis add to a break-even figure?
-
-## Practice 22 — extension · 1 marks
-
-Retrieval 15 — Costs, revenue and break-even decisions: Explain the idea in your own words: Why compare break-even output with capacity?
-
-Answer: A calculated sales threshold may be physically unattainable in the stated period.
-
-1. Identify the target idea: Why compare break-even output with capacity?
-
-2. Compare your response with the held study explanation: A calculated sales threshold may be physically unattainable in the stated period.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why compare break-even output with capacity?
-
-## Practice 23 — foundation · 1 marks
-
-Retrieval 16 — Costs, revenue and break-even decisions: Answer from memory: How does contribution differ from profit?
-
-Answer: Total contribution is sales revenue less variable costs; profit also subtracts fixed costs.
-
-1. Identify the target idea: How does contribution differ from profit?
-
-2. Compare your response with the held study explanation: Total contribution is sales revenue less variable costs; profit also subtracts fixed costs.
-
-Marking points (one practice mark each):
-
-- Accurately address: How does contribution differ from profit?
-
-## Practice 24 — standard · 1 marks
-
-Retrieval 17 — Costs, revenue and break-even decisions: State the condition or distinction precisely: What makes a cost fixed in a break-even model?
-
-Answer: It does not change with output within the stated period and relevant range.
-
-1. Identify the target idea: What makes a cost fixed in a break-even model?
-
-2. Compare your response with the held study explanation: It does not change with output within the stated period and relevant range.
-
-Marking points (one practice mark each):
-
-- Accurately address: What makes a cost fixed in a break-even model?
-
-## Practice 25 — extension · 1 marks
-
-Retrieval 18 — Costs, revenue and break-even decisions: Explain the idea in your own words: How is contribution per unit calculated?
-
-Answer: Selling price per unit minus variable cost per unit.
-
-1. Identify the target idea: How is contribution per unit calculated?
-
-2. Compare your response with the held study explanation: Selling price per unit minus variable cost per unit.
-
-Marking points (one practice mark each):
-
-- Accurately address: How is contribution per unit calculated?
+- Find 20%.
 
 ## Revision checklist
 
@@ -598,6 +404,6 @@ A break-even calculation identifies a sales quantity under a stated cost and pri
 
 - What makes a cost fixed in a break-even model?
 
-Mixed practice: q1, application-check, error-analysis
+Mixed practice: q1, application-check, error-analysis, depth-step-cost, depth-target-profit, depth-margin-safety
 
 After checking your answer, write the specific rule or assumption you missed. Retry the linked questions without the worked example in a later session. A checked answer or completed checklist is not a measurement of mastery.

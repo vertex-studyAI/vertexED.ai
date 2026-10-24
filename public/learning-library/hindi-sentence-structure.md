@@ -1,6 +1,6 @@
 # Simple present descriptions and postpositions
 
-Subject: Hindi · Unit: Everyday communication · Revision: 2026-10-21.2
+Subject: Hindi · Unit: Everyday communication · Revision: 2026-10-21.3
 
 **Review draft — not independently approved. Practice marks are editorial, not official exam marks.**
 
@@ -41,6 +41,10 @@ Check the copula separately from the location phrase. मैं कमरे म
 ## Keeping habitual aspect, agreement and place separate
 
 In a simple habitual Hindi statement, the subject, habitual verb form and present auxiliary work together. With a feminine singular subject, a regular habitual form such as पढ़ती agrees accordingly; the auxiliary है marks the third-person singular present here. The place phrase पुस्तकालय में expresses location and does not determine the verb agreement. Do not translate an English word order mechanically: postpositions follow their noun phrase. A habitual statement says what normally happens, while a progressive statement describes an action in progress. The examples keep these meanings separate and do not attempt a complete account of Hindi tense, aspect or honorific agreement.
+
+## Match the verb and locate the postposition
+
+Simple Hindi statements often place the verb at the end, but agreement and postpositions carry relationships that word order alone cannot express. A habitual statement with a masculine singular subject commonly uses -ता है, while a feminine singular subject commonly uses -ती है. A masculine plural subject commonly uses -ते हैं. A noun before a postposition may take an oblique form: लड़का becomes लड़के before के पास. Possession expressed with के पास is a useful separate pattern; do not translate every English 'have' construction by inserting a verb in the English position.
 
 ## Diagram: Build a Hindi habitual statement
 
@@ -88,15 +92,15 @@ Worked examples: 4
 
 Practise: q5, application-check, error-analysis
 
-### Retrieval practice
+### Apply and test the limits
 
-Close the notes and answer these extra prompts from memory. Self-review with the held explanation, name one gap, then retry later. This is study practice, not an automatic mark or mastery measurement.
+Revisit the last worked example, then read the new section and tackle these different situations. Identify the assumptions before answering. Compare your reasoning with each marking point; these open responses require self-review, not automatic marks.
 
-Read: Sentence structure and present descriptions
+Read: Match the verb and locate the postposition
 
-Worked examples: 1
+Worked examples: 4
 
-Practise: retrieval-01, retrieval-02, retrieval-03, retrieval-04, retrieval-05, retrieval-06, retrieval-07, retrieval-08, retrieval-09, retrieval-10, retrieval-11, retrieval-12, retrieval-13, retrieval-14, retrieval-15, retrieval-16, retrieval-17, retrieval-18
+Practise: depth-plural-habitual, depth-possession-location, depth-two-agreements
 
 ## Worked example 1
 
@@ -314,257 +318,59 @@ Marking points (one practice mark each):
 
 - पढ़ती है preserves the intended feminine singular habitual statement.
 
-## Practice 8 — foundation · 1 marks
+## Practice 8 — standard · 3 marks
 
-Retrieval 1 — Simple present descriptions and postpositions: Answer from memory: Complete: मैं घर में ___.
+Translate 'The boys read every day' using लड़के, रोज़ and पढ़ना. Explain the habitual verb and copula.
 
-Answer: हूँ: मैं घर में हूँ।
+Answer: लड़के रोज़ पढ़ते हैं।
 
-1. Identify the target idea: Complete: मैं घर में ___.
+1. Use masculine plural पढ़ते to agree with लड़के.
 
-2. Compare your response with the held study explanation: हूँ: मैं घर में हूँ।
-
-Marking points (one practice mark each):
-
-- Accurately address: Complete: मैं घर में ___.
-
-## Practice 9 — standard · 1 marks
-
-Retrieval 2 — Simple present descriptions and postpositions: State the condition or distinction precisely: Complete a respectful description: आप शिक्षक ___.
-
-Answer: हैं: आप शिक्षक हैं।
-
-1. Identify the target idea: Complete a respectful description: आप शिक्षक ___.
-
-2. Compare your response with the held study explanation: हैं: आप शिक्षक हैं।
+2. Use हैं for the plural subject.
 
 Marking points (one practice mark each):
 
-- Accurately address: Complete a respectful description: आप शिक्षक ___.
+- Retain लड़के रोज़.
 
-## Practice 10 — extension · 1 marks
+- Use पढ़ते.
 
-Retrieval 3 — Simple present descriptions and postpositions: Explain the idea in your own words: What do में and पर express in basic location phrases?
+- Use हैं and explain plural agreement.
 
-Answer: में commonly expresses in; पर commonly expresses on or at, depending on context.
+## Practice 9 — standard · 3 marks
 
-1. Identify the target idea: What do में and पर express in basic location phrases?
+Translate 'The boy has a book' using लड़का, के पास and किताब. Explain why लड़का changes form.
 
-2. Compare your response with the held study explanation: में commonly expresses in; पर commonly expresses on or at, depending on context.
+Answer: लड़के के पास एक किताब है। The postposition phrase requires the oblique लड़के.
 
-Marking points (one practice mark each):
+1. Use के पास to express possession in this sentence.
 
-- Accurately address: What do में and पर express in basic location phrases?
-
-## Practice 11 — foundation · 1 marks
-
-Retrieval 4 — Simple present descriptions and postpositions: Answer from memory: Does कमरे in कमरे में necessarily refer to several rooms?
-
-Answer: No. It is the oblique singular form of कमरा before में in this phrase.
-
-1. Identify the target idea: Does कमरे in कमरे में necessarily refer to several rooms?
-
-2. Compare your response with the held study explanation: No. It is the oblique singular form of कमरा before में in this phrase.
+2. Change masculine singular लड़का to its oblique form before the postposition.
 
 Marking points (one practice mark each):
 
-- Accurately address: Does कमरे in कमरे में necessarily refer to several rooms?
+- Use लड़के के पास.
 
-## Practice 12 — standard · 1 marks
+- Complete एक किताब है.
 
-Retrieval 5 — Simple present descriptions and postpositions: State the condition or distinction precisely: Why is अच्छी used in यह किताब अच्छी है?
+- Explain the oblique noun form.
 
-Answer: किताब is grammatically feminine, and this adjective has a feminine form अच्छी.
+## Practice 10 — standard · 3 marks
 
-1. Identify the target idea: Why is अच्छी used in यह किताब अच्छी है?
+Correct 'रीना रोज़ पढ़ता हैं' as a simple habitual statement about one girl named Reena, and name both repairs.
 
-2. Compare your response with the held study explanation: किताब is grammatically feminine, and this adjective has a feminine form अच्छी.
+Answer: रीना रोज़ पढ़ती है।
 
-Marking points (one practice mark each):
+1. Use feminine singular पढ़ती for Reena.
 
-- Accurately address: Why is अच्छी used in यह किताब अच्छी है?
-
-## Practice 13 — extension · 1 marks
-
-Retrieval 6 — Simple present descriptions and postpositions: Explain the idea in your own words: What determines हूँ in मैं कमरे में हूँ?
-
-Answer: The subject मैं determines the copula; the nearby location noun does not control that agreement.
-
-1. Identify the target idea: What determines हूँ in मैं कमरे में हूँ?
-
-2. Compare your response with the held study explanation: The subject मैं determines the copula; the nearby location noun does not control that agreement.
+2. Use singular है rather than plural हैं in this specified non-honorific sentence.
 
 Marking points (one practice mark each):
 
-- Accurately address: What determines हूँ in मैं कमरे में हूँ?
+- Write पढ़ती.
 
-## Practice 14 — foundation · 1 marks
+- Write है.
 
-Retrieval 7 — Simple present descriptions and postpositions: Answer from memory: Where does में occur in पुस्तकालय में?
-
-Answer: After the noun phrase; it is a postposition expressing location here.
-
-1. Identify the target idea: Where does में occur in पुस्तकालय में?
-
-2. Compare your response with the held study explanation: After the noun phrase; it is a postposition expressing location here.
-
-Marking points (one practice mark each):
-
-- Accurately address: Where does में occur in पुस्तकालय में?
-
-## Practice 15 — standard · 1 marks
-
-Retrieval 8 — Simple present descriptions and postpositions: State the condition or distinction precisely: What does पढ़ती है express in the Sita example?
-
-Answer: A feminine singular habitual present statement, not by itself an action currently in progress.
-
-1. Identify the target idea: What does पढ़ती है express in the Sita example?
-
-2. Compare your response with the held study explanation: A feminine singular habitual present statement, not by itself an action currently in progress.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does पढ़ती है express in the Sita example?
-
-## Practice 16 — extension · 1 marks
-
-Retrieval 9 — Simple present descriptions and postpositions: Explain the idea in your own words: Complete: मैं घर में ___.
-
-Answer: हूँ: मैं घर में हूँ।
-
-1. Identify the target idea: Complete: मैं घर में ___.
-
-2. Compare your response with the held study explanation: हूँ: मैं घर में हूँ।
-
-Marking points (one practice mark each):
-
-- Accurately address: Complete: मैं घर में ___.
-
-## Practice 17 — foundation · 1 marks
-
-Retrieval 10 — Simple present descriptions and postpositions: Answer from memory: Complete a respectful description: आप शिक्षक ___.
-
-Answer: हैं: आप शिक्षक हैं।
-
-1. Identify the target idea: Complete a respectful description: आप शिक्षक ___.
-
-2. Compare your response with the held study explanation: हैं: आप शिक्षक हैं।
-
-Marking points (one practice mark each):
-
-- Accurately address: Complete a respectful description: आप शिक्षक ___.
-
-## Practice 18 — standard · 1 marks
-
-Retrieval 11 — Simple present descriptions and postpositions: State the condition or distinction precisely: What do में and पर express in basic location phrases?
-
-Answer: में commonly expresses in; पर commonly expresses on or at, depending on context.
-
-1. Identify the target idea: What do में and पर express in basic location phrases?
-
-2. Compare your response with the held study explanation: में commonly expresses in; पर commonly expresses on or at, depending on context.
-
-Marking points (one practice mark each):
-
-- Accurately address: What do में and पर express in basic location phrases?
-
-## Practice 19 — extension · 1 marks
-
-Retrieval 12 — Simple present descriptions and postpositions: Explain the idea in your own words: Does कमरे in कमरे में necessarily refer to several rooms?
-
-Answer: No. It is the oblique singular form of कमरा before में in this phrase.
-
-1. Identify the target idea: Does कमरे in कमरे में necessarily refer to several rooms?
-
-2. Compare your response with the held study explanation: No. It is the oblique singular form of कमरा before में in this phrase.
-
-Marking points (one practice mark each):
-
-- Accurately address: Does कमरे in कमरे में necessarily refer to several rooms?
-
-## Practice 20 — foundation · 1 marks
-
-Retrieval 13 — Simple present descriptions and postpositions: Answer from memory: Why is अच्छी used in यह किताब अच्छी है?
-
-Answer: किताब is grammatically feminine, and this adjective has a feminine form अच्छी.
-
-1. Identify the target idea: Why is अच्छी used in यह किताब अच्छी है?
-
-2. Compare your response with the held study explanation: किताब is grammatically feminine, and this adjective has a feminine form अच्छी.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why is अच्छी used in यह किताब अच्छी है?
-
-## Practice 21 — standard · 1 marks
-
-Retrieval 14 — Simple present descriptions and postpositions: State the condition or distinction precisely: What determines हूँ in मैं कमरे में हूँ?
-
-Answer: The subject मैं determines the copula; the nearby location noun does not control that agreement.
-
-1. Identify the target idea: What determines हूँ in मैं कमरे में हूँ?
-
-2. Compare your response with the held study explanation: The subject मैं determines the copula; the nearby location noun does not control that agreement.
-
-Marking points (one practice mark each):
-
-- Accurately address: What determines हूँ in मैं कमरे में हूँ?
-
-## Practice 22 — extension · 1 marks
-
-Retrieval 15 — Simple present descriptions and postpositions: Explain the idea in your own words: Where does में occur in पुस्तकालय में?
-
-Answer: After the noun phrase; it is a postposition expressing location here.
-
-1. Identify the target idea: Where does में occur in पुस्तकालय में?
-
-2. Compare your response with the held study explanation: After the noun phrase; it is a postposition expressing location here.
-
-Marking points (one practice mark each):
-
-- Accurately address: Where does में occur in पुस्तकालय में?
-
-## Practice 23 — foundation · 1 marks
-
-Retrieval 16 — Simple present descriptions and postpositions: Answer from memory: What does पढ़ती है express in the Sita example?
-
-Answer: A feminine singular habitual present statement, not by itself an action currently in progress.
-
-1. Identify the target idea: What does पढ़ती है express in the Sita example?
-
-2. Compare your response with the held study explanation: A feminine singular habitual present statement, not by itself an action currently in progress.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does पढ़ती है express in the Sita example?
-
-## Practice 24 — standard · 1 marks
-
-Retrieval 17 — Simple present descriptions and postpositions: State the condition or distinction precisely: Complete: मैं घर में ___.
-
-Answer: हूँ: मैं घर में हूँ।
-
-1. Identify the target idea: Complete: मैं घर में ___.
-
-2. Compare your response with the held study explanation: हूँ: मैं घर में हूँ।
-
-Marking points (one practice mark each):
-
-- Accurately address: Complete: मैं घर में ___.
-
-## Practice 25 — extension · 1 marks
-
-Retrieval 18 — Simple present descriptions and postpositions: Explain the idea in your own words: Complete a respectful description: आप शिक्षक ___.
-
-Answer: हैं: आप शिक्षक हैं।
-
-1. Identify the target idea: Complete a respectful description: आप शिक्षक ___.
-
-2. Compare your response with the held study explanation: हैं: आप शिक्षक हैं।
-
-Marking points (one practice mark each):
-
-- Accurately address: Complete a respectful description: आप शिक्षक ___.
+- Explain feminine singular agreement.
 
 ## Revision checklist
 
@@ -598,6 +404,6 @@ In a simple habitual Hindi statement, the subject, habitual verb form and presen
 
 - Complete: मैं घर में ___.
 
-Mixed practice: q1, application-check, error-analysis
+Mixed practice: q1, application-check, error-analysis, depth-plural-habitual, depth-possession-location, depth-two-agreements
 
 After checking your answer, write the specific rule or assumption you missed. Retry the linked questions without the worked example in a later session. A checked answer or completed checklist is not a measurement of mastery.

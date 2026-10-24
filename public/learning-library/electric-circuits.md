@@ -1,6 +1,6 @@
 # Charge, current, potential difference and resistive circuits
 
-Subject: Physics · Unit: Electricity · Revision: 2026-10-21.2
+Subject: Physics · Unit: Electricity · Revision: 2026-10-21.3
 
 **Review draft — not independently approved. Practice marks are editorial, not official exam marks.**
 
@@ -41,6 +41,10 @@ An ideal ammeter has negligible resistance and is connected in series with the b
 ## Checking series predictions with an energy balance
 
 For ideal resistors in series, the same current passes through each component and their potential differences add to the supply potential difference. Resistance controls how the voltage is shared; identical current does not mean identical voltage or power. Use V = IR under the stated constant-resistance assumptions, then compare the sum of component powers with supply power. This provides a second check on arithmetic and the circuit model. Ideal connecting wires have no potential difference in this example. Real supplies can have internal resistance and components may heat up, so a disagreement in measured data needs investigation rather than an automatic claim that conservation has failed.
+
+## Account for the measuring instrument and the source
+
+Ideal circuit rules simplify both the power supply and the instruments. An ideal voltmeter has infinite resistance and draws no current; a real finite-resistance meter can change the circuit it measures. An ideal battery maintains its stated voltage, while a model with internal resistance has a terminal voltage that decreases as current increases. Always state which model is being used before applying a familiar divider rule. Energy conservation requires that the power supplied equals power transferred in all resistive elements, including any internal resistance included in the model.
 
 ## Diagram: Check a series circuit
 
@@ -88,15 +92,15 @@ Worked examples: 4
 
 Practise: q5, application-check, error-analysis
 
-### Retrieval practice
+### Apply and test the limits
 
-Close the notes and answer these extra prompts from memory. Self-review with the held explanation, name one gap, then retry later. This is study practice, not an automatic mark or mastery measurement.
+Revisit the last worked example, then read the new section and tackle these different situations. Identify the assumptions before answering. Compare your reasoning with each marking point; these open responses require self-review, not automatic marks.
 
-Read: What travels and what is transferred
+Read: Account for the measuring instrument and the source
 
-Worked examples: 1
+Worked examples: 4
 
-Practise: retrieval-01, retrieval-02, retrieval-03, retrieval-04, retrieval-05, retrieval-06, retrieval-07, retrieval-08, retrieval-09, retrieval-10, retrieval-11, retrieval-12, retrieval-13, retrieval-14, retrieval-15, retrieval-16, retrieval-17, retrieval-18
+Practise: depth-internal-resistance, depth-meter-loading, depth-parallel-power
 
 ## Worked example 1
 
@@ -314,257 +318,59 @@ Marking points (one practice mark each):
 
 - The smaller resistor dissipates 1 W, consistent with total power 3 W.
 
-## Practice 8 — foundation · 1 marks
+## Practice 8 — extension · 3 marks
 
-Retrieval 1 — Charge, current, potential difference and resistive circuits: Answer from memory: What is electric current?
+A model battery has emf 12 V and internal resistance 1 Ω. It supplies a 5 Ω resistor. Find current, terminal voltage and power in the external resistor.
 
-Answer: Charge passing per unit time, measured in amperes.
+Answer: Current 2 A, terminal voltage 10 V, external power 20 W.
 
-1. Identify the target idea: What is electric current?
+1. Use total series resistance 6 Ω to obtain 12/6=2 A.
 
-2. Compare your response with the held study explanation: Charge passing per unit time, measured in amperes.
-
-Marking points (one practice mark each):
-
-- Accurately address: What is electric current?
-
-## Practice 9 — standard · 1 marks
-
-Retrieval 2 — Charge, current, potential difference and resistive circuits: State the condition or distinction precisely: What is potential difference?
-
-Answer: Energy transferred per unit charge, measured in joules per coulomb or volts.
-
-1. Identify the target idea: What is potential difference?
-
-2. Compare your response with the held study explanation: Energy transferred per unit charge, measured in joules per coulomb or volts.
+2. The external drop is 2×5=10 V and its power is I²R=20 W.
 
 Marking points (one practice mark each):
 
-- Accurately address: What is potential difference?
+- Find current 2 A.
 
-## Practice 10 — extension · 1 marks
+- Find terminal voltage 10 V.
 
-Retrieval 3 — Charge, current, potential difference and resistive circuits: Explain the idea in your own words: Which quantity is equal through series components?
+- Find external power 20 W.
 
-Answer: Steady current; their potential differences need not be equal.
+## Practice 9 — extension · 3 marks
 
-1. Identify the target idea: Which quantity is equal through series components?
+Two 10 kΩ resistors form a divider across an ideal 12 V supply. A 10 kΩ voltmeter is placed across the lower resistor. Find the indicated voltage and compare it with the unloaded value.
 
-2. Compare your response with the held study explanation: Steady current; their potential differences need not be equal.
+Answer: The meter reads 4 V; the unloaded value is 6 V.
 
-Marking points (one practice mark each):
+1. The lower resistor and meter combine in parallel to give 5 kΩ.
 
-- Accurately address: Which quantity is equal through series components?
-
-## Practice 11 — foundation · 1 marks
-
-Retrieval 4 — Charge, current, potential difference and resistive circuits: Answer from memory: Which quantity is equal across parallel branches?
-
-Answer: Potential difference between their common endpoint nodes.
-
-1. Identify the target idea: Which quantity is equal across parallel branches?
-
-2. Compare your response with the held study explanation: Potential difference between their common endpoint nodes.
+2. The loaded divider gives 12×5/(10+5)=4 V.
 
 Marking points (one practice mark each):
 
-- Accurately address: Which quantity is equal across parallel branches?
+- Find parallel resistance 5 kΩ.
 
-## Practice 12 — standard · 1 marks
+- Compute loaded voltage 4 V.
 
-Retrieval 5 — Charge, current, potential difference and resistive circuits: State the condition or distinction precisely: How does resistor power change if voltage doubles and resistance stays constant?
+- Compare with unloaded 6 V.
 
-Answer: It quadruples because P=V²/R.
+## Practice 10 — standard · 3 marks
 
-1. Identify the target idea: How does resistor power change if voltage doubles and resistance stays constant?
+An ideal 9 V supply feeds 3 Ω and 6 Ω resistors in parallel. Find each branch current and verify total power using both VI and the sum of branch powers.
 
-2. Compare your response with the held study explanation: It quadruples because P=V²/R.
+Answer: Currents are 3 A and 1.5 A. Total power is 9×4.5=40.5 W, also 27+13.5 W.
 
-Marking points (one practice mark each):
+1. Each parallel branch has 9 V; divide by its resistance.
 
-- Accurately address: How does resistor power change if voltage doubles and resistance stays constant?
-
-## Practice 13 — extension · 1 marks
-
-Retrieval 6 — Charge, current, potential difference and resistive circuits: Explain the idea in your own words: Does a resistor use up electric charge?
-
-Answer: No. It transfers energy; steady charge flow continues through the circuit.
-
-1. Identify the target idea: Does a resistor use up electric charge?
-
-2. Compare your response with the held study explanation: No. It transfers energy; steady charge flow continues through the circuit.
+2. Sum branch currents or branch powers and compare the totals.
 
 Marking points (one practice mark each):
 
-- Accurately address: Does a resistor use up electric charge?
+- Find both branch currents.
 
-## Practice 14 — foundation · 1 marks
+- Compute total power 40.5 W from VI.
 
-Retrieval 7 — Charge, current, potential difference and resistive circuits: Answer from memory: What is shared by components in a single series path?
-
-Answer: The same current passes through every component.
-
-1. Identify the target idea: What is shared by components in a single series path?
-
-2. Compare your response with the held study explanation: The same current passes through every component.
-
-Marking points (one practice mark each):
-
-- Accurately address: What is shared by components in a single series path?
-
-## Practice 15 — standard · 1 marks
-
-Retrieval 8 — Charge, current, potential difference and resistive circuits: State the condition or distinction precisely: At equal current, how does resistor power depend on resistance?
-
-Answer: P = I²R, so greater resistance gives greater power under the constant-resistance model.
-
-1. Identify the target idea: At equal current, how does resistor power depend on resistance?
-
-2. Compare your response with the held study explanation: P = I²R, so greater resistance gives greater power under the constant-resistance model.
-
-Marking points (one practice mark each):
-
-- Accurately address: At equal current, how does resistor power depend on resistance?
-
-## Practice 16 — extension · 1 marks
-
-Retrieval 9 — Charge, current, potential difference and resistive circuits: Explain the idea in your own words: What is electric current?
-
-Answer: Charge passing per unit time, measured in amperes.
-
-1. Identify the target idea: What is electric current?
-
-2. Compare your response with the held study explanation: Charge passing per unit time, measured in amperes.
-
-Marking points (one practice mark each):
-
-- Accurately address: What is electric current?
-
-## Practice 17 — foundation · 1 marks
-
-Retrieval 10 — Charge, current, potential difference and resistive circuits: Answer from memory: What is potential difference?
-
-Answer: Energy transferred per unit charge, measured in joules per coulomb or volts.
-
-1. Identify the target idea: What is potential difference?
-
-2. Compare your response with the held study explanation: Energy transferred per unit charge, measured in joules per coulomb or volts.
-
-Marking points (one practice mark each):
-
-- Accurately address: What is potential difference?
-
-## Practice 18 — standard · 1 marks
-
-Retrieval 11 — Charge, current, potential difference and resistive circuits: State the condition or distinction precisely: Which quantity is equal through series components?
-
-Answer: Steady current; their potential differences need not be equal.
-
-1. Identify the target idea: Which quantity is equal through series components?
-
-2. Compare your response with the held study explanation: Steady current; their potential differences need not be equal.
-
-Marking points (one practice mark each):
-
-- Accurately address: Which quantity is equal through series components?
-
-## Practice 19 — extension · 1 marks
-
-Retrieval 12 — Charge, current, potential difference and resistive circuits: Explain the idea in your own words: Which quantity is equal across parallel branches?
-
-Answer: Potential difference between their common endpoint nodes.
-
-1. Identify the target idea: Which quantity is equal across parallel branches?
-
-2. Compare your response with the held study explanation: Potential difference between their common endpoint nodes.
-
-Marking points (one practice mark each):
-
-- Accurately address: Which quantity is equal across parallel branches?
-
-## Practice 20 — foundation · 1 marks
-
-Retrieval 13 — Charge, current, potential difference and resistive circuits: Answer from memory: How does resistor power change if voltage doubles and resistance stays constant?
-
-Answer: It quadruples because P=V²/R.
-
-1. Identify the target idea: How does resistor power change if voltage doubles and resistance stays constant?
-
-2. Compare your response with the held study explanation: It quadruples because P=V²/R.
-
-Marking points (one practice mark each):
-
-- Accurately address: How does resistor power change if voltage doubles and resistance stays constant?
-
-## Practice 21 — standard · 1 marks
-
-Retrieval 14 — Charge, current, potential difference and resistive circuits: State the condition or distinction precisely: Does a resistor use up electric charge?
-
-Answer: No. It transfers energy; steady charge flow continues through the circuit.
-
-1. Identify the target idea: Does a resistor use up electric charge?
-
-2. Compare your response with the held study explanation: No. It transfers energy; steady charge flow continues through the circuit.
-
-Marking points (one practice mark each):
-
-- Accurately address: Does a resistor use up electric charge?
-
-## Practice 22 — extension · 1 marks
-
-Retrieval 15 — Charge, current, potential difference and resistive circuits: Explain the idea in your own words: What is shared by components in a single series path?
-
-Answer: The same current passes through every component.
-
-1. Identify the target idea: What is shared by components in a single series path?
-
-2. Compare your response with the held study explanation: The same current passes through every component.
-
-Marking points (one practice mark each):
-
-- Accurately address: What is shared by components in a single series path?
-
-## Practice 23 — foundation · 1 marks
-
-Retrieval 16 — Charge, current, potential difference and resistive circuits: Answer from memory: At equal current, how does resistor power depend on resistance?
-
-Answer: P = I²R, so greater resistance gives greater power under the constant-resistance model.
-
-1. Identify the target idea: At equal current, how does resistor power depend on resistance?
-
-2. Compare your response with the held study explanation: P = I²R, so greater resistance gives greater power under the constant-resistance model.
-
-Marking points (one practice mark each):
-
-- Accurately address: At equal current, how does resistor power depend on resistance?
-
-## Practice 24 — standard · 1 marks
-
-Retrieval 17 — Charge, current, potential difference and resistive circuits: State the condition or distinction precisely: What is electric current?
-
-Answer: Charge passing per unit time, measured in amperes.
-
-1. Identify the target idea: What is electric current?
-
-2. Compare your response with the held study explanation: Charge passing per unit time, measured in amperes.
-
-Marking points (one practice mark each):
-
-- Accurately address: What is electric current?
-
-## Practice 25 — extension · 1 marks
-
-Retrieval 18 — Charge, current, potential difference and resistive circuits: Explain the idea in your own words: What is potential difference?
-
-Answer: Energy transferred per unit charge, measured in joules per coulomb or volts.
-
-1. Identify the target idea: What is potential difference?
-
-2. Compare your response with the held study explanation: Energy transferred per unit charge, measured in joules per coulomb or volts.
-
-Marking points (one practice mark each):
-
-- Accurately address: What is potential difference?
+- Verify branch powers sum to 40.5 W.
 
 ## Revision checklist
 
@@ -598,6 +404,6 @@ For ideal resistors in series, the same current passes through each component an
 
 - What is electric current?
 
-Mixed practice: q1, application-check, error-analysis
+Mixed practice: q1, application-check, error-analysis, depth-internal-resistance, depth-meter-loading, depth-parallel-power
 
 After checking your answer, write the specific rule or assumption you missed. Retry the linked questions without the worked example in a later session. A checked answer or completed checklist is not a measurement of mastery.

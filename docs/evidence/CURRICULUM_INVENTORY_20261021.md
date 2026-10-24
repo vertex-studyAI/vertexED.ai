@@ -1,4 +1,4 @@
-# Curriculum inventory, 21 October 2026
+# Curriculum inventory, updated 22 October 2026
 
 This is an authored inventory, not published or independently validated course coverage. Counts are not additive across shared curriculum mappings. No static content publication approvals are present.
 
@@ -70,58 +70,83 @@ Every current AP module and MYP lesson now has additional notes, a fully worked 
 
 ## Shared foundation lessons
 
-42 lessons; 19 subjects; 32,306 note words; 196 worked examples; 1,052 held practice prompts; 428 flashcards; 46 process diagrams. Every lesson now has a labelled diagram, a guided study sequence and a revision guide. Every lesson meets the 25-prompt floor, and derivative-definition retains 27 authored prompts. These are populated study resources, not complete course coverage or independent approval.
+90 lessons; 23 subjects; 52,887 note words; 293 worked examples; 796 distinct authored questions; 668 flashcards; 63 process diagrams. Every lesson has a guided study sequence and a revision guide; diagrams remain present where authored, not fabricated to increase counts. These are populated study resources, not complete course coverage or independent approval.
 
-The 21 October application pass adds one explanatory note, one worked application, two marked questions, two recall cards and one process diagram to each of the 42 lessons. A later retrieval pass adds 667 deterministic, self-reviewed prompts derived from the existing lesson flashcards. Existing lesson bodies, authored question identities and partial syllabus links are preserved. The added prompts remain outside the older source-checked mapping links and are not automatically marked.
+Revision `2026-10-22.1` adds 19 non-maths topic lessons, 6,894 note words, 38 examples, 114 questions and 95 cards. [The new register](subject-unit-coverage-20261022.json) records selected topic teaching for all 26 non-maths priority course targets, with explicit Foundation/Higher or Core/Extended routes where applicable and untiered labels elsewhere. It includes the selected Weimar, Versailles, Henry VII, Macbeth, A Christmas Carol and Othello routes. These are new lessons with actual questions, not duplicated counts of shared links. Full-course coverage remains unfinished; every target retains a remaining-work list and null verified coverage percentage.
 
-| Subject | Topic | Source-authored questions | Revision |
+Revision `2026-10-21.5` adds 12 syllabus-unit lessons, 5,623 note words, 25 worked examples, 103 reasoning questions and 60 cards. Current combined totals are 71 lessons, 45,993 note words, 255 examples, 682 questions, 573 cards and 63 diagrams, with guided study and revision guides for all 71. [The separate unit register](syllabus-unit-coverage-20261021.json) links GCSE Number in both tiers, IGCSE Number in both tiers and A-Level Proof to explicit new teaching and practice. Its 67 tier-specific rows represent 51 distinct source points; they are author-proposed and do not establish course completion or independent approval. The earlier 59-entry table below is retained as the preceding shared-library inventory; the 12 new source/asset identities are in the unit register.
+
+Revision `2026-10-21.4` adds 17 original topic modules, 4,449 note words, 34 examples, 68 reasoning questions, 85 cards and 17 diagrams. New subject labels include Further Mathematics, TOK, Extended Essay and Academic Writing. Formula conditions and explicitly curated study sequences accompany the new material. Existing 42-lesson sources and their depth packs are preserved.
+
+Revision `2026-10-21.3` adds 42 explanatory sections (3,615 words) and 126 original application, boundary-case and reasoning problems. It retires the 667 generated flashcard-retrieval aliases from the previous delivery: the former 1,052 total was not a count of distinct authored problems. All 385 original questions, source lesson files, examples, cards and partial syllabus links are preserved. New open responses remain self-reviewed and outside older syllabus mappings. [The depth receipt](foundation-depth-20261021.json) binds each source, extension and delivered content hash.
+
+| Subject | Topic | Authored questions | Revision |
 | --- | --- | ---: | --- |
-| Accountancy | Accounting equation and double-entry foundations | 7 | 2026-10-21.2 |
-| Computer Science | Tracing algorithms, loop invariants and edge cases | 7 | 2026-10-21.2 |
-| Mathematics | Arithmetic sequences, finite sums and model checks | 12 | 2026-10-21.2 |
-| Chemistry | Atomic models, ions, isotopes and electron arrangements | 12 | 2026-10-21.2 |
-| Chemistry | Bonding, structure and explanations of material properties | 7 | 2026-10-21.2 |
-| Business | Costs, revenue and break-even decisions | 7 | 2026-10-21.2 |
-| Biology | Diffusion, osmosis and active transport | 7 | 2026-10-21.2 |
-| Chemistry | Moles, balanced equations and limiting reactants | 7 | 2026-10-21.2 |
-| Computer Science | Binary numbers, finite precision and encoding | 7 | 2026-10-21.2 |
-| Economics | Demand, supply and comparative-static reasoning | 7 | 2026-10-21.2 |
-| Mathematics | Derivatives from limits, tangent lines and local estimates | 27 | 2026-10-21.2 |
-| Design | From user needs to tested design decisions | 12 | 2026-10-21.2 |
-| Environmental Science | Energy transfer, productivity and ecosystem models | 7 | 2026-10-21.2 |
-| Physics | Charge, current, potential difference and resistive circuits | 7 | 2026-10-21.2 |
-| English | Claims, evidence, inference and qualified conclusions | 7 | 2026-10-21.2 |
-| Mathematics | Exponential growth, decay and changing time units | 10 | 2026-10-21.2 |
-| French | Regular -er verbs, negation and connected sentences | 7 | 2026-10-21.2 |
-| Geography | Sampling, spatial patterns and fieldwork conclusions | 7 | 2026-10-21.2 |
-| Mathematics | Geometric sequences, finite sums and recurrence models | 12 | 2026-10-21.2 |
-| German | Present-tense agreement and main-clause word order | 7 | 2026-10-21.2 |
-| Hindi | Simple present descriptions and postpositions | 7 | 2026-10-21.2 |
-| History | Provenance, corroboration and historical explanations | 7 | 2026-10-21.2 |
-| Biology | Alleles, segregation and probability in monohybrid models | 7 | 2026-10-21.2 |
-| Mathematics | Linear equations, inequalities and modelling | 7 | 2026-10-21.2 |
-| English | Choosing transitions from logical relationships | 10 | 2026-10-21.2 |
-| Chemistry | Conservation of mass, formula masses and measurement uncertainty | 12 | 2026-10-21.2 |
-| Physics | Motion graphs, resultant force and Newtonian models | 7 | 2026-10-21.2 |
-| Biology | Photosynthesis, limiting factors and evaluating rate evidence | 10 | 2026-10-21.2 |
-| Mathematics | Probability trees, dependent events and conditional denominators | 12 | 2026-10-21.2 |
-| Psychology | Operational definitions, experimental control and inference | 7 | 2026-10-21.2 |
-| Mathematics | Quadratic equations, graphs and model restrictions | 7 | 2026-10-21.2 |
-| Mathematics | Quadratic forms, roots, turning points and discriminants | 10 | 2026-10-21.2 |
-| Biology | Cellular respiration, exercise responses and metabolic connections | 12 | 2026-10-21.2 |
-| English | Selecting and combining notes for a rhetorical goal | 10 | 2026-10-21.2 |
-| Mathematics | Sampling distributions, uncertainty and confidence intervals | 7 | 2026-10-21.2 |
-| Sciences | Planning investigations and evaluating evidence | 12 | 2026-10-21.2 |
-| Computer Science | Linear and binary search: tracing, invariants and test cases | 12 | 2026-10-21.2 |
-| English | Sentence boundaries, clause relationships and transitions | 7 | 2026-10-21.2 |
-| Mathematics | Simultaneous equations: methods, geometry and model checks | 10 | 2026-10-21.2 |
-| Spanish | Regular present-tense verbs and subject agreement | 7 | 2026-10-21.2 |
-| Physics | Progressive waves, phase and stationary patterns | 10 | 2026-10-21.2 |
-| English | Words in context: meaning, precision and evidence-based elimination | 12 | 2026-10-21.2 |
+| Accountancy | Accounting equation and double-entry foundations | 10 | 2026-10-21.3 |
+| Computer Science | Tracing algorithms, loop invariants and edge cases | 10 | 2026-10-21.3 |
+| Mathematics | Arithmetic sequences, finite sums and model checks | 15 | 2026-10-21.3 |
+| Chemistry | Atomic models, ions, isotopes and electron arrangements | 15 | 2026-10-21.3 |
+| Chemistry | Bonding, structure and explanations of material properties | 10 | 2026-10-21.3 |
+| Business | Costs, revenue and break-even decisions | 10 | 2026-10-21.3 |
+| Biology | Diffusion, osmosis and active transport | 10 | 2026-10-21.3 |
+| Chemistry | Moles, balanced equations and limiting reactants | 10 | 2026-10-21.3 |
+| Computer Science | Binary numbers, finite precision and encoding | 10 | 2026-10-21.3 |
+| Economics | Demand, supply and comparative-static reasoning | 10 | 2026-10-21.3 |
+| Mathematics | Derivatives from limits, tangent lines and local estimates | 30 | 2026-10-21.3 |
+| Design | From user needs to tested design decisions | 15 | 2026-10-21.3 |
+| Environmental Science | Energy transfer, productivity and ecosystem models | 10 | 2026-10-21.3 |
+| Physics | Charge, current, potential difference and resistive circuits | 10 | 2026-10-21.3 |
+| English | Claims, evidence, inference and qualified conclusions | 10 | 2026-10-21.3 |
+| Mathematics | Exponential growth, decay and changing time units | 13 | 2026-10-21.3 |
+| French | Regular -er verbs, negation and connected sentences | 10 | 2026-10-21.3 |
+| Geography | Sampling, spatial patterns and fieldwork conclusions | 10 | 2026-10-21.3 |
+| Mathematics | Geometric sequences, finite sums and recurrence models | 15 | 2026-10-21.3 |
+| German | Present-tense agreement and main-clause word order | 10 | 2026-10-21.3 |
+| Hindi | Simple present descriptions and postpositions | 10 | 2026-10-21.3 |
+| History | Provenance, corroboration and historical explanations | 10 | 2026-10-21.3 |
+| Biology | Alleles, segregation and probability in monohybrid models | 10 | 2026-10-21.3 |
+| Mathematics | Linear equations, inequalities and modelling | 10 | 2026-10-21.3 |
+| English | Choosing transitions from logical relationships | 13 | 2026-10-21.3 |
+| Chemistry | Conservation of mass, formula masses and measurement uncertainty | 15 | 2026-10-21.3 |
+| Physics | Motion graphs, resultant force and Newtonian models | 10 | 2026-10-21.3 |
+| Biology | Photosynthesis, limiting factors and evaluating rate evidence | 13 | 2026-10-21.3 |
+| Mathematics | Probability trees, dependent events and conditional denominators | 15 | 2026-10-21.3 |
+| Psychology | Operational definitions, experimental control and inference | 10 | 2026-10-21.3 |
+| Mathematics | Quadratic equations, graphs and model restrictions | 10 | 2026-10-21.3 |
+| Mathematics | Quadratic forms, roots, turning points and discriminants | 13 | 2026-10-21.3 |
+| Biology | Cellular respiration, exercise responses and metabolic connections | 15 | 2026-10-21.3 |
+| English | Selecting and combining notes for a rhetorical goal | 13 | 2026-10-21.3 |
+| Mathematics | Sampling distributions, uncertainty and confidence intervals | 10 | 2026-10-21.3 |
+| Sciences | Planning investigations and evaluating evidence | 15 | 2026-10-21.3 |
+| Computer Science | Linear and binary search: tracing, invariants and test cases | 15 | 2026-10-21.3 |
+| English | Sentence boundaries, clause relationships and transitions | 10 | 2026-10-21.3 |
+| Mathematics | Simultaneous equations: methods, geometry and model checks | 13 | 2026-10-21.3 |
+| Spanish | Regular present-tense verbs and subject agreement | 10 | 2026-10-21.3 |
+| Physics | Progressive waves, phase and stationary patterns | 13 | 2026-10-21.3 |
+| English | Words in context: meaning, precision and evidence-based elimination | 15 | 2026-10-21.3 |
+| Academic Writing | Synthesis, attribution and proportionate academic claims | 4 | 2026-10-21.4 |
+| Business | Cash-flow forecasts, working capital and profit distinctions | 4 | 2026-10-21.4 |
+| Computer Science | Growth rates, nested loops and choosing a data structure | 4 | 2026-10-21.4 |
+| History | Causes, triggers, consequences and competing historical explanations | 4 | 2026-10-21.4 |
+| Mathematics | Antiderivatives, signed accumulation and total change | 4 | 2026-10-21.4 |
+| TOK | Claims, evidence, methods and justified uncertainty | 4 | 2026-10-21.4 |
+| English | Language choices, sentence structure and supported interpretation | 4 | 2026-10-21.4 |
+| English | Narrative perspective, dramatic action and comparative interpretation | 4 | 2026-10-21.4 |
+| Economics | External effects, incentives and evaluating an intervention | 4 | 2026-10-21.4 |
+| Further Mathematics | Matrix multiplication, composition and invertibility | 4 | 2026-10-21.4 |
+| Biology | Natural selection, inheritance and population change | 4 | 2026-10-21.4 |
+| Mathematics | Proportional models, compound measures and scale factors | 4 | 2026-10-21.4 |
+| Chemistry | Reaction rates, collision models and fair comparisons | 4 | 2026-10-21.4 |
+| Extended Essay | Research questions, source selection and a defensible argument | 4 | 2026-10-21.4 |
+| Mathematics | Right triangles, bearings and choosing a trigonometric ratio | 4 | 2026-10-21.4 |
+| Geography | River discharge, erosion, deposition and flood-risk reasoning | 4 | 2026-10-21.4 |
+| Physics | Heating, phase change and energy-transfer efficiency | 4 | 2026-10-21.4 |
 
 ## Coverage limits
 
-The catalogue has 129 subject entries across 10 programmes, with 110 entries having candidate foundation material and 19 without it. Candidates do not establish full-course coverage. There are 18 partly mapped lessons, 55 mapping links, 52 source points and 16 source specifications. Independently verified mappings: 0. Completed courses: 0.
+The catalogue has 129 subject entries across 10 programmes, with 113 entries having candidate foundation material and 16 without it. The separate [subject pathway register](subject-pathways-20261021.json) links all 129 entries and nine additional MYP catalogue subjects to existing course drafts or shared-study candidates: 138 pathways total. The 16 entries without shared foundations have their own AP course drafts. A link is not curriculum alignment, level completeness, public availability or independent review. There are 18 partly mapped lessons, 55 mapping links, 52 source points and 16 source specifications. Independently verified mappings: 0. Completed courses: 0.
+
+Thirty GCSE, IGCSE and A-Level planning targets record AQA or Cambridge qualification identities for a 2027 target year. These are authoring defaults, not confirmed school entries or full specification reviews. The user requested both tiers and authorised appropriate History/Literature choices; five selected routes are now attached from `src/content/course-option-defaults.mjs`. Their topic-specific teaching remains outstanding. Tiered subjects require both labelled routes; untiered subjects must not acquire invented tiers. The register explicitly separates Cambridge Business 0264 from outgoing 0450, AQA Business 7132 for 2027 from new 7138 for 2028, and Cambridge Computer Science 0478's 2026–2028 window from later changes. Each transition records its official page and evidence limits.
 
 The preceding 17-question derivative expansion cover first-principles limits, secants and tangents, rate units, absolute-value and cube-root edge cases, continuity, piecewise differentiability, approximation error, and rounding noise. Official AP Calculus CED topics 2.1–2.4 were checked alongside the Fall 2026 clarifications. Authored answers have computational and editorial checks, but remain held for independent subject review.
 

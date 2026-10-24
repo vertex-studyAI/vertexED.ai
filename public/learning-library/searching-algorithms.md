@@ -1,6 +1,6 @@
 # Linear and binary search: tracing, invariants and test cases
 
-Subject: Computer Science · Unit: Fundamentals of algorithms · Revision: 2026-10-21.2
+Subject: Computer Science · Unit: Fundamentals of algorithms · Revision: 2026-10-21.3
 
 **Review draft — not independently approved. Practice marks are editorial, not official exam marks.**
 
@@ -62,6 +62,10 @@ When a trace fails, identify the first state that violates the intended rule. Re
 
 Finding any matching value is a different contract from finding the first matching index. An ordinary binary search can stop when it encounters equality, which may return a middle duplicate. To find the first match in a sorted ascending array, retain the equal index as a candidate and continue searching to its left. If no earlier equal value is found, return the retained candidate. The invariant now includes both the remaining candidate interval and the best equal index seen so far. Make indexing and midpoint rounding explicit when tracing. An empty array and an absent target still need defined results; this example uses -1 for absence.
 
+## State whether the result is a match or an insertion position
+
+Search contracts determine how equality and boundaries should be handled. A routine that returns any matching index is different from one that returns the first matching index or the first value at least as large as a target. Half-open bounds [low,high) can simplify insertion-position searches: high may equal the list length without being read as an element. A loop must shrink the interval on every iteration. Trace absent targets and duplicates as well as successful matches, and retain original indices if sorting would otherwise lose them.
+
 ## Diagram: Find the first duplicate
 
 Read the labelled relationships to follow this worked application. Midpoint indices are 2, 0, 1; the returned first matching index is 1. This is an explanatory process diagram, not a scale drawing or a record of a learner attempt.
@@ -108,15 +112,15 @@ Worked examples: 6
 
 Practise: q9, q10, application-check, error-analysis
 
-### Retrieval practice
+### Apply and test the limits
 
-Close the notes and answer these extra prompts from memory. Self-review with the held explanation, name one gap, then retry later. This is study practice, not an automatic mark or mastery measurement.
+Revisit the last worked example, then read the new section and tackle these different situations. Identify the assumptions before answering. Compare your reasoning with each marking point; these open responses require self-review, not automatic marks.
 
-Read: Specify the search contract before tracing
+Read: State whether the result is a match or an insertion position
 
-Worked examples: 1
+Worked examples: 6
 
-Practise: retrieval-01, retrieval-02, retrieval-03, retrieval-04, retrieval-05, retrieval-06, retrieval-07, retrieval-08, retrieval-09, retrieval-10, retrieval-11, retrieval-12, retrieval-13
+Practise: depth-lower-bound, depth-missing-large, depth-preserve-index
 
 ## Worked example 1
 
@@ -469,187 +473,59 @@ Marking points (one practice mark each):
 
 - Continuing in the left interval after equality distinguishes first-match from any-match behaviour.
 
-## Practice 13 — foundation · 1 marks
+## Practice 13 — extension · 3 marks
 
-Retrieval 1 — Linear and binary search: tracing, invariants and test cases: Answer from memory: What does this lesson's search contract return on failure?
+Find the first index with value at least 5 in sorted [1,3,3,7,9] using low=0, high=5, while low<high, mid=floor((low+high)/2), low=mid+1 if a[mid]<5, otherwise high=mid. Trace mid and return low.
 
-Answer: −1; index 0 is a valid match.
+Answer: Midpoints are 2,4,3; return index 3, containing 7.
 
-1. Identify the target idea: What does this lesson's search contract return on failure?
+1. At 2, value 3 moves low to 3; at 4, value 9 moves high to 4.
 
-2. Compare your response with the held study explanation: −1; index 0 is a valid match.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does this lesson's search contract return on failure?
-
-## Practice 14 — standard · 1 marks
-
-Retrieval 2 — Linear and binary search: tracing, invariants and test cases: State the condition or distinction precisely: Does linear search require sorted values?
-
-Answer: No.
-
-1. Identify the target idea: Does linear search require sorted values?
-
-2. Compare your response with the held study explanation: No.
+2. At 3, value 7 moves high to 3 and the interval becomes empty.
 
 Marking points (one practice mark each):
 
-- Accurately address: Does linear search require sorted values?
+- Trace midpoints 2,4,3.
 
-## Practice 15 — extension · 1 marks
+- Apply the correct bound updates.
 
-Retrieval 3 — Linear and binary search: tracing, invariants and test cases: Explain the idea in your own words: Where does the failure return belong in linear search?
+- Return insertion/lower-bound index 3.
 
-Answer: After all candidates have been checked, outside the loop.
+## Practice 14 — standard · 3 marks
 
-1. Identify the target idea: Where does the failure return belong in linear search?
+Using the same half-open lower-bound contract on [2,4,6] for target 9, what index is returned and why must it not be dereferenced?
 
-2. Compare your response with the held study explanation: After all candidates have been checked, outside the loop.
+Answer: Return 3, the list length. It represents insertion after all elements and is not a valid existing element index.
 
-Marking points (one practice mark each):
+1. Every stored value is less than 9, so the lower bound is the end position.
 
-- Accurately address: Where does the failure return belong in linear search?
-
-## Practice 16 — foundation · 1 marks
-
-Retrieval 4 — Linear and binary search: tracing, invariants and test cases: Answer from memory: What input order does this binary-search version require?
-
-Answer: Ascending order under a consistent comparator.
-
-1. Identify the target idea: What input order does this binary-search version require?
-
-2. Compare your response with the held study explanation: Ascending order under a consistent comparator.
+2. Distinguish a valid insertion position from a valid array element.
 
 Marking points (one practice mark each):
 
-- Accurately address: What input order does this binary-search version require?
+- Return 3.
 
-## Practice 17 — standard · 1 marks
+- Explain insertion after the list.
 
-Retrieval 5 — Linear and binary search: tracing, invariants and test cases: State the condition or distinction precisely: How is the midpoint chosen here?
+- Reject reading a[3].
 
-Answer: floor((low+high)/2), with inclusive bounds.
+## Practice 15 — standard · 3 marks
 
-1. Identify the target idea: How is the midpoint chosen here?
+An unsorted list is [30,10,20]. An application sorts it and finds 20 at sorted index 1, then reports original index 1. Explain and repair the error.
 
-2. Compare your response with the held study explanation: floor((low+high)/2), with inclusive bounds.
+Answer: 20 was originally at index 2. Store value-original-index pairs before sorting, or use linear search on the original list.
 
-Marking points (one practice mark each):
+1. Sorting changes positions while leaving values intact.
 
-- Accurately address: How is the midpoint chosen here?
-
-## Practice 18 — extension · 1 marks
-
-Retrieval 6 — Linear and binary search: tracing, invariants and test cases: Explain the idea in your own words: What update follows a middle value smaller than the target?
-
-Answer: low=mid+1.
-
-1. Identify the target idea: What update follows a middle value smaller than the target?
-
-2. Compare your response with the held study explanation: low=mid+1.
+2. Carry original indices through the transformation when the contract requires them.
 
 Marking points (one practice mark each):
 
-- Accurately address: What update follows a middle value smaller than the target?
+- Identify original index 2.
 
-## Practice 19 — foundation · 1 marks
+- Explain sorted versus original positions.
 
-Retrieval 7 — Linear and binary search: tracing, invariants and test cases: Answer from memory: What update follows a middle value larger than the target?
-
-Answer: high=mid−1.
-
-1. Identify the target idea: What update follows a middle value larger than the target?
-
-2. Compare your response with the held study explanation: high=mid−1.
-
-Marking points (one practice mark each):
-
-- Accurately address: What update follows a middle value larger than the target?
-
-## Practice 20 — standard · 1 marks
-
-Retrieval 8 — Linear and binary search: tracing, invariants and test cases: State the condition or distinction precisely: When does an unsuccessful binary search terminate?
-
-Answer: When low exceeds high.
-
-1. Identify the target idea: When does an unsuccessful binary search terminate?
-
-2. Compare your response with the held study explanation: When low exceeds high.
-
-Marking points (one practice mark each):
-
-- Accurately address: When does an unsuccessful binary search terminate?
-
-## Practice 21 — extension · 1 marks
-
-Retrieval 9 — Linear and binary search: tracing, invariants and test cases: Explain the idea in your own words: What does the candidate-interval invariant say?
-
-Answer: Any remaining match lies within the current low-to-high interval.
-
-1. Identify the target idea: What does the candidate-interval invariant say?
-
-2. Compare your response with the held study explanation: Any remaining match lies within the current low-to-high interval.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does the candidate-interval invariant say?
-
-## Practice 22 — foundation · 1 marks
-
-Retrieval 10 — Linear and binary search: tracing, invariants and test cases: Answer from memory: Does ordinary binary search necessarily return the first duplicate?
-
-Answer: No; this contract returns any matching index.
-
-1. Identify the target idea: Does ordinary binary search necessarily return the first duplicate?
-
-2. Compare your response with the held study explanation: No; this contract returns any matching index.
-
-Marking points (one practice mark each):
-
-- Accurately address: Does ordinary binary search necessarily return the first duplicate?
-
-## Practice 23 — standard · 1 marks
-
-Retrieval 11 — Linear and binary search: tracing, invariants and test cases: State the condition or distinction precisely: What preparation cost matters before searching unsorted data by binary search?
-
-Answer: Establishing and maintaining the required ordering.
-
-1. Identify the target idea: What preparation cost matters before searching unsorted data by binary search?
-
-2. Compare your response with the held study explanation: Establishing and maintaining the required ordering.
-
-Marking points (one practice mark each):
-
-- Accurately address: What preparation cost matters before searching unsorted data by binary search?
-
-## Practice 24 — extension · 1 marks
-
-Retrieval 12 — Linear and binary search: tracing, invariants and test cases: Explain the idea in your own words: Name two essential boundary tests for search.
-
-Answer: An empty list and a one-item match or miss.
-
-1. Identify the target idea: Name two essential boundary tests for search.
-
-2. Compare your response with the held study explanation: An empty list and a one-item match or miss.
-
-Marking points (one practice mark each):
-
-- Accurately address: Name two essential boundary tests for search.
-
-## Practice 25 — foundation · 1 marks
-
-Retrieval 13 — Linear and binary search: tracing, invariants and test cases: Answer from memory: Why does duplicate handling belong in the search contract?
-
-Answer: Any match, first match and last match can require different stopping and boundary rules.
-
-1. Identify the target idea: Why does duplicate handling belong in the search contract?
-
-2. Compare your response with the held study explanation: Any match, first match and last match can require different stopping and boundary rules.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why does duplicate handling belong in the search contract?
+- Give a valid preservation or search method.
 
 ## Revision checklist
 
@@ -685,7 +561,7 @@ Finding any matching value is a different contract from finding the first matchi
 
 - What does this lesson's search contract return on failure?
 
-Mixed practice: q1, application-check, error-analysis
+Mixed practice: q1, application-check, error-analysis, depth-lower-bound, depth-missing-large, depth-preserve-index
 
 After checking your answer, write the specific rule or assumption you missed. Retry the linked questions without the worked example in a later session. A checked answer or completed checklist is not a measurement of mastery.
 

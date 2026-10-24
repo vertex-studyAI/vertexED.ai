@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "checkedOn": "2026-10-21",
+  "revision": "2026-10-21.5",
+  "boundary": "Local authoring and engineering verification, not independent subject review, completed curricula or public deployment. This receipt covers the 12 new Number/Proof lessons and five chosen option routes. Older receipts retain their historical scope.",
+  "authored": {
+    "lessons": 12,
+    "noteWords": 5623,
+    "workedExamples": 25,
+    "questions": 103,
+    "flashcards": 60,
+    "tieredUnitPointRows": 67,
+    "distinctSourcePoints": 51,
+    "coverageReport": "docs/evidence/syllabus-unit-coverage-20261021.json",
+    "coverageReportHash": "sha256:6bc34d581298b81e6d609d0ea4880baab97f2a39af5cf851b19f3da30cf3693a",
+    "selectedOptionRoutes": 5,
+    "optionsSource": "src/content/course-option-defaults.mjs",
+    "optionsSourceHash": "sha256:b3ef1238dc05627225649eca5858b6662249dc12042de50df479e0c758dcbaf5"
+  },
+  "focusedTests": {
+    "status": "PASS",
+    "passed": 62,
+    "failed": 0,
+    "skipped": 0,
+    "log": "test-results/syllabus-coverage-20261021/focused-final.tap",
+    "logHash": "sha256:e8b01b7ebddb6e37f59ab951d128d3c514e41db79215569d5905a7813443aa95",
+    "scope": [
+      "Authored library schema, exact generated assets and publication holds",
+      "Preserved foundation depth, application packs and existing partial crosswalk",
+      "Subject expansion and all-catalogue resource pathways",
+      "Finite Number/Proof point lists and references; rejected missing points, orphans and tier contamination",
+      "Selected numerical, rational, surd, bound, Venn and time-zone answer checks",
+      "Default option and annual/series constraints",
+      "AP/MYP source and delivery preservation"
+    ],
+    "limitation": "Not the full application suite, not all prose answers independently reviewed, and not learner mastery or examination equivalence. Two initial test-oracle formatting failures (floating-point display and Unicode minus) were corrected without changing the mathematical answer keys."
+  },
+  "browser": {
+    "status": "PASS",
+    "passed": 4,
+    "failed": 0,
+    "skipped": 0,
+    "flaky": 0,
+    "durationMs": 30330.041,
+    "report": "test-results/syllabus-coverage-20261021/browser-final.json",
+    "reportHash": "sha256:5848c892cfbd0c7f738f256d46ba83630b59e0d27e9eecb0b55dc11e14f3ff85",
+    "screenshots": "test-results/syllabus-coverage-20261021/browser-final",
+    "viewports": [1440, 1024, 390],
+    "coverage": "All 12 lessons in Notes, Guided study, Flashcards, Practise and Revise; keyboard tab activation and focus navigation; explained self-review; reduced motion; overflow assertions; all 24 new JSON/Markdown assets return 403 without reviewer fixture interception.",
+    "visualInspection": "Inspected final representative notes captures at all three widths and mobile proof practice; also inspected initial mobile practice for standard form and bounds. Content remained readable without horizontal overflow. No product UI or CSS changes were made.",
+    "earlierRun": "The initial four-scenario run passed before the copy correction. Its screenshots remain in test-results/syllabus-coverage-20261021/browser; only the final run is counted above.",
+    "limitation": "Reviewer fixtures demonstrate local rendering, not live student access, account sync or production availability. Existing 59-lesson browser scenarios were not rerun in this pass."
+  },
+  "engineering": {
+    "runtime": "Node 22.22.0",
+    "typecheck": "PASS",
+    "scopedEslint": "PASS",
+    "copyLint": { "status": "PASS", "filesScanned": 609, "findings": 0, "initialFindings": 49, "correction": "Replaced prohibited em-dash separators in the new lesson headings and metadata; no lint rule was disabled." },
+    "contentAudit": "PASS, including exact library generation and unit report freshness",
+    "whitespace": "PASS",
+    "build": { "status": "PASS", "viteSeconds": 12.45, "log": "test-results/syllabus-coverage-20261021/build-final.log", "logHash": "sha256:dbc2b9f64804ff0ae589042e40badad6e3ca5a6bec61a41808ee29c101a0460e" },
+    "emittedPublicationCheck": { "status": "PASS", "javaScriptFiles": 144, "checkedStrings": 50499, "checkedCourseBodyStrings": 6853, "approvedStaticAssets": 0, "violations": [] },
+    "legacyGuideAudit": { "files": 245, "flagged": 53, "approved": 0 }
+  },
+  "sourceInspection": {
+    "skill": "pdf",
+    "mathematicsPdf": { "url": "https://www.cambridgeinternational.org/Images/662466-2025-2027-syllabus.pdf", "hash": "sha256:627f8e5dab21605f95b9aceec4a2dcdddf91dce5767d6938d647b38041c6d363", "pagesVisuallyInspected": [12,13,14,15,16,32,33,34,35,36] },
+    "historyPdf": { "url": "https://www.cambridgeinternational.org/Images/721327-2027-2028-syllabus.pdf", "hash": "sha256:d5592566b8f3bcdc502675d39f6d987b1100e77f26ed35c6a2bebdbe12e3b925", "pageVisuallyInspected": 30, "additionalTextInspection": "Route/overview pages 8–9" },
+    "limit": "These selected-page inspections are not full-document reviews. AQA source sections and route constraints were inspected on their official live pages; dated web snapshots are not immutable editions."
+  },
+  "remaining": {
+    "completedCourses": 0,
+    "independentlyReviewedUnits": 0,
+    "publishedNewLessons": 0,
+    "backlog": "Other Mathematics units, other GCSE/IGCSE/A-Level subjects, selected History/Literature topic teaching, other programme syllabuses, full-course assessments, independent subject/answer review and publication approval remain incomplete.",
+    "deployment": "Not performed",
+    "databaseChanges": "None",
+    "publicationApprovalChanges": "None"
+  }
+}

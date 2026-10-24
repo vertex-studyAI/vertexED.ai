@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "revision": "2026-10-21.3",
+  "scope": "Local verification of authored foundation depth packs. Not complete curricula, independent review or deployment.",
+  "runtime": "v22.22.0",
+  "hashes": {
+    "test-results/foundation-depth-20261021/focused.xml": "sha256:9f5db5b58900ef5cb0adaf9ae94c3bac5618a6588f48bc6eb5547a5e429bc0a9",
+    "test-results/foundation-depth-20261021/browser-verified-result.json": "sha256:d1f9448bd05db638bb2a9ad754d495d6bc7be91c787d7de8f7fa1a8e1cd8720a",
+    "public/learning-library/manifest.json": "sha256:b9bbe8f939316c9c09830de7930dd845456a703c65a2032e7cedc6e7ebffaa1b",
+    "docs/evidence/foundation-depth-20261021.json": "sha256:b21432b4224c80f10de27b3da827d6798c93f385193fa46784478f8390cc661a",
+    "e2e/foundation-library.spec.ts": "sha256:03be4412e5cd1c2268cf03571a66e35c1341436d1ddc6e8d5a09a784d9d75bc8",
+    "contracts/content-publication-approvals.json": "sha256:1f01488388dcf880d7fc8b2e600ccacb6f69cdd256bd1912d85f289588fa7f0c"
+  },
+  "focused": {
+    "tests": 72,
+    "failures": 0
+  },
+  "browser": {
+    "startTime": "2026-10-21T14:32:58.713Z",
+    "duration": 84869.19099999999,
+    "expected": 7,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "publication": {
+    "status": "PASS",
+    "javaScriptFiles": 144,
+    "checkedStrings": 50499,
+    "heldAdaptiveQuestions": 35,
+    "approvedStaticAssets": 0,
+    "heldLegacyModules": 29,
+    "heldTeachingSections": 10,
+    "checkedLegacyBodyStrings": 536,
+    "checkedCourseBodyStrings": 6853,
+    "violations": []
+  },
+  "checks": {
+    "typecheck": "PASS",
+    "scopedEslint": "PASS",
+    "copyLint": {
+      "files": 584,
+      "findings": 0
+    },
+    "generatedContentAndReports": "PASS",
+    "gitDiffCheck": "PASS",
+    "productionModeBuild": {
+      "status": "PASS",
+      "durationSeconds": 18.28,
+      "directory": "test-results/foundation-depth-20261021/build"
+    }
+  },
+  "visualReview": {
+    "widths": [
+      1440,
+      1024,
+      390
+    ],
+    "readerViewportHeight": 900,
+    "expandedQuestionCaptureHeight": 1800,
+    "representativeLessons": [
+      "atomic-models",
+      "hindi-sentence-structure",
+      "words-in-context"
+    ],
+    "inspectedImages": [
+      "test-results/foundation-depth-20261021/browser-verified/foundation-library-shared--216ce-d-study-recall-and-practice/depth-solution-1024.png",
+      "test-results/foundation-depth-20261021/browser-verified/foundation-library-shared--3f748-d-study-recall-and-practice/depth-solution-1440.png",
+      "test-results/foundation-depth-20261021/browser-verified/foundation-library-shared--e2793-d-study-recall-and-practice/depth-solution-390.png"
+    ],
+    "correction": "Capture waits for responsive header/font layout and frames the expanded question beneath sticky navigation. No application style change."
+  },
+  "retainedEarlierBrowserReceipts": [
+    "test-results/foundation-depth-20261021/browser-result.json",
+    "test-results/foundation-depth-20261021/browser-local-result.json",
+    "test-results/foundation-depth-20261021/browser-corrected-result.json",
+    "test-results/foundation-depth-20261021/browser-final-result.json"
+  ],
+  "limits": [
+    "No full application-suite run in this pass.",
+    "No independent subject or language review.",
+    "No new syllabus alignment or completion credit.",
+    "No deployment, database or provider change.",
+    "All publication holds and 53 flagged legacy guides remain."
+  ]
+}

@@ -124,8 +124,8 @@ test('all eighteen mapped lessons traverse the existing integrity-checked reader
     const body = await readFile(`public${entry.json}`, 'utf8');
     const loaded = await loadFoundationLesson(entry, undefined, async () => new Response(body));
     assert.deepEqual(loaded, lesson);
-    assert.equal(loaded.questions.length, lesson.id === 'derivative-definition' ? 27 : lesson.workedExamples.length === 5 ? 10 : 12);
+    assert.equal(loaded.questions.length, lesson.id === 'derivative-definition' ? 30 : lesson.workedExamples.length === 5 ? 13 : 15);
     assert.equal(loaded.flashcards.length, lesson.workedExamples.length === 5 ? 12 : 14);
-    assert.equal(loaded.notes.length, 7);
+    assert.equal(loaded.notes.length, 8);
   }
 });

@@ -1,6 +1,6 @@
 # Cellular respiration, exercise responses and metabolic connections
 
-Subject: Biology · Unit: Bioenergetics · Revision: 2026-10-21.2
+Subject: Biology · Unit: Bioenergetics · Revision: 2026-10-21.3
 
 **Review draft — not independently approved. Practice marks are editorial, not official exam marks.**
 
@@ -62,6 +62,10 @@ For a pathway comparison, organise the response around oxygen requirement, produ
 
 A breathing-rate measurement is a whole-organism response, not a direct count of cellular respiration reactions. Exercise can increase demand for energy transfer, while breathing and circulation help supply oxygen and transport carbon dioxide. During recovery, these responses may remain above a resting value, but a single time series does not isolate every cause. Compare readings with their baseline, keep the counting interval consistent and distinguish percentage change from a change in breaths per minute. The fictional observations below support describing a recovery pattern. They are not a health assessment, a measurement of ATP production or evidence for a precise universal recovery time.
 
+## Interpret physiological proxies within the given model
+
+Ventilation brings air into and out of the lungs, while cellular respiration releases usable energy through reactions inside cells. A breathing count measures frequency; ventilation volume also depends on the volume per breath. Oxygen uptake and carbon dioxide output can inform a model of aerobic metabolism, but a simple count alone cannot determine cellular ATP production. Time-series comparisons require consistent intervals and clear baselines. All data below are invented teaching examples, and the arithmetic does not establish a health assessment or an exercise recommendation.
+
 ## Diagram: Read a recovery time series
 
 Read the labelled relationships to follow this worked application. Immediate increase: 150%. After two minutes the rate is 6 breaths per minute above rest. This is an explanatory process diagram, not a scale drawing or a record of a learner attempt.
@@ -108,15 +112,15 @@ Worked examples: 6
 
 Practise: q9, q10, application-check, error-analysis
 
-### Retrieval practice
+### Apply and test the limits
 
-Close the notes and answer these extra prompts from memory. Self-review with the held explanation, name one gap, then retry later. This is study practice, not an automatic mark or mastery measurement.
+Revisit the last worked example, then read the new section and tackle these different situations. Identify the assumptions before answering. Compare your reasoning with each marking point; these open responses require self-review, not automatic marks.
 
-Read: Respiration is a cellular process, not a synonym for breathing
+Read: Interpret physiological proxies within the given model
 
-Worked examples: 1
+Worked examples: 6
 
-Practise: retrieval-01, retrieval-02, retrieval-03, retrieval-04, retrieval-05, retrieval-06, retrieval-07, retrieval-08, retrieval-09, retrieval-10, retrieval-11, retrieval-12, retrieval-13
+Practise: depth-minute-volume, depth-variable-recovery, depth-plant-darkness
 
 ## Worked example 1
 
@@ -463,187 +467,59 @@ Marking points (one practice mark each):
 
 - The observations support a response pattern, not the asserted exact proportional change in cellular ATP production.
 
-## Practice 13 — foundation · 1 marks
+## Practice 13 — standard · 3 marks
 
-Retrieval 1 — Cellular respiration, exercise responses and metabolic connections: Answer from memory: What does ventilation describe?
+In a fictional model, breathing frequency is 12 breaths/min with 0.50 L per breath at rest, then 20 breaths/min with 0.75 L per breath. Find the two ventilation volumes per minute and their ratio.
 
-Answer: Movement of air into and out of the lungs.
+Answer: 6 L/min and 15 L/min; the second is 2.5 times the first.
 
-1. Identify the target idea: What does ventilation describe?
+1. Multiply breaths per minute by litres per breath in each condition.
 
-2. Compare your response with the held study explanation: Movement of air into and out of the lungs.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does ventilation describe?
-
-## Practice 14 — standard · 1 marks
-
-Retrieval 2 — Cellular respiration, exercise responses and metabolic connections: State the condition or distinction precisely: At what organisational level does cellular respiration occur?
-
-Answer: Within living cells.
-
-1. Identify the target idea: At what organisational level does cellular respiration occur?
-
-2. Compare your response with the held study explanation: Within living cells.
+2. Compare 15/6 rather than comparing frequencies alone.
 
 Marking points (one practice mark each):
 
-- Accurately address: At what organisational level does cellular respiration occur?
+- Find rest volume 6 L/min.
 
-## Practice 15 — extension · 1 marks
+- Find second volume 15 L/min.
 
-Retrieval 3 — Cellular respiration, exercise responses and metabolic connections: Explain the idea in your own words: What are the products in the glucose aerobic-respiration summary?
+- Find ratio 2.5.
 
-Answer: Carbon dioxide and water.
+## Practice 14 — extension · 3 marks
 
-1. Identify the target idea: What are the products in the glucose aerobic-respiration summary?
+A fictional excess oxygen-uptake rate falls linearly from 0.60 L/min at t=0 to 0 at t=4 min. Find the excess oxygen volume using the rate-time graph.
 
-2. Compare your response with the held study explanation: Carbon dioxide and water.
+Answer: 1.20 L.
 
-Marking points (one practice mark each):
+1. The area is a triangle of base 4 min and height 0.60 L/min.
 
-- Accurately address: What are the products in the glucose aerobic-respiration summary?
-
-## Practice 16 — foundation · 1 marks
-
-Retrieval 4 — Cellular respiration, exercise responses and metabolic connections: Answer from memory: What product is used in the GCSE anaerobic muscle summary?
-
-Answer: Lactic acid; lactate is the more precise cellular-pH terminology.
-
-1. Identify the target idea: What product is used in the GCSE anaerobic muscle summary?
-
-2. Compare your response with the held study explanation: Lactic acid; lactate is the more precise cellular-pH terminology.
+2. Compute (1/2)×4×0.60 and check that time cancels from the units.
 
 Marking points (one practice mark each):
 
-- Accurately address: What product is used in the GCSE anaerobic muscle summary?
+- Identify a triangular area.
 
-## Practice 17 — standard · 1 marks
+- Compute 1.20.
 
-Retrieval 5 — Cellular respiration, exercise responses and metabolic connections: State the condition or distinction precisely: What does yeast fermentation produce in the mapped pathway?
+- State litres with a unit check.
 
-Answer: Ethanol and carbon dioxide.
+## Practice 15 — standard · 3 marks
 
-1. Identify the target idea: What does yeast fermentation produce in the mapped pathway?
+A living plant is moved into darkness briefly in a simplified model where photosynthesis stops but respiration continues. Predict the direction of its net oxygen exchange and explain the energy source.
 
-2. Compare your response with the held study explanation: Ethanol and carbon dioxide.
+Answer: It takes up oxygen overall for aerobic respiration, using stored organic substrates such as sugars.
 
-Marking points (one practice mark each):
+1. Separate the stopped photosynthetic oxygen production from continuing respiratory use.
 
-- Accurately address: What does yeast fermentation produce in the mapped pathway?
-
-## Practice 18 — extension · 1 marks
-
-Retrieval 6 — Cellular respiration, exercise responses and metabolic connections: Explain the idea in your own words: Which pathway transfers more energy per glucose in this comparison?
-
-Answer: Aerobic respiration compared with the specified anaerobic pathways.
-
-1. Identify the target idea: Which pathway transfers more energy per glucose in this comparison?
-
-2. Compare your response with the held study explanation: Aerobic respiration compared with the specified anaerobic pathways.
+2. Respiration can use stored substrates even without current light.
 
 Marking points (one practice mark each):
 
-- Accurately address: Which pathway transfers more energy per glucose in this comparison?
+- Predict net oxygen uptake.
 
-## Practice 19 — foundation · 1 marks
+- Identify continuing aerobic respiration.
 
-Retrieval 7 — Cellular respiration, exercise responses and metabolic connections: Answer from memory: Do illuminated living plant cells still respire?
-
-Answer: Yes; photosynthesis does not replace respiration.
-
-1. Identify the target idea: Do illuminated living plant cells still respire?
-
-2. Compare your response with the held study explanation: Yes; photosynthesis does not replace respiration.
-
-Marking points (one practice mark each):
-
-- Accurately address: Do illuminated living plant cells still respire?
-
-## Practice 20 — standard · 1 marks
-
-Retrieval 8 — Cellular respiration, exercise responses and metabolic connections: State the condition or distinction precisely: Why can heart rate rise during exercise in the school explanation?
-
-Answer: To support increased transport needed by working tissues.
-
-1. Identify the target idea: Why can heart rate rise during exercise in the school explanation?
-
-2. Compare your response with the held study explanation: To support increased transport needed by working tissues.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why can heart rate rise during exercise in the school explanation?
-
-## Practice 21 — extension · 1 marks
-
-Retrieval 9 — Cellular respiration, exercise responses and metabolic connections: Explain the idea in your own words: How does breath volume differ from breathing rate?
-
-Answer: Volume is air per breath; rate is breaths per unit time.
-
-1. Identify the target idea: How does breath volume differ from breathing rate?
-
-2. Compare your response with the held study explanation: Volume is air per breath; rate is breaths per unit time.
-
-Marking points (one practice mark each):
-
-- Accurately address: How does breath volume differ from breathing rate?
-
-## Practice 22 — foundation · 1 marks
-
-Retrieval 10 — Cellular respiration, exercise responses and metabolic connections: Answer from memory: What does above-baseline oxygen uptake after activity indicate directly?
-
-Answer: An elevated uptake during recovery, not a complete biochemical explanation or diagnosis.
-
-1. Identify the target idea: What does above-baseline oxygen uptake after activity indicate directly?
-
-2. Compare your response with the held study explanation: An elevated uptake during recovery, not a complete biochemical explanation or diagnosis.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does above-baseline oxygen uptake after activity indicate directly?
-
-## Practice 23 — standard · 1 marks
-
-Retrieval 11 — Cellular respiration, exercise responses and metabolic connections: State the condition or distinction precisely: Does metabolism include synthesis as well as breakdown?
-
-Answer: Yes; it includes both kinds of cellular reaction.
-
-1. Identify the target idea: Does metabolism include synthesis as well as breakdown?
-
-2. Compare your response with the held study explanation: Yes; it includes both kinds of cellular reaction.
-
-Marking points (one practice mark each):
-
-- Accurately address: Does metabolism include synthesis as well as breakdown?
-
-## Practice 24 — extension · 1 marks
-
-Retrieval 12 — Cellular respiration, exercise responses and metabolic connections: Explain the idea in your own words: Why do protein-building pathways need a nitrogen source?
-
-Answer: Amino acids contain nitrogen that glucose alone cannot supply.
-
-1. Identify the target idea: Why do protein-building pathways need a nitrogen source?
-
-2. Compare your response with the held study explanation: Amino acids contain nitrogen that glucose alone cannot supply.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why do protein-building pathways need a nitrogen source?
-
-## Practice 25 — foundation · 1 marks
-
-Retrieval 13 — Cellular respiration, exercise responses and metabolic connections: Answer from memory: Why distinguish breathing rate from cellular respiration rate?
-
-Answer: One counts whole-organism breaths; the other concerns cellular chemical processes, so they are not interchangeable measurements.
-
-1. Identify the target idea: Why distinguish breathing rate from cellular respiration rate?
-
-2. Compare your response with the held study explanation: One counts whole-organism breaths; the other concerns cellular chemical processes, so they are not interchangeable measurements.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why distinguish breathing rate from cellular respiration rate?
+- Identify stored organic substrate as the energy source.
 
 ## Revision checklist
 
@@ -679,7 +555,7 @@ A breathing-rate measurement is a whole-organism response, not a direct count of
 
 - What does ventilation describe?
 
-Mixed practice: q1, application-check, error-analysis
+Mixed practice: q1, application-check, error-analysis, depth-minute-volume, depth-variable-recovery, depth-plant-darkness
 
 After checking your answer, write the specific rule or assumption you missed. Retry the linked questions without the worked example in a later session. A checked answer or completed checklist is not a measurement of mastery.
 

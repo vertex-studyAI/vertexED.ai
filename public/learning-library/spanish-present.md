@@ -1,6 +1,6 @@
 # Regular present-tense verbs and subject agreement
 
-Subject: Spanish · Unit: Communicating routines · Revision: 2026-10-21.2
+Subject: Spanish · Unit: Communicating routines · Revision: 2026-10-21.3
 
 **Review draft — not independently approved. Practice marks are editorial, not official exam marks.**
 
@@ -41,6 +41,10 @@ An explicit pronoun can clarify contrast: yo estudio, pero mi hermano trabaja. I
 ## Maintaining agreement when an explicit subject returns
 
 Spanish often omits a subject pronoun when the verb ending and context make the subject clear. That omission does not remove the need for agreement. In a connected description, an explicit new subject can shift the verb form even when the topic remains the same. For regular present-tense verbs, first distinguish -ar, -er and -ir infinitives, then choose the ending for the intended subject. Negation normally places no before the conjugated verb in these simple examples. Keep time meaning separate from habitual context: the present form can describe a routine without being a progressive construction. Irregular forms and regional address conventions require separate treatment.
+
+## Track the subject through questions and connected clauses
+
+Spanish verb endings often identify the subject even when a pronoun is omitted. A reply changes perspective: a question about tú may require a yo answer. Coordinated subjects containing yo normally correspond to nosotros or nosotras, and the ending must change accordingly. Place no directly before the conjugated verb for these simple negative statements. Regular -ar, -er and -ir verbs share some endings but differ in others, especially the nosotros form. Accent marks are part of the written form and should be retained when required.
 
 ## Diagram: Track a Spanish subject change
 
@@ -88,15 +92,15 @@ Worked examples: 4
 
 Practise: q5, application-check, error-analysis
 
-### Retrieval practice
+### Apply and test the limits
 
-Close the notes and answer these extra prompts from memory. Self-review with the held explanation, name one gap, then retry later. This is study practice, not an automatic mark or mastery measurement.
+Revisit the last worked example, then read the new section and tackle these different situations. Identify the assumptions before answering. Compare your reasoning with each marking point; these open responses require self-review, not automatic marks.
 
-Read: Finding the stem and selecting an ending
+Read: Track the subject through questions and connected clauses
 
-Worked examples: 1
+Worked examples: 4
 
-Practise: retrieval-01, retrieval-02, retrieval-03, retrieval-04, retrieval-05, retrieval-06, retrieval-07, retrieval-08, retrieval-09, retrieval-10, retrieval-11, retrieval-12, retrieval-13, retrieval-14, retrieval-15, retrieval-16, retrieval-17, retrieval-18
+Practise: depth-question-perspective, depth-verb-families, depth-coordinated-negative
 
 ## Worked example 1
 
@@ -314,257 +318,59 @@ Marking points (one practice mark each):
 
 - Use vive, not the first-person plural vivimos, while keeping no before the verb.
 
-## Practice 8 — foundation · 1 marks
+## Practice 8 — standard · 3 marks
 
-Retrieval 1 — Regular present-tense verbs and subject agreement: Answer from memory: How do you obtain the regular stem of estudiar?
+Answer '¿Vives en Quito?' by saying that you live in Lima and do not live in Quito, using complete regular present-tense clauses.
 
-Answer: Remove -ar to obtain estudi-.
+Answer: Vivo en Lima y no vivo en Quito.
 
-1. Identify the target idea: How do you obtain the regular stem of estudiar?
+1. The reply describes the speaker, so use the yo form vivo.
 
-2. Compare your response with the held study explanation: Remove -ar to obtain estudi-.
-
-Marking points (one practice mark each):
-
-- Accurately address: How do you obtain the regular stem of estudiar?
-
-## Practice 9 — standard · 1 marks
-
-Retrieval 2 — Regular present-tense verbs and subject agreement: State the condition or distinction precisely: Give the nosotros forms of hablar, comer and vivir.
-
-Answer: Hablamos, comemos and vivimos.
-
-1. Identify the target idea: Give the nosotros forms of hablar, comer and vivir.
-
-2. Compare your response with the held study explanation: Hablamos, comemos and vivimos.
+2. Place no before the second conjugated verb.
 
 Marking points (one practice mark each):
 
-- Accurately address: Give the nosotros forms of hablar, comer and vivir.
+- Use vivo for the speaker.
 
-## Practice 10 — extension · 1 marks
+- State en Lima.
 
-Retrieval 3 — Regular present-tense verbs and subject agreement: Explain the idea in your own words: Complete: Usted ___ español. (hablar)
+- Write no vivo en Quito.
 
-Answer: Habla: usted takes the third-person singular verb form.
+## Practice 9 — standard · 3 marks
 
-1. Identify the target idea: Complete: Usted ___ español. (hablar)
+Complete with regular present-tense nosotros forms: 'Nosotros ___ español, ___ fruta y ___ en Madrid.' Use estudiar, comer and vivir.
 
-2. Compare your response with the held study explanation: Habla: usted takes the third-person singular verb form.
+Answer: Nosotros estudiamos español, comemos fruta y vivimos en Madrid.
 
-Marking points (one practice mark each):
+1. Use -amos for estudiar, -emos for comer and -imos for vivir.
 
-- Accurately address: Complete: Usted ___ español. (hablar)
-
-## Practice 11 — foundation · 1 marks
-
-Retrieval 4 — Regular present-tense verbs and subject agreement: Answer from memory: Where does no go in a simple negative present-tense sentence?
-
-Answer: Before the conjugated verb: No vivo aquí.
-
-1. Identify the target idea: Where does no go in a simple negative present-tense sentence?
-
-2. Compare your response with the held study explanation: Before the conjugated verb: No vivo aquí.
+2. Keep the plural first-person subject across all three clauses.
 
 Marking points (one practice mark each):
 
-- Accurately address: Where does no go in a simple negative present-tense sentence?
+- Write estudiamos.
 
-## Practice 12 — standard · 1 marks
+- Write comemos.
 
-Retrieval 5 — Regular present-tense verbs and subject agreement: State the condition or distinction precisely: Why can Hablo español be complete without yo?
+- Write vivimos.
 
-Answer: The first-person singular ending identifies the speaker; the pronoun can be included for emphasis or contrast.
+## Practice 10 — standard · 3 marks
 
-1. Identify the target idea: Why can Hablo español be complete without yo?
+Correct 'Ana y yo no trabaja los sábados' and explain both the subject interpretation and negative placement.
 
-2. Compare your response with the held study explanation: The first-person singular ending identifies the speaker; the pronoun can be included for emphasis or contrast.
+Answer: Ana y yo no trabajamos los sábados.
 
-Marking points (one practice mark each):
+1. Ana y yo corresponds to nosotros or nosotras.
 
-- Accurately address: Why can Hablo español be complete without yo?
-
-## Practice 13 — extension · 1 marks
-
-Retrieval 6 — Regular present-tense verbs and subject agreement: Explain the idea in your own words: What should be checked when the subject changes between connected clauses?
-
-Answer: Choose a new verb ending for the new subject instead of carrying the previous agreement across automatically.
-
-1. Identify the target idea: What should be checked when the subject changes between connected clauses?
-
-2. Compare your response with the held study explanation: Choose a new verb ending for the new subject instead of carrying the previous agreement across automatically.
+2. Use trabajamos; no is already correctly placed before the verb.
 
 Marking points (one practice mark each):
 
-- Accurately address: What should be checked when the subject changes between connected clauses?
+- Write trabajamos.
 
-## Practice 14 — foundation · 1 marks
+- Explain first-person plural agreement.
 
-Retrieval 7 — Regular present-tense verbs and subject agreement: Answer from memory: Does an omitted Spanish subject remove verb agreement?
-
-Answer: No. The ending still agrees with the intended subject.
-
-1. Identify the target idea: Does an omitted Spanish subject remove verb agreement?
-
-2. Compare your response with the held study explanation: No. The ending still agrees with the intended subject.
-
-Marking points (one practice mark each):
-
-- Accurately address: Does an omitted Spanish subject remove verb agreement?
-
-## Practice 15 — standard · 1 marks
-
-Retrieval 8 — Regular present-tense verbs and subject agreement: State the condition or distinction precisely: Where does no go in a simple negative present clause?
-
-Answer: Before the conjugated verb, as in Elena no vive aquí.
-
-1. Identify the target idea: Where does no go in a simple negative present clause?
-
-2. Compare your response with the held study explanation: Before the conjugated verb, as in Elena no vive aquí.
-
-Marking points (one practice mark each):
-
-- Accurately address: Where does no go in a simple negative present clause?
-
-## Practice 16 — extension · 1 marks
-
-Retrieval 9 — Regular present-tense verbs and subject agreement: Explain the idea in your own words: How do you obtain the regular stem of estudiar?
-
-Answer: Remove -ar to obtain estudi-.
-
-1. Identify the target idea: How do you obtain the regular stem of estudiar?
-
-2. Compare your response with the held study explanation: Remove -ar to obtain estudi-.
-
-Marking points (one practice mark each):
-
-- Accurately address: How do you obtain the regular stem of estudiar?
-
-## Practice 17 — foundation · 1 marks
-
-Retrieval 10 — Regular present-tense verbs and subject agreement: Answer from memory: Give the nosotros forms of hablar, comer and vivir.
-
-Answer: Hablamos, comemos and vivimos.
-
-1. Identify the target idea: Give the nosotros forms of hablar, comer and vivir.
-
-2. Compare your response with the held study explanation: Hablamos, comemos and vivimos.
-
-Marking points (one practice mark each):
-
-- Accurately address: Give the nosotros forms of hablar, comer and vivir.
-
-## Practice 18 — standard · 1 marks
-
-Retrieval 11 — Regular present-tense verbs and subject agreement: State the condition or distinction precisely: Complete: Usted ___ español. (hablar)
-
-Answer: Habla: usted takes the third-person singular verb form.
-
-1. Identify the target idea: Complete: Usted ___ español. (hablar)
-
-2. Compare your response with the held study explanation: Habla: usted takes the third-person singular verb form.
-
-Marking points (one practice mark each):
-
-- Accurately address: Complete: Usted ___ español. (hablar)
-
-## Practice 19 — extension · 1 marks
-
-Retrieval 12 — Regular present-tense verbs and subject agreement: Explain the idea in your own words: Where does no go in a simple negative present-tense sentence?
-
-Answer: Before the conjugated verb: No vivo aquí.
-
-1. Identify the target idea: Where does no go in a simple negative present-tense sentence?
-
-2. Compare your response with the held study explanation: Before the conjugated verb: No vivo aquí.
-
-Marking points (one practice mark each):
-
-- Accurately address: Where does no go in a simple negative present-tense sentence?
-
-## Practice 20 — foundation · 1 marks
-
-Retrieval 13 — Regular present-tense verbs and subject agreement: Answer from memory: Why can Hablo español be complete without yo?
-
-Answer: The first-person singular ending identifies the speaker; the pronoun can be included for emphasis or contrast.
-
-1. Identify the target idea: Why can Hablo español be complete without yo?
-
-2. Compare your response with the held study explanation: The first-person singular ending identifies the speaker; the pronoun can be included for emphasis or contrast.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why can Hablo español be complete without yo?
-
-## Practice 21 — standard · 1 marks
-
-Retrieval 14 — Regular present-tense verbs and subject agreement: State the condition or distinction precisely: What should be checked when the subject changes between connected clauses?
-
-Answer: Choose a new verb ending for the new subject instead of carrying the previous agreement across automatically.
-
-1. Identify the target idea: What should be checked when the subject changes between connected clauses?
-
-2. Compare your response with the held study explanation: Choose a new verb ending for the new subject instead of carrying the previous agreement across automatically.
-
-Marking points (one practice mark each):
-
-- Accurately address: What should be checked when the subject changes between connected clauses?
-
-## Practice 22 — extension · 1 marks
-
-Retrieval 15 — Regular present-tense verbs and subject agreement: Explain the idea in your own words: Does an omitted Spanish subject remove verb agreement?
-
-Answer: No. The ending still agrees with the intended subject.
-
-1. Identify the target idea: Does an omitted Spanish subject remove verb agreement?
-
-2. Compare your response with the held study explanation: No. The ending still agrees with the intended subject.
-
-Marking points (one practice mark each):
-
-- Accurately address: Does an omitted Spanish subject remove verb agreement?
-
-## Practice 23 — foundation · 1 marks
-
-Retrieval 16 — Regular present-tense verbs and subject agreement: Answer from memory: Where does no go in a simple negative present clause?
-
-Answer: Before the conjugated verb, as in Elena no vive aquí.
-
-1. Identify the target idea: Where does no go in a simple negative present clause?
-
-2. Compare your response with the held study explanation: Before the conjugated verb, as in Elena no vive aquí.
-
-Marking points (one practice mark each):
-
-- Accurately address: Where does no go in a simple negative present clause?
-
-## Practice 24 — standard · 1 marks
-
-Retrieval 17 — Regular present-tense verbs and subject agreement: State the condition or distinction precisely: How do you obtain the regular stem of estudiar?
-
-Answer: Remove -ar to obtain estudi-.
-
-1. Identify the target idea: How do you obtain the regular stem of estudiar?
-
-2. Compare your response with the held study explanation: Remove -ar to obtain estudi-.
-
-Marking points (one practice mark each):
-
-- Accurately address: How do you obtain the regular stem of estudiar?
-
-## Practice 25 — extension · 1 marks
-
-Retrieval 18 — Regular present-tense verbs and subject agreement: Explain the idea in your own words: Give the nosotros forms of hablar, comer and vivir.
-
-Answer: Hablamos, comemos and vivimos.
-
-1. Identify the target idea: Give the nosotros forms of hablar, comer and vivir.
-
-2. Compare your response with the held study explanation: Hablamos, comemos and vivimos.
-
-Marking points (one practice mark each):
-
-- Accurately address: Give the nosotros forms of hablar, comer and vivir.
+- Retain and explain no before the verb.
 
 ## Revision checklist
 
@@ -598,6 +404,6 @@ Spanish often omits a subject pronoun when the verb ending and context make the 
 
 - How do you obtain the regular stem of estudiar?
 
-Mixed practice: q1, application-check, error-analysis
+Mixed practice: q1, application-check, error-analysis, depth-question-perspective, depth-verb-families, depth-coordinated-negative
 
 After checking your answer, write the specific rule or assumption you missed. Retry the linked questions without the worked example in a later session. A checked answer or completed checklist is not a measurement of mastery.

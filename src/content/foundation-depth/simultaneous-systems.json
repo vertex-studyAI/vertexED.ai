@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "lessonId": "simultaneous-systems",
+  "revision": "2026-10-21.3",
+  "notes": [
+    {
+      "heading": "Interpret elimination as a statement about all shared solutions",
+      "paragraphs": [
+        "Elimination combines equations that every shared solution must satisfy. When the variables disappear, the remaining statement distinguishes coincident equations from inconsistent ones. Parameters require case splits where coefficients become zero. A nonlinear equation can intersect a line twice, once or not at all, so substituting an expression should be followed by solving and checking all candidates. A numerical answer is only part of a modelling task: restrictions such as nonnegative integer counts can make an algebraically consistent solution infeasible."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "depth-parameter-system",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "Solve x+y=4 and x+ky=6 for real x,y, distinguishing k=1 from other real k.",
+      "answer": "For k≠1, y=2/(k-1) and x=4-2/(k-1). For k=1 there is no solution.",
+      "solution": [
+        "Subtract the first equation to obtain (k-1)y=2.",
+        "Divide only for k≠1; when k=1 the statement 0=2 is impossible."
+      ],
+      "markingPoints": [
+        "Derive (k-1)y=2.",
+        "Give both values in the nonzero case.",
+        "Explain inconsistency when k=1."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-line-circle",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "Solve x+y=5 and x²+y²=13 over the reals, giving all ordered pairs.",
+      "answer": "(2,3) and (3,2).",
+      "solution": [
+        "Substitute y=5-x to get 2x²-10x+12=0.",
+        "Factor to obtain x=2 or 3, then recover y and check both equations."
+      ],
+      "markingPoints": [
+        "Form the quadratic.",
+        "Find both x values.",
+        "Give and check both ordered pairs."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-integer-feasibility",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "A fictional venue sells only 4-unit and 7-unit tickets. Exactly 10 tickets bring in 53 units. Show whether nonnegative whole-number counts can satisfy the data.",
+      "answer": "No. If n counts 7-unit tickets, 7n+4(10-n)=53 gives n=13/3, which is not an integer.",
+      "solution": [
+        "Use both the ticket-count and revenue constraints.",
+        "Distinguish a real algebraic solution from a permissible count."
+      ],
+      "markingPoints": [
+        "Form the revenue equation.",
+        "Find n=13/3.",
+        "Reject it for whole-number ticket counts."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    }
+  ]
+}

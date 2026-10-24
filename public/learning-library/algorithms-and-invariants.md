@@ -1,6 +1,6 @@
 # Tracing algorithms, loop invariants and edge cases
 
-Subject: Computer Science · Unit: Algorithms · Revision: 2026-10-21.2
+Subject: Computer Science · Unit: Algorithms · Revision: 2026-10-21.3
 
 **Review draft — not independently approved. Practice marks are editorial, not official exam marks.**
 
@@ -41,6 +41,10 @@ Correct output on selected tests does not by itself prove correctness for every 
 ## Proving a running maximum
 
 For a nonempty list, initialise a running maximum from the first element, not from a convenient constant such as zero. Before each subsequent iteration, the stored value should equal the maximum of exactly the elements already processed. Comparing the next element and retaining the larger value preserves that invariant. At termination every element has been processed, so the invariant yields the required result. This argument also explains an all-negative test: a zero initial value introduces a candidate that was never in the input. The empty-list case needs an explicit contract, such as returning no result or reporting invalid input. A trace demonstrates one run; an invariant explains all runs satisfying the preconditions.
+
+## Choose an invariant that describes the processed prefix
+
+A useful invariant says exactly what is true before each iteration and ties that statement to the amount of input already processed. For an average, retain both a total and a count. For a search, specify what has been ruled out. For a repeated subtraction loop, a quantity that decreases is only a termination argument if it cannot decrease indefinitely in the permitted domain. Empty input needs a separate contract when an operation such as division or selecting the first element is required. Test equality and boundary cases as deliberately as typical inputs.
 
 ## Diagram: Running maximum over a prefix
 
@@ -88,15 +92,15 @@ Worked examples: 4
 
 Practise: q5, application-check, error-analysis
 
-### Retrieval practice
+### Apply and test the limits
 
-Close the notes and answer these extra prompts from memory. Self-review with the held explanation, name one gap, then retry later. This is study practice, not an automatic mark or mastery measurement.
+Revisit the last worked example, then read the new section and tackle these different situations. Identify the assumptions before answering. Compare your reasoning with each marking point; these open responses require self-review, not automatic marks.
 
-Read: State and order of execution
+Read: Choose an invariant that describes the processed prefix
 
-Worked examples: 1
+Worked examples: 4
 
-Practise: retrieval-01, retrieval-02, retrieval-03, retrieval-04, retrieval-05, retrieval-06, retrieval-07, retrieval-08, retrieval-09, retrieval-10, retrieval-11, retrieval-12, retrieval-13, retrieval-14, retrieval-15, retrieval-16, retrieval-17, retrieval-18
+Practise: depth-prefix-average, depth-termination-domain, depth-off-by-one
 
 ## Worked example 1
 
@@ -314,257 +318,59 @@ Marking points (one practice mark each):
 
 - Define and handle the empty-list result before accessing the first element.
 
-## Practice 8 — foundation · 1 marks
+## Practice 8 — standard · 3 marks
 
-Retrieval 1 — Tracing algorithms, loop invariants and edge cases: Answer from memory: What happens in x=x+1?
+An algorithm sets total=0 and count=0, then adds each value in [2, 0, 7] to total and increments count. Trace the states and explain why total/count must not be evaluated before processing an empty list.
 
-Answer: The current x is read, one is added, and the result replaces x.
+Answer: The states are (2,1), (2,2), (9,3); the final mean is 3. With no elements the count is zero, so the mean needs an explicit undefined/error result.
 
-1. Identify the target idea: What happens in x=x+1?
+1. Accumulate one value and one count per iteration.
 
-2. Compare your response with the held study explanation: The current x is read, one is added, and the result replaces x.
-
-Marking points (one practice mark each):
-
-- Accurately address: What happens in x=x+1?
-
-## Practice 9 — standard · 1 marks
-
-Retrieval 2 — Tracing algorithms, loop invariants and edge cases: State the condition or distinction precisely: What are the three usual parts of a loop-invariant argument?
-
-Answer: Initialisation, preservation and how the invariant implies the result at termination.
-
-1. Identify the target idea: What are the three usual parts of a loop-invariant argument?
-
-2. Compare your response with the held study explanation: Initialisation, preservation and how the invariant implies the result at termination.
+2. Divide only when count is positive; the invariant is that total sums the count processed values.
 
 Marking points (one practice mark each):
 
-- Accurately address: What are the three usual parts of a loop-invariant argument?
+- Give the three correct states.
 
-## Practice 10 — extension · 1 marks
+- Compute mean 3.
 
-Retrieval 3 — Tracing algorithms, loop invariants and edge cases: Explain the idea in your own words: Why test an empty list?
+- Identify division by zero for empty input.
 
-Answer: It exposes assumptions about a first element and whether the output is defined.
+## Practice 9 — extension · 3 marks
 
-1. Identify the target idea: Why test an empty list?
+A loop repeatedly executes x=x-2 while x!=0. Does it terminate for every nonnegative integer input? Give a failing input and a corrected precondition if the body is kept unchanged.
 
-2. Compare your response with the held study explanation: It exposes assumptions about a first element and whether the output is defined.
+Answer: No. Starting at 3 gives 3,1,-1,-3,... and never reaches zero. Requiring an even nonnegative integer ensures termination.
 
-Marking points (one practice mark each):
+1. Subtracting 2 preserves parity; an odd value cannot become zero.
 
-- Accurately address: Why test an empty list?
-
-## Practice 11 — foundation · 1 marks
-
-Retrieval 4 — Tracing algorithms, loop invariants and edge cases: Answer from memory: How can a loop's termination be justified?
-
-Answer: Show a nonnegative measure decreases toward a stopping condition.
-
-1. Identify the target idea: How can a loop's termination be justified?
-
-2. Compare your response with the held study explanation: Show a nonnegative measure decreases toward a stopping condition.
+2. For even nonnegative x, x/2 is a nonnegative integer that decreases by one each iteration.
 
 Marking points (one practice mark each):
 
-- Accurately address: How can a loop's termination be justified?
+- Trace an odd counterexample.
 
-## Practice 12 — standard · 1 marks
+- State the even nonnegative precondition.
 
-Retrieval 5 — Tracing algorithms, loop invariants and edge cases: State the condition or distinction precisely: What does linear running time mean?
+- Give the decreasing nonnegative termination measure.
 
-Answer: Operation count grows proportionally to input length under the stated cost model.
+## Practice 10 — standard · 3 marks
 
-1. Identify the target idea: What does linear running time mean?
+A zero-indexed list has four elements. A loop begins i=0, reads a[i], increments i, and repeats while i<=4. Identify the invalid access and repair the bound.
 
-2. Compare your response with the held study explanation: Operation count grows proportionally to input length under the stated cost model.
+Answer: The loop attempts a[4], which is outside indices 0 through 3. Use a pre-test loop with condition i<4, or i<length(a).
 
-Marking points (one practice mark each):
+1. List the valid indices before tracing the final iteration.
 
-- Accurately address: What does linear running time mean?
-
-## Practice 13 — extension · 1 marks
-
-Retrieval 6 — Tracing algorithms, loop invariants and edge cases: Explain the idea in your own words: What are the three stages of a loop-invariant correctness argument?
-
-Answer: Show initialisation, preservation by each iteration, and how the invariant gives the required result at termination.
-
-1. Identify the target idea: What are the three stages of a loop-invariant correctness argument?
-
-2. Compare your response with the held study explanation: Show initialisation, preservation by each iteration, and how the invariant gives the required result at termination.
+2. Use a strict upper bound and check the condition before every read.
 
 Marking points (one practice mark each):
 
-- Accurately address: What are the three stages of a loop-invariant correctness argument?
+- Identify index 4.
 
-## Practice 14 — foundation · 1 marks
+- State valid indices 0 through 3.
 
-Retrieval 7 — Tracing algorithms, loop invariants and edge cases: Answer from memory: What is the running-maximum invariant?
-
-Answer: The stored value is the maximum of the processed prefix.
-
-1. Identify the target idea: What is the running-maximum invariant?
-
-2. Compare your response with the held study explanation: The stored value is the maximum of the processed prefix.
-
-Marking points (one practice mark each):
-
-- Accurately address: What is the running-maximum invariant?
-
-## Practice 15 — standard · 1 marks
-
-Retrieval 8 — Tracing algorithms, loop invariants and edge cases: State the condition or distinction precisely: Why test an all-negative list?
-
-Answer: It exposes an initial zero that was incorrectly treated as an input candidate.
-
-1. Identify the target idea: Why test an all-negative list?
-
-2. Compare your response with the held study explanation: It exposes an initial zero that was incorrectly treated as an input candidate.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why test an all-negative list?
-
-## Practice 16 — extension · 1 marks
-
-Retrieval 9 — Tracing algorithms, loop invariants and edge cases: Explain the idea in your own words: What happens in x=x+1?
-
-Answer: The current x is read, one is added, and the result replaces x.
-
-1. Identify the target idea: What happens in x=x+1?
-
-2. Compare your response with the held study explanation: The current x is read, one is added, and the result replaces x.
-
-Marking points (one practice mark each):
-
-- Accurately address: What happens in x=x+1?
-
-## Practice 17 — foundation · 1 marks
-
-Retrieval 10 — Tracing algorithms, loop invariants and edge cases: Answer from memory: What are the three usual parts of a loop-invariant argument?
-
-Answer: Initialisation, preservation and how the invariant implies the result at termination.
-
-1. Identify the target idea: What are the three usual parts of a loop-invariant argument?
-
-2. Compare your response with the held study explanation: Initialisation, preservation and how the invariant implies the result at termination.
-
-Marking points (one practice mark each):
-
-- Accurately address: What are the three usual parts of a loop-invariant argument?
-
-## Practice 18 — standard · 1 marks
-
-Retrieval 11 — Tracing algorithms, loop invariants and edge cases: State the condition or distinction precisely: Why test an empty list?
-
-Answer: It exposes assumptions about a first element and whether the output is defined.
-
-1. Identify the target idea: Why test an empty list?
-
-2. Compare your response with the held study explanation: It exposes assumptions about a first element and whether the output is defined.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why test an empty list?
-
-## Practice 19 — extension · 1 marks
-
-Retrieval 12 — Tracing algorithms, loop invariants and edge cases: Explain the idea in your own words: How can a loop's termination be justified?
-
-Answer: Show a nonnegative measure decreases toward a stopping condition.
-
-1. Identify the target idea: How can a loop's termination be justified?
-
-2. Compare your response with the held study explanation: Show a nonnegative measure decreases toward a stopping condition.
-
-Marking points (one practice mark each):
-
-- Accurately address: How can a loop's termination be justified?
-
-## Practice 20 — foundation · 1 marks
-
-Retrieval 13 — Tracing algorithms, loop invariants and edge cases: Answer from memory: What does linear running time mean?
-
-Answer: Operation count grows proportionally to input length under the stated cost model.
-
-1. Identify the target idea: What does linear running time mean?
-
-2. Compare your response with the held study explanation: Operation count grows proportionally to input length under the stated cost model.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does linear running time mean?
-
-## Practice 21 — standard · 1 marks
-
-Retrieval 14 — Tracing algorithms, loop invariants and edge cases: State the condition or distinction precisely: What are the three stages of a loop-invariant correctness argument?
-
-Answer: Show initialisation, preservation by each iteration, and how the invariant gives the required result at termination.
-
-1. Identify the target idea: What are the three stages of a loop-invariant correctness argument?
-
-2. Compare your response with the held study explanation: Show initialisation, preservation by each iteration, and how the invariant gives the required result at termination.
-
-Marking points (one practice mark each):
-
-- Accurately address: What are the three stages of a loop-invariant correctness argument?
-
-## Practice 22 — extension · 1 marks
-
-Retrieval 15 — Tracing algorithms, loop invariants and edge cases: Explain the idea in your own words: What is the running-maximum invariant?
-
-Answer: The stored value is the maximum of the processed prefix.
-
-1. Identify the target idea: What is the running-maximum invariant?
-
-2. Compare your response with the held study explanation: The stored value is the maximum of the processed prefix.
-
-Marking points (one practice mark each):
-
-- Accurately address: What is the running-maximum invariant?
-
-## Practice 23 — foundation · 1 marks
-
-Retrieval 16 — Tracing algorithms, loop invariants and edge cases: Answer from memory: Why test an all-negative list?
-
-Answer: It exposes an initial zero that was incorrectly treated as an input candidate.
-
-1. Identify the target idea: Why test an all-negative list?
-
-2. Compare your response with the held study explanation: It exposes an initial zero that was incorrectly treated as an input candidate.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why test an all-negative list?
-
-## Practice 24 — standard · 1 marks
-
-Retrieval 17 — Tracing algorithms, loop invariants and edge cases: State the condition or distinction precisely: What happens in x=x+1?
-
-Answer: The current x is read, one is added, and the result replaces x.
-
-1. Identify the target idea: What happens in x=x+1?
-
-2. Compare your response with the held study explanation: The current x is read, one is added, and the result replaces x.
-
-Marking points (one practice mark each):
-
-- Accurately address: What happens in x=x+1?
-
-## Practice 25 — extension · 1 marks
-
-Retrieval 18 — Tracing algorithms, loop invariants and edge cases: Explain the idea in your own words: What are the three usual parts of a loop-invariant argument?
-
-Answer: Initialisation, preservation and how the invariant implies the result at termination.
-
-1. Identify the target idea: What are the three usual parts of a loop-invariant argument?
-
-2. Compare your response with the held study explanation: Initialisation, preservation and how the invariant implies the result at termination.
-
-Marking points (one practice mark each):
-
-- Accurately address: What are the three usual parts of a loop-invariant argument?
+- Give a pre-test strict-bound repair.
 
 ## Revision checklist
 
@@ -598,6 +404,6 @@ For a nonempty list, initialise a running maximum from the first element, not fr
 
 - What happens in x=x+1?
 
-Mixed practice: q1, application-check, error-analysis
+Mixed practice: q1, application-check, error-analysis, depth-prefix-average, depth-termination-domain, depth-off-by-one
 
 After checking your answer, write the specific rule or assumption you missed. Retry the linked questions without the worked example in a later session. A checked answer or completed checklist is not a measurement of mastery.

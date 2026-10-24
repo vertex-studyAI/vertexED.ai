@@ -1,0 +1,164 @@
+{
+  "schemaVersion": 1,
+  "checkedOn": "2026-10-22",
+  "revision": "2026-10-22.1",
+  "boundary": "Local content implementation and scoped engineering verification, not complete syllabuses, independent subject review, examination readiness or public delivery.",
+  "authored": {
+    "lessons": 19,
+    "noteWords": 6894,
+    "workedExamples": 38,
+    "questions": 114,
+    "flashcards": 95,
+    "nonMathsCourseTargets": 26,
+    "completeCourses": 0
+  },
+  "finalLibrary": {
+    "lessons": 90,
+    "subjects": 23,
+    "noteWords": 52887,
+    "workedExamples": 293,
+    "questions": 796,
+    "flashcards": 668,
+    "diagrams": 63,
+    "approvedLessons": 0
+  },
+  "focused": {
+    "passed": 69,
+    "failed": 0,
+    "skipped": 0,
+    "files": 14,
+    "scope": "Content contracts, selected numerical keys, actual search-code execution, tier/board routes, generated assets, publication boundaries and AP/MYP preservation. Not the full application suite."
+  },
+  "browser": {
+    "startTime": "2026-10-22T03:37:41.810Z",
+    "duration": 37996.481,
+    "expected": 6,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0,
+    "lessonsExercised": 19,
+    "questionPromptsChecked": 114,
+    "heldAssetRequests": 38,
+    "modes": [
+      "Notes",
+      "Guided study",
+      "Practise",
+      "Flashcards",
+      "Revise"
+    ],
+    "keyboard": true,
+    "reducedMotion": true,
+    "widths": [
+      1440,
+      1024,
+      390
+    ],
+    "boundary": "Reviewer-only request interception exposes held lesson fixtures for UI testing. A separate scenario checks real 403 responses and an empty public manifest without interception.",
+    "capturesDirectory": "test-results/subject-units-20261022/browser-verified",
+    "capturedImages": 30,
+    "inspectedRepresentativeCaptures": [
+      "subject-units-non-maths-su-7a46c--mode-and-labelled-practice/unit-practice-390.png",
+      "subject-units-non-maths-su-905e5--mode-and-labelled-practice/unit-notes-1024.png",
+      "subject-units-non-maths-su-eef2c--mode-and-labelled-practice/unit-practice-1440.png"
+    ]
+  },
+  "engineering": {
+    "node": "22.22.0",
+    "typecheck": "PASS",
+    "scopedESLint": "PASS",
+    "copyLint": {
+      "files": 618,
+      "findings": 0
+    },
+    "contentAudit": "PASS",
+    "whitespace": "PASS",
+    "build": {
+      "status": "PASS",
+      "viteSeconds": 21.48,
+      "evidence": "Successful tool command output; no separate raw build log retained."
+    },
+    "emittedPublication": {
+      "status": "PASS",
+      "javaScriptFiles": 144,
+      "checkedStrings": 50499,
+      "checkedCourseBodyStrings": 6853,
+      "approvedStaticAssets": 0,
+      "violations": []
+    },
+    "legacyGuideReview": {
+      "files": 245,
+      "flagged": 53,
+      "approved": 0
+    }
+  },
+  "corrections": [
+    "Fixed GCSE substring matching IGCSE in untiered practice routes; regression now excludes Cambridge-only questions from AQA GCSE computing.",
+    "Restricted Core note evidence so it does not count explicitly Extended-only sections.",
+    "Separated Cambridge current-voltage graph explanations from common-tier wire-investigation notes after checking the Supplement column.",
+    "Restored the existing numeric-answer test denominator to 71 fields, rather than confusing it with 90 lessons.",
+    "Rounded binary floating-point artefacts in two independent test calculations; valid authored answers were unchanged.",
+    "The first browser pass passed six cases; the final separate pass additionally checks all 114 new question prompts. Earlier captures remain under browser-final and are not added to the final pass count."
+  ],
+  "sourceInspection": {
+    "method": "Selected official HTML/PDF sections; the PDF skill was used for visual Core/Supplement checks.",
+    "renderedPages": {
+      "0610": 14,
+      "0620": 13,
+      "0625": 28
+    },
+    "fullSpecificationReview": false,
+    "sourceRegister": "src/content/subject-units/coverage.mjs"
+  },
+  "preservation": {
+    "originalFoundationSources": "No Git diff in src/content/learning-library",
+    "apMypSourcesAndPayloads": "No Git diff in inspected AP/MYP source and public payload directories",
+    "priorMathsReceipt": "Preserved docs/evidence/syllabus-unit-verification-20261021.json",
+    "unrelatedDirtyWork": "Preserved"
+  },
+  "remaining": [
+    "Full per-point denominators and all remaining topic teaching across the priority courses",
+    "Other selected History/Literature options and complete text/poetry coverage",
+    "Authentic source sets, checked named geography cases and full-paper practice",
+    "Supervised practical, fieldwork and learner-owned coursework/project requirements",
+    "Independent subject and answer review; exact-hash publication approval",
+    "Other requested curricula beyond the current priority batch"
+  ],
+  "artifacts": [
+    {
+      "path": "test-results/subject-units-20261022/focused-final.tap",
+      "sha256": "7a8092d89ce2bb7d4cc688994489451e8e26a0607e0c16e2005a0253cccc3211"
+    },
+    {
+      "path": "test-results/subject-units-20261022/browser-verified.json",
+      "sha256": "9f1c2e0fa7d94fab35acc3e1b8232548e3a3716f14d9d68e01fbc024bf1e59e5"
+    },
+    {
+      "path": "public/learning-library/manifest.json",
+      "sha256": "ba2a67f8d710ce5541124b9ba3758dc6fe8205daaa4e8ec725fa506177589314"
+    },
+    {
+      "path": "docs/evidence/subject-unit-coverage-20261022.json",
+      "sha256": "8ade543a730f068c3dda35613120c9373afd8cb9bcc075b0a7201009573f276d"
+    },
+    {
+      "path": "e2e/subject-units.spec.ts",
+      "sha256": "6416319bab3e275ed3e5a8663365c44af9a6da5ad2ecbdc313a5e1425268f734"
+    },
+    {
+      "path": "tests/subject-units.test.mjs",
+      "sha256": "89ce91417ced8084970d5101c5d862d259e90bf280db752aa1d63d5a33d154f1"
+    },
+    {
+      "path": "test-results/subject-units-20261022/sources/0610.pdf",
+      "sha256": "ce4310300cfab16ed3ba2224896983b7a725a9052900a0eee394dd126b694098"
+    },
+    {
+      "path": "test-results/subject-units-20261022/sources/0620.pdf",
+      "sha256": "6aab46afe64e4de40a447c36d1bfa382a10e9865eab9230af7915629cf576f0c"
+    },
+    {
+      "path": "test-results/subject-units-20261022/sources/0625.pdf",
+      "sha256": "baaf59f84543beb133ea87cbf8cfb0e8bf105a360cce5009cf57d3ae0a357075"
+    }
+  ]
+}

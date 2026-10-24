@@ -1,6 +1,6 @@
 # Alleles, segregation and probability in monohybrid models
 
-Subject: Biology · Unit: Inheritance · Revision: 2026-10-21.2
+Subject: Biology · Unit: Inheritance · Revision: 2026-10-21.3
 
 **Review draft — not independently approved. Practice marks are editorial, not official exam marks.**
 
@@ -41,6 +41,10 @@ Simple single-gene models assume a defined relationship between genotype and phe
 ## Using a test cross without treating a small sample as certainty
 
 Under a simple complete-dominance model, a dominant phenotype may correspond to either a homozygous or a heterozygous genotype. Crossing that individual with a homozygous recessive partner can distinguish the predictions. A heterozygous parent produces recessive-phenotype offspring with probability one half in this model; a homozygous dominant parent does not. However, observing only dominant offspring in a small sample is compatible with either parental genotype. Calculate the chance of the observation under each hypothesis and keep probability distinct from proof. The example assumes independent offspring, ordinary segregation and no viability differences; it is not a description of every inherited trait.
+
+## Condition on the information actually observed
+
+A probability changes when the question restricts which offspring are being considered. In an Aa×Aa cross with complete dominance, the whole sample has genotype ratio 1:2:1. Among only the dominant-phenotype offspring, aa is excluded, so the denominator contains AA and Aa alone. Independence across offspring means a previous result does not change the model for the next offspring when parental genotypes are fixed. Expected proportions describe a probability model, not a requirement that each small family reproduces the exact ratio. These are simplified single-gene teaching models.
 
 ## Diagram: Reason through a test cross
 
@@ -88,15 +92,15 @@ Worked examples: 4
 
 Practise: q5, application-check, error-analysis
 
-### Retrieval practice
+### Apply and test the limits
 
-Close the notes and answer these extra prompts from memory. Self-review with the held explanation, name one gap, then retry later. This is study practice, not an automatic mark or mastery measurement.
+Revisit the last worked example, then read the new section and tackle these different situations. Identify the assumptions before answering. Compare your reasoning with each marking point; these open responses require self-review, not automatic marks.
 
-Read: What an allele represents
+Read: Condition on the information actually observed
 
-Worked examples: 1
+Worked examples: 4
 
-Practise: retrieval-01, retrieval-02, retrieval-03, retrieval-04, retrieval-05, retrieval-06, retrieval-07, retrieval-08, retrieval-09, retrieval-10, retrieval-11, retrieval-12, retrieval-13, retrieval-14, retrieval-15, retrieval-16, retrieval-17, retrieval-18
+Practise: depth-conditional-genotype, depth-exactly-one, depth-small-family
 
 ## Worked example 1
 
@@ -314,257 +318,59 @@ Marking points (one practice mark each):
 
 - An outcome compatible with both hypotheses does not prove one genotype.
 
-## Practice 8 — foundation · 1 marks
+## Practice 8 — extension · 3 marks
 
-Retrieval 1 — Alleles, segregation and probability in monohybrid models: Answer from memory: How do genotype and phenotype differ?
+In Aa×Aa with complete dominance and equal segregation, an offspring is known to show the dominant phenotype. Find the probability it is heterozygous.
 
-Answer: Genotype is the allele combination; phenotype is the observable characteristic influenced by genotype and other factors.
+Answer: 2/3.
 
-1. Identify the target idea: How do genotype and phenotype differ?
+1. The possible genotypes have probabilities AA=1/4, Aa=1/2, aa=1/4.
 
-2. Compare your response with the held study explanation: Genotype is the allele combination; phenotype is the observable characteristic influenced by genotype and other factors.
-
-Marking points (one practice mark each):
-
-- Accurately address: How do genotype and phenotype differ?
-
-## Practice 9 — standard · 1 marks
-
-Retrieval 2 — Alleles, segregation and probability in monohybrid models: State the condition or distinction precisely: What does heterozygous mean?
-
-Answer: Two different alleles at the locus in the diploid model.
-
-1. Identify the target idea: What does heterozygous mean?
-
-2. Compare your response with the held study explanation: Two different alleles at the locus in the diploid model.
+2. Condition on AA or Aa: (1/2)/(3/4)=2/3.
 
 Marking points (one practice mark each):
 
-- Accurately address: What does heterozygous mean?
+- State the original genotype probabilities.
 
-## Practice 10 — extension · 1 marks
+- Exclude aa and use denominator 3/4.
 
-Retrieval 3 — Alleles, segregation and probability in monohybrid models: Explain the idea in your own words: What allele does a gamete receive from an Aa parent?
+- Find 2/3.
 
-Answer: A or a, each with expected probability one half in this model.
+## Practice 9 — standard · 3 marks
 
-1. Identify the target idea: What allele does a gamete receive from an Aa parent?
+For Aa×aa under complete dominance, three offspring are independent. Find the probability that exactly one is aa.
 
-2. Compare your response with the held study explanation: A or a, each with expected probability one half in this model.
+Answer: 3/8.
 
-Marking points (one practice mark each):
+1. Each specified sequence with one aa and two Aa has probability (1/2)³=1/8.
 
-- Accurately address: What allele does a gamete receive from an Aa parent?
-
-## Practice 11 — foundation · 1 marks
-
-Retrieval 4 — Alleles, segregation and probability in monohybrid models: Answer from memory: What does complete dominance describe?
-
-Answer: The heterozygote shares the phenotype category of one homozygote.
-
-1. Identify the target idea: What does complete dominance describe?
-
-2. Compare your response with the held study explanation: The heterozygote shares the phenotype category of one homozygote.
+2. There are three possible positions for the aa offspring.
 
 Marking points (one practice mark each):
 
-- Accurately address: What does complete dominance describe?
+- Find probability 1/8 for a specified sequence.
 
-## Practice 12 — standard · 1 marks
+- Count three positions.
 
-Retrieval 5 — Alleles, segregation and probability in monohybrid models: State the condition or distinction precisely: Does one aa offspring make another aa offspring less likely in an independent Aa×Aa cross?
+- Find total 3/8.
 
-Answer: No. Each offspring still has probability one quarter of being aa.
+## Practice 10 — standard · 3 marks
 
-1. Identify the target idea: Does one aa offspring make another aa offspring less likely in an independent Aa×Aa cross?
+A fixed Aa×aa model gives P(aa)=1/2. The first four offspring are all Aa. What is P(aa) for the fifth, and why is aa not now guaranteed?
 
-2. Compare your response with the held study explanation: No. Each offspring still has probability one quarter of being aa.
+Answer: It remains 1/2 under independence. The model does not force outcomes to compensate for an earlier streak.
 
-Marking points (one practice mark each):
+1. The parental genotypes and segregation probabilities have not changed.
 
-- Accurately address: Does one aa offspring make another aa offspring less likely in an independent Aa×Aa cross?
-
-## Practice 13 — extension · 1 marks
-
-Retrieval 6 — Alleles, segregation and probability in monohybrid models: Explain the idea in your own words: What does an expected count describe?
-
-Answer: The probability-weighted average over repeated samples of the specified size, not a guaranteed count in one sample.
-
-1. Identify the target idea: What does an expected count describe?
-
-2. Compare your response with the held study explanation: The probability-weighted average over repeated samples of the specified size, not a guaranteed count in one sample.
+2. Independence means the fifth event is not determined by the first four.
 
 Marking points (one practice mark each):
 
-- Accurately address: What does an expected count describe?
+- Give 1/2.
 
-## Practice 14 — foundation · 1 marks
+- Retain the fixed parental model.
 
-Retrieval 7 — Alleles, segregation and probability in monohybrid models: Answer from memory: What makes aa useful in a simple test cross?
-
-Answer: It supplies only recessive alleles, exposing the other parent’s possible gamete contributions.
-
-1. Identify the target idea: What makes aa useful in a simple test cross?
-
-2. Compare your response with the held study explanation: It supplies only recessive alleles, exposing the other parent’s possible gamete contributions.
-
-Marking points (one practice mark each):
-
-- Accurately address: What makes aa useful in a simple test cross?
-
-## Practice 15 — standard · 1 marks
-
-Retrieval 8 — Alleles, segregation and probability in monohybrid models: State the condition or distinction precisely: Do three dominant offspring prove a parent is homozygous dominant?
-
-Answer: No. A heterozygous parent can produce that finite outcome by chance.
-
-1. Identify the target idea: Do three dominant offspring prove a parent is homozygous dominant?
-
-2. Compare your response with the held study explanation: No. A heterozygous parent can produce that finite outcome by chance.
-
-Marking points (one practice mark each):
-
-- Accurately address: Do three dominant offspring prove a parent is homozygous dominant?
-
-## Practice 16 — extension · 1 marks
-
-Retrieval 9 — Alleles, segregation and probability in monohybrid models: Explain the idea in your own words: How do genotype and phenotype differ?
-
-Answer: Genotype is the allele combination; phenotype is the observable characteristic influenced by genotype and other factors.
-
-1. Identify the target idea: How do genotype and phenotype differ?
-
-2. Compare your response with the held study explanation: Genotype is the allele combination; phenotype is the observable characteristic influenced by genotype and other factors.
-
-Marking points (one practice mark each):
-
-- Accurately address: How do genotype and phenotype differ?
-
-## Practice 17 — foundation · 1 marks
-
-Retrieval 10 — Alleles, segregation and probability in monohybrid models: Answer from memory: What does heterozygous mean?
-
-Answer: Two different alleles at the locus in the diploid model.
-
-1. Identify the target idea: What does heterozygous mean?
-
-2. Compare your response with the held study explanation: Two different alleles at the locus in the diploid model.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does heterozygous mean?
-
-## Practice 18 — standard · 1 marks
-
-Retrieval 11 — Alleles, segregation and probability in monohybrid models: State the condition or distinction precisely: What allele does a gamete receive from an Aa parent?
-
-Answer: A or a, each with expected probability one half in this model.
-
-1. Identify the target idea: What allele does a gamete receive from an Aa parent?
-
-2. Compare your response with the held study explanation: A or a, each with expected probability one half in this model.
-
-Marking points (one practice mark each):
-
-- Accurately address: What allele does a gamete receive from an Aa parent?
-
-## Practice 19 — extension · 1 marks
-
-Retrieval 12 — Alleles, segregation and probability in monohybrid models: Explain the idea in your own words: What does complete dominance describe?
-
-Answer: The heterozygote shares the phenotype category of one homozygote.
-
-1. Identify the target idea: What does complete dominance describe?
-
-2. Compare your response with the held study explanation: The heterozygote shares the phenotype category of one homozygote.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does complete dominance describe?
-
-## Practice 20 — foundation · 1 marks
-
-Retrieval 13 — Alleles, segregation and probability in monohybrid models: Answer from memory: Does one aa offspring make another aa offspring less likely in an independent Aa×Aa cross?
-
-Answer: No. Each offspring still has probability one quarter of being aa.
-
-1. Identify the target idea: Does one aa offspring make another aa offspring less likely in an independent Aa×Aa cross?
-
-2. Compare your response with the held study explanation: No. Each offspring still has probability one quarter of being aa.
-
-Marking points (one practice mark each):
-
-- Accurately address: Does one aa offspring make another aa offspring less likely in an independent Aa×Aa cross?
-
-## Practice 21 — standard · 1 marks
-
-Retrieval 14 — Alleles, segregation and probability in monohybrid models: State the condition or distinction precisely: What does an expected count describe?
-
-Answer: The probability-weighted average over repeated samples of the specified size, not a guaranteed count in one sample.
-
-1. Identify the target idea: What does an expected count describe?
-
-2. Compare your response with the held study explanation: The probability-weighted average over repeated samples of the specified size, not a guaranteed count in one sample.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does an expected count describe?
-
-## Practice 22 — extension · 1 marks
-
-Retrieval 15 — Alleles, segregation and probability in monohybrid models: Explain the idea in your own words: What makes aa useful in a simple test cross?
-
-Answer: It supplies only recessive alleles, exposing the other parent’s possible gamete contributions.
-
-1. Identify the target idea: What makes aa useful in a simple test cross?
-
-2. Compare your response with the held study explanation: It supplies only recessive alleles, exposing the other parent’s possible gamete contributions.
-
-Marking points (one practice mark each):
-
-- Accurately address: What makes aa useful in a simple test cross?
-
-## Practice 23 — foundation · 1 marks
-
-Retrieval 16 — Alleles, segregation and probability in monohybrid models: Answer from memory: Do three dominant offspring prove a parent is homozygous dominant?
-
-Answer: No. A heterozygous parent can produce that finite outcome by chance.
-
-1. Identify the target idea: Do three dominant offspring prove a parent is homozygous dominant?
-
-2. Compare your response with the held study explanation: No. A heterozygous parent can produce that finite outcome by chance.
-
-Marking points (one practice mark each):
-
-- Accurately address: Do three dominant offspring prove a parent is homozygous dominant?
-
-## Practice 24 — standard · 1 marks
-
-Retrieval 17 — Alleles, segregation and probability in monohybrid models: State the condition or distinction precisely: How do genotype and phenotype differ?
-
-Answer: Genotype is the allele combination; phenotype is the observable characteristic influenced by genotype and other factors.
-
-1. Identify the target idea: How do genotype and phenotype differ?
-
-2. Compare your response with the held study explanation: Genotype is the allele combination; phenotype is the observable characteristic influenced by genotype and other factors.
-
-Marking points (one practice mark each):
-
-- Accurately address: How do genotype and phenotype differ?
-
-## Practice 25 — extension · 1 marks
-
-Retrieval 18 — Alleles, segregation and probability in monohybrid models: Explain the idea in your own words: What does heterozygous mean?
-
-Answer: Two different alleles at the locus in the diploid model.
-
-1. Identify the target idea: What does heterozygous mean?
-
-2. Compare your response with the held study explanation: Two different alleles at the locus in the diploid model.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does heterozygous mean?
+- Explain independence rather than compensation.
 
 ## Revision checklist
 
@@ -598,6 +404,6 @@ Under a simple complete-dominance model, a dominant phenotype may correspond to 
 
 - How do genotype and phenotype differ?
 
-Mixed practice: q1, application-check, error-analysis
+Mixed practice: q1, application-check, error-analysis, depth-conditional-genotype, depth-exactly-one, depth-small-family
 
 After checking your answer, write the specific rule or assumption you missed. Retry the linked questions without the worked example in a later session. A checked answer or completed checklist is not a measurement of mastery.

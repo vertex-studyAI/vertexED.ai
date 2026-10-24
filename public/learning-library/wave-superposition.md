@@ -1,6 +1,6 @@
 # Progressive waves, phase and stationary patterns
 
-Subject: Physics · Unit: Waves · Revision: 2026-10-21.2
+Subject: Physics · Unit: Waves · Revision: 2026-10-21.3
 
 **Review draft — not independently approved. Practice marks are editorial, not official exam marks.**
 
@@ -62,6 +62,10 @@ First identify the kind of graph or wave pattern, then choose the relation that 
 
 A stationary wave on an ideal string fixed at both ends has nodes at the ends. Adjacent nodes are separated by half a wavelength, so the nth harmonic fits n half-wavelengths into the string length. Count intervals rather than just internal nodes. Once wavelength is found, use wave speed divided by wavelength for frequency. Increasing harmonic number at fixed length and speed increases frequency, while the distance between adjacent nodes decreases. The stationary pattern has fixed nodes and antinodes; it does not mean the string is motionless everywhere. The example assumes an ideal uniform string and fixed wave speed, rather than modelling tension changes or damping.
 
+## Add signed displacements and identify the boundary conditions
+
+For linear superposition, instantaneous displacements add algebraically. Opposite signs may cancel at one place and time without making either travelling wave disappear. A stationary pattern has persistent nodes because interference repeatedly cancels there. Allowed wavelengths depend on the boundary conditions: a string fixed at both ends differs from an ideal air column closed at one end. State the system before using a harmonic formula. Frequency, phase and displacement are distinct quantities, so do not infer a wave's complete behaviour from one instantaneous measurement.
+
 ## Diagram: Count a fixed-end harmonic
 
 Read the labelled relationships to follow this worked application. Wavelength 1.0 m; frequency 90 Hz; adjacent-node spacing 0.5 m. This is an explanatory process diagram, not a scale drawing or a record of a learner attempt.
@@ -108,15 +112,15 @@ Worked examples: 5
 
 Practise: q7, q8, application-check, error-analysis
 
-### Retrieval practice
+### Apply and test the limits
 
-Close the notes and answer these extra prompts from memory. Self-review with the held explanation, name one gap, then retry later. This is study practice, not an automatic mark or mastery measurement.
+Revisit the last worked example, then read the new section and tackle these different situations. Identify the assumptions before answering. Compare your reasoning with each marking point; these open responses require self-review, not automatic marks.
 
-Read: What travels and what oscillates
+Read: Add signed displacements and identify the boundary conditions
 
-Worked examples: 1
+Worked examples: 5
 
-Practise: retrieval-01, retrieval-02, retrieval-03, retrieval-04, retrieval-05, retrieval-06, retrieval-07, retrieval-08, retrieval-09, retrieval-10, retrieval-11, retrieval-12, retrieval-13, retrieval-14, retrieval-15
+Practise: depth-signed-displacements, depth-closed-column, depth-node-antinode
 
 ## Worked example 1
 
@@ -409,215 +413,59 @@ Marking points (one practice mark each):
 
 - Each interval is half a wavelength, so three intervals identify harmonic number three.
 
-## Practice 11 — foundation · 1 marks
+## Practice 11 — standard · 3 marks
 
-Retrieval 1 — Progressive waves, phase and stationary patterns: Answer from memory: How does amplitude compare with peak-to-peak displacement?
+At one point and instant, two small transverse waves produce displacements +3 mm and -5 mm under linear superposition. Find the resultant and explain whether either wave has been permanently destroyed.
 
-Answer: Amplitude is half the peak-to-peak distance for a symmetric oscillation.
+Answer: Resultant displacement -2 mm. The waves continue propagating; the sum describes this point and instant.
 
-1. Identify the target idea: How does amplitude compare with peak-to-peak displacement?
+1. Add signed displacements: 3+(-5)=-2.
 
-2. Compare your response with the held study explanation: Amplitude is half the peak-to-peak distance for a symmetric oscillation.
-
-Marking points (one practice mark each):
-
-- Accurately address: How does amplitude compare with peak-to-peak displacement?
-
-## Practice 12 — standard · 1 marks
-
-Retrieval 2 — Progressive waves, phase and stationary patterns: State the condition or distinction precisely: How are frequency and period related?
-
-Answer: f=1/T.
-
-1. Identify the target idea: How are frequency and period related?
-
-2. Compare your response with the held study explanation: f=1/T.
+2. Distinguish local instantaneous interference from permanent removal of a wave.
 
 Marking points (one practice mark each):
 
-- Accurately address: How are frequency and period related?
+- Use signed addition.
 
-## Practice 13 — extension · 1 marks
+- Find -2 mm.
 
-Retrieval 3 — Progressive waves, phase and stationary patterns: Explain the idea in your own words: What connects wave speed, frequency and wavelength?
+- Explain continued wave propagation.
 
-Answer: v=fλ.
+## Practice 12 — extension · 3 marks
 
-1. Identify the target idea: What connects wave speed, frequency and wavelength?
+An ideal air column of length 0.85 m is closed at one end and open at the other, with sound speed 340 m/s. Ignoring end correction, find its fundamental and next allowed resonance frequency.
 
-2. Compare your response with the held study explanation: v=fλ.
+Answer: Fundamental 100 Hz; next allowed resonance 300 Hz.
 
-Marking points (one practice mark each):
+1. The fundamental has wavelength 4L=3.4 m, so f=v/λ=100 Hz.
 
-- Accurately address: What connects wave speed, frequency and wavelength?
-
-## Practice 14 — foundation · 1 marks
-
-Retrieval 4 — Progressive waves, phase and stationary patterns: Answer from memory: What phase magnitude corresponds to λ/4 separation?
-
-Answer: π/2 radians or 90°.
-
-1. Identify the target idea: What phase magnitude corresponds to λ/4 separation?
-
-2. Compare your response with the held study explanation: π/2 radians or 90°.
+2. For these boundary conditions only odd harmonics occur in the ideal model.
 
 Marking points (one practice mark each):
 
-- Accurately address: What phase magnitude corresponds to λ/4 separation?
+- Use wavelength 4L.
 
-## Practice 15 — standard · 1 marks
+- Find 100 Hz.
 
-Retrieval 5 — Progressive waves, phase and stationary patterns: State the condition or distinction precisely: What does polarisation reveal about a wave?
+- Find next resonance 300 Hz and explain odd harmonics.
 
-Answer: It has transverse oscillations whose directions can be restricted.
+## Practice 13 — standard · 3 marks
 
-1. Identify the target idea: What does polarisation reveal about a wave?
+Adjacent nodes of an ideal stationary wave are 0.40 m apart. Find the constituent wavelength and the distance from a node to its nearest antinode.
 
-2. Compare your response with the held study explanation: It has transverse oscillations whose directions can be restricted.
+Answer: Wavelength 0.80 m; nearest node-antinode separation 0.20 m.
 
-Marking points (one practice mark each):
+1. Adjacent nodes are λ/2 apart.
 
-- Accurately address: What does polarisation reveal about a wave?
-
-## Practice 16 — extension · 1 marks
-
-Retrieval 6 — Progressive waves, phase and stationary patterns: Explain the idea in your own words: What is a node in an ideal stationary pattern?
-
-Answer: A point of zero oscillation amplitude due to persistent cancellation.
-
-1. Identify the target idea: What is a node in an ideal stationary pattern?
-
-2. Compare your response with the held study explanation: A point of zero oscillation amplitude due to persistent cancellation.
+2. A nearest antinode is halfway between adjacent nodes, at λ/4.
 
 Marking points (one practice mark each):
 
-- Accurately address: What is a node in an ideal stationary pattern?
+- Identify λ/2=0.40.
 
-## Practice 17 — foundation · 1 marks
+- Find λ=0.80 m.
 
-Retrieval 7 — Progressive waves, phase and stationary patterns: Answer from memory: How far apart are adjacent nodes?
-
-Answer: λ/2.
-
-1. Identify the target idea: How far apart are adjacent nodes?
-
-2. Compare your response with the held study explanation: λ/2.
-
-Marking points (one practice mark each):
-
-- Accurately address: How far apart are adjacent nodes?
-
-## Practice 18 — standard · 1 marks
-
-Retrieval 8 — Progressive waves, phase and stationary patterns: State the condition or distinction precisely: What amplitude occurs at an antinode for two equal-amplitude component waves?
-
-Answer: Twice either component amplitude.
-
-1. Identify the target idea: What amplitude occurs at an antinode for two equal-amplitude component waves?
-
-2. Compare your response with the held study explanation: Twice either component amplitude.
-
-Marking points (one practice mark each):
-
-- Accurately address: What amplitude occurs at an antinode for two equal-amplitude component waves?
-
-## Practice 19 — extension · 1 marks
-
-Retrieval 9 — Progressive waves, phase and stationary patterns: Explain the idea in your own words: What is fn for a fixed-end string with speed v and length L?
-
-Answer: nv/(2L), for positive integer n.
-
-1. Identify the target idea: What is fn for a fixed-end string with speed v and length L?
-
-2. Compare your response with the held study explanation: nv/(2L), for positive integer n.
-
-Marking points (one practice mark each):
-
-- Accurately address: What is fn for a fixed-end string with speed v and length L?
-
-## Practice 20 — foundation · 1 marks
-
-Retrieval 10 — Progressive waves, phase and stationary patterns: Answer from memory: How does first-harmonic frequency change when tension is quadrupled?
-
-Answer: It doubles if length and linear density stay fixed.
-
-1. Identify the target idea: How does first-harmonic frequency change when tension is quadrupled?
-
-2. Compare your response with the held study explanation: It doubles if length and linear density stay fixed.
-
-Marking points (one practice mark each):
-
-- Accurately address: How does first-harmonic frequency change when tension is quadrupled?
-
-## Practice 21 — standard · 1 marks
-
-Retrieval 11 — Progressive waves, phase and stationary patterns: State the condition or distinction precisely: What does harmonic number count on a fixed-end ideal string?
-
-Answer: The number of half-wavelength intervals along the string.
-
-1. Identify the target idea: What does harmonic number count on a fixed-end ideal string?
-
-2. Compare your response with the held study explanation: The number of half-wavelength intervals along the string.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does harmonic number count on a fixed-end ideal string?
-
-## Practice 22 — extension · 1 marks
-
-Retrieval 12 — Progressive waves, phase and stationary patterns: Explain the idea in your own words: Is every point motionless in a stationary wave?
-
-Answer: No. Nodes remain at zero displacement while other points oscillate with position-dependent amplitudes.
-
-1. Identify the target idea: Is every point motionless in a stationary wave?
-
-2. Compare your response with the held study explanation: No. Nodes remain at zero displacement while other points oscillate with position-dependent amplitudes.
-
-Marking points (one practice mark each):
-
-- Accurately address: Is every point motionless in a stationary wave?
-
-## Practice 23 — foundation · 1 marks
-
-Retrieval 13 — Progressive waves, phase and stationary patterns: Answer from memory: How does amplitude compare with peak-to-peak displacement?
-
-Answer: Amplitude is half the peak-to-peak distance for a symmetric oscillation.
-
-1. Identify the target idea: How does amplitude compare with peak-to-peak displacement?
-
-2. Compare your response with the held study explanation: Amplitude is half the peak-to-peak distance for a symmetric oscillation.
-
-Marking points (one practice mark each):
-
-- Accurately address: How does amplitude compare with peak-to-peak displacement?
-
-## Practice 24 — standard · 1 marks
-
-Retrieval 14 — Progressive waves, phase and stationary patterns: State the condition or distinction precisely: How are frequency and period related?
-
-Answer: f=1/T.
-
-1. Identify the target idea: How are frequency and period related?
-
-2. Compare your response with the held study explanation: f=1/T.
-
-Marking points (one practice mark each):
-
-- Accurately address: How are frequency and period related?
-
-## Practice 25 — extension · 1 marks
-
-Retrieval 15 — Progressive waves, phase and stationary patterns: Explain the idea in your own words: What connects wave speed, frequency and wavelength?
-
-Answer: v=fλ.
-
-1. Identify the target idea: What connects wave speed, frequency and wavelength?
-
-2. Compare your response with the held study explanation: v=fλ.
-
-Marking points (one practice mark each):
-
-- Accurately address: What connects wave speed, frequency and wavelength?
+- Find separation 0.20 m.
 
 ## Revision checklist
 
@@ -653,7 +501,7 @@ A stationary wave on an ideal string fixed at both ends has nodes at the ends. A
 
 - How does amplitude compare with peak-to-peak displacement?
 
-Mixed practice: q1, application-check, error-analysis
+Mixed practice: q1, application-check, error-analysis, depth-signed-displacements, depth-closed-column, depth-node-antinode
 
 After checking your answer, write the specific rule or assumption you missed. Retry the linked questions without the worked example in a later session. A checked answer or completed checklist is not a measurement of mastery.
 

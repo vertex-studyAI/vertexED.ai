@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "lessonId": "derivative-definition",
+  "revision": "2026-10-21.3",
+  "notes": [
+    {
+      "heading": "A small function value can hide a rapidly changing slope",
+      "paragraphs": [
+        "Continuity and differentiability are local properties with different requirements. A function can approach its value while its slopes oscillate or grow without a finite limit. To test a derivative at a special point, use the function's actual value there in the difference quotient; a formula valid only away from the point may be insufficient. Bounding the quotient can establish convergence even when oscillation prevents direct substitution. After a derivative has been established at one point, do not infer that nearby derivative values converge to it."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "depth-oscillation-bound",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "Define f(0)=0 and f(x)=x²sin(1/x) for x≠0. Use the definition and |sin t|≤1 to find f′(0).",
+      "answer": "f′(0)=0.",
+      "solution": [
+        "For h≠0 the quotient is h sin(1/h).",
+        "Its absolute value is at most |h|, which tends to zero."
+      ],
+      "markingPoints": [
+        "Form the correct quotient.",
+        "Apply the absolute-value bound.",
+        "Conclude derivative zero by squeezing."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-derivative-continuity",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "For f(0)=0 and f(x)=x²sin(1/x) away from zero, it is known that f′(0)=0. For x≠0, f′(x)=2x sin(1/x)-cos(1/x). Does f′ approach 0 as x→0?",
+      "answer": "No. At x_n=1/(2πn), f′(x_n)=-1, while at y_n=1/((2n+1)π), f′(y_n)=1.",
+      "solution": [
+        "Both positive sequences approach zero as n increases.",
+        "Evaluate the sine and cosine terms to obtain two distinct limiting values."
+      ],
+      "markingPoints": [
+        "Give two sequences tending to zero.",
+        "Evaluate derivatives -1 and 1.",
+        "Conclude that the derivative is not continuous at zero."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-one-sided-domain",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "The function f(x)=√x is defined only for x≥0. Explain why the usual two-sided real derivative at 0 is unavailable, and examine the right difference quotient.",
+      "answer": "There are no domain values to the left. The right quotient is 1/√h for h>0 and grows without bound, so there is no finite right derivative either.",
+      "solution": [
+        "State the domain restriction for a two-sided limit.",
+        "Simplify √h/h and examine h→0 from the right."
+      ],
+      "markingPoints": [
+        "Identify the missing left-hand domain.",
+        "Obtain 1/√h.",
+        "State the absence of a finite right derivative."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    }
+  ]
+}

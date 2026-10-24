@@ -1,6 +1,6 @@
 # From user needs to tested design decisions
 
-Subject: Design · Unit: Design cycle · Revision: 2026-10-21.2
+Subject: Design · Unit: Design cycle · Revision: 2026-10-21.3
 
 **Review draft — not independently approved. Practice marks are editorial, not official exam marks.**
 
@@ -59,6 +59,10 @@ An improvement should name the failure it addresses and a follow-up test. If use
 ## Turning mixed prototype evidence into a decision
 
 A prototype can meet one requirement and fail another. Evaluate each requirement against a stated threshold instead of combining unlike measurements into an unexplained overall score. If a safety-critical or essential requirement fails, high performance elsewhere does not automatically compensate. A small fictional user sample can reveal a problem but cannot establish that a design works for every user. Record who participated, what task was attempted and what assistance was given. Choose an iteration that addresses an observed failure, then repeat the relevant test under comparable conditions. A clearer label or larger control is a proposed repair until the revised prototype is actually tested.
+
+## Turn conflicting requirements into explicit decisions
+
+Design tests should connect to measurable requirements and the context in which users will work. A strong overall preference score does not compensate for failing a mandatory constraint. When two desirable properties conflict, state the trade-off and propose a test that can discriminate between alternatives. Repeated trials with the same user are useful for consistency but do not automatically expand the range of users represented. Report failures alongside successful trials and separate what a prototype demonstrates from what a later production version is expected to do.
 
 ## Diagram: A design decision needs an evidence trail
 
@@ -134,15 +138,15 @@ Worked examples: 6
 
 Practise: application-check, error-analysis
 
-### Retrieval practice
+### Apply and test the limits
 
-Close the notes and answer these extra prompts from memory. Self-review with the held explanation, name one gap, then retry later. This is study practice, not an automatic mark or mastery measurement.
+Revisit the last worked example, then read the new section and tackle these different situations. Identify the assumptions before answering. Compare your reasoning with each marking point; these open responses require self-review, not automatic marks.
 
-Read: Investigate the problem before choosing a product
+Read: Turn conflicting requirements into explicit decisions
 
-Worked examples: 1
+Worked examples: 6
 
-Practise: retrieval-01, retrieval-02, retrieval-03, retrieval-04, retrieval-05, retrieval-06, retrieval-07, retrieval-08, retrieval-09, retrieval-10, retrieval-11, retrieval-12, retrieval-13
+Practise: depth-weighted-constraints, depth-independent-users, depth-accessibility-test
 
 ## Worked example 1
 
@@ -505,187 +509,59 @@ Marking points (one practice mark each):
 
 - A small or unrepresentative sample limits how broadly the usability result can be applied.
 
-## Practice 13 — foundation · 1 marks
+## Practice 13 — standard · 3 marks
 
-Retrieval 1 — From user needs to tested design decisions: Answer from memory: Why avoid choosing a product in the problem statement?
+A fictional classroom organiser must fit a 30 cm shelf. A is 32 cm wide and scores 90 in preferences; B is 28 cm wide and scores 75. Explain which is currently feasible and what would justify reconsidering A.
 
-Answer: It can hide the actual need and prematurely exclude better alternatives.
+Answer: B meets the width constraint; A is infeasible despite its higher preference score. A could be reconsidered after a verified redesign to 30 cm or less.
 
-1. Identify the target idea: Why avoid choosing a product in the problem statement?
+1. Apply the mandatory shelf constraint before preference ranking.
 
-2. Compare your response with the held study explanation: It can hide the actual need and prematurely exclude better alternatives.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why avoid choosing a product in the problem statement?
-
-## Practice 14 — standard · 1 marks
-
-Retrieval 2 — From user needs to tested design decisions: State the condition or distinction precisely: What makes a design requirement testable?
-
-Answer: An observable quantity or behaviour, stated conditions and a pre-set success criterion.
-
-1. Identify the target idea: What makes a design requirement testable?
-
-2. Compare your response with the held study explanation: An observable quantity or behaviour, stated conditions and a pre-set success criterion.
+2. Retest a changed design instead of treating a proposed reduction as demonstrated.
 
 Marking points (one practice mark each):
 
-- Accurately address: What makes a design requirement testable?
+- Identify B as feasible.
 
-## Practice 15 — extension · 1 marks
+- Explain why A's score cannot override width.
 
-Retrieval 3 — From user needs to tested design decisions: Explain the idea in your own words: Requirement versus constraint?
+- Require a measured redesign before reconsideration.
 
-Answer: A requirement states what must be achieved; a constraint limits permitted solutions.
+## Practice 14 — extension · 3 marks
 
-1. Identify the target idea: Requirement versus constraint?
+A fictional prototype is tested 20 times by the same person. Nineteen trials succeed. Can the designer report 95% success across 20 users? Explain and propose a better next test.
 
-2. Compare your response with the held study explanation: A requirement states what must be achieved; a constraint limits permitted solutions.
+Answer: No: 95% describes trials from one user. Recruit several representative users and report participants and trials separately.
 
-Marking points (one practice mark each):
+1. Compute 19/20 while identifying the correct unit of observation.
 
-- Accurately address: Requirement versus constraint?
-
-## Practice 16 — foundation · 1 marks
-
-Retrieval 4 — From user needs to tested design decisions: Answer from memory: Why document rejected ideas?
-
-Answer: They show the alternatives and evidence behind the chosen approach.
-
-1. Identify the target idea: Why document rejected ideas?
-
-2. Compare your response with the held study explanation: They show the alternatives and evidence behind the chosen approach.
+2. Repeated use can produce learning effects and does not measure differences between users.
 
 Marking points (one practice mark each):
 
-- Accurately address: Why document rejected ideas?
+- Accept 95% only as a trial rate.
 
-## Practice 17 — standard · 1 marks
+- Identify one participant and possible learning.
 
-Retrieval 5 — From user needs to tested design decisions: State the condition or distinction precisely: How is a weighted decision score calculated?
+- Propose representative users with separate counts.
 
-Answer: Multiply each criterion score by its weight and sum the products.
+## Practice 15 — standard · 3 marks
 
-1. Identify the target idea: How is a weighted decision score calculated?
+A fictional route sign is readable in a bright room but has not been tested outdoors at dusk. Draft a testable visibility requirement and a relevant test.
 
-2. Compare your response with the held study explanation: Multiply each criterion score by its weight and sum the products.
+Answer: Example: intended users should correctly identify the destination at 5 m under specified dusk lighting in at least 9 of 10 trials; test at that distance and lighting and record errors.
 
-Marking points (one practice mark each):
+1. Specify distance, lighting, task and success criterion before testing.
 
-- Accurately address: How is a weighted decision score calculated?
-
-## Practice 18 — extension · 1 marks
-
-Retrieval 6 — From user needs to tested design decisions: Explain the idea in your own words: What does sensitivity checking reveal?
-
-Answer: Whether reasonable changes in weights or judgements alter the ranking.
-
-1. Identify the target idea: What does sensitivity checking reveal?
-
-2. Compare your response with the held study explanation: Whether reasonable changes in weights or judgements alter the ranking.
+2. Use representative users and retain the failed identifications.
 
 Marking points (one practice mark each):
 
-- Accurately address: What does sensitivity checking reveal?
+- Provide a measurable task and condition.
 
-## Practice 19 — foundation · 1 marks
+- Specify a success threshold.
 
-Retrieval 7 — From user needs to tested design decisions: Answer from memory: What is a prototype for?
-
-Answer: Answering a specific design question using a limited representation.
-
-1. Identify the target idea: What is a prototype for?
-
-2. Compare your response with the held study explanation: Answering a specific design question using a limited representation.
-
-Marking points (one practice mark each):
-
-- Accurately address: What is a prototype for?
-
-## Practice 20 — standard · 1 marks
-
-Retrieval 8 — From user needs to tested design decisions: State the condition or distinction precisely: Why state prototype limitations?
-
-Answer: Success on the model may not transfer to unimplemented functions or different scale and conditions.
-
-1. Identify the target idea: Why state prototype limitations?
-
-2. Compare your response with the held study explanation: Success on the model may not transfer to unimplemented functions or different scale and conditions.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why state prototype limitations?
-
-## Practice 21 — extension · 1 marks
-
-Retrieval 9 — From user needs to tested design decisions: Explain the idea in your own words: What makes a test question leading?
-
-Answer: Its wording suggests the desired response or assumes the design already works.
-
-1. Identify the target idea: What makes a test question leading?
-
-2. Compare your response with the held study explanation: Its wording suggests the desired response or assumes the design already works.
-
-Marking points (one practice mark each):
-
-- Accurately address: What makes a test question leading?
-
-## Practice 22 — foundation · 1 marks
-
-Retrieval 10 — From user needs to tested design decisions: Answer from memory: Why can repeated participants bias a route test?
-
-Answer: They may remember the destination independently of the new design.
-
-1. Identify the target idea: Why can repeated participants bias a route test?
-
-2. Compare your response with the held study explanation: They may remember the destination independently of the new design.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why can repeated participants bias a route test?
-
-## Practice 23 — standard · 1 marks
-
-Retrieval 11 — From user needs to tested design decisions: State the condition or distinction precisely: What should an improvement be linked to?
-
-Answer: An observed failure or limitation and a planned test of the change.
-
-1. Identify the target idea: What should an improvement be linked to?
-
-2. Compare your response with the held study explanation: An observed failure or limitation and a planned test of the change.
-
-Marking points (one practice mark each):
-
-- Accurately address: What should an improvement be linked to?
-
-## Practice 24 — extension · 1 marks
-
-Retrieval 12 — From user needs to tested design decisions: Explain the idea in your own words: Why preserve unsuccessful attempts?
-
-Answer: Removing them would misrepresent the evidence and conceal barriers.
-
-1. Identify the target idea: Why preserve unsuccessful attempts?
-
-2. Compare your response with the held study explanation: Removing them would misrepresent the evidence and conceal barriers.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why preserve unsuccessful attempts?
-
-## Practice 25 — foundation · 1 marks
-
-Retrieval 13 — From user needs to tested design decisions: Answer from memory: Why retain separate requirement results?
-
-Answer: A combined score can conceal an essential failure and mix incompatible measurements.
-
-1. Identify the target idea: Why retain separate requirement results?
-
-2. Compare your response with the held study explanation: A combined score can conceal an essential failure and mix incompatible measurements.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why retain separate requirement results?
+- Describe a matching test with recorded failures.
 
 ## Revision checklist
 
@@ -729,7 +605,7 @@ Conditions: Do not drop failures or generalise to all users without supporting e
 
 - Describe a prototype limitation and an alternative explanation for apparent improvement.
 
-Mixed practice: q4, q7, q9, q10, application-check, error-analysis
+Mixed practice: q4, q7, q9, q10, application-check, error-analysis, depth-weighted-constraints, depth-independent-users, depth-accessibility-test
 
 On a later attempt, apply the evidence trail to a different school problem. Check that your requirements and tests fit that problem instead of copying the library example unchanged.
 

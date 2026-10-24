@@ -1,6 +1,6 @@
 # Geometric sequences, finite sums and recurrence models
 
-Subject: Mathematics · Unit: Sequences and series · Revision: 2026-10-21.2
+Subject: Mathematics · Unit: Sequences and series · Revision: 2026-10-21.3
 
 **Review draft — not independently approved. Practice marks are editorial, not official exam marks.**
 
@@ -59,6 +59,10 @@ In a written explanation, show the first term, ratio, index convention and numbe
 ## Negative ratios and alternating partial sums
 
 A geometric sequence may change sign if its common ratio is negative. The sign pattern matters when adding terms: summing magnitudes answers a different question from summing signed terms. Before using a finite-sum formula, list a few terms to check the exponent and signs. The nth term contains n - 1 ratio multiplications, whereas the common finite-sum expression contains r raised to n. A ratio of -1 produces alternation without shrinking magnitudes; a ratio whose absolute value is below one produces shrinking magnitudes. Finite sums remain meaningful even when the sequence has no convergent infinite sum. Do not silently replace a finite task with an infinite-series formula.
+
+## Derive a finite sum before taking any infinite limit
+
+A finite geometric sum is defined even when the ratio is negative or has magnitude greater than one. The familiar derivation subtracts r times the sum from the sum, leaving only the first and final unmatched terms. Division by 1-r needs r≠1; the constant sequence must be handled separately. An infinite sum is an additional limit, available for a nonzero first term only when |r|<1. A finite total should never be replaced by the infinite value without discussing the missing tail and the required precision.
 
 ## Diagram: Three cycles of retention
 
@@ -131,15 +135,15 @@ Worked examples: 6
 
 Practise: application-check, error-analysis
 
-### Retrieval practice
+### Apply and test the limits
 
-Close the notes and answer these extra prompts from memory. Self-review with the held explanation, name one gap, then retry later. This is study practice, not an automatic mark or mastery measurement.
+Revisit the last worked example, then read the new section and tackle these different situations. Identify the assumptions before answering. Compare your reasoning with each marking point; these open responses require self-review, not automatic marks.
 
-Read: Constant ratio, not constant difference
+Read: Derive a finite sum before taking any infinite limit
 
-Worked examples: 1
+Worked examples: 6
 
-Practise: retrieval-01, retrieval-02, retrieval-03, retrieval-04, retrieval-05, retrieval-06, retrieval-07, retrieval-08, retrieval-09, retrieval-10, retrieval-11, retrieval-12, retrieval-13
+Practise: depth-infinite-tail, depth-ratio-negative, depth-constant-case
 
 ## Worked example 1
 
@@ -496,187 +500,59 @@ Marking points (one practice mark each):
 
 - Using n = 4 and r = -1/2 in the finite-sum formula retains the signs.
 
-## Practice 13 — foundation · 1 marks
+## Practice 13 — extension · 3 marks
 
-Retrieval 1 — Geometric sequences, finite sums and recurrence models: Answer from memory: What makes a sequence geometric?
+For 8+4+2+..., find the sum of the first five terms, the infinite sum, and the remaining tail after five terms.
 
-Answer: A fixed multiplier generates each next term from the previous one.
+Answer: S_5=15.5, S_∞=16, and the tail is 0.5.
 
-1. Identify the target idea: What makes a sequence geometric?
+1. The first five terms are 8,4,2,1,0.5.
 
-2. Compare your response with the held study explanation: A fixed multiplier generates each next term from the previous one.
-
-Marking points (one practice mark each):
-
-- Accurately address: What makes a sequence geometric?
-
-## Practice 14 — standard · 1 marks
-
-Retrieval 2 — Geometric sequences, finite sums and recurrence models: State the condition or distinction precisely: State the nth-term formula when r is nonzero.
-
-Answer: u_n = ar^(n - 1), with first index 1.
-
-1. Identify the target idea: State the nth-term formula when r is nonzero.
-
-2. Compare your response with the held study explanation: u_n = ar^(n - 1), with first index 1.
+2. Use ratio 1/2 for the infinite sum and subtract the finite total.
 
 Marking points (one practice mark each):
 
-- Accurately address: State the nth-term formula when r is nonzero.
+- Find finite sum 15.5.
 
-## Practice 15 — extension · 1 marks
+- Justify convergence and find 16.
 
-Retrieval 3 — Geometric sequences, finite sums and recurrence models: Explain the idea in your own words: Why can recovering a ratio give two real solutions?
+- Find tail 0.5.
 
-Answer: Even powers such as r² lose sign information; substitute both candidates.
+## Practice 14 — standard · 3 marks
 
-1. Identify the target idea: Why can recovering a ratio give two real solutions?
+A real geometric sequence has u_2=6 and u_5=-48. Find its ratio and first term.
 
-2. Compare your response with the held study explanation: Even powers such as r² lose sign information; substitute both candidates.
+Answer: r=-2 and a=-3.
 
-Marking points (one practice mark each):
+1. Divide u_5 by u_2 to obtain r³=-8.
 
-- Accurately address: Why can recovering a ratio give two real solutions?
-
-## Practice 16 — foundation · 1 marks
-
-Retrieval 4 — Geometric sequences, finite sums and recurrence models: Answer from memory: State the finite geometric sum for r ≠ 1.
-
-Answer: S_n = a(1 - r^n)/(1 - r), equivalently a(r^n - 1)/(r - 1).
-
-1. Identify the target idea: State the finite geometric sum for r ≠ 1.
-
-2. Compare your response with the held study explanation: S_n = a(1 - r^n)/(1 - r), equivalently a(r^n - 1)/(r - 1).
+2. Take the real cube root, then use ar=6.
 
 Marking points (one practice mark each):
 
-- Accurately address: State the finite geometric sum for r ≠ 1.
+- Obtain r³=-8.
 
-## Practice 17 — standard · 1 marks
+- Find r=-2.
 
-Retrieval 5 — Geometric sequences, finite sums and recurrence models: State the condition or distinction precisely: What replaces the sum fraction when r = 1?
+- Find a=-3.
 
-Answer: S_n = na because all n terms equal a.
+## Practice 15 — extension · 3 marks
 
-1. Identify the target idea: What replaces the sum fraction when r = 1?
+A learner substitutes r=1 into a(1-r^n)/(1-r) and says the sum is undefined. For a=9 and n=7, explain the issue and find the actual finite sum.
 
-2. Compare your response with the held study explanation: S_n = na because all n terms equal a.
+Answer: The formula's divided form assumes r≠1. The sequence has seven terms equal to 9, so the sum is 63.
 
-Marking points (one practice mark each):
+1. Identify the invalid division by 1-r=0.
 
-- Accurately address: What replaces the sum fraction when r = 1?
-
-## Practice 18 — extension · 1 marks
-
-Retrieval 6 — Geometric sequences, finite sums and recurrence models: Explain the idea in your own words: Why is r^n used in the sum formula?
-
-Answer: Multiplying the sum by r creates a final shifted term ar^n before cancellation.
-
-1. Identify the target idea: Why is r^n used in the sum formula?
-
-2. Compare your response with the held study explanation: Multiplying the sum by r creates a final shifted term ar^n before cancellation.
+2. Return to the sum itself, which is well-defined.
 
 Marking points (one practice mark each):
 
-- Accurately address: Why is r^n used in the sum formula?
+- State the formula restriction.
 
-## Practice 19 — foundation · 1 marks
+- Identify seven equal terms.
 
-Retrieval 7 — Geometric sequences, finite sums and recurrence models: Answer from memory: What does a negative ratio do to nonzero terms?
-
-Answer: Their signs alternate; the magnitude trend depends on |r|.
-
-1. Identify the target idea: What does a negative ratio do to nonzero terms?
-
-2. Compare your response with the held study explanation: Their signs alternate; the magnitude trend depends on |r|.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does a negative ratio do to nonzero terms?
-
-## Practice 20 — standard · 1 marks
-
-Retrieval 8 — Geometric sequences, finite sums and recurrence models: State the condition or distinction precisely: Which multiplier represents retaining 65% each cycle?
-
-Answer: 0.65, applied to the current value at each cycle.
-
-1. Identify the target idea: Which multiplier represents retaining 65% each cycle?
-
-2. Compare your response with the held study explanation: 0.65, applied to the current value at each cycle.
-
-Marking points (one practice mark each):
-
-- Accurately address: Which multiplier represents retaining 65% each cycle?
-
-## Practice 21 — extension · 1 marks
-
-Retrieval 9 — Geometric sequences, finite sums and recurrence models: Explain the idea in your own words: How many powers run from k = 0 to k = m?
-
-Answer: m + 1 powers, including the zero exponent.
-
-1. Identify the target idea: How many powers run from k = 0 to k = m?
-
-2. Compare your response with the held study explanation: m + 1 powers, including the zero exponent.
-
-Marking points (one practice mark each):
-
-- Accurately address: How many powers run from k = 0 to k = m?
-
-## Practice 22 — foundation · 1 marks
-
-Retrieval 10 — Geometric sequences, finite sums and recurrence models: Answer from memory: Does a finite geometric sum require convergence?
-
-Answer: No. Any finite number of defined terms can be added.
-
-1. Identify the target idea: Does a finite geometric sum require convergence?
-
-2. Compare your response with the held study explanation: No. Any finite number of defined terms can be added.
-
-Marking points (one practice mark each):
-
-- Accurately address: Does a finite geometric sum require convergence?
-
-## Practice 23 — standard · 1 marks
-
-Retrieval 11 — Geometric sequences, finite sums and recurrence models: State the condition or distinction precisely: How should r = 0 be handled?
-
-Answer: Use u_1 = a and the recurrence; later terms are zero, and avoid evaluating 0^0.
-
-1. Identify the target idea: How should r = 0 be handled?
-
-2. Compare your response with the held study explanation: Use u_1 = a and the recurrence; later terms are zero, and avoid evaluating 0^0.
-
-Marking points (one practice mark each):
-
-- Accurately address: How should r = 0 be handled?
-
-## Practice 24 — extension · 1 marks
-
-Retrieval 12 — Geometric sequences, finite sums and recurrence models: Explain the idea in your own words: Why can a sum of successive states be misleading?
-
-Answer: The same quantity may be counted repeatedly; total removal is often initial minus final state instead.
-
-1. Identify the target idea: Why can a sum of successive states be misleading?
-
-2. Compare your response with the held study explanation: The same quantity may be counted repeatedly; total removal is often initial minus final state instead.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why can a sum of successive states be misleading?
-
-## Practice 25 — foundation · 1 marks
-
-Retrieval 13 — Geometric sequences, finite sums and recurrence models: Answer from memory: What does a negative common ratio do to nonzero geometric terms?
-
-Answer: It alternates their signs.
-
-1. Identify the target idea: What does a negative common ratio do to nonzero geometric terms?
-
-2. Compare your response with the held study explanation: It alternates their signs.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does a negative common ratio do to nonzero geometric terms?
+- Find 63.
 
 ## Revision checklist
 
@@ -722,7 +598,7 @@ Conditions: r = 1.
 
 - Explain why a 25% decrease uses 0.75 rather than -0.25.
 
-Mixed practice: q3, q7, q8, q10, application-check, error-analysis
+Mixed practice: q3, q7, q8, q10, application-check, error-analysis, depth-infinite-tail, depth-ratio-negative, depth-constant-case
 
 Try the mixed questions again after a gap without the formula sheet. If the method fails, revisit the specific sign, index or interpretation step before trying a changed example.
 

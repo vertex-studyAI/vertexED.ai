@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "lessonId": "rhetorical-synthesis",
+  "revision": "2026-10-21.3",
+  "notes": [
+    {
+      "heading": "Preserve comparison units and the limits of the notes",
+      "paragraphs": [
+        "A synthesis task asks you to select and connect supplied information for a stated purpose. Do not include every note automatically. Compare the same measure over the same interval, retain qualifiers such as in this trial, and avoid adding a causal explanation unless the notes support one. A sentence can be factually compatible with the notes yet miss the rhetorical goal by focusing on an irrelevant detail. After drafting, check each factual phrase against a specific note and check the whole sentence against the requested purpose."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "depth-different-intervals",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "Fictional notes: Machine A made 120 pieces in 2 hours; machine B made 150 pieces in 3 hours; both passed inspection. Goal: compare hourly production. Write one supported sentence.",
+      "answer": "In the recorded runs, A produced 60 pieces per hour, compared with B's 50.",
+      "solution": [
+        "Convert both totals to the same per-hour measure.",
+        "Use the trial scope and omit unrelated inspection information."
+      ],
+      "markingPoints": [
+        "Calculate A=60 per hour.",
+        "Calculate B=50 per hour.",
+        "Write a scoped comparison serving the goal."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-shared-purpose",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "Fictional notes: Project Cedar restores a pond using volunteers; Project Birch restores a meadow using paid contractors; both aim to increase local habitat diversity. Goal: emphasise their common purpose. Write one sentence.",
+      "answer": "Both Project Cedar and Project Birch aim to increase local habitat diversity.",
+      "solution": [
+        "Identify the shared aim rather than the different habitats or staffing.",
+        "Retain aim to: the notes do not establish achieved outcomes."
+      ],
+      "markingPoints": [
+        "Name both projects.",
+        "State the shared purpose.",
+        "Preserve intended rather than demonstrated success."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-qualified-result",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "Fictional notes: A material resisted scratching in 8 of 10 laboratory trials; outdoor weathering was not tested. Goal: summarise the evidence and its limit. Write one sentence.",
+      "answer": "The material resisted scratching in 8 of 10 laboratory trials, but its outdoor weathering performance remains untested.",
+      "solution": [
+        "Include the tested outcome with its denominator and setting.",
+        "Name the untested condition without predicting its result."
+      ],
+      "markingPoints": [
+        "Retain 8 of 10.",
+        "Retain laboratory scratch testing.",
+        "State outdoor weathering is untested."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    }
+  ]
+}

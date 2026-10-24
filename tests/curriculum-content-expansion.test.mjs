@@ -100,9 +100,9 @@ test('new partial mappings preserve inspected version, tier and evidence boundar
   assert.deepEqual(newLessons.map(item => item.id), ['atomic-models', 'mass-conservation', 'probability-trees', 'respiration-metabolism', 'searching-algorithms', 'words-in-context']);
   assert.equal(newLessons.flatMap(item => item.syllabusMappings).length, 20);
   for (const item of newLessons) {
-    // Previously mapped questions retain their exact point links; the later application pair remains unmapped.
+    // Previously mapped questions retain exact links; application and depth packs remain unmapped.
     const mappedQuestions = new Set(item.syllabusMappings.flatMap(mapping => mapping.questionIds));
-    for (const practice of item.questions) assert.equal(mappedQuestions.has(practice.id), !['application-check', 'error-analysis'].includes(practice.id), `${item.id}/${practice.id}`);
+    for (const practice of item.questions) assert.equal(mappedQuestions.has(practice.id), !['application-check', 'error-analysis'].includes(practice.id) && !practice.id.startsWith('depth-'), `${item.id}/${practice.id}`);
     assert.equal(item.editorialStatus, 'unreviewed');
     for (const mapping of item.syllabusMappings) {
       assert.equal(mapping.status, 'source-checked-partial');

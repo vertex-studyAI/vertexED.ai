@@ -1,6 +1,6 @@
 # Words in context: meaning, precision and evidence-based elimination
 
-Subject: English · Unit: Craft and Structure · Revision: 2026-10-21.2
+Subject: English · Unit: Craft and Structure · Revision: 2026-10-21.3
 
 **Review draft — not independently approved. Practice marks are editorial, not official exam marks.**
 
@@ -62,6 +62,10 @@ Practise with varied topics while remembering that the answer must be justified 
 
 A context question can turn on degree rather than a completely different dictionary sense. An adjective such as tentative may indicate that a conclusion is provisional, not that it is random or worthless. Use the surrounding qualification to predict the intended meaning before reviewing alternatives. Then substitute each candidate and check whether it preserves the sentence’s logic, intensity and grammatical role. A familiar synonym can still be too strong. Explain eliminations by pointing to a particular cue instead of saying that an option sounds wrong. The passage below is original fictional material and is designed to isolate this inference rather than reproduce an official assessment item.
 
+## Distinguish degree, stance and logical role
+
+Near-synonyms can differ in strength, attitude or logical role. A result described as consistent with a proposal supports compatibility but need not prove it. A practical solution may be feasible without being desirable, and a restrained tone may be measured without being indifferent. Use nearby explanations, contrasts and consequences to decide which sense is intended. Test a replacement by rereading the whole sentence and checking that it preserves the author's degree of confidence. A familiar dictionary meaning is only a candidate until the context supports it.
+
 ## Diagram: Choose meaning from a qualification
 
 Read the labelled relationships to follow this worked application. Provisional. The need for further testing makes the explanation subject to revision. This is an explanatory process diagram, not a scale drawing or a record of a learner attempt.
@@ -108,15 +112,15 @@ Worked examples: 6
 
 Practise: q9, q10, application-check, error-analysis
 
-### Retrieval practice
+### Apply and test the limits
 
-Close the notes and answer these extra prompts from memory. Self-review with the held explanation, name one gap, then retry later. This is study practice, not an automatic mark or mastery measurement.
+Revisit the last worked example, then read the new section and tackle these different situations. Identify the assumptions before answering. Compare your reasoning with each marking point; these open responses require self-review, not automatic marks.
 
-Read: Context selects a meaning, not just a familiar definition
+Read: Distinguish degree, stance and logical role
 
-Worked examples: 1
+Worked examples: 6
 
-Practise: retrieval-01, retrieval-02, retrieval-03, retrieval-04, retrieval-05, retrieval-06, retrieval-07, retrieval-08, retrieval-09, retrieval-10, retrieval-11, retrieval-12, retrieval-13
+Practise: depth-measured-tone, depth-feasible-desirable, depth-consistent-evidence
 
 ## Worked example 1
 
@@ -467,187 +471,59 @@ Marking points (one practice mark each):
 
 - A weaker-confidence replacement preserves the contrast with the need for further testing.
 
-## Practice 13 — foundation · 1 marks
+## Practice 13 — standard · 3 marks
 
-Retrieval 1 — Words in context: meaning, precision and evidence-based elimination: Answer from memory: What selects the intended sense of a multi-meaning word?
+Original fictional sentence: 'Rather than celebrating immediately, the editor offered a measured response, noting both strengths and weaknesses.' Does measured mean physically quantified, restrained or exhausted? Explain.
 
-Answer: The surrounding text and its logical relationships.
+Answer: Restrained: the balanced assessment and delayed celebration indicate a careful, controlled response.
 
-1. Identify the target idea: What selects the intended sense of a multi-meaning word?
+1. Use the contrast with immediate celebration.
 
-2. Compare your response with the held study explanation: The surrounding text and its logical relationships.
-
-Marking points (one practice mark each):
-
-- Accurately address: What selects the intended sense of a multi-meaning word?
-
-## Practice 14 — standard · 1 marks
-
-Retrieval 2 — Words in context: meaning, precision and evidence-based elimination: State the condition or distinction precisely: Why make a plain-language prediction before reading options?
-
-Answer: It gives an evidence-based semantic target rather than letting options steer the interpretation.
-
-1. Identify the target idea: Why make a plain-language prediction before reading options?
-
-2. Compare your response with the held study explanation: It gives an evidence-based semantic target rather than letting options steer the interpretation.
+2. The mention of strengths and weaknesses supports a balanced tone rather than physical measurement.
 
 Marking points (one practice mark each):
 
-- Accurately address: Why make a plain-language prediction before reading options?
+- Choose restrained.
 
-## Practice 15 — extension · 1 marks
+- Cite the celebration contrast.
 
-Retrieval 3 — Words in context: meaning, precision and evidence-based elimination: Explain the idea in your own words: What can an explicit contrast help eliminate?
+- Use the balanced evaluation as support.
 
-Answer: Options inconsistent with the opposed ideas or the stated distinction.
+## Practice 14 — standard · 3 marks
 
-1. Identify the target idea: What can an explicit contrast help eliminate?
+Original fictional sentence: 'Although the plan was technically feasible, its disruption made residents oppose it.' Explain why desirable cannot replace feasible without changing the meaning.
 
-2. Compare your response with the held study explanation: Options inconsistent with the opposed ideas or the stated distinction.
+Answer: Feasible means possible to carry out. Desirable means wanted or advantageous; the sentence separates technical possibility from residents' approval.
 
-Marking points (one practice mark each):
+1. Identify the technical-possibility meaning.
 
-- Accurately address: What can an explicit contrast help eliminate?
-
-## Practice 16 — foundation · 1 marks
-
-Retrieval 4 — Words in context: meaning, precision and evidence-based elimination: Answer from memory: Why is reduced not always replaceable with eliminated?
-
-Answer: Eliminated asserts complete removal, a stronger degree.
-
-1. Identify the target idea: Why is reduced not always replaceable with eliminated?
-
-2. Compare your response with the held study explanation: Eliminated asserts complete removal, a stronger degree.
+2. Use the opposition clause to show that possibility does not imply desirability.
 
 Marking points (one practice mark each):
 
-- Accurately address: Why is reduced not always replaceable with eliminated?
+- Define feasible in context.
 
-## Practice 17 — standard · 1 marks
+- Distinguish desirable.
 
-Retrieval 5 — Words in context: meaning, precision and evidence-based elimination: State the condition or distinction precisely: Is grammatical fit sufficient to choose a completion?
+- Explain the contrast preserved by the original word.
 
-Answer: No; the meaning and logic must fit too.
+## Practice 15 — extension · 3 marks
 
-1. Identify the target idea: Is grammatical fit sufficient to choose a completion?
+Original fictional sentence: 'The observations were consistent with the migration hypothesis, though another explanation could fit them too.' Assess replacing consistent with with conclusive proof of.
 
-2. Compare your response with the held study explanation: No; the meaning and logic must fit too.
+Answer: The replacement overstates the evidence. The original says compatible with and explicitly allows another explanation.
 
-Marking points (one practice mark each):
+1. Use the qualifying clause to identify the strength of support.
 
-- Accurately address: Is grammatical fit sufficient to choose a completion?
-
-## Practice 18 — extension · 1 marks
-
-Retrieval 6 — Words in context: meaning, precision and evidence-based elimination: Explain the idea in your own words: What should you ask after substituting a candidate word?
-
-Answer: What claim does this completed sentence make, and does the passage support it?
-
-1. Identify the target idea: What should you ask after substituting a candidate word?
-
-2. Compare your response with the held study explanation: What claim does this completed sentence make, and does the passage support it?
+2. Conclusive proof would remove the uncertainty that the sentence retains.
 
 Marking points (one practice mark each):
 
-- Accurately address: What should you ask after substituting a candidate word?
+- Identify compatibility as the intended meaning.
 
-## Practice 19 — foundation · 1 marks
+- Cite the alternative explanation.
 
-Retrieval 7 — Words in context: meaning, precision and evidence-based elimination: Answer from memory: In a context about restricting a claim, what can qualified mean?
-
-Answer: Limited or modified by conditions, not necessarily credentialed.
-
-1. Identify the target idea: In a context about restricting a claim, what can qualified mean?
-
-2. Compare your response with the held study explanation: Limited or modified by conditions, not necessarily credentialed.
-
-Marking points (one practice mark each):
-
-- Accurately address: In a context about restricting a claim, what can qualified mean?
-
-## Practice 20 — standard · 1 marks
-
-Retrieval 8 — Words in context: meaning, precision and evidence-based elimination: State the condition or distinction precisely: What does provisional suggest when later changes are explicitly allowed?
-
-Answer: Tentative or subject to revision.
-
-1. Identify the target idea: What does provisional suggest when later changes are explicitly allowed?
-
-2. Compare your response with the held study explanation: Tentative or subject to revision.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does provisional suggest when later changes are explicitly allowed?
-
-## Practice 21 — extension · 1 marks
-
-Retrieval 9 — Words in context: meaning, precision and evidence-based elimination: Explain the idea in your own words: What does corroborating evidence do?
-
-Answer: It provides support; it need not prove every associated explanation conclusively.
-
-1. Identify the target idea: What does corroborating evidence do?
-
-2. Compare your response with the held study explanation: It provides support; it need not prove every associated explanation conclusively.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does corroborating evidence do?
-
-## Practice 22 — foundation · 1 marks
-
-Retrieval 10 — Words in context: meaning, precision and evidence-based elimination: Answer from memory: What does anomalous mean in a context of otherwise consistent results?
-
-Answer: Departing from the usual or expected pattern.
-
-1. Identify the target idea: What does anomalous mean in a context of otherwise consistent results?
-
-2. Compare your response with the held study explanation: Departing from the usual or expected pattern.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does anomalous mean in a context of otherwise consistent results?
-
-## Practice 23 — standard · 1 marks
-
-Retrieval 11 — Words in context: meaning, precision and evidence-based elimination: State the condition or distinction precisely: Name a useful reason for rejecting a fluent-sounding option.
-
-Answer: It may reverse the logic, overstate certainty or introduce an unsupported meaning.
-
-1. Identify the target idea: Name a useful reason for rejecting a fluent-sounding option.
-
-2. Compare your response with the held study explanation: It may reverse the logic, overstate certainty or introduce an unsupported meaning.
-
-Marking points (one practice mark each):
-
-- Accurately address: Name a useful reason for rejecting a fluent-sounding option.
-
-## Practice 24 — extension · 1 marks
-
-Retrieval 12 — Words in context: meaning, precision and evidence-based elimination: Explain the idea in your own words: What should an error-review note contain besides the correct word?
-
-Answer: A contextual paraphrase, the decisive clue and why the distractor failed.
-
-1. Identify the target idea: What should an error-review note contain besides the correct word?
-
-2. Compare your response with the held study explanation: A contextual paraphrase, the decisive clue and why the distractor failed.
-
-Marking points (one practice mark each):
-
-- Accurately address: What should an error-review note contain besides the correct word?
-
-## Practice 25 — foundation · 1 marks
-
-Retrieval 13 — Words in context: meaning, precision and evidence-based elimination: Answer from memory: Why can a near-synonym be wrong in context?
-
-Answer: It may change the degree, tone or specific sense supported by the surrounding sentence.
-
-1. Identify the target idea: Why can a near-synonym be wrong in context?
-
-2. Compare your response with the held study explanation: It may change the degree, tone or specific sense supported by the surrounding sentence.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why can a near-synonym be wrong in context?
+- Explain the stronger unsupported claim in the replacement.
 
 ## Revision checklist
 
@@ -683,7 +559,7 @@ A context question can turn on degree rather than a completely different diction
 
 - What selects the intended sense of a multi-meaning word?
 
-Mixed practice: q1, application-check, error-analysis
+Mixed practice: q1, application-check, error-analysis, depth-measured-tone, depth-feasible-desirable, depth-consistent-evidence
 
 After checking your answer, write the specific rule or assumption you missed. Retry the linked questions without the worked example in a later session. A checked answer or completed checklist is not a measurement of mastery.
 

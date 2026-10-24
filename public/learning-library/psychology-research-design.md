@@ -1,6 +1,6 @@
 # Operational definitions, experimental control and inference
 
-Subject: Psychology · Unit: Research methods · Revision: 2026-10-21.2
+Subject: Psychology · Unit: Research methods · Revision: 2026-10-21.3
 
 **Review draft — not independently approved. Practice marks are editorial, not official exam marks.**
 
@@ -39,6 +39,10 @@ Research involving people requires attention to informed participation, privacy,
 ## Separating random allocation from representative recruitment
 
 Recruitment determines who enters a study; allocation determines which condition each recruited participant receives. Random allocation can reduce systematic differences between conditions, but it does not make a convenience sample representative of a wider population. Keep internal comparisons and generalisation separate when evaluating a study. Also operationalise the outcome: a score on a specified recall task is not every aspect of memory. If a fictional study uses volunteers from one club, describe that restriction instead of assuming all learners respond alike. Replication with different participants and settings can investigate generality. The example is a design exercise, not a report of a conducted experiment.
+
+## Separate design control from measurement quality
+
+Random allocation helps distribute participant differences across conditions, but it does not guarantee identical groups or representative recruitment. Repeated-measures designs compare conditions within participants and can reduce some individual differences, while introducing order effects such as practice and fatigue. Counterbalancing distributes those order effects across conditions; it does not remove every possible carryover effect. A reliable measure can repeatedly capture the wrong construct, so explain both what is recorded and why that observation addresses the intended question. These fictional classroom designs are exercises in reasoning, not instructions to run unreviewed human-subject studies.
 
 ## Diagram: Separate two design decisions
 
@@ -86,15 +90,15 @@ Worked examples: 4
 
 Practise: q5, application-check, error-analysis
 
-### Retrieval practice
+### Apply and test the limits
 
-Close the notes and answer these extra prompts from memory. Self-review with the held explanation, name one gap, then retry later. This is study practice, not an automatic mark or mastery measurement.
+Revisit the last worked example, then read the new section and tackle these different situations. Identify the assumptions before answering. Compare your reasoning with each marking point; these open responses require self-review, not automatic marks.
 
-Read: From constructs to measurements
+Read: Separate design control from measurement quality
 
-Worked examples: 1
+Worked examples: 4
 
-Practise: retrieval-01, retrieval-02, retrieval-03, retrieval-04, retrieval-05, retrieval-06, retrieval-07, retrieval-08, retrieval-09, retrieval-10, retrieval-11, retrieval-12, retrieval-13, retrieval-14, retrieval-15, retrieval-16, retrieval-17, retrieval-18
+Practise: depth-counterbalance, depth-construct-validity, depth-blinding
 
 ## Worked example 1
 
@@ -312,257 +316,59 @@ Marking points (one practice mark each):
 
 - Broader recruitment can address coverage, though response bias and other limits still need reporting.
 
-## Practice 8 — foundation · 1 marks
+## Practice 8 — standard · 3 marks
 
-Retrieval 1 — Operational definitions, experimental control and inference: Answer from memory: What does an operational definition specify?
+In a fictional within-participant task, everyone completes silence first and music second. Scores improve in the music condition. Give a confound and describe counterbalancing for 20 participants.
 
-Answer: How a variable is measured or manipulated in the particular study.
+Answer: Practice may improve second-task scores. Assign 10 participants to silence then music and 10 to music then silence, preferably randomly assigning order.
 
-1. Identify the target idea: What does an operational definition specify?
+1. Identify that condition and order are confounded.
 
-2. Compare your response with the held study explanation: How a variable is measured or manipulated in the particular study.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does an operational definition specify?
-
-## Practice 9 — standard · 1 marks
-
-Retrieval 2 — Operational definitions, experimental control and inference: State the condition or distinction precisely: What makes a variable a possible confound?
-
-Answer: It varies systematically with the proposed cause and offers an alternative explanation of the outcome.
-
-1. Identify the target idea: What makes a variable a possible confound?
-
-2. Compare your response with the held study explanation: It varies systematically with the proposed cause and offers an alternative explanation of the outcome.
+2. Distribute each condition across first and second positions.
 
 Marking points (one practice mark each):
 
-- Accurately address: What makes a variable a possible confound?
+- Identify practice or fatigue as an order effect.
 
-## Practice 10 — extension · 1 marks
+- Specify both orders with 10 participants each.
 
-Retrieval 3 — Operational definitions, experimental control and inference: Explain the idea in your own words: What question does random assignment address?
+- Explain how the arrangement addresses order confounding.
 
-Answer: How recruited participants are allocated to conditions, helping reduce systematic group differences.
+## Practice 9 — extension · 3 marks
 
-1. Identify the target idea: What question does random assignment address?
+A fictional 'attention' task records how many printed words a student reads aloud in one minute. Explain two other abilities that can affect the score and a consequence for interpreting it.
 
-2. Compare your response with the held study explanation: How recruited participants are allocated to conditions, helping reduce systematic group differences.
+Answer: Reading fluency and speaking speed can affect the count, so it is not a pure measure of attention.
 
-Marking points (one practice mark each):
+1. Link each alternative ability directly to the recorded word count.
 
-- Accurately address: What question does random assignment address?
-
-## Practice 11 — foundation · 1 marks
-
-Retrieval 4 — Operational definitions, experimental control and inference: Answer from memory: What question does sampling address?
-
-Answer: How the participants are selected from the population of interest.
-
-1. Identify the target idea: What question does sampling address?
-
-2. Compare your response with the held study explanation: How the participants are selected from the population of interest.
+2. Use additional measures or a design controlling these demands before making a broad attention claim.
 
 Marking points (one practice mark each):
 
-- Accurately address: What question does sampling address?
+- Identify reading fluency.
 
-## Practice 12 — standard · 1 marks
+- Identify speech speed or another distinct relevant factor.
 
-Retrieval 5 — Operational definitions, experimental control and inference: State the condition or distinction precisely: Why can a consistent measure still be unsuitable?
+- Explain the construct-interpretation limit.
 
-Answer: It may reliably measure something other than the intended construct.
+## Practice 10 — standard · 3 marks
 
-1. Identify the target idea: Why can a consistent measure still be unsuitable?
+In a fictional experiment, an assessor knows which participants received the preferred instruction and awards subjective participation scores. Name a possible bias and one improvement.
 
-2. Compare your response with the held study explanation: It may reliably measure something other than the intended construct.
+Answer: Observer expectancy could influence scores. Use an assessor unaware of condition and a pre-specified scoring rubric.
 
-Marking points (one practice mark each):
+1. Knowledge of the expected result may affect subjective judgement.
 
-- Accurately address: Why can a consistent measure still be unsuitable?
-
-## Practice 13 — extension · 1 marks
-
-Retrieval 6 — Operational definitions, experimental control and inference: Explain the idea in your own words: Name two alternatives to a claimed direction of causation in a correlation.
-
-Answer: Reverse direction and a common third cause.
-
-1. Identify the target idea: Name two alternatives to a claimed direction of causation in a correlation.
-
-2. Compare your response with the held study explanation: Reverse direction and a common third cause.
+2. Reduce that information and make scoring criteria explicit.
 
 Marking points (one practice mark each):
 
-- Accurately address: Name two alternatives to a claimed direction of causation in a correlation.
+- Identify observer expectancy.
 
-## Practice 14 — foundation · 1 marks
+- Propose assessor blinding.
 
-Retrieval 7 — Operational definitions, experimental control and inference: Answer from memory: What does random allocation control?
-
-Answer: Assignment of recruited participants to conditions; it can reduce systematic group differences.
-
-1. Identify the target idea: What does random allocation control?
-
-2. Compare your response with the held study explanation: Assignment of recruited participants to conditions; it can reduce systematic group differences.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does random allocation control?
-
-## Practice 15 — standard · 1 marks
-
-Retrieval 8 — Operational definitions, experimental control and inference: State the condition or distinction precisely: Does random allocation guarantee representativeness?
-
-Answer: No. Representativeness depends on recruitment, the sampling frame and participation patterns.
-
-1. Identify the target idea: Does random allocation guarantee representativeness?
-
-2. Compare your response with the held study explanation: No. Representativeness depends on recruitment, the sampling frame and participation patterns.
-
-Marking points (one practice mark each):
-
-- Accurately address: Does random allocation guarantee representativeness?
-
-## Practice 16 — extension · 1 marks
-
-Retrieval 9 — Operational definitions, experimental control and inference: Explain the idea in your own words: What does an operational definition specify?
-
-Answer: How a variable is measured or manipulated in the particular study.
-
-1. Identify the target idea: What does an operational definition specify?
-
-2. Compare your response with the held study explanation: How a variable is measured or manipulated in the particular study.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does an operational definition specify?
-
-## Practice 17 — foundation · 1 marks
-
-Retrieval 10 — Operational definitions, experimental control and inference: Answer from memory: What makes a variable a possible confound?
-
-Answer: It varies systematically with the proposed cause and offers an alternative explanation of the outcome.
-
-1. Identify the target idea: What makes a variable a possible confound?
-
-2. Compare your response with the held study explanation: It varies systematically with the proposed cause and offers an alternative explanation of the outcome.
-
-Marking points (one practice mark each):
-
-- Accurately address: What makes a variable a possible confound?
-
-## Practice 18 — standard · 1 marks
-
-Retrieval 11 — Operational definitions, experimental control and inference: State the condition or distinction precisely: What question does random assignment address?
-
-Answer: How recruited participants are allocated to conditions, helping reduce systematic group differences.
-
-1. Identify the target idea: What question does random assignment address?
-
-2. Compare your response with the held study explanation: How recruited participants are allocated to conditions, helping reduce systematic group differences.
-
-Marking points (one practice mark each):
-
-- Accurately address: What question does random assignment address?
-
-## Practice 19 — extension · 1 marks
-
-Retrieval 12 — Operational definitions, experimental control and inference: Explain the idea in your own words: What question does sampling address?
-
-Answer: How the participants are selected from the population of interest.
-
-1. Identify the target idea: What question does sampling address?
-
-2. Compare your response with the held study explanation: How the participants are selected from the population of interest.
-
-Marking points (one practice mark each):
-
-- Accurately address: What question does sampling address?
-
-## Practice 20 — foundation · 1 marks
-
-Retrieval 13 — Operational definitions, experimental control and inference: Answer from memory: Why can a consistent measure still be unsuitable?
-
-Answer: It may reliably measure something other than the intended construct.
-
-1. Identify the target idea: Why can a consistent measure still be unsuitable?
-
-2. Compare your response with the held study explanation: It may reliably measure something other than the intended construct.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why can a consistent measure still be unsuitable?
-
-## Practice 21 — standard · 1 marks
-
-Retrieval 14 — Operational definitions, experimental control and inference: State the condition or distinction precisely: Name two alternatives to a claimed direction of causation in a correlation.
-
-Answer: Reverse direction and a common third cause.
-
-1. Identify the target idea: Name two alternatives to a claimed direction of causation in a correlation.
-
-2. Compare your response with the held study explanation: Reverse direction and a common third cause.
-
-Marking points (one practice mark each):
-
-- Accurately address: Name two alternatives to a claimed direction of causation in a correlation.
-
-## Practice 22 — extension · 1 marks
-
-Retrieval 15 — Operational definitions, experimental control and inference: Explain the idea in your own words: What does random allocation control?
-
-Answer: Assignment of recruited participants to conditions; it can reduce systematic group differences.
-
-1. Identify the target idea: What does random allocation control?
-
-2. Compare your response with the held study explanation: Assignment of recruited participants to conditions; it can reduce systematic group differences.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does random allocation control?
-
-## Practice 23 — foundation · 1 marks
-
-Retrieval 16 — Operational definitions, experimental control and inference: Answer from memory: Does random allocation guarantee representativeness?
-
-Answer: No. Representativeness depends on recruitment, the sampling frame and participation patterns.
-
-1. Identify the target idea: Does random allocation guarantee representativeness?
-
-2. Compare your response with the held study explanation: No. Representativeness depends on recruitment, the sampling frame and participation patterns.
-
-Marking points (one practice mark each):
-
-- Accurately address: Does random allocation guarantee representativeness?
-
-## Practice 24 — standard · 1 marks
-
-Retrieval 17 — Operational definitions, experimental control and inference: State the condition or distinction precisely: What does an operational definition specify?
-
-Answer: How a variable is measured or manipulated in the particular study.
-
-1. Identify the target idea: What does an operational definition specify?
-
-2. Compare your response with the held study explanation: How a variable is measured or manipulated in the particular study.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does an operational definition specify?
-
-## Practice 25 — extension · 1 marks
-
-Retrieval 18 — Operational definitions, experimental control and inference: Explain the idea in your own words: What makes a variable a possible confound?
-
-Answer: It varies systematically with the proposed cause and offers an alternative explanation of the outcome.
-
-1. Identify the target idea: What makes a variable a possible confound?
-
-2. Compare your response with the held study explanation: It varies systematically with the proposed cause and offers an alternative explanation of the outcome.
-
-Marking points (one practice mark each):
-
-- Accurately address: What makes a variable a possible confound?
+- Propose an explicit scoring rubric.
 
 ## Revision checklist
 
@@ -596,6 +402,6 @@ Recruitment determines who enters a study; allocation determines which condition
 
 - What does an operational definition specify?
 
-Mixed practice: q1, application-check, error-analysis
+Mixed practice: q1, application-check, error-analysis, depth-counterbalance, depth-construct-validity, depth-blinding
 
 After checking your answer, write the specific rule or assumption you missed. Retry the linked questions without the worked example in a later session. A checked answer or completed checklist is not a measurement of mastery.

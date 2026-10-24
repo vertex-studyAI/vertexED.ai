@@ -1,6 +1,6 @@
 # Probability trees, dependent events and conditional denominators
 
-Subject: Mathematics · Unit: Probability · Revision: 2026-10-21.2
+Subject: Mathematics · Unit: Probability · Revision: 2026-10-21.3
 
 **Review draft — not independently approved. Practice marks are editorial, not official exam marks.**
 
@@ -62,6 +62,10 @@ Practice by solving a small experiment in two ways: enumerate ordered equally li
 
 The complement rule can shorten an at-least-one calculation, but the probability of the complementary path still depends on the sampling process. Without replacement, the second branch uses a smaller total and possibly a smaller category count. With replacement, the original composition is restored before the next draw. State which process applies before multiplying. Drawing two objects without replacement also requires treating outcomes as ordered if the tree is ordered; do not mix ordered and unordered denominators. An answer between zero and one is necessary but not sufficient for correctness. A quick enumeration of a small sample space can independently test the branch reasoning.
 
+## Choose the conditioned population before building a tree
+
+A tree can be mathematically tidy and still represent the wrong experiment. Decide whether objects are replaced, whether the next event depends on the previous one, and whether the question is already conditioned on a subgroup. For a diagnostic classification, the positive branch can arise from both the target group and the non-target group. The probability of group membership given a positive result therefore needs the total positive population as its denominator. Use an explicitly fictional classification example to practise this reasoning without confusing it with a real diagnostic recommendation.
+
 ## Diagram: Use a complement on a tree
 
 Read the labelled relationships to follow this worked application. The probability is 7/10. This is an explanatory process diagram, not a scale drawing or a record of a learner attempt.
@@ -108,15 +112,15 @@ Worked examples: 6
 
 Practise: q9, q10, application-check, error-analysis
 
-### Retrieval practice
+### Apply and test the limits
 
-Close the notes and answer these extra prompts from memory. Self-review with the held explanation, name one gap, then retry later. This is study practice, not an automatic mark or mastery measurement.
+Revisit the last worked example, then read the new section and tackle these different situations. Identify the assumptions before answering. Compare your reasoning with each marking point; these open responses require self-review, not automatic marks.
 
-Read: Events need a clearly defined sample space
+Read: Choose the conditioned population before building a tree
 
-Worked examples: 1
+Worked examples: 6
 
-Practise: retrieval-01, retrieval-02, retrieval-03, retrieval-04, retrieval-05, retrieval-06, retrieval-07, retrieval-08, retrieval-09, retrieval-10, retrieval-11, retrieval-12, retrieval-13
+Practise: depth-classification-base-rate, depth-replacement-comparison, depth-exclusive-independent
 
 ## Worked example 1
 
@@ -471,187 +475,59 @@ Marking points (one practice mark each):
 
 - With replacement and the stated random-draw model, the repeated 3/5 factor is appropriate.
 
-## Practice 13 — foundation · 1 marks
+## Practice 13 — extension · 3 marks
 
-Retrieval 1 — Probability trees, dependent events and conditional denominators: Answer from memory: What does an exhaustive set of outcomes include?
+A fictional classifier flags 90 of 100 defective items and 90 of 900 sound items. Among flagged items, what fraction are defective? Explain why the 90% detection rate is not the answer.
 
-Answer: Every outcome allowed by the model.
+Answer: 1/2 of flagged items are defective: 90/(90+90). The detection rate instead conditions on all defective items.
 
-1. Identify the target idea: What does an exhaustive set of outcomes include?
+1. Count the two groups contributing flagged items.
 
-2. Compare your response with the held study explanation: Every outcome allowed by the model.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does an exhaustive set of outcomes include?
-
-## Practice 14 — standard · 1 marks
-
-Retrieval 2 — Probability trees, dependent events and conditional denominators: State the condition or distinction precisely: What makes events mutually exclusive?
-
-Answer: They cannot both occur in the same trial.
-
-1. Identify the target idea: What makes events mutually exclusive?
-
-2. Compare your response with the held study explanation: They cannot both occur in the same trial.
+2. Use the 180 flagged items as the conditional denominator.
 
 Marking points (one practice mark each):
 
-- Accurately address: What makes events mutually exclusive?
+- Find total flags 180.
 
-## Practice 15 — extension · 1 marks
+- Compute 1/2.
 
-Retrieval 3 — Probability trees, dependent events and conditional denominators: Explain the idea in your own words: What should exhaustive mutually exclusive branches from one node sum to?
+- Distinguish the two conditional denominators.
 
-Answer: One.
+## Practice 14 — standard · 3 marks
 
-1. Identify the target idea: What should exhaustive mutually exclusive branches from one node sum to?
+A bag contains 1 red and 2 blue counters. Find the probability of two blue draws with replacement and without replacement, and explain the difference.
 
-2. Compare your response with the held study explanation: One.
+Answer: With replacement: 4/9. Without replacement: 1/3.
 
-Marking points (one practice mark each):
+1. With replacement each blue probability is 2/3.
 
-- Accurately address: What should exhaustive mutually exclusive branches from one node sum to?
-
-## Practice 16 — foundation · 1 marks
-
-Retrieval 4 — Probability trees, dependent events and conditional denominators: Answer from memory: How is the probability of a complete tree path calculated?
-
-Answer: Multiply its branch probabilities, using the correct conditional values.
-
-1. Identify the target idea: How is the probability of a complete tree path calculated?
-
-2. Compare your response with the held study explanation: Multiply its branch probabilities, using the correct conditional values.
+2. Without replacement a first blue leaves one blue among two counters, so (2/3)(1/2)=1/3.
 
 Marking points (one practice mark each):
 
-- Accurately address: How is the probability of a complete tree path calculated?
+- Find 4/9.
 
-## Practice 17 — standard · 1 marks
+- Find 1/3.
 
-Retrieval 5 — Probability trees, dependent events and conditional denominators: State the condition or distinction precisely: When can complete path probabilities be added directly?
+- Explain the changed second-draw population.
 
-Answer: When the paths represent disjoint alternatives for the desired event.
+## Practice 15 — extension · 3 marks
 
-1. Identify the target idea: When can complete path probabilities be added directly?
+Events A and B have P(A)=0.4 and P(B)=0.3 and are mutually exclusive. Calculate P(A or B) and explain why A and B cannot also be independent.
 
-2. Compare your response with the held study explanation: When the paths represent disjoint alternatives for the desired event.
+Answer: P(A or B)=0.7. Their intersection is 0, while independence would require 0.4×0.3=0.12.
 
-Marking points (one practice mark each):
+1. Add probabilities because there is no overlap.
 
-- Accurately address: When can complete path probabilities be added directly?
-
-## Practice 18 — extension · 1 marks
-
-Retrieval 6 — Probability trees, dependent events and conditional denominators: Explain the idea in your own words: Why does removing a counter affect later branch values?
-
-Answer: Both the remaining total and possibly a colour count change.
-
-1. Identify the target idea: Why does removing a counter affect later branch values?
-
-2. Compare your response with the held study explanation: Both the remaining total and possibly a colour count change.
+2. Compare the actual intersection with the product required for independence.
 
 Marking points (one practice mark each):
 
-- Accurately address: Why does removing a counter affect later branch values?
+- Find union 0.7.
 
-## Practice 19 — foundation · 1 marks
+- State intersection zero.
 
-Retrieval 7 — Probability trees, dependent events and conditional denominators: Answer from memory: What does independence say about conditional probability?
-
-Answer: Learning that one event occurred leaves the other's probability unchanged.
-
-1. Identify the target idea: What does independence say about conditional probability?
-
-2. Compare your response with the held study explanation: Learning that one event occurred leaves the other's probability unchanged.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does independence say about conditional probability?
-
-## Practice 20 — standard · 1 marks
-
-Retrieval 8 — Probability trees, dependent events and conditional denominators: State the condition or distinction precisely: How can P(at least one success) be found?
-
-Answer: One minus P(no successes).
-
-1. Identify the target idea: How can P(at least one success) be found?
-
-2. Compare your response with the held study explanation: One minus P(no successes).
-
-Marking points (one practice mark each):
-
-- Accurately address: How can P(at least one success) be found?
-
-## Practice 21 — extension · 1 marks
-
-Retrieval 9 — Probability trees, dependent events and conditional denominators: Explain the idea in your own words: What does the condition select in a conditional-probability problem?
-
-Answer: The restricted population used as the denominator.
-
-1. Identify the target idea: What does the condition select in a conditional-probability problem?
-
-2. Compare your response with the held study explanation: The restricted population used as the denominator.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does the condition select in a conditional-probability problem?
-
-## Practice 22 — foundation · 1 marks
-
-Retrieval 10 — Probability trees, dependent events and conditional denominators: Answer from memory: Must P(A given B) equal P(B given A)?
-
-Answer: No; their conditioning denominators usually differ.
-
-1. Identify the target idea: Must P(A given B) equal P(B given A)?
-
-2. Compare your response with the held study explanation: No; their conditioning denominators usually differ.
-
-Marking points (one practice mark each):
-
-- Accurately address: Must P(A given B) equal P(B given A)?
-
-## Practice 23 — standard · 1 marks
-
-Retrieval 11 — Probability trees, dependent events and conditional denominators: State the condition or distinction precisely: Why subtract P(A and B) when adding P(A) and P(B) for a union?
-
-Answer: The overlap was counted twice.
-
-1. Identify the target idea: Why subtract P(A and B) when adding P(A) and P(B) for a union?
-
-2. Compare your response with the held study explanation: The overlap was counted twice.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why subtract P(A and B) when adding P(A) and P(B) for a union?
-
-## Practice 24 — extension · 1 marks
-
-Retrieval 12 — Probability trees, dependent events and conditional denominators: Explain the idea in your own words: Can a zero-sized conditioning group be used in a simple frequency ratio?
-
-Answer: No; the denominator would be zero.
-
-1. Identify the target idea: Can a zero-sized conditioning group be used in a simple frequency ratio?
-
-2. Compare your response with the held study explanation: No; the denominator would be zero.
-
-Marking points (one practice mark each):
-
-- Accurately address: Can a zero-sized conditioning group be used in a simple frequency ratio?
-
-## Practice 25 — foundation · 1 marks
-
-Retrieval 13 — Probability trees, dependent events and conditional denominators: Answer from memory: What is the complement of at least one red in two draws?
-
-Answer: No red, meaning both draws are blue when those are the only two colours.
-
-1. Identify the target idea: What is the complement of at least one red in two draws?
-
-2. Compare your response with the held study explanation: No red, meaning both draws are blue when those are the only two colours.
-
-Marking points (one practice mark each):
-
-- Accurately address: What is the complement of at least one red in two draws?
+- Contrast with product 0.12.
 
 ## Revision checklist
 
@@ -687,7 +563,7 @@ The complement rule can shorten an at-least-one calculation, but the probability
 
 - What does an exhaustive set of outcomes include?
 
-Mixed practice: q1, application-check, error-analysis
+Mixed practice: q1, application-check, error-analysis, depth-classification-base-rate, depth-replacement-comparison, depth-exclusive-independent
 
 After checking your answer, write the specific rule or assumption you missed. Retry the linked questions without the worked example in a later session. A checked answer or completed checklist is not a measurement of mastery.
 

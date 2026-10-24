@@ -1,6 +1,6 @@
 # Quadratic equations, graphs and model restrictions
 
-Subject: Mathematics · Unit: Nonlinear algebra · Revision: 2026-10-21.2
+Subject: Mathematics · Unit: Nonlinear algebra · Revision: 2026-10-21.3
 
 **Review draft — not independently approved. Practice marks are editorial, not official exam marks.**
 
@@ -41,6 +41,10 @@ A graph is useful for checking the number and approximate location of roots, not
 ## Choosing a physical root after solving the equation
 
 A quadratic equation can produce two algebraically valid roots while the context permits only one. State the model’s domain before discarding a solution, and distinguish an excluded contextual root from an algebraic mistake. In a height-time model, negative time may describe an extension of the curve before the chosen start rather than a future event. The turning point gives an extremum of the quadratic, but it is relevant only if it lies inside the modelled interval. Checking the original expression at candidate times tests the arithmetic. The fictional model below assumes its quadratic rule holds until the object reaches the ground and ignores effects outside that scope.
+
+## Optimise only inside the model's permitted domain
+
+A quadratic's vertex is an unrestricted optimum on the real line when its curvature has the appropriate sign. A model may permit only a closed interval, whole-number inputs or times before a physical event. Evaluate the vertex only if it belongs to that domain, and otherwise compare the relevant boundaries. State the units of both input and output. A second mathematical root may be valid algebraically but outside a model's interpretation, so explain the exclusion instead of calling the algebra incorrect.
 
 ## Diagram: Solve then interpret a height model
 
@@ -88,15 +92,15 @@ Worked examples: 4
 
 Practise: q5, application-check, error-analysis
 
-### Retrieval practice
+### Apply and test the limits
 
-Close the notes and answer these extra prompts from memory. Self-review with the held explanation, name one gap, then retry later. This is study practice, not an automatic mark or mastery measurement.
+Revisit the last worked example, then read the new section and tackle these different situations. Identify the assumptions before answering. Compare your reasoning with each marking point; these open responses require self-review, not automatic marks.
 
-Read: Three forms, different information
+Read: Optimise only inside the model's permitted domain
 
-Worked examples: 1
+Worked examples: 4
 
-Practise: retrieval-01, retrieval-02, retrieval-03, retrieval-04, retrieval-05, retrieval-06, retrieval-07, retrieval-08, retrieval-09, retrieval-10, retrieval-11, retrieval-12, retrieval-13, retrieval-14, retrieval-15, retrieval-16, retrieval-17, retrieval-18
+Practise: depth-bounded-area, depth-integer-optimum, depth-units-model
 
 ## Worked example 1
 
@@ -314,257 +318,59 @@ Marking points (one practice mark each):
 
 - The vertex is within the interval from 0 to 6, so the model reaches 16 m at t = 2.
 
-## Practice 8 — foundation · 1 marks
+## Practice 8 — standard · 3 marks
 
-Retrieval 1 — Quadratic equations, graphs and model restrictions: Answer from memory: What does the sign of a tell you in ax²+bx+c?
+A rectangle has perimeter 20 cm and width x restricted to 1≤x≤3 cm. Find the maximum allowed area.
 
-Answer: Positive opens upward; negative opens downward.
+Answer: 21 cm² at x=3 cm.
 
-1. Identify the target idea: What does the sign of a tell you in ax²+bx+c?
+1. Length is 10-x, so A=x(10-x); the unrestricted vertex x=5 lies outside the interval.
 
-2. Compare your response with the held study explanation: Positive opens upward; negative opens downward.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does the sign of a tell you in ax²+bx+c?
-
-## Practice 9 — standard · 1 marks
-
-Retrieval 2 — Quadratic equations, graphs and model restrictions: State the condition or distinction precisely: What does a(x-h)²+k reveal?
-
-Answer: The vertex (h,k) and axis of symmetry x=h.
-
-1. Identify the target idea: What does a(x-h)²+k reveal?
-
-2. Compare your response with the held study explanation: The vertex (h,k) and axis of symmetry x=h.
+2. A increases on [1,3], or compare its endpoint values 9 and 21.
 
 Marking points (one practice mark each):
 
-- Accurately address: What does a(x-h)²+k reveal?
+- Form x(10-x).
 
-## Practice 10 — extension · 1 marks
+- Reject the out-of-domain vertex.
 
-Retrieval 3 — Quadratic equations, graphs and model restrictions: Explain the idea in your own words: How does the discriminant classify real roots?
+- Find maximum 21 cm² at x=3.
 
-Answer: Positive: two distinct; zero: repeated; negative: none.
+## Practice 9 — extension · 3 marks
 
-1. Identify the target idea: How does the discriminant classify real roots?
+A fictional integer-output model is P(n)=-2n²+14n-8 for n∈{0,1,...,8}. Find every n giving maximum P.
 
-2. Compare your response with the held study explanation: Positive: two distinct; zero: repeated; negative: none.
+Answer: n=3 and n=4 both give P=16.
 
-Marking points (one practice mark each):
+1. The real vertex lies at n=14/4=3.5.
 
-- Accurately address: How does the discriminant classify real roots?
-
-## Practice 11 — foundation · 1 marks
-
-Retrieval 4 — Quadratic equations, graphs and model restrictions: Answer from memory: When may you set each factor to zero?
-
-Answer: When their product equals zero.
-
-1. Identify the target idea: When may you set each factor to zero?
-
-2. Compare your response with the held study explanation: When their product equals zero.
+2. Compare the neighbouring allowed integers; concavity makes them the best integer candidates.
 
 Marking points (one practice mark each):
 
-- Accurately address: When may you set each factor to zero?
+- Find real vertex 3.5.
 
-## Practice 12 — standard · 1 marks
+- Evaluate both 3 and 4.
 
-Retrieval 5 — Quadratic equations, graphs and model restrictions: State the condition or distinction precisely: Why check the domain after solving a quadratic model?
+- State both maximisers and value 16.
 
-Answer: Some algebraic roots or turning points may lie outside the meaningful inputs.
+## Practice 10 — standard · 3 marks
 
-1. Identify the target idea: Why check the domain after solving a quadratic model?
+A fictional height model h(t)=5+8t-2t² uses metres and seconds. State the required units of 5, 8 and -2, and explain why the terms can be added.
 
-2. Compare your response with the held study explanation: Some algebraic roots or turning points may lie outside the meaningful inputs.
+Answer: 5 has units m, 8 has units m/s, and -2 has units m/s²; after multiplication by t or t², each term has units m.
 
-Marking points (one practice mark each):
+1. Every term in an equation for height must have height units.
 
-- Accurately address: Why check the domain after solving a quadratic model?
-
-## Practice 13 — extension · 1 marks
-
-Retrieval 6 — Quadratic equations, graphs and model restrictions: Explain the idea in your own words: Why must roots obtained after squaring be checked in the original equation?
-
-Answer: Squaring loses sign information and can introduce candidates that do not satisfy the original equation.
-
-1. Identify the target idea: Why must roots obtained after squaring be checked in the original equation?
-
-2. Compare your response with the held study explanation: Squaring loses sign information and can introduce candidates that do not satisfy the original equation.
+2. Divide the required height unit by the appropriate power of time.
 
 Marking points (one practice mark each):
 
-- Accurately address: Why must roots obtained after squaring be checked in the original equation?
+- Give m for the constant.
 
-## Practice 14 — foundation · 1 marks
+- Give m/s and m/s² for the coefficients.
 
-Retrieval 7 — Quadratic equations, graphs and model restrictions: Answer from memory: Why can an algebraic root be rejected in a model?
-
-Answer: It may violate the stated contextual domain even though it solves the equation.
-
-1. Identify the target idea: Why can an algebraic root be rejected in a model?
-
-2. Compare your response with the held study explanation: It may violate the stated contextual domain even though it solves the equation.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why can an algebraic root be rejected in a model?
-
-## Practice 15 — standard · 1 marks
-
-Retrieval 8 — Quadratic equations, graphs and model restrictions: State the condition or distinction precisely: Does the constant term give a quadratic model’s maximum?
-
-Answer: No. It gives the value at input zero; the vertex and domain determine the relevant extremum.
-
-1. Identify the target idea: Does the constant term give a quadratic model’s maximum?
-
-2. Compare your response with the held study explanation: No. It gives the value at input zero; the vertex and domain determine the relevant extremum.
-
-Marking points (one practice mark each):
-
-- Accurately address: Does the constant term give a quadratic model’s maximum?
-
-## Practice 16 — extension · 1 marks
-
-Retrieval 9 — Quadratic equations, graphs and model restrictions: Explain the idea in your own words: What does the sign of a tell you in ax²+bx+c?
-
-Answer: Positive opens upward; negative opens downward.
-
-1. Identify the target idea: What does the sign of a tell you in ax²+bx+c?
-
-2. Compare your response with the held study explanation: Positive opens upward; negative opens downward.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does the sign of a tell you in ax²+bx+c?
-
-## Practice 17 — foundation · 1 marks
-
-Retrieval 10 — Quadratic equations, graphs and model restrictions: Answer from memory: What does a(x-h)²+k reveal?
-
-Answer: The vertex (h,k) and axis of symmetry x=h.
-
-1. Identify the target idea: What does a(x-h)²+k reveal?
-
-2. Compare your response with the held study explanation: The vertex (h,k) and axis of symmetry x=h.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does a(x-h)²+k reveal?
-
-## Practice 18 — standard · 1 marks
-
-Retrieval 11 — Quadratic equations, graphs and model restrictions: State the condition or distinction precisely: How does the discriminant classify real roots?
-
-Answer: Positive: two distinct; zero: repeated; negative: none.
-
-1. Identify the target idea: How does the discriminant classify real roots?
-
-2. Compare your response with the held study explanation: Positive: two distinct; zero: repeated; negative: none.
-
-Marking points (one practice mark each):
-
-- Accurately address: How does the discriminant classify real roots?
-
-## Practice 19 — extension · 1 marks
-
-Retrieval 12 — Quadratic equations, graphs and model restrictions: Explain the idea in your own words: When may you set each factor to zero?
-
-Answer: When their product equals zero.
-
-1. Identify the target idea: When may you set each factor to zero?
-
-2. Compare your response with the held study explanation: When their product equals zero.
-
-Marking points (one practice mark each):
-
-- Accurately address: When may you set each factor to zero?
-
-## Practice 20 — foundation · 1 marks
-
-Retrieval 13 — Quadratic equations, graphs and model restrictions: Answer from memory: Why check the domain after solving a quadratic model?
-
-Answer: Some algebraic roots or turning points may lie outside the meaningful inputs.
-
-1. Identify the target idea: Why check the domain after solving a quadratic model?
-
-2. Compare your response with the held study explanation: Some algebraic roots or turning points may lie outside the meaningful inputs.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why check the domain after solving a quadratic model?
-
-## Practice 21 — standard · 1 marks
-
-Retrieval 14 — Quadratic equations, graphs and model restrictions: State the condition or distinction precisely: Why must roots obtained after squaring be checked in the original equation?
-
-Answer: Squaring loses sign information and can introduce candidates that do not satisfy the original equation.
-
-1. Identify the target idea: Why must roots obtained after squaring be checked in the original equation?
-
-2. Compare your response with the held study explanation: Squaring loses sign information and can introduce candidates that do not satisfy the original equation.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why must roots obtained after squaring be checked in the original equation?
-
-## Practice 22 — extension · 1 marks
-
-Retrieval 15 — Quadratic equations, graphs and model restrictions: Explain the idea in your own words: Why can an algebraic root be rejected in a model?
-
-Answer: It may violate the stated contextual domain even though it solves the equation.
-
-1. Identify the target idea: Why can an algebraic root be rejected in a model?
-
-2. Compare your response with the held study explanation: It may violate the stated contextual domain even though it solves the equation.
-
-Marking points (one practice mark each):
-
-- Accurately address: Why can an algebraic root be rejected in a model?
-
-## Practice 23 — foundation · 1 marks
-
-Retrieval 16 — Quadratic equations, graphs and model restrictions: Answer from memory: Does the constant term give a quadratic model’s maximum?
-
-Answer: No. It gives the value at input zero; the vertex and domain determine the relevant extremum.
-
-1. Identify the target idea: Does the constant term give a quadratic model’s maximum?
-
-2. Compare your response with the held study explanation: No. It gives the value at input zero; the vertex and domain determine the relevant extremum.
-
-Marking points (one practice mark each):
-
-- Accurately address: Does the constant term give a quadratic model’s maximum?
-
-## Practice 24 — standard · 1 marks
-
-Retrieval 17 — Quadratic equations, graphs and model restrictions: State the condition or distinction precisely: What does the sign of a tell you in ax²+bx+c?
-
-Answer: Positive opens upward; negative opens downward.
-
-1. Identify the target idea: What does the sign of a tell you in ax²+bx+c?
-
-2. Compare your response with the held study explanation: Positive opens upward; negative opens downward.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does the sign of a tell you in ax²+bx+c?
-
-## Practice 25 — extension · 1 marks
-
-Retrieval 18 — Quadratic equations, graphs and model restrictions: Explain the idea in your own words: What does a(x-h)²+k reveal?
-
-Answer: The vertex (h,k) and axis of symmetry x=h.
-
-1. Identify the target idea: What does a(x-h)²+k reveal?
-
-2. Compare your response with the held study explanation: The vertex (h,k) and axis of symmetry x=h.
-
-Marking points (one practice mark each):
-
-- Accurately address: What does a(x-h)²+k reveal?
+- Explain matching term units.
 
 ## Revision checklist
 
@@ -598,6 +404,6 @@ A quadratic equation can produce two algebraically valid roots while the context
 
 - What does the sign of a tell you in ax²+bx+c?
 
-Mixed practice: q1, application-check, error-analysis
+Mixed practice: q1, application-check, error-analysis, depth-bounded-area, depth-integer-optimum, depth-units-model
 
 After checking your answer, write the specific rule or assumption you missed. Retry the linked questions without the worked example in a later session. A checked answer or completed checklist is not a measurement of mastery.

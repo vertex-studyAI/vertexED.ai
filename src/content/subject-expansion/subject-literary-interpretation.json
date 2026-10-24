@@ -1,0 +1,260 @@
+{
+  "schemaVersion": 1,
+  "id": "subject-literary-interpretation",
+  "revision": "2026-10-21.4",
+  "subject": "English",
+  "unit": "Literary study",
+  "topic": "Narrative perspective, dramatic action and comparative interpretation",
+  "level": "secondary-foundation",
+  "editorialStatus": "unreviewed",
+  "origin": "original-authorship-review-pending",
+  "scope": "Original shared study module on narrative perspective, dramatic action and comparative interpretation. Numerical datasets and quoted passages are invented teaching examples. This is not a complete course, official examination material or verified board-specific alignment.",
+  "prerequisites": [
+    "Distinguish an author from a character.",
+    "Identify a passage's speaker and situation."
+  ],
+  "objectives": [
+    "Distinguish narrative statement from established fictional fact.",
+    "Support an interpretation through form and detail.",
+    "Compare two passages using a focused argument."
+  ],
+  "notes": [
+    {
+      "heading": "Separate author, narrator and character",
+      "paragraphs": [
+        "A narrator is the voice presenting a story and is not automatically identical to its author. A character's statement may reveal that character's belief rather than establish a fact about the fictional world. First-person narration can give access to a viewpoint while limiting access to other minds and events. Ask what the narrator could know, what is directly observed, and what is inferred. Calling a narrator unreliable requires evidence of limits, contradiction or distortion; it is not simply another name for a narrator whose opinions a reader dislikes."
+      ]
+    },
+    {
+      "heading": "Read action and form together",
+      "paragraphs": [
+        "In drama, a pause, entrance, exit or stage direction can complicate what a character says. In poetry, line breaks, sound patterns and stanza organisation can shape emphasis, but no formal feature has a single guaranteed meaning. Track contrasts between speech and action or between stated confidence and hesitant form. Explain how the particular choice contributes to the passage's tension or argument. Avoid importing a plot summary that is not needed for the question. Close attention to a few details often supports a more coherent interpretation than a catalogue of devices."
+      ]
+    },
+    {
+      "heading": "Build an argument rather than a checklist",
+      "paragraphs": [
+        "A literary paragraph should advance a claim and examine the evidence that makes it plausible. A competing reading can refine the claim instead of being mentioned only to dismiss it. When comparing passages, organise around a shared issue such as power, memory or belonging, then explain a significant difference in its treatment. Use verified contextual information only where it illuminates the text and task. This lesson uses original fictional extracts, not prescribed examination texts; set-text choices, editions and assessment requirements must be checked separately before claiming course coverage."
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "prompt": "Original fictional narration: 'Everyone welcomed me, I decided, although no one looked up.' Discuss the tension.",
+      "steps": [
+        "The narrator's confident interpretation conflicts with the observed lack of response.",
+        "This invites doubt about the interpretation without proving the others' actual feelings."
+      ],
+      "answer": "The sentence exposes a gap between self-assurance and observable evidence."
+    },
+    {
+      "prompt": "Original stage direction: '[Mara locks the drawer.] MARA: I have nothing to hide.' Explain the contrast.",
+      "steps": [
+        "Locking the drawer creates a possible conflict with the spoken claim.",
+        "The audience may suspect concealment, although privacy is another possible explanation."
+      ],
+      "answer": "Action complicates the claim and creates interpretive tension."
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "A narrator's interpretation must be accepted as fact.",
+      "correction": "Compare the interpretation with what the text actually shows."
+    },
+    {
+      "claim": "Context can replace close textual evidence.",
+      "correction": "Relevant context supports interpretation; it does not substitute for evidence."
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "card-1",
+      "front": "Is the narrator necessarily the author?",
+      "back": "No. The narrator is a constructed voice within the work."
+    },
+    {
+      "id": "card-2",
+      "front": "What can a character's statement establish directly?",
+      "back": "That the character says or believes it, not necessarily that it is true."
+    },
+    {
+      "id": "card-3",
+      "front": "Why analyse stage directions?",
+      "back": "Action and staging can qualify or contradict spoken words."
+    },
+    {
+      "id": "card-4",
+      "front": "How should a comparative paragraph be organised?",
+      "back": "Around a focused shared issue and evidence from both passages."
+    },
+    {
+      "id": "card-5",
+      "front": "Does this lesson replace a prescribed text?",
+      "back": "No. Its examples are original practice extracts."
+    }
+  ],
+  "questions": [
+    {
+      "id": "viewpoint",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "Original fictional narration: 'I knew he regretted leaving; he had not written once.' What is observed, and what is inferred?",
+      "answer": "The lack of a letter is reported; regret is inferred by the narrator.",
+      "solution": [
+        "Separate the reported behaviour from the mental-state claim.",
+        "Note that several motives could explain not writing."
+      ],
+      "markingPoints": [
+        "Identify the observation.",
+        "Identify the inference."
+      ],
+      "marks": 2,
+      "calculator": "not-required"
+    },
+    {
+      "id": "dramatic",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "Original stage direction: '[Tomas steps away from the open door.] TOMAS: I am ready.' Explain one possible tension.",
+      "answer": "His movement away may suggest hesitation despite his claim of readiness.",
+      "solution": [
+        "Compare the direction of movement with the spoken declaration.",
+        "Keep the reading tentative because more context may alter it."
+      ],
+      "markingPoints": [
+        "Use action and speech.",
+        "Explain a qualified contrast."
+      ],
+      "marks": 2,
+      "calculator": "not-required"
+    },
+    {
+      "id": "counterreading",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "A character gives away a coat. One reader calls this generous; another calls it an attempt to impress an audience. What evidence would help distinguish the readings?",
+      "answer": "Evidence about the recipient's need, the giver's words and behaviour, and whether an audience is present could help.",
+      "solution": [
+        "Identify details relevant to motive rather than assuming a single meaning.",
+        "Explain how those details might support or weaken each reading."
+      ],
+      "markingPoints": [
+        "Name relevant textual evidence.",
+        "Relate it to the competing interpretations."
+      ],
+      "marks": 2,
+      "calculator": "not-required"
+    },
+    {
+      "id": "comparison",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "Original images: A calls memory 'a locked room'; B calls it 'an open road'. Propose a comparative claim.",
+      "answer": "A presents memory as enclosed or difficult to access, while B presents it as accessible or leading onward.",
+      "solution": [
+        "Explain the spatial associations of each image.",
+        "Compare their implications while acknowledging that context may change them."
+      ],
+      "markingPoints": [
+        "Analyse both images.",
+        "Form a qualified comparative claim."
+      ],
+      "marks": 2,
+      "calculator": "not-required"
+    }
+  ],
+  "revisionChecklist": [
+    "Check that you can distinguish narrative statement from established fictional fact without copying the worked solution.",
+    "Check that you can support an interpretation through form and detail without copying the worked solution.",
+    "Check that you can compare two passages using a focused argument without copying the worked solution."
+  ],
+  "diagrams": [
+    {
+      "id": "reasoning-route",
+      "title": "Reasoning route: Literary study",
+      "description": "Use the sequence to organise an explanation of narrative perspective, dramatic action and comparative interpretation; it is not a measured mastery score.",
+      "steps": [
+        {
+          "label": "Locate the voice",
+          "detail": "Identify who speaks, knows and acts."
+        },
+        {
+          "label": "Read the tension",
+          "detail": "Connect statements, actions and formal choices."
+        },
+        {
+          "label": "Argue from evidence",
+          "detail": "Compare readings without inventing context or prescribed-text coverage."
+        }
+      ],
+      "links": [
+        "Use this definition to choose the method",
+        "Use the result to evaluate the conclusion"
+      ]
+    }
+  ],
+  "teachingSequence": [
+    {
+      "title": "Separate author, narrator and character",
+      "guidance": "Separate the narrator's observation from their interpretation; the author need not endorse either.",
+      "noteHeadings": [
+        "Separate author, narrator and character"
+      ],
+      "workedExampleNumbers": [
+        1
+      ],
+      "questionIds": [
+        "viewpoint"
+      ]
+    },
+    {
+      "title": "Read action and form together",
+      "guidance": "Compare spoken words with the stage direction and develop a reading supported by both.",
+      "noteHeadings": [
+        "Read action and form together"
+      ],
+      "workedExampleNumbers": [
+        2
+      ],
+      "questionIds": [
+        "dramatic"
+      ]
+    },
+    {
+      "title": "Build an argument rather than a checklist",
+      "guidance": "Use textual details to weigh competing interpretations rather than listing techniques without an argument.",
+      "noteHeadings": [
+        "Build an argument rather than a checklist"
+      ],
+      "workedExampleNumbers": [
+        1,
+        2
+      ],
+      "questionIds": [
+        "counterreading",
+        "comparison"
+      ]
+    }
+  ],
+  "revisionGuide": {
+    "summary": "Review narrative perspective, dramatic action and comparative interpretation by connecting definitions, the two worked examples and the limits of each conclusion. These questions use editorial self-review points, not an official examination rubric.",
+    "keyIdeas": [
+      "Is the narrator necessarily the author? No. The narrator is a constructed voice within the work.",
+      "What can a character's statement establish directly? That the character says or believes it, not necessarily that it is true.",
+      "Why analyse stage directions? Action and staging can qualify or contradict spoken words."
+    ],
+    "formulas": [],
+    "recallPrompts": [
+      "Is the narrator necessarily the author?",
+      "What can a character's statement establish directly?",
+      "Why analyse stage directions?"
+    ],
+    "practiceQuestionIds": [
+      "viewpoint",
+      "dramatic",
+      "counterreading",
+      "comparison"
+    ],
+    "revisit": "Attempt the questions without the notes, compare your reasoning with the points, and retry any step you cannot yet explain. Self-review does not certify mastery."
+  }
+}

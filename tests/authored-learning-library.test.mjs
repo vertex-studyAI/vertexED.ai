@@ -16,28 +16,28 @@ const lessons = await readLearningLibrary();
 const syllabusSources = await readSyllabusSources();
 const find = id => structuredClone(lessons.find(lesson => lesson.id === id));
 
-test('forty-two held review drafts retain authored material and provide a 25-prompt retrieval floor', () => {
-  assert.equal(lessons.length, 42);
-  assert.equal(new Set(lessons.map(lesson => lesson.subject)).size, 19);
-  assert.equal(lessons.reduce((sum, lesson) => sum + lesson.flashcards.length, 0), 428);
-  assert.equal(lessons.reduce((sum, lesson) => sum + lesson.questions.length, 0), 1052);
+test('forty-two held review drafts retain authored material and add distinct depth practice', () => {
+  const foundations = lessons.filter(lesson => !/^(subject|syllabus|unit)-/.test(lesson.id));
+  assert.equal(foundations.length, 42);
+  assert.equal(new Set(foundations.map(lesson => lesson.subject)).size, 19);
+  assert.equal(foundations.reduce((sum, lesson) => sum + lesson.flashcards.length, 0), 428);
+  assert.equal(foundations.reduce((sum, lesson) => sum + lesson.questions.length, 0), 511);
   const latestIds = new Set(['atomic-models', 'mass-conservation', 'respiration-metabolism', 'probability-trees', 'searching-algorithms', 'words-in-context']);
   const multimediaIds = new Set(['arithmetic-sequences', 'geometric-sequences', 'scientific-investigation', 'design-evaluation']);
-  for (const lesson of lessons) {
+  for (const lesson of foundations) {
     assert.equal(learningLessonSchema.safeParse(lesson).success, true, lesson.id);
     assert.equal(lesson.editorialStatus, 'unreviewed');
     assert.equal(lesson.origin, 'original-authorship-review-pending');
     const expanded = Boolean(lesson.syllabusMappings?.length);
     const multimedia = multimediaIds.has(lesson.id);
     const latest = latestIds.has(lesson.id) || multimedia;
-    assert.equal(lesson.revision, '2026-10-21.2');
-    assert.equal(lesson.notes.length, expanded ? 7 : 5);
+    assert.equal(lesson.revision, '2026-10-21.3');
+    assert.equal(lesson.notes.length, expanded ? 8 : 6);
     assert.equal(lesson.workedExamples.length, latest ? 6 : expanded ? 5 : 4);
     assert.equal(lesson.flashcards.length, latest ? 14 : expanded ? 12 : 8);
-    const authoredQuestions = lesson.questions.filter(question => !question.id.startsWith('retrieval-'));
     const authoredCount = lesson.id === 'derivative-definition' ? 27 : latest ? 12 : expanded ? 10 : 7;
-    assert.equal(authoredQuestions.length, authoredCount, `${lesson.id} retains its authored question set`);
-    assert.equal(lesson.questions.length, Math.max(25, authoredCount), `${lesson.id} meets the retrieval floor`);
+    assert.equal(lesson.questions.length, authoredCount + 3, `${lesson.id} adds three distinct problems`);
+    assert.ok(!lesson.questions.some(question => question.id.startsWith('retrieval-')), 'cycled flashcards are not extra questions');
     if (latest) assert.ok(lesson.notes.flatMap(section => section.paragraphs).join(' ').split(/\s+/).length >= 900);
     if (expanded) assert.ok(lesson.notes.flatMap(section => section.paragraphs).join(' ').split(/\s+/).length >= 700);
     assert.ok(lesson.notes.flatMap(section => section.paragraphs).join(' ').split(/\s+/).length >= 220);
@@ -223,12 +223,12 @@ test('build verifier detects leaked library files, manifests and bundled teachin
   const before = await verifyPublishedContent(output);
   assert.equal(before.status, 'FAIL');
   assert.ok(before.violations.some(item => item.reason === 'unfiltered-learning-library-manifest'));
-  assert.equal(before.violations.filter(item => item.reason === 'held-static-asset').length, 84);
+  assert.equal(before.violations.filter(item => item.reason === 'held-static-asset').length, lessons.length * 2);
   const receipt = await enforcePublishedContent(output);
-  assert.equal(receipt.heldAssetsRemoved, 84);
+  assert.equal(receipt.heldAssetsRemoved, lessons.length * 2);
   assert.equal((await verifyPublishedContent(output)).status, 'PASS');
   await assert.rejects(access(join(output, 'learning-library/linear-equations.json')));
-  assert.equal(JSON.parse(await readFile('public/learning-library/manifest.json', 'utf8')).entries.length, 42, 'source files are retained');
+  assert.equal(JSON.parse(await readFile('public/learning-library/manifest.json', 'utf8')).entries.length, 90, 'source files are retained');
   await writeFile(join(output, 'app.js'), `window.leaked = ${JSON.stringify(lessons[0].notes[0].paragraphs[0])};`);
   assert.ok((await verifyPublishedContent(output)).violations.some(item => item.reason === 'held-learning-library-body'));
 });
@@ -258,7 +258,7 @@ test('scope register inventories every product subject without converting founda
   }
   const ecosystem = await buildEcosystemReport();
   assert.deepEqual(ecosystem, JSON.parse(await readFile('docs/evidence/content-ecosystem-20261019.json', 'utf8')));
-  assert.equal(ecosystem.authoredLearningLibrary.questions, 1052);
+  assert.equal(ecosystem.authoredLearningLibrary.questions, 796);
   assert.equal(ecosystem.authoredLearningLibrary.approvedLessons, 0);
   assert.equal(ecosystem.programmes.find(programme => programme.programme === 'SAT').authoredRecords, 0, 'generic foundations do not count as SAT-aligned records');
 });

@@ -1,6 +1,6 @@
 # Derivatives from limits, tangent lines and local estimates
 
-Subject: Mathematics · Unit: Differential calculus · Revision: 2026-10-21.2
+Subject: Mathematics · Unit: Differential calculus · Revision: 2026-10-21.3
 
 **Review draft — not independently approved. Practice marks are editorial, not official exam marks.**
 
@@ -62,6 +62,10 @@ For a definition problem, write the quotient first, simplify with the nonzero-in
 
 A forward difference quotient compares a point with a second point displaced by h. Its value depends on h until a limit is taken. Algebra can reveal exactly how that finite-step estimate differs from the derivative. A centred quotient uses points on both sides; cancellation can remove some error terms, but exactness for one polynomial does not make the method exact for every function. Keep the estimated derivative separate from the function value predicted by a tangent. Both estimates also become sensitive to measurement or rounding error when differences are formed from noisy values. Smaller h reduces a truncation error in an ideal formula, while a practical numerical calculation can have additional errors.
 
+## A small function value can hide a rapidly changing slope
+
+Continuity and differentiability are local properties with different requirements. A function can approach its value while its slopes oscillate or grow without a finite limit. To test a derivative at a special point, use the function's actual value there in the difference quotient; a formula valid only away from the point may be insufficient. Bounding the quotient can establish convergence even when oscillation prevents direct substitution. After a derivative has been established at one point, do not infer that nearby derivative values converge to it.
+
 ## Diagram: From secant to derivative for a cubic
 
 Read the labelled relationships to follow this worked application. The quotient is 12 + 6h + h²; f′(2) = 12; at h = 0.1 the estimate is 12.61. This is an explanatory process diagram, not a scale drawing or a record of a learner attempt.
@@ -107,6 +111,16 @@ Read: Secant error and the choice of a nearby point
 Worked examples: 5
 
 Practise: q19, q20, q21, q22, q23, q24, q25, application-check, error-analysis
+
+### Apply and test the limits
+
+Revisit the last worked example, then read the new section and tackle these different situations. Identify the assumptions before answering. Compare your reasoning with each marking point; these open responses require self-review, not automatic marks.
+
+Read: A small function value can hide a rapidly changing slope
+
+Worked examples: 5
+
+Practise: depth-oscillation-bound, depth-derivative-continuity, depth-one-sided-domain
 
 ## Worked example 1
 
@@ -697,6 +711,60 @@ Marking points (one practice mark each):
 
 - The linear error cancels, but the h² error remains for nonzero real h.
 
+## Practice 28 — extension · 3 marks
+
+Define f(0)=0 and f(x)=x²sin(1/x) for x≠0. Use the definition and |sin t|≤1 to find f′(0).
+
+Answer: f′(0)=0.
+
+1. For h≠0 the quotient is h sin(1/h).
+
+2. Its absolute value is at most |h|, which tends to zero.
+
+Marking points (one practice mark each):
+
+- Form the correct quotient.
+
+- Apply the absolute-value bound.
+
+- Conclude derivative zero by squeezing.
+
+## Practice 29 — extension · 3 marks
+
+For f(0)=0 and f(x)=x²sin(1/x) away from zero, it is known that f′(0)=0. For x≠0, f′(x)=2x sin(1/x)-cos(1/x). Does f′ approach 0 as x→0?
+
+Answer: No. At x_n=1/(2πn), f′(x_n)=-1, while at y_n=1/((2n+1)π), f′(y_n)=1.
+
+1. Both positive sequences approach zero as n increases.
+
+2. Evaluate the sine and cosine terms to obtain two distinct limiting values.
+
+Marking points (one practice mark each):
+
+- Give two sequences tending to zero.
+
+- Evaluate derivatives -1 and 1.
+
+- Conclude that the derivative is not continuous at zero.
+
+## Practice 30 — standard · 3 marks
+
+The function f(x)=√x is defined only for x≥0. Explain why the usual two-sided real derivative at 0 is unavailable, and examine the right difference quotient.
+
+Answer: There are no domain values to the left. The right quotient is 1/√h for h>0 and grows without bound, so there is no finite right derivative either.
+
+1. State the domain restriction for a two-sided limit.
+
+2. Simplify √h/h and examine h→0 from the right.
+
+Marking points (one practice mark each):
+
+- Identify the missing left-hand domain.
+
+- Obtain 1/√h.
+
+- State the absence of a finite right derivative.
+
 ## Revision checklist
 
 - Write and simplify the quotient before taking the limit.
@@ -731,7 +799,7 @@ A forward difference quotient compares a point with a second point displaced by 
 
 - What does [f(b)-f(a)]/(b-a) measure?
 
-Mixed practice: q1, application-check, error-analysis
+Mixed practice: q1, application-check, error-analysis, depth-oscillation-bound, depth-derivative-continuity, depth-one-sided-domain
 
 After checking your answer, write the specific rule or assumption you missed. Retry the linked questions without the worked example in a later session. A checked answer or completed checklist is not a measurement of mastery.
 
