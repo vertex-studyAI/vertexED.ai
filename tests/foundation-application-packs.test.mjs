@@ -8,13 +8,13 @@ const get = id => lessons.find(lesson => lesson.id === id);
 const answer = (id, question = 'application-check') => get(id).questions.find(q => q.id === question).answer;
 
 test('every shared lesson has a connected application pack without inventing syllabus credit', () => {
-  assert.equal(lessons.length, 42);
+  assert.equal(lessons.length, 43);
   for (const lesson of lessons) {
-    assert.equal(lesson.revision, '2026-10-21.3');
+    assert.equal(lesson.revision, lesson.id === 'boolean-logic' ? '2026-10-25.2' : '2026-10-21.3');
     assert.ok(lesson.diagrams.some(d => d.id === 'application-trace'), lesson.id);
     const linked = new Set(lesson.teachingSequence.flatMap(step => step.questionIds));
     assert.deepEqual(linked, new Set(lesson.questions.map(q => q.id)), lesson.id);
-    for (const id of ['application-check', 'error-analysis']) {
+    for (const id of lesson.id === 'boolean-logic' ? ['q4', 'q3'] : ['application-check', 'error-analysis']) {
       const question = lesson.questions.find(q => q.id === id);
       assert.ok(question, `${lesson.id}/${id}`);
       assert.ok(lesson.revisionGuide.practiceQuestionIds.includes(id));

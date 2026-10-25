@@ -23,6 +23,12 @@ function event(overrides = {}) {
   };
 }
 
+test('a browser assertion cannot establish independently validated evidence', () => {
+  const result = normalizeRevisionEvent(event({ evidenceStatus: 'independently-validated' }));
+  assert.equal(result.evidenceStatus, 'learner-attested');
+  assert.equal(result.payloadSha256, revisionEventHash({ ...result, payloadSha256: undefined }));
+});
+
 test('revision events are bounded metadata with stable canonical hashes', () => {
   const first = normalizeRevisionEvent(event(), Date.parse('2026-10-19T01:00:00Z'));
   const reordered = normalizeRevisionEvent({ ...event(), payload: { route: '/answer-reviewer', summary: 'Metadata only.', label: 'Suggested feedback' } }, Date.parse('2026-10-19T01:00:00Z'));

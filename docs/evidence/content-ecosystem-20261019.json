@@ -15161,17 +15161,17 @@
       "resources": []
     }
   ],
-  "sharedOriginalResources": 156,
+  "sharedOriginalResources": 157,
   "authoredLearningLibrary": {
-    "lessons": 90,
+    "lessons": 91,
     "subjects": 23,
-    "noteWords": 52887,
-    "workedExamples": 293,
-    "questions": 796,
-    "flashcards": 668,
-    "diagrams": 63,
-    "teachingSequences": 90,
-    "revisionGuides": 90,
+    "noteWords": 53354,
+    "workedExamples": 295,
+    "questions": 803,
+    "flashcards": 673,
+    "diagrams": 64,
+    "teachingSequences": 91,
+    "revisionGuides": 91,
     "approvedLessons": 0
   },
   "curriculumScope": {
@@ -15200,9 +15200,9 @@
     "addedWorkedExamples": 34,
     "addedFlashcards": 85,
     "addedDiagrams": 17,
-    "totalSharedLessons": 90,
-    "totalSharedQuestions": 796,
-    "totalSharedCards": 668
+    "totalSharedLessons": 91,
+    "totalSharedQuestions": 803,
+    "totalSharedCards": 673
   },
   "syllabusUnitAuthoring": {
     "report": "docs/evidence/syllabus-unit-coverage-20261021.json",
@@ -15273,15 +15273,15 @@
       "diagrams": 205
     },
     "sharedLearningLibrary": {
-      "lessons": 90,
+      "lessons": 91,
       "subjects": 23,
-      "noteWords": 52887,
-      "workedExamples": 293,
-      "questions": 796,
-      "flashcards": 668,
-      "diagrams": 63,
-      "teachingSequences": 90,
-      "revisionGuides": 90,
+      "noteWords": 53354,
+      "workedExamples": 295,
+      "questions": 803,
+      "flashcards": 673,
+      "diagrams": 64,
+      "teachingSequences": 91,
+      "revisionGuides": 91,
       "approvedLessons": 0
     },
     "guides": {

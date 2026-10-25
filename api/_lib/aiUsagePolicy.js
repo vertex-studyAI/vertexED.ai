@@ -1,4 +1,4 @@
-/** Reviewed official text-token prices and context bounds, 2026-10-19.
+/** Reviewed official text-token prices and context bounds, 2026-10-25.
  * https://developers.openai.com/api/docs/models/gpt-6-luna
  * https://developers.openai.com/api/docs/models/gpt-4o-mini
  * https://developers.openai.com/api/docs/guides/latest-model
@@ -6,7 +6,7 @@
  * Reserve the entire context at uncached standard input rates, plus capped
  * output. This deliberately overstates cost; character estimates are not caps.
  */
-export const AI_USAGE_POLICY = Object.freeze({ version: 'beta-usd-2026-10-19-v2', accountLimit: 1_000_000, projectLimit: 10_000_000, accountConcurrency: 2, projectConcurrency: 8, expiresAt: '2026-10-26T00:00:00.000Z' });
+export const AI_USAGE_POLICY = Object.freeze({ version: 'beta-usd-2026-10-25-v3', reviewedAt: '2026-10-25T00:00:00.000Z', accountLimit: 1_000_000, projectLimit: 10_000_000, accountConcurrency: 2, projectConcurrency: 8, expiresAt: '2026-11-01T00:00:00.000Z' });
 const MODELS = Object.freeze({
   // OpenAI currently documents only the rolling Luna alias. Accept an exact
   // alias or a dated provider identity, and force this short-lived policy to

@@ -251,7 +251,8 @@ export default function UserSettings() {
           description: "Other active sessions could not be revoked. Sign out there separately if needed.",
         });
       }
-      navigate("/", { replace: true });
+      // ProtectedRoute owns the sign-out redirect and preserves /user-settings
+      // as the return destination. A second navigation can erase a new login.
     } catch (error) {
       toast({
         title: "Could not sign out",

@@ -3,14 +3,14 @@
   "revision": "2026-10-21.3",
   "scope": "Explicit authored depth packs for existing shared foundations, not complete curricula or independent subject approval.",
   "summary": {
-    "lessons": 42,
+    "lessons": 43,
     "subjects": 19,
-    "originalQuestions": 385,
-    "addedQuestions": 126,
-    "retiredGeneratedRetrievalPrompts": 667,
-    "questions": 511,
-    "addedNoteWords": 3615,
-    "noteWords": 35921,
+    "originalQuestions": 389,
+    "addedQuestions": 129,
+    "retiredGeneratedRetrievalPrompts": 688,
+    "questions": 518,
+    "addedNoteWords": 3741,
+    "noteWords": 36388,
     "approvedLessons": 0
   },
   "reviewLimits": [
@@ -122,6 +122,27 @@
         "depth-melting-molecules",
         "depth-graphite-diamond",
         "depth-two-observations"
+      ],
+      "editorialStatus": "unreviewed"
+    },
+    {
+      "lessonId": "boolean-logic",
+      "subject": "Computer Science",
+      "previousRevision": "2026-10-25.1",
+      "revision": "2026-10-25.2",
+      "sourceHash": "sha256:64ee03c7bdbd4f7b16d20bc901c4ccc51b68a4f56036b55d725db796193a4599",
+      "depthPackHash": "sha256:a39b68b720a72d91d94bad62339d68e2d0913c8e97c5d404eeb03f88365a0e4c",
+      "deliveredHash": "sha256:f8f98b97da4171c6c57c39bbfcff574685a59612262021c1ceef54099a723bb5",
+      "originalQuestions": 4,
+      "addedQuestions": 3,
+      "retiredGeneratedRetrievalPrompts": 21,
+      "questions": 7,
+      "addedNoteWords": 126,
+      "noteWords": 467,
+      "newQuestionIds": [
+        "depth-and-or-row",
+        "depth-negated-boundary",
+        "depth-parentheses"
       ],
       "editorialStatus": "unreviewed"
     },

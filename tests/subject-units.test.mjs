@@ -14,8 +14,8 @@ const answer = (id,q) => lesson(id).questions.find(item => item.id === q).answer
 
 test('19 substantial original lessons supply all reader modes without earning review', async () => {
   assert.equal(subjectUnits.length,19);
-  assert.equal((await readLearningLibrary()).length,90);
-  assert.equal((await readLearningLibrary({includeSubjectUnits:false})).length,71);
+  assert.equal((await readLearningLibrary()).length,91);
+  assert.equal((await readLearningLibrary({includeSubjectUnits:false})).length,72);
   for (const l of subjectUnits) {
     learningLessonSchema.parse(l);
     assert.notEqual(l.subject,'Mathematics');

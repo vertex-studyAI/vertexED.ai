@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "lessonId": "boolean-logic",
+  "revision": "2026-10-25.2",
+  "notes": [
+    {
+      "heading": "Use a truth table to compare competing conditions",
+      "paragraphs": [
+        "A truth table lists every combination of a small set of Boolean inputs. For two inputs A and B, the four rows are false/false, false/true, true/false and true/true. This makes it possible to compare A AND B with A OR B without relying on an example that happens to make both expressions agree. The expressions differ in the two rows where exactly one input is true.",
+        "A test should reflect the decision's stated meaning. If access requires both a verified account and an approved enrolment, test each missing requirement separately. If either of two recovery methods is sufficient, test each method on its own and neither method. These cases check the condition, but they do not establish that an account, permission or service is actually available."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "depth-and-or-row",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "Give the truth-table row where A AND B and A OR B differ when A is true. State both results and explain why this row is useful for testing.",
+      "answer": "Use A=true and B=false. A AND B is false, while A OR B is true. It distinguishes the operators because they produce different results for the same inputs.",
+      "solution": [
+        "Hold A at true and choose B=false.",
+        "Evaluate each operator separately.",
+        "Explain that a differing row distinguishes the conditions."
+      ],
+      "markingPoints": [
+        "Gives A=true, B=false.",
+        "States false for AND and true for OR.",
+        "Explains why the row distinguishes the operators."
+      ],
+      "marks": 3,
+      "calculator": "not-applicable"
+    },
+    {
+      "id": "depth-negated-boundary",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "A warning should show when NOT hasSubmitted AND deadlinePassed. Explain the result when hasSubmitted is false and deadlinePassed is true, then name a contrasting case that hides the warning.",
+      "answer": "NOT false is true, so true AND true makes the warning show. If hasSubmitted is true while deadlinePassed is true, NOT true is false and the warning is hidden.",
+      "solution": [
+        "Reverse hasSubmitted with NOT.",
+        "Apply AND to the reversed value and deadlinePassed.",
+        "Change one input to produce a contrasting false result."
+      ],
+      "markingPoints": [
+        "Evaluates NOT false as true.",
+        "States that the warning shows for false, true inputs.",
+        "Gives a valid contrasting case that hides it."
+      ],
+      "marks": 3,
+      "calculator": "not-applicable"
+    },
+    {
+      "id": "depth-parentheses",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "Explain why parentheses are useful in permitted = staff OR (student AND approved), and give values that make the bracketed expression false while the whole expression is true.",
+      "answer": "Parentheses show that student AND approved is evaluated as one group before OR with staff. With staff=true, student=false and approved=false, the bracketed expression is false but the whole expression is true.",
+      "solution": [
+        "Describe the grouped student-and-approved requirement.",
+        "Choose false values for both terms inside the brackets.",
+        "Use staff=true so the outer OR is true."
+      ],
+      "markingPoints": [
+        "Explains the grouped evaluation.",
+        "Makes the bracketed expression false.",
+        "Makes the full expression true through staff."
+      ],
+      "marks": 3,
+      "calculator": "not-applicable"
+    }
+  ]
+}

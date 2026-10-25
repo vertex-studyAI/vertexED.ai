@@ -61,6 +61,8 @@
   .learning-bottom-nav a{display:flex;align-items:center;justify-content:center;min-height:48px;font-size:12px;font-weight:650;border-radius:8px;color:hsl(var(--foreground));overflow-wrap:anywhere}
   .learning-bottom-nav a[aria-current=page]{background:hsl(var(--primary));color:hsl(var(--primary-foreground))}
   .learning-bottom-nav a:focus-visible{outline:3px solid hsl(var(--primary));outline-offset:1px}
-  .site-shell:has(.learning-bottom-nav){padding-bottom:76px}
+  html:has(.learning-bottom-nav){scroll-padding-bottom:calc(76px + env(safe-area-inset-bottom))}
+  .site-shell:has(.learning-bottom-nav){padding-bottom:calc(76px + env(safe-area-inset-bottom))}
+  .site-shell:has(.learning-bottom-nav) footer :is(a,button){scroll-margin-bottom:calc(76px + env(safe-area-inset-bottom))}
   body:has(.learning-bottom-nav) :is(.feedback-launcher,.vee-launcher:not([style]):not(.vee-docked)){bottom:max(76px,calc(env(safe-area-inset-bottom) + 68px))}
 }

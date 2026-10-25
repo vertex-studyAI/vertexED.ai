@@ -137,7 +137,7 @@ function LessonWorkspace({ entry, lesson, owner }: { entry: Entry; lesson: Lesso
       <button onClick={() => download(`${lesson.id}-my-work.json`, JSON.stringify({ lessonId: lesson.id, revision: lesson.revision, contentHash: entry.contentHash, ...progress }, null, 2))}>Export my answers</button>
       {entry.markdown && <button onClick={() => void exportMarkdown()}>Download lesson Markdown</button>}
     </div>
-    {!owner && <p><Link to="/auth">Sign in</Link> to save on this device. You can practise and export answers without signing in.</p>}
+    {!owner && <p><Link to="/login">Sign in</Link> to save on this device. You can practise and export answers without signing in.</p>}
     <p role="status">{notice || (initial.raw ? 'Restored your saved work for this lesson revision.' : 'No work saved for this lesson revision.')}</p>
     {error && <p role="alert">{error}</p>}
     <Tabs value={activeTab} onValueChange={setActiveTab}>

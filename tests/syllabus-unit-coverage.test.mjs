@@ -14,10 +14,10 @@ const rounded = n => Number(n.toFixed(10));
 
 test('12 new authored lessons have complete reader modes, tier-labelled questions and no placeholder content', async () => {
   assert.equal(syllabusLessons.length, 12);
-  assert.equal((await readLearningLibrary()).length, 90);
-  assert.equal((await readLearningLibrary({ includeSubjectUnits: false })).length, 71);
-  assert.equal((await readLearningLibrary({ includeSubjectExpansion: false })).length, 42, 'historic foundation-depth scope is preserved');
-  assert.equal((await readLearningLibrary({ includeSyllabusLessons: false })).length, 59);
+  assert.equal((await readLearningLibrary()).length, 91);
+  assert.equal((await readLearningLibrary({ includeSubjectUnits: false })).length, 72);
+  assert.equal((await readLearningLibrary({ includeSubjectExpansion: false })).length, 43, 'foundation-depth scope includes the held Boolean logic lesson');
+  assert.equal((await readLearningLibrary({ includeSyllabusLessons: false })).length, 60);
   for (const item of syllabusLessons) {
     learningLessonSchema.parse(item);
     assert.equal(item.editorialStatus, 'unreviewed');

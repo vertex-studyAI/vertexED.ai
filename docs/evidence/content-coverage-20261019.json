@@ -337,15 +337,15 @@
       "diagrams": 205
     },
     "sharedLearningLibrary": {
-      "lessons": 90,
+      "lessons": 91,
       "subjects": 23,
-      "noteWords": 52887,
-      "workedExamples": 293,
-      "questions": 796,
-      "flashcards": 668,
-      "diagrams": 63,
-      "teachingSequences": 90,
-      "revisionGuides": 90,
+      "noteWords": 53354,
+      "workedExamples": 295,
+      "questions": 803,
+      "flashcards": 673,
+      "diagrams": 64,
+      "teachingSequences": 91,
+      "revisionGuides": 91,
       "approvedLessons": 0
     },
     "guides": {
@@ -2165,6 +2165,78 @@
       "deliveryAsset": "/learning-library/bonding-and-properties.json",
       "exportAsset": "/learning-library/bonding-and-properties.md",
       "contentHash": "sha256:82f9fffb5ddbe56a9651dab4408a2b576f7a9de059230c92c81e3cb69c337027",
+      "partialSyllabusMappings": []
+    },
+    {
+      "id": "learning-library:boolean-logic",
+      "programme": "SHARED_ORIGINAL",
+      "subject": "Computer Science",
+      "unit": "Logic and decision making",
+      "topic": "Boolean logic: truth values, operators and conditions",
+      "syllabusVersion": null,
+      "level": "secondary-foundation",
+      "courseVariant": null,
+      "examComponents": [],
+      "skills": [
+        "Determine the result of NOT, AND and OR for stated Boolean inputs.",
+        "Trace a condition by naming its comparison results before combining them.",
+        "Write a test case that distinguishes two similar-looking conditions."
+      ],
+      "prerequisites": [
+        "Read a comparison such as score >= 50 as a statement that can be true or false.",
+        "Follow a one-step conditional instruction."
+      ],
+      "contentTypes": [
+        "notes",
+        "worked-example",
+        "misconception",
+        "flashcards",
+        "practice",
+        "revision-checklist",
+        "labelled-diagram",
+        "guided-study",
+        "revision-guide"
+      ],
+      "difficulties": [
+        "foundation",
+        "standard",
+        "extension"
+      ],
+      "coverage": "partial-authored",
+      "reviewStatus": "unreviewed",
+      "publicationStatus": "held",
+      "sources": [],
+      "rights": "original-authorship-claimed-review-pending",
+      "sourceFile": "src/content/learning-library/boolean-logic.json",
+      "deliveryRoute": "/resources/foundations/boolean-logic",
+      "contentVersion": "2026-10-25.2",
+      "answerVersion": "sha256:d9c953383638aa6fdadaa6c9315ca070e818dcc0cf6886fddb4e362f662ebd0f",
+      "validation": {
+        "structural": "tests/authored-learning-library.test.mjs",
+        "objectiveKeys": "numeric answer fields checked by explicit independent calculations; prose keys require subject review",
+        "subjectReview": "not-run"
+      },
+      "gaps": [
+        "independent-subject-review",
+        "rights-and-attribution-review",
+        "specific-board-level-syllabus-mapping",
+        "cross-device-foundation-progress-sync"
+      ],
+      "questionIds": [
+        "boolean-logic:q1",
+        "boolean-logic:q2",
+        "boolean-logic:q3",
+        "boolean-logic:q4",
+        "boolean-logic:depth-and-or-row",
+        "boolean-logic:depth-negated-boundary",
+        "boolean-logic:depth-parentheses"
+      ],
+      "questionCount": 7,
+      "reviewCardCount": 5,
+      "markTotal": 19,
+      "deliveryAsset": "/learning-library/boolean-logic.json",
+      "exportAsset": "/learning-library/boolean-logic.md",
+      "contentHash": "sha256:f8f98b97da4171c6c57c39bbfcff574685a59612262021c1ceef54099a723bb5",
       "partialSyllabusMappings": []
     },
     {

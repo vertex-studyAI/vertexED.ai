@@ -44,6 +44,7 @@ export function userContentStorageKeys(scope = activeScope) {
     weaknessHeatmap: `${prefix}:weakness_heatmap`,
     retryQueue: `${prefix}:retry_queue`,
     learnerStateOutbox: `${prefix}:learner_state_outbox`,
+    revisionHistoryOutbox: `${prefix}:revision_history_outbox`,
     studyLoopWeek: `${prefix}:study_loop_week`,
     progressSnapshots: `${prefix}:progress_snapshots`,
     todayPlanDone: `${prefix}:today_plan_done`,

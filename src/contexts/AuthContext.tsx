@@ -9,6 +9,7 @@ import { isOnboardingComplete } from "@/lib/onboardingStatus.js";
 import { supabase } from "@/lib/supabaseClient";
 import { setUserContentStorageScope } from "@/lib/userContentStorageScope.mjs";
 import { initializeLearnerStateSync } from "@/lib/learnerStateSync";
+import { initializeRevisionSync } from "@/lib/revisionSync";
 import { syncLocalStudyArtifacts } from "@/lib/userContent";
 import type { Profile } from "@/types/profile";
 
@@ -47,7 +48,7 @@ function setSensitiveStorageScopes(scope?: string | null) {
 }
 
 function initializeAccountPersistence() {
-  void Promise.allSettled([initializeLearnerStateSync(), syncLocalStudyArtifacts()]);
+  void Promise.allSettled([initializeLearnerStateSync(), syncLocalStudyArtifacts(), initializeRevisionSync()]);
 }
 
 export function AuthProvider({ children }: PropsWithChildren) {

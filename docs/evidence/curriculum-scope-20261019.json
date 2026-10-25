@@ -2524,6 +2524,15 @@
           "prerequisiteOnlyForAdvancedCourses": true
         },
         {
+          "lessonId": "boolean-logic",
+          "unit": "Logic and decision making",
+          "topic": "Boolean logic: truth values, operators and conditions",
+          "sourceFile": "src/content/learning-library/boolean-logic.json",
+          "status": "unreviewed-foundation-not-course-coverage",
+          "alignment": "candidate-only",
+          "prerequisiteOnlyForAdvancedCourses": true
+        },
+        {
           "lessonId": "data-representation",
           "unit": "Data representation",
           "topic": "Binary numbers, finite precision and encoding",
@@ -3496,6 +3505,15 @@
           "unit": "Algorithms",
           "topic": "Tracing algorithms, loop invariants and edge cases",
           "sourceFile": "src/content/learning-library/algorithms-and-invariants.json",
+          "status": "unreviewed-foundation-not-course-coverage",
+          "alignment": "candidate-only",
+          "prerequisiteOnlyForAdvancedCourses": true
+        },
+        {
+          "lessonId": "boolean-logic",
+          "unit": "Logic and decision making",
+          "topic": "Boolean logic: truth values, operators and conditions",
+          "sourceFile": "src/content/learning-library/boolean-logic.json",
           "status": "unreviewed-foundation-not-course-coverage",
           "alignment": "candidate-only",
           "prerequisiteOnlyForAdvancedCourses": true
@@ -5309,6 +5327,15 @@
           "prerequisiteOnlyForAdvancedCourses": true
         },
         {
+          "lessonId": "boolean-logic",
+          "unit": "Logic and decision making",
+          "topic": "Boolean logic: truth values, operators and conditions",
+          "sourceFile": "src/content/learning-library/boolean-logic.json",
+          "status": "unreviewed-foundation-not-course-coverage",
+          "alignment": "candidate-only",
+          "prerequisiteOnlyForAdvancedCourses": true
+        },
+        {
           "lessonId": "data-representation",
           "unit": "Data representation",
           "topic": "Binary numbers, finite precision and encoding",
@@ -6607,6 +6634,15 @@
           "prerequisiteOnlyForAdvancedCourses": true
         },
         {
+          "lessonId": "boolean-logic",
+          "unit": "Logic and decision making",
+          "topic": "Boolean logic: truth values, operators and conditions",
+          "sourceFile": "src/content/learning-library/boolean-logic.json",
+          "status": "unreviewed-foundation-not-course-coverage",
+          "alignment": "candidate-only",
+          "prerequisiteOnlyForAdvancedCourses": true
+        },
+        {
           "lessonId": "data-representation",
           "unit": "Data representation",
           "topic": "Binary numbers, finite precision and encoding",
@@ -7691,6 +7727,15 @@
           "prerequisiteOnlyForAdvancedCourses": true
         },
         {
+          "lessonId": "boolean-logic",
+          "unit": "Logic and decision making",
+          "topic": "Boolean logic: truth values, operators and conditions",
+          "sourceFile": "src/content/learning-library/boolean-logic.json",
+          "status": "unreviewed-foundation-not-course-coverage",
+          "alignment": "candidate-only",
+          "prerequisiteOnlyForAdvancedCourses": true
+        },
+        {
           "lessonId": "data-representation",
           "unit": "Data representation",
           "topic": "Binary numbers, finite precision and encoding",
@@ -7764,6 +7809,15 @@
           "unit": "Algorithms",
           "topic": "Tracing algorithms, loop invariants and edge cases",
           "sourceFile": "src/content/learning-library/algorithms-and-invariants.json",
+          "status": "unreviewed-foundation-not-course-coverage",
+          "alignment": "candidate-only",
+          "prerequisiteOnlyForAdvancedCourses": true
+        },
+        {
+          "lessonId": "boolean-logic",
+          "unit": "Logic and decision making",
+          "topic": "Boolean logic: truth values, operators and conditions",
+          "sourceFile": "src/content/learning-library/boolean-logic.json",
           "status": "unreviewed-foundation-not-course-coverage",
           "alignment": "candidate-only",
           "prerequisiteOnlyForAdvancedCourses": true
@@ -10421,6 +10475,15 @@
           "prerequisiteOnlyForAdvancedCourses": true
         },
         {
+          "lessonId": "boolean-logic",
+          "unit": "Logic and decision making",
+          "topic": "Boolean logic: truth values, operators and conditions",
+          "sourceFile": "src/content/learning-library/boolean-logic.json",
+          "status": "unreviewed-foundation-not-course-coverage",
+          "alignment": "candidate-only",
+          "prerequisiteOnlyForAdvancedCourses": true
+        },
+        {
           "lessonId": "data-representation",
           "unit": "Data representation",
           "topic": "Binary numbers, finite precision and encoding",
@@ -11322,6 +11385,15 @@
           "unit": "Algorithms",
           "topic": "Tracing algorithms, loop invariants and edge cases",
           "sourceFile": "src/content/learning-library/algorithms-and-invariants.json",
+          "status": "unreviewed-foundation-not-course-coverage",
+          "alignment": "candidate-only",
+          "prerequisiteOnlyForAdvancedCourses": true
+        },
+        {
+          "lessonId": "boolean-logic",
+          "unit": "Logic and decision making",
+          "topic": "Boolean logic: truth values, operators and conditions",
+          "sourceFile": "src/content/learning-library/boolean-logic.json",
           "status": "unreviewed-foundation-not-course-coverage",
           "alignment": "candidate-only",
           "prerequisiteOnlyForAdvancedCourses": true
@@ -12627,6 +12699,15 @@
           "unit": "Algorithms",
           "topic": "Tracing algorithms, loop invariants and edge cases",
           "sourceFile": "src/content/learning-library/algorithms-and-invariants.json",
+          "status": "unreviewed-foundation-not-course-coverage",
+          "alignment": "candidate-only",
+          "prerequisiteOnlyForAdvancedCourses": true
+        },
+        {
+          "lessonId": "boolean-logic",
+          "unit": "Logic and decision making",
+          "topic": "Boolean logic: truth values, operators and conditions",
+          "sourceFile": "src/content/learning-library/boolean-logic.json",
           "status": "unreviewed-foundation-not-course-coverage",
           "alignment": "candidate-only",
           "prerequisiteOnlyForAdvancedCourses": true

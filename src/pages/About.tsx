@@ -39,7 +39,7 @@ export default function About(): React.JSX.Element {
     <>
       <SEO
         title="About VertexED - founding team and story"
-        description="Meet the co-founders of VertexED, a learning workspace built for curriculum-led practice, exam preparation and understanding that lasts beyond the paper."
+        description="Meet the co-founders of VertexED, a learning workspace for curriculum-led practice, exam preparation and reflection beyond the paper."
         canonical={`${APP_ORIGIN}/about`}
         jsonLd={[
           {
@@ -62,7 +62,7 @@ export default function About(): React.JSX.Element {
       <PageSection className="about-page relative px-6 md:px-12">
         <section className="about-hero" aria-labelledby="about-title">
           <div><p className="about-kicker">The work between exams</p><h1 id="about-title">Build the method.<br /><em>Keep the reason.</em></h1></div>
-          <div><p>VertexED brings curriculum-led practice, thoughtful feedback and revision into one learning space. The aim is better preparation for the next paper and understanding that remains useful after it.</p><div className="about-actions"><Link to="/features">See the study loop <ArrowRight aria-hidden /></Link><Link to="/signup">Join the private beta</Link></div></div>
+          <div><p>VertexED brings curriculum-led practice, thoughtful feedback and revision into one learning space. It gives learners a place to prepare for the next paper, review their working and return to the gaps they find.</p><div className="about-actions"><Link to="/features">See the study loop <ArrowRight aria-hidden /></Link><Link to="/signup">Join the private beta</Link></div></div>
         </section>
 
         <section className="about-principles" aria-labelledby="about-principles-title">

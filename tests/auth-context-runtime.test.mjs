@@ -31,6 +31,7 @@ async function withProvider(verify) {
     export const buildProfileUpdate = () => ({});
     export const isOnboardingComplete = () => false;
     export const initializeLearnerStateSync = async () => {};
+    export const initializeRevisionSync = async () => {};
     export const syncLocalStudyArtifacts = async () => {};
     // ${++harnessId}`);
   let code = ts.transpileModule(fs.readFileSync('src/contexts/AuthContext.tsx', 'utf8'), { compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.ESNext, jsx: ts.JsxEmit.ReactJSX } }).outputText;

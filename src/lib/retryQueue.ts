@@ -1,3 +1,4 @@
+import { appendRevisionEvent } from '@/lib/revisionHistory';
 import { resolveLocalStorage, safeStorageGet, safeStorageSet } from '@/lib/browserStorage.mjs';
 import { userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
 import {
@@ -68,11 +69,11 @@ export function scheduleRetry(entry: WeaknessEntry, now = new Date()): RetryItem
   const changed = next.find((item) => item.id === retryIdForWeakness(entry));
   if (changed) {
     queueLearnerStateWrite('retry', changed.id, changed as unknown as Record<string, unknown>, now);
-    void import('@/lib/revisionHistory').then(({ appendRevisionEvent }) => appendRevisionEvent({
-      eventType: 'retry', occurredAt: changed.updatedAt, evidenceStatus: 'independently-validated',
+    void appendRevisionEvent({
+      eventType: 'retry', occurredAt: changed.updatedAt, evidenceStatus: 'learner-attested',
       sourceType: 'retry', sourceKey: changed.id, sourceRevision: changed.updatedAt, parentEventIds: [],
-      payload: { label: 'Retry scheduled', summary: `A retry was scheduled from independently validated ${changed.source} evidence.`, route: retryTargetRoute(changed), retryId: changed.id },
-    })).catch(() => undefined);
+      payload: { label: 'Retry scheduled', summary: `A retry was scheduled from this device’s ${changed.source} record.`, route: retryTargetRoute(changed), retryId: changed.id },
+    }).catch(() => undefined);
   }
   return next;
 }
@@ -82,11 +83,11 @@ function writeTransition(next: RetryItem[], id: string, now: Date) {
   const changed = next.find((item) => item.id === id);
   if (changed) {
     queueLearnerStateWrite('retry', changed.id, changed as unknown as Record<string, unknown>, now);
-    void import('@/lib/revisionHistory').then(({ appendRevisionEvent }) => appendRevisionEvent({
-      eventType: 'retry', occurredAt: changed.updatedAt, evidenceStatus: 'independently-validated',
+    void appendRevisionEvent({
+      eventType: 'retry', occurredAt: changed.updatedAt, evidenceStatus: 'learner-attested',
       sourceType: 'retry', sourceKey: changed.id, sourceRevision: changed.updatedAt, parentEventIds: [],
       payload: { label: `Retry ${changed.status}`, summary: 'The retry transition was appended without rewriting its earlier history.', route: retryTargetRoute(changed), retryId: changed.id },
-    })).catch(() => undefined);
+    }).catch(() => undefined);
   }
   return changed ?? null;
 }

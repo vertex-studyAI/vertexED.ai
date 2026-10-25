@@ -16,9 +16,9 @@
     "addedWorkedExamples": 34,
     "addedFlashcards": 85,
     "addedDiagrams": 17,
-    "totalSharedLessons": 90,
-    "totalSharedQuestions": 796,
-    "totalSharedCards": 668
+    "totalSharedLessons": 91,
+    "totalSharedQuestions": 803,
+    "totalSharedCards": 673
   },
   "newLessonReceipts": [
     {
@@ -3427,6 +3427,21 @@
           "publication": "held-pending-exact-hash-review"
         },
         {
+          "lessonId": "boolean-logic",
+          "topic": "Boolean logic: truth values, operators and conditions",
+          "level": "secondary-foundation",
+          "prerequisites": [
+            "Read a comparison such as score >= 50 as a statement that can be true or false.",
+            "Follow a one-step conditional instruction."
+          ],
+          "route": "/resources/foundations/boolean-logic",
+          "asset": "/learning-library/boolean-logic.json",
+          "contentHash": "sha256:f8f98b97da4171c6c57c39bbfcff574685a59612262021c1ceef54099a723bb5",
+          "alignment": "subject-family-candidate-only",
+          "advancedCourseUse": "possible-prerequisite-not-full-level-coverage",
+          "publication": "held-pending-exact-hash-review"
+        },
+        {
           "lessonId": "data-representation",
           "topic": "Binary numbers, finite precision and encoding",
           "level": "secondary-foundation",
@@ -5375,6 +5390,21 @@
           "route": "/resources/foundations/algorithms-and-invariants",
           "asset": "/learning-library/algorithms-and-invariants.json",
           "contentHash": "sha256:7ed934a2075b0dfffcb0b93bd7ebe68bc7d6363be4c7fcff7d52b2ff6758235b",
+          "alignment": "subject-family-candidate-only",
+          "advancedCourseUse": "possible-prerequisite-not-full-level-coverage",
+          "publication": "held-pending-exact-hash-review"
+        },
+        {
+          "lessonId": "boolean-logic",
+          "topic": "Boolean logic: truth values, operators and conditions",
+          "level": "secondary-foundation",
+          "prerequisites": [
+            "Read a comparison such as score >= 50 as a statement that can be true or false.",
+            "Follow a one-step conditional instruction."
+          ],
+          "route": "/resources/foundations/boolean-logic",
+          "asset": "/learning-library/boolean-logic.json",
+          "contentHash": "sha256:f8f98b97da4171c6c57c39bbfcff574685a59612262021c1ceef54099a723bb5",
           "alignment": "subject-family-candidate-only",
           "advancedCourseUse": "possible-prerequisite-not-full-level-coverage",
           "publication": "held-pending-exact-hash-review"
@@ -7623,6 +7653,21 @@
           "route": "/resources/foundations/algorithms-and-invariants",
           "asset": "/learning-library/algorithms-and-invariants.json",
           "contentHash": "sha256:7ed934a2075b0dfffcb0b93bd7ebe68bc7d6363be4c7fcff7d52b2ff6758235b",
+          "alignment": "subject-family-candidate-only",
+          "advancedCourseUse": "possible-prerequisite-not-full-level-coverage",
+          "publication": "held-pending-exact-hash-review"
+        },
+        {
+          "lessonId": "boolean-logic",
+          "topic": "Boolean logic: truth values, operators and conditions",
+          "level": "secondary-foundation",
+          "prerequisites": [
+            "Read a comparison such as score >= 50 as a statement that can be true or false.",
+            "Follow a one-step conditional instruction."
+          ],
+          "route": "/resources/foundations/boolean-logic",
+          "asset": "/learning-library/boolean-logic.json",
+          "contentHash": "sha256:f8f98b97da4171c6c57c39bbfcff574685a59612262021c1ceef54099a723bb5",
           "alignment": "subject-family-candidate-only",
           "advancedCourseUse": "possible-prerequisite-not-full-level-coverage",
           "publication": "held-pending-exact-hash-review"
@@ -10130,6 +10175,21 @@
           "publication": "held-pending-exact-hash-review"
         },
         {
+          "lessonId": "boolean-logic",
+          "topic": "Boolean logic: truth values, operators and conditions",
+          "level": "secondary-foundation",
+          "prerequisites": [
+            "Read a comparison such as score >= 50 as a statement that can be true or false.",
+            "Follow a one-step conditional instruction."
+          ],
+          "route": "/resources/foundations/boolean-logic",
+          "asset": "/learning-library/boolean-logic.json",
+          "contentHash": "sha256:f8f98b97da4171c6c57c39bbfcff574685a59612262021c1ceef54099a723bb5",
+          "alignment": "subject-family-candidate-only",
+          "advancedCourseUse": "possible-prerequisite-not-full-level-coverage",
+          "publication": "held-pending-exact-hash-review"
+        },
+        {
           "lessonId": "data-representation",
           "topic": "Binary numbers, finite precision and encoding",
           "level": "secondary-foundation",
@@ -11521,6 +11581,21 @@
           "publication": "held-pending-exact-hash-review"
         },
         {
+          "lessonId": "boolean-logic",
+          "topic": "Boolean logic: truth values, operators and conditions",
+          "level": "secondary-foundation",
+          "prerequisites": [
+            "Read a comparison such as score >= 50 as a statement that can be true or false.",
+            "Follow a one-step conditional instruction."
+          ],
+          "route": "/resources/foundations/boolean-logic",
+          "asset": "/learning-library/boolean-logic.json",
+          "contentHash": "sha256:f8f98b97da4171c6c57c39bbfcff574685a59612262021c1ceef54099a723bb5",
+          "alignment": "subject-family-candidate-only",
+          "advancedCourseUse": "possible-prerequisite-not-full-level-coverage",
+          "publication": "held-pending-exact-hash-review"
+        },
+        {
           "lessonId": "data-representation",
           "topic": "Binary numbers, finite precision and encoding",
           "level": "secondary-foundation",
@@ -11635,6 +11710,21 @@
           "route": "/resources/foundations/algorithms-and-invariants",
           "asset": "/learning-library/algorithms-and-invariants.json",
           "contentHash": "sha256:7ed934a2075b0dfffcb0b93bd7ebe68bc7d6363be4c7fcff7d52b2ff6758235b",
+          "alignment": "subject-family-candidate-only",
+          "advancedCourseUse": "possible-prerequisite-not-full-level-coverage",
+          "publication": "held-pending-exact-hash-review"
+        },
+        {
+          "lessonId": "boolean-logic",
+          "topic": "Boolean logic: truth values, operators and conditions",
+          "level": "secondary-foundation",
+          "prerequisites": [
+            "Read a comparison such as score >= 50 as a statement that can be true or false.",
+            "Follow a one-step conditional instruction."
+          ],
+          "route": "/resources/foundations/boolean-logic",
+          "asset": "/learning-library/boolean-logic.json",
+          "contentHash": "sha256:f8f98b97da4171c6c57c39bbfcff574685a59612262021c1ceef54099a723bb5",
           "alignment": "subject-family-candidate-only",
           "advancedCourseUse": "possible-prerequisite-not-full-level-coverage",
           "publication": "held-pending-exact-hash-review"
@@ -15579,6 +15669,21 @@
           "publication": "held-pending-exact-hash-review"
         },
         {
+          "lessonId": "boolean-logic",
+          "topic": "Boolean logic: truth values, operators and conditions",
+          "level": "secondary-foundation",
+          "prerequisites": [
+            "Read a comparison such as score >= 50 as a statement that can be true or false.",
+            "Follow a one-step conditional instruction."
+          ],
+          "route": "/resources/foundations/boolean-logic",
+          "asset": "/learning-library/boolean-logic.json",
+          "contentHash": "sha256:f8f98b97da4171c6c57c39bbfcff574685a59612262021c1ceef54099a723bb5",
+          "alignment": "subject-family-candidate-only",
+          "advancedCourseUse": "possible-prerequisite-not-full-level-coverage",
+          "publication": "held-pending-exact-hash-review"
+        },
+        {
           "lessonId": "data-representation",
           "topic": "Binary numbers, finite precision and encoding",
           "level": "secondary-foundation",
@@ -16874,6 +16979,21 @@
           "route": "/resources/foundations/algorithms-and-invariants",
           "asset": "/learning-library/algorithms-and-invariants.json",
           "contentHash": "sha256:7ed934a2075b0dfffcb0b93bd7ebe68bc7d6363be4c7fcff7d52b2ff6758235b",
+          "alignment": "subject-family-candidate-only",
+          "advancedCourseUse": "possible-prerequisite-not-full-level-coverage",
+          "publication": "held-pending-exact-hash-review"
+        },
+        {
+          "lessonId": "boolean-logic",
+          "topic": "Boolean logic: truth values, operators and conditions",
+          "level": "secondary-foundation",
+          "prerequisites": [
+            "Read a comparison such as score >= 50 as a statement that can be true or false.",
+            "Follow a one-step conditional instruction."
+          ],
+          "route": "/resources/foundations/boolean-logic",
+          "asset": "/learning-library/boolean-logic.json",
+          "contentHash": "sha256:f8f98b97da4171c6c57c39bbfcff574685a59612262021c1ceef54099a723bb5",
           "alignment": "subject-family-candidate-only",
           "advancedCourseUse": "possible-prerequisite-not-full-level-coverage",
           "publication": "held-pending-exact-hash-review"
@@ -18376,6 +18496,21 @@
           "route": "/resources/foundations/algorithms-and-invariants",
           "asset": "/learning-library/algorithms-and-invariants.json",
           "contentHash": "sha256:7ed934a2075b0dfffcb0b93bd7ebe68bc7d6363be4c7fcff7d52b2ff6758235b",
+          "alignment": "subject-family-candidate-only",
+          "advancedCourseUse": "possible-prerequisite-not-full-level-coverage",
+          "publication": "held-pending-exact-hash-review"
+        },
+        {
+          "lessonId": "boolean-logic",
+          "topic": "Boolean logic: truth values, operators and conditions",
+          "level": "secondary-foundation",
+          "prerequisites": [
+            "Read a comparison such as score >= 50 as a statement that can be true or false.",
+            "Follow a one-step conditional instruction."
+          ],
+          "route": "/resources/foundations/boolean-logic",
+          "asset": "/learning-library/boolean-logic.json",
+          "contentHash": "sha256:f8f98b97da4171c6c57c39bbfcff574685a59612262021c1ceef54099a723bb5",
           "alignment": "subject-family-candidate-only",
           "advancedCourseUse": "possible-prerequisite-not-full-level-coverage",
           "publication": "held-pending-exact-hash-review"

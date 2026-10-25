@@ -2524,6 +2524,10 @@ All colors MUST be HSL.
   }
   .notebook-output {
     font-family: inherit;
+    /* Formula errors and generated text need a stable contrast surface. */
+    background: hsl(var(--card));
+    border-radius: 0.75rem;
+    padding: 1rem;
   }
   .notebook-quiz-card {
     @apply bg-foreground/[0.02];

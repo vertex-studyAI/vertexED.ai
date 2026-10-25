@@ -14,7 +14,7 @@ const rounded = n => Number(n.toFixed(10));
 test('17 original additions supply usable study modes, coherent references and distinct practice', async () => {
   assert.equal(additions.length, 17);
   const all = await readLearningLibrary();
-  assert.equal(all.length, 90);
+  assert.equal(all.length, 91);
   assert.equal(new Set(all.map(lesson => lesson.subject)).size, 23);
   const prompts = [];
   for (const lesson of additions) {
@@ -110,7 +110,7 @@ test('all 129 scoped entries plus nine MYP catalogue subjects have real held-res
   assert.deepEqual(report.summary, { programmes: 10, scopedSubjects: 129, supplementalMypSubjects: 9, pathways: 138,
     pathwaysWithResources: 138, priorityPlanningTargets: 30, completedCourses: 0, newLessons: 17, addedNoteWords: 4449,
     addedQuestions: 68, addedWorkedExamples: 34, addedFlashcards: 85, addedDiagrams: 17,
-    totalSharedLessons: 90, totalSharedQuestions: 796, totalSharedCards: 668 });
+    totalSharedLessons: 91, totalSharedQuestions: 803, totalSharedCards: 673 });
   assert.equal(new Set(report.pathways.map(item => `${item.programme}/${item.subject}`)).size, 138);
   for (const pathway of report.pathways) {
     assert.equal(pathway.complete, false);

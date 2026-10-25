@@ -16,14 +16,16 @@ const lessons = await readLearningLibrary();
 const syllabusSources = await readSyllabusSources();
 const find = id => structuredClone(lessons.find(lesson => lesson.id === id));
 
-test('forty-two held review drafts retain authored material and add distinct depth practice', () => {
+test('forty-three held review drafts retain authored material and add distinct depth practice', () => {
   const foundations = lessons.filter(lesson => !/^(subject|syllabus|unit)-/.test(lesson.id));
-  assert.equal(foundations.length, 42);
+  assert.equal(foundations.length, 43);
   assert.equal(new Set(foundations.map(lesson => lesson.subject)).size, 19);
-  assert.equal(foundations.reduce((sum, lesson) => sum + lesson.flashcards.length, 0), 428);
-  assert.equal(foundations.reduce((sum, lesson) => sum + lesson.questions.length, 0), 511);
+  assert.equal(foundations.reduce((sum, lesson) => sum + lesson.flashcards.length, 0), 433);
+  assert.equal(foundations.reduce((sum, lesson) => sum + lesson.questions.length, 0), 518);
   const latestIds = new Set(['atomic-models', 'mass-conservation', 'respiration-metabolism', 'probability-trees', 'searching-algorithms', 'words-in-context']);
   const multimediaIds = new Set(['arithmetic-sequences', 'geometric-sequences', 'scientific-investigation', 'design-evaluation']);
+  const booleanLogic = foundations.find(lesson => lesson.id === 'boolean-logic');
+  assert.ok(booleanLogic, 'Boolean logic is retained as a held foundation lesson');
   for (const lesson of foundations) {
     assert.equal(learningLessonSchema.safeParse(lesson).success, true, lesson.id);
     assert.equal(lesson.editorialStatus, 'unreviewed');
@@ -31,11 +33,12 @@ test('forty-two held review drafts retain authored material and add distinct dep
     const expanded = Boolean(lesson.syllabusMappings?.length);
     const multimedia = multimediaIds.has(lesson.id);
     const latest = latestIds.has(lesson.id) || multimedia;
-    assert.equal(lesson.revision, '2026-10-21.3');
-    assert.equal(lesson.notes.length, expanded ? 8 : 6);
-    assert.equal(lesson.workedExamples.length, latest ? 6 : expanded ? 5 : 4);
-    assert.equal(lesson.flashcards.length, latest ? 14 : expanded ? 12 : 8);
-    const authoredCount = lesson.id === 'derivative-definition' ? 27 : latest ? 12 : expanded ? 10 : 7;
+    const booleanLesson = lesson.id === 'boolean-logic';
+    assert.equal(lesson.revision, booleanLesson ? '2026-10-25.2' : '2026-10-21.3');
+    assert.equal(lesson.notes.length, booleanLesson ? 4 : expanded ? 8 : 6);
+    assert.equal(lesson.workedExamples.length, booleanLesson ? 2 : latest ? 6 : expanded ? 5 : 4);
+    assert.equal(lesson.flashcards.length, booleanLesson ? 5 : latest ? 14 : expanded ? 12 : 8);
+    const authoredCount = booleanLesson ? 4 : lesson.id === 'derivative-definition' ? 27 : latest ? 12 : expanded ? 10 : 7;
     assert.equal(lesson.questions.length, authoredCount + 3, `${lesson.id} adds three distinct problems`);
     assert.ok(!lesson.questions.some(question => question.id.startsWith('retrieval-')), 'cycled flashcards are not extra questions');
     if (latest) assert.ok(lesson.notes.flatMap(section => section.paragraphs).join(' ').split(/\s+/).length >= 900);
@@ -228,7 +231,7 @@ test('build verifier detects leaked library files, manifests and bundled teachin
   assert.equal(receipt.heldAssetsRemoved, lessons.length * 2);
   assert.equal((await verifyPublishedContent(output)).status, 'PASS');
   await assert.rejects(access(join(output, 'learning-library/linear-equations.json')));
-  assert.equal(JSON.parse(await readFile('public/learning-library/manifest.json', 'utf8')).entries.length, 90, 'source files are retained');
+  assert.equal(JSON.parse(await readFile('public/learning-library/manifest.json', 'utf8')).entries.length, 91, 'source files are retained');
   await writeFile(join(output, 'app.js'), `window.leaked = ${JSON.stringify(lessons[0].notes[0].paragraphs[0])};`);
   assert.ok((await verifyPublishedContent(output)).violations.some(item => item.reason === 'held-learning-library-body'));
 });
@@ -258,7 +261,7 @@ test('scope register inventories every product subject without converting founda
   }
   const ecosystem = await buildEcosystemReport();
   assert.deepEqual(ecosystem, JSON.parse(await readFile('docs/evidence/content-ecosystem-20261019.json', 'utf8')));
-  assert.equal(ecosystem.authoredLearningLibrary.questions, 796);
+  assert.equal(ecosystem.authoredLearningLibrary.questions, 803);
   assert.equal(ecosystem.authoredLearningLibrary.approvedLessons, 0);
   assert.equal(ecosystem.programmes.find(programme => programme.programme === 'SAT').authoredRecords, 0, 'generic foundations do not count as SAT-aligned records');
 });

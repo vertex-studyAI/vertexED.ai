@@ -40,14 +40,15 @@ for (const width of [1440, 1024, 390]) {
     page.on('pageerror', error => errors.push(error.message));
     await signIn(page);
     const toolbox = page.getByRole('region', { name: 'A place for every next step.' });
-    await expect(toolbox.locator('article')).toHaveCount(11);
+    await expect(toolbox.locator('article')).toHaveCount(12);
+    await expect(toolbox.getByRole('link', { name: 'Revision history', exact: true })).toHaveAttribute('href', '/revision-history');
     await page.getByLabel('Time available today').selectOption('10');
     await expect(page.locator('.desk-budget-summary')).toContainText('suggested');
     const stage = toolbox.getByRole('button', { name: 'Review', exact: true });
     await stage.focus(); await page.keyboard.press('Enter');
     await expect(stage).toHaveAttribute('aria-pressed', 'true');
     await expect(stage).toBeFocused();
-    await expect(toolbox.locator('article')).toHaveCount(2);
+    await expect(toolbox.locator('article')).toHaveCount(3);
     const input = page.getByRole('searchbox', { name: 'Find a study tool' });
     await input.fill('mistake');
     await expect(toolbox.locator('article')).toHaveCount(1);
@@ -64,7 +65,7 @@ for (const width of [1440, 1024, 390]) {
     await input.fill('no-such-tool');
     await expect(toolbox.getByText('No tools match these filters.')).toBeVisible();
     await toolbox.getByRole('button', { name: 'Show all tools' }).click();
-    await expect(toolbox.locator('article')).toHaveCount(11);
+    await expect(toolbox.locator('article')).toHaveCount(12);
     for (const theme of ['light', 'dark']) {
       await selectTheme(page, theme as 'light' | 'dark');
       await page.evaluate(() => window.scrollTo(0, 0));
@@ -93,7 +94,7 @@ test('member portal keeps self-reported confidence explicit and links the accoun
   await signIn(page);
 
   await expect(page.getByText('Approved private beta access', { exact: true })).toBeVisible();
-  await expect(page.getByRole('complementary', { name: 'Member workspace summary' })).toContainText('No pending device saves');
+  await expect(page.getByRole('complementary', { name: 'Member workspace summary' })).toContainText('No pending saved-work uploads');
 
   const portalNav = page.getByRole('navigation', { name: 'Member portal sections' });
   await portalNav.getByRole('link', { name: 'Check in', exact: true }).focus();

@@ -15,17 +15,17 @@ const question = (lessonId, suffix) => lessons.find(lesson => lesson.id === less
 test('depth receipt binds the original, authored extension and delivered identities', async () => {
   const report = await buildFoundationDepthReport();
   assert.deepEqual(report, await read('docs/evidence/foundation-depth-20261021.json'));
-  assert.equal(report.summary.originalQuestions, 385);
-  assert.equal(report.summary.addedQuestions, 126);
-  assert.equal(report.summary.retiredGeneratedRetrievalPrompts, 667);
-  assert.equal(report.summary.questions, 511);
-  assert.equal(report.summary.addedNoteWords, 3615);
+  assert.equal(report.summary.originalQuestions, 389);
+  assert.equal(report.summary.addedQuestions, 129);
+  assert.equal(report.summary.retiredGeneratedRetrievalPrompts, 688);
+  assert.equal(report.summary.questions, 518);
+  assert.equal(report.summary.addedNoteWords, 3741);
   assert.equal(report.summary.approvedLessons, 0);
 });
 
-test('42 independently authored depth packs preserve every original teaching field and source link', async () => {
-  assert.equal((await readdir('src/content/foundation-depth')).filter(name => name.endsWith('.json')).length, 42);
-  assert.equal(packs.flatMap(pack => pack.questions).length, 126);
+test('43 independently authored depth packs preserve every original teaching field and source link', async () => {
+  assert.equal((await readdir('src/content/foundation-depth')).filter(name => name.endsWith('.json')).length, 43);
+  assert.equal(packs.flatMap(pack => pack.questions).length, 129);
   for (let i = 0; i < lessons.length; i++) {
     const lesson = lessons[i], original = originals[i], pack = packs[i];
     assert.deepEqual(lesson, addFoundationDepth(original, pack));

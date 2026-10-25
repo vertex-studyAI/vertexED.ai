@@ -1,27 +1,36 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router';
 import { ArrowRight, CheckCircle2, GitBranch, RotateCcw, ShieldCheck } from 'lucide-react';
 import PageSection from '@/components/PageSection';
 import { loadRevisionHistory, type RevisionEvent } from '@/lib/revisionHistory';
+import { useAuth } from '@/contexts/AuthContext';
 
 const EVENT_LABELS: Record<RevisionEvent['eventType'], string> = {
   note: 'Note', attempt: 'Attempt', feedback: 'Feedback', confirmation: 'Confirmation', retry: 'Retry', retraction: 'Retraction',
 };
 
 export default function RevisionHistory() {
-  const [events, setEvents] = useState<RevisionEvent[]>([]);
+  const { user } = useAuth();
+  const scope = user?.id;
+  const generation = useRef(0);
+  const [snapshot, setSnapshot] = useState<{ scope?: string; events: RevisionEvent[] }>({ events: [] });
+  const events = snapshot.scope === scope ? snapshot.events : [];
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  const reload = async () => {
+  const reload = useCallback(async () => {
+    const request = ++generation.current;
     setLoading(true); setError('');
-    try { setEvents(await loadRevisionHistory()); }
-    catch (failure) { setError(failure instanceof Error ? failure.message : 'Revision history could not be loaded.'); }
-    finally { setLoading(false); }
-  };
+    try {
+      const loaded = await loadRevisionHistory();
+      if (request === generation.current) setSnapshot({ scope, events: loaded });
+    }
+    catch (failure) { if (request === generation.current) setError(failure instanceof Error ? failure.message : 'Revision history could not be loaded.'); }
+    finally { if (request === generation.current) setLoading(false); }
+  }, [scope]);
 
-  useEffect(() => { void reload(); }, []);
+  useEffect(() => { void reload(); return () => { generation.current++; }; }, [reload]);
 
   return <PageSection className="space-y-8">
     <Helmet><title>Revision history - VertexED</title><meta name="robots" content="noindex, nofollow" /></Helmet>

@@ -8,7 +8,6 @@ import { useAppPreferences } from "@/contexts/AppPreferencesContext";
 import BreadcrumbsJsonLd from "@/components/BreadcrumbsJsonLd";
 import RouteErrorBoundary from "@/components/RouteErrorBoundary";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
-import CloudSaveBanner from "@/components/CloudSaveBanner";
 import ThemeToggle from "@/components/ThemeToggle";
 import PageLoader from "@/components/PageLoader";
 import GlobalStudySearch from "@/components/GlobalStudySearch";
@@ -26,6 +25,8 @@ import { BetaAccessDisplayContext } from '@/contexts/BetaAccessDisplayContext';
 
 const GlobalChatPanel = lazy(() => import("@/components/chat/GlobalChatPanel"));
 const ApexCompanion = lazy(() => import("@/components/ApexCompanion"));
+const RevisionSyncNotice = lazy(() => import("@/components/RevisionSyncNotice"));
+const CloudSaveBanner = lazy(() => import("@/components/CloudSaveBanner"));
 
 export default function SiteLayout() {
   const { isAuthenticated, logout, user } = useAuth();
@@ -397,7 +398,8 @@ export default function SiteLayout() {
         tabIndex={-1}
         className="immersive-main relative z-10 flex-1 container mx-auto px-4 md:px-6 pt-6 md:pt-8 pb-10"
       >
-        <CloudSaveBanner />
+        {isAuthenticated && <Suspense fallback={null}><CloudSaveBanner /></Suspense>}
+        {isAuthenticated && <Suspense fallback={null}><RevisionSyncNotice /></Suspense>}
         <RouteErrorBoundary resetKey={`${location.pathname}${location.search}${location.hash}`}>
           <Suspense fallback={<PageLoader label="Opening" />}>
             <Outlet />

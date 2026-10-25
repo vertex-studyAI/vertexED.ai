@@ -28,7 +28,9 @@ export function normalizeRevisionEvent(input, now = Date.now()) {
   if (!input || typeof input !== 'object' || Array.isArray(input)) return null;
   const id = boundedText(input.id, 36);
   const eventType = boundedText(input.eventType, 40);
-  const evidenceStatus = boundedText(input.evidenceStatus, 40);
+  // Browser-submitted metadata cannot establish independent verification.
+  const claimedStatus = boundedText(input.evidenceStatus, 40);
+  const evidenceStatus = claimedStatus === 'independently-validated' ? 'learner-attested' : claimedStatus;
   const occurredAt = boundedText(input.occurredAt, 40);
   const sourceType = boundedText(input.sourceType, 40);
   const sourceKey = boundedText(input.sourceKey, 180);
