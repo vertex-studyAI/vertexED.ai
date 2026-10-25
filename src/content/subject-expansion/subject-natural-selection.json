@@ -1,0 +1,259 @@
+{
+  "schemaVersion": 1,
+  "id": "subject-natural-selection",
+  "revision": "2026-10-21.4",
+  "subject": "Biology",
+  "unit": "Variation and evolution",
+  "topic": "Natural selection, inheritance and population change",
+  "level": "secondary-foundation",
+  "editorialStatus": "unreviewed",
+  "origin": "original-authorship-review-pending",
+  "scope": "Original shared study module on natural selection, inheritance and population change. Numerical datasets and quoted passages are invented teaching examples. This is not a complete course, official examination material or verified board-specific alignment.",
+  "prerequisites": [
+    "Distinguish an organism from a population.",
+    "Recognise inherited variation and reproduction."
+  ],
+  "objectives": [
+    "Explain selection as differential reproductive success.",
+    "Distinguish selection from the origin of variation.",
+    "Interpret population data without goal-directed explanations."
+  ],
+  "notes": [
+    {
+      "heading": "Variation comes before selection",
+      "paragraphs": [
+        "Individuals in a population can differ in inherited characteristics. Mutation can introduce new alleles, and sexual reproduction reshuffles existing genetic variation. These processes do not produce precisely the variant an organism needs because it needs it. A change in the environment can alter which existing variants confer an advantage. Selection then acts through differences in survival and reproduction. Keep the origin of variation separate from the process that changes its frequency, and remember that a useful phenotypic difference must be heritable for this simple evolutionary explanation to apply across generations."
+      ]
+    },
+    {
+      "heading": "Reproductive success is the key comparison",
+      "paragraphs": [
+        "In natural selection, individuals with particular heritable characteristics leave different average numbers of surviving offspring under the conditions considered. Fitness is relative reproductive success in that environment, not simply strength, size or longevity. Individuals do not genetically transform into a new species during their own lifetimes because selection occurs. Instead, inherited variants can become more or less common in a population over generations. An advantage can change when conditions change, and no trait is necessarily best in every environment. Explain the causal chain rather than merely stating that the strongest survive."
+      ]
+    },
+    {
+      "heading": "Population evidence needs alternatives",
+      "paragraphs": [
+        "A frequency change is compatible with selection but does not prove selection acted alone. Chance sampling, migration and changes in how organisms are measured can also change observed proportions. Compare appropriate populations and consider sample size, inheritance and reproductive outcomes. In an idealised resistance example, an exposure may remove more susceptible organisms while resistant survivors contribute disproportionately to later generations; the exposure does not teach each organism to resist. Laboratory or field data should be interpreted within the measured conditions. A small sample can miss a rare variant even when it is present in the wider population."
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "prompt": "In a fictional population, 20 of 100 plants carry a heritable tolerance trait. After a harsh season, 15 tolerant and 20 other plants reproduce. Find the tolerant share of reproducers.",
+      "steps": [
+        "There are 15+20=35 reproducers.",
+        "The tolerant fraction is 15/35=3/7, larger than the starting 1/5."
+      ],
+      "answer": "3/7, about 42.9%; this describes the reproducers, not a directly measured offspring frequency."
+    },
+    {
+      "prompt": "A learner says colder weather deliberately creates thicker coats in all offspring. Repair the explanation.",
+      "steps": [
+        "Identify pre-existing heritable differences in coat characteristics.",
+        "Explain how reproductive success under cold conditions can change variant frequencies over generations."
+      ],
+      "answer": "Selection changes frequencies; it does not deliberately manufacture needed variants."
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Organisms evolve because they try to adapt.",
+      "correction": "Intention is not the mechanism of heritable population change."
+    },
+    {
+      "claim": "Every observed frequency shift proves selection.",
+      "correction": "Sampling, drift and migration are alternatives to consider."
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "card-1",
+      "front": "What does biological fitness mean here?",
+      "back": "Relative reproductive success in a specified environment."
+    },
+    {
+      "id": "card-2",
+      "front": "Does selection create needed mutations on demand?",
+      "back": "No. Variation and selection are distinct processes."
+    },
+    {
+      "id": "card-3",
+      "front": "What changes over generations?",
+      "back": "The frequencies of inherited variants in populations."
+    },
+    {
+      "id": "card-4",
+      "front": "Why does heritability matter?",
+      "back": "Offspring must be able to inherit the relevant differences."
+    },
+    {
+      "id": "card-5",
+      "front": "Can drift also change allele frequencies?",
+      "back": "Yes. Chance can alter frequencies, especially in small populations."
+    }
+  ],
+  "questions": [
+    {
+      "id": "frequency",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "A fictional sample has 18 tolerant plants among 60 plants. Express the tolerant frequency as a fraction and percentage.",
+      "answer": "3/10 and 30%.",
+      "solution": [
+        "Divide 18 by the full sample of 60.",
+        "Simplify the fraction and multiply the proportion by 100."
+      ],
+      "markingPoints": [
+        "Use the full denominator.",
+        "Give both forms correctly."
+      ],
+      "marks": 2,
+      "calculator": "not-required"
+    },
+    {
+      "id": "mechanism",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "A heritable colour variant provides camouflage and its carriers leave more surviving offspring. Explain how its frequency may change.",
+      "answer": "The variant may become more common as its carriers contribute more offspring.",
+      "solution": [
+        "Connect camouflage to the stated reproductive advantage.",
+        "Connect inheritance with an increased contribution to later generations."
+      ],
+      "markingPoints": [
+        "Use differential reproduction.",
+        "Include inheritance and population frequency."
+      ],
+      "marks": 2,
+      "calculator": "not-required"
+    },
+    {
+      "id": "environment",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "A colour variant is favoured on dark rocks but not on pale sand. Explain why this does not contradict natural selection.",
+      "answer": "The advantage depends on environmental conditions.",
+      "solution": [
+        "Fitness is defined relative to the environment.",
+        "Different backgrounds can change detection and reproductive outcomes."
+      ],
+      "markingPoints": [
+        "State environmental dependence.",
+        "Explain a possible mechanism."
+      ],
+      "marks": 2,
+      "calculator": "not-required"
+    },
+    {
+      "id": "sample",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "A variant is absent from a sample of ten organisms. A learner concludes it is absent from the entire population. Evaluate the inference.",
+      "answer": "The conclusion is too strong; a rare variant may be missed by a small sample.",
+      "solution": [
+        "Distinguish the sample from the population.",
+        "Use a larger, representative sample before estimating rarity with confidence."
+      ],
+      "markingPoints": [
+        "Identify the sampling limitation.",
+        "Suggest a better sampling approach."
+      ],
+      "marks": 2,
+      "calculator": "not-required"
+    }
+  ],
+  "revisionChecklist": [
+    "Check that you can explain selection as differential reproductive success without copying the worked solution.",
+    "Check that you can distinguish selection from the origin of variation without copying the worked solution.",
+    "Check that you can interpret population data without goal-directed explanations without copying the worked solution."
+  ],
+  "diagrams": [
+    {
+      "id": "reasoning-route",
+      "title": "Reasoning route: Variation and evolution",
+      "description": "Use the sequence to organise an explanation of natural selection, inheritance and population change; it is not a measured mastery score.",
+      "steps": [
+        {
+          "label": "Inherited variation",
+          "detail": "Identify a difference that can pass to offspring."
+        },
+        {
+          "label": "Different reproduction",
+          "detail": "Explain how the environment affects reproductive success."
+        },
+        {
+          "label": "Frequency change",
+          "detail": "Track population proportions across generations and test alternatives."
+        }
+      ],
+      "links": [
+        "Use this definition to choose the method",
+        "Use the result to evaluate the conclusion"
+      ]
+    }
+  ],
+  "teachingSequence": [
+    {
+      "title": "Variation comes before selection",
+      "guidance": "Repair the intentional explanation: existing heritable variation and different reproductive success drive population change.",
+      "noteHeadings": [
+        "Variation comes before selection"
+      ],
+      "workedExampleNumbers": [
+        2
+      ],
+      "questionIds": [
+        "mechanism"
+      ]
+    },
+    {
+      "title": "Reproductive success is the key comparison",
+      "guidance": "Calculate the proportion among reproducers, then explain why the advantage depends on the environment.",
+      "noteHeadings": [
+        "Reproductive success is the key comparison"
+      ],
+      "workedExampleNumbers": [
+        1
+      ],
+      "questionIds": [
+        "frequency",
+        "environment"
+      ]
+    },
+    {
+      "title": "Population evidence needs alternatives",
+      "guidance": "Separate the observed sample frequency from a population claim; state what the sample may miss.",
+      "noteHeadings": [
+        "Population evidence needs alternatives"
+      ],
+      "workedExampleNumbers": [
+        1
+      ],
+      "questionIds": [
+        "sample"
+      ]
+    }
+  ],
+  "revisionGuide": {
+    "summary": "Review natural selection, inheritance and population change by connecting definitions, the two worked examples and the limits of each conclusion. These questions use editorial self-review points, not an official examination rubric.",
+    "keyIdeas": [
+      "What does biological fitness mean here? Relative reproductive success in a specified environment.",
+      "Does selection create needed mutations on demand? No. Variation and selection are distinct processes.",
+      "What changes over generations? The frequencies of inherited variants in populations."
+    ],
+    "formulas": [],
+    "recallPrompts": [
+      "What does biological fitness mean here?",
+      "Does selection create needed mutations on demand?",
+      "What changes over generations?"
+    ],
+    "practiceQuestionIds": [
+      "frequency",
+      "mechanism",
+      "environment",
+      "sample"
+    ],
+    "revisit": "Attempt the questions without the notes, compare your reasoning with the points, and retry any step you cannot yet explain. Self-review does not certify mastery."
+  }
+}

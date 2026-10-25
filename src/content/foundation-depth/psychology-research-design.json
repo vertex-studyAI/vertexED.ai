@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "lessonId": "psychology-research-design",
+  "revision": "2026-10-21.3",
+  "notes": [
+    {
+      "heading": "Separate design control from measurement quality",
+      "paragraphs": [
+        "Random allocation helps distribute participant differences across conditions, but it does not guarantee identical groups or representative recruitment. Repeated-measures designs compare conditions within participants and can reduce some individual differences, while introducing order effects such as practice and fatigue. Counterbalancing distributes those order effects across conditions; it does not remove every possible carryover effect. A reliable measure can repeatedly capture the wrong construct, so explain both what is recorded and why that observation addresses the intended question. These fictional classroom designs are exercises in reasoning, not instructions to run unreviewed human-subject studies."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "depth-counterbalance",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "In a fictional within-participant task, everyone completes silence first and music second. Scores improve in the music condition. Give a confound and describe counterbalancing for 20 participants.",
+      "answer": "Practice may improve second-task scores. Assign 10 participants to silence then music and 10 to music then silence, preferably randomly assigning order.",
+      "solution": [
+        "Identify that condition and order are confounded.",
+        "Distribute each condition across first and second positions."
+      ],
+      "markingPoints": [
+        "Identify practice or fatigue as an order effect.",
+        "Specify both orders with 10 participants each.",
+        "Explain how the arrangement addresses order confounding."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-construct-validity",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "A fictional 'attention' task records how many printed words a student reads aloud in one minute. Explain two other abilities that can affect the score and a consequence for interpreting it.",
+      "answer": "Reading fluency and speaking speed can affect the count, so it is not a pure measure of attention.",
+      "solution": [
+        "Link each alternative ability directly to the recorded word count.",
+        "Use additional measures or a design controlling these demands before making a broad attention claim."
+      ],
+      "markingPoints": [
+        "Identify reading fluency.",
+        "Identify speech speed or another distinct relevant factor.",
+        "Explain the construct-interpretation limit."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-blinding",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "In a fictional experiment, an assessor knows which participants received the preferred instruction and awards subjective participation scores. Name a possible bias and one improvement.",
+      "answer": "Observer expectancy could influence scores. Use an assessor unaware of condition and a pre-specified scoring rubric.",
+      "solution": [
+        "Knowledge of the expected result may affect subjective judgement.",
+        "Reduce that information and make scoring criteria explicit."
+      ],
+      "markingPoints": [
+        "Identify observer expectancy.",
+        "Propose assessor blinding.",
+        "Propose an explicit scoring rubric."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    }
+  ]
+}

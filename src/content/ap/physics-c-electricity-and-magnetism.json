@@ -47,8 +47,124 @@
             "Consider an external charge or uniform field."
           ],
           "id": "unit-8-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "The law uses charge, not surface area alone.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A spherical Gaussian surface encloses charge 3Q. If its radius doubles without adding enclosed charge, how does total flux change?",
+          "answer": "It stays 3Q/ε₀. Flux depends on enclosed charge, although local field magnitudes can change.",
+          "checkpoints": [
+            "Apply Gauss’s law.",
+            "Keep enclosed charge fixed.",
+            "Distinguish total flux from local field."
+          ],
+          "hints": [
+            "The law uses charge, not surface area alone.",
+            "Larger area does not itself change enclosed charge."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Do not use the exterior 1/r relation.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "For the uniform insulating cylinder above, compare E at r=R/4 and r=R/2.",
+          "answer": "Both points are inside, so E∝r; the field at R/2 is twice the field at R/4.",
+          "checkpoints": [
+            "Identify the interior region.",
+            "Use E=ρr/(2ε₀).",
+            "Calculate the ratio two."
+          ],
+          "hints": [
+            "Do not use the exterior 1/r relation.",
+            "Compare the two radii in the interior formula."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through gauss’s law with cylindrical symmetry",
+            "paragraphs": [
+              "Gauss’s law states that electric flux through a closed surface equals enclosed charge divided by ε₀. The law is always valid, but extracting a field magnitude from it requires enough symmetry to know the field direction and where its magnitude is constant. For cylindrical symmetry around a long charged cylinder, a coaxial Gaussian surface makes the curved-side field contribution simple. Inside a uniformly charged insulating cylinder, enclosed charge grows as r²; outside it, the enclosed charge stops growing. A conducting cylinder in electrostatic equilibrium needs a different interior charge and field model."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "An infinitely long insulating cylinder has uniform volume charge density ρ and radius R. Derive E at radius r<R.",
+            "steps": [
+              "Choose a coaxial Gaussian cylinder of length L. Enclosed charge is ρπr²L and flux is E(2πrL).",
+              "Gauss’s law gives E(2πrL)=ρπr²L/ε₀, so E=ρr/(2ε₀), radially outward for positive ρ."
+            ],
+            "conclusion": "Inside the uniform insulating cylinder, field magnitude grows linearly with radius."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What charge appears in Gauss’s law?",
+            "back": "Net charge enclosed by the closed surface."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Does zero net flux require zero field everywhere?",
+            "back": "No."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Why use a coaxial Gaussian cylinder?",
+            "back": "Symmetry makes E constant on the curved side and parallel to its normal."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "How does E vary inside a uniformly charged long insulating cylinder?",
+            "back": "Linearly with radius."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Gauss’s law with cylindrical symmetry: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Charge symmetry",
+                "detail": "Choose a Gaussian surface matching the distribution."
+              },
+              {
+                "id": "n2",
+                "label": "Enclosed charge and flux",
+                "detail": "Express Qenc and the surface field integral."
+              },
+              {
+                "id": "n3",
+                "label": "Electric field",
+                "detail": "Solve only after symmetry justifies the simplification."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "enables"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "determine"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-9",
@@ -90,8 +206,124 @@
             "Convert microcoulombs consistently."
           ],
           "id": "unit-9-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Field is the negative potential slope.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "For V(x)=12−2x³ volts, find Ex at x=1 m.",
+          "answer": "Ex=−dV/dx=6x², so Ex(1)=+6 V/m.",
+          "checkpoints": [
+            "Differentiate the cubic.",
+            "Apply the minus sign.",
+            "Evaluate +6 V/m."
+          ],
+          "hints": [
+            "Field is the negative potential slope.",
+            "Do not differentiate the constant into a nonzero term."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "The final point equals the initial point.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "A charge q moves around a closed path in a static electric field. What is net work by the field, and why?",
+          "answer": "Zero: electrostatic fields are conservative, so the potential returns to its starting value and W=−qΔV=0.",
+          "checkpoints": [
+            "Identify the electrostatic assumption.",
+            "Use zero potential difference for a closed path.",
+            "Infer zero net work."
+          ],
+          "hints": [
+            "The final point equals the initial point.",
+            "This statement does not apply unchanged to induced nonconservative electric fields."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through potential from an electric field",
+            "paragraphs": [
+              "Electric potential difference is the negative line integral of the electric field. In one dimension, Ex=−dV/dx; this derivative determines force direction through Fx=qEx. Potential is a scalar and includes an arbitrary additive reference, but measurable potential differences do not depend on that constant. Equipotential surfaces are perpendicular to the electrostatic field wherever the field is nonzero. Moving along an equipotential changes no electric potential energy, although other forces may still do work. When integrating a nonuniform field, keep the integration coordinate distinct from the fixed endpoint symbols to avoid treating a variable field as constant."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A field is Ex(x)=6x V/m, with x in metres and V(0)=10 V. Find V(x) and the potential at 2 m.",
+            "steps": [
+              "V(x)−10=−∫₀ˣ6s ds=−3x².",
+              "Thus V(x)=10−3x² V and V(2)=−2 V."
+            ],
+            "conclusion": "The potential function is 10−3x² V, giving −2 V at x=2 m."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "How is Ex related to V?",
+            "back": "Ex=−dV/dx."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Does an additive constant in V change E?",
+            "back": "No."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What is field direction relative to equipotentials?",
+            "back": "Perpendicular to them where E is nonzero."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What is ΔU along an equipotential?",
+            "back": "Zero for a fixed charge."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Potential from an electric field: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Nonuniform field",
+                "detail": "Specify its spatial dependence and direction."
+              },
+              {
+                "id": "n2",
+                "label": "Line integral",
+                "detail": "Compute the negative integral between endpoints."
+              },
+              {
+                "id": "n3",
+                "label": "Potential energy",
+                "detail": "Multiply the potential difference by the signed charge."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "determines"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "changes"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-10",
@@ -133,8 +365,124 @@
             "Distinguish the conducting material from a charged cavity."
           ],
           "id": "unit-10-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Start with the isolation constraint.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "An isolated capacitor’s capacitance triples. Compare its charge, voltage and stored energy.",
+          "answer": "Charge is unchanged; voltage becomes one third; stored energy becomes one third.",
+          "checkpoints": [
+            "Retain fixed charge.",
+            "Use V=Q/C.",
+            "Use U=Q²/(2C)."
+          ],
+          "hints": [
+            "Start with the isolation constraint.",
+            "Use energy written in terms of the conserved variable."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Series capacitors share charge magnitude in this ideal arrangement.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "Two initially uncharged capacitors, 2 μF and 6 μF, are connected in series across an ideal 12 V source. Find equivalent capacitance, charge magnitude and individual voltages.",
+          "answer": "Ceq=1.5 μF, Q=18 μC on each, and voltages are 9 V and 3 V respectively.",
+          "checkpoints": [
+            "Compute reciprocal series capacitance.",
+            "Use Q=CeqV and equal series charges.",
+            "Divide Q by each capacitance and check 12 V total."
+          ],
+          "hints": [
+            "Series capacitors share charge magnitude in this ideal arrangement.",
+            "The smaller capacitance has the larger voltage."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through capacitors with an isolated charge",
+            "paragraphs": [
+              "Capacitance describes the relation Q=CV for a conductor arrangement and dielectric, rather than a quantity chosen independently of geometry. Changing a capacitor while connected to an ideal battery keeps voltage fixed; disconnecting and isolating its plates keeps their charges fixed. These different constraints change how stored energy responds to an inserted dielectric. With fixed Q, U=Q²/(2C) decreases as C increases; with fixed V, U=CV²/2 increases and the battery transfers charge and energy. Energy accounting must include any mechanical work and the source, rather than treating the capacitor as the whole system in both cases."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A 3 μF capacitor remains connected to a 4 V ideal battery while a dielectric doubles its capacitance. Find initial and final charge and stored energy.",
+            "steps": [
+              "Initial Q=CV=12 μC and U=(1/2)CV²=24 μJ.",
+              "Final C=6 μF at the same voltage, so Q=24 μC and U=48 μJ."
+            ],
+            "conclusion": "Charge doubles from 12 to 24 μC, and stored energy doubles from 24 to 48 μJ."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What stays fixed for isolated capacitor plates?",
+            "back": "Their charge, if leakage is negligible."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What stays fixed with an ideal battery connected?",
+            "back": "Voltage."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "How does U depend on C at fixed Q?",
+            "back": "U=Q²/(2C), so it decreases when C increases."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "How does U depend on C at fixed V?",
+            "back": "U=CV²/2, so it increases when C increases."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Capacitors with an isolated charge: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Electrical constraint",
+                "detail": "Decide whether battery-fixed voltage or isolated charge applies."
+              },
+              {
+                "id": "n2",
+                "label": "Capacitance change",
+                "detail": "Geometry or dielectric alters C."
+              },
+              {
+                "id": "n3",
+                "label": "Energy and charge response",
+                "detail": "Use the form of U and Q=CV consistent with the constraint."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "governs response to"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "determines"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-11",
@@ -176,8 +524,124 @@
             "Use V=IR for the individual resistor."
           ],
           "id": "unit-11-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Use the discharge law.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A capacitor discharges from 12 V. At t=RC ln4, what is its voltage and what fraction of initial stored energy remains?",
+          "answer": "Voltage is 12e^(−ln4)=3 V. Energy is proportional to V², so 1/16 remains.",
+          "checkpoints": [
+            "Evaluate the exponential voltage fraction 1/4.",
+            "Calculate 3 V.",
+            "Square the fraction for energy."
+          ],
+          "hints": [
+            "Use the discharge law.",
+            "Energy and voltage do not decay by the same fraction."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "The capacitor voltage begins continuously from zero.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "In an ideal charging RC circuit, immediately after connection an initially uncharged capacitor has zero voltage. What are initial resistor voltage and current?",
+          "answer": "The resistor initially has the full source voltage V across it, so initial current is V/R.",
+          "checkpoints": [
+            "Use the zero initial capacitor voltage.",
+            "Apply loop voltage conservation.",
+            "Use Ohm’s law for V/R."
+          ],
+          "hints": [
+            "The capacitor voltage begins continuously from zero.",
+            "The source voltage must appear elsewhere in the loop."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through rC discharge from a loop equation",
+            "paragraphs": [
+              "An RC equation follows from a loop energy balance plus the capacitor relation. During discharge, q/C+R dq/dt=0 with a consistent current convention, giving q=q₀e^(−t/RC). The time constant sets the fraction of the remaining charge lost per interval rather than a constant amount lost each second. Charging from zero through a resistor to an ideal source instead gives q=CV(1−e^(−t/RC)). The capacitor voltage cannot jump instantaneously in the finite-resistance ideal model. At long times in a DC circuit, capacitor current tends to zero, but a nonzero voltage and stored energy can remain."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A 10 μF capacitor charges through 100 kΩ from a 6 V source. Find τ, voltage and current at one time constant.",
+            "steps": [
+              "τ=RC=(100,000)(10×10⁻⁶)=1 s. At t=τ, VC=6(1−e⁻¹)≈3.79 V.",
+              "Current is (6/100,000)e⁻¹≈22.1 μA."
+            ],
+            "conclusion": "At 1 s, capacitor voltage is about 3.79 V and current about 22.1 μA."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is the RC time constant?",
+            "back": "Resistance multiplied by capacitance."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What fraction of final voltage is reached after one charging time constant?",
+            "back": "1−1/e, about 63.2%."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What fraction of charge remains after one discharge time constant?",
+            "back": "1/e, about 36.8%."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What is capacitor current after a long time in ideal steady DC?",
+            "back": "Zero."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "RC discharge from a loop equation: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Loop equation",
+                "detail": "Balance source, resistor drop and capacitor voltage."
+              },
+              {
+                "id": "n2",
+                "label": "Differential relation",
+                "detail": "Use current as charge-change rate."
+              },
+              {
+                "id": "n3",
+                "label": "Exponential response",
+                "detail": "Apply initial conditions and the RC time constant."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "produces"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "solves into"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-12",
@@ -219,8 +683,124 @@
             "Radius is proportional to speed."
           ],
           "id": "unit-12-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Track current and radius together.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "Outside a long wire, radius increases from r to 3r while current triples. Compare magnetic-field magnitude.",
+          "answer": "It is unchanged because B∝I/r and both numerator and denominator triple.",
+          "checkpoints": [
+            "Use the exterior long-wire formula.",
+            "Apply both factors.",
+            "Conclude a ratio of one."
+          ],
+          "hints": [
+            "Track current and radius together.",
+            "Do not use the interior uniform-density relation."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Magnetic force supplies radial acceleration.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "A particle of mass m and charge magnitude q enters uniform B perpendicularly with kinetic energy K. Derive its orbit radius.",
+          "answer": "From qvB=mv²/r, r=mv/(qB). With v=√(2K/m), r=√(2mK)/(qB).",
+          "checkpoints": [
+            "Set magnetic force equal to centripetal force.",
+            "Relate speed to kinetic energy.",
+            "Substitute to obtain √(2mK)/(qB)."
+          ],
+          "hints": [
+            "Magnetic force supplies radial acceleration.",
+            "Eliminate v using K=(1/2)mv²."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through magnetic fields from symmetric currents",
+            "paragraphs": [
+              "Ampère’s law relates circulation of magnetic field to enclosed current in a steady-current situation. A long straight wire provides cylindrical symmetry: the field follows circles centred on the wire and has constant magnitude on each circle. Inside a wire with uniform current density, enclosed current grows with area; outside, the full current is enclosed and the field decreases as 1/r. The right-hand rule sets direction from current direction. Magnetic force on a charge depends on its velocity relative to the field, so a nonzero magnetic field alone does not imply a force on a stationary charge."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A long cylindrical wire of radius R carries uniformly distributed current I. Derive B at radius r<R.",
+            "steps": [
+              "Enclosed current is Ienc=I(r²/R²) because current density is uniform.",
+              "Ampère’s law gives B(2πr)=μ₀Ienc, hence B=μ₀Ir/(2πR²)."
+            ],
+            "conclusion": "Inside the wire, magnetic-field magnitude grows linearly with radius."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What does Ampère’s law enclose here?",
+            "back": "The steady current through the loop’s spanning surface."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What is the field direction around a long wire?",
+            "back": "Tangential around concentric circles."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "How does B vary outside a long wire?",
+            "back": "As 1/r."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Does a stationary charge experience magnetic force?",
+            "back": "No; qv×B is zero when v=0."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Magnetic fields from symmetric currents: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Current distribution",
+                "detail": "Determine the current enclosed at the chosen radius."
+              },
+              {
+                "id": "n2",
+                "label": "Circular symmetry",
+                "detail": "Use constant tangential B around a circular loop."
+              },
+              {
+                "id": "n3",
+                "label": "Ampère relation",
+                "detail": "Solve B(2πr)=μ₀Ienc."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "combines with"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "simplifies"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-13",
@@ -262,8 +842,124 @@
             "Multiply by half the inductance."
           ],
           "id": "unit-13-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Use the current slope for emf.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A 0.20 H inductor carries current increasing uniformly from 1 A to 4 A in 0.30 s. Find induced-emf magnitude and energy increase.",
+          "answer": "|emf|=LΔI/Δt=2 V. ΔU=(1/2)(0.20)(4²−1²)=1.5 J.",
+          "checkpoints": [
+            "Calculate dI/dt=10 A/s.",
+            "Find emf magnitude 2 V.",
+            "Calculate energy increase 1.5 J."
+          ],
+          "hints": [
+            "Use the current slope for emf.",
+            "Use squared endpoint currents for stored energy."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Distinguish long-time state from the transient.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "An RL circuit has reached steady current from an ideal DC source. What is the inductor’s voltage and what happens to current if resistance doubles after a new steady state is reached?",
+          "answer": "At either steady state the ideal inductor voltage is zero because dI/dt=0. With source voltage fixed, the new steady current is half the original V/R value.",
+          "checkpoints": [
+            "Apply zero current derivative at steady state.",
+            "Use final I=V/R.",
+            "Conclude the current halves while avoiding an instantaneous-change claim."
+          ],
+          "hints": [
+            "Distinguish long-time state from the transient.",
+            "An ideal inductor prevents an instantaneous finite current jump."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through induction and an inductor’s response",
+            "paragraphs": [
+              "Faraday’s law relates induced emf to the time derivative of magnetic flux linkage. Track the orientation of the loop normal to assign a signed flux, then use Lenz’s law to interpret the minus sign. An inductor resists changes in current through an induced emf, not current itself. In a series RL circuit driven by a constant ideal voltage, current grows towards V/R with time constant L/R. Magnetic energy is stored as LI²/2. When the source is removed, that energy can drive continued current through an available path while resistance converts it into thermal energy."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A 12 V source drives a series circuit with R=6 Ω and L=3 H, initially at zero current. Find τ and current after τ.",
+            "steps": [
+              "τ=L/R=3/6=0.50 s, and the long-time current is V/R=2 A.",
+              "I(τ)=2(1−e⁻¹)≈1.26 A."
+            ],
+            "conclusion": "The time constant is 0.50 s and current after that time is about 1.26 A."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What does an inductor oppose?",
+            "back": "Changes in current."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What is the RL time constant?",
+            "back": "L/R."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What energy is stored in an ideal inductor?",
+            "back": "LI²/2."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What determines induced emf in a coil?",
+            "back": "The rate of change of magnetic flux linkage."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Induction and an inductor’s response: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Changing flux or current",
+                "detail": "Identify the time-dependent quantity."
+              },
+              {
+                "id": "n2",
+                "label": "Induced emf",
+                "detail": "Apply Faraday’s law or −L dI/dt with a consistent sign convention."
+              },
+              {
+                "id": "n3",
+                "label": "Circuit response",
+                "detail": "Combine emf with the loop equation and energy balance."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "produces"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "affects"
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

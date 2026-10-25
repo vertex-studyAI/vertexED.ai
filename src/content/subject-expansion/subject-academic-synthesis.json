@@ -1,0 +1,260 @@
+{
+  "schemaVersion": 1,
+  "id": "subject-academic-synthesis",
+  "revision": "2026-10-21.4",
+  "subject": "Academic Writing",
+  "unit": "Evidence-based writing",
+  "topic": "Synthesis, attribution and proportionate academic claims",
+  "level": "introductory-university",
+  "editorialStatus": "unreviewed",
+  "origin": "original-authorship-review-pending",
+  "scope": "Original shared study module on synthesis, attribution and proportionate academic claims. Numerical datasets and quoted passages are invented teaching examples. This is not a complete course, official examination material or verified board-specific alignment.",
+  "prerequisites": [
+    "Summarise a short passage in your own words.",
+    "Distinguish a source's claim from your own response."
+  ],
+  "objectives": [
+    "Combine sources around a shared analytical question.",
+    "Preserve qualifications when paraphrasing.",
+    "Make evidence and attribution traceable."
+  ],
+  "notes": [
+    {
+      "heading": "Synthesis uses a question as its organising principle",
+      "paragraphs": [
+        "A source-by-source summary reports what each text says in turn. Synthesis instead organises relevant material around a shared issue, explaining agreement, disagreement, scope or complementarity. Before combining findings, compare the populations, periods, definitions and methods involved. Two numerical results can differ without contradicting each other if they measure different things. Identify what each source contributes to the paragraph's claim. A list of citations at the end cannot repair an argument that never explains the relationship between the sources or the evidence and the conclusion."
+      ]
+    },
+    {
+      "heading": "Paraphrase the meaning, not only the vocabulary",
+      "paragraphs": [
+        "A faithful paraphrase preserves the source's claim, qualifications and boundaries while expressing the meaning in genuinely new wording. Replacing a few words while retaining the original structure is not a reliable paraphrasing method. Read for meaning, draft without copying the sentence, then compare for accuracy and attribute the idea. Quoted wording should be identified as a quotation and located precisely using the required citation style. Do not turn may into proves, an association into causation, or a sample finding into a claim about every person."
+      ]
+    },
+    {
+      "heading": "Make the argument inspectable",
+      "paragraphs": [
+        "An academic claim should be specific enough for a reader to evaluate. State what evidence supports it and where the evidence stops. Separate your inference from the source's own conclusion and acknowledge relevant contrary evidence. A reference list records source identities, while in-text attribution tells the reader which claim depends on which material. Citation details should be verified rather than invented. Requirements vary across disciplines and institutions, so this lesson teaches general writing methods rather than a universal formatting rule or a guarantee of assessment success."
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "prompt": "Original fictional findings: Study A reports improved recall after a short quiz in one class; Study B reports no change in long-term retention in another setting. Synthesize cautiously.",
+      "steps": [
+        "The outcomes and settings differ, so the findings are not a direct contradiction.",
+        "A cautious synthesis distinguishes short-term recall from longer-term retention and calls for comparable designs."
+      ],
+      "answer": "The evidence suggests that any benefit may depend on the outcome, setting and study design."
+    },
+    {
+      "prompt": "Original fictional source: 'The programme was associated with improvement among the sampled volunteers, but this does not establish causation.' Repair the paraphrase 'The study proved the programme causes improvement for everyone.'",
+      "steps": [
+        "Restore the sample boundary and associational claim.",
+        "Remove both universal generalisation and causal certainty."
+      ],
+      "answer": "Among the sampled volunteers, the programme was associated with improvement; the study did not establish causation."
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Changing a few words automatically produces a faithful independent paraphrase.",
+      "correction": "Both expression and accurate meaning need attention, with attribution retained."
+    },
+    {
+      "claim": "Several citations automatically establish that a claim is true.",
+      "correction": "Their relevance, quality and logical connection to the claim still matter."
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "card-1",
+      "front": "What distinguishes synthesis from serial summary?",
+      "back": "It organises sources around an analytical relationship or shared question."
+    },
+    {
+      "id": "card-2",
+      "front": "What must a paraphrase preserve?",
+      "back": "The original meaning, qualifications and scope."
+    },
+    {
+      "id": "card-3",
+      "front": "Does paraphrasing remove the need for attribution?",
+      "back": "No. The source of the idea still needs attribution."
+    },
+    {
+      "id": "card-4",
+      "front": "Why compare methods before comparing results?",
+      "back": "Different measures or populations may explain apparent disagreement."
+    },
+    {
+      "id": "card-5",
+      "front": "Should missing citation details be guessed?",
+      "back": "No. Verify them or state the information is unavailable."
+    }
+  ],
+  "questions": [
+    {
+      "id": "scope",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "Original fictional source says a strategy helped 12 volunteers on an immediate test. What is wrong with 'This strategy improves lifelong learning for all students'?",
+      "answer": "It expands the population, outcome and timescale beyond the evidence.",
+      "solution": [
+        "Identify the volunteer sample and immediate test.",
+        "Restrict the claim to what was observed, with uncertainty acknowledged."
+      ],
+      "markingPoints": [
+        "Name the overgeneralisations.",
+        "Give the appropriate evidence boundary."
+      ],
+      "marks": 2,
+      "calculator": "not-required"
+    },
+    {
+      "id": "synthesis",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "One fictional report studies urban adults; another studies rural children. Their averages differ. Why is direct contradiction not established?",
+      "answer": "The populations differ, and other definitions or methods may differ too.",
+      "solution": [
+        "Compare the scope of both findings.",
+        "Explain that a contradiction requires incompatible claims about sufficiently comparable conditions."
+      ],
+      "markingPoints": [
+        "Identify population differences.",
+        "Explain the comparison limit."
+      ],
+      "marks": 2,
+      "calculator": "not-required"
+    },
+    {
+      "id": "attribution",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "A writer paraphrases a source accurately but gives no citation because none of the wording is copied. Evaluate the decision.",
+      "answer": "The idea still requires attribution even when the wording is new.",
+      "solution": [
+        "Separate ownership of wording from the origin of an idea.",
+        "Provide a traceable citation in the required institutional style."
+      ],
+      "markingPoints": [
+        "Explain why attribution remains necessary.",
+        "Identify the appropriate corrective action."
+      ],
+      "marks": 2,
+      "calculator": "not-required"
+    },
+    {
+      "id": "counterevidence",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "Three relevant studies support a claim and two comparable studies do not. How should a synthesis handle the latter two?",
+      "answer": "Include and evaluate them, considering differences in methods, precision and conditions rather than omitting them.",
+      "solution": [
+        "Represent the relevant evidence base fairly.",
+        "Use differences to qualify the conclusion and identify uncertainty."
+      ],
+      "markingPoints": [
+        "Retain relevant contrary evidence.",
+        "Explain how it affects the conclusion."
+      ],
+      "marks": 2,
+      "calculator": "not-required"
+    }
+  ],
+  "revisionChecklist": [
+    "Check that you can combine sources around a shared analytical question without copying the worked solution.",
+    "Check that you can preserve qualifications when paraphrasing without copying the worked solution.",
+    "Check that you can make evidence and attribution traceable without copying the worked solution."
+  ],
+  "diagrams": [
+    {
+      "id": "reasoning-route",
+      "title": "Reasoning route: Evidence-based writing",
+      "description": "Use the sequence to organise an explanation of synthesis, attribution and proportionate academic claims; it is not a measured mastery score.",
+      "steps": [
+        {
+          "label": "Compare source scope",
+          "detail": "Check questions, definitions, methods and populations."
+        },
+        {
+          "label": "Construct the relationship",
+          "detail": "Organise agreement, difference and limitations around a claim."
+        },
+        {
+          "label": "Attribute and qualify",
+          "detail": "Preserve traceable evidence and proportionate conclusions."
+        }
+      ],
+      "links": [
+        "Use this definition to choose the method",
+        "Use the result to evaluate the conclusion"
+      ]
+    }
+  ],
+  "teachingSequence": [
+    {
+      "title": "Synthesis uses a question as its organising principle",
+      "guidance": "Compare the populations and outcomes in example 1 before deciding whether findings contradict each other.",
+      "noteHeadings": [
+        "Synthesis uses a question as its organising principle"
+      ],
+      "workedExampleNumbers": [
+        1
+      ],
+      "questionIds": [
+        "synthesis"
+      ]
+    },
+    {
+      "title": "Paraphrase the meaning, not only the vocabulary",
+      "guidance": "Use example 2 to identify lost qualifications; keep the population, outcome and time period within the evidence.",
+      "noteHeadings": [
+        "Paraphrase the meaning, not only the vocabulary"
+      ],
+      "workedExampleNumbers": [
+        2
+      ],
+      "questionIds": [
+        "scope"
+      ]
+    },
+    {
+      "title": "Make the argument inspectable",
+      "guidance": "Revisit both examples and explain which claims belong to a source, which are your inference and which evidence could change the conclusion.",
+      "noteHeadings": [
+        "Make the argument inspectable"
+      ],
+      "workedExampleNumbers": [
+        1,
+        2
+      ],
+      "questionIds": [
+        "attribution",
+        "counterevidence"
+      ]
+    }
+  ],
+  "revisionGuide": {
+    "summary": "Review synthesis, attribution and proportionate academic claims by connecting definitions, the two worked examples and the limits of each conclusion. These questions use editorial self-review points, not an official examination rubric.",
+    "keyIdeas": [
+      "What distinguishes synthesis from serial summary? It organises sources around an analytical relationship or shared question.",
+      "What must a paraphrase preserve? The original meaning, qualifications and scope.",
+      "Does paraphrasing remove the need for attribution? No. The source of the idea still needs attribution."
+    ],
+    "formulas": [],
+    "recallPrompts": [
+      "What distinguishes synthesis from serial summary?",
+      "What must a paraphrase preserve?",
+      "Does paraphrasing remove the need for attribution?"
+    ],
+    "practiceQuestionIds": [
+      "scope",
+      "synthesis",
+      "attribution",
+      "counterevidence"
+    ],
+    "revisit": "Attempt the questions without the notes, compare your reasoning with the points, and retry any step you cannot yet explain. Self-review does not certify mastery."
+  }
+}

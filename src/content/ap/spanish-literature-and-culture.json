@@ -45,10 +45,126 @@
             "Connects claim to a detail"
           ],
           "id": "spanish-literature-and-culture-1-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Original sentence: « El anciano narró un fracaso, pero el joven se rio y repitió el error. » Explain the frame's effect.",
+          "hint": "Track listener response.",
+          "hints": [
+            "Track listener response.",
+            "Distinguish offered lesson from acceptance."
+          ],
+          "answer": "El anciano ofrece un ejemplo negativo. El joven rechaza su enseñanza. La repetición del error crea una distancia entre la intención didáctica y la conducta del oyente.",
+          "checkpoints": [
+            "El anciano ofrece un ejemplo negativo.",
+            "El joven rechaza su enseñanza.",
+            "La repetición del error crea una distancia entre la intención didáctica y la conducta del oyente."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "Why is identifying a moral insufficient to explain an exemplum?",
+          "hint": "The analogy has a mechanism.",
+          "hints": [
+            "The analogy has a mechanism.",
+            "Connect story and situation."
+          ],
+          "answer": "La moraleja nombra una enseñanza. El análisis debe explicar cómo los hechos del relato la apoyan. También debe relacionarla con la decisión del destinatario.",
+          "checkpoints": [
+            "La moraleja nombra una enseñanza.",
+            "El análisis debe explicar cómo los hechos del relato la apoyan.",
+            "También debe relacionarla con la decisión del destinatario."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "frameworkUnit": "Unit 1",
-      "id": "spanish-literature-and-culture-1"
+      "id": "spanish-literature-and-culture-1",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Explain the frame and the lesson in depth",
+            "paragraphs": [
+              "A frame narrative creates more than one level of communication: an outer speaker addresses a listener, while an embedded story offers an example. Identify who selects the story and what decision it is meant to influence. The stated moral may simplify a more complicated event, so examine whether the details support it without qualification. In Spanish, el relato enmarcado names the embedded narrative and el destinatario its audience. An exemplum's persuasive force comes from connecting an analogous case to the listener's situation; resemblance must be explained rather than assumed."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Original invented miniature: « La maestra contó cómo un viajero perdió el camino por no preguntar. Después, el aprendiz pidió consejo antes de partir. »",
+            "steps": [
+              "La historia del viajero forma el relato interior; la maestra y el aprendiz forman el marco.",
+              "La acción final del aprendiz muestra la aplicación de la lección sobre pedir orientación."
+            ],
+            "conclusion": "El marco convierte el relato en una intervención sobre una decisión concreta."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "¿Qué es un relato enmarcado?",
+            "back": "Una historia incluida dentro de otra situación narrativa."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "¿Quién es el destinatario?",
+            "back": "La persona a quien se dirige el mensaje."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "¿Qué hace un exemplum?",
+            "back": "Ilustra una enseñanza mediante un caso."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "¿La moraleja elimina la necesidad de analizar detalles?",
+            "back": "No."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Marco y aprendizaje",
+            "description": "El relato interior influye en una acción exterior.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Maestra y aprendiz",
+                "detail": "Situación del marco."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Viajero perdido",
+                "detail": "Ejemplo narrado."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Petición de consejo",
+                "detail": "Aplicación de la enseñanza."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "contiene"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "motiva"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Question a self-justifying narrator",
@@ -88,10 +204,126 @@
             "Does not invent a contradiction"
           ],
           "id": "spanish-literature-and-culture-2-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Original passage: « No buscaba honores; sólo pedí que escribieran mi nombre más grande que los demás. » Analyse the tension.",
+          "hint": "Compare denial with request.",
+          "hints": [
+            "Compare denial with request.",
+            "Name the visible status claim."
+          ],
+          "answer": "El narrador niega buscar prestigio. Pide una distinción pública superior. La contradicción debilita la negación y puede producir ironía.",
+          "checkpoints": [
+            "El narrador niega buscar prestigio.",
+            "Pide una distinción pública superior.",
+            "La contradicción debilita la negación y puede producir ironía."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "Explain why poverty alone does not settle whether a narrator's account is reliable.",
+          "hint": "Separate circumstances from truthfulness.",
+          "hints": [
+            "Separate circumstances from truthfulness.",
+            "Use textual evidence."
+          ],
+          "answer": "La pobreza puede explicar presiones materiales. No verifica automáticamente cada afirmación del narrador. La fiabilidad se evalúa mediante coherencia, omisiones y otras evidencias del texto.",
+          "checkpoints": [
+            "La pobreza puede explicar presiones materiales.",
+            "No verifica automáticamente cada afirmación del narrador.",
+            "La fiabilidad se evalúa mediante coherencia, omisiones y otras evidencias del texto."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "frameworkUnit": "Unit 2",
-      "id": "spanish-literature-and-culture-2"
+      "id": "spanish-literature-and-culture-2",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Question a self-justifying narrator in depth",
+            "paragraphs": [
+              "A self-justifying narrator may invite sympathy by selecting causes, minimising consequences or contrasting intentions with actions. First-person narration gives access to that voice's account, not automatic access to every fact. Examine tensions between what the narrator says and what the narrated events show. An unreliable perspective can be partial rather than wholly false. In Spanish analysis, se justifica and omite describe strategies more precisely than calling a narrator simply malo. Social need can shape a character's options while leaving the ethical consequences of an action open to scrutiny."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Original invented passage: « Sólo escondí la moneda para protegerla; cuando la buscaron, guardé silencio. »",
+            "steps": [
+              "El narrador presenta la acción como protección.",
+              "El silencio posterior dificulta aceptar esa explicación sin reservas."
+            ],
+            "conclusion": "La contradicción invita a cuestionar la justificación, aunque no revela por sí sola todos los motivos."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "¿Qué controla un narrador en primera persona?",
+            "back": "La selección y presentación de su relato."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "¿Qué significa se justifica?",
+            "back": "Ofrece razones para defender su conducta."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "¿La poca fiabilidad exige que todo sea falso?",
+            "back": "No."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "¿Qué evidencia puede cuestionar una explicación?",
+            "back": "Contradicciones entre palabras, acciones y consecuencias."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Defensa y contradicción",
+            "description": "La acción posterior complica la razón declarada.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Proteger la moneda",
+                "detail": "Motivo que afirma el narrador."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Ocultar y callar",
+                "detail": "Conducta efectivamente narrada."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Duda del lector",
+                "detail": "La defensa requiere examen."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "se contrasta con"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "produce"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Analyse contrast and disrupted order",
@@ -131,10 +363,126 @@
             "Requires context"
           ],
           "id": "spanish-literature-and-culture-3-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Original line: « Ganó la plaza; perdió la voz. » Explain the antithesis.",
+          "hint": "Compare the verbs and outcomes.",
+          "hints": [
+            "Compare the verbs and outcomes.",
+            "Keep interpretation tied to the line."
+          ],
+          "answer": "Ganó y perdió forman una oposición paralela. El éxito espacial o público coincide con una pérdida expresiva. La línea presenta una victoria ambivalente, cuyo sentido exacto depende del contexto.",
+          "checkpoints": [
+            "Ganó y perdió forman una oposición paralela.",
+            "El éxito espacial o público coincide con una pérdida expresiva.",
+            "La línea presenta una victoria ambivalente, cuyo sentido exacto depende del contexto."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "Rewrite « Del invierno llegaron las sombras » in a more ordinary order and explain the shift.",
+          "hint": "Locate the subject.",
+          "hints": [
+            "Locate the subject.",
+            "Identify what is foregrounded originally."
+          ],
+          "answer": "« Las sombras llegaron del invierno. » La versión original antepone el origen. Ese orden destaca invierno antes de completar la llegada y el sujeto.",
+          "checkpoints": [
+            "« Las sombras llegaron del invierno. »",
+            "La versión original antepone el origen.",
+            "Ese orden destaca invierno antes de completar la llegada y el sujeto."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "frameworkUnit": "Unit 3",
-      "id": "spanish-literature-and-culture-3"
+      "id": "spanish-literature-and-culture-3",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Analyse contrast and disrupted order in depth",
+            "paragraphs": [
+              "Antithesis gains force from a relationship between opposed terms, not merely from the presence of two different words. Hyperbaton can delay a noun or redirect emphasis by disrupting expected order. Analyse what the reader must hold in suspense and how the eventual completion changes the meaning. A device may contribute to uncertainty, tension or critique, but its function is local to the passage. In Spanish, contrapone identifies contrast and retrasa identifies delay. Period context can sharpen this reading, while a label such as barroco cannot substitute for explaining the sentence."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Original invented line: « De oro la puerta, de hambre la casa. »",
+            "steps": [
+              "La estructura paralela contrapone riqueza exterior y necesidad interior.",
+              "La elipsis del verbo y el orden destacan oro y hambre."
+            ],
+            "conclusion": "La apariencia de prosperidad queda cuestionada por la privación que la puerta oculta."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "¿Qué hace una antítesis?",
+            "back": "Relaciona ideas opuestas."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "¿Qué altera el hipérbaton?",
+            "back": "El orden sintáctico esperado."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "¿Qué significa contrapone?",
+            "back": "Places in contrast."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "¿Un recurso demuestra por sí solo un periodo?",
+            "back": "No."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Exterior e interior",
+            "description": "La oposición transforma el sentido de la riqueza.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Puerta de oro",
+                "detail": "Apariencia exterior de lujo."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Casa de hambre",
+                "detail": "Carencia en el interior."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Crítica de la apariencia",
+                "detail": "El contraste impide equiparar lujo y bienestar."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "se opone a"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "sugiere"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Compare emotion, observation and constraint",
@@ -174,10 +522,126 @@
             "Supports both sides"
           ],
           "id": "spanish-literature-and-culture-4-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Original sentence: « Soñaba con el mar mientras contaba las monedas del alquiler. » Analyse the two levels.",
+          "hint": "Identify dream and material action.",
+          "hints": [
+            "Identify dream and material action.",
+            "Explain their relationship."
+          ],
+          "answer": "El mar puede proyectar una aspiración. Las monedas concretan la obligación económica. La simultaneidad hace visible la tensión entre deseo y necesidad.",
+          "checkpoints": [
+            "El mar puede proyectar una aspiración.",
+            "Las monedas concretan la obligación económica.",
+            "La simultaneidad hace visible la tensión entre deseo y necesidad."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "Why should one detailed description of a room not automatically establish a Realist movement classification?",
+          "hint": "A technique can occur in many contexts.",
+          "hints": [
+            "A technique can occur in many contexts.",
+            "Require broader evidence."
+          ],
+          "answer": "La descripción concreta no pertenece exclusivamente a un movimiento. Hay que estudiar su función y relación con otros rasgos. La clasificación necesita contexto y evidencia más amplia.",
+          "checkpoints": [
+            "La descripción concreta no pertenece exclusivamente a un movimiento.",
+            "Hay que estudiar su función y relación con otros rasgos.",
+            "La clasificación necesita contexto y evidencia más amplia."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "frameworkUnit": "Unit 4",
-      "id": "spanish-literature-and-culture-4"
+      "id": "spanish-literature-and-culture-4",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Compare emotion, observation and constraint in depth",
+            "paragraphs": [
+              "Comparing literary tendencies works best through a shared problem such as freedom, work or social constraint. A speaker's intense desire may foreground subjectivity, while detailed wages and housing can make material limits visible. These approaches can coexist within one passage, so avoid mechanical classification. Distinguish a character's perception from the narrator's presentation of conditions. A claim about determinism needs evidence that circumstances systematically restrict choice, not merely the presence of a poor character. The comparison should explain how technique shapes the reader's understanding of agency."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Original invented pair: A: « Mi deseo atravesaba las montañas. » B: « El billete costaba tres semanas de jornal. »",
+            "steps": [
+              "A magnifica el deseo mediante una imagen espacial.",
+              "B concreta el obstáculo económico con una relación entre precio y salario."
+            ],
+            "conclusion": "La comparación contrapone aspiración subjetiva y límite material sin clasificar obras enteras a partir de dos frases."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "¿Qué es la subjetividad?",
+            "back": "La experiencia presentada desde una conciencia particular."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "¿Qué concreta un jornal?",
+            "back": "Una medida de remuneración por trabajo."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "¿La pobreza prueba determinismo?",
+            "back": "No."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "¿Qué necesita una comparación?",
+            "back": "Un problema común y diferencias demostradas."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Deseo y posibilidad",
+            "description": "La comparación usa el mismo problema del viaje.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Deseo de partir",
+                "detail": "Impulso subjetivo intenso."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Precio del billete",
+                "detail": "Condición económica concreta."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Agencia limitada",
+                "detail": "La posibilidad de actuar depende de recursos."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "encuentra"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "restringe"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Interpret a symbol within its setting",
@@ -217,10 +681,126 @@
             "Avoids chronological shorthand"
           ],
           "id": "spanish-literature-and-culture-5-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Original line: « La ventana guardaba la luz que nadie venía a buscar. » Analyse one device and effect.",
+          "hint": "Ask whether a window literally guards.",
+          "hints": [
+            "Ask whether a window literally guards.",
+            "Connect light and absence."
+          ],
+          "answer": "Guardaba personifica la ventana. La luz permanece mientras falta quien la busque. La combinación puede sugerir espera o memoria desatendida, según el contexto.",
+          "checkpoints": [
+            "Guardaba personifica la ventana.",
+            "La luz permanece mientras falta quien la busque.",
+            "La combinación puede sugerir espera o memoria desatendida, según el contexto."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "How would you test a claim that a river symbolises freedom in a poem?",
+          "hint": "Examine its textual associations.",
+          "hints": [
+            "Examine its textual associations.",
+            "Allow counterevidence."
+          ],
+          "answer": "Buscaría los verbos e imágenes ligados al río. Compararía sus apariciones y cambios. Si aparece como límite o amenaza, revisaría la lectura de libertad.",
+          "checkpoints": [
+            "Buscaría los verbos e imágenes ligados al río.",
+            "Compararía sus apariciones y cambios.",
+            "Si aparece como límite o amenaza, revisaría la lectura de libertad."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "frameworkUnit": "Unit 5",
-      "id": "spanish-literature-and-culture-5"
+      "id": "spanish-literature-and-culture-5",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Interpret a symbol within its setting in depth",
+            "paragraphs": [
+              "A recurring image acquires symbolic force through changes in its surroundings, associations and use. Repetition alone does not supply a fixed meaning. A lamp may first guide a traveller and later illuminate an empty room, making its continuity reveal changed human circumstances. Distinguish the literal object from the speaker's attitude towards it. Sound patterns and personification can also shape the experience of an image. A defensible interpretation traces these relationships in the text rather than importing a universal dictionary of symbols or relying only on the name of a literary movement."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Original invented pair: « De niño, la campana me llamaba al patio. Hoy suena sobre el patio vacío. »",
+            "steps": [
+              "La campana se repite, pero cambia la presencia humana.",
+              "El contraste entre recuerdo y vacío vincula el sonido con una pérdida."
+            ],
+            "conclusion": "La campana puede funcionar como símbolo de continuidad que hace perceptible la ausencia."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "¿Qué construye un símbolo textual?",
+            "back": "Sus recurrencias y relaciones dentro del texto."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "¿Qué es personificación?",
+            "back": "Atribuir acciones o cualidades humanas a lo no humano."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "¿Un objeto tiene siempre el mismo significado?",
+            "back": "No."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "¿Qué debe distinguirse del objeto literal?",
+            "back": "La actitud y asociación del hablante."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Campana y memoria",
+            "description": "La repetición revela un cambio en el lugar.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Patio de infancia",
+                "detail": "El sonido acompaña la presencia."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Patio vacío",
+                "detail": "El mismo sonido encuentra ausencia."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Memoria de pérdida",
+                "detail": "La continuidad sonora destaca el cambio humano."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "se transforma en"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "sugiere"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Read silence and stage directions",
@@ -260,10 +840,126 @@
             "Avoids unsupported biography"
           ],
           "id": "spanish-literature-and-culture-6-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Original scene: « ELENA: Puedes entrar. [Mantiene la mano sobre el cerrojo.] » Explain the tension.",
+          "hint": "Compare invitation and obstruction.",
+          "hints": [
+            "Compare invitation and obstruction.",
+            "Avoid fixing an unsupported motive."
+          ],
+          "answer": "La frase permite la entrada. El gesto mantiene control sobre la puerta. La tensión sugiere reserva o ambivalencia, cuya causa requiere más contexto.",
+          "checkpoints": [
+            "La frase permite la entrada.",
+            "El gesto mantiene control sobre la puerta.",
+            "La tensión sugiere reserva o ambivalencia, cuya causa requiere más contexto."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "Why should a stage direction not be cited as something a character tells another character?",
+          "hint": "Distinguish performance layers.",
+          "hints": [
+            "Distinguish performance layers.",
+            "Identify who receives the information."
+          ],
+          "answer": "La acotación orienta la representación. No es necesariamente lenguaje oído por los personajes. El público puede observar una acción que contradice lo que se dice.",
+          "checkpoints": [
+            "La acotación orienta la representación.",
+            "No es necesariamente lenguaje oído por los personajes.",
+            "El público puede observar una acción que contradice lo que se dice."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "frameworkUnit": "Unit 6",
-      "id": "spanish-literature-and-culture-6"
+      "id": "spanish-literature-and-culture-6",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Read silence and stage directions in depth",
+            "paragraphs": [
+              "Drama distributes information across speech, gesture, silence and stage directions. A character may assert control while an action reveals hesitation, creating knowledge the audience has but another character lacks. A pause has no single universal meaning: its location and surrounding conflict determine whether it suggests calculation, fear, refusal or something else. Distinguish what performers speak from what the script instructs them to do. In poetry, lineation can similarly control delay and emphasis. Analysis should explain the interaction of form and statement instead of paraphrasing only the spoken words."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Original invented scene: « LUIS: La carta no me importa. [La dobla con cuidado y la guarda junto al corazón.] »",
+            "steps": [
+              "El diálogo declara indiferencia.",
+              "La acotación muestra cuidado y proximidad corporal."
+            ],
+            "conclusion": "La discordancia permite cuestionar la declaración y sugiere apego, sin identificar aún su causa."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "¿Qué es una acotación?",
+            "back": "Una indicación escénica que no se pronuncia como diálogo."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "¿Qué puede producir contradicción entre gesto y palabra?",
+            "back": "Ironía o duda sobre lo declarado."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "¿Todo silencio significa miedo?",
+            "back": "No."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "¿Qué sabe el público aquí?",
+            "back": "Ve el gesto además de oír la declaración."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Palabra y gesto",
+            "description": "La acción complica la explicación verbal.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "No me importa",
+                "detail": "Declaración de Luis."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Guardar con cuidado",
+                "detail": "Gesto visible que sugiere valoración."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Lectura del público",
+                "detail": "La indiferencia resulta dudosa."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "contrasta con"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "orienta"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Track time and narrative uncertainty",
@@ -303,10 +999,126 @@
             "Uses a structural relationship"
           ],
           "id": "spanish-literature-and-culture-7-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Original sentence: « Antes de revelar el resultado, recordó la promesa que había hecho de niño. » Reconstruct the temporal order.",
+          "hint": "Find the childhood event.",
+          "hints": [
+            "Find the childhood event.",
+            "Distinguish remembering from the remembered event."
+          ],
+          "answer": "Primero ocurrió la promesa infantil. Después, en el presente narrativo, el personaje la recuerda. La revelación del resultado todavía está pendiente en la frase.",
+          "checkpoints": [
+            "Primero ocurrió la promesa infantil.",
+            "Después, en el presente narrativo, el personaje la recuerda.",
+            "La revelación del resultado todavía está pendiente en la frase."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "Explain why an omniscient narrator and a first-person narrator may create different uncertainty.",
+          "hint": "Compare access to knowledge.",
+          "hints": [
+            "Compare access to knowledge.",
+            "Avoid saying either must be truthful."
+          ],
+          "answer": "La primera persona suele limitar el acceso a su experiencia y relato. La omnisciencia puede ofrecer varias conciencias o información más amplia. La incertidumbre depende de qué información cada voz revela u oculta.",
+          "checkpoints": [
+            "La primera persona suele limitar el acceso a su experiencia y relato.",
+            "La omnisciencia puede ofrecer varias conciencias o información más amplia.",
+            "La incertidumbre depende de qué información cada voz revela u oculta."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "frameworkUnit": "Unit 7",
-      "id": "spanish-literature-and-culture-7"
+      "id": "spanish-literature-and-culture-7",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Track time and narrative uncertainty in depth",
+            "paragraphs": [
+              "Story chronology and narrative order can differ. A flashback supplies an earlier event later in the telling; a withheld fact can cause readers to reinterpret an action already encountered. Reconstructing the chronology is useful, but analysis must also explain the effect of the order chosen. Perspective determines whose knowledge is available at each point. An unusual event should be analysed through the narrator's treatment and the surrounding social world before applying a movement label. A calm tone alone does not make every impossible incident an example of magical realism."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Original invented passage: « Celebró la visita del hombre. Sólo al abrir el sobre recordó que aquella firma había ordenado su expulsión años antes. »",
+            "steps": [
+              "Cronológicamente, la expulsión precede a la visita y al reconocimiento.",
+              "El relato presenta primero la bienvenida y retrasa la información sobre la firma."
+            ],
+            "conclusion": "La revelación obliga a reinterpretar la visita y el juicio inicial del personaje."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "¿Qué distingue historia y discurso?",
+            "back": "Orden de los hechos y orden de su presentación."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "¿Qué es una analepsis?",
+            "back": "Un retorno narrativo a un momento anterior."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "¿Qué produce una revelación tardía?",
+            "back": "Puede modificar el sentido de hechos ya narrados."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "¿Lo imposible basta para identificar realismo mágico?",
+            "back": "No."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Información retrasada",
+            "description": "El lector modifica su interpretación al conocer el pasado.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Bienvenida",
+                "detail": "Primera valoración de la visita."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Firma reconocida",
+                "detail": "Información que conecta con una expulsión anterior."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Relectura",
+                "detail": "La visita adquiere un sentido amenazante."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "es alterada por"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "provoca"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Analyse belonging through voice",
@@ -346,10 +1158,126 @@
             "Connects the claim to the detail"
           ],
           "id": "spanish-literature-and-culture-8-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Original sentence: « Guardaba el acento de su abuela cuando contaba historias a su hija. » Analyse belonging without generalising.",
+          "hint": "Identify transmission across generations.",
+          "hints": [
+            "Identify transmission across generations.",
+            "Keep the claim local."
+          ],
+          "answer": "La voz une a abuela, narrador y niña. El acento funciona como vínculo de memoria en esta escena. No demuestra que todas las familias mantengan la misma práctica.",
+          "checkpoints": [
+            "La voz une a abuela, narrador y niña.",
+            "El acento funciona como vínculo de memoria en esta escena.",
+            "No demuestra que todas las familias mantengan la misma práctica."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "How should a migration statistic be used alongside a fictional character's account?",
+          "hint": "Separate scale and genre.",
+          "hints": [
+            "Separate scale and genre.",
+            "Do not make one replace the other."
+          ],
+          "answer": "La estadística puede describir un patrón de población definido. El relato presenta una experiencia construida mediante una voz. La comparación debe conectar contexto y detalles sin tratar al personaje como muestra representativa.",
+          "checkpoints": [
+            "La estadística puede describir un patrón de población definido.",
+            "El relato presenta una experiencia construida mediante una voz.",
+            "La comparación debe conectar contexto y detalles sin tratar al personaje como muestra representativa."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "frameworkUnit": "Unit 8",
-      "id": "spanish-literature-and-culture-8"
+      "id": "spanish-literature-and-culture-8",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Analyse belonging through voice in depth",
+            "paragraphs": [
+              "Belonging can be shaped by how a narrative names people, marks places and changes register between social settings. Code-switching may signal intimacy, audience adjustment, resistance or memory, but its function must be established locally. A literary voice is constructed and cannot stand in for a population survey. Compare a contextual source with the text by identifying what each can support. A demographic pattern may illuminate circumstances, while a character's repeated hesitation over a name shows a particular experience. Neither kind of evidence should erase variation within a community."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Original invented passage: « En el formulario escribió el nombre abreviado; al llamar a su madre, volvió a decirlo entero. »",
+            "steps": [
+              "El formulario y la llamada sitúan el nombre en dos relaciones distintas.",
+              "La recuperación de la forma completa puede vincular la intimidad familiar con continuidad personal."
+            ],
+            "conclusion": "La lectura se apoya en el contraste, sin afirmar que toda abreviación sea rechazo de identidad."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "¿Qué puede señalar un cambio de registro?",
+            "back": "Una relación, un público o una intención distinta."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "¿La alternancia lingüística implica confusión?",
+            "back": "No."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "¿Una voz literaria representa una encuesta?",
+            "back": "No."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "¿Qué aporta el contraste de nombres?",
+            "back": "Una relación entre identidad y espacios sociales."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Un nombre en dos espacios",
+            "description": "La forma del nombre cambia con el destinatario.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Formulario",
+                "detail": "Identificación abreviada y administrativa."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Llamada familiar",
+                "detail": "Nombre pronunciado completo."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Pertenencia",
+                "detail": "El contraste conecta relación y memoria."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "se contrasta con"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "sugiere"
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "lessonId": "atomic-models",
+  "revision": "2026-10-21.3",
+  "notes": [
+    {
+      "heading": "Use particle counts and mixture fractions separately",
+      "paragraphs": [
+        "Particle bookkeeping applies to a single atom or ion; isotope averaging applies to a collection. The atomic number fixes the element, the mass number counts protons plus neutrons, and the ionic charge compares protons with electrons. Isotopes of an element can have different neutron counts but the same number of protons. For a mixture of two isotope masses, the average must lie between those masses and move toward the more abundant one. A fractional mean does not mean that an individual nucleus contains a fractional neutron."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "depth-isotope-fraction",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "A hypothetical element has only isotopes of masses 20 and 22. Its mean isotope mass is 20.6. Find the percentage of the mass-22 isotope.",
+      "answer": "30%.",
+      "solution": [
+        "Let f be the fraction of mass-22 atoms: 20(1-f)+22f=20.6.",
+        "Then 2f=0.6, so f=0.30."
+      ],
+      "markingPoints": [
+        "Form the weighted mean.",
+        "Find fraction 0.30.",
+        "Convert to 30%."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-isoelectronic",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "Particle X has 12 protons and 10 electrons; particle Y has 9 protons and 10 electrons. Give their charges and explain why the same electron count does not make them the same element.",
+      "answer": "X is 2+ and Y is 1−. Different proton counts identify different elements despite equal electron counts.",
+      "solution": [
+        "Calculate each charge as protons minus electrons in elementary-charge units.",
+        "Use atomic number, not electron number, to determine element identity."
+      ],
+      "markingPoints": [
+        "Give X as 2+.",
+        "Give Y as 1−.",
+        "Explain identity through proton count."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-nuclear-change",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "An atom initially has 6 protons and 8 neutrons. In a hypothetical nuclear change, one neutron becomes a proton. Ignore the subsequent electron arrangement. State the new atomic number and mass number and whether element identity changes.",
+      "answer": "Atomic number 7, mass number 14; the element changes.",
+      "solution": [
+        "The nucleus now contains 7 protons and 7 neutrons.",
+        "The total nucleon count is unchanged but the proton count changes."
+      ],
+      "markingPoints": [
+        "Find 7 protons.",
+        "Retain mass number 14.",
+        "Link changed proton count to changed element."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    }
+  ]
+}

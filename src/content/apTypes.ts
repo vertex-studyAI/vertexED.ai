@@ -1,3 +1,5 @@
+import type { StudyPack } from './studyPackTypes';
+
 export type ApCategory = 'Arts' | 'English' | 'History and social sciences' | 'Maths and computer science' | 'Sciences' | 'World languages' | 'Capstone' | 'Career Kickstart';
 
 export type ApQuestion = {
@@ -23,6 +25,7 @@ export type ApModule = {
   workedExample: { prompt: string; steps: string[] };
   misconception: { claim: string; correction: string };
   questions: ApQuestion[];
+  studyPack?: StudyPack;
   objectives?: string[];
   prerequisites?: string[];
   reviewCards?: Array<{ id: string; front: string; back: string }>;

@@ -1,0 +1,265 @@
+{
+  "schemaVersion": 1,
+  "id": "subject-river-processes",
+  "revision": "2026-10-21.4",
+  "subject": "Geography",
+  "unit": "Physical environments",
+  "topic": "River discharge, erosion, deposition and flood-risk reasoning",
+  "level": "secondary-foundation",
+  "editorialStatus": "unreviewed",
+  "origin": "original-authorship-review-pending",
+  "scope": "Original shared study module on river discharge, erosion, deposition and flood-risk reasoning. Numerical datasets and quoted passages are invented teaching examples. This is not a complete course, official examination material or verified board-specific alignment.",
+  "prerequisites": [
+    "Calculate area for a rectangle.",
+    "Distinguish a rate from a total amount."
+  ],
+  "objectives": [
+    "Relate discharge to cross-sectional area and mean velocity.",
+    "Explain transport and deposition using changing conditions.",
+    "Evaluate flood evidence and management trade-offs."
+  ],
+  "notes": [
+    {
+      "heading": "A discharge is a flow rate",
+      "paragraphs": [
+        "River discharge is the volume of water passing a cross-section per unit time. A simple estimate multiplies cross-sectional area by mean flow velocity, giving cubic metres per second when SI units are used. The fastest surface speed is not automatically the mean speed across the channel. Width and depth vary along a natural section, so dividing it into strips can improve an area estimate. State when a rectangular channel is an idealisation. A single reading describes conditions at that time and location, not necessarily the river's usual flow."
+      ]
+    },
+    {
+      "heading": "Transport, erosion and deposition are different",
+      "paragraphs": [
+        "A river can erode its bed and banks, transport material and deposit it when conditions no longer support continued transport. Hydraulic action and abrasion describe different ways of removing material; transport describes movement after removal. Deposition can occur as velocity and transport capacity decrease, though particle size and other conditions also matter. Avoid the absolute claim that every particle is deposited whenever a river slows. A meander includes spatial variations in flow and erosion, so distinguish the outer bank from the inner bank rather than applying one process uniformly."
+      ]
+    },
+    {
+      "heading": "A flood claim needs a timescale and a comparison",
+      "paragraphs": [
+        "Rainfall intensity, duration, antecedent wetness, infiltration and land cover can affect runoff and river response. A lag time describes the delay between specified rainfall and discharge peaks; it is not simply the duration of the flood. Comparing two catchments requires attention to their size, shape and conditions, not just urban area. Management may reduce risk in one place while changing downstream flow or costs elsewhere. Evaluate a proposal using the people, habitats and infrastructure affected, and distinguish reducing flood probability from reducing the damage when flooding occurs."
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "prompt": "An ideal rectangular channel is 4 m wide and 0.75 m deep, with mean velocity 2 m/s. Estimate discharge.",
+      "steps": [
+        "Cross-sectional area is 4×0.75=3 m².",
+        "Multiply area by mean velocity: 3×2."
+      ],
+      "answer": "6 m³/s."
+    },
+    {
+      "prompt": "A rainfall peak occurs at 13:00 and discharge peaks at 17:30. Find lag time.",
+      "steps": [
+        "Measure the interval between the specified peaks.",
+        "From 13:00 to 17:30 is four and a half hours."
+      ],
+      "answer": "4.5 hours."
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "A larger discharge always means a faster river.",
+      "correction": "Discharge also depends on cross-sectional area."
+    },
+    {
+      "claim": "One urban flood proves urbanisation was its only cause.",
+      "correction": "Rainfall, antecedent conditions and other catchment factors also need evaluation."
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "card-1",
+      "front": "What is river discharge?",
+      "back": "Volume passing a cross-section per unit time."
+    },
+    {
+      "id": "card-2",
+      "front": "What simple equation estimates discharge?",
+      "back": "Cross-sectional area multiplied by mean velocity."
+    },
+    {
+      "id": "card-3",
+      "front": "Is surface maximum speed the mean velocity?",
+      "back": "Not necessarily."
+    },
+    {
+      "id": "card-4",
+      "front": "What does deposition mean?",
+      "back": "Transported material is laid down."
+    },
+    {
+      "id": "card-5",
+      "front": "What does flood mitigation aim to do?",
+      "back": "Reduce the probability or consequences of flooding, not necessarily eliminate all risk."
+    }
+  ],
+  "questions": [
+    {
+      "id": "discharge",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "An ideal rectangular channel is 5 m wide, 1.2 m deep and has mean velocity 0.8 m/s. Find discharge.",
+      "answer": "4.8 m³/s.",
+      "solution": [
+        "Calculate area 5×1.2=6 m².",
+        "Multiply by 0.8 m/s."
+      ],
+      "markingPoints": [
+        "Find the area.",
+        "Give discharge with cubic-metre-per-second units."
+      ],
+      "marks": 2,
+      "calculator": "not-required"
+    },
+    {
+      "id": "lag",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "Rainfall peaks at 09:20 and discharge at 12:50 on the same day. Find the lag time.",
+      "answer": "3 hours 30 minutes.",
+      "solution": [
+        "Subtract the two peak times.",
+        "Keep the meaning tied to the specified peaks."
+      ],
+      "markingPoints": [
+        "Find the correct interval.",
+        "State it in hours and minutes."
+      ],
+      "marks": 2,
+      "calculator": "not-required"
+    },
+    {
+      "id": "deposition",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "A river enters a still lake and loses much of its velocity. Explain why sediment may accumulate near the entry.",
+      "answer": "Reduced transport capacity can cause sediment to be deposited.",
+      "solution": [
+        "Connect changing flow conditions with transport.",
+        "Allow different particle sizes to settle at different locations or times."
+      ],
+      "markingPoints": [
+        "Explain reduced transport.",
+        "Identify deposition without claiming all particles stop immediately."
+      ],
+      "marks": 2,
+      "calculator": "not-required"
+    },
+    {
+      "id": "comparison",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "An urban catchment floods after 60 mm of rain, while a rural catchment does not after 20 mm. Is this a controlled test of urbanisation?",
+      "answer": "No. Rainfall amount differs and other catchment conditions may differ.",
+      "solution": [
+        "Identify the unequal rainfall as a confounding difference.",
+        "Compare similar rainfall, catchment characteristics and antecedent conditions before isolating land cover."
+      ],
+      "markingPoints": [
+        "Reject the uncontrolled causal claim.",
+        "Identify needed controls or comparable evidence."
+      ],
+      "marks": 2,
+      "calculator": "not-required"
+    }
+  ],
+  "revisionChecklist": [
+    "Check that you can relate discharge to cross-sectional area and mean velocity without copying the worked solution.",
+    "Check that you can explain transport and deposition using changing conditions without copying the worked solution.",
+    "Check that you can evaluate flood evidence and management trade-offs without copying the worked solution."
+  ],
+  "diagrams": [
+    {
+      "id": "reasoning-route",
+      "title": "Reasoning route: Physical environments",
+      "description": "Use the sequence to organise an explanation of river discharge, erosion, deposition and flood-risk reasoning; it is not a measured mastery score.",
+      "steps": [
+        {
+          "label": "Measure the channel",
+          "detail": "Estimate area and representative velocity."
+        },
+        {
+          "label": "Explain processes",
+          "detail": "Relate flow conditions to erosion, transport and deposition."
+        },
+        {
+          "label": "Evaluate the claim",
+          "detail": "Use comparable events and consider risk trade-offs."
+        }
+      ],
+      "links": [
+        "Use this definition to choose the method",
+        "Use the result to evaluate the conclusion"
+      ]
+    }
+  ],
+  "teachingSequence": [
+    {
+      "title": "A discharge is a flow rate",
+      "guidance": "Multiply cross-sectional area by mean velocity and check that the units are volume per time.",
+      "noteHeadings": [
+        "A discharge is a flow rate"
+      ],
+      "workedExampleNumbers": [
+        1
+      ],
+      "questionIds": [
+        "discharge"
+      ]
+    },
+    {
+      "title": "Transport, erosion and deposition are different",
+      "guidance": "Contrast the discharge calculation with the transport mechanism: geometry and flow alone do not specify the amount of sediment carried.",
+      "noteHeadings": [
+        "Transport, erosion and deposition are different"
+      ],
+      "workedExampleNumbers": [
+        1
+      ],
+      "questionIds": [
+        "deposition"
+      ]
+    },
+    {
+      "title": "A flood claim needs a timescale and a comparison",
+      "guidance": "Calculate lag time across the clock, then identify which conditions must be comparable before attributing a flood difference.",
+      "noteHeadings": [
+        "A flood claim needs a timescale and a comparison"
+      ],
+      "workedExampleNumbers": [
+        2
+      ],
+      "questionIds": [
+        "lag",
+        "comparison"
+      ]
+    }
+  ],
+  "revisionGuide": {
+    "summary": "Review river discharge, erosion, deposition and flood-risk reasoning by connecting definitions, the two worked examples and the limits of each conclusion. These questions use editorial self-review points, not an official examination rubric.",
+    "keyIdeas": [
+      "What is river discharge? Volume passing a cross-section per unit time.",
+      "What simple equation estimates discharge? Cross-sectional area multiplied by mean velocity.",
+      "Is surface maximum speed the mean velocity? Not necessarily."
+    ],
+    "formulas": [
+      {
+        "expression": "Q=Av",
+        "meaning": "Discharge equals cross-sectional area times mean flow velocity.",
+        "conditions": "Use representative mean velocity and consistent units; width×depth assumes a rectangular cross-section."
+      }
+    ],
+    "recallPrompts": [
+      "What is river discharge?",
+      "What simple equation estimates discharge?",
+      "Is surface maximum speed the mean velocity?"
+    ],
+    "practiceQuestionIds": [
+      "discharge",
+      "lag",
+      "deposition",
+      "comparison"
+    ],
+    "revisit": "Attempt the questions without the notes, compare your reasoning with the points, and retry any step you cannot yet explain. Self-review does not certify mastery."
+  }
+}

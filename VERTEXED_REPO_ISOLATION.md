@@ -1,5 +1,14 @@
 # VertexED Repository Isolation — 2026-09-02
 
+## Dead cross-project entry points removed, 19 October 2026
+
+Four tracked entry points still referred to research sources that are absent from
+this checkout: the Darcy v2, Obscured Records and Space-JEPA workflows, and the
+NGMT v0.1 Python test. They have now been removed from the VertexED tree. Their
+history remains recoverable in Git and the previously recorded Project 2424
+archive. The manual NVIDIA provider benchmark remains because it evaluates the
+VertexED/Apex provider contract and is inside the product evidence boundary.
+
 ## Approved removal, 9 September 2026
 
 The owner approved the exact 509-file cleanup manifest. Those remaining cross-project sources, workflows, tests and mixed historical ledgers have been removed. Their current pre-removal contents were verified in a durable archive at `/Volumes/PRO-BLADE/GitHub-Every-Repo/Project-2424/vertexed-removal-backups/20260909.oJHxSc/non-vertexed.tar.gz`. Git history remains unchanged. The historical descriptions below are retained as an audit trail, not the present repository inventory. VertexED runtime, brand, contracts, evaluations, product evidence and release documentation remain. `npm test` runs only VertexED tests and fails if known unrelated test families are reintroduced.

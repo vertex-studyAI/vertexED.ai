@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "lessonId": "hindi-sentence-structure",
+  "revision": "2026-10-21.3",
+  "notes": [
+    {
+      "heading": "Match the verb and locate the postposition",
+      "paragraphs": [
+        "Simple Hindi statements often place the verb at the end, but agreement and postpositions carry relationships that word order alone cannot express. A habitual statement with a masculine singular subject commonly uses -ता है, while a feminine singular subject commonly uses -ती है. A masculine plural subject commonly uses -ते हैं. A noun before a postposition may take an oblique form: लड़का becomes लड़के before के पास. Possession expressed with के पास is a useful separate pattern; do not translate every English 'have' construction by inserting a verb in the English position."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "depth-plural-habitual",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "Translate 'The boys read every day' using लड़के, रोज़ and पढ़ना. Explain the habitual verb and copula.",
+      "answer": "लड़के रोज़ पढ़ते हैं।",
+      "solution": [
+        "Use masculine plural पढ़ते to agree with लड़के.",
+        "Use हैं for the plural subject."
+      ],
+      "markingPoints": [
+        "Retain लड़के रोज़.",
+        "Use पढ़ते.",
+        "Use हैं and explain plural agreement."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-possession-location",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "Translate 'The boy has a book' using लड़का, के पास and किताब. Explain why लड़का changes form.",
+      "answer": "लड़के के पास एक किताब है। The postposition phrase requires the oblique लड़के.",
+      "solution": [
+        "Use के पास to express possession in this sentence.",
+        "Change masculine singular लड़का to its oblique form before the postposition."
+      ],
+      "markingPoints": [
+        "Use लड़के के पास.",
+        "Complete एक किताब है.",
+        "Explain the oblique noun form."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-two-agreements",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "Correct 'रीना रोज़ पढ़ता हैं' as a simple habitual statement about one girl named Reena, and name both repairs.",
+      "answer": "रीना रोज़ पढ़ती है।",
+      "solution": [
+        "Use feminine singular पढ़ती for Reena.",
+        "Use singular है rather than plural हैं in this specified non-honorific sentence."
+      ],
+      "markingPoints": [
+        "Write पढ़ती.",
+        "Write है.",
+        "Explain feminine singular agreement."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    }
+  ]
+}

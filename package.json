@@ -5,10 +5,13 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "prebuild": "node scripts/generate-ap-content.mjs && node scripts/generate-myp5-content.mjs && node scripts/generate-study-guide-provenance.mjs && node scripts/generate-study-guide-sitemap.mjs && node scripts/validate-vercel-functions.mjs && node scripts/generate-build-revision.mjs",
+    "prebuild": "node scripts/generate-ap-content.mjs && node scripts/generate-myp5-content.mjs && node scripts/generate-learning-library.mjs && node scripts/generate-study-guide-provenance.mjs && node scripts/generate-study-guide-sitemap.mjs && node scripts/validate-vercel-functions.mjs && node scripts/generate-build-revision.mjs",
     "build": "node scripts/build.mjs",
     "build:ci": "VERTEXED_REQUIRE_BUILD_REVISION=1 npm run build",
     "performance:bundle": "node scripts/check-build-performance.mjs",
+    "performance:routes": "node scripts/check-route-bundle-deltas.mjs",
+    "eval:feedback:check": "node scripts/promote-feedback-evals.mjs --check",
+    "eval:feedback:write": "node scripts/promote-feedback-evals.mjs",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "lint:copy": "node scripts/lint-copy.mjs",
@@ -36,19 +39,24 @@
     "check:public-boundary": "node scripts/check-public-boundary.mjs",
     "probe:gates": "node scripts/probe-production-gates.mjs",
     "audit:prod": "node scripts/audit-production-dependencies.mjs",
-    "content:audit": "node scripts/generate-study-guide-provenance.mjs --check",
-    "ci": "npm run lint:ci && npm run typecheck && node scripts/validate-vercel-functions.mjs && npm run content:audit && npm run audit:prod && npm run test:app && npm run test:eval && npm run eval:ask && npm run eval:grading:check && npm run build:ci && npm run performance:bundle",
+    "content:audit": "node scripts/generate-study-guide-provenance.mjs --check && node scripts/generate-learning-library.mjs --check && node scripts/report-foundation-depth.mjs --check && node scripts/report-syllabus-crosswalk.mjs --check && node scripts/report-subject-pathways.mjs --check && node scripts/report-syllabus-unit-coverage.mjs --check && node scripts/report-subject-unit-coverage.mjs --check && node scripts/generate-content-coverage.mjs --check",
+    "content:subject-units": "node scripts/report-subject-unit-coverage.mjs",
+    "content:units": "node scripts/report-syllabus-unit-coverage.mjs",
+    "content:library": "node scripts/generate-learning-library.mjs",
+    "content:scope": "node scripts/report-curriculum-scope.mjs",
+    "ci": "npm run lint:ci && npm run typecheck && node scripts/validate-vercel-functions.mjs && npm run content:audit && npm run eval:feedback:check && npm run audit:prod && npm run test:app && npm run test:eval && npm run eval:ask && npm run eval:grading:check && npm run build:ci && npm run performance:bundle && npm run performance:routes",
     "preview": "vite preview",
     "generate:favicons": "node scripts/generate-icons.mjs",
-    "seo:ping": "node scripts/ping-sitemaps.mjs https://www.vertexed.app/sitemap.xml",
-    "seo:indexnow": "node scripts/indexnow.mjs --host=https://www.vertexed.app --key=07fe36c13a0c4aee8856c99f640ebf98 --fromSitemap=public/sitemap.xml",
+    "seo:ping": "node scripts/ping-sitemaps.mjs https://vertex-ed-ai.vercel.app/sitemap.xml",
+    "seo:indexnow": "node scripts/indexnow.mjs --host=https://vertex-ed-ai.vercel.app --key=07fe36c13a0c4aee8856c99f640ebf98 --fromSitemap=public/sitemap.xml",
     "seo:release": "npm run seo:indexnow && npm run seo:ping",
     "debug": "DEBUG=ai:* vite",
     "db:ledger:check": "node scripts/check-supabase-migration-ledger.mjs",
     "test:ci-evidence": "node --test tests/ci-evidence-manifest.test.mjs",
     "test:staging-receipt": "node --test tests/staging-receipt.test.mjs",
     "resolve:live-app-base": "node scripts/resolve-live-app-base.mjs",
-    "db:prepare": "node scripts/prepare-database-replay.mjs"
+    "db:prepare": "node scripts/prepare-database-replay.mjs",
+    "content:courses:check": "node scripts/generate-ap-content.mjs --check && node scripts/generate-myp5-content.mjs --check && node --test tests/ap-content.test.mjs tests/myp5-content-delivery.test.mjs tests/ap-myp-resource-packs.test.mjs"
   },
   "engines": {
     "node": ">=22.22.0 <23"
@@ -65,7 +73,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "docx": "^8.3.0",
-    "dompurify": "3.4.16",
+    "dompurify": "3.4.17",
     "file-saver": "^2.0.5",
     "framer-motion": "^11.0.0",
     "katex": "0.18.2",
@@ -82,11 +90,11 @@
     "remark-gfm": "4.0.1",
     "remark-math": "6.0.0",
     "tailwind-merge": "^2.6.0",
-    "zod": "^3.25.76"
+    "zod": "4.6.7"
   },
   "devDependencies": {
     "@eslint/js": "^9.32.0",
-    "@playwright/test": "1.64.1",
+    "@playwright/test": "1.63.0",
     "@tailwindcss/typography": "^0.5.16",
     "@types/node": "^22.16.5",
     "@types/react": "19.2.18",
@@ -105,12 +113,12 @@
     "tailwindcss-animate": "^1.0.7",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.48.0",
-    "vite": "7.3.6"
+    "vite": "7.3.7"
   },
   "overrides": {
     "@hono/node-server": "^2.0.5",
     "brace-expansion": "2.1.7",
-    "dompurify": "3.4.16",
+    "dompurify": "3.4.17",
     "fast-uri": "3.1.6",
     "fflate": "0.8.3",
     "hono": "4.12.34",
@@ -120,7 +128,8 @@
       ".": "$postcss",
       "nanoid": "3.3.18"
     },
-    "postcss-selector-parser": "6.1.4",
+    "postcss-selector-parser": "7.1.6",
+    "undici": "7.30.1",
     "qs": "6.16.0",
     "uuid": "^11.1.1",
     "katex": "$katex"

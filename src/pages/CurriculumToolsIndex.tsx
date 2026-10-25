@@ -1,3 +1,4 @@
+import { APP_ORIGIN } from '@/lib/appOrigin';
 import { useMemo, useState } from "react";
 import { Link } from "react-router";
 import { ArrowRight, BookOpenCheck, Check, ChevronRight } from "lucide-react";
@@ -24,7 +25,7 @@ export default function CurriculumToolsIndex() {
       title="Study tools by curriculum | VertexED"
       description="Choose a curriculum and open focused planning, practice, answer review, notes, and AI tutor workflows for your subjects."
       keywords="study tools by curriculum, IB study tools, IGCSE revision tools, GCSE revision tools, AP study tools, CBSE study tools, ICSE study tools"
-      canonical="https://www.vertexed.app/curricula"
+      canonical={`${APP_ORIGIN}/curricula`}
       jsonLd={{
         "@context": "https://schema.org",
         "@type": "ItemList",

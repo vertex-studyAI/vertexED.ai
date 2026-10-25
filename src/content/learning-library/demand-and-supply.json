@@ -1,0 +1,382 @@
+{
+  "schemaVersion": 1,
+  "id": "demand-and-supply",
+  "revision": "2026-10-21.2",
+  "subject": "Economics",
+  "unit": "Markets",
+  "topic": "Demand, supply and comparative-static reasoning",
+  "level": "secondary-foundation",
+  "editorialStatus": "unreviewed",
+  "origin": "original-authorship-review-pending",
+  "scope": "Introductory competitive-market diagrams and hypothetical numerical models. This is educational modelling, not financial or policy advice.",
+  "prerequisites": [
+    "Read axes and intersections on a graph.",
+    "Distinguish a variable from a condition held constant."
+  ],
+  "objectives": [
+    "Distinguish movements along curves from shifts.",
+    "Solve a simple market-equilibrium model.",
+    "Explain conditional predictions and limits of the model."
+  ],
+  "notes": [
+    {
+      "heading": "Demand is a relationship",
+      "paragraphs": [
+        "Demand describes quantities buyers are willing and able to purchase at different prices during a specified period, other relevant conditions held constant. Quantity demanded is one value on that relationship. A change in the good's own price produces a movement along an unchanged demand curve, whereas changes in income, preferences or related-good prices can shift the curve. The direction of an income effect depends on whether the good is normal or inferior in the context. Avoid saying that every increase in income necessarily raises demand for every good. Label price and quantity axes, units and the market being modelled."
+      ]
+    },
+    {
+      "heading": "Supply and market clearing",
+      "paragraphs": [
+        "Supply describes quantities sellers are willing and able to offer at different prices under stated conditions. Costs, technology and the number of sellers can shift supply. The equilibrium of a simple competitive model occurs where quantity demanded equals quantity supplied. At a price above equilibrium, the model predicts excess supply; below equilibrium, excess demand. These pressures describe a mechanism under the model's assumptions, not a guarantee that every real price instantly adjusts. Contracts, regulation, market power, information and time lags may alter the observed process. A demand or supply curve is not a time-series graph of price changes."
+      ]
+    },
+    {
+      "heading": "Comparing before and after",
+      "paragraphs": [
+        "Comparative statics compares equilibria before and after a specified change while holding other influences fixed. An increase in demand with unchanged upward-sloping supply raises equilibrium price and quantity in the usual model. An increase in supply with unchanged downward-sloping demand lowers price and raises quantity. If both curves shift, some outcomes can be ambiguous without information about relative shift sizes. For example, increases in both demand and supply raise equilibrium quantity in the standard model but do not determine the direction of price. A complete explanation names the initial condition, identifies the changed determinant, shifts the appropriate curve and follows the adjustment mechanism to a qualified conclusion."
+      ]
+    },
+    {
+      "heading": "Simultaneous changes and justified predictions",
+      "paragraphs": [
+        "A demand or supply diagram is a model with stated conditions, not a record of every cause operating in a market. When one curve shifts and the other remains fixed, the direction of the new equilibrium changes can often be predicted. When both shift, one outcome may be clear while another depends on the relative sizes of the shifts. Do not choose a definite price direction merely because one familiar diagram showed it.",
+        "If demand increases and supply also increases, equilibrium quantity rises under the usual upward-supply and downward-demand assumptions, but the price change is ambiguous without more information. Distinguish an observed change in price from a shift in demand: observing higher price and quantity is compatible with increased demand, but does not prove that no supply change occurred. A strong explanation states the cause, identifies the affected curve, describes the initial excess demand or supply at the old price, and then traces adjustment toward a new equilibrium. Elasticity, timing and market restrictions can affect the response; a basic diagram should not silently claim to capture them all."
+      ]
+    },
+    {
+      "heading": "Distinguishing a curve shift from a response along a curve",
+      "paragraphs": [
+        "A change in the good’s own price changes quantity demanded along a fixed demand relationship. A change in another determinant, such as income or preferences, can shift that relationship. In a comparative-static model, write the original and revised demand equations explicitly while holding the supply equation fixed if that is the assumption. Solve each equilibrium separately, then compare both price and quantity. The movement along the unchanged supply curve is a response to the new equilibrium price, not evidence that supply shifted. These equations are fictional teaching models. They do not imply that an actual market adjusts instantly or that every relevant determinant has been included."
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "prompt": "In a hypothetical market Qd=100-2P and Qs=20+2P. Find equilibrium.",
+      "steps": [
+        "Set quantities equal: 100-2P=20+2P.",
+        "Solve 80=4P to obtain P=20.",
+        "Substitute into either equation to obtain Q=60."
+      ],
+      "answer": "Equilibrium price 20 and quantity 60 in the stated units."
+    },
+    {
+      "prompt": "Input costs fall while demand stays unchanged. Explain the usual equilibrium effects.",
+      "steps": [
+        "Lower costs allow more output to be supplied at a given price.",
+        "Supply shifts right, creating excess supply at the old price.",
+        "Under the standard adjustment model, price falls and equilibrium quantity rises."
+      ],
+      "answer": "Lower price and higher quantity, conditional on the model and unchanged demand."
+    },
+    {
+      "prompt": "Demand increases while supply is unchanged. Explain the adjustment from the old equilibrium.",
+      "steps": [
+        "At the old price, quantity demanded exceeds quantity supplied.",
+        "The shortage creates upward pressure on price in the simple competitive model.",
+        "As price rises, quantity supplied increases and quantity demanded moves along the new demand curve toward equality."
+      ],
+      "answer": "The new equilibrium has a higher price and quantity under the stated model."
+    },
+    {
+      "prompt": "In a fictional market, Qd = 100 - 2P and Qs = 10 + P. Demand then becomes Qd = 130 - 2P while supply stays fixed. Find both equilibria.",
+      "answer": "Initially P = 30 and Q = 40; afterwards P = 40 and Q = 50.",
+      "steps": [
+        "Equate original demand and supply: 100 - 2P = 10 + P, giving P = 30.",
+        "Substitution gives Q = 40.",
+        "For revised demand, 130 - 2P = 10 + P gives P = 40 and Q = 50."
+      ]
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "A price fall shifts demand right.",
+      "correction": "A change in the good's own price moves along an unchanged demand curve."
+    },
+    {
+      "claim": "Two simultaneous curve shifts always determine the direction of price.",
+      "correction": "Relative sizes can matter; some outcomes remain ambiguous."
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "demand",
+      "front": "How does demand differ from quantity demanded?",
+      "back": "Demand is the relationship across prices; quantity demanded is a particular value at one price."
+    },
+    {
+      "id": "shift",
+      "front": "What does a fall in production costs usually do to supply?",
+      "back": "It shifts supply right under otherwise unchanged conditions."
+    },
+    {
+      "id": "equilibrium",
+      "front": "What equation defines equilibrium in a simple market model?",
+      "back": "Quantity demanded equals quantity supplied."
+    },
+    {
+      "id": "shortage",
+      "front": "What does a below-equilibrium price imply in the standard model?",
+      "back": "Excess demand at that price."
+    },
+    {
+      "id": "both",
+      "front": "If both demand and supply increase, is the price direction certain?",
+      "back": "No; relative shifts matter, though quantity rises under the usual curve assumptions."
+    },
+    {
+      "id": "deeper-recall",
+      "front": "What should you check before predicting a price change from a diagram?",
+      "back": "Which curves changed, what stayed fixed, the model assumptions, and whether the relative shift sizes matter."
+    },
+    {
+      "id": "application-card-1",
+      "front": "What distinguishes a supply shift from movement along supply?",
+      "back": "A shift changes quantity supplied at a given price; a movement along a fixed curve responds to a changed own price."
+    },
+    {
+      "id": "application-card-2",
+      "front": "Why solve before and after equilibria separately?",
+      "back": "Each equilibrium must satisfy the demand and supply relationships that apply in its own scenario."
+    }
+  ],
+  "questions": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "difficulty": "foundation",
+      "prompt": "Which change is a movement along an unchanged demand curve?",
+      "options": [
+        "A change in income affecting the good",
+        "A change in the good's own price",
+        "A change in consumer preferences",
+        "A change in buyer population"
+      ],
+      "answer": "A change in the good's own price",
+      "solution": [
+        "Demand is defined across own-price values with other determinants fixed.",
+        "Changing those other determinants may shift the relationship."
+      ],
+      "markingPoints": [
+        "Select own-price change."
+      ],
+      "marks": 1,
+      "calculator": "not-applicable"
+    },
+    {
+      "id": "q2",
+      "type": "calculation",
+      "difficulty": "standard",
+      "prompt": "Find equilibrium price if Qd=90-P and Qs=10+3P.",
+      "answer": "20.",
+      "solution": [
+        "Set 90-P=10+3P.",
+        "Solve 80=4P, so P=20."
+      ],
+      "markingPoints": [
+        "Equate the quantity expressions.",
+        "Calculate price 20."
+      ],
+      "marks": 2,
+      "calculator": "not-required",
+      "numericAnswer": {
+        "value": 20,
+        "tolerance": 0
+      }
+    },
+    {
+      "id": "q3",
+      "type": "short",
+      "difficulty": "standard",
+      "prompt": "Explain why an increase in income need not shift demand right for every good.",
+      "answer": "The effect depends on the good and context. Demand for a normal good rises with income, while demand for an inferior good falls over the relevant range, other conditions equal.",
+      "solution": [
+        "Identify the distinction between normal and inferior goods.",
+        "State that the income classification concerns demand under otherwise unchanged conditions."
+      ],
+      "markingPoints": [
+        "Explain the two possible directions.",
+        "Qualify the answer by good, range or ceteris paribus conditions."
+      ],
+      "marks": 2,
+      "calculator": "not-applicable"
+    },
+    {
+      "id": "q4",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "Demand and supply both increase in a standard market model. Explain what can and cannot be predicted without relative shift sizes.",
+      "answer": "Equilibrium quantity rises under standard downward-demand and upward-supply assumptions, but price may rise, fall or remain unchanged depending on the relative shifts.",
+      "solution": [
+        "An isolated demand increase pushes price and quantity upward.",
+        "An isolated supply increase pushes price downward and quantity upward.",
+        "The quantity effects reinforce each other, while price effects oppose each other."
+      ],
+      "markingPoints": [
+        "Describe the demand-shift effects.",
+        "Describe the supply-shift effects.",
+        "Conclude higher quantity with ambiguous price and state assumptions."
+      ],
+      "marks": 3,
+      "calculator": "not-applicable"
+    },
+    {
+      "id": "q5",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "Both demand and supply increase. Can the new equilibrium price be determined from those directions alone? Explain.",
+      "answer": "No. Increased demand tends to raise price while increased supply tends to lower it. Their relative sizes determine the final price change, although equilibrium quantity increases under the usual curve assumptions.",
+      "solution": [
+        "State the opposing directional pressures on price.",
+        "Identify relative shift size as missing information.",
+        "Give a qualified quantity prediction under the model assumptions."
+      ],
+      "markingPoints": [
+        "State the opposing directional pressures on price.",
+        "Identify relative shift size as missing information.",
+        "Give a qualified quantity prediction under the model assumptions."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "application-check",
+      "type": "short",
+      "difficulty": "standard",
+      "prompt": "In a fictional market, Qd = 100 - 2P and Qs = 10 + P. Demand then becomes Qd = 130 - 2P while supply stays fixed. Find both equilibria.",
+      "answer": "Initially P = 30 and Q = 40; afterwards P = 40 and Q = 50.",
+      "solution": [
+        "Equate original demand and supply: 100 - 2P = 10 + P, giving P = 30.",
+        "Substitution gives Q = 40.",
+        "For revised demand, 130 - 2P = 10 + P gives P = 40 and Q = 50."
+      ],
+      "markingPoints": [
+        "Equate original demand and supply: 100 - 2P = 10 + P, giving P = 30.",
+        "Substitution gives Q = 40.",
+        "For revised demand, 130 - 2P = 10 + P gives P = 40 and Q = 50."
+      ],
+      "marks": 3,
+      "calculator": "allowed"
+    },
+    {
+      "id": "error-analysis",
+      "type": "short",
+      "difficulty": "extension",
+      "prompt": "A learner says supply shifted right because the new equilibrium quantity rose to 50. Explain why that conclusion is wrong under the stated model.",
+      "answer": "Supply did not shift: Qs = 10 + P is unchanged. Quantity supplied rose along that curve as price increased.",
+      "solution": [
+        "A shift would require a change in the supply relationship at a given price.",
+        "The stated supply equation is the same before and after.",
+        "At P = 40 the unchanged supply equation yields 50, a movement along the curve."
+      ],
+      "markingPoints": [
+        "A shift would require a change in the supply relationship at a given price.",
+        "The stated supply equation is the same before and after.",
+        "At P = 40 the unchanged supply equation yields 50, a movement along the curve."
+      ],
+      "marks": 3,
+      "calculator": "allowed"
+    }
+  ],
+  "revisionChecklist": [
+    "Distinguish the curve from a point on it.",
+    "Name the changed determinant and unchanged conditions.",
+    "Allow ambiguity when simultaneous changes do not determine an outcome.",
+    "Explain the reasoning in “Compare two market equilibria” and correct the linked error-analysis response without copying its solution."
+  ],
+  "diagrams": [
+    {
+      "id": "application-trace",
+      "title": "Compare two market equilibria",
+      "description": "Read the labelled relationships to follow this worked application. Initially P = 30 and Q = 40; afterwards P = 40 and Q = 50. This is an explanatory process diagram, not a scale drawing or a record of a learner attempt.",
+      "steps": [
+        {
+          "label": "Original intersection",
+          "detail": "100 - 2P = 10 + P gives P = 30, Q = 40."
+        },
+        {
+          "label": "Change demand only",
+          "detail": "Demand increases by 30 units at each price; supply stays Qs = 10 + P."
+        },
+        {
+          "label": "New intersection",
+          "detail": "130 - 2P = 10 + P gives P = 40, Q = 50."
+        }
+      ],
+      "links": [
+        "hold the supply relationship fixed",
+        "solve the revised pair"
+      ]
+    }
+  ],
+  "teachingSequence": [
+    {
+      "title": "Establish the idea",
+      "guidance": "Explain “Demand is a relationship” in your own words. Work through the first example, then answer the linked questions before revealing their solutions.",
+      "noteHeadings": [
+        "Demand is a relationship"
+      ],
+      "workedExampleNumbers": [
+        1
+      ],
+      "questionIds": [
+        "q1",
+        "q2"
+      ]
+    },
+    {
+      "title": "Apply the method",
+      "guidance": "Use the remaining teaching sections to explain each step of the worked examples. Compare your reasoning with the marking points and record the specific step you would change.",
+      "noteHeadings": [
+        "Supply and market clearing",
+        "Comparing before and after",
+        "Simultaneous changes and justified predictions"
+      ],
+      "workedExampleNumbers": [
+        2,
+        3
+      ],
+      "questionIds": [
+        "q3",
+        "q4"
+      ]
+    },
+    {
+      "title": "Distinguishing a curve shift from a response along a curve",
+      "guidance": "Read the application diagram “Compare two market equilibria”, then close the explanation and attempt both the application and error-analysis questions. Explain the correction aloud before retrying the mixed practice.",
+      "noteHeadings": [
+        "Distinguishing a curve shift from a response along a curve"
+      ],
+      "workedExampleNumbers": [
+        4
+      ],
+      "questionIds": [
+        "q5",
+        "application-check",
+        "error-analysis"
+      ]
+    }
+  ],
+  "revisionGuide": {
+    "summary": "A change in the good’s own price changes quantity demanded along a fixed demand relationship. A change in another determinant, such as income or preferences, can shift that relationship. In a comparative-static model, write the original and revised demand equations explicitly while holding the supply equation fixed if that is the assumption. Solve each equilibrium separately, then compare both price and quantity. The movement along the unchanged supply curve is a response to the new equilibrium price, not evidence that supply shifted. These equations are fictional teaching models. They do not imply that an actual market adjusts instantly or that every relevant determinant has been included.",
+    "keyIdeas": [
+      "100 - 2P = 10 + P gives P = 30, Q = 40.",
+      "Demand increases by 30 units at each price; supply stays Qs = 10 + P.",
+      "130 - 2P = 10 + P gives P = 40, Q = 50.",
+      "A change in the good's own price moves along an unchanged demand curve."
+    ],
+    "formulas": [],
+    "recallPrompts": [
+      "What distinguishes a supply shift from movement along supply?",
+      "Why solve before and after equilibria separately?",
+      "How does demand differ from quantity demanded?"
+    ],
+    "practiceQuestionIds": [
+      "q1",
+      "application-check",
+      "error-analysis"
+    ],
+    "revisit": "After checking your answer, write the specific rule or assumption you missed. Retry the linked questions without the worked example in a later session. A checked answer or completed checklist is not a measurement of mastery."
+  }
+}

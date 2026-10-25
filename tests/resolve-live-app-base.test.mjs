@@ -1,81 +1,33 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { resolveLiveAppBase } from '../scripts/resolve-live-app-base.mjs';
+const base = 'https://vertex-ed-ai.vercel.app';
+const response = (status, body) => ({ status, headers: { get: () => 'application/json' }, json: async () => body });
 
-function mockFetchSequence(responses) {
-  let i = 0;
-  return async (url) => {
-    const next = responses[i++];
-    if (!next) throw new Error(`Unexpected fetch: ${url}`);
-    if (next.throw) throw next.throw;
-    return {
-      status: next.status,
-      headers: {
-        get(name) {
-          if (String(name).toLowerCase() === 'content-type') return 'application/json';
-          return null;
-        },
-      },
-      async json() {
-        return next.body;
-      },
-    };
-  };
-}
-
-test('resolveLiveAppBase prefers custom domain when liveness is alive', async () => {
-  const previous = globalThis.fetch;
-  globalThis.fetch = mockFetchSequence([
-    { status: 200, body: { ok: true, status: 'alive', revision: 'abc123' } },
-  ]);
-  try {
-    const result = await resolveLiveAppBase({
-      customBase: 'https://www.vertexed.app',
-      fallbackBase: 'https://vertex-ed-ai.vercel.app',
-    });
-    assert.equal(result.base, 'https://www.vertexed.app');
-    assert.equal(result.source, 'custom-domain');
-    assert.equal(result.gate1a, 'PASS');
-    assert.equal(result.customProbe.revision, 'abc123');
-  } finally {
-    globalThis.fetch = previous;
-  }
+test('resolver probes the configured Vercel origin without following redirects', async () => {
+  const result = await resolveLiveAppBase({ base, request: async (url, options) => {
+    assert.equal(url, `${base}/api/health`);
+    assert.equal(options.redirect, 'manual');
+    return response(200, { ok: true, service: 'vertexed', status: 'alive', revision: 'abc123' });
+  } });
+  assert.equal(result.base, base);
+  assert.equal(result.source, 'vercel-app');
+  assert.equal(result.probe.revision, 'abc123');
 });
 
-test('resolveLiveAppBase falls back when custom domain health fails', async () => {
-  const previous = globalThis.fetch;
-  globalThis.fetch = mockFetchSequence([
-    { throw: new Error('fetch failed') },
-    { status: 200, body: { ok: true, status: 'alive', revision: 'def456' } },
-  ]);
-  try {
-    const result = await resolveLiveAppBase({
-      customBase: 'https://www.vertexed.app',
-      fallbackBase: 'https://vertex-ed-ai.vercel.app',
-    });
-    assert.equal(result.base, 'https://vertex-ed-ai.vercel.app');
-    assert.equal(result.source, 'canonical-fallback');
-    assert.equal(result.gate1a, 'BLOCKED_TLS_OR_HTTP');
-    assert.equal(result.fallbackProbe.revision, 'def456');
-  } finally {
-    globalThis.fetch = previous;
-  }
-});
-
-test('resolveLiveAppBase returns none when both origins fail', async () => {
-  const previous = globalThis.fetch;
-  globalThis.fetch = mockFetchSequence([
-    { throw: new Error('custom down') },
-    { status: 503, body: { ok: false, status: 'degraded' } },
-  ]);
-  try {
-    const result = await resolveLiveAppBase({
-      customBase: 'https://www.vertexed.app',
-      fallbackBase: 'https://vertex-ed-ai.vercel.app',
-    });
+test('unavailable or unrelated applications never count as VertexED health', async () => {
+  for (const [status, body] of [[307, null], [503, { ok: false }], [200, { ok: true, status: 'alive', service: 'other' }]]) {
+    const result = await resolveLiveAppBase({ base, request: async () => response(status, body) });
     assert.equal(result.base, null);
-    assert.equal(result.source, 'none');
-  } finally {
-    globalThis.fetch = previous;
   }
+});
+
+test('resolver rejects expired domains without making a request', async () => {
+  await assert.rejects(resolveLiveAppBase({ base: 'https://www.vertexed.app', request: () => { throw new Error('must not probe'); } }), /non-expired/);
+});
+
+test('network failure remains a blocked check', async () => {
+  const result = await resolveLiveAppBase({ base, request: async () => { throw new Error('network down'); } });
+  assert.equal(result.base, null);
+  assert.equal(result.gate1a, 'BLOCKED_HTTP');
 });

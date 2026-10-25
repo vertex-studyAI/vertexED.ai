@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "lessonId": "sentence-boundaries",
+  "revision": "2026-10-21.3",
+  "notes": [
+    {
+      "heading": "Check the clause before choosing a mark",
+      "paragraphs": [
+        "Punctuation reflects grammatical relationships. A semicolon normally links independent clauses; a colon normally follows a complete clause and introduces an explanation, list or elaboration. A dependent clause beginning with although or because cannot stand as a complete sentence in standard edited prose unless it is intentionally used as a fragment in a context that permits one. Do not rely only on how long a pause sounds. Identify each clause's subject, finite verb and dependency, then choose punctuation that preserves the intended relationship."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "depth-colon-elaboration",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "Edit 'The team reached one conclusion, the sensor needed recalibration' using a colon, and explain why it is suitable.",
+      "answer": "The team reached one conclusion: the sensor needed recalibration.",
+      "solution": [
+        "The words before the colon form a complete independent clause.",
+        "The following clause states the conclusion being introduced."
+      ],
+      "markingPoints": [
+        "Place the colon after conclusion.",
+        "Identify the complete introductory clause.",
+        "Explain the elaboration relationship."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-dependent-first",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "Repair 'Because the train was delayed. The group arrived late.' as one standard sentence without changing the stated cause.",
+      "answer": "Because the train was delayed, the group arrived late.",
+      "solution": [
+        "The because-clause is dependent.",
+        "Join it to the following independent clause with a comma after the introductory dependent clause."
+      ],
+      "markingPoints": [
+        "Join the two clauses.",
+        "Use the introductory comma.",
+        "Explain why the because-clause cannot stand alone here."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-conjunctive-adverb",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "Repair 'The sample was small, therefore the estimate was uncertain' with a semicolon, and identify both independent clauses.",
+      "answer": "The sample was small; therefore, the estimate was uncertain. The independent clauses are 'The sample was small' and 'the estimate was uncertain'.",
+      "solution": [
+        "Replace the comma splice with a semicolon before the conjunctive adverb.",
+        "Set off therefore with the following comma; the causal claim is already supplied by the sentence."
+      ],
+      "markingPoints": [
+        "Use semicolon before therefore.",
+        "Use comma after therefore.",
+        "Identify both complete clauses."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    }
+  ]
+}

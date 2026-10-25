@@ -1,3 +1,4 @@
+import { APP_ORIGIN } from '@/lib/appOrigin';
 import { Helmet } from "react-helmet-async";
 import NeumorphicCard from "@/components/NeumorphicCard";
 import OfflineSettings from '@/components/OfflineSettings';
@@ -250,7 +251,8 @@ export default function UserSettings() {
           description: "Other active sessions could not be revoked. Sign out there separately if needed.",
         });
       }
-      navigate("/", { replace: true });
+      // ProtectedRoute owns the sign-out redirect and preserves /user-settings
+      // as the return destination. A second navigation can erase a new login.
     } catch (error) {
       toast({
         title: "Could not sign out",
@@ -380,7 +382,7 @@ export default function UserSettings() {
       <Helmet>
         <title>Vertex - Account Settings</title>
         <meta name="description" content="Manage your Vertex account settings and preferences." />
-        <link rel="canonical" href="https://www.vertexed.app/user-settings" />
+        <link rel="canonical" href={`${APP_ORIGIN}/user-settings`} />
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
 

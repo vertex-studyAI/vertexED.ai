@@ -9,7 +9,8 @@ import {
 } from '../_lib/grounding.js';
 import { fetchProvider } from '../_lib/providerRequest.js';
 import { routeAiRequest } from '../_lib/aiRouting.js';
-import { validateNotebookOutput } from '../../contracts/learningOutputs.js';
+import { validateNotebookOutput, lessonMarkdown } from '../../contracts/learningOutputs.js';
+import { validCurriculumPath, notebookRequestKey, STUDY_SET_VERSION } from '../../contracts/notebookStudySet.js';
 import { VERTEX_AGENTS } from '../_lib/vertexAgents.js';
 import { extractGeneratedText } from '../_lib/aiProviders.js';
 
@@ -43,6 +44,10 @@ export default async function handler(req, res) {
       typeof body?.notebookTitle === 'string' ? body.notebookTitle.trim().slice(0, 120) : 'Study Notebook';
     const customPrompt =
       typeof body?.customPrompt === 'string' ? body.customPrompt.trim().slice(0, 500) : '';
+    const curriculum = body?.curriculum ?? null;
+    if (curriculum !== null && !validCurriculumPath(curriculum)) {
+      return res.status(400).json({ error: 'Provide the curriculum, board, syllabus version, subject and topic.' });
+    }
 
     if (!ALLOWED_MODES.has(mode)) {
       return res.status(400).json({ error: `Invalid mode. Allowed: ${[...ALLOWED_MODES].join(', ')}` });
@@ -60,13 +65,16 @@ export default async function handler(req, res) {
     const userPrompt = `${spec.instruction}${citationInstruction}
 
 NOTEBOOK: ${notebookTitle}
+${curriculum ? `COURSE CONTEXT (student supplied, unverified): ${JSON.stringify(curriculum)}` : ''}
 ${customPrompt ? `STUDENT INSTRUCTIONS: ${customPrompt}` : ''}
 
 SOURCES:
 ${sourceBlock}`;
 
-    const route = routeAiRequest({ capability: 'notebook', text: customPrompt, defaultModel: process.env.NOTEBOOK_MODEL || 'gpt-4o-mini', maxTokens: spec.json ? 2000 : 2500 });
+    const route = routeAiRequest({ capability: 'notebook', text: customPrompt, defaultModel: process.env.NOTEBOOK_MODEL || 'gpt-6-luna', maxTokens: spec.lesson ? 4000 : spec.json ? 2000 : 2500 });
     const model = route.model;
+    const generation = { version: STUDY_SET_VERSION, model, factualStatus: 'unreviewed', curriculum,
+      requestKey: await notebookRequestKey({ mode, sources, notebookTitle: body?.notebookTitle ?? '', customPrompt: body?.customPrompt ?? '', curriculum }) };
     const response = await fetchProvider({
       capability: 'notebook', provider: 'openai', model,
       url: 'https://api.openai.com/v1/chat/completions',
@@ -117,16 +125,27 @@ ${sourceBlock}`;
       if (!validated.success) return res.status(502).json({ error: 'Generated material was incomplete or invalid. Your sources are unchanged; please retry.' });
       parsed = validated.data;
 
-      const structuredSourceIds = spec.quiz
+      const structuredSourceIds = spec.lesson
+        ? [...parsed.sections, ...parsed.workedExamples, ...parsed.misconceptions].flatMap(item => item.sourceIds)
+        : spec.quiz
         ? parsed.questions.flatMap((question) => question.sourceIds)
         : spec.flashcards
           ? parsed.flashcards.flatMap((card) => card.sourceIds)
           : [];
-      const grounding = spec.quiz || spec.flashcards
+      const grounding = spec.lesson || spec.quiz || spec.flashcards
         ? validateStructuredSourceIds(structuredSourceIds, sources)
         : null;
       if (grounding && grounding.status !== 'verified') {
         return res.status(502).json({ error: 'Generated material contained unverifiable source references. Your sources are unchanged; please retry.' });
+      }
+
+      if (spec.lesson) {
+        const content = lessonMarkdown(parsed);
+        if (validateSourceCitations(content, sources).status !== 'verified') {
+          return res.status(502).json({ error: 'Generated notes contained unverifiable inline references. Your sources are unchanged; please retry.' });
+        }
+        return res.status(200).json({ mode, title: parsed.title, content,
+          generatedAt: new Date().toISOString(), generation, citations: grounding.citations, sources: grounding.sources });
       }
 
       if (spec.questions) {
@@ -137,6 +156,7 @@ ${sourceBlock}`;
         const content = questions.map((q, i) => `${i + 1}. ${q}`).join('\n\n');
         return res.status(200).json({
           mode,
+          generation,
           title: spec.label,
           content,
           suggestedQuestions: questions,
@@ -166,6 +186,7 @@ ${sourceBlock}`;
 
         return res.status(200).json({
           mode,
+          generation,
           title: spec.label,
           content,
           quiz: questions,
@@ -183,6 +204,7 @@ ${sourceBlock}`;
 
       return res.status(200).json({
         mode,
+        generation,
         title: spec.label,
         content: markdown,
         flashcards,
@@ -205,6 +227,7 @@ ${sourceBlock}`;
 
     return res.status(200).json({
       mode,
+      generation,
       title: spec.label,
       content: raw,
       isAudioScript: isAudio,

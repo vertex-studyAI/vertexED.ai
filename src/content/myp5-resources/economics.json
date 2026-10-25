@@ -1,0 +1,1617 @@
+{
+  "subjectSlug": "economics",
+  "lessons": {
+    "myp5-economics-scarcity": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Unused capacity differs from unlimited resources",
+            "paragraphs": [
+              "Scarcity arises because available resources cannot satisfy every competing use. Unemployment or unused machinery does not remove scarcity: it can indicate that production is below what existing resources could achieve. A production possibility frontier represents combinations attainable with current resources and technology. Points inside may reflect idle resources or inefficient use; points beyond require changes in capacity or are currently unattainable. Moving along the frontier involves a trade-off, while moving towards it can raise output without sacrificing the other good. The model simplifies reality by holding technology and resources fixed during the comparison."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-scarcity-worked",
+            "prompt": "Hypothetical workshop: with current resources it can produce 10 desks and 20 stools, but currently makes 6 desks and 20 stools. Interpret a move to the first combination.",
+            "steps": [
+              "The stated feasible combination shows four additional desks can be made without reducing stools.",
+              "The move uses previously idle or inefficiently employed capacity rather than requiring a trade-off along the frontier."
+            ],
+            "conclusion": "Scarcity remains because not every imaginable combination is attainable."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-scarcity-card-1",
+            "front": "What does scarcity require?",
+            "back": "Competing uses relative to limited resources."
+          },
+          {
+            "id": "extension-scarcity-card-2",
+            "front": "What can an inside-frontier point indicate?",
+            "back": "Idle resources or inefficient resource use."
+          },
+          {
+            "id": "extension-scarcity-card-3",
+            "front": "What does movement along a frontier involve?",
+            "back": "A trade-off between outputs."
+          },
+          {
+            "id": "extension-scarcity-card-4",
+            "front": "What can shift a frontier outwards?",
+            "back": "More productive resources or improved technology."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-scarcity-diagram",
+            "title": "Unused capacity differs from unlimited resources",
+            "description": "Better utilisation can increase output within an existing constraint.",
+            "nodes": [
+              {
+                "id": "extension-scarcity-node-1",
+                "label": "Current output",
+                "detail": "6 desks and 20 stools"
+              },
+              {
+                "id": "extension-scarcity-node-2",
+                "label": "Available capacity",
+                "detail": "10 desks and 20 stools is feasible"
+              },
+              {
+                "id": "extension-scarcity-node-3",
+                "label": "Improved utilisation",
+                "detail": "4 more desks without fewer stools"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-scarcity-node-1",
+                "to": "extension-scarcity-node-2",
+                "label": "compare with stated feasible output"
+              },
+              {
+                "from": "extension-scarcity-node-2",
+                "to": "extension-scarcity-node-3",
+                "label": "use idle or inefficiently employed resources"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-economics-scarcity-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A school has an empty room but no available teacher hours. Why can extra lessons remain scarce?",
+          "hints": [
+            "Production requires several inputs.",
+            "One unused resource does not supply all the others."
+          ],
+          "solution": [
+            "The room supplies space, but teaching also requires time and staff.",
+            "Limited teacher hours still constrain lessons, so empty space does not eliminate scarcity."
+          ],
+          "successCriteria": [
+            "Identifies complementary inputs.",
+            "Teacher-time constraint.",
+            "Scarcity conclusion."
+          ]
+        },
+        {
+          "id": "extension-myp5-economics-scarcity-practice-2",
+          "difficulty": "Advanced",
+          "command": "Classify",
+          "marks": 3,
+          "prompt": "A hypothetical frontier allows at most 30 kits at a fixed output of 10 signs. Classify 20 kits and 10 signs, then 40 kits and 10 signs.",
+          "hints": [
+            "Compare each kit count with the stated maximum.",
+            "Hold sign output fixed."
+          ],
+          "solution": [
+            "20 kits and 10 signs is feasible but below the stated maximum at that sign output.",
+            "40 kits and 10 signs is unattainable with the stated resources and technology."
+          ],
+          "successCriteria": [
+            "Correct feasible comparison.",
+            "Below maximum interpretation.",
+            "Correct unattainable comparison."
+          ]
+        }
+      ]
+    },
+    "myp5-economics-market-failure": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "An unpriced cost separates private and social cost",
+            "paragraphs": [
+              "An externality occurs when a decision affects third parties and that effect is not fully reflected in the decision-maker’s costs or benefits. A negative production externality makes social marginal cost exceed private marginal cost in the basic model. Private buyers and sellers may then choose more output than the socially efficient quantity. A corrective policy needs evidence about the external effect, behaviour and implementation costs. Not every inconvenience is an externality, and not every intervention improves welfare. The analysis should identify the third party, the unpriced effect and the mechanism through which a policy changes incentives."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-market-failure-worked",
+            "prompt": "Hypothetical production: private marginal cost is 8 credits per item and external damage is 3 credits per item. Find social marginal cost and interpret a 3-credit corrective charge.",
+            "steps": [
+              "Social marginal cost = 8 + 3 = 11 credits per item.",
+              "A 3-credit charge would make the producer face the modelled external cost if the estimate and implementation are accurate."
+            ],
+            "conclusion": "The calculation illustrates an incentive correction, not proof that the real damage is known exactly."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-market-failure-card-1",
+            "front": "Who is a third party?",
+            "back": "Someone affected who is not one of the immediate parties to the transaction."
+          },
+          {
+            "id": "extension-market-failure-card-2",
+            "front": "How is social marginal cost formed here?",
+            "back": "Private marginal cost plus marginal external cost."
+          },
+          {
+            "id": "extension-market-failure-card-3",
+            "front": "What does a corrective charge aim to do?",
+            "back": "Make decision-makers face an otherwise external cost."
+          },
+          {
+            "id": "extension-market-failure-card-4",
+            "front": "Why can policy evaluation remain uncertain?",
+            "back": "Damage estimates, behavioural responses and enforcement costs may be uncertain."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-market-failure-diagram",
+            "title": "An unpriced cost separates private and social cost",
+            "description": "The external damage adds to the resource cost faced privately.",
+            "nodes": [
+              {
+                "id": "extension-market-failure-node-1",
+                "label": "Private marginal cost",
+                "detail": "8 credits per item"
+              },
+              {
+                "id": "extension-market-failure-node-2",
+                "label": "Third-party damage",
+                "detail": "3 credits per item"
+              },
+              {
+                "id": "extension-market-failure-node-3",
+                "label": "Social marginal cost",
+                "detail": "11 credits per item"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-market-failure-node-1",
+                "to": "extension-market-failure-node-2",
+                "label": "add the unpriced external cost"
+              },
+              {
+                "from": "extension-market-failure-node-2",
+                "to": "extension-market-failure-node-3",
+                "label": "include both cost components"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-economics-market-failure-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "Hypothetical private marginal cost is 12 credits and marginal external cost is 5 credits per unit. Find social marginal cost and the unpriced gap.",
+          "hints": [
+            "Add both components.",
+            "The gap is the external component."
+          ],
+          "solution": [
+            "Social marginal cost = 12 + 5 = 17 credits per unit.",
+            "The gap between social and private cost is 5 credits per unit."
+          ],
+          "successCriteria": [
+            "Correct addition.",
+            "17 credits per unit.",
+            "5-credit gap."
+          ]
+        },
+        {
+          "id": "extension-myp5-economics-market-failure-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A garden provides enjoyment to nearby residents who do not pay its owner. Identify the possible externality and one limitation of inferring under-provision.",
+          "hints": [
+            "The effect benefits third parties.",
+            "The size of the benefit and private incentives are unspecified."
+          ],
+          "solution": [
+            "This may be a positive consumption externality because neighbours receive an unpaid benefit.",
+            "Under-provision is a model possibility, but its extent requires evidence on marginal benefits, costs and existing incentives."
+          ],
+          "successCriteria": [
+            "Third-party benefit.",
+            "Positive externality.",
+            "Qualified quantity inference."
+          ]
+        }
+      ]
+    },
+    "myp5-economics-opportunity-cost": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "A ranked choice identifies one forgone alternative",
+            "paragraphs": [
+              "Opportunity cost is the value of the next-best feasible alternative forgone. It is not automatically the sum of every rejected option, and it need not be a monetary payment. Time spent on one activity excludes another use of that time even when the chosen activity is free. A decision can involve several constraints, so identify which alternative is genuinely feasible. Past costs that cannot be recovered do not change the current trade-off, although future costs and benefits do. Compare the alternatives at the decision point and make the relevant resource constraint explicit."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-opportunity-cost-worked",
+            "prompt": "Hypothetical learner has two free hours and ranks feasible options: music rehearsal first, sport second, and a film third. What is the opportunity cost of choosing rehearsal?",
+            "steps": [
+              "The next-best feasible alternative is sport.",
+              "The opportunity cost is the benefit of the forgone sport session, not sport plus the film."
+            ],
+            "conclusion": "No ticket price is needed for a time-based opportunity cost."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-opportunity-cost-card-1",
+            "front": "Which alternative defines opportunity cost?",
+            "back": "The next-best feasible one forgone."
+          },
+          {
+            "id": "extension-opportunity-cost-card-2",
+            "front": "Can a free activity have opportunity cost?",
+            "back": "Yes; it uses scarce time or other resources."
+          },
+          {
+            "id": "extension-opportunity-cost-card-3",
+            "front": "Should all rejected alternatives be added?",
+            "back": "No."
+          },
+          {
+            "id": "extension-opportunity-cost-card-4",
+            "front": "Do irrecoverable past costs determine the current trade-off?",
+            "back": "No; current feasible alternatives and future consequences matter."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-opportunity-cost-diagram",
+            "title": "A ranked choice identifies one forgone alternative",
+            "description": "The best rejected feasible option defines the relevant trade-off.",
+            "nodes": [
+              {
+                "id": "extension-opportunity-cost-node-1",
+                "label": "Available time",
+                "detail": "Two hours"
+              },
+              {
+                "id": "extension-opportunity-cost-node-2",
+                "label": "Chosen option",
+                "detail": "Music rehearsal"
+              },
+              {
+                "id": "extension-opportunity-cost-node-3",
+                "label": "Next-best alternative",
+                "detail": "Sport session forgone"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-opportunity-cost-node-1",
+                "to": "extension-opportunity-cost-node-2",
+                "label": "allocate scarce time"
+              },
+              {
+                "from": "extension-opportunity-cost-node-2",
+                "to": "extension-opportunity-cost-node-3",
+                "label": "identify the highest-ranked rejected use"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-economics-opportunity-cost-practice-1",
+          "difficulty": "Standard",
+          "command": "Determine",
+          "marks": 3,
+          "prompt": "Hypothetical learner can spend one hour reading, practising piano or resting, in that preference order. If reading is chosen, identify the opportunity cost.",
+          "hints": [
+            "Choose the next-best feasible activity.",
+            "Do not combine every alternative."
+          ],
+          "solution": [
+            "The opportunity cost is the benefit of practising piano.",
+            "Rest is a lower-ranked alternative and is not added to the next-best forgone option."
+          ],
+          "successCriteria": [
+            "Piano identified.",
+            "Forgone benefit interpretation.",
+            "Does not sum alternatives."
+          ]
+        },
+        {
+          "id": "extension-myp5-economics-opportunity-cost-practice-2",
+          "difficulty": "Advanced",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "A hypothetical workshop can trade off 3 shelves for 2 desks along a linear frontier. Find the shelf opportunity cost of 5 extra desks.",
+          "hints": [
+            "Find shelves per desk.",
+            "Apply the constant ratio."
+          ],
+          "solution": [
+            "Each desk costs 3/2 = 1.5 shelves.",
+            "Five extra desks cost 5 × 1.5 = 7.5 shelf-equivalents in the divisible-output model."
+          ],
+          "successCriteria": [
+            "1.5 shelves per desk.",
+            "Correct scaling.",
+            "7.5 with divisibility assumption."
+          ]
+        }
+      ]
+    },
+    "myp5-economics-economic-systems": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Zero price still requires allocation",
+            "paragraphs": [
+              "Economic systems use different institutions to decide what to produce, how to produce it and who receives the output. Prices, administrative rules, queues and household decisions can all allocate scarce resources. A zero monetary price does not remove allocation: capacity may be rationed through waiting, eligibility or availability. Ownership and allocation should be analysed separately, since a publicly owned service can charge a fee and a private organisation can provide free access. Evaluate outcomes using specified criteria such as efficiency, equity, responsiveness and access, recognising that one allocation rule may improve one criterion while worsening another."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-economic-systems-worked",
+            "prompt": "Hypothetical free sports facility has 20 places and 35 applicants. Compare first-come allocation with a needs-based rule.",
+            "steps": [
+              "First-come allocation uses arrival order and may favour people able to queue early.",
+              "A needs-based rule uses eligibility criteria but requires information and administration."
+            ],
+            "conclusion": "Both ration the same scarce places despite a zero entry price."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-economic-systems-card-1",
+            "front": "Does zero price remove scarcity?",
+            "back": "No; capacity may still be limited."
+          },
+          {
+            "id": "extension-economic-systems-card-2",
+            "front": "Name a non-price allocation rule.",
+            "back": "Queuing, eligibility criteria or a lottery."
+          },
+          {
+            "id": "extension-economic-systems-card-3",
+            "front": "Is ownership identical to allocation method?",
+            "back": "No; each should be identified separately."
+          },
+          {
+            "id": "extension-economic-systems-card-4",
+            "front": "What should a comparison of systems specify?",
+            "back": "The outcomes and criteria used to judge them."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-economic-systems-diagram",
+            "title": "Zero price still requires allocation",
+            "description": "Limited capacity is rationed by a rule even without a fee.",
+            "nodes": [
+              {
+                "id": "extension-economic-systems-node-1",
+                "label": "Demand for places",
+                "detail": "35 applicants"
+              },
+              {
+                "id": "extension-economic-systems-node-2",
+                "label": "Fixed capacity",
+                "detail": "20 available places"
+              },
+              {
+                "id": "extension-economic-systems-node-3",
+                "label": "Allocation rule",
+                "detail": "Queue, criteria or lottery determines access"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-economic-systems-node-1",
+                "to": "extension-economic-systems-node-2",
+                "label": "exceeds the available capacity"
+              },
+              {
+                "from": "extension-economic-systems-node-2",
+                "to": "extension-economic-systems-node-3",
+                "label": "requires a selection mechanism"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-economics-economic-systems-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A free exhibition admits visitors in booking order until full. Identify the allocation mechanism and one possible access limitation.",
+          "hints": [
+            "The order of reservations decides places.",
+            "Consider access to the booking process."
+          ],
+          "solution": [
+            "Places are allocated by booking order rather than an admission price.",
+            "People lacking timely booking access may be excluded even though entry is free."
+          ],
+          "successCriteria": [
+            "Booking-order mechanism.",
+            "Zero-price distinction.",
+            "Specific access limitation."
+          ]
+        },
+        {
+          "id": "extension-myp5-economics-economic-systems-practice-2",
+          "difficulty": "Advanced",
+          "command": "Compare",
+          "marks": 3,
+          "prompt": "A hypothetical public museum charges entry while a private charity offers free classes. Why cannot ownership alone identify the allocation rule?",
+          "hints": [
+            "Public does not necessarily mean free.",
+            "Private does not necessarily mean price allocation."
+          ],
+          "solution": [
+            "The museum combines public ownership with a monetary entry charge.",
+            "The charity combines private organisation with free provision, so price and eligibility rules must be examined separately from ownership."
+          ],
+          "successCriteria": [
+            "Museum example interpreted.",
+            "Charity example interpreted.",
+            "Separates ownership and allocation."
+          ]
+        }
+      ]
+    },
+    "myp5-economics-supply": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "A tax separates buyer and seller prices",
+            "paragraphs": [
+              "Supply describes quantities producers are willing and able to offer at different prices over a specified period, holding other relevant conditions constant. A change in the product’s own price causes movement along a supply curve. A change in production costs, technology or the number of sellers can shift the curve. For a per-unit tax on sellers, the price received after tax matters for their supply decision. A simple linear model can represent this by subtracting the tax from the buyer’s price. The result depends on the specified model and does not by itself identify how the tax burden is shared."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-supply-worked",
+            "prompt": "Hypothetical supply is Qs = 5P, with P the price received by sellers. Buyers pay 6 credits, but sellers remit a 2-credit tax per item. Find supply.",
+            "steps": [
+              "Sellers retain 6 − 2 = 4 credits per item.",
+              "Qs = 5 × 4 = 20 items per period."
+            ],
+            "conclusion": "Using the full buyer price would incorrectly ignore the tax wedge."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-supply-card-1",
+            "front": "What causes movement along a supply curve?",
+            "back": "A change in the product’s own price, other conditions fixed."
+          },
+          {
+            "id": "extension-supply-card-2",
+            "front": "Name a supply shifter.",
+            "back": "Input costs, technology or number of sellers."
+          },
+          {
+            "id": "extension-supply-card-3",
+            "front": "Which price matters in the stated taxed supply model?",
+            "back": "The price sellers retain after the per-unit tax."
+          },
+          {
+            "id": "extension-supply-card-4",
+            "front": "Does lower cost generally shift supply rightwards?",
+            "back": "Yes in the basic model, with other conditions unchanged."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-supply-diagram",
+            "title": "A tax separates buyer and seller prices",
+            "description": "Supply responds to the price retained in the stated model.",
+            "nodes": [
+              {
+                "id": "extension-supply-node-1",
+                "label": "Buyer price",
+                "detail": "6 credits per item"
+              },
+              {
+                "id": "extension-supply-node-2",
+                "label": "Per-unit tax",
+                "detail": "2 credits remitted"
+              },
+              {
+                "id": "extension-supply-node-3",
+                "label": "Seller receipt and supply",
+                "detail": "4 credits retained; Qs = 20"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-supply-node-1",
+                "to": "extension-supply-node-2",
+                "label": "subtract the tax wedge"
+              },
+              {
+                "from": "extension-supply-node-2",
+                "to": "extension-supply-node-3",
+                "label": "apply the supply function to the net price"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-economics-supply-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "Hypothetical supply is Qs = 2Ps + 4, where Ps is the seller’s receipt. Buyers pay 9 credits and a 3-credit seller tax applies. Find Qs.",
+          "hints": [
+            "Find the net receipt first.",
+            "Substitute into the supplied relation."
+          ],
+          "solution": [
+            "Ps = 9 − 3 = 6 credits.",
+            "Qs = 2 × 6 + 4 = 16 units per period."
+          ],
+          "successCriteria": [
+            "Net price 6.",
+            "Correct substitution.",
+            "16 units per period."
+          ]
+        },
+        {
+          "id": "extension-myp5-economics-supply-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A new machine reduces the cost of producing each item while the item’s market price is unchanged. Distinguish the supply effect from a movement along the old curve.",
+          "hints": [
+            "A non-price determinant changed.",
+            "Compare quantities at the same price."
+          ],
+          "solution": [
+            "Lower production costs allow greater quantity supplied at a given price in the basic model.",
+            "This is a rightward supply shift, not movement caused by the item’s own price on the old curve."
+          ],
+          "successCriteria": [
+            "Cost mechanism.",
+            "Greater supply at same price.",
+            "Shift distinction."
+          ]
+        }
+      ]
+    },
+    "myp5-economics-demand": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "A substitute-price change shifts demand",
+            "paragraphs": [
+              "Demand depends on willingness and ability to purchase over a specified period. A product’s own-price change creates a movement along its demand curve when other conditions are fixed. Prices of related goods can shift demand: a rise in a substitute’s price can increase demand for the product, while a rise in a complement’s price can reduce it. These relationships depend on actual consumer use rather than the labels alone. Distinguish demand from the quantity purchased after market adjustment, because the final price and quantity also depend on supply and any capacity constraints."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-demand-worked",
+            "prompt": "Hypothetical commuters treat buses and trains as substitutes. Train fares rise while bus fares initially stay fixed. Explain the likely bus-demand effect.",
+            "steps": [
+              "Some commuters may switch towards buses because trains become relatively more expensive.",
+              "Bus demand shifts rightwards in the stated substitute model."
+            ],
+            "conclusion": "The eventual bus fare and passenger quantity also depend on bus supply and capacity."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-demand-card-1",
+            "front": "What is a substitute?",
+            "back": "A good or service that can replace another in use."
+          },
+          {
+            "id": "extension-demand-card-2",
+            "front": "What is a complement?",
+            "back": "A good or service used together with another."
+          },
+          {
+            "id": "extension-demand-card-3",
+            "front": "What changes demand when a related good’s price changes?",
+            "back": "The demand curve may shift."
+          },
+          {
+            "id": "extension-demand-card-4",
+            "front": "Does demand alone determine final market quantity?",
+            "back": "No; supply also matters."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-demand-diagram",
+            "title": "A substitute-price change shifts demand",
+            "description": "Relative cost alters consumers’ choices between services.",
+            "nodes": [
+              {
+                "id": "extension-demand-node-1",
+                "label": "Train fare rises",
+                "detail": "Train journeys become relatively dearer"
+              },
+              {
+                "id": "extension-demand-node-2",
+                "label": "Some commuters switch",
+                "detail": "Buses become more attractive substitutes"
+              },
+              {
+                "id": "extension-demand-node-3",
+                "label": "Bus demand rises",
+                "detail": "More bus journeys demanded at a given fare"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-demand-node-1",
+                "to": "extension-demand-node-2",
+                "label": "changes the relative cost"
+              },
+              {
+                "from": "extension-demand-node-2",
+                "to": "extension-demand-node-3",
+                "label": "shifts bus demand rightwards"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-economics-demand-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Hypothetical printers and compatible ink are complements. Ink prices rise while printer prices are unchanged. Predict printer demand in the basic model.",
+          "hints": [
+            "The cost of using a printer rises.",
+            "This is not a change in the printer’s own price."
+          ],
+          "solution": [
+            "Higher ink prices raise the cost of using the combined products.",
+            "Printer demand may shift leftwards, with fewer printers demanded at each unchanged printer price."
+          ],
+          "successCriteria": [
+            "Complement relationship.",
+            "Higher combined-use cost.",
+            "Leftward printer-demand shift."
+          ]
+        },
+        {
+          "id": "extension-myp5-economics-demand-practice-2",
+          "difficulty": "Advanced",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "Hypothetical demand shifts from Qd = 50 − 2P to Qd = 62 − 2P. At P = 6, calculate both quantities and the shift in quantity demanded at that price.",
+          "hints": [
+            "Substitute the same price into both relations.",
+            "Subtract the original quantity."
+          ],
+          "solution": [
+            "Original quantity = 38; new quantity = 50.",
+            "At the same price, quantity demanded increases by 12 units per period."
+          ],
+          "successCriteria": [
+            "38 original.",
+            "50 new.",
+            "12-unit same-price increase."
+          ]
+        }
+      ]
+    },
+    "myp5-economics-elasticity": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Income elasticity compares proportional changes",
+            "paragraphs": [
+              "Elasticity measures proportional responsiveness rather than the slope alone. Income elasticity of demand compares the percentage change in quantity demanded with the percentage change in income, holding other relevant influences fixed. A positive value indicates a normal good in the model; a negative value indicates an inferior good over the stated range. These are descriptions of demand responses, not judgements about quality. State the percentage-change convention because initial-value and midpoint calculations can differ. An observed association does not isolate income responsiveness if prices, tastes or availability also change during the comparison."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-elasticity-worked",
+            "prompt": "Hypothetical income rises from 100 to 120 credits while quantity demanded rises from 50 to 55 units, other influences fixed. Use initial-value percentages to find income elasticity.",
+            "steps": [
+              "Income rises 20/100 = 20%; quantity rises 5/50 = 10%.",
+              "Income elasticity = 10%/20% = 0.5."
+            ],
+            "conclusion": "The positive value classifies the good as normal over this range."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-elasticity-card-1",
+            "front": "What is income elasticity?",
+            "back": "Percentage quantity-demand change divided by percentage income change."
+          },
+          {
+            "id": "extension-elasticity-card-2",
+            "front": "What does negative income elasticity indicate?",
+            "back": "An inferior good over the stated range."
+          },
+          {
+            "id": "extension-elasticity-card-3",
+            "front": "Does inferior mean poor quality?",
+            "back": "No; it describes the demand response to income."
+          },
+          {
+            "id": "extension-elasticity-card-4",
+            "front": "Why name the percentage convention?",
+            "back": "Different denominators can produce different numerical estimates."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-elasticity-diagram",
+            "title": "Income elasticity compares proportional changes",
+            "description": "The ratio uses percentage changes rather than raw units.",
+            "nodes": [
+              {
+                "id": "extension-elasticity-node-1",
+                "label": "Income change",
+                "detail": "100 to 120: +20%"
+              },
+              {
+                "id": "extension-elasticity-node-2",
+                "label": "Quantity change",
+                "detail": "50 to 55: +10%"
+              },
+              {
+                "id": "extension-elasticity-node-3",
+                "label": "Elasticity",
+                "detail": "10/20 = 0.5"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-elasticity-node-1",
+                "to": "extension-elasticity-node-2",
+                "label": "compare with the quantity response"
+              },
+              {
+                "from": "extension-elasticity-node-2",
+                "to": "extension-elasticity-node-3",
+                "label": "divide proportional quantity change by income change"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-economics-elasticity-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "Using initial-value percentages, income rises 10% while demand for a good falls 5%, other influences fixed. Find income elasticity and classify the good.",
+          "hints": [
+            "Retain the negative sign.",
+            "Classification follows the sign."
+          ],
+          "solution": [
+            "Income elasticity = −5/10 = −0.5.",
+            "The good is inferior over the supplied range, which does not describe its physical quality."
+          ],
+          "successCriteria": [
+            "−0.5.",
+            "Inferior classification.",
+            "Quality distinction."
+          ]
+        },
+        {
+          "id": "extension-myp5-economics-elasticity-practice-2",
+          "difficulty": "Advanced",
+          "command": "Evaluate",
+          "marks": 3,
+          "prompt": "Income and sales both rise during a price discount. Can the sales change alone estimate income elasticity?",
+          "hints": [
+            "Two demand influences changed.",
+            "Separate income from the price response."
+          ],
+          "solution": [
+            "The discount can increase quantity demanded independently of income.",
+            "The observation confounds income and price effects; hold price fixed or use a method that separates their contributions."
+          ],
+          "successCriteria": [
+            "Price confound.",
+            "Cannot isolate income effect.",
+            "Specific separating condition."
+          ]
+        }
+      ]
+    },
+    "myp5-economics-government-intervention": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "A binding floor separates supply and demand",
+            "paragraphs": [
+              "A price floor prevents legal prices from falling below a stated level. It is binding only when set above the otherwise prevailing equilibrium price in the basic competitive model. At a binding floor, quantity supplied may exceed quantity demanded, creating a surplus. The quantity actually traded depends on additional rules, such as whether a public buyer purchases excess supply. A non-binding floor does not change the model equilibrium. Policy evaluation should distinguish intended benefits to sellers from consequences for buyers, unsold output and administration, and should state the assumptions behind the predicted quantities."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-government-intervention-worked",
+            "prompt": "Hypothetical market: Qd = 60 − 5P and Qs = 10 + 5P. A floor sets P = 7. Find equilibrium and the surplus at the floor.",
+            "steps": [
+              "Equilibrium: 60 − 5P = 10 + 5P gives P = 5 and Q = 35.",
+              "At P = 7, Qd = 25 and Qs = 45, giving a surplus of 20."
+            ],
+            "conclusion": "The floor is binding; offered supply is not automatically all sold."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-government-intervention-card-1",
+            "front": "When is a price floor binding?",
+            "back": "When it exceeds the otherwise equilibrium price."
+          },
+          {
+            "id": "extension-government-intervention-card-2",
+            "front": "What is a surplus?",
+            "back": "Quantity supplied exceeds quantity demanded at the stated price."
+          },
+          {
+            "id": "extension-government-intervention-card-3",
+            "front": "Does offered quantity equal sales automatically?",
+            "back": "No; buyers or additional purchasing rules determine sales."
+          },
+          {
+            "id": "extension-government-intervention-card-4",
+            "front": "What happens to a non-binding floor in the basic model?",
+            "back": "The equilibrium remains unchanged."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-government-intervention-diagram",
+            "title": "A binding floor separates supply and demand",
+            "description": "A higher legal price can create unsold offered output.",
+            "nodes": [
+              {
+                "id": "extension-government-intervention-node-1",
+                "label": "Equilibrium",
+                "detail": "P = 5; Q = 35"
+              },
+              {
+                "id": "extension-government-intervention-node-2",
+                "label": "Floor at P = 7",
+                "detail": "Qd = 25; Qs = 45"
+              },
+              {
+                "id": "extension-government-intervention-node-3",
+                "label": "Surplus",
+                "detail": "45 − 25 = 20 units"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-government-intervention-node-1",
+                "to": "extension-government-intervention-node-2",
+                "label": "raises price above equilibrium"
+              },
+              {
+                "from": "extension-government-intervention-node-2",
+                "to": "extension-government-intervention-node-3",
+                "label": "supply exceeds buyer demand"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-economics-government-intervention-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "At a hypothetical binding floor, sellers offer 120 units and buyers demand 85. Find the surplus and maximum private-market sales if no public buyer exists.",
+          "hints": [
+            "Subtract demand from supply.",
+            "Private buyers limit sales at that price."
+          ],
+          "solution": [
+            "Surplus = 120 − 85 = 35 units.",
+            "At most 85 units are sold to those private buyers under the stated model."
+          ],
+          "successCriteria": [
+            "35-unit surplus.",
+            "85-unit sales limit.",
+            "Does not equate supply with sales."
+          ]
+        },
+        {
+          "id": "extension-myp5-economics-government-intervention-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A hypothetical equilibrium price is 12 credits and a price floor is 9 credits. Is it binding, with all other conditions unchanged?",
+          "hints": [
+            "The equilibrium is already above the minimum.",
+            "Check whether the legal constraint changes the chosen price."
+          ],
+          "solution": [
+            "The floor is non-binding because 12 exceeds the 9-credit minimum.",
+            "The model equilibrium price and quantity remain unchanged."
+          ],
+          "successCriteria": [
+            "Correct price comparison.",
+            "Non-binding classification.",
+            "Unchanged equilibrium."
+          ]
+        }
+      ]
+    },
+    "myp5-economics-labour": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Hours and productivity jointly determine output",
+            "paragraphs": [
+              "Labour productivity measures output per unit of labour input, commonly per worker-hour. It differs from total output: a firm can produce more simply by using more hours without improving productivity. Comparisons need consistent output definitions and quality. Training, equipment and organisation may affect productivity, but a before-and-after increase alone cannot identify which factor caused it. Employment statistics also require a defined population and period. People outside the labour force are not automatically counted as unemployed. Distinguishing these measures helps avoid turning a change in one indicator into an unsupported claim about all labour-market outcomes."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-labour-worked",
+            "prompt": "Hypothetical workshop produces 240 items using 80 worker-hours, then 330 items using 100 worker-hours. Compare productivity.",
+            "steps": [
+              "Initial productivity = 240/80 = 3 items per worker-hour.",
+              "Later productivity = 330/100 = 3.3, an increase of 0.3/3 × 100% = 10%."
+            ],
+            "conclusion": "Total output rises 37.5%, but productivity rises only 10%."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-labour-card-1",
+            "front": "What is labour productivity?",
+            "back": "Output per unit of labour input."
+          },
+          {
+            "id": "extension-labour-card-2",
+            "front": "Can output rise without productivity rising?",
+            "back": "Yes, by using more labour hours."
+          },
+          {
+            "id": "extension-labour-card-3",
+            "front": "Why compare output quality?",
+            "back": "More low-quality units may not represent equivalent output."
+          },
+          {
+            "id": "extension-labour-card-4",
+            "front": "Are all non-employed people unemployed?",
+            "back": "No; some are outside the defined labour force."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-labour-diagram",
+            "title": "Hours and productivity jointly determine output",
+            "description": "Separate the amount of labour used from output per hour.",
+            "nodes": [
+              {
+                "id": "extension-labour-node-1",
+                "label": "Initial production",
+                "detail": "240 items / 80 hours = 3 per hour"
+              },
+              {
+                "id": "extension-labour-node-2",
+                "label": "Later production",
+                "detail": "330 items / 100 hours = 3.3 per hour"
+              },
+              {
+                "id": "extension-labour-node-3",
+                "label": "Productivity change",
+                "detail": "10% increase, distinct from total-output growth"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-labour-node-1",
+                "to": "extension-labour-node-2",
+                "label": "compare output per worker-hour"
+              },
+              {
+                "from": "extension-labour-node-2",
+                "to": "extension-labour-node-3",
+                "label": "calculate change from the initial productivity"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-economics-labour-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "A hypothetical team makes 500 units in 125 worker-hours. Find productivity and output expected from 150 hours at the same rate.",
+          "hints": [
+            "Find units per hour first.",
+            "Then multiply by the new hours."
+          ],
+          "solution": [
+            "Productivity = 500/125 = 4 units per worker-hour.",
+            "At the same rate, 150 hours produce 600 units."
+          ],
+          "successCriteria": [
+            "4 units per hour.",
+            "Correct scaling.",
+            "600 units with constant-rate assumption."
+          ]
+        },
+        {
+          "id": "extension-myp5-economics-labour-practice-2",
+          "difficulty": "Advanced",
+          "command": "Evaluate",
+          "marks": 3,
+          "prompt": "After training, output per hour rises, but a new machine is installed at the same time. Can the full increase be attributed to training?",
+          "hints": [
+            "Two influences changed together.",
+            "A comparison must separate their effects."
+          ],
+          "solution": [
+            "The machine may also raise output per hour, so the changes are confounded.",
+            "Use an appropriate comparison of training with similar equipment conditions before attributing the full increase to training."
+          ],
+          "successCriteria": [
+            "Machine alternative.",
+            "Confounding identified.",
+            "Matched-equipment comparison."
+          ]
+        }
+      ]
+    },
+    "myp5-economics-development": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Distribution shapes the meaning of an average",
+            "paragraphs": [
+              "Development combines economic resources with capabilities and living conditions, so no single average gives a complete account. Real output per person adjusts total production for both prices and population, but it still hides distribution and non-market outcomes. The median identifies the middle observation in ordered data and can differ sharply from the mean when a few values are very high. Comparing both helps describe distribution, although neither reveals every inequality. Education, health, environmental conditions and access to services add other dimensions. Evaluation should specify whose circumstances improved, over what period and by which measures."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-development-worked",
+            "prompt": "Hypothetical annual incomes are 5, 5, 5, 5 and 30 credits. Find mean and median, then interpret the difference.",
+            "steps": [
+              "Mean = 50/5 = 10 credits.",
+              "The middle ordered value is 5 credits, so the median is 5."
+            ],
+            "conclusion": "The high final value raises the mean above the income of most people in this small dataset."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-development-card-1",
+            "front": "What does real output per person adjust for?",
+            "back": "Price changes and population size."
+          },
+          {
+            "id": "extension-development-card-2",
+            "front": "What is the median?",
+            "back": "The middle ordered value, or mean of the two middle values for an even count."
+          },
+          {
+            "id": "extension-development-card-3",
+            "front": "Why can the mean be misleading about a typical person?",
+            "back": "A few extreme values can pull it away from most observations."
+          },
+          {
+            "id": "extension-development-card-4",
+            "front": "Does output per person measure every development dimension?",
+            "back": "No; distribution and other outcomes matter."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-development-diagram",
+            "title": "Distribution shapes the meaning of an average",
+            "description": "A single high income pulls the mean above the median.",
+            "nodes": [
+              {
+                "id": "extension-development-node-1",
+                "label": "Ordered incomes",
+                "detail": "5, 5, 5, 5, 30"
+              },
+              {
+                "id": "extension-development-node-2",
+                "label": "Mean",
+                "detail": "Total 50 divided by 5 = 10"
+              },
+              {
+                "id": "extension-development-node-3",
+                "label": "Median",
+                "detail": "Middle value 5; most observations lie below the mean"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-development-node-1",
+                "to": "extension-development-node-2",
+                "label": "calculate the arithmetic average"
+              },
+              {
+                "from": "extension-development-node-2",
+                "to": "extension-development-node-3",
+                "label": "compare with the central ordered observation"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-economics-development-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "Hypothetical real output grows from 100 to 110 million credits while population grows from 10,000 to 11,000. Find real output per person before and after.",
+          "hints": [
+            "Divide each total by its corresponding population.",
+            "Both totals grow proportionally."
+          ],
+          "solution": [
+            "Initially: 100,000,000/10,000 = 10,000 credits per person.",
+            "Later: 110,000,000/11,000 = 10,000; output per person is unchanged."
+          ],
+          "successCriteria": [
+            "Initial 10,000.",
+            "Later 10,000.",
+            "Unchanged per-person interpretation."
+          ]
+        },
+        {
+          "id": "extension-myp5-economics-development-practice-2",
+          "difficulty": "Advanced",
+          "command": "Evaluate",
+          "marks": 3,
+          "prompt": "A region’s average income rises while access to reliable water declines. Can development be said to improve on every dimension?",
+          "hints": [
+            "The two indicators describe different outcomes.",
+            "An overall judgement requires explicit criteria."
+          ],
+          "solution": [
+            "Income improves on the supplied measure, but reliable-water access worsens.",
+            "The evidence contradicts improvement on every dimension; any overall judgement must state how these outcomes are weighed."
+          ],
+          "successCriteria": [
+            "Income improvement.",
+            "Water deterioration.",
+            "Qualified multidimensional judgement."
+          ]
+        }
+      ]
+    },
+    "myp5-economics-trade": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Opportunity cost determines specialisation",
+            "paragraphs": [
+              "Comparative advantage concerns lower opportunity cost, whereas absolute advantage concerns producing more with the same resources. A producer can have absolute advantage in both goods while still benefiting from specialisation and trade under the simple model. Mutually beneficial exchange terms lie between the producers’ opportunity costs, excluding endpoints if both must gain strictly. Transport costs and other barriers can narrow that range. The classroom model assumes comparable goods, usable outputs and the stated resource constraints. It illustrates possible gains rather than proving that every person in each economy benefits equally from actual trade."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-trade-worked",
+            "prompt": "Hypothetical equal-resource frontiers: A makes 24 bowls or 12 plates; B makes 12 bowls or 9 plates. Find comparative advantage.",
+            "steps": [
+              "For A, one plate costs 2 bowls; for B, one plate costs 12/9 = 4/3 bowls.",
+              "B has the lower plate cost; A has the lower bowl cost, 1/2 plate versus 3/4 plate."
+            ],
+            "conclusion": "A has absolute advantage in both outputs, yet comparative advantage differs by good."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-trade-card-1",
+            "front": "What determines comparative advantage?",
+            "back": "Lower opportunity cost."
+          },
+          {
+            "id": "extension-trade-card-2",
+            "front": "What determines absolute advantage?",
+            "back": "Greater output from equivalent resources."
+          },
+          {
+            "id": "extension-trade-card-3",
+            "front": "Where must mutually beneficial terms lie in the simple model?",
+            "back": "Between the parties’ opportunity costs."
+          },
+          {
+            "id": "extension-trade-card-4",
+            "front": "Can transport costs reduce gains from trade?",
+            "back": "Yes; they use resources and narrow the benefit."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-trade-diagram",
+            "title": "Opportunity cost determines specialisation",
+            "description": "Higher productivity in both goods does not remove relative-cost differences.",
+            "nodes": [
+              {
+                "id": "extension-trade-node-1",
+                "label": "Producer A",
+                "detail": "One plate costs 2 bowls"
+              },
+              {
+                "id": "extension-trade-node-2",
+                "label": "Producer B",
+                "detail": "One plate costs 4/3 bowls"
+              },
+              {
+                "id": "extension-trade-node-3",
+                "label": "Comparative advantage",
+                "detail": "B in plates; A in bowls"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-trade-node-1",
+                "to": "extension-trade-node-2",
+                "label": "compare the same good’s opportunity cost"
+              },
+              {
+                "from": "extension-trade-node-2",
+                "to": "extension-trade-node-3",
+                "label": "assign lower-cost production"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-economics-trade-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "Hypothetical producer A gives up 3 cups per basket and B gives up 5 cups per basket. Would A exporting one basket for 4 cups benefit both before other costs?",
+          "hints": [
+            "Compare the trade price with each opportunity cost.",
+            "Both must beat their domestic trade-off."
+          ],
+          "solution": [
+            "A receives 4 cups for a basket costing 3 cups, gaining 1 cup-equivalent.",
+            "B pays 4 cups rather than sacrificing 5 to make a basket, so both gain under the assumptions."
+          ],
+          "successCriteria": [
+            "A gains.",
+            "B gains.",
+            "Terms lie between 3 and 5."
+          ]
+        },
+        {
+          "id": "extension-myp5-economics-trade-practice-2",
+          "difficulty": "Advanced",
+          "command": "Evaluate",
+          "marks": 3,
+          "prompt": "In the previous hypothetical cost structure, A receives 4 cups per exported basket but must spend 2 cups-equivalent on transport. Does A still gain?",
+          "hints": [
+            "Subtract transport from receipts.",
+            "Compare net receipts with the 3-cup production cost."
+          ],
+          "solution": [
+            "Net receipts = 4 − 2 = 2 cups-equivalent.",
+            "This is below A’s 3-cup opportunity cost, so A does not gain under these stated terms and costs."
+          ],
+          "successCriteria": [
+            "Net receipt 2.",
+            "Compares with cost 3.",
+            "No gain for A."
+          ]
+        }
+      ]
+    },
+    "myp5-economics-macroeconomic-foundations": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Basket cost determines the price index",
+            "paragraphs": [
+              "A price index tracks the cost of a specified basket relative to a base period. Inflation measures the percentage increase in the index between periods, using the earlier index as the denominator. A fall in the inflation rate means prices are rising more slowly, not necessarily falling. The basket’s weights matter because heavily purchased items contribute more to its cost. A fixed basket simplifies comparison but may not reflect later substitution or each household’s spending pattern. Macroeconomic indicators therefore need definitions and context: an economy-wide average can differ from the price changes experienced by a particular household."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-macroeconomic-foundations-worked",
+            "prompt": "Hypothetical fixed basket contains 2 loaves and 1 milk carton. Prices change from 3 and 4 credits to 4 and 5 respectively. Find basket inflation.",
+            "steps": [
+              "Initial cost = 2 × 3 + 4 = 10 credits; later cost = 2 × 4 + 5 = 13.",
+              "Inflation = (13 − 10)/10 × 100% = 30%."
+            ],
+            "conclusion": "The result applies to this fixed basket, not every household’s purchases."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-macroeconomic-foundations-card-1",
+            "front": "What does a base index of 100 mean?",
+            "back": "The chosen base-period basket cost is represented by 100."
+          },
+          {
+            "id": "extension-macroeconomic-foundations-card-2",
+            "front": "What is inflation?",
+            "back": "The percentage rise in the general price index over the stated interval."
+          },
+          {
+            "id": "extension-macroeconomic-foundations-card-3",
+            "front": "Does lower positive inflation mean falling prices?",
+            "back": "No; prices still rise, but more slowly."
+          },
+          {
+            "id": "extension-macroeconomic-foundations-card-4",
+            "front": "Why do basket weights matter?",
+            "back": "Items purchased in greater quantities have greater cost influence."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-macroeconomic-foundations-diagram",
+            "title": "Basket cost determines the price index",
+            "description": "Quantities weight the individual price changes.",
+            "nodes": [
+              {
+                "id": "extension-macroeconomic-foundations-node-1",
+                "label": "Base basket",
+                "detail": "2 loaves and 1 milk: 10 credits"
+              },
+              {
+                "id": "extension-macroeconomic-foundations-node-2",
+                "label": "Later same basket",
+                "detail": "13 credits"
+              },
+              {
+                "id": "extension-macroeconomic-foundations-node-3",
+                "label": "Price increase",
+                "detail": "3/10 = 30%"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-macroeconomic-foundations-node-1",
+                "to": "extension-macroeconomic-foundations-node-2",
+                "label": "reprice identical quantities"
+              },
+              {
+                "from": "extension-macroeconomic-foundations-node-2",
+                "to": "extension-macroeconomic-foundations-node-3",
+                "label": "compare with the base cost"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-economics-macroeconomic-foundations-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "A hypothetical annual price index rises from 150 to 156. Find inflation and explain the denominator.",
+          "hints": [
+            "Use the increase of six.",
+            "Compare it with the earlier index."
+          ],
+          "solution": [
+            "Inflation = 6/150 × 100% = 4%.",
+            "The earlier index 150 is the baseline; dividing by 100 would give a different, incorrect growth rate."
+          ],
+          "successCriteria": [
+            "Increase 6.",
+            "Uses denominator 150.",
+            "4%."
+          ]
+        },
+        {
+          "id": "extension-myp5-economics-macroeconomic-foundations-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A hypothetical price index falls from 120 to 114. Calculate the change and distinguish it from slower positive inflation.",
+          "hints": [
+            "Retain the negative sign.",
+            "A lower index indicates lower basket cost."
+          ],
+          "solution": [
+            "Change = (114 − 120)/120 × 100% = −5%.",
+            "This is a falling price level for the index, whereas slower positive inflation would still raise it."
+          ],
+          "successCriteria": [
+            "−5%.",
+            "Falling price-level interpretation.",
+            "Distinguishes disinflation."
+          ]
+        }
+      ]
+    },
+    "myp5-economics-data-response": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Combined rates need denominator weights",
+            "paragraphs": [
+              "Economic data comparisons require aligned definitions, populations, dates and units. Combining percentages from differently sized groups requires weighting by their denominators. A simple average of rates gives each group equal weight even when one contains many more people. Rebased indices can aid comparison, but indices show relative movement rather than absolute size. Graphs should identify truncated axes and the interval covered, because visual steepness can change without any change in the underlying data. A strong response performs the relevant calculation, describes what it establishes and separates that descriptive result from an unsupported causal explanation."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-data-response-worked",
+            "prompt": "Hypothetical groups: A has 10 unemployed people in a labour force of 100; B has 10 in a labour force of 400. Find the combined rate.",
+            "steps": [
+              "Combined unemployed = 20; combined labour force = 500.",
+              "Rate = 20/500 × 100% = 4%."
+            ],
+            "conclusion": "Averaging 10% and 2.5% would wrongly weight unequal labour forces equally."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-data-response-card-1",
+            "front": "How are group rates combined correctly?",
+            "back": "Add numerators and denominators, then calculate the rate."
+          },
+          {
+            "id": "extension-data-response-card-2",
+            "front": "What does an index mainly show?",
+            "back": "Relative change from a stated base."
+          },
+          {
+            "id": "extension-data-response-card-3",
+            "front": "Why inspect a graph’s axis range?",
+            "back": "Truncation can exaggerate apparent differences."
+          },
+          {
+            "id": "extension-data-response-card-4",
+            "front": "Does a before-and-after pattern alone prove policy causation?",
+            "back": "No; other changes may explain it."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-data-response-diagram",
+            "title": "Combined rates need denominator weights",
+            "description": "The larger group contributes more people to the total.",
+            "nodes": [
+              {
+                "id": "extension-data-response-node-1",
+                "label": "Group A",
+                "detail": "10 unemployed / 100 labour force"
+              },
+              {
+                "id": "extension-data-response-node-2",
+                "label": "Group B",
+                "detail": "10 unemployed / 400 labour force"
+              },
+              {
+                "id": "extension-data-response-node-3",
+                "label": "Combined",
+                "detail": "20 / 500 = 4%"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-data-response-node-1",
+                "to": "extension-data-response-node-2",
+                "label": "combine comparable counts"
+              },
+              {
+                "from": "extension-data-response-node-2",
+                "to": "extension-data-response-node-3",
+                "label": "divide by the combined denominator"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-economics-data-response-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "Hypothetical survey A has 30 satisfied respondents out of 50; B has 90 out of 150. Find the combined satisfaction rate.",
+          "hints": [
+            "Add satisfied counts and total respondents separately.",
+            "Use the combined fraction."
+          ],
+          "solution": [
+            "Satisfied = 120; respondents = 200.",
+            "Combined rate = 120/200 × 100% = 60%."
+          ],
+          "successCriteria": [
+            "120 satisfied.",
+            "200 respondents.",
+            "60%."
+          ]
+        },
+        {
+          "id": "extension-myp5-economics-data-response-practice-2",
+          "difficulty": "Advanced",
+          "command": "Evaluate",
+          "marks": 3,
+          "prompt": "Two regions each have an output index of 120 with base 100. Does this prove their current output levels are equal?",
+          "hints": [
+            "Indices compare each region with its own base.",
+            "Absolute base outputs may differ."
+          ],
+          "solution": [
+            "Both have risen 20% relative to their respective bases.",
+            "Their absolute outputs can differ because the base levels are not supplied; equal indices do not establish equal size."
+          ],
+          "successCriteria": [
+            "20% relative change.",
+            "Missing absolute bases.",
+            "Rejects equal-size inference."
+          ]
+        }
+      ]
+    }
+  }
+}

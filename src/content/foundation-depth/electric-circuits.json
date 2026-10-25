@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "lessonId": "electric-circuits",
+  "revision": "2026-10-21.3",
+  "notes": [
+    {
+      "heading": "Account for the measuring instrument and the source",
+      "paragraphs": [
+        "Ideal circuit rules simplify both the power supply and the instruments. An ideal voltmeter has infinite resistance and draws no current; a real finite-resistance meter can change the circuit it measures. An ideal battery maintains its stated voltage, while a model with internal resistance has a terminal voltage that decreases as current increases. Always state which model is being used before applying a familiar divider rule. Energy conservation requires that the power supplied equals power transferred in all resistive elements, including any internal resistance included in the model."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "depth-internal-resistance",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "A model battery has emf 12 V and internal resistance 1 Ω. It supplies a 5 Ω resistor. Find current, terminal voltage and power in the external resistor.",
+      "answer": "Current 2 A, terminal voltage 10 V, external power 20 W.",
+      "solution": [
+        "Use total series resistance 6 Ω to obtain 12/6=2 A.",
+        "The external drop is 2×5=10 V and its power is I²R=20 W."
+      ],
+      "markingPoints": [
+        "Find current 2 A.",
+        "Find terminal voltage 10 V.",
+        "Find external power 20 W."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-meter-loading",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "Two 10 kΩ resistors form a divider across an ideal 12 V supply. A 10 kΩ voltmeter is placed across the lower resistor. Find the indicated voltage and compare it with the unloaded value.",
+      "answer": "The meter reads 4 V; the unloaded value is 6 V.",
+      "solution": [
+        "The lower resistor and meter combine in parallel to give 5 kΩ.",
+        "The loaded divider gives 12×5/(10+5)=4 V."
+      ],
+      "markingPoints": [
+        "Find parallel resistance 5 kΩ.",
+        "Compute loaded voltage 4 V.",
+        "Compare with unloaded 6 V."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-parallel-power",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "An ideal 9 V supply feeds 3 Ω and 6 Ω resistors in parallel. Find each branch current and verify total power using both VI and the sum of branch powers.",
+      "answer": "Currents are 3 A and 1.5 A. Total power is 9×4.5=40.5 W, also 27+13.5 W.",
+      "solution": [
+        "Each parallel branch has 9 V; divide by its resistance.",
+        "Sum branch currents or branch powers and compare the totals."
+      ],
+      "markingPoints": [
+        "Find both branch currents.",
+        "Compute total power 40.5 W from VI.",
+        "Verify branch powers sum to 40.5 W."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    }
+  ]
+}

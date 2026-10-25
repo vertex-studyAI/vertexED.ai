@@ -5,10 +5,10 @@ import { buildContentCoverage } from '../scripts/generate-content-coverage.mjs';
 
 test('coverage and review packet retain prepared assets without converting them to approval', async () => {
   const report = await buildContentCoverage();
-  const persisted = JSON.parse(await readFile('docs/evidence/content-coverage-20261016.json', 'utf8'));
+  const persisted = JSON.parse(await readFile('docs/evidence/content-coverage-20261019.json', 'utf8'));
   assert.deepEqual(report, persisted);
-  assert.deepEqual(report.summary.ap, { courses: 42, modules: 274, questions: 551 });
-  assert.deepEqual(report.summary.myp, { subjects: 17, lessons: 205, questions: 616 });
+  assert.deepEqual(report.summary.ap, {"courses": 42, "modules": 274, "questions": 1115, "studyPacks": 274, "additionalNoteWords": 24902, "workedExamples": 548, "flashcards": 1127, "diagrams": 274});
+  assert.deepEqual(report.summary.myp, {"subjects": 17, "lessons": 205, "questions": 1026, "studyPacks": 205, "additionalNoteWords": 18135, "workedExamples": 410, "flashcards": 820, "diagrams": 205});
   assert.equal(report.summary.guides.files, 245);
   assert.equal(report.summary.guides.quarantined, 53);
   assert.equal(report.summary.guides.approved, 0);

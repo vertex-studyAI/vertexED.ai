@@ -1,3 +1,4 @@
+import { APP_ORIGIN } from '@/lib/appOrigin';
 import React from "react";
 import Article from "@/components/Article";
 import SEO from "@/components/SEO";
@@ -9,7 +10,7 @@ export default function EssayWritingGuide() {
       <SEO
         title="Essay writing with AI for IB, A-Level, and AP | VertexED"
         description="Use AI to stress-test your thesis, check PEEL structure, and read rubric feedback - without outsourcing the argument you have to defend in the exam hall."
-        canonical="https://www.vertexed.app/resources/essay-writing-with-ai"
+        canonical={`${APP_ORIGIN}/resources/essay-writing-with-ai`}
         keywords="essay writing AI, IB History essay, English Literature essay, Psychology essay, A-Level essay tips, thesis statement, essay structure, PEEL paragraph, essay feedback AI, VertexED, humanities study guide, academic writing"
       />
       <Article

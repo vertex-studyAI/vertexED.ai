@@ -1,3 +1,4 @@
+import { APP_ORIGIN } from '@/lib/appOrigin';
 import { Helmet } from "react-helmet-async";
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router";
@@ -265,7 +266,7 @@ export default function Signup() {
       <Helmet>
         <title>{isAccountSignup ? "Create a VertexED account" : "Join VertexED - waitlist"}</title>
         <meta name="description" content="Join the VertexED private beta or create an account with an invite." />
-        <link rel="canonical" href="https://www.vertexed.app/signup" />
+        <link rel="canonical" href={`${APP_ORIGIN}/signup`} />
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
       <PageSection className="relative min-h-[70vh] flex items-center justify-center px-4 py-12">

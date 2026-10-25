@@ -1,3 +1,4 @@
+import { APP_ORIGIN } from '@/lib/appOrigin';
 import React from "react";
 import { Link } from "react-router";
 import { Helmet } from "react-helmet-async";
@@ -92,7 +93,7 @@ export default function ArchivesSubjectPage({
         title={`${subjectTerm} notes, exemplars and practice | VertexED`}
         description={`${subjectTerm} revision archive with curated notes, exemplars, practice questions, and exam-writing support.`}
         keywords={`${subjectTerm} notes, ${subjectTerm} revision, ${subjectTerm} practice questions, IB MYP ${title} study guide`}
-        canonical={`https://www.vertexed.app/${route}`}
+        canonical={`${APP_ORIGIN}/${route}`}
         ogType="article"
       />
       <PageSection>

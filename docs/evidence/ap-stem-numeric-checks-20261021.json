@@ -1,0 +1,206 @@
+{
+  "kind": "independent-arithmetic-spot-checks",
+  "count": 40,
+  "checks": [
+    {
+      "check": "Chemistry isotope inverse abundance",
+      "computed": 0.3000000000000007,
+      "expected": 0.3
+    },
+    {
+      "check": "Chemistry mixed NaCl concentration",
+      "computed": 0.13333333333333336,
+      "expected": 0.13333333333333333
+    },
+    {
+      "check": "Chemistry buffer pH after strong-acid addition",
+      "computed": 4.823908740944319,
+      "expected": 4.823908740944319
+    },
+    {
+      "check": "Chemistry calorimetry molar enthalpy",
+      "computed": -47.99999999999999,
+      "expected": -48
+    },
+    {
+      "check": "Chemistry standard electrochemical free energy",
+      "computed": -231.60000000000002,
+      "expected": -231.6
+    },
+    {
+      "check": "Physics1 reversal distance",
+      "computed": 10.0,
+      "expected": 10
+    },
+    {
+      "check": "Physics1 inelastic collision energy loss",
+      "computed": 16.333333333333332,
+      "expected": 16.333333333333332
+    },
+    {
+      "check": "Physics1 rolling cylinder energy",
+      "computed": 13.5,
+      "expected": 13.5
+    },
+    {
+      "check": "Physics1 spring endpoint acceleration",
+      "computed": 6.4,
+      "expected": 6.4
+    },
+    {
+      "check": "Physics2 constant-pressure work",
+      "computed": 599.9999999999999,
+      "expected": 600
+    },
+    {
+      "check": "Physics2 charge energy change",
+      "computed": 0.00019999999999999998,
+      "expected": 0.0002
+    },
+    {
+      "check": "Physics2 induced emf",
+      "computed": 0.04,
+      "expected": 0.04
+    },
+    {
+      "check": "Physics2 inside-focus image distance",
+      "computed": -23.999999999999996,
+      "expected": -24
+    },
+    {
+      "check": "Physics2 third harmonic frequency",
+      "computed": 75.0,
+      "expected": 75
+    },
+    {
+      "check": "PhysicsC integrating acceleration final position",
+      "computed": 7.333333333333333,
+      "expected": 7.333333333333333
+    },
+    {
+      "check": "PhysicsC linear drag displacement",
+      "computed": 10.113928941256923,
+      "expected": 10.113928941256923
+    },
+    {
+      "check": "PhysicsC potential work",
+      "computed": 6,
+      "expected": 6
+    },
+    {
+      "check": "PhysicsC force-time impulse",
+      "computed": 8,
+      "expected": 8
+    },
+    {
+      "check": "PhysicsC rod axis shift",
+      "computed": 8.0,
+      "expected": 8
+    },
+    {
+      "check": "PhysicsC charging capacitor at tau voltage",
+      "computed": 3.792723352971346,
+      "expected": 3.792723352971346
+    },
+    {
+      "check": "PhysicsC charging current at tau microamps",
+      "computed": 22.07276647028654,
+      "expected": 22.07276647028654
+    },
+    {
+      "check": "PhysicsC inductor energy change",
+      "computed": 1.5,
+      "expected": 1.5
+    },
+    {
+      "check": "Environment irrigation withdrawal reduction",
+      "computed": 0.25,
+      "expected": 0.25
+    },
+    {
+      "check": "Environment concentration-versus-load change",
+      "computed": 0.5,
+      "expected": 0.5
+    },
+    {
+      "check": "Environment activity rebound total change",
+      "computed": 0.2,
+      "expected": 0.2
+    },
+    {
+      "check": "Macro nominal GDP growth",
+      "computed": 0.8,
+      "expected": 0.8
+    },
+    {
+      "check": "Macro real GDP growth",
+      "computed": 0.2,
+      "expected": 0.2
+    },
+    {
+      "check": "Macro spending multiplier output",
+      "computed": 75.0,
+      "expected": 75
+    },
+    {
+      "check": "Macro exact real interest",
+      "computed": 0.02941176470588247,
+      "expected": 0.02941176470588225
+    },
+    {
+      "check": "Micro midpoint elasticity",
+      "computed": 1.222222222222222,
+      "expected": 1.2222222222222223
+    },
+    {
+      "check": "Micro competitive firm loss",
+      "computed": -80,
+      "expected": -80
+    },
+    {
+      "check": "Micro monopsony marginal hiring cost",
+      "computed": 15,
+      "expected": 15
+    },
+    {
+      "check": "Business annual compounding",
+      "computed": 1102.5,
+      "expected": 1102.5
+    },
+    {
+      "check": "Business profit",
+      "computed": 60,
+      "expected": 60
+    },
+    {
+      "check": "Business current cash change",
+      "computed": -90,
+      "expected": -90
+    },
+    {
+      "check": "Business irregular bill adjusted surplus",
+      "computed": 50.0,
+      "expected": 50
+    },
+    {
+      "check": "Government House two-thirds threshold",
+      "computed": 290,
+      "expected": 290
+    },
+    {
+      "check": "Government Senate two-thirds threshold",
+      "computed": 67,
+      "expected": 67
+    },
+    {
+      "check": "Government eligible-voter turnout",
+      "computed": 0.45,
+      "expected": 0.45
+    },
+    {
+      "check": "Government registered-voter turnout",
+      "computed": 0.6,
+      "expected": 0.6
+    }
+  ]
+}

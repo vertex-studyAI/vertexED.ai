@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "lessonId": "sampling-and-uncertainty",
+  "revision": "2026-10-21.3",
+  "notes": [
+    {
+      "heading": "Separate interval width, bias and repeated-sampling coverage",
+      "paragraphs": [
+        "An interval's width reflects the assumed sampling model and procedure. It does not automatically account for selection bias, an invalid measurement or dependence among observations. Under independent common-variance sampling, standard error decreases with the square root of sample size, so four times as many observations are needed to halve it. Comparing two samples also requires considering both sources of variability. A wide interval need not mean a poor study, and a narrow interval need not mean a correct answer if its underlying assumptions fail."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "depth-sample-target",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "Under independent sampling with known population standard deviation 15, find the minimum integer n making the standard error of the mean at most 2.",
+      "answer": "n=57.",
+      "solution": [
+        "Solve 15/√n≤2, giving n≥56.25.",
+        "Round up to the next integer because the condition is an upper bound on standard error."
+      ],
+      "markingPoints": [
+        "Use 15/√n.",
+        "Find n≥56.25.",
+        "Choose 57."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-known-sigma-interval",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "Use the supplied normal-model 95% interval rule mean ±1.96σ/√n. A sample mean is 50, known σ=10, and n=100 independent observations. Calculate the interval.",
+      "answer": "[48.04, 51.96].",
+      "solution": [
+        "Standard error is 10/10=1.",
+        "Margin is 1.96; subtract and add it to the mean."
+      ],
+      "markingPoints": [
+        "Find standard error 1.",
+        "Find margin 1.96.",
+        "Give both endpoints."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-cluster-dependence",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "A researcher measures 100 leaves from one tree and treats them as 100 independent trees when estimating a forest-wide mean. Explain the sampling-unit error and a better design.",
+      "answer": "Leaves from one tree share conditions and do not represent 100 independent trees. Sample multiple trees across the forest and account for leaves clustered within trees.",
+      "solution": [
+        "Distinguish the observed leaf unit from the population-level tree sampling unit.",
+        "Address dependence and spatial selection in the design and analysis."
+      ],
+      "markingPoints": [
+        "Identify shared-tree dependence.",
+        "Reject the 100-independent-trees claim.",
+        "Propose multiple trees with clustering accounted for."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    }
+  ]
+}

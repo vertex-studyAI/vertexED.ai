@@ -5,6 +5,7 @@ import { dispatchRoute, ROUTES } from '../api/_lib/routes.js';
 import { fetchPaidProviderResponse, readAccountAiUsage, readAiUsage } from '../api/_lib/aiUsage.js';
 import { createMocks } from './helpers/mock-http.mjs';
 import { AI_USER, AI_NOW } from './helpers/ai-usage-fixture.mjs';
+import { AI_USAGE_POLICY } from '../api/_lib/aiUsagePolicy.js';
 
 const snapshot = { observed_at: '2026-10-16T12:00:00Z', period_start: '2026-10-16T00:00:00Z', resets_at: '2026-10-17T00:00:00Z', account_limit_microusd: 1_000_000, account_used_microusd: 10, account_reserved_microusd: 100, account_remaining_microusd: 999890, account_active_count: 1, account_carried_reserved_microusd: 0, account_uncertain_count: 0, account_capacity_blocked: false, project_available: true };
 function setup(t, { member = true, reserve, read = snapshot, provider } = {}) {
@@ -29,6 +30,7 @@ function setup(t, { member = true, reserve, read = snapshot, provider } = {}) {
     if (path === '/rest/v1/profiles') return Response.json({ id: AI_USER });
     if (path === '/rest/v1/user_study_artifacts') return Response.json([{ id: 'owned-artifact' }]);
     if (path === '/rest/v1/learner_state_items') return Response.json([{ state_key: 'owned-state' }]);
+    if (path === '/rest/v1/revision_events') return Response.json([{ id: 'owned-revision', parent_event_ids: [] }]);
     if (path === '/rest/v1/ai_usage_reservations') return Response.json([{ id: 'owned-operation', state: 'uncertain', reserved_microusd: 100 }]);
     assert.fail(`Unexpected network: ${path}`);
   });
@@ -80,12 +82,14 @@ test('complete owner export includes scoped audit rows and summary; missing ledg
       assert.equal(http.getJson().counts.aiUsageOperations, 1);
       assert.equal(http.getJson().aiUsageOperations[0].id, 'owned-operation');
       assert.equal(http.getJson().learnerState[0].state_key, 'owned-state');
+      assert.equal(http.getJson().revisionEvents[0].id, 'owned-revision');
+      assert.equal(calls.find(call => call.path === '/rest/v1/revision_events').query.get('user_id'), `eq.${AI_USER}`);
       assert.equal(http.getJson().aiUsage.account.usedMicros, 10);
     }
   });
 });
 test('pricing expiry disables allowance claims but preserves read-only account export snapshot', async () => {
-  const expired = Date.parse('2026-10-24T12:00:00Z'); let calls = 0;
+  const expired = Date.parse(AI_USAGE_POLICY.expiresAt); let calls = 0;
   const rpc = async () => { calls++; return snapshot; };
   await assert.rejects(readAiUsage(AI_USER, rpc, expired), { code: 'AI_USAGE_UNAVAILABLE' }); assert.equal(calls, 0);
   const result = await readAccountAiUsage(AI_USER, rpc, expired);

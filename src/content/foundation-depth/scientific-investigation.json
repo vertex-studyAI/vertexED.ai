@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "lessonId": "scientific-investigation",
+  "revision": "2026-10-21.3",
+  "notes": [
+    {
+      "heading": "Write the decision rule before inspecting the outcome",
+      "paragraphs": [
+        "A strong investigation states its variables, controls, repeats and analysis before examining whether the expected pattern appears. Blinding labels can reduce expectation effects during measurement; randomising order helps distribute time trends; neither substitutes for calibration. If an observation appears unusual, preserve it and investigate a specific procedural explanation. Report the primary analysis with a transparent sensitivity comparison when justified. A numerical difference is descriptive evidence; whether it supports a broader causal conclusion depends on the design, measurement uncertainty and plausible alternative explanations."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "depth-calibration-slope",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "In a fictional calibration, an instrument reads 0 when the reference is 0 and 12 when the reference is 10. Assuming a linear response through zero, correct an instrument reading of 18.",
+      "answer": "The corrected value is 15 reference units.",
+      "solution": [
+        "The instrument scale factor is 12/10=1.2.",
+        "Divide the measured reading by 1.2, rather than subtracting a constant 2."
+      ],
+      "markingPoints": [
+        "Identify scale factor 1.2.",
+        "Use division to correct scale error.",
+        "Find 15."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-time-confounding",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "A fictional experiment tests all low-temperature samples in the morning and all high-temperature samples after the instrument has warmed up. Explain the confound and propose a design improvement.",
+      "answer": "Temperature condition is mixed with time or instrument drift. Alternate or randomise condition order after a defined warm-up and check calibration over time.",
+      "solution": [
+        "Identify two changes that occur together.",
+        "Arrange testing so the condition is not systematically tied to measurement time."
+      ],
+      "markingPoints": [
+        "Identify time/instrument drift.",
+        "Explain its confounding with temperature.",
+        "Propose balanced order and calibration checks."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-sensitivity-analysis",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "Fictional readings are 5,6,7,18. Calculate the full mean and the mean without 18, then state why the second should not silently replace the first.",
+      "answer": "Full mean 9; mean without 18 is 6. Exclusion needs a documented reason independent of whether it improves the desired result.",
+      "solution": [
+        "Compute 36/4 and 18/3 using the two declared datasets.",
+        "Retain the raw observation and report both analyses with the exclusion rationale."
+      ],
+      "markingPoints": [
+        "Find mean 9.",
+        "Find mean 6.",
+        "Require transparent justification and preservation."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    }
+  ]
+}

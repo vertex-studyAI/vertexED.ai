@@ -45,10 +45,126 @@
             "Avoids cherry-picking"
           ],
           "id": "research-1-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Operationalise 'library access' for a study of opening hours.",
+          "hint": "Choose an observable feature.",
+          "hints": [
+            "Choose an observable feature.",
+            "Specify who and when."
+          ],
+          "answer": "Measure hours available outside pupils' lesson times. Define the school and observation period. Acknowledge that hours do not measure transport or physical access.",
+          "checkpoints": [
+            "Measure hours available outside pupils' lesson times.",
+            "Define the school and observation period.",
+            "Acknowledge that hours do not measure transport or physical access."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "Why is 'nobody has studied my school' insufficient to establish a research gap?",
+          "hint": "Novel location is not the same as unresolved knowledge.",
+          "hints": [
+            "Novel location is not the same as unresolved knowledge.",
+            "Connect the setting to a meaningful question."
+          ],
+          "answer": "A new location alone may repeat a settled question. The researcher must identify an unresolved issue. The school's context should matter to investigating that issue.",
+          "checkpoints": [
+            "A new location alone may repeat a settled question.",
+            "The researcher must identify an unresolved issue.",
+            "The school's context should matter to investigating that issue."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "frameworkUnit": "Research skill 1",
-      "id": "research-1"
+      "id": "research-1",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Narrow a question to an answerable claim in depth",
+            "paragraphs": [
+              "Operationalisation connects an abstract concept to an observable measure or interpretive procedure. 'Engagement' might mean attendance, time on task or participants' accounts, and these are not interchangeable. Define the population and timeframe before choosing what evidence is feasible. A literature gap is a specific unresolved question, not merely a topic unfamiliar to the researcher. The project should explain how its question follows from existing work and why its chosen measure can answer it. Narrow scope can produce a useful contribution when the boundaries are explicit."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Turn 'Does music help study?' into an answerable observational question.",
+            "steps": [
+              "Specify one class, a week and a measurable outcome such as self-reported concentration during independent reading.",
+              "Record music use without claiming random assignment."
+            ],
+            "conclusion": "Ask how reported concentration varies with reported music use in that setting; a causal benefit remains outside the design."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is operationalisation?",
+            "back": "Defining how a concept will be observed."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Is attendance identical to engagement?",
+            "back": "No; it measures only one possible dimension."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What is a literature gap?",
+            "back": "A documented unresolved question in existing work."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why narrow the population?",
+            "back": "It makes claims and evidence requirements explicit."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "From concept to question",
+            "description": "Measurement determines the question a design can answer.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Concentration",
+                "detail": "An abstract experience."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Self-report scale",
+                "detail": "A specified observable indicator."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Bounded association",
+                "detail": "Reported concentration compared within one class."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "is operationalised by"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "supports"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Choose a method and protect participants",
@@ -88,10 +204,126 @@
             "Does not claim automatic superiority"
           ],
           "id": "research-2-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Revise the invented interview prompt 'Why do you dislike the new canteen?'",
+          "hint": "Remove the assumed attitude.",
+          "hints": [
+            "Remove the assumed attitude.",
+            "Invite a concrete account."
+          ],
+          "answer": "Ask 'Describe your experience of the new canteen.' Follow with neutral questions about specific features. Allow positive, negative or mixed responses.",
+          "checkpoints": [
+            "Ask 'Describe your experience of the new canteen.'",
+            "Follow with neutral questions about specific features.",
+            "Allow positive, negative or mixed responses."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "Why should a researcher not promise anonymity while recording names beside interviews?",
+          "hint": "Check whether identities are known.",
+          "hints": [
+            "Check whether identities are known.",
+            "Use the correct protection term."
+          ],
+          "answer": "Names linked to interviews mean the data are identifiable. Confidentiality may describe restricted disclosure. The information sheet must accurately explain handling and access.",
+          "checkpoints": [
+            "Names linked to interviews mean the data are identifiable.",
+            "Confidentiality may describe restricted disclosure.",
+            "The information sheet must accurately explain handling and access."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "frameworkUnit": "Research skill 2",
-      "id": "research-2"
+      "id": "research-2",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Choose a method and protect participants in depth",
+            "paragraphs": [
+              "Method choice follows the kind of answer sought. Interviews can explore meanings; observations can document behaviour; surveys can estimate patterns when sampling supports that use. Recruitment affects whose experiences are visible. Ethical planning includes voluntary participation, appropriate consent, confidentiality and realistic arrangements for storing and deleting data under the applicable review process. Anonymity and confidentiality differ: a researcher may know identities while promising not to disclose them. Collect only what the question requires, and avoid designing a method whose promised protections cannot actually be delivered."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Plan an invented study of how pupils interpret feedback comments.",
+            "steps": [
+              "Use interviews about supplied examples to explore interpretation rather than claiming to measure long-term learning.",
+              "Recruit through an approved voluntary process and separate identifying details from transcripts."
+            ],
+            "conclusion": "The design can explain participants' interpretations within its recruitment limits."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What can interviews explore?",
+            "back": "Participants' meanings and accounts."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What is confidentiality?",
+            "back": "Restricting disclosure of identifiable information."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "How does anonymity differ?",
+            "back": "Identities are not known or linkable in the relevant data."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why minimise collected data?",
+            "back": "Unnecessary identifiers add risk without answering the question."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Feedback interview design",
+            "description": "Question, evidence and protection must align.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Interpretation question",
+                "detail": "How pupils understand comments."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Interview accounts",
+                "detail": "Explanations in participants' own words."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Protected analysis",
+                "detail": "Approved handling limits identity exposure."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "calls for"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "requires"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Make analysis traceable",
@@ -131,10 +363,126 @@
             "Does not erase the larger value"
           ],
           "id": "research-3-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Two coders classify 'The journey was cheap but slow' differently. How can the record improve?",
+          "hint": "The statement contains two ideas.",
+          "hints": [
+            "The statement contains two ideas.",
+            "Clarify whether multiple codes are allowed."
+          ],
+          "answer": "Define cost and time categories. Allow both codes if consistent with the chosen method. Document the revised rule and revisit comparable statements.",
+          "checkpoints": [
+            "Define cost and time categories.",
+            "Allow both codes if consistent with the chosen method.",
+            "Document the revised rule and revisit comparable statements."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "A measured value is unusually large but has no recording error. May it simply be deleted?",
+          "hint": "Distinguish unusual from invalid.",
+          "hints": [
+            "Distinguish unusual from invalid.",
+            "Check the predefined analysis rules."
+          ],
+          "answer": "Unusual size alone does not justify deletion. Apply a documented exclusion rule if relevant. Otherwise retain it and explain its influence or a justified sensitivity analysis.",
+          "checkpoints": [
+            "Unusual size alone does not justify deletion.",
+            "Apply a documented exclusion rule if relevant.",
+            "Otherwise retain it and explain its influence or a justified sensitivity analysis."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "frameworkUnit": "Research skill 3",
-      "id": "research-3"
+      "id": "research-3",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Make analysis traceable in depth",
+            "paragraphs": [
+              "Traceable analysis preserves a route from raw evidence to the reported claim. Quantitative work needs defined variables, units and documented treatment of missing values. Qualitative coding needs explicit category definitions and examples, with disagreements or revisions recorded. A category can change during analysis if the method permits it, but silent changes make interpretation difficult to assess. Keep anomalous observations visible unless a justified rule excludes them. A clean-looking result is not a reason to remove inconvenient data or conceal uncertainty."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Invented survey: four ratings are 2, 3, missing and 5. Report the mean responsibly.",
+            "steps": [
+              "Treat missing as unavailable, not zero; the observed sum is 10 across three ratings.",
+              "Compute 10/3, approximately 3.33, and report one missing response."
+            ],
+            "conclusion": "The mean describes three observed ratings, with the missing value explicitly retained in the record."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "Should missing data automatically become zero?",
+            "back": "No; missing and measured zero differ."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What is a codebook?",
+            "back": "Definitions and examples for analytic categories."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Why retain anomalies?",
+            "back": "They may be valid evidence challenging a pattern."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What does an audit trail preserve?",
+            "back": "The path from data through decisions to claims."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Missing is not zero",
+            "description": "A reporting decision changes the denominator.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Four expected responses",
+                "detail": "One response is absent."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Three observed ratings",
+                "detail": "Their sum is ten."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Mean of 10/3",
+                "detail": "Report the missing case separately."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "yields"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "supports"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Write a conclusion within the design",
@@ -174,10 +522,126 @@
             "Keeps interpretation bounded"
           ],
           "id": "research-4-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "A study finds no clear difference in a small sample. Why is 'the methods are identical' too strong?",
+          "hint": "Absence of a clear signal has several explanations.",
+          "hints": [
+            "Absence of a clear signal has several explanations.",
+            "Consider precision."
+          ],
+          "answer": "The sample may lack precision to detect a difference. The observed result does not prove equivalence. Report the estimate and uncertainty within the design.",
+          "checkpoints": [
+            "The sample may lack precision to detect a difference.",
+            "The observed result does not prove equivalence.",
+            "Report the estimate and uncertainty within the design."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "Turn 'The project was limited by time' into a useful limitation about interviews.",
+          "hint": "Identify what time changed.",
+          "hints": [
+            "Identify what time changed.",
+            "Explain its consequence."
+          ],
+          "answer": "Limited time restricted recruitment to one class. That narrows the range of experiences represented. The conclusion should not be generalised to all pupils without further study.",
+          "checkpoints": [
+            "Limited time restricted recruitment to one class.",
+            "That narrows the range of experiences represented.",
+            "The conclusion should not be generalised to all pupils without further study."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "frameworkUnit": "Research skill 4",
-      "id": "research-4"
+      "id": "research-4",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Write a conclusion within the design in depth",
+            "paragraphs": [
+              "A conclusion should answer the research question at the level the design supports. Separate findings, interpretation and implications so that a measured association does not silently become a causal recommendation. Limitations should explain their likely consequence for interpretation: a convenience sample restricts generalisation, while an imprecise measure may blur differences. A small project can make a contribution by clarifying a pattern or revealing an unanswered question. Claiming universal importance is unnecessary when a precise, bounded conclusion accurately reflects what the study established."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Invented interviews: six volunteers describe clearer instructions after a form redesign. Write a conclusion.",
+            "steps": [
+              "Report the shared perception among these six volunteers.",
+              "Acknowledge voluntary recruitment and the absence of a direct error-rate measure."
+            ],
+            "conclusion": "The redesign was perceived as clearer in this sample; reduced completion errors and wider acceptance remain untested."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is a finding?",
+            "back": "The result of the stated analysis."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What is an implication?",
+            "back": "A qualified account of what a finding may mean."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What does convenience sampling limit?",
+            "back": "Generalisation beyond the recruited group."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Must a contribution be universal?",
+            "back": "No; a bounded insight can be useful."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Conclusion boundaries",
+            "description": "The design limits the claim's reach.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Six volunteer accounts",
+                "detail": "Participants report clearer wording."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Perceived clarity",
+                "detail": "The supported local finding."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Unmeasured error rate",
+                "detail": "A possible implication requiring new evidence."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "supports"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "does not establish"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Defend decisions and preserve the research record",
@@ -217,10 +681,126 @@
             "Proposes a relevant next step"
           ],
           "id": "research-5-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "A researcher changed a coding category midway. What should the final record include?",
+          "hint": "Preserve the original and revised definitions.",
+          "hints": [
+            "Preserve the original and revised definitions.",
+            "Show how earlier data were handled."
+          ],
+          "answer": "Record the reason and date of revision. Retain both category definitions. Explain whether earlier material was recoded consistently.",
+          "checkpoints": [
+            "Record the reason and date of revision.",
+            "Retain both category definitions.",
+            "Explain whether earlier material was recoded consistently."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "Explain a reasonable future study after observing one lunchtime queue for two days.",
+          "hint": "Target a current limitation.",
+          "hints": [
+            "Target a current limitation.",
+            "Specify the new evidence."
+          ],
+          "answer": "Observe more days and service conditions. Include relevant variation such as menu or attendance. Use the broader evidence to test whether the initial pattern persists.",
+          "checkpoints": [
+            "Observe more days and service conditions.",
+            "Include relevant variation such as menu or attendance.",
+            "Use the broader evidence to test whether the initial pattern persists."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "frameworkUnit": "Research skill 5",
-      "id": "research-5"
+      "id": "research-5",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Defend decisions and preserve the research record in depth",
+            "paragraphs": [
+              "Defending research means explaining why decisions fit the question and what trade-offs they created. It does not require pretending every choice was optimal. Preserve instruments, analysis rules, versions and permitted evidence so that the final account can be checked against the work actually done. Reflection should identify a concrete decision, its observed consequence and a reasoned alternative. When asked about an unsupported extension, distinguish what was measured from what a future study could test. Acknowledging that boundary demonstrates command of the design."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Answer an invented defence question: 'Why did you observe queues rather than ask whether pupils liked lunch?'",
+            "steps": [
+              "The question concerned waiting time, so timed observations measured the target directly.",
+              "Satisfaction surveys would answer a related but different question and could explain experience, not replace the timing measure."
+            ],
+            "conclusion": "Observation matched the outcome while leaving satisfaction outside the project's evidence."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What should a method defence connect?",
+            "back": "Question, evidence and design choice."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What makes reflection concrete?",
+            "back": "A decision, consequence and justified alternative."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Why preserve versions?",
+            "back": "They show what actually changed and when."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "How handle an unsupported extension?",
+            "back": "State the boundary and a suitable future test."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Defending the queue measure",
+            "description": "A design choice follows the outcome of interest.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Waiting-time question",
+                "detail": "How long pupils wait."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Timed observation",
+                "detail": "Direct measurement in specified conditions."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Bounded conclusion",
+                "detail": "Queue duration, not overall satisfaction."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "is addressed by"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "supports"
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

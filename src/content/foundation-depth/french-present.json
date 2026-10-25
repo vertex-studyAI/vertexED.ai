@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "lessonId": "french-present",
+  "revision": "2026-10-21.3",
+  "notes": [
+    {
+      "heading": "Negation, elision and agreement with coordinated subjects",
+      "paragraphs": [
+        "In standard written French, ne and pas normally surround the conjugated verb. Before a vowel sound or mute h, ne becomes n'; je also becomes j' before the relevant vowel sound. Elision changes spelling, not the subject or the verb ending. Two named people joined by et take a plural verb. A subject containing moi normally corresponds to nous, while a group containing toi but not moi corresponds to vous. In these exercises the verbs are regular -er verbs; do not extend their endings to every verb family."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "depth-elision-negative",
+      "type": "extended",
+      "difficulty": "foundation",
+      "prompt": "Rewrite 'J'aime le chocolat' as a standard written negative and explain the spelling of the negative particle.",
+      "answer": "Je n'aime pas le chocolat.",
+      "solution": [
+        "Place the negative pair around aime.",
+        "Use n' before aime; je is no longer directly before the vowel."
+      ],
+      "markingPoints": [
+        "Write Je n'aime pas le chocolat.",
+        "Place pas after the verb.",
+        "Explain ne becoming n'."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-coordinated-subject",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "Complete 'Lina et moi ___ le français' with étudier in the present, then replace the subject with a pronoun.",
+      "answer": "Lina et moi étudions le français. Nous étudions le français.",
+      "solution": [
+        "Lina et moi includes the speaker, so it corresponds to nous.",
+        "Use the nous ending -ons on the stem étudi-."
+      ],
+      "markingPoints": [
+        "Choose étudions.",
+        "Identify nous.",
+        "Retain the sentence meaning."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-question-answer",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "Answer in French: 'Est-ce que vous parlez espagnol ?' Say that you speak French but do not speak Spanish, using je and standard written negation.",
+      "answer": "Je parle français, mais je ne parle pas espagnol.",
+      "solution": [
+        "Use parle with the first-person singular subject.",
+        "Use mais for the contrast and ne...pas around the second parle."
+      ],
+      "markingPoints": [
+        "State Je parle français.",
+        "Express contrast with mais.",
+        "Write the correct negative Spanish clause."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    }
+  ]
+}

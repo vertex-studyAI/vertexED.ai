@@ -1,0 +1,427 @@
+{
+  "version": "vertexed-internal-editorial-crosscheck-v1",
+  "reviewDate": "2026-10-21",
+  "scope": "Internal editorial cross-check of the new MYP resource overlays only; not independent qualified subject approval or official curriculum certification.",
+  "reviewedFiles": [
+    {
+      "path": "src/content/myp5-resources/english-language-literature.json",
+      "lessonIds": [
+        "myp5-english-literary-analysis",
+        "myp5-english-rhetorical-devices",
+        "myp5-english-non-literary-analysis",
+        "myp5-english-annotation",
+        "myp5-english-evidence-selection",
+        "myp5-english-thesis-construction",
+        "myp5-english-commentary",
+        "myp5-english-paragraph-structure",
+        "myp5-english-timed-writing",
+        "myp5-english-unseen-analysis",
+        "myp5-english-persuasive-texts",
+        "myp5-english-speeches",
+        "myp5-english-advertisements",
+        "myp5-english-articles",
+        "myp5-english-visual-texts",
+        "myp5-english-poetry",
+        "myp5-english-prose",
+        "myp5-english-drama",
+        "myp5-english-comparative-analysis",
+        "myp5-english-authorial-choices",
+        "myp5-english-tone",
+        "myp5-english-structure",
+        "myp5-english-diction",
+        "myp5-english-imagery",
+        "myp5-english-symbolism",
+        "myp5-english-audience-purpose-context"
+      ],
+      "lessonCount": 26,
+      "beforeSha256": "3395b4beb9f9eaeb89e3c6cbdfe4c107622f330e4707e07333afa0f25f14bde4",
+      "afterSha256": "d2ce499e2d8f273f7a1065332270f55dd5703283c8058649c38d6d58d11cb69d",
+      "reviewedFields": [
+        "notes",
+        "workedExamples",
+        "flashcards",
+        "diagram nodes and relations",
+        "question prompts",
+        "hints",
+        "solutions",
+        "success criteria compared with solutions"
+      ]
+    },
+    {
+      "path": "src/content/myp5-resources/spanish.json",
+      "lessonIds": [
+        "myp5-spanish-identity",
+        "myp5-spanish-past-tenses",
+        "myp5-spanish-present-tense",
+        "myp5-spanish-high-frequency-verbs",
+        "myp5-spanish-experiences",
+        "myp5-spanish-future-and-conditional",
+        "myp5-spanish-human-ingenuity",
+        "myp5-spanish-social-organisation",
+        "myp5-spanish-sharing-the-planet",
+        "myp5-spanish-connectors",
+        "myp5-spanish-speaking-interaction",
+        "myp5-spanish-reading-comprehension",
+        "myp5-spanish-listening-strategies",
+        "myp5-spanish-writing-structures",
+        "myp5-spanish-idiomatic-language",
+        "myp5-spanish-exam-strategies"
+      ],
+      "lessonCount": 16,
+      "beforeSha256": "90092f33420c0f0a033c78be83c75f2e1aa32b1ea161b9526a9578e4f4cd8ecb",
+      "afterSha256": "30830057ced38ee01b749b044ff1b47eb827d136d1373f8cbfbe274c1bb711c0",
+      "reviewedFields": [
+        "notes",
+        "workedExamples",
+        "flashcards",
+        "diagram nodes and relations",
+        "question prompts",
+        "hints",
+        "solutions",
+        "success criteria compared with solutions"
+      ]
+    },
+    {
+      "path": "src/content/myp5-resources/music.json",
+      "lessonIds": [
+        "myp5-music-analysis",
+        "myp5-music-composition",
+        "myp5-music-creative-process",
+        "myp5-music-contextual-research",
+        "myp5-music-performance",
+        "myp5-music-experimentation",
+        "myp5-music-artistic-intention",
+        "myp5-music-reflection"
+      ],
+      "lessonCount": 8,
+      "beforeSha256": "828c199a820f35855e4f14ecb9815b72fe22affaf0f60da407f55d6d0abdd32f",
+      "afterSha256": "828c199a820f35855e4f14ecb9815b72fe22affaf0f60da407f55d6d0abdd32f",
+      "reviewedFields": [
+        "notes",
+        "workedExamples",
+        "flashcards",
+        "diagram nodes and relations",
+        "question prompts",
+        "hints",
+        "solutions",
+        "success criteria compared with solutions"
+      ]
+    },
+    {
+      "path": "src/content/myp5-resources/drama.json",
+      "lessonIds": [
+        "myp5-drama-performance",
+        "myp5-drama-rehearsal-documentation",
+        "myp5-drama-creative-process",
+        "myp5-drama-contextual-research",
+        "myp5-drama-experimentation",
+        "myp5-drama-artistic-intention",
+        "myp5-drama-stage-performance",
+        "myp5-drama-evaluation"
+      ],
+      "lessonCount": 8,
+      "beforeSha256": "09b219d52cb466b95eb1efaf7e60e80a84dc3685f971c52825a322832b56035a",
+      "afterSha256": "b2a9da8dfcf7b9cb599266215ee701764d0078113424697254b771bb1e78e25a",
+      "reviewedFields": [
+        "notes",
+        "workedExamples",
+        "flashcards",
+        "diagram nodes and relations",
+        "question prompts",
+        "hints",
+        "solutions",
+        "success criteria compared with solutions"
+      ]
+    },
+    {
+      "path": "src/content/myp5-resources/visual-arts.json",
+      "lessonIds": [
+        "myp5-visual-arts-analysis",
+        "myp5-visual-arts-creative-process",
+        "myp5-visual-arts-contextual-research",
+        "myp5-visual-arts-experimentation",
+        "myp5-visual-arts-artistic-intention",
+        "myp5-visual-arts-process-documentation",
+        "myp5-visual-arts-reflection",
+        "myp5-visual-arts-evaluation"
+      ],
+      "lessonCount": 8,
+      "beforeSha256": "41a44fc6e73d886922815d9915d0b8aa1bf85133d734b9e8977709cd0f22ab04",
+      "afterSha256": "bb347b2c620d05fa57d80211ce5128f8bb1d509ca9e4287f0e2b9a8f194ab305",
+      "reviewedFields": [
+        "notes",
+        "workedExamples",
+        "flashcards",
+        "diagram nodes and relations",
+        "question prompts",
+        "hints",
+        "solutions",
+        "success criteria compared with solutions"
+      ]
+    }
+  ],
+  "totals": {
+    "lessonsReviewed": 66,
+    "workedExamplesReviewed": 66,
+    "flashcardsReviewed": 264,
+    "additionalQuestionsReviewed": 132,
+    "correctedLessonCount": 9,
+    "fieldCorrections": 13
+  },
+  "corrections": [
+    {
+      "subject": "spanish",
+      "lessonId": "myp5-spanish-high-frequency-verbs",
+      "field": "additionalPractice.1.hints.1",
+      "before": "A temporary state uses estar with plural agreement.",
+      "after": "Cansadas describes the girls’ state here; use estar with plural agreement.",
+      "reason": "Avoid reinforcing the misleading permanent-versus-temporary shortcut that the note explicitly rejects.",
+      "classification": "internal-editorial-correction"
+    },
+    {
+      "subject": "spanish",
+      "lessonId": "myp5-spanish-sharing-the-planet",
+      "field": "studyPack.diagrams.0.nodes.1.detail",
+      "before": "Comprar menos sustituciones.",
+      "after": "Comprar menos carpetas nuevas.",
+      "reason": "Replace unnatural comprar sustituciones with a concrete idiomatic phrase about buying fewer new folders.",
+      "classification": "internal-editorial-correction"
+    },
+    {
+      "subject": "spanish",
+      "lessonId": "myp5-spanish-idiomatic-language",
+      "field": "studyPack.diagrams.0.nodes.0.detail",
+      "before": "No tengo ganas de salir.",
+      "after": "Hoy no tengo ganas de salir.",
+      "reason": "Include the time word needed to support the diagram’s conclusion about today rather than permanent refusal.",
+      "classification": "internal-editorial-correction"
+    },
+    {
+      "subject": "spanish",
+      "lessonId": "myp5-spanish-exam-strategies",
+      "field": "studyPack.workedExamples.0.steps",
+      "before": [
+        "The draft names a place and a reason but no time or clear invitation to the reader.",
+        "A fuller version is: ¿Quieres venir al club conmigo mañana a las cuatro? Es interesante porque hacemos experimentos sencillos."
+      ],
+      "after": [
+        "The draft states a plan and a reason but omits the required time.",
+        "A fuller version is: Hola, Sara: Mañana voy a ir al club a las cuatro porque hacemos experimentos sencillos."
+      ],
+      "reason": "The prompt asks for a plan, time and reason; the former answer incorrectly treated an invitation as another required element.",
+      "classification": "internal-editorial-correction"
+    },
+    {
+      "subject": "english-language-literature",
+      "lessonId": "myp5-english-persuasive-texts",
+      "field": "studyPack.workedExamples.0.steps",
+      "before": [
+        "The proposal uses limited observations of demand in wet weather as support.",
+        "A trial recognises that three days cannot establish demand across the whole year."
+      ],
+      "after": [
+        "The proposal uses limited observations of demand in wet weather as support.",
+        "A trial recognises that three days cannot establish demand across the whole year.",
+        "A full rack shows use, but does not by itself establish that shelter is needed or would attract more users."
+      ],
+      "reason": "Distinguish evidence about capacity from evidence about the proposed shelter’s benefit.",
+      "classification": "internal-editorial-correction"
+    },
+    {
+      "subject": "english-language-literature",
+      "lessonId": "myp5-english-persuasive-texts",
+      "field": "studyPack.workedExamples.0.conclusion",
+      "before": "The argument connects a practical problem to a testable proposal while retaining a limit on its evidence.",
+      "after": "The observations support investigating capacity. A trial should also test whether shelter improves access in wet weather, while retaining the limit of the three-day evidence.",
+      "reason": "Keep the model judgement proportional to the observed outcome rather than assuming the proposed feature’s mechanism.",
+      "classification": "internal-editorial-correction"
+    },
+    {
+      "subject": "english-language-literature",
+      "lessonId": "myp5-english-poetry",
+      "field": "studyPack.diagrams.0.edges.0.label",
+      "before": "The break delays the object of the action.",
+      "after": "The break delays what the window is opened to.",
+      "reason": "The first line already supplies window as the verb’s direct object; the delayed phrase specifies what it is opened to.",
+      "classification": "internal-editorial-correction"
+    },
+    {
+      "subject": "english-language-literature",
+      "lessonId": "myp5-english-prose",
+      "field": "studyPack.workedExamples.0.steps.0",
+      "before": "The opening claim presents the letter as unimportant to the narrator.",
+      "after": "The opening claim says the narrator no longer remembers or thinks about the letter.",
+      "reason": "Forgetting does not directly establish unimportance; retain the actual self-description before analysing contradiction.",
+      "classification": "internal-editorial-correction"
+    },
+    {
+      "subject": "drama",
+      "lessonId": "myp5-drama-rehearsal-documentation",
+      "field": "additionalPractice.0.solution.0",
+      "before": "Version 2 increased the distance between the speakers from one marked position to another.",
+      "after": "In this fictional log, Version 2 increased the gap between the speakers from one metre to two metres while keeping them oriented towards each other.",
+      "reason": "Provide a concrete reproducible spacing change instead of the vague phrase from one marked position to another.",
+      "classification": "internal-editorial-correction"
+    },
+    {
+      "subject": "drama",
+      "lessonId": "myp5-drama-rehearsal-documentation",
+      "field": "additionalPractice.0.successCriteria.0",
+      "before": "Version 2 increased the distance between the speakers from one marked position to another.",
+      "after": "In this fictional log, Version 2 increased the gap between the speakers from one metre to two metres while keeping them oriented towards each other.",
+      "reason": "Provide a concrete reproducible spacing change instead of the vague phrase from one marked position to another.",
+      "classification": "internal-editorial-correction"
+    },
+    {
+      "subject": "visual-arts",
+      "lessonId": "myp5-visual-arts-process-documentation",
+      "field": "studyPack.workedExamples.0.steps",
+      "before": [
+        "Record the change and viewing condition rather than only saying “v3 looked worse”.",
+        "Explain the next trial: reduce the border’s weight while keeping the text size constant, then compare at the same distance."
+      ],
+      "after": [
+        "Model entry: “Version 3: I added a dark border. From two metres, it drew attention away from the central text.”",
+        "Next decision: “I will reduce the border’s weight, keep the text size constant and compare the versions from the same two-metre viewing position.”"
+      ],
+      "reason": "The task requests a decision entry; provide the actual model entry rather than instructions to write one.",
+      "classification": "internal-editorial-correction"
+    },
+    {
+      "subject": "visual-arts",
+      "lessonId": "myp5-visual-arts-process-documentation",
+      "field": "additionalPractice.0.solution.0",
+      "before": "Version 2 increased the gap between the central shapes.",
+      "after": "In this fictional log, Version 2 increased the gap between the central shapes from 5 mm to 15 mm while keeping their sizes constant.",
+      "reason": "Make the fictional process record concrete enough to reproduce and compare.",
+      "classification": "internal-editorial-correction"
+    },
+    {
+      "subject": "visual-arts",
+      "lessonId": "myp5-visual-arts-process-documentation",
+      "field": "additionalPractice.0.successCriteria.0",
+      "before": "Version 2 increased the gap between the central shapes.",
+      "after": "In this fictional log, Version 2 increased the gap between the central shapes from 5 mm to 15 mm while keeping their sizes constant.",
+      "reason": "Make the fictional process record concrete enough to reproduce and compare.",
+      "classification": "internal-editorial-correction"
+    }
+  ],
+  "checks": {
+    "duplicateNoteParagraphs": [],
+    "duplicateWorkedExamplePrompts": [],
+    "duplicateQuestionPrompts": [],
+    "duplicateCardFrontsAcrossLessons": [
+      {
+        "text": "what is register?",
+        "locations": [
+          "english-language-literature/myp5-english-diction/extension-card-4",
+          "music/myp5-music-analysis/extension-card-3"
+        ]
+      }
+    ],
+    "idsPreserved": true,
+    "questionSolutionsEqualSuccessCriteria": true,
+    "crossSubjectDuplicateDisposition": {
+      "front": "What is register?",
+      "occurrences": [
+        "English diction: language level or style",
+        "Music analysis: relative pitch range"
+      ],
+      "decision": "Retained because these are distinct disciplinary meanings, not duplicate content within a lesson."
+    }
+  },
+  "musicChecks": {
+    "allEightLessonsRead": true,
+    "durationArithmetic": "Checked 1+1+2=4; 0.5+0.5+1+2=4; augmentation by 3 gives 1.5,1.5,3 totalling 6; halving 2,1,1 gives 1,0.5,0.5 totalling 2; double duration and double pulse rate cancel in seconds.",
+    "factualCorrectionsRequired": false
+  },
+  "apReferenceAddition": {
+    "path": "src/content/ap/art-history.json",
+    "moduleIds": [
+      "art-history-1",
+      "art-history-2",
+      "art-history-3",
+      "art-history-4",
+      "art-history-5",
+      "art-history-6",
+      "art-history-7",
+      "art-history-8",
+      "art-history-9",
+      "art-history-10"
+    ],
+    "referenceCountAdded": 10,
+    "beforeSha256": "cabeda9342851c70e9644dbe5f7141e6b09289e02280660200382a65729c6188",
+    "afterSha256": "38006ae7a7a04ffb028ad56c30572ce1be4b1e90a2cb48bf91d1b10656936be9",
+    "otherContentPreserved": true,
+    "references": [
+      {
+        "title": "Natural History Museum Vienna: Venus of Willendorf",
+        "url": "https://www.nhm.at/presse/top10/venus_of_willendorf",
+        "note": "Supports the limestone material and original red colouring described in the note; interpretations of specific prehistoric purpose remain qualified."
+      },
+      {
+        "title": "Vatican Museums: Augustus from Prima Porta",
+        "url": "https://www.museivaticani.va/content/museivaticani/en/collezioni/musei/braccio-nuovo/Augusto-di-Prima-Porta.html",
+        "note": "Supports the cuirass, address-to-troops gesture and discovery at the Villa of Livia; the note distinguishes representation from actual political control."
+      },
+      {
+        "title": "UNESCO: Chartres Cathedral",
+        "url": "https://whc.unesco.org/en/list/81/",
+        "note": "Documents the medieval glazing, sculptural programme and pilgrimage context used in the note."
+      },
+      {
+        "title": "National Gallery: Monet, The Gare St-Lazare",
+        "url": "https://www.nationalgallery.org.uk/paintings/claude-monet-the-gare-st-lazare",
+        "note": "Supports the railway subject and its place within Monet’s 1877 group; the transfer exercise is an original hypothetical painting."
+      },
+      {
+        "title": "The Metropolitan Museum of Art: The Andean Tunic",
+        "url": "https://www.metmuseum.org/exhibitions/listings/2011/the-andean-tunic-400-bce1800-ce/photo-gallery",
+        "note": "Supports checkerboard tunic design, fine weaving and a qualified military association, including the caution against assuming European-style uniforms."
+      },
+      {
+        "title": "The Metropolitan Museum of Art: Gẹ̀lẹ̀dẹ́ helmet mask",
+        "url": "https://www.metmuseum.org/art/collection/search/316460",
+        "note": "Supports the Yoruba performance context and the relationship between male dancers and powers associated with living, ancestral or deified women."
+      },
+      {
+        "title": "The Metropolitan Museum of Art: Mihrab (Prayer Niche)",
+        "url": "https://www.metmuseum.org/art/collection/search/449537",
+        "note": "Supports the Isfahan prayer niche’s date, glazed tile construction, inscription and architectural function."
+      },
+      {
+        "title": "UNESCO: Borobudur Temple Compounds",
+        "url": "https://whc.unesco.org/en/list/592/",
+        "note": "Supports the central Java setting, square terraces, circular upper platforms, reliefs and summit stupa used in the note."
+      },
+      {
+        "title": "The Metropolitan Museum of Art: Rebbilib navigational chart",
+        "url": "https://www.metmuseum.org/art/collection/search/311297",
+        "note": "Supports Marshallese navigation, lashed material structure and island/wave information while retaining uncertainty about specific elements."
+      },
+      {
+        "title": "Ai Weiwei Studio / Oscar Niemeyer Museum: Sunflower Seeds",
+        "url": "https://artsandculture.google.com/asset/sunflower-seeds-ai-weiwei-courtesy-ai-weiwei-studio/uQFuRiasIG8a_w?hl=en",
+        "note": "Supports handcrafted porcelain production in Jingdezhen and the 2010 Tate Modern presentation; it does not establish identical visitor access in every later installation."
+      }
+    ],
+    "retrievalNote": "The Natural History Museum Vienna page was verified through the indexed museum text; a subsequent direct open returned HTTP 403. The museum source was retained because its indexed text directly supports the material and colour claims. No unsupported statement was inferred from the inaccessible response."
+  },
+  "unresolvedConcerns": [
+    "No audio performance or live speaking was independently evaluated; written scripts correctly remain labelled as rehearsal material.",
+    "Editorial three-point success criteria are model-response aids, not calibrated official MYP marking schemes; some translation criteria restate components of the complete answer.",
+    "Core MYP lesson source bodies and official whole-subject syllabus completeness were outside this overlay review.",
+    "No critical factual contradiction was found in the reviewed music, drama or visual-arts concepts; this remains an internal review rather than external subject validation."
+  ],
+  "validation": {
+    "lessons": 66,
+    "maxCriterionLength": 148,
+    "apReferenceCount": 10,
+    "errors": [],
+    "copyLint": {
+      "filesScanned": 542,
+      "findings": 0
+    },
+    "contractsPassed": true
+  }
+}

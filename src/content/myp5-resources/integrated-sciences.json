@@ -1,0 +1,997 @@
+{
+  "subjectSlug": "integrated-sciences",
+  "lessons": {
+    "myp5-integrated-sciences-systems": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Changing the boundary changes the account",
+            "paragraphs": [
+              "A system boundary determines which transfers count as inputs and outputs. The same object can be studied at several scales: a motor alone, a motor lifting a load, or the entire room. Energy transferred from a motor to a load crosses the first boundary but stays inside the second. An open system exchanges matter and energy; a closed system can exchange energy while retaining matter. A model is useful when its omissions are appropriate to the question. Drawing a boundary clearly prevents counting an internal transfer as a new input or forgetting a transfer to the surroundings."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-systems-worked",
+            "prompt": "A motor receives 100 J electrical energy, transfers 70 J to a lifted load and 30 J to surroundings. Compare boundaries around the motor alone and motor plus load.",
+            "steps": [
+              "For the motor alone, 100 J enters while 70 J and 30 J leave by different routes.",
+              "For motor plus load, the 70 J transfer is internal and raises the load’s gravitational store; 30 J leaves the combined system."
+            ],
+            "conclusion": "The boundary changes the accounting labels, not the total energy balance."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-systems-card-1",
+            "front": "What sets whether a transfer is internal?",
+            "back": "The chosen system boundary."
+          },
+          {
+            "id": "extension-systems-card-2",
+            "front": "Can a closed system exchange energy?",
+            "back": "Yes; closed refers to no matter transfer."
+          },
+          {
+            "id": "extension-systems-card-3",
+            "front": "What distinguishes an isolated system?",
+            "back": "Neither matter nor energy crosses its boundary."
+          },
+          {
+            "id": "extension-systems-card-4",
+            "front": "Why state model omissions?",
+            "back": "They determine which questions the model can answer reliably."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-systems-diagram",
+            "title": "Changing the boundary changes the account",
+            "description": "The motor-to-load transfer is internal to the larger system.",
+            "nodes": [
+              {
+                "id": "extension-systems-node-1",
+                "label": "Electrical supply",
+                "detail": "100 J enters motor"
+              },
+              {
+                "id": "extension-systems-node-2",
+                "label": "Motor and load",
+                "detail": "70 J raises the load’s gravitational store"
+              },
+              {
+                "id": "extension-systems-node-3",
+                "label": "Surroundings",
+                "detail": "30 J leaves the combined system"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-systems-node-1",
+                "to": "extension-systems-node-2",
+                "label": "energy passes into the motor and load"
+              },
+              {
+                "from": "extension-systems-node-2",
+                "to": "extension-systems-node-3",
+                "label": "account for the remaining outward transfer"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-integrated-sciences-systems-practice-1",
+          "difficulty": "Standard",
+          "command": "Classify",
+          "marks": 3,
+          "prompt": "A sealed transparent bottle receives sunlight and loses thermal energy but no matter. Classify it as open, closed or isolated and justify.",
+          "hints": [
+            "Matter and energy transfers are different.",
+            "Sealed does not mean thermally isolated."
+          ],
+          "solution": [
+            "It is closed because no matter crosses the boundary.",
+            "It is not isolated because light and thermal energy cross the boundary."
+          ],
+          "successCriteria": [
+            "Closed classification.",
+            "No matter transfer.",
+            "Energy-transfer exclusion of isolation."
+          ]
+        },
+        {
+          "id": "extension-myp5-integrated-sciences-systems-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "For a boundary around a battery and lamp together, is energy passed from battery to lamp a new external input?",
+          "hints": [
+            "Locate both objects relative to the boundary.",
+            "Do not double-count internal transfers."
+          ],
+          "solution": [
+            "The battery-to-lamp transfer occurs within the combined system.",
+            "It is an internal transfer; energy leaving as light or heat crosses the external boundary."
+          ],
+          "successCriteria": [
+            "Identifies internal transfer.",
+            "Avoids new-input label.",
+            "Names external outputs."
+          ]
+        }
+      ]
+    },
+    "myp5-integrated-sciences-matter-energy": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Melting separates energy transfer from temperature rise",
+            "paragraphs": [
+              "Heating does not always raise temperature. During a change of state at constant pressure, supplied energy can change particle arrangement while temperature stays approximately constant. The specific latent heat connects energy to the mass changing state through E = mL. This energy account differs from E = mcΔT, which describes a temperature change within a suitable single phase. In a real experiment, containers and surroundings may also receive energy. A plateau on a temperature–time graph therefore needs a particle-level explanation and a defined system; it does not mean that energy transfer has stopped."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-matter-energy-worked",
+            "prompt": "A supplied model gives ice’s latent heat of fusion as 334 kJ/kg. Find the energy needed to melt 0.20 kg ice already at its melting temperature, ignoring other transfers.",
+            "steps": [
+              "Use E = mL because the phase changes without a temperature rise.",
+              "E = 0.20 × 334 = 66.8 kJ."
+            ],
+            "conclusion": "The energy changes the state; it is not calculated from a non-zero temperature change."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-matter-energy-card-1",
+            "front": "What does latent heat describe?",
+            "back": "Energy transferred per mass during a specified change of state."
+          },
+          {
+            "id": "extension-matter-energy-card-2",
+            "front": "What equation models phase-change energy?",
+            "back": "E = mL."
+          },
+          {
+            "id": "extension-matter-energy-card-3",
+            "front": "Why can temperature stay constant while heating?",
+            "back": "Energy changes particle arrangement during the phase change."
+          },
+          {
+            "id": "extension-matter-energy-card-4",
+            "front": "What does E = mcΔT describe?",
+            "back": "Energy associated with a temperature change within the stated model."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-matter-energy-diagram",
+            "title": "Melting separates energy transfer from temperature rise",
+            "description": "Energy changes state while the melting temperature remains approximately fixed.",
+            "nodes": [
+              {
+                "id": "extension-matter-energy-node-1",
+                "label": "Ice at melting point",
+                "detail": "0.20 kg solid"
+              },
+              {
+                "id": "extension-matter-energy-node-2",
+                "label": "Energy supplied",
+                "detail": "66.8 kJ in the ideal model"
+              },
+              {
+                "id": "extension-matter-energy-node-3",
+                "label": "Liquid at melting point",
+                "detail": "Same mass, different particle arrangement"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-matter-energy-node-1",
+                "to": "extension-matter-energy-node-2",
+                "label": "transfer latent heat"
+              },
+              {
+                "from": "extension-matter-energy-node-2",
+                "to": "extension-matter-energy-node-3",
+                "label": "complete the phase change"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-integrated-sciences-matter-energy-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "A hypothetical material has latent heat 150 kJ/kg. Find the energy required to melt 0.40 kg at its melting temperature.",
+          "hints": [
+            "Use mass multiplied by latent heat.",
+            "Keep kilojoules throughout."
+          ],
+          "solution": [
+            "E = 0.40 × 150.",
+            "The required energy is 60 kJ under the stated ideal model."
+          ],
+          "successCriteria": [
+            "Uses E = mL.",
+            "Correct substitution.",
+            "60 kJ."
+          ]
+        },
+        {
+          "id": "extension-myp5-integrated-sciences-matter-energy-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A liquid boils at a steady temperature while a heater continues supplying energy. Why is “no energy is being transferred” incorrect?",
+          "hints": [
+            "Energy can change state without raising temperature.",
+            "Particles separate further in the gas state."
+          ],
+          "solution": [
+            "Energy is used for vaporisation and may also transfer to surroundings.",
+            "Constant temperature during the phase change does not imply zero energy input."
+          ],
+          "successCriteria": [
+            "Vaporisation energy.",
+            "Allows other transfers.",
+            "Rejects temperature-only inference."
+          ]
+        }
+      ]
+    },
+    "myp5-integrated-sciences-forces-change": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Braking transfers kinetic energy",
+            "paragraphs": [
+              "Braking connects a force model with an energy model. A resultant force opposite velocity reduces speed, while work done by the braking force transfers kinetic energy to other stores. For a constant opposing force, stopping distance follows from Fd = ½mv². Doubling speed therefore quadruples braking distance if mass and braking force stay fixed. This relationship concerns the braking interval only; a full stopping distance also includes the distance travelled before braking starts. Surface conditions, force changes and slopes can alter the simple prediction, so a calculation should state its assumptions."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-forces-change-worked",
+            "prompt": "A 2 kg trolley travels at 4 m/s and stops under a constant 8 N opposing force on a level track. Find braking distance.",
+            "steps": [
+              "Initial kinetic energy = ½ × 2 × 4² = 16 J.",
+              "Using Fd = 16 J gives d = 16/8 = 2 m."
+            ],
+            "conclusion": "This neglects other work and assumes a constant braking force."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-forces-change-card-1",
+            "front": "What energy is reduced during braking?",
+            "back": "Kinetic energy."
+          },
+          {
+            "id": "extension-forces-change-card-2",
+            "front": "What equation gives work by a constant parallel force?",
+            "back": "W = Fd."
+          },
+          {
+            "id": "extension-forces-change-card-3",
+            "front": "How does doubling speed affect ideal braking distance?",
+            "back": "It quadruples it with unchanged mass and braking force."
+          },
+          {
+            "id": "extension-forces-change-card-4",
+            "front": "Does braking distance include reaction distance?",
+            "back": "No; these are separate parts of stopping distance."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-forces-change-diagram",
+            "title": "Braking transfers kinetic energy",
+            "description": "The work of an opposing force removes the trolley’s kinetic energy.",
+            "nodes": [
+              {
+                "id": "extension-forces-change-node-1",
+                "label": "Moving trolley",
+                "detail": "16 J kinetic energy"
+              },
+              {
+                "id": "extension-forces-change-node-2",
+                "label": "Opposing force",
+                "detail": "8 N over 2 m"
+              },
+              {
+                "id": "extension-forces-change-node-3",
+                "label": "Stopped trolley",
+                "detail": "Kinetic energy zero; 16 J transferred elsewhere"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-forces-change-node-1",
+                "to": "extension-forces-change-node-2",
+                "label": "force does negative work on motion"
+              },
+              {
+                "from": "extension-forces-change-node-2",
+                "to": "extension-forces-change-node-3",
+                "label": "complete the energy transfer"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-integrated-sciences-forces-change-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "A 1 kg cart has speed 6 m/s and is stopped by a constant 3 N force. Find kinetic energy and braking distance.",
+          "hints": [
+            "Calculate ½mv² first.",
+            "Divide energy by opposing force."
+          ],
+          "solution": [
+            "Kinetic energy = ½ × 1 × 36 = 18 J.",
+            "Braking distance = 18/3 = 6 m under the model assumptions."
+          ],
+          "successCriteria": [
+            "18 J.",
+            "Uses work-distance relation.",
+            "6 m."
+          ]
+        },
+        {
+          "id": "extension-myp5-integrated-sciences-forces-change-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Two identical carts brake with the same constant force, one from 3 m/s and the other from 6 m/s. Compare braking distances.",
+          "hints": [
+            "Kinetic energy depends on speed squared.",
+            "Force remains unchanged."
+          ],
+          "solution": [
+            "The faster cart has four times the kinetic energy.",
+            "Because distance equals energy divided by force, its braking distance is four times larger."
+          ],
+          "successCriteria": [
+            "Speed ratio 2.",
+            "Energy ratio 4.",
+            "Distance ratio 4."
+          ]
+        }
+      ]
+    },
+    "myp5-integrated-sciences-living-systems": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Respiration connects matter and energy accounts",
+            "paragraphs": [
+              "Cellular respiration transfers energy from chemical stores to processes in living cells. In the aerobic school model, glucose reacts with oxygen to form carbon dioxide and water. Atoms are rearranged rather than disappearing, and the process does not create energy from nothing. The released energy supports cell activities, with some transferred as heat. Plants as well as animals respire. Photosynthesis and respiration have related overall matter accounts, but they are different multi-step cellular processes. Measuring oxygen or carbon dioxide exchange can reveal a net balance; it does not directly measure every internal chemical step."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-living-systems-worked",
+            "prompt": "Use the word equation glucose + oxygen → carbon dioxide + water to explain why animal mass does not simply increase by all the food eaten.",
+            "steps": [
+              "Food-derived atoms can enter carbon dioxide and water during respiration.",
+              "These products can leave the body through gas exchange and other routes, while some food material is retained or excreted."
+            ],
+            "conclusion": "A body-mass account must include outputs as well as food inputs."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-living-systems-card-1",
+            "front": "Do plants carry out respiration?",
+            "back": "Yes, in light and darkness."
+          },
+          {
+            "id": "extension-living-systems-card-2",
+            "front": "What does aerobic respiration use?",
+            "back": "A suitable organic substrate such as glucose and oxygen."
+          },
+          {
+            "id": "extension-living-systems-card-3",
+            "front": "Does respiration destroy atoms?",
+            "back": "No; it rearranges them into products."
+          },
+          {
+            "id": "extension-living-systems-card-4",
+            "front": "Why is gas exchange a net measurement?",
+            "back": "Several processes may consume or release the same gas."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-living-systems-diagram",
+            "title": "Respiration connects matter and energy accounts",
+            "description": "Food atoms leave in products while chemical energy supports cell activities.",
+            "nodes": [
+              {
+                "id": "extension-living-systems-node-1",
+                "label": "Glucose and oxygen",
+                "detail": "Matter enters the respiration pathway"
+              },
+              {
+                "id": "extension-living-systems-node-2",
+                "label": "Cellular reactions",
+                "detail": "Atoms rearrange and energy is transferred"
+              },
+              {
+                "id": "extension-living-systems-node-3",
+                "label": "Carbon dioxide and water",
+                "detail": "Products may leave the organism"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-living-systems-node-1",
+                "to": "extension-living-systems-node-2",
+                "label": "used as reactants"
+              },
+              {
+                "from": "extension-living-systems-node-2",
+                "to": "extension-living-systems-node-3",
+                "label": "form products without destroying atoms"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-integrated-sciences-living-systems-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A germinating seed in darkness releases carbon dioxide. Why does this not require photosynthesis?",
+          "hints": [
+            "Seeds contain stored organic substances.",
+            "Respiration occurs without light."
+          ],
+          "solution": [
+            "The seed can respire using stored food reserves.",
+            "Respiration releases carbon dioxide; photosynthesis is not required to explain this observation."
+          ],
+          "successCriteria": [
+            "Stored reserves.",
+            "Respiration without light.",
+            "Carbon dioxide product."
+          ]
+        },
+        {
+          "id": "extension-myp5-integrated-sciences-living-systems-practice-2",
+          "difficulty": "Advanced",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "A hypothetical organism takes in 12 mass units of food and oxygen during an interval, releases 9 units as measured outputs and has no other transfers. Find its mass change.",
+          "hints": [
+            "Apply input minus output.",
+            "Energy transfer does not replace the matter account."
+          ],
+          "solution": [
+            "Net mass change = 12 − 9 = +3 units.",
+            "Its stored mass increases by 3 units under the complete-account assumption."
+          ],
+          "successCriteria": [
+            "Correct balance.",
+            "+3 units.",
+            "States no omitted matter transfers."
+          ]
+        }
+      ]
+    },
+    "myp5-integrated-sciences-earth-environment": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Ice–albedo feedback can amplify warming",
+            "paragraphs": [
+              "Earth-system models connect absorbed sunlight, reflected sunlight and outgoing thermal radiation. Albedo is the fraction of incoming radiation reflected by a surface. A brighter surface can reflect a larger fraction, leaving less energy absorbed under otherwise identical conditions. Feedback occurs when an initial change alters processes that amplify or oppose that change. A simplified ice–albedo feedback links warming to less ice, lower reflectivity and greater absorption. This is one mechanism within a larger system; clouds, circulation and other energy transfers also matter, so one local surface observation cannot determine the entire planet’s future temperature."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-earth-environment-worked",
+            "prompt": "A surface receives 200 energy units of sunlight. Its reflected fraction changes from 0.60 to 0.30. Find absorbed energy before and after, ignoring transmission.",
+            "steps": [
+              "Initially reflected energy is 120 units, so absorption is 200 − 120 = 80.",
+              "Later reflection is 60 units, so absorption is 140."
+            ],
+            "conclusion": "Absorption rises by 60 units under unchanged incoming radiation."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-earth-environment-card-1",
+            "front": "What is albedo?",
+            "back": "The fraction of incoming radiation reflected."
+          },
+          {
+            "id": "extension-earth-environment-card-2",
+            "front": "What does lower albedo imply with fixed incoming radiation?",
+            "back": "Greater absorption if transmission is unchanged or negligible."
+          },
+          {
+            "id": "extension-earth-environment-card-3",
+            "front": "What makes feedback positive?",
+            "back": "It amplifies the initial change."
+          },
+          {
+            "id": "extension-earth-environment-card-4",
+            "front": "Is one feedback a complete climate model?",
+            "back": "No; other processes also affect the energy balance."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-earth-environment-diagram",
+            "title": "Ice–albedo feedback can amplify warming",
+            "description": "This simplified loop describes one contribution to a larger climate system.",
+            "nodes": [
+              {
+                "id": "extension-earth-environment-node-1",
+                "label": "Initial warming",
+                "detail": "Some reflective ice area decreases"
+              },
+              {
+                "id": "extension-earth-environment-node-2",
+                "label": "Lower reflectivity",
+                "detail": "More sunlight is absorbed"
+              },
+              {
+                "id": "extension-earth-environment-node-3",
+                "label": "Additional warming",
+                "detail": "The initial temperature change is amplified"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-earth-environment-node-1",
+                "to": "extension-earth-environment-node-2",
+                "label": "changes the surface albedo"
+              },
+              {
+                "from": "extension-earth-environment-node-2",
+                "to": "extension-earth-environment-node-3",
+                "label": "increases absorbed energy"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-integrated-sciences-earth-environment-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "A surface reflects 25% of 400 incoming energy units and transmits none. Find reflected and absorbed energy.",
+          "hints": [
+            "Calculate the reflected fraction first.",
+            "Subtract reflection from incoming energy."
+          ],
+          "solution": [
+            "Reflected energy = 0.25 × 400 = 100 units.",
+            "Absorbed energy = 400 − 100 = 300 units."
+          ],
+          "successCriteria": [
+            "100 reflected units.",
+            "Correct subtraction.",
+            "300 absorbed units."
+          ]
+        },
+        {
+          "id": "extension-myp5-integrated-sciences-earth-environment-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Why is the sequence warming → less ice → more absorption → further warming called positive feedback rather than a beneficial effect?",
+          "hints": [
+            "Positive describes direction of reinforcement.",
+            "It is not a judgement of social value."
+          ],
+          "solution": [
+            "Each linked change reinforces the original warming.",
+            "Positive labels amplification of the deviation, not whether the outcome is desirable."
+          ],
+          "successCriteria": [
+            "Reinforces initial warming.",
+            "Correct feedback meaning.",
+            "Separates meaning from value judgement."
+          ]
+        }
+      ]
+    },
+    "myp5-integrated-sciences-experimental-design": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Surface absorption changes temperature",
+            "paragraphs": [
+              "An interdisciplinary experiment should identify the mechanism linking a changed factor to an observed outcome. A study of surface colour and warming, for example, connects light absorption to thermal energy transfer. Colour should vary while material, thickness, illuminated area and starting conditions remain comparable. Position matters if the light source illuminates unevenly, so locations can be randomised or exchanged systematically across independent trials. Record the temperature change over a fixed interval instead of comparing unrelated final temperatures. A convincing design also names limitations, such as differences in surface finish that may accompany colour changes."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-experimental-design-worked",
+            "prompt": "Plan a teacher-approved comparison of warming in two coloured panels under the same lamp.",
+            "steps": [
+              "Use panels of the same material, size and thickness with matched initial temperatures and lamp distances.",
+              "Measure temperature change over a fixed interval, and randomise panel positions across independent trials."
+            ],
+            "conclusion": "Surface finish remains a possible difference to document or control."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-experimental-design-card-1",
+            "front": "What is the response in a warming comparison?",
+            "back": "Temperature change over a specified interval."
+          },
+          {
+            "id": "extension-experimental-design-card-2",
+            "front": "Why match starting temperatures?",
+            "back": "Final temperature depends on the initial condition."
+          },
+          {
+            "id": "extension-experimental-design-card-3",
+            "front": "Why randomise panel positions?",
+            "back": "Illumination may vary by location."
+          },
+          {
+            "id": "extension-experimental-design-card-4",
+            "front": "What material factor can confound colour?",
+            "back": "Thickness, composition or surface finish."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-experimental-design-diagram",
+            "title": "Surface absorption changes temperature",
+            "description": "The design links a physical mechanism to a measured response.",
+            "nodes": [
+              {
+                "id": "extension-experimental-design-node-1",
+                "label": "Incident light",
+                "detail": "Comparable illumination on each panel"
+              },
+              {
+                "id": "extension-experimental-design-node-2",
+                "label": "Surface absorption",
+                "detail": "Colour and finish affect absorbed energy"
+              },
+              {
+                "id": "extension-experimental-design-node-3",
+                "label": "Temperature change",
+                "detail": "Measured over the same interval"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-experimental-design-node-1",
+                "to": "extension-experimental-design-node-2",
+                "label": "part of the light is absorbed"
+              },
+              {
+                "from": "extension-experimental-design-node-2",
+                "to": "extension-experimental-design-node-3",
+                "label": "absorbed energy contributes to warming"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-integrated-sciences-experimental-design-practice-1",
+          "difficulty": "Standard",
+          "command": "Identify",
+          "marks": 3,
+          "prompt": "In a panel-colour warming study, identify the independent variable, dependent variable and one relevant control.",
+          "hints": [
+            "Colour is deliberately changed.",
+            "The response must include a time interval."
+          ],
+          "solution": [
+            "Independent variable: panel colour; dependent variable: temperature rise over a fixed interval.",
+            "A relevant control is panel material, thickness or lamp distance."
+          ],
+          "successCriteria": [
+            "Colour.",
+            "Temperature rise over fixed time.",
+            "Relevant control."
+          ]
+        },
+        {
+          "id": "extension-myp5-integrated-sciences-experimental-design-practice-2",
+          "difficulty": "Advanced",
+          "command": "Evaluate",
+          "marks": 3,
+          "prompt": "A black metal panel warms more than a white wooden panel. Does the result isolate colour?",
+          "hints": [
+            "Two material properties changed together.",
+            "Construct a comparison with one intended factor."
+          ],
+          "solution": [
+            "Colour and material differ, so absorption and thermal properties are confounded.",
+            "Use otherwise matched panels differing only in the intended surface colour and document finish."
+          ],
+          "successCriteria": [
+            "Identifies material confound.",
+            "Explains alternative mechanism.",
+            "Matched-panel improvement."
+          ]
+        }
+      ]
+    },
+    "myp5-integrated-sciences-data-uncertainty": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Rate bounds combine both measurements",
+            "paragraphs": [
+              "Derived rates inherit uncertainty from both the measured change and the elapsed time. When bounds are supplied, the smallest ratio uses the smallest numerator with the largest positive denominator; the largest ratio uses the opposite endpoints. This produces a conservative range under the stated bounding model, not a statistical confidence interval. Units must be carried through the calculation. Rounding intermediate values too early can distort the final range, so retain enough digits until reporting. Measurement uncertainty should also be distinguished from model omissions, such as assuming a constant rate when only the total change was measured."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-data-uncertainty-worked",
+            "prompt": "A distance is 10.0 ± 0.2 m and time is 2.0 ± 0.1 s, treated as bounds. Find nominal average speed and endpoint range.",
+            "steps": [
+              "Nominal speed = 10.0/2.0 = 5.0 m/s.",
+              "Minimum = 9.8/2.1 ≈ 4.67 m/s; maximum = 10.2/1.9 ≈ 5.37 m/s."
+            ],
+            "conclusion": "The conservative range is about 4.67–5.37 m/s, not a confidence claim."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-data-uncertainty-card-1",
+            "front": "How is the smallest positive ratio bounded?",
+            "back": "Smallest numerator divided by largest denominator."
+          },
+          {
+            "id": "extension-data-uncertainty-card-2",
+            "front": "What does average speed require?",
+            "back": "Distance and elapsed time."
+          },
+          {
+            "id": "extension-data-uncertainty-card-3",
+            "front": "Does a bound imply a confidence level?",
+            "back": "No, unless a statistical interpretation is separately supplied."
+          },
+          {
+            "id": "extension-data-uncertainty-card-4",
+            "front": "Why avoid early rounding?",
+            "back": "It can change the final calculated bounds."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-data-uncertainty-diagram",
+            "title": "Rate bounds combine both measurements",
+            "description": "Opposite endpoints produce the extreme positive ratios.",
+            "nodes": [
+              {
+                "id": "extension-data-uncertainty-node-1",
+                "label": "Distance bounds",
+                "detail": "9.8–10.2 m"
+              },
+              {
+                "id": "extension-data-uncertainty-node-2",
+                "label": "Time bounds",
+                "detail": "1.9–2.1 s"
+              },
+              {
+                "id": "extension-data-uncertainty-node-3",
+                "label": "Speed bounds",
+                "detail": "9.8/2.1 to 10.2/1.9 m/s"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-data-uncertainty-node-1",
+                "to": "extension-data-uncertainty-node-2",
+                "label": "combine with elapsed-time bounds"
+              },
+              {
+                "from": "extension-data-uncertainty-node-2",
+                "to": "extension-data-uncertainty-node-3",
+                "label": "use opposite endpoints for extremes"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-integrated-sciences-data-uncertainty-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "A volume increases by 40 mL in 8 s. Find average rate and explain whether this proves the instantaneous rate was constant.",
+          "hints": [
+            "Divide total change by total time.",
+            "An average does not show the shape within the interval."
+          ],
+          "solution": [
+            "Average rate = 40/8 = 5 mL/s.",
+            "The instantaneous rate could vary while producing the same total; intermediate readings are needed."
+          ],
+          "successCriteria": [
+            "5 mL/s.",
+            "Correct average interpretation.",
+            "Need intermediate readings."
+          ]
+        },
+        {
+          "id": "extension-myp5-integrated-sciences-data-uncertainty-practice-2",
+          "difficulty": "Advanced",
+          "command": "Determine",
+          "marks": 3,
+          "prompt": "A mass is bounded between 18 and 22 g and volume between 4 and 5 cm³. Find conservative density bounds.",
+          "hints": [
+            "Density is mass divided by volume.",
+            "Pair the smallest mass with largest volume for the minimum."
+          ],
+          "solution": [
+            "Minimum density = 18/5 = 3.6 g/cm³.",
+            "Maximum density = 22/4 = 5.5 g/cm³."
+          ],
+          "successCriteria": [
+            "Correct endpoint pairing.",
+            "3.6 g/cm³.",
+            "5.5 g/cm³."
+          ]
+        }
+      ]
+    },
+    "myp5-integrated-sciences-scientific-evaluation": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Removal performance has more than one measure",
+            "paragraphs": [
+              "A technology can perform well on one measure while doing poorly on another. Evaluation begins by defining the service and the criteria, such as removal efficiency, energy use or maintenance demand. Percentages need a denominator: removing 90% of a small initial quantity differs from removing 90% of a large one. Comparing systems fairly may require reporting both the remaining amount and the resources used per unit of service. A weighted judgement should state whose priorities determine the weights. Evidence about performance does not, by itself, decide ethical or social questions about access, affordability or acceptable trade-offs."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-scientific-evaluation-worked",
+            "prompt": "A fictional filter treats 100 L containing 200 mg solute and removes 90%. Another treats the same input and removes 95% but uses twice the energy. Compare the supported outcomes.",
+            "steps": [
+              "The first leaves 20 mg; the second leaves 10 mg.",
+              "The second removes 10 mg more but uses twice the energy for the same volume."
+            ],
+            "conclusion": "Preference requires criteria about residual amount and energy, not removal percentage alone."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-scientific-evaluation-card-1",
+            "front": "Why define equal service?",
+            "back": "Different treatment volumes or outputs can distort comparisons."
+          },
+          {
+            "id": "extension-scientific-evaluation-card-2",
+            "front": "What remains after 90% removal?",
+            "back": "Ten per cent of the initial amount."
+          },
+          {
+            "id": "extension-scientific-evaluation-card-3",
+            "front": "What is a trade-off?",
+            "back": "Improvement in one relevant outcome accompanied by a cost in another."
+          },
+          {
+            "id": "extension-scientific-evaluation-card-4",
+            "front": "Who determines evaluation weights?",
+            "back": "The stated decision-maker or affected stakeholders, with reasons made explicit."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-scientific-evaluation-diagram",
+            "title": "Removal performance has more than one measure",
+            "description": "A higher percentage can improve one outcome while increasing another cost.",
+            "nodes": [
+              {
+                "id": "extension-scientific-evaluation-node-1",
+                "label": "Same contaminated input",
+                "detail": "200 mg in 100 L"
+              },
+              {
+                "id": "extension-scientific-evaluation-node-2",
+                "label": "Removal comparison",
+                "detail": "90% versus 95%"
+              },
+              {
+                "id": "extension-scientific-evaluation-node-3",
+                "label": "Remaining solute",
+                "detail": "20 mg versus 10 mg, with different energy costs"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-scientific-evaluation-node-1",
+                "to": "extension-scientific-evaluation-node-2",
+                "label": "apply each removal fraction"
+              },
+              {
+                "from": "extension-scientific-evaluation-node-2",
+                "to": "extension-scientific-evaluation-node-3",
+                "label": "compare residue and resource demand"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-integrated-sciences-scientific-evaluation-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "A hypothetical treatment removes 80% of 150 mg solute. Find removed and remaining masses.",
+          "hints": [
+            "Multiply by 0.80 for removal.",
+            "Subtract from the initial mass."
+          ],
+          "solution": [
+            "Removed mass = 0.80 × 150 = 120 mg.",
+            "Remaining mass = 150 − 120 = 30 mg."
+          ],
+          "successCriteria": [
+            "120 mg removed.",
+            "Correct balance.",
+            "30 mg remains."
+          ]
+        },
+        {
+          "id": "extension-myp5-integrated-sciences-scientific-evaluation-practice-2",
+          "difficulty": "Advanced",
+          "command": "Evaluate",
+          "marks": 3,
+          "prompt": "Device A uses less energy per litre than B, but A treats twice as many litres. Does lower intensity guarantee lower total energy use?",
+          "hints": [
+            "Total equals intensity multiplied by service volume.",
+            "Both factors are needed."
+          ],
+          "solution": [
+            "No; a larger volume can outweigh the lower energy per litre.",
+            "Compare each intensity multiplied by its actual volume, or compare equal volumes for an efficiency judgement."
+          ],
+          "successCriteria": [
+            "Rejects automatic total reduction.",
+            "Correct product relationship.",
+            "Equal-service or actual-total comparison."
+          ]
+        }
+      ]
+    }
+  }
+}

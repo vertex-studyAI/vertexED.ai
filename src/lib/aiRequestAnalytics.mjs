@@ -16,7 +16,7 @@ const AI_FEATURE_BY_PATH = Object.freeze({
 function requestPathname(input) {
   if (typeof input === "string") {
     try {
-      return new URL(input, "https://www.vertexed.app").pathname;
+      return new URL(input, `https://vertex-ed-ai.vercel.app`).pathname;
     } catch {
       return "";
     }
@@ -36,7 +36,7 @@ function requestPathname(input) {
 
   if (input && typeof input.url === "string") {
     try {
-      return new URL(input.url, "https://www.vertexed.app").pathname;
+      return new URL(input.url, `https://vertex-ed-ai.vercel.app`).pathname;
     } catch {
       return "";
     }

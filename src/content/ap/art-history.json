@@ -45,10 +45,133 @@
             "Limits the conclusion"
           ],
           "id": "art-history-1-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "A prehistoric carving has no known findspot. Explain one interpretive consequence.",
+          "hint": "Separate form from archaeological context.",
+          "hints": [
+            "Separate form from archaeological context.",
+            "Identify what is missing."
+          ],
+          "answer": "Its material and visible form can still be described. Its relationship to a burial, dwelling or other setting is unknown. Claims about original use therefore need greater qualification.",
+          "checkpoints": [
+            "Its material and visible form can still be described.",
+            "Its relationship to a burial, dwelling or other setting is unknown.",
+            "Claims about original use therefore need greater qualification."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "Why is a museum's modern title not direct proof of an ancient object's meaning?",
+          "hint": "Identify who supplied the title.",
+          "hints": [
+            "Identify who supplied the title.",
+            "Distinguish catalogue language from maker evidence."
+          ],
+          "answer": "The title may be assigned by later scholars or collectors. It can reflect an interpretation rather than an ancient name. Meaning should be checked against the object's context and evidence.",
+          "checkpoints": [
+            "The title may be assigned by later scholars or collectors.",
+            "It can reflect an interpretation rather than an ancient name.",
+            "Meaning should be checked against the object's context and evidence."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "frameworkUnit": "Unit 1",
-      "id": "art-history-1"
+      "id": "art-history-1",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Separate observation from inference in depth",
+            "paragraphs": [
+              "The Venus of Willendorf offers a useful distinction between an object's material evidence and interpretations of its purpose. The Natural History Museum Vienna identifies it as a small limestone figure with traces of red colouring. Its name is a later label, not a surviving title supplied by its maker. Describing bodily emphasis is an observation; identifying a specific fertility ritual requires contextual evidence. Portable scale may affect how an object could be handled, but portability does not establish exactly who handled it. Archaeological location, material analysis and comparisons constrain interpretation without eliminating every uncertainty."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Analyse a hypothetical prehistoric pendant found with red pigment in a burial.",
+            "steps": [
+              "Record the perforation, pigment and burial context as separate observations.",
+              "The perforation supports suspension; the burial links the object to that particular depositional event."
+            ],
+            "conclusion": "Neither feature alone identifies a named deity or proves the pendant was made exclusively for funerals."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is provenance?",
+            "back": "The documented history of an object's ownership or location."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Is Venus the maker's known title here?",
+            "back": "No; it is a later label."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What does a suspension hole support?",
+            "back": "That an object could be hung or attached."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Does absence of writing prevent all interpretation?",
+            "back": "No, material and archaeological evidence remain."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "From object to bounded claim",
+            "description": "The strength of a conclusion depends on its evidence.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Perforation",
+                "detail": "A physical feature of the hypothetical pendant."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Suspension",
+                "detail": "A use supported by that feature."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Specific ritual",
+                "detail": "A further interpretation requiring additional context."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "supports"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "does not alone establish"
+              }
+            ]
+          }
+        ],
+        "references": [
+          {
+            "title": "Natural History Museum Vienna: Venus of Willendorf",
+            "url": "https://www.nhm.at/presse/top10/venus_of_willendorf",
+            "note": "Supports the limestone material and original red colouring described in the note; interpretations of specific prehistoric purpose remain qualified."
+          }
+        ]
+      }
     },
     {
       "title": "Analyse authority through form",
@@ -88,10 +211,133 @@
             "Avoids unsupported biography"
           ],
           "id": "art-history-2-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Why should a larger ruler in a relief not be treated automatically as a literally taller person?",
+          "hint": "Consider hierarchical scale.",
+          "hints": [
+            "Consider hierarchical scale.",
+            "Connect size to status."
+          ],
+          "answer": "Relative size may encode rank. The formal device organises importance rather than anatomy. Context and comparison help establish that interpretation.",
+          "checkpoints": [
+            "Relative size may encode rank.",
+            "The formal device organises importance rather than anatomy.",
+            "Context and comparison help establish that interpretation."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "A ruler image uses calm posture during a period of conflict. What distinction should analysis preserve?",
+          "hint": "Image and historical condition differ.",
+          "hints": [
+            "Image and historical condition differ.",
+            "Explain representation as a claim."
+          ],
+          "answer": "Calm posture can project order. It does not prove that society was peaceful. The contrast may help explain why the image's claim mattered.",
+          "checkpoints": [
+            "Calm posture can project order.",
+            "It does not prove that society was peaceful.",
+            "The contrast may help explain why the image's claim mattered."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "frameworkUnit": "Unit 2",
-      "id": "art-history-2"
+      "id": "art-history-2",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Analyse authority through form in depth",
+            "paragraphs": [
+              "Augustus of Prima Porta combines a military cuirass with the gesture of addressing troops. The Vatican Museums identify these features and the statue's discovery at the Villa of Livia. The body presents an authoritative image rather than an unmediated record of a moment. Analyse the relationship among pose, costume and the imagery on the armour before describing the political claim. Discovery location and original intended display are related questions but not always identical. A ruler's image can communicate ideals of command even when the viewer cannot read every symbolic detail."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Compare two hypothetical ruler images: one seated behind a barrier, another standing with an extended speaking arm.",
+            "steps": [
+              "The barrier makes access and separation visible in the first image.",
+              "The speaking gesture in the second presents active address and command."
+            ],
+            "conclusion": "Both can construct authority through different relationships between ruler and viewer."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What does a cuirass signify as clothing?",
+            "back": "Military armour."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What is adlocutio?",
+            "back": "An address to troops."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Is idealisation a neutral record of appearance?",
+            "back": "No; it shapes representation."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why distinguish findspot and intended display?",
+            "back": "An object may have moved or its setting changed."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Authority through representation",
+            "description": "Pose and costume cooperate in the political image.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Military costume",
+                "detail": "The ruler is associated with command."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Addressing gesture",
+                "detail": "The body performs leadership."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Viewer's encounter",
+                "detail": "Authority becomes a visible claim."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "is reinforced by"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "shapes"
+              }
+            ]
+          }
+        ],
+        "references": [
+          {
+            "title": "Vatican Museums: Augustus from Prima Porta",
+            "url": "https://www.museivaticani.va/content/museivaticani/en/collezioni/musei/braccio-nuovo/Augusto-di-Prima-Porta.html",
+            "note": "Supports the cuirass, address-to-troops gesture and discovery at the Villa of Livia; the note distinguishes representation from actual political control."
+          }
+        ]
+      }
     },
     {
       "title": "Connect patronage and sacred space",
@@ -131,10 +377,133 @@
             "Recognises power"
           ],
           "id": "art-history-3-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Explain why a cathedral should be analysed as more than a façade.",
+          "hint": "Consider sequence and interior.",
+          "hints": [
+            "Consider sequence and interior.",
+            "Name a relevant spatial element."
+          ],
+          "answer": "Visitors move through entrances and interior spaces. Light, images and thresholds shape their encounter. A façade alone cannot account for the building's full function.",
+          "checkpoints": [
+            "Visitors move through entrances and interior spaces.",
+            "Light, images and thresholds shape their encounter.",
+            "A façade alone cannot account for the building's full function."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "A chapel combines local materials with a foreign patron's imagery. What evidence is needed before calling it simple cultural replacement?",
+          "hint": "Identify makers and commission.",
+          "hints": [
+            "Identify makers and commission.",
+            "Allow adaptation and coercion to be investigated."
+          ],
+          "answer": "The patron's aims and authority need documentation. Local makers' choices and material practices also matter. The combination may involve unequal power and adaptation rather than total erasure.",
+          "checkpoints": [
+            "The patron's aims and authority need documentation.",
+            "Local makers' choices and material practices also matter.",
+            "The combination may involve unequal power and adaptation rather than total erasure."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "frameworkUnit": "Unit 3",
-      "id": "art-history-3"
+      "id": "art-history-3",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Connect patronage and sacred space in depth",
+            "paragraphs": [
+              "Chartres Cathedral brings sculpture, stained glass and architectural space into a connected devotional environment. UNESCO documents its major medieval glazing and sculptural programmes as well as its role in pilgrimage. Windows alter light while presenting images; portals frame entry and establish a threshold. These elements should be related to the visitor's movement and attention rather than listed as independent ornaments. Patronage can support construction and leave visible traces, but identifying a particular donor requires documentary or iconographic evidence. A building's later use also need not reproduce every aspect of its medieval experience."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Analyse a hypothetical church window showing a donor below a larger sacred scene.",
+            "steps": [
+              "The lower placement links the donor to the work while preserving the sacred figure's prominence.",
+              "Coloured light and the window's architectural position make the image part of the interior encounter."
+            ],
+            "conclusion": "The arrangement can acknowledge patronage without making donor and sacred figure equal in status."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is a portal?",
+            "back": "An architectural entrance, often with a structured surround."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What does stained glass change besides imagery?",
+            "back": "The colour and distribution of light."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What is patronage?",
+            "back": "Support or commissioning of artistic work."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Does a donor's small scale prove low social wealth?",
+            "back": "No; scale can express devotional hierarchy."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Patronage within sacred space",
+            "description": "The parts contribute to one encounter.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Donor support",
+                "detail": "Resources enable a commissioned window."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Image and coloured light",
+                "detail": "The window shapes the interior experience."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Devotional attention",
+                "detail": "Placement directs looking within worship space."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "funds"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "organises"
+              }
+            ]
+          }
+        ],
+        "references": [
+          {
+            "title": "UNESCO: Chartres Cathedral",
+            "url": "https://whc.unesco.org/en/list/81/",
+            "note": "Documents the medieval glazing, sculptural programme and pilgrimage context used in the note."
+          }
+        ]
+      }
     },
     {
       "title": "Explain a modern break with convention",
@@ -174,10 +543,133 @@
             "Avoids assuming influence"
           ],
           "id": "art-history-4-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "A painting uses repeated diagonal strokes around pedestrians. Give a bounded interpretation.",
+          "hint": "Describe the formal pattern.",
+          "hints": [
+            "Describe the formal pattern.",
+            "Connect it to the figures."
+          ],
+          "answer": "The diagonals create directional energy. Around moving pedestrians they may suggest hurried passage. The interpretation remains tied to the scene rather than proving a universal urban mood.",
+          "checkpoints": [
+            "The diagonals create directional energy.",
+            "Around moving pedestrians they may suggest hurried passage.",
+            "The interpretation remains tied to the scene rather than proving a universal urban mood."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "Why should photography's existence not be treated as the sole cause of every modern change in painting?",
+          "hint": "Consider multiple conditions.",
+          "hints": [
+            "Consider multiple conditions.",
+            "Avoid one-cause explanations."
+          ],
+          "answer": "Photography was one relevant visual technology. Markets, urban life and artistic debates also shaped choices. A specific causal claim needs evidence connecting the artist's practice to those conditions.",
+          "checkpoints": [
+            "Photography was one relevant visual technology.",
+            "Markets, urban life and artistic debates also shaped choices.",
+            "A specific causal claim needs evidence connecting the artist's practice to those conditions."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "frameworkUnit": "Unit 4",
-      "id": "art-history-4"
+      "id": "art-history-4",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Explain a modern break with convention in depth",
+            "paragraphs": [
+              "Monet's Gare Saint-Lazare paintings take a modern railway environment as a sustained subject. The National Gallery documents its painting within the group made in 1877. Steam, structure and shifting visibility provide a setting for examining how marks describe perception. A loose edge can suggest a form partly obscured by atmosphere; it is not automatically evidence of careless observation. Industrial modernity enters through the subject and the experience of space. Interpretation should connect particular visual choices to that experience without assuming that the painting represents every traveller's view of urban life."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Analyse a hypothetical station painting in which straight roof beams remain clear while trains dissolve into pale steam.",
+            "steps": [
+              "Compare stable linear structure with softened vehicle contours.",
+              "The contrast separates the architectural enclosure from the transient atmosphere."
+            ],
+            "conclusion": "The painter can make change and permanence visible within the same industrial setting."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is a cropped form?",
+            "back": "A form cut by the picture's edge."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Does loose brushwork necessarily mean poor observation?",
+            "back": "No."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What can softened edges suggest?",
+            "back": "Atmosphere, movement or uncertain visibility in context."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What makes a context claim persuasive?",
+            "back": "A connection to specific visual evidence."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Station structure and atmosphere",
+            "description": "Different kinds of marks describe different experiences.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Rigid roof beams",
+                "detail": "Stable architectural framework."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Steam-softened forms",
+                "detail": "Temporary obstruction of visibility."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Modern encounter",
+                "detail": "The scene combines structure with rapid change."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "frame"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "suggest"
+              }
+            ]
+          }
+        ],
+        "references": [
+          {
+            "title": "National Gallery: Monet, The Gare St-Lazare",
+            "url": "https://www.nationalgallery.org.uk/paintings/claude-monet-the-gare-st-lazare",
+            "note": "Supports the railway subject and its place within Monet’s 1877 group; the transfer exercise is an original hypothetical painting."
+          }
+        ]
+      }
     },
     {
       "title": "Read material and ceremonial function",
@@ -217,10 +709,133 @@
             "Distinguishes display from original use"
           ],
           "id": "art-history-5-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "A museum displays a ceremonial garment flat against a wall. Name one aspect of its original experience that may be lost.",
+          "hint": "Consider the body.",
+          "hints": [
+            "Consider the body.",
+            "Explain the effect on viewing."
+          ],
+          "answer": "Movement and the shape of a wearer are absent. The pattern may have behaved differently when worn. Analysis should distinguish the current display from the documented performance or ceremony.",
+          "checkpoints": [
+            "Movement and the shape of a wearer are absent.",
+            "The pattern may have behaved differently when worn.",
+            "Analysis should distinguish the current display from the documented performance or ceremony."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "Why should Indigenous American art not be described as one timeless style?",
+          "hint": "Consider geography and chronology.",
+          "hints": [
+            "Consider geography and chronology.",
+            "Name the required specificity."
+          ],
+          "answer": "The region includes distinct communities and histories. Materials and practices changed through time and exchange. Interpretation should identify the relevant makers, period and context.",
+          "checkpoints": [
+            "The region includes distinct communities and histories.",
+            "Materials and practices changed through time and exchange.",
+            "Interpretation should identify the relevant makers, period and context."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "frameworkUnit": "Unit 5",
-      "id": "art-history-5"
+      "id": "art-history-5",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Read material and ceremonial function in depth",
+            "paragraphs": [
+              "Inca textiles show how technical skill, bodily display and social organisation can intersect. The Metropolitan Museum's account of checkerboard tunics notes fine weaving, a red yoke and evidence linking some such designs to military use, while cautioning against assuming European-style uniforms. A pattern's repetition can create recognition across garments without proving identical roles for every wearer. Scale matters too: a miniature garment may dress a figure rather than a human body. Relate material, workmanship and contextual documentation before assigning a precise ceremonial or political function."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Compare a hypothetical full-size woven tunic with a miniature repeating its pattern.",
+            "steps": [
+              "Both share a design vocabulary, but their dimensions imply different possible wearers.",
+              "The miniature could dress a figure if supported by context; it is not simply a failed adult garment."
+            ],
+            "conclusion": "Shared form and changed scale can transfer a social image into another use."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is tapestry weaving?",
+            "back": "A weaving structure in which wefts create the visible design."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why does garment scale matter?",
+            "back": "It constrains who or what could wear it."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Does a repeated pattern prove a modern-style uniform?",
+            "back": "No."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What connects textile form and status?",
+            "back": "Documented use alongside materials and workmanship."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Pattern across scales",
+            "description": "Similar design can serve different physical contexts.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Full-size tunic",
+                "detail": "A garment suited to a person."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Miniature tunic",
+                "detail": "A comparable pattern on a smaller object."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Contextual function",
+                "detail": "Evidence determines whether it adorned a figure or served another use."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "is echoed by"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "requires"
+              }
+            ]
+          }
+        ],
+        "references": [
+          {
+            "title": "The Metropolitan Museum of Art: The Andean Tunic",
+            "url": "https://www.metmuseum.org/exhibitions/listings/2011/the-andean-tunic-400-bce1800-ce/photo-gallery",
+            "note": "Supports checkerboard tunic design, fine weaving and a qualified military association, including the caution against assuming European-style uniforms."
+          }
+        ]
+      }
     },
     {
       "title": "Analyse art in performance",
@@ -260,10 +875,133 @@
             "Does not conflate them"
           ],
           "id": "art-history-6-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Why might a still image misrepresent the visual effect of a moving masquerade?",
+          "hint": "Consider time and changing views.",
+          "hints": [
+            "Consider time and changing views.",
+            "Name an omitted element."
+          ],
+          "answer": "Movement changes orientation and silhouette. Costume and sound may contribute to the encounter. A still image preserves one moment rather than the complete event.",
+          "checkpoints": [
+            "Movement changes orientation and silhouette.",
+            "Costume and sound may contribute to the encounter.",
+            "A still image preserves one moment rather than the complete event."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "An old collector's label calls a mask merely decorative. How should that claim be evaluated?",
+          "hint": "Ask who wrote it and with what evidence.",
+          "hints": [
+            "Ask who wrote it and with what evidence.",
+            "Seek relevant community documentation."
+          ],
+          "answer": "The label records the collector's classification. It may omit performance or ceremonial use. Community accounts and documented context can support or revise the interpretation.",
+          "checkpoints": [
+            "The label records the collector's classification.",
+            "It may omit performance or ceremonial use.",
+            "Community accounts and documented context can support or revise the interpretation."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "frameworkUnit": "Unit 6",
-      "id": "art-history-6"
+      "id": "art-history-6",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Analyse art in performance in depth",
+            "paragraphs": [
+              "Gẹ̀lẹ̀dẹ́ demonstrates why a carved mask cannot always be understood as a self-contained sculpture. The Metropolitan Museum describes Yoruba performances in which male dancers honour powers associated with women, including ancestral figures. The carved component works with costume, movement and sound. A museum view can reveal surface and workmanship while omitting these relationships. Community and period must remain explicit: the example is not a template for every African mask. Collection history also affects what survives and how a work is labelled, so later display choices need to be separated from documented use."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Analyse a hypothetical helmet mask photographed alone and then documented in a full costume.",
+            "steps": [
+              "The isolated image reveals carving and proportions.",
+              "The performance record adds bodily scale, movement and the relation to fabric and music."
+            ],
+            "conclusion": "The two records answer different questions and should be interpreted together."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What does performance context add?",
+            "back": "Movement, sound, participants and occasion."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Does one Yoruba practice represent all Africa?",
+            "back": "No."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What is a helmet mask?",
+            "back": "A mask form worn on or over the head."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why inspect collecting history?",
+            "back": "It affects attribution, condition and present interpretation."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Mask within performance",
+            "description": "The object participates in a larger event.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Carved component",
+                "detail": "Form and surface visible in isolation."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Costume and dancer",
+                "detail": "Scale and movement transform its appearance."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Community event",
+                "detail": "Occasion and participants provide social meaning."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "is combined with"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "acts within"
+              }
+            ]
+          }
+        ],
+        "references": [
+          {
+            "title": "The Metropolitan Museum of Art: Gẹ̀lẹ̀dẹ́ helmet mask",
+            "url": "https://www.metmuseum.org/art/collection/search/316460",
+            "note": "Supports the Yoruba performance context and the relationship between male dancers and powers associated with living, ancestral or deified women."
+          }
+        ]
+      }
     },
     {
       "title": "Relate pattern, text and place",
@@ -303,10 +1041,133 @@
             "Connects effect to form"
           ],
           "id": "art-history-7-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Why must an inscription be translated before claiming it praises a particular patron?",
+          "hint": "Appearance does not supply wording.",
+          "hints": [
+            "Appearance does not supply wording.",
+            "Identify the needed evidence."
+          ],
+          "answer": "Calligraphic form can be described visually. Its precise message requires linguistic reading. A patronage claim needs that wording or supporting documentation.",
+          "checkpoints": [
+            "Calligraphic form can be described visually.",
+            "Its precise message requires linguistic reading.",
+            "A patronage claim needs that wording or supporting documentation."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "Explain why the presence or absence of figures in one building cannot establish a rule for all Islamic art.",
+          "hint": "Consider function and historical variation.",
+          "hints": [
+            "Consider function and historical variation.",
+            "Limit the sample."
+          ],
+          "answer": "Practices vary by period, place and use. One building supplies a specific case. Broader claims require comparison across relevant contexts.",
+          "checkpoints": [
+            "Practices vary by period, place and use.",
+            "One building supplies a specific case.",
+            "Broader claims require comparison across relevant contexts."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "frameworkUnit": "Unit 7",
-      "id": "art-history-7"
+      "id": "art-history-7",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Relate pattern, text and place in depth",
+            "paragraphs": [
+              "A mihrab marks the direction of prayer within an architectural setting. The Metropolitan Museum's fourteenth-century example from Isfahan combines cut glazed tiles with inscription and patterned surfaces. Its ornament therefore operates alongside orientation, rather than replacing function. A band of writing has both a visual arrangement and linguistic content; translation is needed before making a claim about its specific message. A detached museum display preserves the surface but changes its relationship to the original wall and worship space. Similar techniques across regions can reveal exchange without making every setting identical."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Analyse a hypothetical tiled prayer niche whose inscription frames the arch.",
+            "steps": [
+              "The niche's location within the prayer wall establishes orientation.",
+              "The framing text directs attention around the opening while also carrying words whose meaning needs translation."
+            ],
+            "conclusion": "Form, text and architectural use should be explained together."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is a mihrab?",
+            "back": "A niche marking the direction of prayer."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What is tile mosaic?",
+            "back": "A design assembled from fitted pieces of tile."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Does calligraphy have only decorative value?",
+            "back": "No; it can carry linguistic content too."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What changes when a niche enters a museum?",
+            "back": "Its relation to the original architectural and devotional setting."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Surface and orientation",
+            "description": "The niche joins visual and spatial functions.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Prayer wall",
+                "detail": "Establishes the directional setting."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Mihrab and arch",
+                "detail": "Focus the architectural surface."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Inscription and pattern",
+                "detail": "Organise attention and communicate text."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "contains"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "is framed by"
+              }
+            ]
+          }
+        ],
+        "references": [
+          {
+            "title": "The Metropolitan Museum of Art: Mihrab (Prayer Niche)",
+            "url": "https://www.metmuseum.org/art/collection/search/449537",
+            "note": "Supports the Isfahan prayer niche’s date, glazed tile construction, inscription and architectural function."
+          }
+        ]
+      }
     },
     {
       "title": "Follow movement through sacred architecture",
@@ -346,10 +1207,133 @@
             "Avoids universal symbolism"
           ],
           "id": "art-history-8-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Why is a route diagram useful alongside an architectural photograph?",
+          "hint": "Compare kinds of evidence.",
+          "hints": [
+            "Compare kinds of evidence.",
+            "Consider movement."
+          ],
+          "answer": "The photograph shows a selected view. The diagram can show connections and sequence. Together they support analysis of how the building is encountered.",
+          "checkpoints": [
+            "The photograph shows a selected view.",
+            "The diagram can show connections and sequence.",
+            "Together they support analysis of how the building is encountered."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "A sacred form appears in two regions. Why should its meaning not be assumed identical?",
+          "hint": "Consider local tradition and patronage.",
+          "hints": [
+            "Consider local tradition and patronage.",
+            "Seek contextual use."
+          ],
+          "answer": "Forms can travel through exchange. Local practices can adapt their function and interpretation. Each setting needs evidence about users, period and purpose.",
+          "checkpoints": [
+            "Forms can travel through exchange.",
+            "Local practices can adapt their function and interpretation.",
+            "Each setting needs evidence about users, period and purpose."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "frameworkUnit": "Unit 8",
-      "id": "art-history-8"
+      "id": "art-history-8",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Follow movement through sacred architecture in depth",
+            "paragraphs": [
+              "Borobudur in central Java makes architectural sequence central to interpretation. UNESCO describes lower square terraces, upper circular platforms and a summit stupa, with reliefs along parts of the structure. The change in geometry and level creates an ordered experience rather than a single frontal image. Buddhist context helps explain why movement and ascent matter, but a visitor's route and interpretation should still be tied to documented practice. A plan shows spatial relationships; photographs show particular views. Combining both avoids reducing a complex devotional environment to its silhouette."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Use a simplified hypothetical monument with square lower passages and a circular upper platform.",
+            "steps": [
+              "Map how a visitor follows bounded paths before reaching a more open level.",
+              "Compare the changing enclosure and geometry rather than treating the levels as interchangeable decoration."
+            ],
+            "conclusion": "The sequence can shape a progression of attention, with its specific meaning established by context."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What does a plan show?",
+            "back": "Spatial arrangement viewed from above."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What is circumambulation?",
+            "back": "Movement around a sacred object or structure."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Why compare lower and upper levels?",
+            "back": "Changes in form can organise a sequence of encounter."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Does a photograph show every possible route?",
+            "back": "No."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Movement through levels",
+            "description": "The simplified sequence models changing spatial conditions.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Lower square passages",
+                "detail": "Bounded movement beside reliefs."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Upper circular platform",
+                "detail": "A changed geometry and openness."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Central stupa",
+                "detail": "A focal element of the composition."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "leads towards"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "organises attention around"
+              }
+            ]
+          }
+        ],
+        "references": [
+          {
+            "title": "UNESCO: Borobudur Temple Compounds",
+            "url": "https://whc.unesco.org/en/list/592/",
+            "note": "Supports the central Java setting, square terraces, circular upper platforms, reliefs and summit stupa used in the note."
+          }
+        ]
+      }
     },
     {
       "title": "Connect objects to exchange and ancestry",
@@ -389,10 +1373,133 @@
             "Uses a precise comparison"
           ],
           "id": "art-history-9-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Why is calling an unfamiliar navigation chart inaccurate solely because it lacks a modern scale inadequate?",
+          "hint": "Identify the chart's purpose.",
+          "hints": [
+            "Identify the chart's purpose.",
+            "Distinguish map conventions."
+          ],
+          "answer": "Scale is one possible convention. The chart may encode other useful relationships. Its function should be assessed through the knowledge and task it supports.",
+          "checkpoints": [
+            "Scale is one possible convention.",
+            "The chart may encode other useful relationships.",
+            "Its function should be assessed through the knowledge and task it supports."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "How can museum relocation change the interpretation of a Pacific exchange object?",
+          "hint": "Consider users and relationships.",
+          "hints": [
+            "Consider users and relationships.",
+            "Compare original transfer with display."
+          ],
+          "answer": "The original transfer may establish social relationships. A display can emphasise material and form instead. Documentation is needed to reconnect the object with participants and occasion.",
+          "checkpoints": [
+            "The original transfer may establish social relationships.",
+            "A display can emphasise material and form instead.",
+            "Documentation is needed to reconnect the object with participants and occasion."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "frameworkUnit": "Unit 9",
-      "id": "art-history-9"
+      "id": "art-history-9",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Connect objects to exchange and ancestry in depth",
+            "paragraphs": [
+              "The Marshallese rebbilib in the Metropolitan Museum uses lashed sticks to represent relationships relevant to navigation. The museum identifies information about islands and wave patterns, while qualifying some readings of individual elements. This is a reminder that a useful chart need not imitate a modern scaled map. Its conventions depend on knowledgeable interpretation and a maritime setting. Analyse the relation between material structure and represented information before judging accuracy through unfamiliar standards. Ocean travel also connects communities; distance across water should not automatically be equated with cultural isolation."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Compare a hypothetical navigation diagram showing swell relationships with a road map showing measured distances.",
+            "steps": [
+              "The first prioritises environmental patterns relevant at sea.",
+              "The second prioritises routes and locations in a land network."
+            ],
+            "conclusion": "Their different abstractions can both be functional because they answer different navigational questions."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is abstraction in a map?",
+            "back": "Selecting and simplifying relationships for a purpose."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What is rebbilib associated with?",
+            "back": "Marshallese navigation."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Must all charts use proportional distance?",
+            "back": "No; function and conventions differ."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why preserve uncertainty in a label?",
+            "back": "Some element meanings may remain incompletely documented."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Chart as practical knowledge",
+            "description": "Material relationships encode selected information.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Lashed structure",
+                "detail": "A physical arrangement of sticks."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Islands and swells",
+                "detail": "Relationships represented through conventions."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Navigator's interpretation",
+                "detail": "Knowledge connects the model to travel."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "models"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "requires"
+              }
+            ]
+          }
+        ],
+        "references": [
+          {
+            "title": "The Metropolitan Museum of Art: Rebbilib navigational chart",
+            "url": "https://www.metmuseum.org/art/collection/search/311297",
+            "note": "Supports Marshallese navigation, lashed material structure and island/wave information while retaining uncertainty about specific elements."
+          }
+        ]
+      }
     },
     {
       "title": "Analyse installation and participation",
@@ -432,10 +1539,133 @@
             "Identifies participant’s role"
           ],
           "id": "art-history-10-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "A participatory artwork is later shown behind a barrier. Explain one interpretive change.",
+          "hint": "Compare permitted actions.",
+          "hints": [
+            "Compare permitted actions.",
+            "Avoid claiming the object alone is unchanged experience."
+          ],
+          "answer": "The barrier changes bodily access. Participation may become observation. The encounter and possible meanings should therefore be reassessed.",
+          "checkpoints": [
+            "The barrier changes bodily access.",
+            "Participation may become observation.",
+            "The encounter and possible meanings should therefore be reassessed."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "Why should an installation's use of ordinary objects not be dismissed as absence of artistic decisions?",
+          "hint": "Consider selection and arrangement.",
+          "hints": [
+            "Consider selection and arrangement.",
+            "Name a spatial choice."
+          ],
+          "answer": "Selection, repetition and placement are decisions. Scale and viewer movement can organise the experience. Analysis should evaluate those relationships rather than require a conventional medium.",
+          "checkpoints": [
+            "Selection, repetition and placement are decisions.",
+            "Scale and viewer movement can organise the experience.",
+            "Analysis should evaluate those relationships rather than require a conventional medium."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "frameworkUnit": "Unit 10",
-      "id": "art-history-10"
+      "id": "art-history-10",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Analyse installation and participation in depth",
+            "paragraphs": [
+              "Ai Weiwei's Sunflower Seeds places individually made porcelain forms into a vast aggregate. The artist-studio account hosted by Google Arts & Culture documents handcrafted production in Jingdezhen and the work's 2010 presentation at Tate Modern. The contrast between apparent sameness and individual manufacture makes labour and collectivity available for interpretation. Viewing distance matters: a field seen from afar differs from close attention to a single component. An installation's scale, venue and permitted visitor actions are part of its encounter, so do not assume every later presentation recreates the same experience."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Analyse a hypothetical installation of thousands of individually repaired chairs in a public hall.",
+            "steps": [
+              "From a distance, repeated forms create an apparently uniform field.",
+              "Close inspection reveals different repairs and histories."
+            ],
+            "conclusion": "The scale shift can connect collective experience with individual labour without requiring every chair to tell the same story."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is an installation?",
+            "back": "A work organised through objects, space and the viewer's encounter."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why does viewing distance matter?",
+            "back": "It changes which relationships and details are visible."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Does repeated appearance prove factory production?",
+            "back": "No."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why record visitor permissions?",
+            "back": "Allowed actions shape participation and experience."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Individual and aggregate",
+            "description": "Scale changes what the viewer notices.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Single component",
+                "detail": "Specific making or repair becomes visible."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Repeated field",
+                "detail": "Many elements appear as a collective mass."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Interpretive tension",
+                "detail": "Similarity coexists with individual difference."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "accumulates into"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "creates"
+              }
+            ]
+          }
+        ],
+        "references": [
+          {
+            "title": "Ai Weiwei Studio / Oscar Niemeyer Museum: Sunflower Seeds",
+            "url": "https://artsandculture.google.com/asset/sunflower-seeds-ai-weiwei-courtesy-ai-weiwei-studio/uQFuRiasIG8a_w?hl=en",
+            "note": "Supports handcrafted porcelain production in Jingdezhen and the 2010 Tate Modern presentation; it does not establish identical visitor access in every later installation."
+          }
+        ]
+      }
     }
   ]
 }

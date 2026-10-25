@@ -18,7 +18,7 @@ for (const group of groups) {
       await expect(page.getByText('This topic has a structured outline, not a finished lesson yet.')).toHaveCount(0);
       await expect(page.locator('.myp-note').filter({ hasText: 'do not supply images, audio or recordings' })).toBeVisible();
       const buttons = page.getByRole('group', { name: 'Choose practice question' }).getByRole('button');
-      await expect(buttons).toHaveCount(3);
+      await expect(buttons).toHaveCount(5);
       for (let i = 0; i < 3; i++) {
         await buttons.nth(i).click();
         await page.getByRole('button', { name: 'Show hints' }).click();

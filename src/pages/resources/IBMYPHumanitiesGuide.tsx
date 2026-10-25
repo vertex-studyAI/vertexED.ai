@@ -1,3 +1,4 @@
+import { APP_ORIGIN } from '@/lib/appOrigin';
 import { useMemo, useState } from "react";
 import { Link } from "react-router";
 import {
@@ -60,7 +61,7 @@ export default function IBMYPHumanitiesGuide() {
       <SEO
         title="IB MYP Humanities answer studio | VertexED"
         description="A practical IB MYP History and Geography guide for research questions, OPVL source evaluation, short answers and extended responses."
-        canonical="https://www.vertexed.app/resources/ib-myp-humanities-guide"
+        canonical={`${APP_ORIGIN}/resources/ib-myp-humanities-guide`}
         keywords="IB MYP humanities, MYP history, MYP geography, OPVL, research question, source evaluation"
         ogType="article"
         jsonLd={{

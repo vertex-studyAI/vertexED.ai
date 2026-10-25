@@ -13,7 +13,7 @@ test('all 12 biology lessons have working navigation, hints and complete practic
     await expect(page.getByRole('heading', { level: 1, name: topic, exact: true })).toBeVisible();
     await expect(page.getByText('This topic has a structured outline, not a finished lesson yet.')).toHaveCount(0);
     const questions = page.getByRole('group', { name: 'Choose practice question' }).getByRole('button');
-    const questionCount = topic === 'Cells' ? 4 : 3;
+    const questionCount = topic === 'Cells' ? 6 : 5;
     await expect(questions).toHaveCount(questionCount);
     for (let index = 0; index < questionCount; index++) {
       await questions.nth(index).click();
@@ -56,7 +56,7 @@ test('all biology worked examples and 37 solutions fit mobile screens', async ({
     await page.goto('/myp/subjects/biology/' + slug(topic));
     await page.locator('.myp-worked').screenshot({ path: `test-results/biology-mobile-${slug(topic)}-worked.png`, animations: 'disabled' });
     const questions = page.getByRole('group', { name: 'Choose practice question' }).getByRole('button');
-    const questionCount = topic === 'Cells' ? 4 : 3;
+    const questionCount = topic === 'Cells' ? 6 : 5;
     await expect(questions).toHaveCount(questionCount);
     for (let index = 0; index < questionCount; index++) {
       await questions.nth(index).click();

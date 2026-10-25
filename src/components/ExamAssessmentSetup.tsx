@@ -41,6 +41,7 @@ type Result = {
   confidence?: string;
   confirmationSource: 'learner' | 'teacher';
   humanConfirmed: true;
+  evidenceStatus?: 'learner-attested';
   recordedAt: string;
 };
 
@@ -172,7 +173,7 @@ export default function ExamAssessmentSetup({ subject, programme, grade }: { sub
       score, maxScore, durationMinutes: Number(resultDraft.durationMinutes) || undefined,
       questionType: resultDraft.questionType.trim() || undefined, topic: resultDraft.topic.trim() || undefined,
       commandTerm: resultDraft.commandTerm.trim() || undefined, confidence: resultDraft.confidence || undefined,
-      confirmationSource: resultDraft.confirmationSource, humanConfirmed: true, recordedAt: new Date().toISOString(),
+      confirmationSource: resultDraft.confirmationSource, humanConfirmed: true, evidenceStatus: 'learner-attested', recordedAt: new Date().toISOString(),
     };
     const next = { ...draft, results: [...draft.results, result] };
     setDraft(next);
@@ -244,8 +245,8 @@ export default function ExamAssessmentSetup({ subject, programme, grade }: { sub
     {step === 'saved' && <div className="exam-saved-summary" role="status"><Check className="h-5 w-5" aria-hidden /><div><strong>{draft.assessmentType} setup saved for {subject}</strong><p>{draft.date} · {draft.durationMinutes} minutes · {draft.totalMarks} marks{draft.paper ? ` · ${draft.paper}` : ''}</p></div></div>}
 
     {step === 'saved' && <div className="exam-result-entry">
-      <div className="exam-prep-section-head"><div><p className="exam-prep-kicker"><BarChart3 className="h-4 w-4" aria-hidden /> Past-paper analytics</p><h3>Human-confirmed results only</h3></div></div>
-      <p>Enter results only after checking the score against the marked paper, teacher feedback, or another human record. Learner, reference, synthetic, and unavailable data remain separate.</p>
+      <div className="exam-prep-section-head"><div><p className="exam-prep-kicker"><BarChart3 className="h-4 w-4" aria-hidden /> Past-paper analytics</p><h3>Learner-recorded results</h3></div></div>
+      <p>Enter results only after checking the score against the marked paper, teacher feedback, or another human-created record. These remain learner-attested records, not authenticated teacher confirmation or verified mastery.</p>
       <div className="exam-result-grid">
         <label>Score<input type="number" min="0" value={resultDraft.score} onChange={(event) => setResultDraft({ ...resultDraft, score: event.target.value })} /></label>
         <label>Maximum marks<input type="number" min="1" value={resultDraft.maxScore} onChange={(event) => setResultDraft({ ...resultDraft, maxScore: event.target.value })} /></label>
@@ -254,17 +255,17 @@ export default function ExamAssessmentSetup({ subject, programme, grade }: { sub
         <label>Topic<input value={resultDraft.topic} onChange={(event) => setResultDraft({ ...resultDraft, topic: event.target.value })} /></label>
         <label>Command term<input value={resultDraft.commandTerm} onChange={(event) => setResultDraft({ ...resultDraft, commandTerm: event.target.value })} /></label>
         <label>Confidence<select value={resultDraft.confidence} onChange={(event) => setResultDraft({ ...resultDraft, confidence: event.target.value })}><option value="">Not recorded</option><option>Low</option><option>Medium</option><option>High</option></select></label>
-        <label>Confirmed against<select value={resultDraft.confirmationSource} onChange={(event) => setResultDraft({ ...resultDraft, confirmationSource: event.target.value as 'learner' | 'teacher' })}><option value="learner">Learner-checked paper</option><option value="teacher">Teacher-confirmed result</option></select></label>
-        <label className="exam-check-label exam-form-wide"><input type="checkbox" checked={resultDraft.humanConfirmed} onChange={(event) => setResultDraft({ ...resultDraft, humanConfirmed: event.target.checked })} /> I checked these marks against a human-created record</label>
+        <label>Checked against<select value={resultDraft.confirmationSource} onChange={(event) => setResultDraft({ ...resultDraft, confirmationSource: event.target.value as 'learner' | 'teacher' })}><option value="learner">I checked the marked paper</option><option value="teacher">I report a teacher result</option></select></label>
+        <label className="exam-check-label exam-form-wide"><input type="checkbox" checked={resultDraft.humanConfirmed} onChange={(event) => setResultDraft({ ...resultDraft, humanConfirmed: event.target.checked })} /> I checked these marks against a human-created record; this is my attestation</label>
       </div>
-      <button type="button" className="exam-secondary-action" onClick={addResult}><Plus className="h-4 w-4" aria-hidden /> Add confirmed result</button>
+      <button type="button" className="exam-secondary-action" onClick={addResult}><Plus className="h-4 w-4" aria-hidden /> Add learner-attested result</button>
 
       <div className="exam-analytics-grid">
-        <article><h4>Comparable average</h4>{analytics.averagePercent === null ? <p className="exam-empty-copy">At least two human-confirmed results with this assessment, paper, and maximum mark are required.</p> : <><strong className="exam-average">{analytics.averagePercent.toFixed(1)}%</strong><p>Across {analytics.confirmed.length} comparable learner results.</p></>}</article>
+        <article><h4>Comparable recorded average</h4>{analytics.averagePercent === null ? <p className="exam-empty-copy">At least two learner-attested results with this assessment, paper, and maximum mark are required.</p> : <><strong className="exam-average">{analytics.averagePercent.toFixed(1)}%</strong><p>Across {analytics.confirmed.length} comparable learner-recorded results.</p></>}</article>
         <article><h4>Question types</h4><CountList values={analytics.questionTypes} empty="No comparable question-type records." /></article>
         <article><h4>Topic frequency</h4><CountList values={analytics.topics} empty="No comparable topic records." /></article>
         <article><h4>Command terms</h4><CountList values={analytics.commandTerms} empty="No comparable command-term records." /></article>
-        <article><h4>Timing</h4><p>{analytics.averageMinutes === null ? 'No comparable timing records.' : `${analytics.averageMinutes.toFixed(0)} minutes average across timed confirmed results.`}</p></article>
+        <article><h4>Timing</h4><p>{analytics.averageMinutes === null ? 'No comparable timing records.' : `${analytics.averageMinutes.toFixed(0)} minutes average across timed learner-recorded results.`}</p></article>
         <article><h4>Cohort and reference data</h4><p>Unavailable. VertexED does not substitute synthetic examples or other learners&apos; results.</p></article>
       </div>
       <p className="exam-boundary-copy"><strong>No score prediction is shown.</strong> A validated method, a minimum evidence rule, relevant grade boundaries, uncertainty intervals, and external review do not yet exist. The average above describes recorded comparable attempts; it is not a predicted grade.</p>

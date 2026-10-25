@@ -1,5 +1,9 @@
 # VertexED: the revision trace
 
+## Light workspace, 21 October 2026
+
+The current product-finalization request restores light mode as the default for new preferences. Blue uses white paper, deep blue ink and cobalt controls across the application. Midnight remains available, and saved user preferences remain respected. This supersedes the two-dark-palettes decision below. Retain bounded glass navigation, opaque reading surfaces, the logo and revision trace.
+
 ## Shared glass and radius hierarchy, 18 October 2026
 
 Blue liquid glass is restored to navigation, dialogs and bounded interactive

@@ -1,0 +1,2282 @@
+{
+  "schemaVersion": 1,
+  "snapshotDate": "2026-10-21",
+  "boundary": "New original teaching against finite Number/Proof unit point lists. All links are author-proposed and need independent subject review. Point coverage is not verified mastery, full assessment coverage, a complete course, or publication approval. A named point may contain multiple subskills; the criteria and teaching must be reviewed together, not reduced to a link count.",
+  "summary": {
+    "sources": 3,
+    "tieredUnits": 5,
+    "unitPointRows": 67,
+    "distinctSourcePoints": 51,
+    "lessons": 12,
+    "noteWords": 5623,
+    "workedExamples": 25,
+    "questions": 103,
+    "flashcards": 60,
+    "independentlyReviewedUnits": 0,
+    "completedCourses": 0,
+    "publishedLessons": 0
+  },
+  "sources": [
+    {
+      "id": "aqa-8300-number-20261021",
+      "programme": "GCSE",
+      "board": "AQA",
+      "specification": "8300",
+      "subject": "Mathematics",
+      "version": "Live Number section inspected 2026-10-21",
+      "checkedOn": "2026-10-21",
+      "url": "https://www.aqa.org.uk/subjects/mathematics/gcse/mathematics-8300/specification/subject-content/3.1-number",
+      "locator": "3.1 Number, N1–N16, all three content/tier columns",
+      "inspection": "official-web-section",
+      "limitation": "Dated web inspection, not a fixed downloaded edition. Number only; other strands and whole-course assessment coverage remain incomplete."
+    },
+    {
+      "id": "cambridge-0580-number-2025-2027",
+      "programme": "IGCSE",
+      "board": "Cambridge International",
+      "specification": "0580",
+      "subject": "Mathematics",
+      "version": "2025–2027 syllabus, version 3",
+      "checkedOn": "2026-10-21",
+      "url": "https://www.cambridgeinternational.org/Images/662466-2025-2027-syllabus.pdf",
+      "locator": "Printed/PDF pages 12–16 (Core Number) and 32–36 (Extended Number)",
+      "inspection": "extracted-text-and-rendered-selected-pages",
+      "documentHash": "sha256:627f8e5dab21605f95b9aceec4a2dcdddf91dce5767d6938d647b38041c6d363",
+      "limitation": "Only the named Number pages were reviewed for this unit register, not all 71 pages. Core C1.17/C1.18 are Extended-only notices, not extra Core requirements."
+    },
+    {
+      "id": "aqa-7357-proof-20261021",
+      "programme": "A_LEVELS",
+      "board": "AQA",
+      "specification": "7357",
+      "subject": "Mathematics",
+      "version": "Live Proof section inspected 2026-10-21",
+      "checkedOn": "2026-10-21",
+      "url": "https://www.aqa.org.uk/subjects/mathematics/a-level/mathematics-7357/specification/subject-content/a-proof",
+      "locator": "A: Proof, A1 including its guidance/examples",
+      "inspection": "official-web-section",
+      "limitation": "Proof unit only. Induction is not imported from Further Mathematics. Other content and overarching assessment requirements remain incomplete."
+    }
+  ],
+  "units": [
+    {
+      "id": "gcse-8300-number-foundation",
+      "sourceId": "aqa-8300-number-20261021",
+      "tier": "Foundation",
+      "unit": "Number",
+      "expectedPoints": [
+        "N1",
+        "N2",
+        "N3",
+        "N4",
+        "N5",
+        "N6",
+        "N7",
+        "N8",
+        "N9",
+        "N10",
+        "N11",
+        "N12",
+        "N13",
+        "N14",
+        "N15",
+        "N16"
+      ],
+      "points": [
+        {
+          "code": "N1",
+          "criteria": [
+            "Order signed integers, decimals and fractions; use equality and inequality notation."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-signed-arithmetic",
+              "noteNumbers": [
+                1
+              ],
+              "questionIds": [
+                "order",
+                "compare"
+              ],
+              "noteHeadings": [
+                "Both tiers: order and comparison symbols"
+              ],
+              "contentHash": "sha256:e633ee6e09e48e33c4c43a4fd365b9c09200c8b0ff55566214b1f829f50fa0f2"
+            }
+          ]
+        },
+        {
+          "code": "N2",
+          "criteria": [
+            "Four operations with signed integers, decimals and mixed fractions; written methods and place value."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-signed-arithmetic",
+              "noteNumbers": [
+                2,
+                3
+              ],
+              "questionIds": [
+                "decimal",
+                "division",
+                "mixed",
+                "signs"
+              ],
+              "noteHeadings": [
+                "Both tiers: written integer and decimal operations",
+                "Both tiers: exact fraction arithmetic"
+              ],
+              "contentHash": "sha256:e633ee6e09e48e33c4c43a4fd365b9c09200c8b0ff55566214b1f829f50fa0f2"
+            },
+            {
+              "lessonId": "syllabus-number-types-factors",
+              "noteNumbers": [
+                2
+              ],
+              "questionIds": [
+                "words"
+              ],
+              "noteHeadings": [
+                "Both tiers: place value and number words"
+              ],
+              "contentHash": "sha256:99ff767e90ef0696c037da0ed76bcc7a536f27e84ede48bc172afa085b97ac30"
+            }
+          ]
+        },
+        {
+          "code": "N3",
+          "criteria": [
+            "Inverse operations, cancellation of factors and operation priority, including brackets, powers, roots and reciprocals."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-signed-arithmetic",
+              "noteNumbers": [
+                3,
+                4
+              ],
+              "questionIds": [
+                "priority",
+                "cancellation",
+                "division"
+              ],
+              "noteHeadings": [
+                "Both tiers: exact fraction arithmetic",
+                "Both tiers: brackets, powers and inverses"
+              ],
+              "contentHash": "sha256:e633ee6e09e48e33c4c43a4fd365b9c09200c8b0ff55566214b1f829f50fa0f2"
+            },
+            {
+              "lessonId": "syllabus-number-types-factors",
+              "noteNumbers": [
+                1
+              ],
+              "questionIds": [
+                "reciprocal"
+              ],
+              "noteHeadings": [
+                "Both tiers: number families and reciprocals"
+              ],
+              "contentHash": "sha256:99ff767e90ef0696c037da0ed76bcc7a536f27e84ede48bc172afa085b97ac30"
+            }
+          ]
+        },
+        {
+          "code": "N4",
+          "criteria": [
+            "Primes, factors, multiples, HCF, LCM and prime-power factorisation."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-number-types-factors",
+              "noteNumbers": [
+                3
+              ],
+              "questionIds": [
+                "prime",
+                "hcf-lcm"
+              ],
+              "noteHeadings": [
+                "Both tiers: primes, HCF and LCM"
+              ],
+              "contentHash": "sha256:99ff767e90ef0696c037da0ed76bcc7a536f27e84ede48bc172afa085b97ac30"
+            }
+          ]
+        },
+        {
+          "code": "N5",
+          "criteria": [
+            "Systematic listing without claiming the Higher product-rule requirement."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-number-types-factors",
+              "noteNumbers": [
+                4
+              ],
+              "questionIds": [
+                "listing"
+              ],
+              "noteHeadings": [
+                "GCSE: systematic lists; Higher: product rule"
+              ],
+              "contentHash": "sha256:99ff767e90ef0696c037da0ed76bcc7a536f27e84ede48bc172afa085b97ac30"
+            }
+          ]
+        },
+        {
+          "code": "N6",
+          "criteria": [
+            "Integer powers and associated real roots; recall square/cube pairs."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-powers-indices",
+              "noteNumbers": [
+                1
+              ],
+              "questionIds": [
+                "recall",
+                "root-equation",
+                "fifth-power"
+              ],
+              "noteHeadings": [
+                "Both tiers: square and cube recall"
+              ],
+              "contentHash": "sha256:472f848cf55b468080bfa2fa468331b02c192e16a6771b4c0df9e897c525a4ed"
+            }
+          ]
+        },
+        {
+          "code": "N7",
+          "criteria": [
+            "Roots and integer index laws, including negative and zero indices."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-powers-indices",
+              "noteNumbers": [
+                2
+              ],
+              "questionIds": [
+                "integer-laws",
+                "negative"
+              ],
+              "noteHeadings": [
+                "Both tiers: index laws and their conditions"
+              ],
+              "contentHash": "sha256:472f848cf55b468080bfa2fa468331b02c192e16a6771b4c0df9e897c525a4ed"
+            }
+          ]
+        },
+        {
+          "code": "N8",
+          "criteria": [
+            "Exact fractions and multiples of π; surd manipulation is labelled Higher."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-surds-growth",
+              "noteNumbers": [
+                1
+              ],
+              "questionIds": [
+                "exact-pi",
+                "exact-fraction"
+              ],
+              "noteHeadings": [
+                "GCSE both tiers: exact values and multiples of pi"
+              ],
+              "contentHash": "sha256:111193f7c5cf4716e4cc766abe4a1e178150ac825a88ffb5709110d8c9ffb3ad"
+            }
+          ]
+        },
+        {
+          "code": "N9",
+          "criteria": [
+            "Normalised standard form, conversion, calculation and display interpretation."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-standard-form",
+              "noteNumbers": [
+                1,
+                2,
+                3
+              ],
+              "questionIds": [
+                "convert",
+                "ordinary",
+                "order",
+                "multiply",
+                "divide",
+                "sum",
+                "display-units"
+              ],
+              "noteHeadings": [
+                "Both tiers: normalisation and conversion",
+                "Both tiers: multiplication, division and addition",
+                "Both tiers: calculator display, dimensions and checks"
+              ],
+              "contentHash": "sha256:8e5a5fee5966d3f839f7a6a1dfe829cc023a1788cc2b8d7a2abaa020f1a68792"
+            }
+          ]
+        },
+        {
+          "code": "N10",
+          "criteria": [
+            "Terminating fraction/decimal equivalence; recurring algebra is labelled Higher."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-fractions-decimals-percentages",
+              "noteNumbers": [
+                1
+              ],
+              "questionIds": [
+                "terminating",
+                "equivalents"
+              ],
+              "noteHeadings": [
+                "Both tiers: fractions and terminating decimals"
+              ],
+              "contentHash": "sha256:0eab427971a9be00379973d191776e3597747235ea0a57823d4762198514016f"
+            }
+          ]
+        },
+        {
+          "code": "N11",
+          "criteria": [
+            "Interpret fractions in ratio situations, distinguishing part-to-part and part-to-whole."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-fractions-decimals-percentages",
+              "noteNumbers": [
+                2
+              ],
+              "questionIds": [
+                "part-whole"
+              ],
+              "noteHeadings": [
+                "Both tiers: percentages and operators"
+              ],
+              "contentHash": "sha256:0eab427971a9be00379973d191776e3597747235ea0a57823d4762198514016f"
+            },
+            {
+              "lessonId": "syllabus-ratio-percent-finance",
+              "noteNumbers": [
+                1
+              ],
+              "questionIds": [
+                "fraction-ratio"
+              ],
+              "noteHeadings": [
+                "Both tiers: simplify, share and scale"
+              ],
+              "contentHash": "sha256:1bd52061f3f925670673c2622c22071ca576fd14457f67f392b01179433749e1"
+            }
+          ]
+        },
+        {
+          "code": "N12",
+          "criteria": [
+            "Use fractions and percentages as operators, including percentages over 100."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-fractions-decimals-percentages",
+              "noteNumbers": [
+                2
+              ],
+              "questionIds": [
+                "small-percent",
+                "operators"
+              ],
+              "noteHeadings": [
+                "Both tiers: percentages and operators"
+              ],
+              "contentHash": "sha256:0eab427971a9be00379973d191776e3597747235ea0a57823d4762198514016f"
+            }
+          ]
+        },
+        {
+          "code": "N13",
+          "criteria": [
+            "Standard and compound units, metric length/area/volume conversions and supplied imperial conversions."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-units-rates",
+              "noteNumbers": [
+                1,
+                4
+              ],
+              "questionIds": [
+                "units",
+                "area-volume",
+                "imperial",
+                "speed"
+              ],
+              "noteHeadings": [
+                "Both tiers: standard units and conversion factors",
+                "Both tiers: speed and total-time averages"
+              ],
+              "contentHash": "sha256:d3e549baa8e10665a35fb4d6da7403e60ad001cb6212ca05cfe0e97974e837ca"
+            }
+          ]
+        },
+        {
+          "code": "N14",
+          "criteria": [
+            "Estimate answers and check technological results using magnitude."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-rounding-bounds",
+              "noteNumbers": [
+                2
+              ],
+              "questionIds": [
+                "estimate"
+              ],
+              "noteHeadings": [
+                "Both tiers: estimation as an independent check"
+              ],
+              "contentHash": "sha256:fa9737c3a9005065ba05098c901046b84716e18bb55e38f4c409b6d410987e42"
+            },
+            {
+              "lessonId": "syllabus-standard-form",
+              "noteNumbers": [
+                3
+              ],
+              "questionIds": [
+                "display-units"
+              ],
+              "noteHeadings": [
+                "Both tiers: calculator display, dimensions and checks"
+              ],
+              "contentHash": "sha256:8e5a5fee5966d3f839f7a6a1dfe829cc023a1788cc2b8d7a2abaa020f1a68792"
+            }
+          ]
+        },
+        {
+          "code": "N15",
+          "criteria": [
+            "Round decimal places and significant figures; write error intervals for positive rounding and truncation."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-rounding-bounds",
+              "noteNumbers": [
+                1,
+                3
+              ],
+              "questionIds": [
+                "round",
+                "interval",
+                "nearest-hundred",
+                "truncation",
+                "context"
+              ],
+              "noteHeadings": [
+                "Both tiers: decimal places and significant figures",
+                "Both tiers: rounded intervals; GCSE: truncation"
+              ],
+              "contentHash": "sha256:fa9737c3a9005065ba05098c901046b84716e18bb55e38f4c409b6d410987e42"
+            }
+          ]
+        },
+        {
+          "code": "N16",
+          "criteria": [
+            "Understand limits of accuracy of reported data; calculated-result propagation remains labelled Higher."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-rounding-bounds",
+              "noteNumbers": [
+                3
+              ],
+              "questionIds": [
+                "interval",
+                "nearest-hundred"
+              ],
+              "noteHeadings": [
+                "Both tiers: rounded intervals; GCSE: truncation"
+              ],
+              "contentHash": "sha256:fa9737c3a9005065ba05098c901046b84716e18bb55e38f4c409b6d410987e42"
+            }
+          ]
+        }
+      ],
+      "status": "author-proposed-unit-teaching-review-pending",
+      "verifiedCoveragePercent": null
+    },
+    {
+      "id": "gcse-8300-number-higher",
+      "sourceId": "aqa-8300-number-20261021",
+      "tier": "Higher",
+      "unit": "Number",
+      "expectedPoints": [
+        "N1",
+        "N2",
+        "N3",
+        "N4",
+        "N5",
+        "N6",
+        "N7",
+        "N8",
+        "N9",
+        "N10",
+        "N11",
+        "N12",
+        "N13",
+        "N14",
+        "N15",
+        "N16"
+      ],
+      "points": [
+        {
+          "code": "N1",
+          "criteria": [
+            "Order signed integers, decimals and fractions; use equality and inequality notation."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-signed-arithmetic",
+              "noteNumbers": [
+                1
+              ],
+              "questionIds": [
+                "order",
+                "compare"
+              ],
+              "noteHeadings": [
+                "Both tiers: order and comparison symbols"
+              ],
+              "contentHash": "sha256:e633ee6e09e48e33c4c43a4fd365b9c09200c8b0ff55566214b1f829f50fa0f2"
+            }
+          ]
+        },
+        {
+          "code": "N2",
+          "criteria": [
+            "Four operations with signed integers, decimals and mixed fractions; written methods and place value."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-signed-arithmetic",
+              "noteNumbers": [
+                2,
+                3
+              ],
+              "questionIds": [
+                "decimal",
+                "division",
+                "mixed",
+                "signs"
+              ],
+              "noteHeadings": [
+                "Both tiers: written integer and decimal operations",
+                "Both tiers: exact fraction arithmetic"
+              ],
+              "contentHash": "sha256:e633ee6e09e48e33c4c43a4fd365b9c09200c8b0ff55566214b1f829f50fa0f2"
+            },
+            {
+              "lessonId": "syllabus-number-types-factors",
+              "noteNumbers": [
+                2
+              ],
+              "questionIds": [
+                "words"
+              ],
+              "noteHeadings": [
+                "Both tiers: place value and number words"
+              ],
+              "contentHash": "sha256:99ff767e90ef0696c037da0ed76bcc7a536f27e84ede48bc172afa085b97ac30"
+            }
+          ]
+        },
+        {
+          "code": "N3",
+          "criteria": [
+            "Inverse operations, cancellation of factors and operation priority, including brackets, powers, roots and reciprocals."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-signed-arithmetic",
+              "noteNumbers": [
+                3,
+                4
+              ],
+              "questionIds": [
+                "priority",
+                "cancellation",
+                "division"
+              ],
+              "noteHeadings": [
+                "Both tiers: exact fraction arithmetic",
+                "Both tiers: brackets, powers and inverses"
+              ],
+              "contentHash": "sha256:e633ee6e09e48e33c4c43a4fd365b9c09200c8b0ff55566214b1f829f50fa0f2"
+            },
+            {
+              "lessonId": "syllabus-number-types-factors",
+              "noteNumbers": [
+                1
+              ],
+              "questionIds": [
+                "reciprocal"
+              ],
+              "noteHeadings": [
+                "Both tiers: number families and reciprocals"
+              ],
+              "contentHash": "sha256:99ff767e90ef0696c037da0ed76bcc7a536f27e84ede48bc172afa085b97ac30"
+            }
+          ]
+        },
+        {
+          "code": "N4",
+          "criteria": [
+            "Primes, factors, multiples, HCF, LCM and prime-power factorisation."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-number-types-factors",
+              "noteNumbers": [
+                3
+              ],
+              "questionIds": [
+                "prime",
+                "hcf-lcm"
+              ],
+              "noteHeadings": [
+                "Both tiers: primes, HCF and LCM"
+              ],
+              "contentHash": "sha256:99ff767e90ef0696c037da0ed76bcc7a536f27e84ede48bc172afa085b97ac30"
+            }
+          ]
+        },
+        {
+          "code": "N5",
+          "criteria": [
+            "Systematic lists and the product rule for counting, including restrictions."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-number-types-factors",
+              "noteNumbers": [
+                4
+              ],
+              "questionIds": [
+                "listing",
+                "restricted-count"
+              ],
+              "noteHeadings": [
+                "GCSE: systematic lists; Higher: product rule"
+              ],
+              "contentHash": "sha256:99ff767e90ef0696c037da0ed76bcc7a536f27e84ede48bc172afa085b97ac30"
+            }
+          ]
+        },
+        {
+          "code": "N6",
+          "criteria": [
+            "Integer powers, associated real roots and estimates of positive roots."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-powers-indices",
+              "noteNumbers": [
+                1,
+                4
+              ],
+              "questionIds": [
+                "recall",
+                "root-equation",
+                "fifth-power",
+                "estimate-root"
+              ],
+              "noteHeadings": [
+                "Both tiers: square and cube recall",
+                "GCSE Higher: estimate powers and roots"
+              ],
+              "contentHash": "sha256:472f848cf55b468080bfa2fa468331b02c192e16a6771b4c0df9e897c525a4ed"
+            }
+          ]
+        },
+        {
+          "code": "N7",
+          "criteria": [
+            "Roots and integer and fractional index laws."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-powers-indices",
+              "noteNumbers": [
+                2,
+                3
+              ],
+              "questionIds": [
+                "integer-laws",
+                "negative",
+                "fractional",
+                "fractional-laws"
+              ],
+              "noteHeadings": [
+                "Both tiers: index laws and their conditions",
+                "Higher / Extended: fractional indices"
+              ],
+              "contentHash": "sha256:472f848cf55b468080bfa2fa468331b02c192e16a6771b4c0df9e897c525a4ed"
+            }
+          ]
+        },
+        {
+          "code": "N8",
+          "criteria": [
+            "Exact fractions, multiples of π, simplified surds and rationalised denominators."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-surds-growth",
+              "noteNumbers": [
+                1,
+                2,
+                3
+              ],
+              "questionIds": [
+                "exact-pi",
+                "exact-fraction",
+                "simplify-surds",
+                "expand-surds",
+                "single-rationalise",
+                "conjugate"
+              ],
+              "noteHeadings": [
+                "GCSE both tiers: exact values and multiples of pi",
+                "Higher / Extended: simplify and combine surds",
+                "Higher / Extended: rationalise a denominator"
+              ],
+              "contentHash": "sha256:111193f7c5cf4716e4cc766abe4a1e178150ac825a88ffb5709110d8c9ffb3ad"
+            }
+          ]
+        },
+        {
+          "code": "N9",
+          "criteria": [
+            "Normalised standard form, conversion, calculation and display interpretation."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-standard-form",
+              "noteNumbers": [
+                1,
+                2,
+                3
+              ],
+              "questionIds": [
+                "convert",
+                "ordinary",
+                "order",
+                "multiply",
+                "divide",
+                "sum",
+                "display-units"
+              ],
+              "noteHeadings": [
+                "Both tiers: normalisation and conversion",
+                "Both tiers: multiplication, division and addition",
+                "Both tiers: calculator display, dimensions and checks"
+              ],
+              "contentHash": "sha256:8e5a5fee5966d3f839f7a6a1dfe829cc023a1788cc2b8d7a2abaa020f1a68792"
+            }
+          ]
+        },
+        {
+          "code": "N10",
+          "criteria": [
+            "Terminating and recurring fraction/decimal conversion."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-fractions-decimals-percentages",
+              "noteNumbers": [
+                1,
+                3,
+                4
+              ],
+              "questionIds": [
+                "terminating",
+                "recurring-pure",
+                "recurring-mixed",
+                "fraction-recurring"
+              ],
+              "noteHeadings": [
+                "Both tiers: fractions and terminating decimals",
+                "Higher / Extended: recurring notation and long division",
+                "Higher / Extended: aligning recurring tails"
+              ],
+              "contentHash": "sha256:0eab427971a9be00379973d191776e3597747235ea0a57823d4762198514016f"
+            }
+          ]
+        },
+        {
+          "code": "N11",
+          "criteria": [
+            "Interpret fractions in ratio situations, distinguishing part-to-part and part-to-whole."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-fractions-decimals-percentages",
+              "noteNumbers": [
+                2
+              ],
+              "questionIds": [
+                "part-whole"
+              ],
+              "noteHeadings": [
+                "Both tiers: percentages and operators"
+              ],
+              "contentHash": "sha256:0eab427971a9be00379973d191776e3597747235ea0a57823d4762198514016f"
+            },
+            {
+              "lessonId": "syllabus-ratio-percent-finance",
+              "noteNumbers": [
+                1
+              ],
+              "questionIds": [
+                "fraction-ratio"
+              ],
+              "noteHeadings": [
+                "Both tiers: simplify, share and scale"
+              ],
+              "contentHash": "sha256:1bd52061f3f925670673c2622c22071ca576fd14457f67f392b01179433749e1"
+            }
+          ]
+        },
+        {
+          "code": "N12",
+          "criteria": [
+            "Use fractions and percentages as operators, including percentages over 100."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-fractions-decimals-percentages",
+              "noteNumbers": [
+                2
+              ],
+              "questionIds": [
+                "small-percent",
+                "operators"
+              ],
+              "noteHeadings": [
+                "Both tiers: percentages and operators"
+              ],
+              "contentHash": "sha256:0eab427971a9be00379973d191776e3597747235ea0a57823d4762198514016f"
+            }
+          ]
+        },
+        {
+          "code": "N13",
+          "criteria": [
+            "Standard and compound units, metric length/area/volume conversions and supplied imperial conversions."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-units-rates",
+              "noteNumbers": [
+                1,
+                4
+              ],
+              "questionIds": [
+                "units",
+                "area-volume",
+                "imperial",
+                "speed"
+              ],
+              "noteHeadings": [
+                "Both tiers: standard units and conversion factors",
+                "Both tiers: speed and total-time averages"
+              ],
+              "contentHash": "sha256:d3e549baa8e10665a35fb4d6da7403e60ad001cb6212ca05cfe0e97974e837ca"
+            }
+          ]
+        },
+        {
+          "code": "N14",
+          "criteria": [
+            "Estimate answers and check technological results using magnitude."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-rounding-bounds",
+              "noteNumbers": [
+                2
+              ],
+              "questionIds": [
+                "estimate"
+              ],
+              "noteHeadings": [
+                "Both tiers: estimation as an independent check"
+              ],
+              "contentHash": "sha256:fa9737c3a9005065ba05098c901046b84716e18bb55e38f4c409b6d410987e42"
+            },
+            {
+              "lessonId": "syllabus-standard-form",
+              "noteNumbers": [
+                3
+              ],
+              "questionIds": [
+                "display-units"
+              ],
+              "noteHeadings": [
+                "Both tiers: calculator display, dimensions and checks"
+              ],
+              "contentHash": "sha256:8e5a5fee5966d3f839f7a6a1dfe829cc023a1788cc2b8d7a2abaa020f1a68792"
+            }
+          ]
+        },
+        {
+          "code": "N15",
+          "criteria": [
+            "Round decimal places and significant figures; write error intervals for positive rounding and truncation."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-rounding-bounds",
+              "noteNumbers": [
+                1,
+                3
+              ],
+              "questionIds": [
+                "round",
+                "interval",
+                "nearest-hundred",
+                "truncation",
+                "context"
+              ],
+              "noteHeadings": [
+                "Both tiers: decimal places and significant figures",
+                "Both tiers: rounded intervals; GCSE: truncation"
+              ],
+              "contentHash": "sha256:fa9737c3a9005065ba05098c901046b84716e18bb55e38f4c409b6d410987e42"
+            }
+          ]
+        },
+        {
+          "code": "N16",
+          "criteria": [
+            "Apply limits of accuracy, including upper/lower bounds of calculated results."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-rounding-bounds",
+              "noteNumbers": [
+                3,
+                4
+              ],
+              "questionIds": [
+                "interval",
+                "perimeter-area",
+                "speed-bounds",
+                "difference-bounds",
+                "guaranteed-rounding"
+              ],
+              "noteHeadings": [
+                "Both tiers: rounded intervals; GCSE: truncation",
+                "Higher / Extended: calculated-result bounds"
+              ],
+              "contentHash": "sha256:fa9737c3a9005065ba05098c901046b84716e18bb55e38f4c409b6d410987e42"
+            }
+          ]
+        }
+      ],
+      "status": "author-proposed-unit-teaching-review-pending",
+      "verifiedCoveragePercent": null
+    },
+    {
+      "id": "igcse-0580-number-core",
+      "sourceId": "cambridge-0580-number-2025-2027",
+      "tier": "Core",
+      "unit": "Number",
+      "expectedPoints": [
+        "C1.1",
+        "C1.2",
+        "C1.3",
+        "C1.4",
+        "C1.5",
+        "C1.6",
+        "C1.7",
+        "C1.8",
+        "C1.9",
+        "C1.10",
+        "C1.11",
+        "C1.12",
+        "C1.13",
+        "C1.14",
+        "C1.15",
+        "C1.16"
+      ],
+      "points": [
+        {
+          "code": "C1.1",
+          "criteria": [
+            "Number types, number words, prime factorisation, HCF/LCM and reciprocals."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-number-types-factors",
+              "noteNumbers": [
+                1,
+                2,
+                3
+              ],
+              "questionIds": [
+                "classify",
+                "words",
+                "prime",
+                "hcf-lcm",
+                "reciprocal",
+                "squares-cubes"
+              ],
+              "noteHeadings": [
+                "Both tiers: number families and reciprocals",
+                "Both tiers: place value and number words",
+                "Both tiers: primes, HCF and LCM"
+              ],
+              "contentHash": "sha256:99ff767e90ef0696c037da0ed76bcc7a536f27e84ede48bc172afa085b97ac30"
+            }
+          ]
+        },
+        {
+          "code": "C1.2",
+          "criteria": [
+            "Universal set, complement, cardinality, union/intersection and two-set Venn regions."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-sets-venn",
+              "noteNumbers": [
+                1,
+                2
+              ],
+              "questionIds": [
+                "list-rule",
+                "construct-two",
+                "shade-two",
+                "two-counts"
+              ],
+              "noteHeadings": [
+                "IGCSE both tiers: universal set, complement and set definitions",
+                "IGCSE both tiers: two-set construction and counting"
+              ],
+              "contentHash": "sha256:577dffbfcc9ac61e3abc935ddeb147c3de72f35ebcbcc146574469ae15a94ae7"
+            }
+          ]
+        },
+        {
+          "code": "C1.3",
+          "criteria": [
+            "Squares, square roots, cubes, cube roots, other powers and roots; specified recall pairs."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-powers-indices",
+              "noteNumbers": [
+                1
+              ],
+              "questionIds": [
+                "recall",
+                "root-equation",
+                "fifth-power"
+              ],
+              "noteHeadings": [
+                "Both tiers: square and cube recall"
+              ],
+              "contentHash": "sha256:472f848cf55b468080bfa2fa468331b02c192e16a6771b4c0df9e897c525a4ed"
+            }
+          ]
+        },
+        {
+          "code": "C1.4",
+          "criteria": [
+            "Proper/improper/mixed fraction, decimal and percentage equivalence; no recurring conversion requirement."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-fractions-decimals-percentages",
+              "noteNumbers": [
+                1,
+                2
+              ],
+              "questionIds": [
+                "equivalents",
+                "small-percent",
+                "terminating"
+              ],
+              "noteHeadings": [
+                "Both tiers: fractions and terminating decimals",
+                "Both tiers: percentages and operators"
+              ],
+              "contentHash": "sha256:0eab427971a9be00379973d191776e3597747235ea0a57823d4762198514016f"
+            }
+          ]
+        },
+        {
+          "code": "C1.5",
+          "criteria": [
+            "Order quantities and use comparison symbols."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-signed-arithmetic",
+              "noteNumbers": [
+                1
+              ],
+              "questionIds": [
+                "order",
+                "compare"
+              ],
+              "noteHeadings": [
+                "Both tiers: order and comparison symbols"
+              ],
+              "contentHash": "sha256:e633ee6e09e48e33c4c43a4fd365b9c09200c8b0ff55566214b1f829f50fa0f2"
+            }
+          ]
+        },
+        {
+          "code": "C1.6",
+          "criteria": [
+            "Four operations with signed integers, decimals, improper/mixed fractions and brackets."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-signed-arithmetic",
+              "noteNumbers": [
+                2,
+                3,
+                4
+              ],
+              "questionIds": [
+                "decimal",
+                "division",
+                "mixed",
+                "signs",
+                "priority",
+                "cancellation"
+              ],
+              "noteHeadings": [
+                "Both tiers: written integer and decimal operations",
+                "Both tiers: exact fraction arithmetic",
+                "Both tiers: brackets, powers and inverses"
+              ],
+              "contentHash": "sha256:e633ee6e09e48e33c4c43a4fd365b9c09200c8b0ff55566214b1f829f50fa0f2"
+            }
+          ]
+        },
+        {
+          "code": "C1.7",
+          "criteria": [
+            "Positive, zero and negative integer indices and their laws."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-powers-indices",
+              "noteNumbers": [
+                2
+              ],
+              "questionIds": [
+                "integer-laws",
+                "negative"
+              ],
+              "noteHeadings": [
+                "Both tiers: index laws and their conditions"
+              ],
+              "contentHash": "sha256:472f848cf55b468080bfa2fa468331b02c192e16a6771b4c0df9e897c525a4ed"
+            }
+          ]
+        },
+        {
+          "code": "C1.8",
+          "criteria": [
+            "Convert and calculate in standard form.",
+            "Core calculations explicitly labelled Paper 3; conversions remain available to Core."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-standard-form",
+              "noteNumbers": [
+                1,
+                2,
+                3
+              ],
+              "questionIds": [
+                "convert",
+                "ordinary",
+                "order",
+                "multiply",
+                "divide",
+                "sum",
+                "display-units"
+              ],
+              "noteHeadings": [
+                "Both tiers: normalisation and conversion",
+                "Both tiers: multiplication, division and addition",
+                "Both tiers: calculator display, dimensions and checks"
+              ],
+              "contentHash": "sha256:8e5a5fee5966d3f839f7a6a1dfe829cc023a1788cc2b8d7a2abaa020f1a68792"
+            }
+          ]
+        },
+        {
+          "code": "C1.9",
+          "criteria": [
+            "Round to specified accuracy, estimate and choose context-appropriate precision."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-rounding-bounds",
+              "noteNumbers": [
+                1,
+                2
+              ],
+              "questionIds": [
+                "round",
+                "estimate",
+                "context"
+              ],
+              "noteHeadings": [
+                "Both tiers: decimal places and significant figures",
+                "Both tiers: estimation as an independent check"
+              ],
+              "contentHash": "sha256:fa9737c3a9005065ba05098c901046b84716e18bb55e38f4c409b6d410987e42"
+            }
+          ]
+        },
+        {
+          "code": "C1.10",
+          "criteria": [
+            "Direct bounds for rounded data only, not calculated-result bounds."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-rounding-bounds",
+              "noteNumbers": [
+                3
+              ],
+              "questionIds": [
+                "interval",
+                "nearest-hundred"
+              ],
+              "noteHeadings": [
+                "Both tiers: rounded intervals; GCSE: truncation"
+              ],
+              "contentHash": "sha256:fa9737c3a9005065ba05098c901046b84716e18bb55e38f4c409b6d410987e42"
+            }
+          ]
+        },
+        {
+          "code": "C1.11",
+          "criteria": [
+            "Simplify and divide ratios; apply recipe, map-scale and best-value proportional reasoning."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-ratio-percent-finance",
+              "noteNumbers": [
+                1
+              ],
+              "questionIds": [
+                "share",
+                "recipe",
+                "map-best",
+                "fraction-ratio"
+              ],
+              "noteHeadings": [
+                "Both tiers: simplify, share and scale"
+              ],
+              "contentHash": "sha256:1bd52061f3f925670673c2622c22071ca576fd14457f67f392b01179433749e1"
+            }
+          ]
+        },
+        {
+          "code": "C1.12",
+          "criteria": [
+            "Pay, exchange, flow and fuel rates; supplied density, pressure and population-density formulas; speed and average speed."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-units-rates",
+              "noteNumbers": [
+                2,
+                3,
+                4
+              ],
+              "questionIds": [
+                "pay-exchange",
+                "flow-fuel",
+                "density-pressure",
+                "population",
+                "speed",
+                "unequal-times",
+                "recover-mass"
+              ],
+              "noteHeadings": [
+                "IGCSE both tiers: pay, exchange, flow and fuel",
+                "IGCSE both tiers: supplied compound-rate formulas",
+                "Both tiers: speed and total-time averages"
+              ],
+              "contentHash": "sha256:d3e549baa8e10665a35fb4d6da7403e60ad001cb6212ca05cfe0e97974e837ca"
+            }
+          ]
+        },
+        {
+          "code": "C1.13",
+          "criteria": [
+            "Percentage operators, comparison, change, simple/compound interest, deposit, discount, profit/loss and earnings."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-ratio-percent-finance",
+              "noteNumbers": [
+                2,
+                3
+              ],
+              "questionIds": [
+                "profit",
+                "deposit-discount",
+                "earnings",
+                "interest"
+              ],
+              "noteHeadings": [
+                "Both tiers: percentage change and money language",
+                "IGCSE both tiers: simple and compound interest"
+              ],
+              "contentHash": "sha256:1bd52061f3f925670673c2622c22071ca576fd14457f67f392b01179433749e1"
+            },
+            {
+              "lessonId": "syllabus-fractions-decimals-percentages",
+              "noteNumbers": [
+                2
+              ],
+              "questionIds": [
+                "operators",
+                "part-whole"
+              ],
+              "noteHeadings": [
+                "Both tiers: percentages and operators"
+              ],
+              "contentHash": "sha256:0eab427971a9be00379973d191776e3597747235ea0a57823d4762198514016f"
+            }
+          ]
+        },
+        {
+          "code": "C1.14",
+          "criteria": [
+            "Efficient grouped calculator entry, intermediate precision and display interpretation for hours and money."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-time-money-calculator",
+              "noteNumbers": [
+                3
+              ],
+              "questionIds": [
+                "calculator",
+                "display"
+              ],
+              "noteHeadings": [
+                "IGCSE both tiers: calculator entry and precision"
+              ],
+              "contentHash": "sha256:066364663a298942ec6664400286411e98d0c574f777e90bebd711affd33ac66"
+            }
+          ]
+        },
+        {
+          "code": "C1.15",
+          "criteria": [
+            "Time-unit relationships, 12/24-hour clocks, elapsed time, timetables and stated time-zone offsets."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-time-money-calculator",
+              "noteNumbers": [
+                1,
+                2
+              ],
+              "questionIds": [
+                "time-units",
+                "clock",
+                "overnight",
+                "timetable",
+                "zones"
+              ],
+              "noteHeadings": [
+                "IGCSE both tiers: time units and clocks",
+                "IGCSE both tiers: intervals, timetables and zones"
+              ],
+              "contentHash": "sha256:066364663a298942ec6664400286411e98d0c574f777e90bebd711affd33ac66"
+            }
+          ]
+        },
+        {
+          "code": "C1.16",
+          "criteria": [
+            "Money arithmetic and conversion in both currency directions."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-time-money-calculator",
+              "noteNumbers": [
+                4
+              ],
+              "questionIds": [
+                "balance",
+                "exchange"
+              ],
+              "noteHeadings": [
+                "IGCSE both tiers: money and transaction direction"
+              ],
+              "contentHash": "sha256:066364663a298942ec6664400286411e98d0c574f777e90bebd711affd33ac66"
+            },
+            {
+              "lessonId": "syllabus-units-rates",
+              "noteNumbers": [
+                2
+              ],
+              "questionIds": [
+                "pay-exchange"
+              ],
+              "noteHeadings": [
+                "IGCSE both tiers: pay, exchange, flow and fuel"
+              ],
+              "contentHash": "sha256:d3e549baa8e10665a35fb4d6da7403e60ad001cb6212ca05cfe0e97974e837ca"
+            }
+          ]
+        }
+      ],
+      "status": "author-proposed-unit-teaching-review-pending",
+      "verifiedCoveragePercent": null
+    },
+    {
+      "id": "igcse-0580-number-extended",
+      "sourceId": "cambridge-0580-number-2025-2027",
+      "tier": "Extended",
+      "unit": "Number",
+      "expectedPoints": [
+        "E1.1",
+        "E1.2",
+        "E1.3",
+        "E1.4",
+        "E1.5",
+        "E1.6",
+        "E1.7",
+        "E1.8",
+        "E1.9",
+        "E1.10",
+        "E1.11",
+        "E1.12",
+        "E1.13",
+        "E1.14",
+        "E1.15",
+        "E1.16",
+        "E1.17",
+        "E1.18"
+      ],
+      "points": [
+        {
+          "code": "E1.1",
+          "criteria": [
+            "Number types, number words, prime factorisation, HCF/LCM and reciprocals."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-number-types-factors",
+              "noteNumbers": [
+                1,
+                2,
+                3
+              ],
+              "questionIds": [
+                "classify",
+                "words",
+                "prime",
+                "hcf-lcm",
+                "reciprocal",
+                "squares-cubes"
+              ],
+              "noteHeadings": [
+                "Both tiers: number families and reciprocals",
+                "Both tiers: place value and number words",
+                "Both tiers: primes, HCF and LCM"
+              ],
+              "contentHash": "sha256:99ff767e90ef0696c037da0ed76bcc7a536f27e84ede48bc172afa085b97ac30"
+            }
+          ]
+        },
+        {
+          "code": "E1.2",
+          "criteria": [
+            "Set notation including membership, subsets and empty set; two- and three-set Venn regions."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-sets-venn",
+              "noteNumbers": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "questionIds": [
+                "list-rule",
+                "construct-two",
+                "shade-two",
+                "two-counts",
+                "notation",
+                "three-counts",
+                "shade-three"
+              ],
+              "noteHeadings": [
+                "IGCSE both tiers: universal set, complement and set definitions",
+                "IGCSE both tiers: two-set construction and counting",
+                "IGCSE Extended: membership and subsets",
+                "IGCSE Extended: three-set regions"
+              ],
+              "contentHash": "sha256:577dffbfcc9ac61e3abc935ddeb147c3de72f35ebcbcc146574469ae15a94ae7"
+            }
+          ]
+        },
+        {
+          "code": "E1.3",
+          "criteria": [
+            "Squares, square roots, cubes, cube roots, other powers and roots; specified recall pairs."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-powers-indices",
+              "noteNumbers": [
+                1
+              ],
+              "questionIds": [
+                "recall",
+                "root-equation",
+                "fifth-power"
+              ],
+              "noteHeadings": [
+                "Both tiers: square and cube recall"
+              ],
+              "contentHash": "sha256:472f848cf55b468080bfa2fa468331b02c192e16a6771b4c0df9e897c525a4ed"
+            }
+          ]
+        },
+        {
+          "code": "E1.4",
+          "criteria": [
+            "Fraction/decimal/percentage equivalence including recurring notation and conversions."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-fractions-decimals-percentages",
+              "noteNumbers": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "questionIds": [
+                "equivalents",
+                "small-percent",
+                "terminating",
+                "recurring-pure",
+                "recurring-mixed",
+                "fraction-recurring"
+              ],
+              "noteHeadings": [
+                "Both tiers: fractions and terminating decimals",
+                "Both tiers: percentages and operators",
+                "Higher / Extended: recurring notation and long division",
+                "Higher / Extended: aligning recurring tails"
+              ],
+              "contentHash": "sha256:0eab427971a9be00379973d191776e3597747235ea0a57823d4762198514016f"
+            }
+          ]
+        },
+        {
+          "code": "E1.5",
+          "criteria": [
+            "Order quantities and use comparison symbols."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-signed-arithmetic",
+              "noteNumbers": [
+                1
+              ],
+              "questionIds": [
+                "order",
+                "compare"
+              ],
+              "noteHeadings": [
+                "Both tiers: order and comparison symbols"
+              ],
+              "contentHash": "sha256:e633ee6e09e48e33c4c43a4fd365b9c09200c8b0ff55566214b1f829f50fa0f2"
+            }
+          ]
+        },
+        {
+          "code": "E1.6",
+          "criteria": [
+            "Four operations with signed integers, decimals, improper/mixed fractions and brackets."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-signed-arithmetic",
+              "noteNumbers": [
+                2,
+                3,
+                4
+              ],
+              "questionIds": [
+                "decimal",
+                "division",
+                "mixed",
+                "signs",
+                "priority",
+                "cancellation"
+              ],
+              "noteHeadings": [
+                "Both tiers: written integer and decimal operations",
+                "Both tiers: exact fraction arithmetic",
+                "Both tiers: brackets, powers and inverses"
+              ],
+              "contentHash": "sha256:e633ee6e09e48e33c4c43a4fd365b9c09200c8b0ff55566214b1f829f50fa0f2"
+            }
+          ]
+        },
+        {
+          "code": "E1.7",
+          "criteria": [
+            "Positive, zero, negative and fractional indices and their laws."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-powers-indices",
+              "noteNumbers": [
+                2,
+                3
+              ],
+              "questionIds": [
+                "integer-laws",
+                "negative",
+                "fractional",
+                "fractional-laws"
+              ],
+              "noteHeadings": [
+                "Both tiers: index laws and their conditions",
+                "Higher / Extended: fractional indices"
+              ],
+              "contentHash": "sha256:472f848cf55b468080bfa2fa468331b02c192e16a6771b4c0df9e897c525a4ed"
+            }
+          ]
+        },
+        {
+          "code": "E1.8",
+          "criteria": [
+            "Convert and calculate in standard form."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-standard-form",
+              "noteNumbers": [
+                1,
+                2,
+                3
+              ],
+              "questionIds": [
+                "convert",
+                "ordinary",
+                "order",
+                "multiply",
+                "divide",
+                "sum",
+                "display-units"
+              ],
+              "noteHeadings": [
+                "Both tiers: normalisation and conversion",
+                "Both tiers: multiplication, division and addition",
+                "Both tiers: calculator display, dimensions and checks"
+              ],
+              "contentHash": "sha256:8e5a5fee5966d3f839f7a6a1dfe829cc023a1788cc2b8d7a2abaa020f1a68792"
+            }
+          ]
+        },
+        {
+          "code": "E1.9",
+          "criteria": [
+            "Round to specified accuracy, estimate and choose context-appropriate precision."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-rounding-bounds",
+              "noteNumbers": [
+                1,
+                2
+              ],
+              "questionIds": [
+                "round",
+                "estimate",
+                "context"
+              ],
+              "noteHeadings": [
+                "Both tiers: decimal places and significant figures",
+                "Both tiers: estimation as an independent check"
+              ],
+              "contentHash": "sha256:fa9737c3a9005065ba05098c901046b84716e18bb55e38f4c409b6d410987e42"
+            }
+          ]
+        },
+        {
+          "code": "E1.10",
+          "criteria": [
+            "Direct measurement bounds and bounds of calculated area, perimeter and speed."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-rounding-bounds",
+              "noteNumbers": [
+                3,
+                4
+              ],
+              "questionIds": [
+                "interval",
+                "nearest-hundred",
+                "perimeter-area",
+                "speed-bounds",
+                "difference-bounds",
+                "guaranteed-rounding"
+              ],
+              "noteHeadings": [
+                "Both tiers: rounded intervals; GCSE: truncation",
+                "Higher / Extended: calculated-result bounds"
+              ],
+              "contentHash": "sha256:fa9737c3a9005065ba05098c901046b84716e18bb55e38f4c409b6d410987e42"
+            }
+          ]
+        },
+        {
+          "code": "E1.11",
+          "criteria": [
+            "Simplify and divide ratios; apply recipe, map-scale and best-value proportional reasoning."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-ratio-percent-finance",
+              "noteNumbers": [
+                1
+              ],
+              "questionIds": [
+                "share",
+                "recipe",
+                "map-best",
+                "fraction-ratio"
+              ],
+              "noteHeadings": [
+                "Both tiers: simplify, share and scale"
+              ],
+              "contentHash": "sha256:1bd52061f3f925670673c2622c22071ca576fd14457f67f392b01179433749e1"
+            }
+          ]
+        },
+        {
+          "code": "E1.12",
+          "criteria": [
+            "Pay, exchange, flow and fuel rates; supplied density, pressure and population-density formulas; speed and average speed."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-units-rates",
+              "noteNumbers": [
+                2,
+                3,
+                4
+              ],
+              "questionIds": [
+                "pay-exchange",
+                "flow-fuel",
+                "density-pressure",
+                "population",
+                "speed",
+                "unequal-times",
+                "recover-mass"
+              ],
+              "noteHeadings": [
+                "IGCSE both tiers: pay, exchange, flow and fuel",
+                "IGCSE both tiers: supplied compound-rate formulas",
+                "Both tiers: speed and total-time averages"
+              ],
+              "contentHash": "sha256:d3e549baa8e10665a35fb4d6da7403e60ad001cb6212ca05cfe0e97974e837ca"
+            }
+          ]
+        },
+        {
+          "code": "E1.13",
+          "criteria": [
+            "Percentage of a quantity, one quantity as a percentage of another, change, simple/compound interest, reverse and repeated changes."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-ratio-percent-finance",
+              "noteNumbers": [
+                2,
+                3,
+                4
+              ],
+              "questionIds": [
+                "profit",
+                "deposit-discount",
+                "earnings",
+                "interest",
+                "reverse",
+                "repeated"
+              ],
+              "noteHeadings": [
+                "Both tiers: percentage change and money language",
+                "IGCSE both tiers: simple and compound interest",
+                "IGCSE Extended: reverse and repeated change"
+              ],
+              "contentHash": "sha256:1bd52061f3f925670673c2622c22071ca576fd14457f67f392b01179433749e1"
+            },
+            {
+              "lessonId": "syllabus-fractions-decimals-percentages",
+              "noteNumbers": [
+                2
+              ],
+              "questionIds": [
+                "operators",
+                "part-whole"
+              ],
+              "noteHeadings": [
+                "Both tiers: percentages and operators"
+              ],
+              "contentHash": "sha256:0eab427971a9be00379973d191776e3597747235ea0a57823d4762198514016f"
+            }
+          ]
+        },
+        {
+          "code": "E1.14",
+          "criteria": [
+            "Efficient grouped calculator entry, intermediate precision and display interpretation for hours and money."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-time-money-calculator",
+              "noteNumbers": [
+                3
+              ],
+              "questionIds": [
+                "calculator",
+                "display"
+              ],
+              "noteHeadings": [
+                "IGCSE both tiers: calculator entry and precision"
+              ],
+              "contentHash": "sha256:066364663a298942ec6664400286411e98d0c574f777e90bebd711affd33ac66"
+            }
+          ]
+        },
+        {
+          "code": "E1.15",
+          "criteria": [
+            "Time-unit relationships, 12/24-hour clocks, elapsed time, timetables and stated time-zone offsets."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-time-money-calculator",
+              "noteNumbers": [
+                1,
+                2
+              ],
+              "questionIds": [
+                "time-units",
+                "clock",
+                "overnight",
+                "timetable",
+                "zones"
+              ],
+              "noteHeadings": [
+                "IGCSE both tiers: time units and clocks",
+                "IGCSE both tiers: intervals, timetables and zones"
+              ],
+              "contentHash": "sha256:066364663a298942ec6664400286411e98d0c574f777e90bebd711affd33ac66"
+            }
+          ]
+        },
+        {
+          "code": "E1.16",
+          "criteria": [
+            "Money arithmetic and conversion in both currency directions."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-time-money-calculator",
+              "noteNumbers": [
+                4
+              ],
+              "questionIds": [
+                "balance",
+                "exchange"
+              ],
+              "noteHeadings": [
+                "IGCSE both tiers: money and transaction direction"
+              ],
+              "contentHash": "sha256:066364663a298942ec6664400286411e98d0c574f777e90bebd711affd33ac66"
+            },
+            {
+              "lessonId": "syllabus-units-rates",
+              "noteNumbers": [
+                2
+              ],
+              "questionIds": [
+                "pay-exchange"
+              ],
+              "noteHeadings": [
+                "IGCSE both tiers: pay, exchange, flow and fuel"
+              ],
+              "contentHash": "sha256:d3e549baa8e10665a35fb4d6da7403e60ad001cb6212ca05cfe0e97974e837ca"
+            }
+          ]
+        },
+        {
+          "code": "E1.17",
+          "criteria": [
+            "Discrete exponential growth and decay in context; whole-period thresholds, without requiring e."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-surds-growth",
+              "noteNumbers": [
+                4
+              ],
+              "questionIds": [
+                "growth",
+                "decay-threshold",
+                "model-limit"
+              ],
+              "noteHeadings": [
+                "IGCSE Extended: discrete exponential change"
+              ],
+              "contentHash": "sha256:111193f7c5cf4716e4cc766abe4a1e178150ac825a88ffb5709110d8c9ffb3ad"
+            }
+          ]
+        },
+        {
+          "code": "E1.18",
+          "criteria": [
+            "Simplify, operate with and rationalise surds, including binomial denominators."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-surds-growth",
+              "noteNumbers": [
+                2,
+                3
+              ],
+              "questionIds": [
+                "simplify-surds",
+                "expand-surds",
+                "single-rationalise",
+                "conjugate"
+              ],
+              "noteHeadings": [
+                "Higher / Extended: simplify and combine surds",
+                "Higher / Extended: rationalise a denominator"
+              ],
+              "contentHash": "sha256:111193f7c5cf4716e4cc766abe4a1e178150ac825a88ffb5709110d8c9ffb3ad"
+            }
+          ]
+        }
+      ],
+      "status": "author-proposed-unit-teaching-review-pending",
+      "verifiedCoveragePercent": null
+    },
+    {
+      "id": "a-level-7357-proof",
+      "sourceId": "aqa-7357-proof-20261021",
+      "tier": "A-Level",
+      "unit": "Proof",
+      "expectedPoints": [
+        "A1"
+      ],
+      "points": [
+        {
+          "code": "A1",
+          "criteria": [
+            "Logical proof structure and deduction.",
+            "Exhaustion of cases and counterexample disproof.",
+            "Contradiction including irrationality of √2 and infinitely many primes.",
+            "Transfer to unfamiliar proof situations."
+          ],
+          "teaching": [
+            {
+              "lessonId": "syllabus-a-level-proof",
+              "noteNumbers": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "questionIds": [
+                "deduction",
+                "exhaustion",
+                "counterexample",
+                "converse",
+                "root-two",
+                "infinite-primes",
+                "unfamiliar",
+                "audit-proof",
+                "contradiction-transfer"
+              ],
+              "noteHeadings": [
+                "A-Level: logical structure and deduction",
+                "A-Level: exhaustion and counterexample",
+                "A-Level: contradiction and the irrationality of root two",
+                "A-Level: infinitely many primes and unfamiliar proofs"
+              ],
+              "contentHash": "sha256:41a1380aa461f215f01718a0ec3e170c4d993d048033091b2198b14928d71bb9"
+            }
+          ]
+        }
+      ],
+      "status": "author-proposed-unit-teaching-review-pending",
+      "verifiedCoveragePercent": null
+    }
+  ],
+  "lessonReceipts": [
+    {
+      "lessonId": "syllabus-number-types-factors",
+      "sourceFile": "src/content/syllabus-lessons/number-foundations.mjs",
+      "sourceHash": "sha256:6855dffc72fb5cc4f40d4c2a6f149404afd51b23e7e16e9e07771896d7e4175b",
+      "contentHash": "sha256:99ff767e90ef0696c037da0ed76bcc7a536f27e84ede48bc172afa085b97ac30",
+      "asset": "/learning-library/syllabus-number-types-factors.json",
+      "route": "/resources/foundations/syllabus-number-types-factors",
+      "noteWords": 448,
+      "workedExamples": 2,
+      "questions": 8,
+      "flashcards": 5,
+      "editorialStatus": "unreviewed",
+      "publicationStatus": "held"
+    },
+    {
+      "lessonId": "syllabus-signed-arithmetic",
+      "sourceFile": "src/content/syllabus-lessons/number-foundations.mjs",
+      "sourceHash": "sha256:6855dffc72fb5cc4f40d4c2a6f149404afd51b23e7e16e9e07771896d7e4175b",
+      "contentHash": "sha256:e633ee6e09e48e33c4c43a4fd365b9c09200c8b0ff55566214b1f829f50fa0f2",
+      "asset": "/learning-library/syllabus-signed-arithmetic.json",
+      "route": "/resources/foundations/syllabus-signed-arithmetic",
+      "noteWords": 436,
+      "workedExamples": 2,
+      "questions": 8,
+      "flashcards": 5,
+      "editorialStatus": "unreviewed",
+      "publicationStatus": "held"
+    },
+    {
+      "lessonId": "syllabus-powers-indices",
+      "sourceFile": "src/content/syllabus-lessons/number-foundations.mjs",
+      "sourceHash": "sha256:6855dffc72fb5cc4f40d4c2a6f149404afd51b23e7e16e9e07771896d7e4175b",
+      "contentHash": "sha256:472f848cf55b468080bfa2fa468331b02c192e16a6771b4c0df9e897c525a4ed",
+      "asset": "/learning-library/syllabus-powers-indices.json",
+      "route": "/resources/foundations/syllabus-powers-indices",
+      "noteWords": 386,
+      "workedExamples": 2,
+      "questions": 8,
+      "flashcards": 5,
+      "editorialStatus": "unreviewed",
+      "publicationStatus": "held"
+    },
+    {
+      "lessonId": "syllabus-standard-form",
+      "sourceFile": "src/content/syllabus-lessons/number-representations.mjs",
+      "sourceHash": "sha256:839750113b9c572e9e37f0c45aef8dff6a6944fd673c78410bdfde1d483257c8",
+      "contentHash": "sha256:8e5a5fee5966d3f839f7a6a1dfe829cc023a1788cc2b8d7a2abaa020f1a68792",
+      "asset": "/learning-library/syllabus-standard-form.json",
+      "route": "/resources/foundations/syllabus-standard-form",
+      "noteWords": 327,
+      "workedExamples": 2,
+      "questions": 7,
+      "flashcards": 5,
+      "editorialStatus": "unreviewed",
+      "publicationStatus": "held"
+    },
+    {
+      "lessonId": "syllabus-fractions-decimals-percentages",
+      "sourceFile": "src/content/syllabus-lessons/number-representations.mjs",
+      "sourceHash": "sha256:839750113b9c572e9e37f0c45aef8dff6a6944fd673c78410bdfde1d483257c8",
+      "contentHash": "sha256:0eab427971a9be00379973d191776e3597747235ea0a57823d4762198514016f",
+      "asset": "/learning-library/syllabus-fractions-decimals-percentages.json",
+      "route": "/resources/foundations/syllabus-fractions-decimals-percentages",
+      "noteWords": 462,
+      "workedExamples": 2,
+      "questions": 8,
+      "flashcards": 5,
+      "editorialStatus": "unreviewed",
+      "publicationStatus": "held"
+    },
+    {
+      "lessonId": "syllabus-ratio-percent-finance",
+      "sourceFile": "src/content/syllabus-lessons/number-representations.mjs",
+      "sourceHash": "sha256:839750113b9c572e9e37f0c45aef8dff6a6944fd673c78410bdfde1d483257c8",
+      "contentHash": "sha256:1bd52061f3f925670673c2622c22071ca576fd14457f67f392b01179433749e1",
+      "asset": "/learning-library/syllabus-ratio-percent-finance.json",
+      "route": "/resources/foundations/syllabus-ratio-percent-finance",
+      "noteWords": 524,
+      "workedExamples": 3,
+      "questions": 10,
+      "flashcards": 5,
+      "editorialStatus": "unreviewed",
+      "publicationStatus": "held"
+    },
+    {
+      "lessonId": "syllabus-units-rates",
+      "sourceFile": "src/content/syllabus-lessons/number-measures.mjs",
+      "sourceHash": "sha256:211775039b41d58b1d750fb8aa89349ddb31d6a32455c23767cbbeb9cc87ec56",
+      "contentHash": "sha256:d3e549baa8e10665a35fb4d6da7403e60ad001cb6212ca05cfe0e97974e837ca",
+      "asset": "/learning-library/syllabus-units-rates.json",
+      "route": "/resources/foundations/syllabus-units-rates",
+      "noteWords": 515,
+      "workedExamples": 2,
+      "questions": 10,
+      "flashcards": 5,
+      "editorialStatus": "unreviewed",
+      "publicationStatus": "held"
+    },
+    {
+      "lessonId": "syllabus-rounding-bounds",
+      "sourceFile": "src/content/syllabus-lessons/number-measures.mjs",
+      "sourceHash": "sha256:211775039b41d58b1d750fb8aa89349ddb31d6a32455c23767cbbeb9cc87ec56",
+      "contentHash": "sha256:fa9737c3a9005065ba05098c901046b84716e18bb55e38f4c409b6d410987e42",
+      "asset": "/learning-library/syllabus-rounding-bounds.json",
+      "route": "/resources/foundations/syllabus-rounding-bounds",
+      "noteWords": 529,
+      "workedExamples": 2,
+      "questions": 10,
+      "flashcards": 5,
+      "editorialStatus": "unreviewed",
+      "publicationStatus": "held"
+    },
+    {
+      "lessonId": "syllabus-time-money-calculator",
+      "sourceFile": "src/content/syllabus-lessons/number-measures.mjs",
+      "sourceHash": "sha256:211775039b41d58b1d750fb8aa89349ddb31d6a32455c23767cbbeb9cc87ec56",
+      "contentHash": "sha256:066364663a298942ec6664400286411e98d0c574f777e90bebd711affd33ac66",
+      "asset": "/learning-library/syllabus-time-money-calculator.json",
+      "route": "/resources/foundations/syllabus-time-money-calculator",
+      "noteWords": 508,
+      "workedExamples": 2,
+      "questions": 9,
+      "flashcards": 5,
+      "editorialStatus": "unreviewed",
+      "publicationStatus": "held"
+    },
+    {
+      "lessonId": "syllabus-sets-venn",
+      "sourceFile": "src/content/syllabus-lessons/number-extensions.mjs",
+      "sourceHash": "sha256:65f850875779872ddfbe5174c620a630bf82b74ce15200ddc6684b01b180a92f",
+      "contentHash": "sha256:577dffbfcc9ac61e3abc935ddeb147c3de72f35ebcbcc146574469ae15a94ae7",
+      "asset": "/learning-library/syllabus-sets-venn.json",
+      "route": "/resources/foundations/syllabus-sets-venn",
+      "noteWords": 506,
+      "workedExamples": 2,
+      "questions": 7,
+      "flashcards": 5,
+      "editorialStatus": "unreviewed",
+      "publicationStatus": "held"
+    },
+    {
+      "lessonId": "syllabus-surds-growth",
+      "sourceFile": "src/content/syllabus-lessons/number-extensions.mjs",
+      "sourceHash": "sha256:65f850875779872ddfbe5174c620a630bf82b74ce15200ddc6684b01b180a92f",
+      "contentHash": "sha256:111193f7c5cf4716e4cc766abe4a1e178150ac825a88ffb5709110d8c9ffb3ad",
+      "asset": "/learning-library/syllabus-surds-growth.json",
+      "route": "/resources/foundations/syllabus-surds-growth",
+      "noteWords": 464,
+      "workedExamples": 2,
+      "questions": 9,
+      "flashcards": 5,
+      "editorialStatus": "unreviewed",
+      "publicationStatus": "held"
+    },
+    {
+      "lessonId": "syllabus-a-level-proof",
+      "sourceFile": "src/content/syllabus-lessons/number-extensions.mjs",
+      "sourceHash": "sha256:65f850875779872ddfbe5174c620a630bf82b74ce15200ddc6684b01b180a92f",
+      "contentHash": "sha256:41a1380aa461f215f01718a0ec3e170c4d993d048033091b2198b14928d71bb9",
+      "asset": "/learning-library/syllabus-a-level-proof.json",
+      "route": "/resources/foundations/syllabus-a-level-proof",
+      "noteWords": 518,
+      "workedExamples": 2,
+      "questions": 9,
+      "flashcards": 5,
+      "editorialStatus": "unreviewed",
+      "publicationStatus": "held"
+    }
+  ],
+  "courseBacklog": [
+    {
+      "programme": "GCSE",
+      "specification": "8300",
+      "remaining": [
+        "Algebra",
+        "Ratio, proportion and rates of change beyond the Number cross-links",
+        "Geometry and measures",
+        "Probability",
+        "Statistics",
+        "Full-course assessment and independent subject/answer review"
+      ]
+    },
+    {
+      "programme": "IGCSE",
+      "specification": "0580",
+      "remaining": [
+        "Algebra and graphs",
+        "Coordinate geometry",
+        "Geometry",
+        "Mensuration",
+        "Trigonometry",
+        "Transformations and vectors",
+        "Probability",
+        "Statistics",
+        "Full-course assessment and independent subject/answer review"
+      ]
+    },
+    {
+      "programme": "A_LEVELS",
+      "specification": "7357",
+      "remaining": [
+        "Algebra and functions",
+        "Coordinate geometry",
+        "Sequences and series",
+        "Trigonometry",
+        "Exponentials and logarithms",
+        "Differentiation",
+        "Integration",
+        "Numerical methods",
+        "Vectors",
+        "Statistical sampling",
+        "Data presentation and interpretation",
+        "Probability",
+        "Statistical distributions",
+        "Statistical hypothesis testing",
+        "Quantities and units in mechanics",
+        "Kinematics",
+        "Forces and Newton’s laws",
+        "Moments",
+        "Overarching themes, data use, assessment and independent review"
+      ]
+    }
+  ],
+  "widerBacklog": "All other subjects in the 30 GCSE/IGCSE/A-Level planning targets and the remaining programme catalogue still need authoritative topic-by-topic authoring. Existing shared/AP/MYP drafts are retained but do not close those gaps."
+}

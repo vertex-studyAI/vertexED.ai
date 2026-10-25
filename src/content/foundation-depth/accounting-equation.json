@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "lessonId": "accounting-equation",
+  "revision": "2026-10-21.3",
+  "notes": [
+    {
+      "heading": "Profit, cash and the timing of recognition",
+      "paragraphs": [
+        "Revenue and cash receipts can occur at different times. When a service is supplied on credit, the receivable increases and the earned revenue contributes to profit; collecting that receivable later exchanges one asset for another. Treating collection as new revenue counts the same service twice. Borrowing increases cash and a liability without creating profit. Owner withdrawals reduce equity without becoming a business expense. Analyse each transaction first by the resource or obligation it changes, then check the equation. A balanced equation is necessary but does not prove that every transaction has been classified correctly."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "depth-credit-sale",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "In a fictional service business with no sales tax, a service worth 600 units is completed on credit. The customer later pays 400. Give the entries for both events and the remaining receivable.",
+      "answer": "On completion: debit receivables 600 and credit service revenue 600. On collection: debit cash 400 and credit receivables 400. Receivables remaining: 200.",
+      "solution": [
+        "Recognise the earned service once, creating revenue and a receivable.",
+        "Collection changes the composition of assets; 600 - 400 = 200 remains unpaid."
+      ],
+      "markingPoints": [
+        "Record the correct completion entry.",
+        "Record collection without new revenue.",
+        "State the 200-unit receivable."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-owner-withdrawal",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "A fictional sole trader withdraws 250 units of business cash for personal use. A student records wage expense 250. Correct the classification and explain the effect on profit and equity.",
+      "answer": "Debit drawings 250 and credit cash 250. The withdrawal reduces equity by 250 and does not reduce business profit.",
+      "solution": [
+        "Identify the payment as an owner withdrawal rather than a cost of earning revenue.",
+        "Reverse the mistaken expense classification and record drawings."
+      ],
+      "markingPoints": [
+        "Identify drawings.",
+        "Give debit drawings and credit cash.",
+        "Distinguish unchanged profit from reduced equity."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-balanced-error",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "A fictional business receives a 1,000-unit bank loan but credits revenue instead of the loan liability. Cash is correctly debited. Explain why the trial balance agrees and identify the misstatements.",
+      "answer": "Equal debit and credit entries still balance. Revenue and profit are overstated by 1,000; the loan liability is understated by 1,000.",
+      "solution": [
+        "Compare the actual credit with the required liability credit.",
+        "The trial balance checks numerical equality, not the economic meaning of the account."
+      ],
+      "markingPoints": [
+        "Explain equal debit and credit totals.",
+        "Identify overstated revenue/profit.",
+        "Identify the understated liability."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    }
+  ]
+}

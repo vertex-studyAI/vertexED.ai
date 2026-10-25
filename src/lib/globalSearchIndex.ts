@@ -23,7 +23,6 @@ const pages: GlobalSearchEntry[] = [
   { title: 'Study guides', description: 'Open subject guides and source-bound study pages.', to: '/study-guides', area: 'Guide', keywords: 'revision learning pages' },
   { title: 'Learning library', description: 'Search course directories, available materials, curriculum desks, guides, tools and archives.', to: '/resources', area: 'Guide', keywords: 'resources articles help index content' },
   { title: 'About VertexED', description: 'Read the product purpose, principles and boundaries.', to: '/about', area: 'Page' },
-  { title: 'Project webpages', description: 'Search founder-linked product, organisation and BU1LD project pages.', to: '/projects', area: 'Page', keywords: 'portfolio research directory founder' },
   { title: 'Privacy', description: 'See how VertexED handles account and study data.', to: '/privacy', area: 'Page' },
   { title: 'Terms', description: 'Read the terms for using VertexED.', to: '/terms', area: 'Page' },
 ];

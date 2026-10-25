@@ -4,6 +4,7 @@
  */
 
 import type { StudyArtifact } from '@/lib/userContent';
+import type { CurriculumPath, GenerationRecord } from '../../contracts/notebookStudySet.js';
 import { notebookStorageKeys } from './notebookStorageScope.mjs';
 import { validateNotebooks } from './snapshotValidation.mjs';
 import { readSnapshotArray } from './snapshotConcurrency.mjs';
@@ -21,6 +22,7 @@ export type NotebookSource = {
 };
 
 export type NotebookOutputKind =
+  | 'lesson'
   | 'study-guide'
   | 'briefing'
   | 'faq'
@@ -61,6 +63,8 @@ export type NotebookOutput = {
   isAudioScript?: boolean;
   sourceIds?: string[];
   quizResponses?: NotebookQuizResponse[];
+  generation?: GenerationRecord;
+  editedFrom?: string;
 };
 
 /** Learner observations remain separate from verified marks and measured mastery. */
@@ -74,6 +78,7 @@ export type NotebookQuizResponse = {
 };
 
 export type StudyNotebook = {
+  curriculum?: CurriculumPath;
   id: string;
   title: string;
   subject: string;
@@ -112,7 +117,7 @@ export const NOTEBOOK_STUDIO_GROUPS: Array<{
   {
     id: 'learn',
     label: 'Learn',
-    kinds: ['study-guide', 'outline', 'glossary', 'mind-map', 'timeline'],
+    kinds: ['lesson', 'study-guide', 'outline', 'glossary', 'mind-map', 'timeline'],
   },
   {
     id: 'review',
@@ -136,10 +141,12 @@ export const NOTEBOOK_OUTPUT_META: Record<
   { label: string; description: string; icon: string }
 > = {
   'study-guide': {
+    // Topic notes and revision guides share the same readable output surface.
     label: 'Study Guide',
     description: 'Structured concepts, traps, and practice questions',
     icon: 'book',
   },
+  lesson: { label: 'Topic notes', description: 'Explanations, worked examples and misconceptions from your sources', icon: 'book' },
   briefing: {
     label: 'Briefing Doc',
     description: 'One-page summary - key claims, definitions, and open questions from your sources',
@@ -374,7 +381,8 @@ export function saveOutput(
   const entry: NotebookOutput = { ...output, id: newId('out') };
   // Regeneration must not erase a learner's saved attempt. The studio can reopen
   // attempted versions; untouched generated previews can still be replaced.
-  const existing = notebooks[idx].outputs.filter((o) => o.kind !== output.kind || o.quizResponses?.length);
+  const existing = notebooks[idx].outputs.filter((o) => o.kind !== output.kind || o.quizResponses?.length || o.generation || o.editedFrom || o.id === output.editedFrom);
+  if (existing.length >= 40) throw new Error('This notebook has 40 saved resource versions. Export a backup and use a new notebook.');
   const patch: StudyNotebook = {
     ...notebooks[idx],
     outputs: [entry, ...existing],
@@ -386,6 +394,28 @@ export function saveOutput(
   notebooks[idx] = patch;
   writeAll(notebooks);
   return notebooks[idx];
+}
+
+export function saveNotebookCurriculum(notebookId: string, curriculum: CurriculumPath): StudyNotebook {
+  const notebooks = readAll();
+  const notebook = notebooks.find(item => item.id === notebookId);
+  if (!notebook) throw new Error('This notebook is no longer available.');
+  notebook.curriculum = curriculum;
+  notebook.updatedAt = new Date().toISOString();
+  writeAll(notebooks);
+  return notebook;
+}
+
+/** Editing creates a separate learner version, never an alteration to generated evidence. */
+export function reviseNotebookOutput(notebookId: string, outputId: string, content: string): StudyNotebook {
+  const notebook = getNotebook(notebookId);
+  const original = notebook?.outputs.find(output => output.id === outputId);
+  if (!original || ['quiz', 'flashcards', 'suggested-questions', 'mind-map'].includes(original.kind)) throw new Error('This resource cannot be edited as notes.');
+  if (!content.trim() || content.length > 50_000) throw new Error('Notes must contain 1 to 50,000 characters.');
+  const saved = saveOutput(notebookId, { kind: original.kind, title: original.title, content: content.trim(), generatedAt: new Date().toISOString(),
+    sourceIds: original.sourceIds, editedFrom: original.id });
+  if (!saved) throw new Error('This notebook is no longer available.');
+  return saved;
 }
 
 export function saveNotebookQuizResponse(

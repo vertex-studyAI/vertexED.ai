@@ -45,10 +45,126 @@
             "Does not call every sketch successful"
           ],
           "id": "2-d-art-and-design-1-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Turn 'I enjoy maps' into a visual inquiry about belonging.",
+          "hint": "Choose a visible map feature.",
+          "hints": [
+            "Choose a visible map feature.",
+            "Make it variable."
+          ],
+          "answer": "Ask how erasing borders changes a map's sense of belonging. Compare versions with different border visibility. Assess how routes and regions become connected or separated.",
+          "checkpoints": [
+            "Ask how erasing borders changes a map's sense of belonging.",
+            "Compare versions with different border visibility.",
+            "Assess how routes and regions become connected or separated."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "A beautiful colour study does not affect later work. How can it become useful investigation evidence?",
+          "hint": "Connect the test to a decision.",
+          "hints": [
+            "Connect the test to a decision.",
+            "Compare a specific alternative."
+          ],
+          "answer": "Identify the colour relationship tested. Show how it informed or challenged a later choice. If it had no relevant effect, do not present it as decisive evidence.",
+          "checkpoints": [
+            "Identify the colour relationship tested.",
+            "Show how it informed or challenged a later choice.",
+            "If it had no relevant effect, do not present it as decisive evidence."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "frameworkUnit": "Portfolio skill 1",
-      "id": "2-d-art-and-design-1"
+      "id": "2-d-art-and-design-1",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Turn an observation into an inquiry in depth",
+            "paragraphs": [
+              "A visual inquiry becomes productive when it links an idea to a relationship that can change on the page. Start with something observed, then vary a specific feature such as overlap, colour temperature or edge density. The question should invite several possible outcomes rather than prescribe one finished image. Compare tests using the intended experience, not simply which looks most polished. An unsuccessful experiment can clarify the inquiry when its annotation identifies what the visible result revealed and why the next choice followed."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Develop an inquiry from overlapping window reflections.",
+            "steps": [
+              "Notice that reflected figures merge with interior objects.",
+              "Test transparent layers against opaque silhouettes while keeping the window frame constant."
+            ],
+            "conclusion": "Ask how layered visibility can make public and private spaces seem to overlap."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What makes inquiry visual?",
+            "back": "It can be investigated through material or compositional choices."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why vary one feature initially?",
+            "back": "It makes comparison clearer."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Is polish the same as investigation?",
+            "back": "No; a rough test may reveal more."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What should a rejected test record?",
+            "back": "What failed and how that shaped revision."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Reflections and privacy",
+            "description": "A material test explores a specific visual relationship.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Window frame",
+                "detail": "A boundary between spaces."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Transparent overlap",
+                "detail": "Figures and interiors remain partly visible together."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Uncertain boundary",
+                "detail": "Layering complicates public and private separation."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "contains"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "creates"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Organise hierarchy and balance",
@@ -88,10 +204,126 @@
             "Explains a visible effect"
           ],
           "id": "2-d-art-and-design-2-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "A poster's heading and image compete equally. Propose a specific hierarchy revision.",
+          "hint": "Choose which must be read first.",
+          "hints": [
+            "Choose which must be read first.",
+            "Alter a relational variable."
+          ],
+          "answer": "Make the heading the primary element. Reduce the image's contrast or scale. Check that the image now supports rather than interrupts the reading order.",
+          "checkpoints": [
+            "Make the heading the primary element.",
+            "Reduce the image's contrast or scale.",
+            "Check that the image now supports rather than interrupts the reading order."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "Explain how an off-centre black square can balance a larger pale rectangle.",
+          "hint": "Consider value as well as size.",
+          "hints": [
+            "Consider value as well as size.",
+            "Include placement."
+          ],
+          "answer": "Dark value can give the smaller square substantial visual weight. Distance from the centre affects its balance with the rectangle. The whole arrangement must be assessed, not area alone.",
+          "checkpoints": [
+            "Dark value can give the smaller square substantial visual weight.",
+            "Distance from the centre affects its balance with the rectangle.",
+            "The whole arrangement must be assessed, not area alone."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "frameworkUnit": "Portfolio skill 2",
-      "id": "2-d-art-and-design-2"
+      "id": "2-d-art-and-design-2",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Organise hierarchy and balance in depth",
+            "paragraphs": [
+              "Visual hierarchy directs attention through relationships rather than isolated features. A large shape may dominate, but a small high-contrast mark can compete with it. Balance concerns the distribution of visual weight; it does not require mirror symmetry. Test a composition at thumbnail scale to see whether the primary relationships remain readable before adding detail. Changes in spacing can alter both emphasis and rhythm. Explain which relationship you intend viewers to notice first and how secondary elements support or complicate that route."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Make a pale doorway the focus in a dark, crowded collage.",
+            "steps": [
+              "Reserve the lightest value for the doorway and reduce competing light patches.",
+              "Arrange smaller dark fragments so their edges direct attention towards the opening."
+            ],
+            "conclusion": "Value contrast and directional placement reinforce the same focal area."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "Must balance be symmetrical?",
+            "back": "No; unequal elements can balance through visual weight."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What is hierarchy?",
+            "back": "An ordered relationship of emphasis."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Why use thumbnails?",
+            "back": "They expose large compositional relationships."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Can empty space attract attention?",
+            "back": "Yes; isolation can strengthen emphasis."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Doorway emphasis",
+            "description": "Two choices cooperate to direct attention.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Crowded dark field",
+                "detail": "A dense surrounding context."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Reserved pale opening",
+                "detail": "A concentrated value contrast."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Directed viewing",
+                "detail": "Surrounding edges lead towards the opening."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "frames"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "supports"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Revise a material experiment",
@@ -131,10 +363,126 @@
             "States the purpose"
           ],
           "id": "2-d-art-and-design-3-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "A watercolour spreads beyond a planned boundary. Give a useful next test.",
+          "hint": "Identify a controllable condition.",
+          "hints": [
+            "Identify a controllable condition.",
+            "Retain the intended effect."
+          ],
+          "answer": "Compare the same shape on damp and dry paper. Record how moisture changes the edge. Choose the condition that supports the intended clarity or diffusion.",
+          "checkpoints": [
+            "Compare the same shape on damp and dry paper.",
+            "Record how moisture changes the edge.",
+            "Choose the condition that supports the intended clarity or diffusion."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "Why is 'I used more materials' not evidence of stronger development?",
+          "hint": "Count and purpose differ.",
+          "hints": [
+            "Count and purpose differ.",
+            "Identify what must be explained."
+          ],
+          "answer": "Additional materials do not automatically deepen an inquiry. The artist must show their visual effect. That effect must connect to a reasoned decision or question.",
+          "checkpoints": [
+            "Additional materials do not automatically deepen an inquiry.",
+            "The artist must show their visual effect.",
+            "That effect must connect to a reasoned decision or question."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "frameworkUnit": "Portfolio skill 3",
-      "id": "2-d-art-and-design-3"
+      "id": "2-d-art-and-design-3",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Revise a material experiment in depth",
+            "paragraphs": [
+              "Material experiments are meaningful when the procedure and visual purpose are linked. Record enough about pressure, dilution, drying time or layering to understand why the outcome changed. A test need not isolate every variable scientifically, but changing many features at once makes attribution difficult. Compare evidence of the surface, including edges and unintended marks, before deciding whether an accident serves the inquiry. Revision can preserve an unexpected effect while altering its placement or intensity so that it contributes deliberately to the work."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "A monoprint intended to suggest fog has sharp, uniform edges.",
+            "steps": [
+              "Compare a lightly wiped plate with the original to soften selected boundaries.",
+              "Retain one crisp foreground edge so the depth does not disappear entirely."
+            ],
+            "conclusion": "Selective softness suggests obscured distance more effectively than making every edge equally vague."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "Why record material conditions?",
+            "back": "They help explain and repeat an effect."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Must an accident be removed?",
+            "back": "No; it may serve the inquiry."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Why avoid changing everything at once?",
+            "back": "The source of an effect becomes unclear."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What makes revision purposeful?",
+            "back": "A visible change connected to intended meaning."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Fog through edge control",
+            "description": "Different edges establish a spatial relationship.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Sharp original edges",
+                "detail": "All layers appear equally near."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Softened distant edges",
+                "detail": "Background forms become less distinct."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Retained foreground edge",
+                "detail": "Depth remains legible."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "are revised into"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "is contrasted with"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Present evidence of decisions",
@@ -174,10 +522,126 @@
             "Checks lighting"
           ],
           "id": "2-d-art-and-design-4-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Revise 'I made the picture better' for a composition with reduced background contrast.",
+          "hint": "Name the change.",
+          "hints": [
+            "Name the change.",
+            "Connect it to emphasis."
+          ],
+          "answer": "I reduced the background's light-dark contrast. This made the figure's outline more prominent. The change directs attention to the figure before the setting.",
+          "checkpoints": [
+            "I reduced the background's light-dark contrast.",
+            "This made the figure's outline more prominent.",
+            "The change directs attention to the figure before the setting."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "Why include dimensions beside a collage photograph?",
+          "hint": "A screen resizes images.",
+          "hints": [
+            "A screen resizes images.",
+            "Relate scale to viewing."
+          ],
+          "answer": "The photograph alone does not establish physical size. Dimensions distinguish intimate from large-scale viewing. That scale affects how texture and detail are encountered.",
+          "checkpoints": [
+            "The photograph alone does not establish physical size.",
+            "Dimensions distinguish intimate from large-scale viewing.",
+            "That scale affects how texture and detail are encountered."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "frameworkUnit": "Portfolio skill 4",
-      "id": "2-d-art-and-design-4"
+      "id": "2-d-art-and-design-4",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Present evidence of decisions in depth",
+            "paragraphs": [
+              "Documentation should make the work and its development understandable without replacing visual evidence with claims. Sequence selected tests so that a viewer can follow consequential decisions, not merely chronological activity. Process statements should name an observable change and explain its purpose. Photograph flat work with controlled lighting and a parallel camera to reduce distortion, and distinguish a detail view from a full view. Accurate materials and dimensions help viewers interpret surface and scale; an image edited to conceal defects can misrepresent the actual work."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Sequence three invented images of a fragmented portrait.",
+            "steps": [
+              "Begin with the intact study, then show the test where fragments obscure every feature.",
+              "End with the revision retaining one eye to anchor recognition."
+            ],
+            "conclusion": "The sequence shows how selective fragmentation balanced disruption with identification."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What should a process statement name?",
+            "back": "A visible decision and its reason."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why identify a detail photograph?",
+            "back": "It does not represent the whole composition."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What causes perspective distortion?",
+            "back": "A camera angled away from the flat surface."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "How choose process images?",
+            "back": "Select those explaining important decisions."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Selective fragmentation",
+            "description": "The sequence explains a revision rather than merely displaying stages.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Intact face",
+                "detail": "Recognition is immediate."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Total fragmentation",
+                "detail": "Identity becomes unreadable."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Retained eye",
+                "detail": "Recognition survives within disruption."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "is tested against"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "is revised to"
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

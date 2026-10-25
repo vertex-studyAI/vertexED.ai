@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "lessonId": "wave-superposition",
+  "revision": "2026-10-21.3",
+  "notes": [
+    {
+      "heading": "Add signed displacements and identify the boundary conditions",
+      "paragraphs": [
+        "For linear superposition, instantaneous displacements add algebraically. Opposite signs may cancel at one place and time without making either travelling wave disappear. A stationary pattern has persistent nodes because interference repeatedly cancels there. Allowed wavelengths depend on the boundary conditions: a string fixed at both ends differs from an ideal air column closed at one end. State the system before using a harmonic formula. Frequency, phase and displacement are distinct quantities, so do not infer a wave's complete behaviour from one instantaneous measurement."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "depth-signed-displacements",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "At one point and instant, two small transverse waves produce displacements +3 mm and -5 mm under linear superposition. Find the resultant and explain whether either wave has been permanently destroyed.",
+      "answer": "Resultant displacement -2 mm. The waves continue propagating; the sum describes this point and instant.",
+      "solution": [
+        "Add signed displacements: 3+(-5)=-2.",
+        "Distinguish local instantaneous interference from permanent removal of a wave."
+      ],
+      "markingPoints": [
+        "Use signed addition.",
+        "Find -2 mm.",
+        "Explain continued wave propagation."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-closed-column",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "An ideal air column of length 0.85 m is closed at one end and open at the other, with sound speed 340 m/s. Ignoring end correction, find its fundamental and next allowed resonance frequency.",
+      "answer": "Fundamental 100 Hz; next allowed resonance 300 Hz.",
+      "solution": [
+        "The fundamental has wavelength 4L=3.4 m, so f=v/λ=100 Hz.",
+        "For these boundary conditions only odd harmonics occur in the ideal model."
+      ],
+      "markingPoints": [
+        "Use wavelength 4L.",
+        "Find 100 Hz.",
+        "Find next resonance 300 Hz and explain odd harmonics."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-node-antinode",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "Adjacent nodes of an ideal stationary wave are 0.40 m apart. Find the constituent wavelength and the distance from a node to its nearest antinode.",
+      "answer": "Wavelength 0.80 m; nearest node-antinode separation 0.20 m.",
+      "solution": [
+        "Adjacent nodes are λ/2 apart.",
+        "A nearest antinode is halfway between adjacent nodes, at λ/4."
+      ],
+      "markingPoints": [
+        "Identify λ/2=0.40.",
+        "Find λ=0.80 m.",
+        "Find separation 0.20 m."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    }
+  ]
+}

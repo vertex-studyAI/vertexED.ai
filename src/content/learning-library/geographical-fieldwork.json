@@ -1,0 +1,382 @@
+{
+  "schemaVersion": 1,
+  "id": "geographical-fieldwork",
+  "revision": "2026-10-21.2",
+  "subject": "Geography",
+  "unit": "Geographical enquiry",
+  "topic": "Sampling, spatial patterns and fieldwork conclusions",
+  "level": "secondary-foundation",
+  "editorialStatus": "unreviewed",
+  "origin": "original-authorship-review-pending",
+  "scope": "Paper-based planning and analysis of low-risk hypothetical fieldwork. Real field activities require local supervision, permissions and risk assessment.",
+  "prerequisites": [
+    "Read scales and coordinates.",
+    "Calculate a mean and interpret a graph."
+  ],
+  "objectives": [
+    "Match sampling design to an enquiry.",
+    "Distinguish spatial association from causal explanation.",
+    "Evaluate representativeness, measurement error and uncertainty."
+  ],
+  "notes": [
+    {
+      "heading": "From question to measurable variables",
+      "paragraphs": [
+        "A geographical enquiry starts with a question about places, processes or spatial relationships. Turn broad terms into measurable variables before collecting observations. For example, accessibility might be represented by travel time to a service, but that measure does not capture affordability or whether the service meets users' needs. Define the spatial area, time period and population to which you want to generalise. State a hypothesis as a testable expectation, while recognising that a useful enquiry can investigate patterns without assuming the answer. A method should collect evidence capable of challenging the expectation, not merely confirming it."
+      ]
+    },
+    {
+      "heading": "Sampling and comparability",
+      "paragraphs": [
+        "Random sampling gives eligible units a known chance of selection when properly implemented. Systematic sampling selects observations at regular intervals, but can align accidentally with repeating spatial patterns. Stratified sampling divides the population into relevant groups and samples within them, helping ensure important groups are represented. Convenience sampling is easier but can exclude inaccessible or less visible areas. No method automatically eliminates all bias. Keep measurement procedures consistent between sites: instrument, duration, observer instructions and relevant conditions should be comparable. Repeated measurements help estimate variability but cannot fix a consistently miscalibrated instrument or an unrepresentative sampling frame."
+      ]
+    },
+    {
+      "heading": "Patterns, explanations and limits",
+      "paragraphs": [
+        "Maps and graphs can reveal clusters, gradients and outliers, but describe the evidence before explaining it. A relationship between distance from a centre and land use may reflect several interacting factors. Association does not alone identify the cause, especially when other variables also change across space. Use additional evidence and relevant theory to evaluate competing explanations. Distinguish random variation, systematic measurement error and sampling limitations because each calls for a different improvement. A conclusion should answer the enquiry within the sampled places and times, report exceptions and avoid extending a small local sample to every region without justification. Good evaluation proposes a specific feasible change and explains how it would improve the evidence."
+      ]
+    },
+    {
+      "heading": "Data presentation and uncertainty",
+      "paragraphs": [
+        "Choose a presentation that matches the enquiry and variable type. A map can reveal location and spatial pattern; a scatter plot compares two quantitative variables; a frequency display shows a distribution. A graph should identify units, scales and the data collection context. A truncated axis can exaggerate a small change visually, while an unsuitable scale can hide a useful pattern. Explain unusual values before deciding whether they are measurement mistakes or genuine features.",
+        "An average summarises a dataset but can conceal variation between sites or times. Report an appropriate measure of spread or show individual observations when that variation matters. Combining unequal-duration traffic counts without adjustment creates an unfair comparison: convert to comparable rates or collect equal-duration observations. Additional observations improve information only if they address the relevant uncertainty. Repeating one accessible site many times does not replace sampling different neighbourhoods. In a conclusion, distinguish what was observed, the explanation supported by the evidence and the limits on generalisation. An improvement should name a concrete change, the weakness it addresses and the expected benefit."
+      ]
+    },
+    {
+      "heading": "Recognising clustered samples in a spatial comparison",
+      "paragraphs": [
+        "A large number of measurements can still provide poor coverage if they come from one convenient location. Treat the sampling frame and the distribution of sites as part of the evidence. Repeated readings at one site may estimate local variability, but they do not automatically represent an entire river, town or coast. If the question compares land-use zones, distribute sampling across those zones and keep the measurement procedure consistent. Report access restrictions and missing sites so the reader can judge selection bias. A map of sampled locations often reveals clustering more clearly than a table of totals. The scenario here is fictional and does not document completed fieldwork."
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "prompt": "A town enquiry samples only shoppers leaving one supermarket at noon. Identify a generalisation problem.",
+      "steps": [
+        "The target population may include residents who use other shops or shop at other times.",
+        "The sampling frame excludes many of those people.",
+        "Sampling across locations and time periods would reduce this particular exclusion."
+      ],
+      "answer": "The convenience sample is unlikely to represent all town residents."
+    },
+    {
+      "prompt": "Traffic counts over equal five-minute intervals are 18, 22, 20 and 24. Find the mean count and state one limitation.",
+      "steps": [
+        "Sum the counts: 84.",
+        "Divide by four equal-duration observations to get 21.",
+        "These intervals may not represent other hours, days or seasons."
+      ],
+      "answer": "Mean 21 vehicles per five-minute interval; broader temporal generalisation is unverified."
+    },
+    {
+      "prompt": "Site A records 30 vehicles in five minutes; site B records 42 in seven minutes. Compare their average observed rates.",
+      "steps": [
+        "Divide each count by its observation duration.",
+        "Site A gives 30/5=6 vehicles per minute; site B gives 42/7=6.",
+        "The larger total at B does not imply a larger rate."
+      ],
+      "answer": "Both observed rates are 6 vehicles per minute."
+    },
+    {
+      "prompt": "A fictional town study takes 30 pedestrian counts beside one railway station and claims to represent all shopping streets. Identify the sampling problem and propose a more suitable spatial design.",
+      "answer": "The sites are spatially clustered around a transport hub. Sample across defined shopping-street zones using a consistent counting interval and a stated site-selection rule.",
+      "steps": [
+        "A station can have footfall unlike other shopping streets.",
+        "Thirty repeats at that location do not supply coverage of the other streets.",
+        "A stratified or otherwise justified spatial design can include different zones with comparable timings."
+      ]
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Repeating a measurement removes every kind of bias.",
+      "correction": "Repetition helps describe variation but does not repair systematic error or an incomplete sampling frame."
+    },
+    {
+      "claim": "A mapped correlation proves a geographical cause.",
+      "correction": "Alternative explanations and relevant processes must be investigated."
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "operationalise",
+      "front": "Why define a measurable version of a broad concept?",
+      "back": "It makes the enquiry testable while clarifying what the chosen measure does and does not capture."
+    },
+    {
+      "id": "stratified",
+      "front": "What is the purpose of stratified sampling?",
+      "back": "To sample within relevant population groups rather than accidentally omitting them."
+    },
+    {
+      "id": "systematic",
+      "front": "What is a potential weakness of systematic sampling?",
+      "back": "The interval may coincide with a repeating spatial or temporal pattern."
+    },
+    {
+      "id": "repeat",
+      "front": "What can repeated measurements reveal?",
+      "back": "Variability under the repeated conditions, not necessarily freedom from systematic error."
+    },
+    {
+      "id": "conclusion",
+      "front": "What should limit the reach of a fieldwork conclusion?",
+      "back": "The sampled population, places, times and measurement method."
+    },
+    {
+      "id": "deeper-recall",
+      "front": "Why must observation durations be considered when comparing counts?",
+      "back": "Unequal durations can produce different totals despite equal underlying rates; compare equivalent durations or rates."
+    },
+    {
+      "id": "application-card-1",
+      "front": "Why map sampling locations?",
+      "back": "A map can expose clusters and missing areas that a large total sample count conceals."
+    },
+    {
+      "id": "application-card-2",
+      "front": "What can repeated readings at one site establish?",
+      "back": "Variation or precision for that site under the measured conditions, not automatic representation of all sites."
+    }
+  ],
+  "questions": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "difficulty": "foundation",
+      "prompt": "A town is divided into residential, industrial and commercial zones, then sites are sampled within each. What is this design?",
+      "options": [
+        "No sampling",
+        "Stratified sampling",
+        "Only convenience sampling",
+        "A census of every site"
+      ],
+      "answer": "Stratified sampling",
+      "solution": [
+        "The population is divided into relevant groups.",
+        "Sampling occurs within each group."
+      ],
+      "markingPoints": [
+        "Select stratified sampling."
+      ],
+      "marks": 1,
+      "calculator": "not-applicable"
+    },
+    {
+      "id": "q2",
+      "type": "calculation",
+      "difficulty": "foundation",
+      "prompt": "Counts in four equal-duration observations are 12, 16, 20 and 24. Find the mean count.",
+      "answer": "18.",
+      "solution": [
+        "Add the counts to obtain 72.",
+        "Divide by four observations."
+      ],
+      "markingPoints": [
+        "Sum correctly.",
+        "Calculate 18."
+      ],
+      "marks": 2,
+      "calculator": "not-required",
+      "numericAnswer": {
+        "value": 18,
+        "tolerance": 0
+      }
+    },
+    {
+      "id": "q3",
+      "type": "short",
+      "difficulty": "standard",
+      "prompt": "Why does a greater number of measurements from one busy road not necessarily represent traffic throughout a city?",
+      "answer": "More observations at one location improve information about that location but do not sample the city's varied road types and areas.",
+      "solution": [
+        "Distinguish sample size from spatial representativeness.",
+        "Identify omitted variation across locations."
+      ],
+      "markingPoints": [
+        "Explain that size alone does not guarantee representativeness.",
+        "Identify the need for broader site selection."
+      ],
+      "marks": 2,
+      "calculator": "not-applicable"
+    },
+    {
+      "id": "q4",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "A survey finds greater litter counts near food shops. Give a cautious conclusion, an alternative explanation and an improvement to the enquiry.",
+      "answer": "Litter counts are associated with proximity to food shops in the sampled sites. Pedestrian volume or cleaning schedules may also explain the pattern. Collect comparable data on these factors across more sites and times before attributing the difference to the shops.",
+      "solution": [
+        "Describe the observed association without claiming sole causation.",
+        "Identify a plausible confounding variable.",
+        "Propose a measurement or design change that addresses it."
+      ],
+      "markingPoints": [
+        "Give a qualified evidence-based conclusion.",
+        "Name a relevant alternative explanation.",
+        "Explain a targeted improvement."
+      ],
+      "marks": 3,
+      "calculator": "not-applicable"
+    },
+    {
+      "id": "q5",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "A fieldwork report gives only the mean of litter counts across sites. Explain what important information may be hidden and suggest a useful addition.",
+      "answer": "The mean can hide clustering, outliers and large differences between sites. Show the individual site counts on a map or distribution and report a suitable measure of spread, so the reader can evaluate spatial variation as well as the average.",
+      "solution": [
+        "Identify variation that a single mean hides.",
+        "Choose a presentation or statistic that reveals it.",
+        "Explain how the addition improves interpretation of the enquiry."
+      ],
+      "markingPoints": [
+        "Identify variation that a single mean hides.",
+        "Choose a presentation or statistic that reveals it.",
+        "Explain how the addition improves interpretation of the enquiry."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "application-check",
+      "type": "short",
+      "difficulty": "standard",
+      "prompt": "A fictional town study takes 30 pedestrian counts beside one railway station and claims to represent all shopping streets. Identify the sampling problem and propose a more suitable spatial design.",
+      "answer": "The sites are spatially clustered around a transport hub. Sample across defined shopping-street zones using a consistent counting interval and a stated site-selection rule.",
+      "solution": [
+        "A station can have footfall unlike other shopping streets.",
+        "Thirty repeats at that location do not supply coverage of the other streets.",
+        "A stratified or otherwise justified spatial design can include different zones with comparable timings."
+      ],
+      "markingPoints": [
+        "A station can have footfall unlike other shopping streets.",
+        "Thirty repeats at that location do not supply coverage of the other streets.",
+        "A stratified or otherwise justified spatial design can include different zones with comparable timings."
+      ],
+      "marks": 3,
+      "calculator": "not-applicable"
+    },
+    {
+      "id": "error-analysis",
+      "type": "short",
+      "difficulty": "extension",
+      "prompt": "A learner says repeating the station count 300 times removes selection bias. Explain why, and distinguish one benefit of the repeats from the missing evidence.",
+      "answer": "Repeats can describe variation at the station more precisely, but they do not show whether other shopping streets have similar footfall.",
+      "solution": [
+        "Repeated measurements still come from the same selected location.",
+        "They can reveal local time variation or improve a local average under a suitable schedule.",
+        "Spatial representativeness requires evidence from the target range of locations."
+      ],
+      "markingPoints": [
+        "Repeated measurements still come from the same selected location.",
+        "They can reveal local time variation or improve a local average under a suitable schedule.",
+        "Spatial representativeness requires evidence from the target range of locations."
+      ],
+      "marks": 3,
+      "calculator": "not-applicable"
+    }
+  ],
+  "revisionChecklist": [
+    "Define the population and measured variables.",
+    "Distinguish sample size from representativeness.",
+    "Link each proposed improvement to a named limitation.",
+    "Explain the reasoning in “Check spatial coverage” and correct the linked error-analysis response without copying its solution."
+  ],
+  "diagrams": [
+    {
+      "id": "application-trace",
+      "title": "Check spatial coverage",
+      "description": "Read the labelled relationships to follow this worked application. The sites are spatially clustered around a transport hub. Sample across defined shopping-street zones using a consistent counting interval and a stated site-selection rule. This is an explanatory process diagram, not a scale drawing or a record of a learner attempt.",
+      "steps": [
+        {
+          "label": "Define the target",
+          "detail": "The claim concerns all shopping streets in the fictional town."
+        },
+        {
+          "label": "Inspect sampled sites",
+          "detail": "All counts come from one railway-station location."
+        },
+        {
+          "label": "Repair the design",
+          "detail": "Include defined zones and use comparable counting periods and procedures."
+        }
+      ],
+      "links": [
+        "compare target and actual coverage",
+        "address missing locations"
+      ]
+    }
+  ],
+  "teachingSequence": [
+    {
+      "title": "Establish the idea",
+      "guidance": "Explain “From question to measurable variables” in your own words. Work through the first example, then answer the linked questions before revealing their solutions.",
+      "noteHeadings": [
+        "From question to measurable variables"
+      ],
+      "workedExampleNumbers": [
+        1
+      ],
+      "questionIds": [
+        "q1",
+        "q2"
+      ]
+    },
+    {
+      "title": "Apply the method",
+      "guidance": "Use the remaining teaching sections to explain each step of the worked examples. Compare your reasoning with the marking points and record the specific step you would change.",
+      "noteHeadings": [
+        "Sampling and comparability",
+        "Patterns, explanations and limits",
+        "Data presentation and uncertainty"
+      ],
+      "workedExampleNumbers": [
+        2,
+        3
+      ],
+      "questionIds": [
+        "q3",
+        "q4"
+      ]
+    },
+    {
+      "title": "Recognising clustered samples in a spatial comparison",
+      "guidance": "Read the application diagram “Check spatial coverage”, then close the explanation and attempt both the application and error-analysis questions. Explain the correction aloud before retrying the mixed practice.",
+      "noteHeadings": [
+        "Recognising clustered samples in a spatial comparison"
+      ],
+      "workedExampleNumbers": [
+        4
+      ],
+      "questionIds": [
+        "q5",
+        "application-check",
+        "error-analysis"
+      ]
+    }
+  ],
+  "revisionGuide": {
+    "summary": "A large number of measurements can still provide poor coverage if they come from one convenient location. Treat the sampling frame and the distribution of sites as part of the evidence. Repeated readings at one site may estimate local variability, but they do not automatically represent an entire river, town or coast. If the question compares land-use zones, distribute sampling across those zones and keep the measurement procedure consistent. Report access restrictions and missing sites so the reader can judge selection bias. A map of sampled locations often reveals clustering more clearly than a table of totals. The scenario here is fictional and does not document completed fieldwork.",
+    "keyIdeas": [
+      "The claim concerns all shopping streets in the fictional town.",
+      "All counts come from one railway-station location.",
+      "Include defined zones and use comparable counting periods and procedures.",
+      "Repetition helps describe variation but does not repair systematic error or an incomplete sampling frame."
+    ],
+    "formulas": [],
+    "recallPrompts": [
+      "Why map sampling locations?",
+      "What can repeated readings at one site establish?",
+      "Why define a measurable version of a broad concept?"
+    ],
+    "practiceQuestionIds": [
+      "q1",
+      "application-check",
+      "error-analysis"
+    ],
+    "revisit": "After checking your answer, write the specific rule or assumption you missed. Retry the linked questions without the worked example in a later session. A checked answer or completed checklist is not a measurement of mastery."
+  }
+}

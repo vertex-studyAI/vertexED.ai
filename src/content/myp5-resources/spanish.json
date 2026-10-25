@@ -1,0 +1,2021 @@
+{
+  "subjectSlug": "spanish",
+  "lessons": {
+    "myp5-spanish-identity": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Identity and relationships in context",
+            "paragraphs": [
+              "Describing relationships requires more than a list of adjectives. Match adjectives to the person described, explain a shared activity, and support an opinion with porque or ya que. Me llevo bien con means that you get on well with someone; it describes the relationship rather than physical movement. A contrast introduced by aunque can add nuance without becoming a negative judgement. Keep references clear when several people are mentioned. In present-tense descriptions, desde hace introduces a duration that continues now, while desde identifies a starting point."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original task: describe an ongoing friendship of two years, a shared activity and one difference.",
+            "steps": [
+              "State the duration: Soy amiga de Lucía desde hace dos años.",
+              "Add common ground and contrast: Jugamos al tenis juntas, aunque yo prefiero los partidos cortos."
+            ],
+            "conclusion": "“Me llevo bien con Lucía porque respeta mis opiniones” supplies a reason for the positive relationship."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "How do you say “I get on well with my brother”?",
+            "back": "Me llevo bien con mi hermano."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What follows desde hace?",
+            "back": "A duration, such as dos años, for a situation continuing now."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What does aunque introduce?",
+            "back": "A contrast or concession: aunque somos diferentes, nos llevamos bien."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "How does porque improve a description?",
+            "back": "It connects an opinion to a reason."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Identity and relationships: relationships to explain",
+            "description": "Description → Evidence → Relationship. The reason explains the relationship judgement.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Description",
+                "detail": "Mi amiga es paciente."
+              },
+              {
+                "id": "node-2",
+                "label": "Evidence",
+                "detail": "Me escucha cuando tengo dudas."
+              },
+              {
+                "id": "node-3",
+                "label": "Relationship",
+                "detail": "Por eso me llevo bien con ella."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "An action supports the adjective."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "The reason explains the relationship judgement."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-spanish-identity-practice-1",
+          "difficulty": "Standard",
+          "command": "Communicate",
+          "marks": 3,
+          "prompt": "Translate: “My friends are generous because they share their ideas.”",
+          "hints": [
+            "Match the plural adjective.",
+            "Use porque to introduce the reason."
+          ],
+          "solution": [
+            "Mis amigos son generosos.",
+            "Porque comparten sus ideas supplies the reason.",
+            "Combined: Mis amigos son generosos porque comparten sus ideas."
+          ],
+          "successCriteria": [
+            "Mis amigos son generosos.",
+            "Porque comparten sus ideas supplies the reason.",
+            "Combined: Mis amigos son generosos porque comparten sus ideas."
+          ]
+        },
+        {
+          "id": "extension-myp5-spanish-identity-practice-2",
+          "difficulty": "Advanced",
+          "command": "Communicate",
+          "marks": 3,
+          "prompt": "Correct and explain: “Soy amigo de Pablo desde hace 2024.”",
+          "hints": [
+            "A year is a starting point.",
+            "Compare desde with desde hace."
+          ],
+          "solution": [
+            "2024 identifies a starting year rather than a duration.",
+            "Use desde without hace.",
+            "Correct: Soy amigo de Pablo desde 2024."
+          ],
+          "successCriteria": [
+            "2024 identifies a starting year rather than a duration.",
+            "Use desde without hace.",
+            "Correct: Soy amigo de Pablo desde 2024."
+          ]
+        }
+      ]
+    },
+    "myp5-spanish-past-tenses": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Past tenses in context",
+            "paragraphs": [
+              "The preterite presents a past event as completed or bounded; the imperfect presents background, habitual action or an action in progress without focusing on its endpoint. Time expressions help but do not mechanically determine the tense. A speaker can describe a bounded period with the preterite even if an activity lasted a long time. In a narrative, the imperfect often sets the scene and the preterite advances events. Learn the actual verb forms as well as the distinction: an accurate choice of tense still needs the correct person and ending."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original task: translate “When we arrived, it was raining and the guide was waiting for us.”",
+            "steps": [
+              "Use a completed arrival: Cuando llegamos.",
+              "Use background conditions: llovía y el guía nos esperaba."
+            ],
+            "conclusion": "Cuando llegamos, llovía y el guía nos esperaba. The arrival is bounded; rain and waiting form the scene."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What does the preterite emphasise?",
+            "back": "A past event viewed as completed or bounded."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What does the imperfect often supply?",
+            "back": "Background, habitual action or an ongoing past situation."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Translate “I used to read every night”.",
+            "back": "Leía todas las noches."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Is every long past action imperfect?",
+            "back": "No; a long action can be presented as a bounded completed event."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Past tenses: relationships to explain",
+            "description": "Background → Event → Continuing scene. The arrival is placed within an existing situation.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Background",
+                "detail": "Llovía."
+              },
+              {
+                "id": "node-2",
+                "label": "Event",
+                "detail": "Llegamos al museo."
+              },
+              {
+                "id": "node-3",
+                "label": "Continuing scene",
+                "detail": "El guía nos esperaba."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "The weather forms the setting for arrival."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "The arrival is placed within an existing situation."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-spanish-past-tenses-practice-1",
+          "difficulty": "Standard",
+          "command": "Communicate",
+          "marks": 3,
+          "prompt": "Translate “Yesterday I bought bread while my sister was studying.”",
+          "hints": [
+            "Identify the completed purchase.",
+            "Use mientras for the ongoing background."
+          ],
+          "solution": [
+            "Ayer compré pan uses the preterite for the purchase.",
+            "Mientras mi hermana estudiaba uses the imperfect for the background.",
+            "Combined: Ayer compré pan mientras mi hermana estudiaba."
+          ],
+          "successCriteria": [
+            "Ayer compré pan uses the preterite for the purchase.",
+            "Mientras mi hermana estudiaba uses the imperfect for the background.",
+            "Combined: Ayer compré pan mientras mi hermana estudiaba."
+          ]
+        },
+        {
+          "id": "extension-myp5-spanish-past-tenses-practice-2",
+          "difficulty": "Advanced",
+          "command": "Communicate",
+          "marks": 3,
+          "prompt": "Explain the difference between “Vivía allí” and “Viví allí cinco años”.",
+          "hints": [
+            "Which version states a bounded duration?",
+            "Do not equate tense with short versus long."
+          ],
+          "solution": [
+            "Vivía allí presents living there as background or an ongoing past situation.",
+            "Viví allí cinco años presents a completed five-year period.",
+            "The difference is viewpoint and boundedness, not whether five years is a short time."
+          ],
+          "successCriteria": [
+            "Vivía allí presents living there as background or an ongoing past situation.",
+            "Viví allí cinco años presents a completed five-year period.",
+            "The difference is viewpoint and boundedness, not whether five years is a short time."
+          ]
+        }
+      ]
+    },
+    "myp5-spanish-present-tense": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Present tense in context",
+            "paragraphs": [
+              "The present indicative describes current situations, habitual actions and general statements. Spanish verb endings usually identify the subject, so subject pronouns can be omitted when the reference is clear. Regular -ar, -er and -ir verbs follow different ending patterns, but many common verbs are irregular. Negation normally places no before the conjugated verb. Frequency phrases such as a menudo or los lunes clarify habitual meaning. Check that the verb agrees with the subject rather than the nearest noun, especially when a sentence includes a description of someone else."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original task: say that we write in Spanish on Mondays but do not read aloud every day.",
+            "steps": [
+              "Conjugate escribir for nosotros: escribimos; los lunes marks a weekly habit.",
+              "Conjugate leer for nosotros and place no before it: no leemos en voz alta todos los días."
+            ],
+            "conclusion": "Los lunes escribimos en español, pero no leemos en voz alta todos los días."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is the nosotros form of escribir?",
+            "back": "Escribimos."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Where does no normally go?",
+            "back": "Immediately before the conjugated verb or its preceding object pronouns."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What does los martes express?",
+            "back": "A recurring habit on Tuesdays."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Must a Spanish subject pronoun always be stated?",
+            "back": "No; the ending and context often identify the subject."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Present tense: relationships to explain",
+            "description": "Subject → Verb agreement → Frequency. A frequency phrase specifies the habitual pattern.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Subject",
+                "detail": "Nosotros or an understood “we”."
+              },
+              {
+                "id": "node-2",
+                "label": "Verb agreement",
+                "detail": "Escribimos / leemos."
+              },
+              {
+                "id": "node-3",
+                "label": "Frequency",
+                "detail": "Los lunes / todos los días."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "The subject selects the verb ending."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "A frequency phrase specifies the habitual pattern."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-spanish-present-tense-practice-1",
+          "difficulty": "Standard",
+          "command": "Communicate",
+          "marks": 3,
+          "prompt": "Translate “My sister and I eat at home on Fridays.”",
+          "hints": [
+            "Two people including the speaker use nosotros/nosotras.",
+            "Use comer and los viernes."
+          ],
+          "solution": [
+            "Mi hermana y yo is a plural first-person subject.",
+            "The correct form is comemos.",
+            "Mi hermana y yo comemos en casa los viernes."
+          ],
+          "successCriteria": [
+            "Mi hermana y yo is a plural first-person subject.",
+            "The correct form is comemos.",
+            "Mi hermana y yo comemos en casa los viernes."
+          ]
+        },
+        {
+          "id": "extension-myp5-spanish-present-tense-practice-2",
+          "difficulty": "Advanced",
+          "command": "Communicate",
+          "marks": 3,
+          "prompt": "Correct “Ellos vive cerca, pero no hablan mucho.” Explain the correction.",
+          "hints": [
+            "Check the subject of vive.",
+            "The second verb already agrees."
+          ],
+          "solution": [
+            "Ellos requires a third-person plural verb.",
+            "Vive must become viven.",
+            "Correct: Ellos viven cerca, pero no hablan mucho."
+          ],
+          "successCriteria": [
+            "Ellos requires a third-person plural verb.",
+            "Vive must become viven.",
+            "Correct: Ellos viven cerca, pero no hablan mucho."
+          ]
+        }
+      ]
+    },
+    "myp5-spanish-high-frequency-verbs": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "High-frequency verbs in context",
+            "paragraphs": [
+              "High-frequency verbs carry different grammatical patterns. Ser often identifies or characterises, while estar often locates people or objects and expresses states; the distinction is not simply permanent versus temporary. Hay presents existence without agreeing with the noun that follows. Tener expresses possession and several conditions, including age. With gustar, the liked thing controls singular gusta or plural gustan, while me, te or le identifies the experiencer. Practise these verbs in complete sentences so the meaning and agreement stay connected."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original task: translate “There is a café. It is near the school. I like its windows.”",
+            "steps": [
+              "Present existence with hay: Hay una cafetería. Locate it with está: Está cerca de la escuela.",
+              "The plural ventanas controls gustan: Me gustan sus ventanas."
+            ],
+            "conclusion": "Hay una cafetería. Está cerca de la escuela. Me gustan sus ventanas."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "How do you express existence?",
+            "back": "Hay: Hay un libro / Hay dos libros."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What controls gusta or gustan?",
+            "back": "The singular or plural thing that is liked."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Translate “I am fifteen years old”.",
+            "back": "Tengo quince años."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Is ser versus estar only permanent versus temporary?",
+            "back": "No; identity, location, state and other uses determine the choice."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "High-frequency verbs: relationships to explain",
+            "description": "Existence → Location → Preference. A preference adds the speaker’s response to a feature.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Existence",
+                "detail": "Hay una cafetería."
+              },
+              {
+                "id": "node-2",
+                "label": "Location",
+                "detail": "Está cerca de la escuela."
+              },
+              {
+                "id": "node-3",
+                "label": "Preference",
+                "detail": "Me gustan sus ventanas."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "After introducing a place, locate it."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "A preference adds the speaker’s response to a feature."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-spanish-high-frequency-verbs-practice-1",
+          "difficulty": "Standard",
+          "command": "Communicate",
+          "marks": 3,
+          "prompt": "Translate “I like the book, but I prefer the films.”",
+          "hints": [
+            "Libro is singular.",
+            "Use prefiero for “I prefer”."
+          ],
+          "solution": [
+            "Me gusta el libro uses singular gusta.",
+            "Pero introduces the contrast.",
+            "Me gusta el libro, pero prefiero las películas."
+          ],
+          "successCriteria": [
+            "Me gusta el libro uses singular gusta.",
+            "Pero introduces the contrast.",
+            "Me gusta el libro, pero prefiero las películas."
+          ]
+        },
+        {
+          "id": "extension-myp5-spanish-high-frequency-verbs-practice-2",
+          "difficulty": "Advanced",
+          "command": "Communicate",
+          "marks": 3,
+          "prompt": "Correct “Hay dos chicas y las chicas es cansadas.”",
+          "hints": [
+            "Hay is already correct.",
+            "Cansadas describes the girls’ state here; use estar with plural agreement."
+          ],
+          "solution": [
+            "Hay dos chicas correctly expresses existence.",
+            "Las chicas requires están and a plural adjective.",
+            "Correct: Hay dos chicas y las chicas están cansadas."
+          ],
+          "successCriteria": [
+            "Hay dos chicas correctly expresses existence.",
+            "Las chicas requires están and a plural adjective.",
+            "Correct: Hay dos chicas y las chicas están cansadas."
+          ]
+        }
+      ]
+    },
+    "myp5-spanish-experiences": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Experiences in context",
+            "paragraphs": [
+              "A clear account of an experience gives the reader a sequence, a setting and a response. Use a small number of accurate connectors such as primero, después and al final rather than beginning every sentence with y. The preterite can move events forward while the imperfect supplies background. Explain an opinion with a detail from the experience: fue interesante is more informative when followed by what you learned or noticed. Do not add a dramatic event merely to demonstrate a tense; coherence matters as much as grammatical variety."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original fictional account: describe arriving late at a workshop, being welcomed and learning to draw a map.",
+            "steps": [
+              "Introduce the event and response: Llegué tarde al taller, pero la profesora me recibió con amabilidad.",
+              "Add learning and evaluation: Aprendí a dibujar un mapa y me gustó comparar las rutas."
+            ],
+            "conclusion": "The account gives a sequence and a reason for interest without relying on a list of disconnected tense forms."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What does después mark?",
+            "back": "An event occurring later in the sequence."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "How can an opinion become specific?",
+            "back": "Give a reason linked to something experienced."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What tense often supplies a narrative setting?",
+            "back": "The imperfect."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What should a short experience account contain?",
+            "back": "A coherent sequence, relevant context and a justified response."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Experiences: relationships to explain",
+            "description": "Arrival → Activity → Evaluation. The evaluation refers to a concrete part of the experience.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Arrival",
+                "detail": "Llegué tarde al taller."
+              },
+              {
+                "id": "node-2",
+                "label": "Activity",
+                "detail": "Aprendí a dibujar un mapa."
+              },
+              {
+                "id": "node-3",
+                "label": "Evaluation",
+                "detail": "Me gustó comparar las rutas."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "The arrival situates the activity."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "The evaluation refers to a concrete part of the experience."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-spanish-experiences-practice-1",
+          "difficulty": "Standard",
+          "command": "Communicate",
+          "marks": 3,
+          "prompt": "Original task: say “First we visited the market. Afterwards we ate in the park.”",
+          "hints": [
+            "Use first-person plural completed actions.",
+            "Choose primero and después."
+          ],
+          "solution": [
+            "Primero visitamos el mercado.",
+            "Después comimos en el parque.",
+            "The connectors establish the order of two completed activities."
+          ],
+          "successCriteria": [
+            "Primero visitamos el mercado.",
+            "Después comimos en el parque.",
+            "The connectors establish the order of two completed activities."
+          ]
+        },
+        {
+          "id": "extension-myp5-spanish-experiences-practice-2",
+          "difficulty": "Advanced",
+          "command": "Communicate",
+          "marks": 3,
+          "prompt": "Expand “El viaje fue bueno” with a specific reason about meeting new people.",
+          "hints": [
+            "Keep the past viewpoint.",
+            "Use conocer in the preterite."
+          ],
+          "solution": [
+            "El viaje fue bueno states an evaluation.",
+            "Porque conocí a gente nueva gives a specific reason.",
+            "Combined: El viaje fue bueno porque conocí a gente nueva."
+          ],
+          "successCriteria": [
+            "El viaje fue bueno states an evaluation.",
+            "Porque conocí a gente nueva gives a specific reason.",
+            "Combined: El viaje fue bueno porque conocí a gente nueva."
+          ]
+        }
+      ]
+    },
+    "myp5-spanish-future-and-conditional": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Future and conditional in context",
+            "paragraphs": [
+              "Ir a plus an infinitive expresses a planned or anticipated action, while the simple future can state future events and other meanings depending on context. Keep the infinitive after a: voy a estudiar, not voy a estudio. The conditional can describe a hypothetical outcome or soften a request. Distinguish intention from certainty; saying that someone plans to act does not prove the action will occur. In polite classroom requests, podrías with tú and podría with usted make the relationship explicit through the verb form."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original task: state a plan to practise tomorrow and politely ask a friend to read your draft.",
+            "steps": [
+              "Use a planned action: Mañana voy a practicar.",
+              "Use an informal conditional request: ¿Podrías leer mi borrador?"
+            ],
+            "conclusion": "Mañana voy a practicar. ¿Podrías leer mi borrador? The plan and request serve different communicative functions."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What follows ir a in a future plan?",
+            "back": "An infinitive, such as estudiar."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Translate “We are going to write”.",
+            "back": "Vamos a escribir."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "How can the conditional soften a request?",
+            "back": "¿Podrías ayudarme? asks whether a friend could help."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What distinguishes podría and podrías in a request?",
+            "back": "Podría can address usted; podrías addresses tú."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Future and conditional: relationships to explain",
+            "description": "Plan → Needed support → Polite request. The conditional frames the request politely.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Plan",
+                "detail": "Vamos a ensayar mañana."
+              },
+              {
+                "id": "node-2",
+                "label": "Needed support",
+                "detail": "Queremos una opinión sobre el texto."
+              },
+              {
+                "id": "node-3",
+                "label": "Polite request",
+                "detail": "¿Podrías leerlo?"
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "The intended activity creates a reason to seek feedback."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "The conditional frames the request politely."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-spanish-future-and-conditional-practice-1",
+          "difficulty": "Standard",
+          "command": "Communicate",
+          "marks": 3,
+          "prompt": "Correct “Voy a escribo una carta mañana.”",
+          "hints": [
+            "After a, use the infinitive.",
+            "The future meaning is already carried by voy a."
+          ],
+          "solution": [
+            "Escribo is a conjugated present form.",
+            "Replace it with escribir.",
+            "Correct: Voy a escribir una carta mañana."
+          ],
+          "successCriteria": [
+            "Escribo is a conjugated present form.",
+            "Replace it with escribir.",
+            "Correct: Voy a escribir una carta mañana."
+          ]
+        },
+        {
+          "id": "extension-myp5-spanish-future-and-conditional-practice-2",
+          "difficulty": "Advanced",
+          "command": "Communicate",
+          "marks": 3,
+          "prompt": "Translate “I would visit the museum, but I do not have time.”",
+          "hints": [
+            "Use the conditional of visitar.",
+            "Keep the current obstacle in the present."
+          ],
+          "solution": [
+            "Visitaría el museo expresses a hypothetical action.",
+            "Pero no tengo tiempo gives the present obstacle.",
+            "Combined: Visitaría el museo, pero no tengo tiempo."
+          ],
+          "successCriteria": [
+            "Visitaría el museo expresses a hypothetical action.",
+            "Pero no tengo tiempo gives the present obstacle.",
+            "Combined: Visitaría el museo, pero no tengo tiempo."
+          ]
+        }
+      ]
+    },
+    "myp5-spanish-human-ingenuity": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Human ingenuity in context",
+            "paragraphs": [
+              "When discussing technology, explain a function before evaluating its value. Sirve para plus an infinitive identifies what something is used for, while permite can introduce what it enables a user to do. A balanced response gives a concrete benefit and a limitation rather than claiming that all technology is good or bad. Attribute statements about a fictional device to the supplied scenario. Familiar vocabulary can communicate a careful judgement: útil, rápido and cómodo need a reason, and sin embargo can introduce a relevant qualification."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original fictional task: explain a reminder app that stores tasks on one device but does not synchronise them.",
+            "steps": [
+              "State its function: La aplicación sirve para organizar las tareas.",
+              "Balance benefit and limit: Es útil para recordar las fechas; sin embargo, no sincroniza los datos entre dispositivos."
+            ],
+            "conclusion": "The evaluation links usefulness and limitation to the app’s stated functions, not to unsupported claims about all apps."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What follows sirve para?",
+            "back": "An infinitive describing purpose."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Translate “It allows us to share ideas”.",
+            "back": "Nos permite compartir ideas."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What does sin embargo introduce?",
+            "back": "A contrast or qualification: however."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "How can a technology opinion be justified?",
+            "back": "Connect it to a particular function and a stated limitation."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Human ingenuity: relationships to explain",
+            "description": "Function → Benefit → Limit. The storage limit qualifies how convenient the app is.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Function",
+                "detail": "Organizar las tareas."
+              },
+              {
+                "id": "node-2",
+                "label": "Benefit",
+                "detail": "Recordar las fechas."
+              },
+              {
+                "id": "node-3",
+                "label": "Limit",
+                "detail": "Los datos quedan en un dispositivo."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "Organisation can support remembering deadlines."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "The storage limit qualifies how convenient the app is."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-spanish-human-ingenuity-practice-1",
+          "difficulty": "Standard",
+          "command": "Communicate",
+          "marks": 3,
+          "prompt": "Translate “The website helps me learn words, but it does not replace conversation.”",
+          "hints": [
+            "Use me ayuda a plus infinitive.",
+            "Use pero to limit the claim."
+          ],
+          "solution": [
+            "La página web me ayuda a aprender palabras.",
+            "Pero no sustituye la conversación supplies the limit.",
+            "Combined: La página web me ayuda a aprender palabras, pero no sustituye la conversación."
+          ],
+          "successCriteria": [
+            "La página web me ayuda a aprender palabras.",
+            "Pero no sustituye la conversación supplies the limit.",
+            "Combined: La página web me ayuda a aprender palabras, pero no sustituye la conversación."
+          ]
+        },
+        {
+          "id": "extension-myp5-spanish-human-ingenuity-practice-2",
+          "difficulty": "Advanced",
+          "command": "Communicate",
+          "marks": 3,
+          "prompt": "Original scenario: a fictional translation tool gives two possible meanings. Write a Spanish response explaining why context is needed.",
+          "hints": [
+            "Use dos significados.",
+            "Explain choosing rather than accepting blindly."
+          ],
+          "solution": [
+            "La herramienta ofrece dos significados.",
+            "Necesito leer el contexto.",
+            "Así puedo elegir la opción que corresponde a la frase."
+          ],
+          "successCriteria": [
+            "La herramienta ofrece dos significados.",
+            "Necesito leer el contexto.",
+            "Así puedo elegir la opción que corresponde a la frase."
+          ]
+        }
+      ]
+    },
+    "myp5-spanish-social-organisation": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Social organisation in context",
+            "paragraphs": [
+              "Describing community services requires accurate information about place, access and obligations. Se puede expresses what is possible or permitted, while hay que plus an infinitive expresses an impersonal requirement. Tener que identifies who must act. Keep opening times, prices and access rules tied to a supplied fictional notice rather than presenting them as current facts about a real institution. When requesting information, distinguish dónde, cuándo and cómo. A useful response includes the detail the other person needs to take the next step."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original fictional notice: a club meets at the community centre on Tuesdays; participants must register beforehand.",
+            "steps": [
+              "Locate the activity and time: El club se reúne en el centro comunitario los martes.",
+              "State the requirement: Hay que inscribirse antes de asistir."
+            ],
+            "conclusion": "El club se reúne en el centro comunitario los martes. Hay que inscribirse antes de asistir."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What does hay que express?",
+            "back": "An impersonal obligation or requirement."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What follows tener que?",
+            "back": "An infinitive: tenemos que reservar."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Translate “Where can I register?”",
+            "back": "¿Dónde puedo inscribirme?"
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why distinguish a fictional notice from a real service?",
+            "back": "Its details belong to the exercise and are not verified current information."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Social organisation: relationships to explain",
+            "description": "Service → Schedule → Access rule. The rule specifies what must happen before attendance.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Service",
+                "detail": "Un club en el centro comunitario."
+              },
+              {
+                "id": "node-2",
+                "label": "Schedule",
+                "detail": "Se reúne los martes."
+              },
+              {
+                "id": "node-3",
+                "label": "Access rule",
+                "detail": "Hay que inscribirse antes."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "The schedule tells participants when the service operates."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "The rule specifies what must happen before attendance."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-spanish-social-organisation-practice-1",
+          "difficulty": "Standard",
+          "command": "Communicate",
+          "marks": 3,
+          "prompt": "Translate “You can study here, but you must book a table.” Use impersonal forms.",
+          "hints": [
+            "Use se puede for possibility.",
+            "Use hay que for obligation."
+          ],
+          "solution": [
+            "Se puede estudiar aquí expresses permission or possibility.",
+            "Pero hay que reservar una mesa states the requirement.",
+            "Combined: Se puede estudiar aquí, pero hay que reservar una mesa."
+          ],
+          "successCriteria": [
+            "Se puede estudiar aquí expresses permission or possibility.",
+            "Pero hay que reservar una mesa states the requirement.",
+            "Combined: Se puede estudiar aquí, pero hay que reservar una mesa."
+          ]
+        },
+        {
+          "id": "extension-myp5-spanish-social-organisation-practice-2",
+          "difficulty": "Advanced",
+          "command": "Communicate",
+          "marks": 3,
+          "prompt": "Original notice: “Entrada gratuita. Reserva obligatoria.” Explain in English and write a Spanish question about booking.",
+          "hints": [
+            "Free entry does not remove the booking rule.",
+            "Ask how to reserve."
+          ],
+          "solution": [
+            "Entry is free.",
+            "Booking is compulsory.",
+            "A suitable question is: ¿Cómo puedo reservar?"
+          ],
+          "successCriteria": [
+            "Entry is free.",
+            "Booking is compulsory.",
+            "A suitable question is: ¿Cómo puedo reservar?"
+          ]
+        }
+      ]
+    },
+    "myp5-spanish-sharing-the-planet": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Sharing the planet in context",
+            "paragraphs": [
+              "Environmental discussion is clearer when a proposal names an action, a reason and a limitation. Podemos plus an infinitive suggests a shared possibility; deberíamos offers a recommendation. Avoid claiming that one small action solves an entire environmental problem. Use menos and más to compare quantities, and distinguish reducir from eliminar. In classroom proposals, concrete examples such as repairing an object or reusing a folder support meaningful language practice without requiring invented statistics. Connect a limitation with aunque or sin embargo so the response remains coherent."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original fictional proposal: suggest repairing classroom folders before buying replacements, while recognising that some cannot be repaired.",
+            "steps": [
+              "Propose an action: Podemos reparar las carpetas antes de comprar otras.",
+              "Qualify it: Así usamos menos materiales, aunque algunas carpetas no se pueden reparar."
+            ],
+            "conclusion": "The proposal gives a plausible local benefit and a limit without claiming to eliminate all waste."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "Translate “We should reuse the boxes”.",
+            "back": "Deberíamos reutilizar las cajas."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "How does reducir differ from eliminar?",
+            "back": "Reducir means reduce; eliminar means remove or eliminate."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What does menos materiales mean?",
+            "back": "Fewer materials or less material, depending on context."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why add a limitation?",
+            "back": "It makes a proposal more precise and avoids an exaggerated claim."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Sharing the planet: relationships to explain",
+            "description": "Action → Local benefit → Limit. The condition limits when the proposed benefit applies.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Action",
+                "detail": "Reparar las carpetas."
+              },
+              {
+                "id": "node-2",
+                "label": "Local benefit",
+                "detail": "Comprar menos carpetas nuevas."
+              },
+              {
+                "id": "node-3",
+                "label": "Limit",
+                "detail": "Algunas no se pueden reparar."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "Repair can reduce the need for replacements."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "The condition limits when the proposed benefit applies."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-spanish-sharing-the-planet-practice-1",
+          "difficulty": "Standard",
+          "command": "Communicate",
+          "marks": 3,
+          "prompt": "Translate “We can share books because not everyone needs a new copy.”",
+          "hints": [
+            "Use podemos plus infinitive.",
+            "Use no todos for not everyone."
+          ],
+          "solution": [
+            "Podemos compartir libros states the possibility.",
+            "Porque no todos necesitan un ejemplar nuevo gives the reason.",
+            "Combined: Podemos compartir libros porque no todos necesitan un ejemplar nuevo."
+          ],
+          "successCriteria": [
+            "Podemos compartir libros states the possibility.",
+            "Porque no todos necesitan un ejemplar nuevo gives the reason.",
+            "Combined: Podemos compartir libros porque no todos necesitan un ejemplar nuevo."
+          ]
+        },
+        {
+          "id": "extension-myp5-spanish-sharing-the-planet-practice-2",
+          "difficulty": "Advanced",
+          "command": "Communicate",
+          "marks": 3,
+          "prompt": "Improve “Reutilizar una bolsa elimina toda la contaminación” with a bounded Spanish claim.",
+          "hints": [
+            "Replace eliminates all with can reduce.",
+            "Keep the action specific."
+          ],
+          "solution": [
+            "The original claim exaggerates the effect of one action.",
+            "A bounded version is: Reutilizar una bolsa puede reducir el uso de bolsas nuevas.",
+            "It describes a possible local reduction rather than the elimination of all pollution."
+          ],
+          "successCriteria": [
+            "The original claim exaggerates the effect of one action.",
+            "A bounded version is: Reutilizar una bolsa puede reducir el uso de bolsas nuevas.",
+            "It describes a possible local reduction rather than the elimination of all pollution."
+          ]
+        }
+      ]
+    },
+    "myp5-spanish-connectors": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Connectors in context",
+            "paragraphs": [
+              "Connectors make logical relationships explicit, but they cannot repair ideas that do not fit together. Porque introduces a reason; por eso introduces a consequence. Aunque introduces a concession, and además adds another point. Distinguish chronology from causation: después says that one event follows another, not that the first caused it. Use a connector that matches the actual relationship and check the sentence on both sides. Variety is useful only when the meaning stays clear; repeating an accurate simple connector is better than misusing a more elaborate one."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original task: link “No tenía mi cuaderno” and “Escribí en una hoja” as cause and consequence.",
+            "steps": [
+              "The missing notebook supplies the reason.",
+              "Put the result after por eso: No tenía mi cuaderno; por eso escribí en una hoja."
+            ],
+            "conclusion": "Alternatively, Escribí en una hoja porque no tenía mi cuaderno states the result before its reason."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What follows porque?",
+            "back": "A reason."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What follows por eso?",
+            "back": "A consequence or result."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Does después prove causation?",
+            "back": "No; it marks a later event."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What does además do?",
+            "back": "It adds a further point."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Connectors: relationships to explain",
+            "description": "Cause → Consequence marker → Result. The connector introduces what followed because of that reason.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Cause",
+                "detail": "No tenía mi cuaderno."
+              },
+              {
+                "id": "node-2",
+                "label": "Consequence marker",
+                "detail": "Por eso."
+              },
+              {
+                "id": "node-3",
+                "label": "Result",
+                "detail": "Escribí en una hoja."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "The first statement supplies a reason."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "The connector introduces what followed because of that reason."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-spanish-connectors-practice-1",
+          "difficulty": "Standard",
+          "command": "Communicate",
+          "marks": 3,
+          "prompt": "Choose porque or por eso: “Estaba cansada; ___ me acosté temprano.” Explain.",
+          "hints": [
+            "The second clause is a result.",
+            "Use the connector that introduces a consequence."
+          ],
+          "solution": [
+            "Por eso is appropriate.",
+            "Tiredness is the reason and going to bed early is the result.",
+            "Estaba cansada; por eso me acosté temprano."
+          ],
+          "successCriteria": [
+            "Por eso is appropriate.",
+            "Tiredness is the reason and going to bed early is the result.",
+            "Estaba cansada; por eso me acosté temprano."
+          ]
+        },
+        {
+          "id": "extension-myp5-spanish-connectors-practice-2",
+          "difficulty": "Advanced",
+          "command": "Communicate",
+          "marks": 3,
+          "prompt": "Combine “El libro es largo” and “Me interesa” using aunque.",
+          "hints": [
+            "The length is a possible obstacle.",
+            "The interest remains despite it."
+          ],
+          "solution": [
+            "Aunque el libro es largo introduces a concession.",
+            "Me interesa states the continuing interest.",
+            "Aunque el libro es largo, me interesa."
+          ],
+          "successCriteria": [
+            "Aunque el libro es largo introduces a concession.",
+            "Me interesa states the continuing interest.",
+            "Aunque el libro es largo, me interesa."
+          ]
+        }
+      ]
+    },
+    "myp5-spanish-speaking-interaction": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Speaking interaction in context",
+            "paragraphs": [
+              "Interaction requires listening and responding to another speaker, not only delivering a memorised paragraph. Give an answer, add a relevant detail and invite the other person to continue. Clarification phrases help maintain communication when a word or instruction is unclear. Match tú and usted consistently to the relationship specified in the task. A follow-up question should connect to what was said rather than changing the subject abruptly. In rehearsal, record which part of the exchange broke down and practise that function with new content."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original role-play: a friend says “Me gusta dibujar paisajes”. Respond with a connection and a follow-up question.",
+            "steps": [
+              "Acknowledge the idea: A mí también me gusta dibujar.",
+              "Ask for a relevant detail: ¿Prefieres dibujar montañas o ciudades?"
+            ],
+            "conclusion": "The response continues the topic and gives the partner a clear opportunity to answer."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "How do you ask a friend to repeat?",
+            "back": "¿Puedes repetirlo, por favor?"
+          },
+          {
+            "id": "extension-card-2",
+            "front": "How can you request a slower pace?",
+            "back": "¿Puedes hablar más despacio, por favor?"
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What makes a follow-up relevant?",
+            "back": "It responds to information the partner has just supplied."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why avoid only memorised monologues?",
+            "back": "They may not address the partner’s actual contribution or question."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Speaking interaction: relationships to explain",
+            "description": "Listen → Respond → Extend. A linked question keeps the exchange open.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Listen",
+                "detail": "The partner mentions drawing landscapes."
+              },
+              {
+                "id": "node-2",
+                "label": "Respond",
+                "detail": "Acknowledge a shared interest."
+              },
+              {
+                "id": "node-3",
+                "label": "Extend",
+                "detail": "Ask which landscapes they prefer."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "The response uses the partner’s information."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "A linked question keeps the exchange open."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-spanish-speaking-interaction-practice-1",
+          "difficulty": "Standard",
+          "command": "Communicate",
+          "marks": 3,
+          "prompt": "A friend asks “¿Dónde estudias normalmente?” Give an answer, reason and follow-up in Spanish.",
+          "hints": [
+            "Name a place.",
+            "Ask about the friend’s routine."
+          ],
+          "solution": [
+            "Normalmente estudio en la biblioteca.",
+            "Me gusta porque hay poco ruido.",
+            "¿Y tú, dónde estudias?"
+          ],
+          "successCriteria": [
+            "Normalmente estudio en la biblioteca.",
+            "Me gusta porque hay poco ruido.",
+            "¿Y tú, dónde estudias?"
+          ]
+        },
+        {
+          "id": "extension-myp5-spanish-speaking-interaction-practice-2",
+          "difficulty": "Advanced",
+          "command": "Communicate",
+          "marks": 3,
+          "prompt": "You do not understand “horario”. Ask politely what it means rather than guessing.",
+          "hints": [
+            "Use qué significa.",
+            "Keep the request explicit."
+          ],
+          "solution": [
+            "Perdona, no entiendo la palabra “horario”.",
+            "¿Qué significa?",
+            "This identifies the precise difficulty and invites clarification instead of pretending to understand."
+          ],
+          "successCriteria": [
+            "Perdona, no entiendo la palabra “horario”.",
+            "¿Qué significa?",
+            "This identifies the precise difficulty and invites clarification instead of pretending to understand."
+          ]
+        }
+      ]
+    },
+    "myp5-spanish-reading-comprehension": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reading comprehension in context",
+            "paragraphs": [
+              "Reading comprehension requires evidence for the answer, not a plausible guess based on the topic. Read the question first to identify whether it asks for time, reason, person or opinion. Then locate the relevant sentence and inspect negation, corrections and contrast words. Pronouns may refer back to a noun in an earlier sentence. Familiar-looking words can mislead, so test them in context. When answering in English, preserve the meaning rather than translating word by word. Do not add background knowledge that the text does not establish."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original fictional notice: “El taller empieza a las cuatro. La recepción abre media hora antes. No hace falta traer materiales.” When does reception open, and what must participants bring?",
+            "steps": [
+              "The workshop starts at 4:00; half an hour earlier is 3:30.",
+              "No hace falta negates necessity, so materials are not required."
+            ],
+            "conclusion": "Reception opens at 3:30, and participants do not need to bring materials."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What does no hace falta mean?",
+            "back": "It is not necessary."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why check contrast words?",
+            "back": "They may revise or limit an earlier statement."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What should support a comprehension answer?",
+            "back": "A relevant detail or inference grounded in the supplied text."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "How should an unfamiliar word be approached?",
+            "back": "Use context and grammatical clues, then verify rather than relying on resemblance alone."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Reading comprehension: relationships to explain",
+            "description": "Question → Textual evidence → Answer. Their meanings determine the answer rather than a guess.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Question",
+                "detail": "Find reception time and required items."
+              },
+              {
+                "id": "node-2",
+                "label": "Textual evidence",
+                "detail": "Media hora antes; no hace falta."
+              },
+              {
+                "id": "node-3",
+                "label": "Answer",
+                "detail": "3:30 and no materials required."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "The question selects the relevant phrases."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "Their meanings determine the answer rather than a guess."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-spanish-reading-comprehension-practice-1",
+          "difficulty": "Standard",
+          "command": "Communicate",
+          "marks": 3,
+          "prompt": "Original notice: “El museo cierra los lunes, pero la tienda abre todos los días.” Is the shop open on Mondays? Explain.",
+          "hints": [
+            "Identify the subject of each clause.",
+            "Todos los días includes Monday."
+          ],
+          "solution": [
+            "Yes, the shop is open on Mondays according to the notice.",
+            "The Monday closure applies to the museum.",
+            "Pero distinguishes the shop’s daily opening from the museum’s schedule."
+          ],
+          "successCriteria": [
+            "Yes, the shop is open on Mondays according to the notice.",
+            "The Monday closure applies to the museum.",
+            "Pero distinguishes the shop’s daily opening from the museum’s schedule."
+          ]
+        },
+        {
+          "id": "extension-myp5-spanish-reading-comprehension-practice-2",
+          "difficulty": "Advanced",
+          "command": "Communicate",
+          "marks": 3,
+          "prompt": "Original sentence: “Ana prestó su diccionario a Luis porque él no tenía uno.” Who lacked a dictionary, and what supports this?",
+          "hints": [
+            "Resolve él.",
+            "Track the recipient of the loan."
+          ],
+          "solution": [
+            "Luis lacked a dictionary.",
+            "Él refers to Luis in this sentence.",
+            "That lack explains why Ana lent her dictionary to him."
+          ],
+          "successCriteria": [
+            "Luis lacked a dictionary.",
+            "Él refers to Luis in this sentence.",
+            "That lack explains why Ana lent her dictionary to him."
+          ]
+        }
+      ]
+    },
+    "myp5-spanish-listening-strategies": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Listening strategies in context",
+            "paragraphs": [
+              "Listening often requires holding an early possibility in mind until a speaker corrects or completes it. Listen for repair markers such as perdón, mejor dicho and no... sino. Write brief notes rather than trying to transcribe every word. For numbers and times, separate the final confirmed information from discarded alternatives. A visible script is useful for rehearsal and checking, but it does not measure independent listening. Practise with a partner reading the original script aloud, then compare the answer with the precise words that support it."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original script for partner read-aloud: “La reunión es en la sala quince... perdón, en la cincuenta. Empieza a las dos.” Identify the final room and time.",
+            "steps": [
+              "The repair marker perdón cancels the first room number, quince.",
+              "The corrected room is cincuenta, and the separate time is las dos."
+            ],
+            "conclusion": "The final information is Room 50 at 2:00. This written script is rehearsal material, not an audio recording."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What can perdón signal during speech?",
+            "back": "A correction of information just given."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What should notes retain after a correction?",
+            "back": "The final confirmed detail, with earlier alternatives crossed out if necessary."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Why avoid full transcription during a short task?",
+            "back": "It can distract from the requested information and later corrections."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Does reading a script establish listening skill?",
+            "back": "No; independent listening requires hearing the material without reading it."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Listening strategies: relationships to explain",
+            "description": "Initial detail → Repair marker → Confirmed detail. The corrected number replaces the earlier one.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Initial detail",
+                "detail": "Sala quince."
+              },
+              {
+                "id": "node-2",
+                "label": "Repair marker",
+                "detail": "Perdón."
+              },
+              {
+                "id": "node-3",
+                "label": "Confirmed detail",
+                "detail": "Sala cincuenta, a las dos."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "The marker signals that the first number is being revised."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "The corrected number replaces the earlier one."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-spanish-listening-strategies-practice-1",
+          "difficulty": "Standard",
+          "command": "Communicate",
+          "marks": 3,
+          "prompt": "Original read-aloud script: “Traed dos lápices; no, mejor tres.” What quantity is finally requested?",
+          "hints": [
+            "Listen for the correction.",
+            "Keep the final number."
+          ],
+          "solution": [
+            "The first quantity is two.",
+            "No, mejor introduces a revision.",
+            "The final requested quantity is three pencils."
+          ],
+          "successCriteria": [
+            "The first quantity is two.",
+            "No, mejor introduces a revision.",
+            "The final requested quantity is three pencils."
+          ]
+        },
+        {
+          "id": "extension-myp5-spanish-listening-strategies-practice-2",
+          "difficulty": "Advanced",
+          "command": "Communicate",
+          "marks": 3,
+          "prompt": "Original script: “El tren llega a las diez, pero sale a las diez y veinte.” Give arrival and departure separately.",
+          "hints": [
+            "Distinguish llega from sale.",
+            "Do not treat the later time as a correction."
+          ],
+          "solution": [
+            "Arrival is at 10:00.",
+            "Departure is at 10:20.",
+            "Pero contrasts two different events; the second time does not replace the arrival time."
+          ],
+          "successCriteria": [
+            "Arrival is at 10:00.",
+            "Departure is at 10:20.",
+            "Pero contrasts two different events; the second time does not replace the arrival time."
+          ]
+        }
+      ]
+    },
+    "myp5-spanish-writing-structures": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Writing structures in context",
+            "paragraphs": [
+              "A short written message needs a clear purpose, the required practical details and a suitable relationship with the reader. An informal invitation can greet a friend, propose an activity, give time and place, and request a reply. Use paragraphs or short connected sentences to group information. Check that pronouns and verb forms remain consistent with tú or usted. A correct but incomplete message may fail to communicate the task: an invitation without a location leaves the reader unable to act. Revise content before adding decorative expressions."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original task: invite friend Diego to a school exhibition on Saturday at eleven, meeting at the entrance.",
+            "steps": [
+              "Open and propose: Hola, Diego: ¿Quieres venir a la exposición del colegio el sábado a las once?",
+              "Add the meeting point and reply request: Podemos encontrarnos en la entrada. ¿Te viene bien?"
+            ],
+            "conclusion": "The message supplies activity, day, time, location and a clear invitation to respond."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What practical details does an invitation need?",
+            "back": "Activity, time and place, plus any relevant arrangement."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "How can a friend be asked to reply?",
+            "back": "¿Te viene bien? or Escríbeme para confirmar."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Why check tú/usted consistency?",
+            "back": "Mixed forms can make the relationship and address unclear."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What should be revised before style?",
+            "back": "Missing task details and unclear meaning."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Writing structures: relationships to explain",
+            "description": "Purpose → Details → Response. A reply request allows the arrangement to be confirmed.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Purpose",
+                "detail": "Invite Diego to an exhibition."
+              },
+              {
+                "id": "node-2",
+                "label": "Details",
+                "detail": "Saturday, eleven, school entrance."
+              },
+              {
+                "id": "node-3",
+                "label": "Response",
+                "detail": "Ask whether the arrangement suits him."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "The purpose determines which details are necessary."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "A reply request allows the arrangement to be confirmed."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-spanish-writing-structures-practice-1",
+          "difficulty": "Standard",
+          "command": "Communicate",
+          "marks": 3,
+          "prompt": "Write a short Spanish message asking friend Sara to bring a notebook tomorrow.",
+          "hints": [
+            "Use an informal request.",
+            "Include the object and day."
+          ],
+          "solution": [
+            "Hola, Sara:",
+            "¿Puedes traer un cuaderno mañana, por favor?",
+            "Gracias. Nos vemos mañana."
+          ],
+          "successCriteria": [
+            "Hola, Sara:",
+            "¿Puedes traer un cuaderno mañana, por favor?",
+            "Gracias. Nos vemos mañana."
+          ]
+        },
+        {
+          "id": "extension-myp5-spanish-writing-structures-practice-2",
+          "difficulty": "Advanced",
+          "command": "Communicate",
+          "marks": 3,
+          "prompt": "An invitation says “Ven a la reunión mañana” but gives no place or time. Add fictional details and explain the improvement.",
+          "hints": [
+            "Supply both missing details.",
+            "Use a complete practical instruction."
+          ],
+          "solution": [
+            "Ven a la reunión mañana a las cinco en la biblioteca.",
+            "A las cinco supplies the time.",
+            "En la biblioteca supplies the place, so the reader can act on the invitation."
+          ],
+          "successCriteria": [
+            "Ven a la reunión mañana a las cinco en la biblioteca.",
+            "A las cinco supplies the time.",
+            "En la biblioteca supplies the place, so the reader can act on the invitation."
+          ]
+        }
+      ]
+    },
+    "myp5-spanish-idiomatic-language": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Idiomatic language in context",
+            "paragraphs": [
+              "An idiomatic expression has a conventional meaning that may not follow directly from its individual words. Learn it in a situation and with the surrounding grammar. Tener ganas de means to feel like doing something and takes an infinitive when followed by an action. Estar de acuerdo expresses agreement, while darse cuenta de means to realise. Avoid inserting idioms merely to sound advanced; an unsuitable expression can obscure a simple message. When explaining an idiom, give its communicative meaning and a context in which it is natural."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original exchange: “¿Vamos al parque?” “Hoy no tengo ganas de salir.” Explain the response.",
+            "steps": [
+              "Tener ganas de salir means feeling like going out, not possessing something called ganas.",
+              "No negates the desire in the current situation."
+            ],
+            "conclusion": "The speaker says they do not feel like going out today; the line does not necessarily reject the friend or all future outings."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "Translate “I feel like reading”.",
+            "back": "Tengo ganas de leer."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What does estar de acuerdo mean?",
+            "back": "To agree."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What does darse cuenta de mean?",
+            "back": "To realise or become aware of something."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why learn an idiom in context?",
+            "back": "Its meaning, register and grammar may not follow from a literal word-by-word translation."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Idiomatic language: relationships to explain",
+            "description": "Expression → Meaning → Scope. The time word limits the interpretation.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Expression",
+                "detail": "Hoy no tengo ganas de salir."
+              },
+              {
+                "id": "node-2",
+                "label": "Meaning",
+                "detail": "I do not feel like going out."
+              },
+              {
+                "id": "node-3",
+                "label": "Scope",
+                "detail": "Today’s preference, not a permanent refusal."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "The expression has a conventional meaning."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "The time word limits the interpretation."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-spanish-idiomatic-language-practice-1",
+          "difficulty": "Standard",
+          "command": "Communicate",
+          "marks": 3,
+          "prompt": "Translate “I agree with you, but I want to think a little more.”",
+          "hints": [
+            "Use estar de acuerdo con.",
+            "Add the qualification with pero."
+          ],
+          "solution": [
+            "Estoy de acuerdo contigo.",
+            "Pero quiero pensar un poco más.",
+            "Combined: Estoy de acuerdo contigo, pero quiero pensar un poco más."
+          ],
+          "successCriteria": [
+            "Estoy de acuerdo contigo.",
+            "Pero quiero pensar un poco más.",
+            "Combined: Estoy de acuerdo contigo, pero quiero pensar un poco más."
+          ]
+        },
+        {
+          "id": "extension-myp5-spanish-idiomatic-language-practice-2",
+          "difficulty": "Advanced",
+          "command": "Communicate",
+          "marks": 3,
+          "prompt": "Explain “Me di cuenta de que faltaba una página” in English and identify what was realised.",
+          "hints": [
+            "Treat darse cuenta as one expression.",
+            "Find the clause after de que."
+          ],
+          "solution": [
+            "The sentence means “I realised that a page was missing.”",
+            "Me di cuenta expresses the act of realising.",
+            "The missing page is the information that became apparent."
+          ],
+          "successCriteria": [
+            "The sentence means “I realised that a page was missing.”",
+            "Me di cuenta expresses the act of realising.",
+            "The missing page is the information that became apparent."
+          ]
+        }
+      ]
+    },
+    "myp5-spanish-exam-strategies": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Exam strategies in context",
+            "paragraphs": [
+              "Assessment practice should begin with the actual task instructions, not an assumed universal format. Identify the required audience, purpose, word guidance and content points before drafting. In language work, a concise response that communicates all requested information is more useful than a long response with invented detail and confused verbs. Review in layers: task completion, verb agreement and tense, then spelling and accents. A rehearsal checklist supports self-review but is not an official marking scheme or a guarantee of a grade."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original practice task: write an informal message with a plan, time and reason. A draft says “Voy al club porque es interesante.” Identify what is missing and repair it.",
+            "steps": [
+              "The draft states a plan and a reason but omits the required time.",
+              "A fuller version is: Hola, Sara: Mañana voy a ir al club a las cuatro porque hacemos experimentos sencillos."
+            ],
+            "conclusion": "The revision addresses practical information and audience before seeking more elaborate vocabulary."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What should be checked first?",
+            "back": "Whether the response fulfils the actual task and required content points."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why review verbs before decorative vocabulary?",
+            "back": "Incorrect person or tense can change who acts and when."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What does a practice checklist establish?",
+            "back": "A structure for self-review, not an official score."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "How can planning prevent omission?",
+            "back": "List each required detail and match it to a planned sentence."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Exam strategies: relationships to explain",
+            "description": "Task requirements → Draft → Review. Layered review repairs meaning before polish.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Task requirements",
+                "detail": "Audience, purpose and required details."
+              },
+              {
+                "id": "node-2",
+                "label": "Draft",
+                "detail": "Communicate each detail clearly."
+              },
+              {
+                "id": "node-3",
+                "label": "Review",
+                "detail": "Check completion, verbs and accents."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "The requirements determine what must be written."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "Layered review repairs meaning before polish."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-spanish-exam-strategies-practice-1",
+          "difficulty": "Standard",
+          "command": "Communicate",
+          "marks": 3,
+          "prompt": "A hypothetical 25-minute writing practice reserves 4 minutes to plan and 6 to review. How long remains to draft, and why preserve review time?",
+          "hints": [
+            "Subtract both reserved periods.",
+            "Review should repair consequential mistakes."
+          ],
+          "solution": [
+            "25 − 4 − 6 = 15 minutes remain for drafting.",
+            "Review can identify missing required information.",
+            "It can also correct verb agreement and tense errors that change meaning."
+          ],
+          "successCriteria": [
+            "25 − 4 − 6 = 15 minutes remain for drafting.",
+            "Review can identify missing required information.",
+            "It can also correct verb agreement and tense errors that change meaning."
+          ]
+        },
+        {
+          "id": "extension-myp5-spanish-exam-strategies-practice-2",
+          "difficulty": "Advanced",
+          "command": "Communicate",
+          "marks": 3,
+          "prompt": "A task asks for two reasons, but a draft gives one reason in three different sentences. Explain the problem and a repair.",
+          "hints": [
+            "Count distinct reasons, not sentences.",
+            "Add a different relevant justification."
+          ],
+          "solution": [
+            "Repeating one reason does not fulfil the request for two.",
+            "Keep the clearest version of the existing reason.",
+            "Add a genuinely different reason, for example convenient timing as well as interest in the activity, if both fit the fictional scenario."
+          ],
+          "successCriteria": [
+            "Repeating one reason does not fulfil the request for two.",
+            "Keep the clearest version of the existing reason.",
+            "Add a genuinely different reason, for example convenient timing as well as interest in the activity, if both fit the fictional scenario."
+          ]
+        }
+      ]
+    }
+  }
+}

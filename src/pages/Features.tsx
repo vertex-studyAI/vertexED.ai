@@ -1,3 +1,4 @@
+import { APP_ORIGIN } from '@/lib/appOrigin';
 import { useEffect, useRef, useState } from "react";
 import LandingInk from '@/components/LandingInk';
 import LearningPanels from '@/components/chat/LearningPanels';
@@ -107,7 +108,7 @@ export default function Features() {
       <SEO
         title="VertexED study tools"
         description="See how Exam Prep, Study Zone, Apex, Planner, Paper Maker, Answer Reviewer, Notes, the dashboard, and study resources connect."
-        canonical="https://www.vertexed.app/features"
+        canonical={`${APP_ORIGIN}/features`}
       />
       <Helmet>
         <meta name="robots" content="index, follow" />

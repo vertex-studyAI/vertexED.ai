@@ -1,3 +1,4 @@
+import { APP_ORIGIN } from '@/lib/appOrigin';
 import { useEffect, useRef } from 'react';
 import { Link, useLocation } from "react-router";
 import {
@@ -73,7 +74,7 @@ export default function StudyTools() {
       <SEO
         title="Study Tools & Formula Reference | VertexED"
         description="Choose study tools and browse available references. Materials awaiting subject review are labelled."
-        canonical="https://www.vertexed.app/study-tools"
+        canonical={`${APP_ORIGIN}/study-tools`}
       />
 
       <PageSection className="max-w-5xl study-tools-hub">

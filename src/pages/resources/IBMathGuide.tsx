@@ -1,3 +1,4 @@
+import { APP_ORIGIN } from '@/lib/appOrigin';
 import React from "react";
 import Article from "@/components/Article";
 import SEO from "@/components/SEO";
@@ -9,7 +10,7 @@ export default function IBMathGuide() {
       <SEO
         title="IB Math AA and AI revision guide | VertexED"
         description="Practical revision for Analysis &amp; Approaches and Applications &amp; Interpretation - spiral review, IA planning, Paper 1 non-calculator drills, and GDC working checks."
-        canonical="https://www.vertexed.app/resources/ib-math-aa-ai-guide"
+        canonical={`${APP_ORIGIN}/resources/ib-math-aa-ai-guide`}
         keywords="IB Math AA, IB Math AI, IB Math Analysis and Approaches, IB Math Applications and Interpretation, IB Math HL, IB Math SL, IB Math past papers, IB Math revision, IB Math IA ideas, IB Math exploration, AI for IB Math, VertexED, math practice questions, IB exam prep, International Baccalaureate"
       />
       <Article

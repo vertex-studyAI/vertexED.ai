@@ -1,3 +1,4 @@
+import { APP_ORIGIN } from '@/lib/appOrigin';
 import React from "react";
 import Article from "@/components/Article";
 import SEO from "@/components/SEO";
@@ -9,7 +10,7 @@ export default function IGCSEScienceGuide() {
       <SEO
         title="IGCSE Sciences revision: Biology, Chemistry, Physics | VertexED"
         description="Mark-scheme keywords, process sequences, mole calculations, and Paper 6 skills - with AI workflows for definitions, mocks, and rubric feedback."
-        canonical="https://www.vertexed.app/resources/igcse-science-revision"
+        canonical={`${APP_ORIGIN}/resources/igcse-science-revision`}
         keywords="IGCSE Biology, IGCSE Chemistry, IGCSE Physics, IGCSE revision, IGCSE past papers, Cambridge IGCSE, Edexcel IGCSE, science revision notes, active recall science, IGCSE exam tips, VertexED"
       />
       <Article

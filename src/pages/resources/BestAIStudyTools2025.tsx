@@ -1,3 +1,4 @@
+import { APP_ORIGIN } from '@/lib/appOrigin';
 import React from "react";
 import Article from "@/components/Article";
 import SEO from "@/components/SEO";
@@ -9,7 +10,7 @@ export default function BestAIStudyTools2025() {
       <SEO
         title="Choosing AI study tools | VertexED"
         description="What to look for in AI study tools - rubric feedback, board-shaped mocks, spaced retrieval, and Socratic help - plus how VertexED fits into a real revision week."
-        canonical="https://www.vertexed.app/resources/best-ai-study-tools-2025"
+        canonical={`${APP_ORIGIN}/resources/best-ai-study-tools-2025`}
         keywords="AI study tools, exam preparation, study planner, flashcards, rubric feedback, IB IGCSE AP, VertexED"
       />
       <Article

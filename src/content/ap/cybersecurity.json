@@ -45,10 +45,126 @@
             "Uses independent verification"
           ],
           "id": "cybersecurity-1-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Login and record access are separate decisions.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A user can sign in but cannot view another learner’s feedback. Identify the control that should enforce this restriction and what it must check.",
+          "answer": "Authorisation must check that the signed-in identity has permission for that specific feedback record and requested action.",
+          "checkpoints": [
+            "Name authorisation.",
+            "Bind the check to the requested record.",
+            "Include the operation and authenticated identity."
+          ],
+          "hints": [
+            "Login and record access are separate decisions.",
+            "The resource owner or role matters at the moment of access."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Temporary does not mean harmless.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "A message asks for a one-time login code and claims urgent account repair. Give a safe verification response and explain why sharing the code is risky.",
+          "answer": "Do not send the code; contact support through a previously known official route. A login code can complete another party’s authentication attempt even though it is temporary.",
+          "checkpoints": [
+            "Avoid disclosing the code.",
+            "Use an independent known support route.",
+            "Explain that the code can enable account access."
+          ],
+          "hints": [
+            "Temporary does not mean harmless.",
+            "Do not use the message’s own contact details as independent confirmation."
+          ]
         }
       ],
       "frameworkUnit": "Unit 1",
-      "id": "cybersecurity-1"
+      "id": "cybersecurity-1",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through separate identity, authentication and risk",
+            "paragraphs": [
+              "Identity states who an account claims to represent, authentication tests that claim, and authorisation determines which actions the authenticated account may perform. These are separate controls: successful login does not justify access to every record. Risk depends on the asset, plausible threat, weakness and potential impact rather than a dramatic label alone. Phishing attempts exploit trust, urgency or a misleading context, so verification should use an independently known route. Multifactor authentication combines distinct factor types; two passwords are still two examples of the same knowledge factor. Controls reduce risk but do not establish that every account action is legitimate."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A fictional portal accepts a student’s password and second factor, then rejects an attempt to edit the school timetable. Classify both decisions.",
+            "steps": [
+              "The login checks authenticate the account by testing its credentials and additional factor.",
+              "The timetable rejection is authorisation: an authenticated student lacks the permission needed for that action."
+            ],
+            "conclusion": "Authentication succeeded while the requested action was correctly denied by authorisation."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What does authentication test?",
+            "back": "The claimed identity using accepted evidence."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What does authorisation decide?",
+            "back": "Which actions or resources that identity may access."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Are two passwords multifactor authentication?",
+            "back": "No; both are knowledge factors."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why verify a surprising request through a known channel?",
+            "back": "The request’s supplied contact route may belong to an impersonator."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Separate identity, authentication and risk: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Identity claim",
+                "detail": "An account presents who it claims to be."
+              },
+              {
+                "id": "n2",
+                "label": "Authentication evidence",
+                "detail": "Credentials or factors support verification of the claim."
+              },
+              {
+                "id": "n3",
+                "label": "Authorised action",
+                "detail": "Permissions separately determine the allowed operation on a resource."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "is checked by"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "does not automatically grant"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Protect spaces without overclaiming certainty",
@@ -88,10 +204,126 @@
             "Supports investigation"
           ],
           "id": "cybersecurity-2-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Only count records that can be matched to a specific asset.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A room has 12 listed devices. Ten are present, one is signed out and one transfer record lacks a device identifier. How many are conclusively reconciled, and what remains?",
+          "answer": "Eleven are conclusively reconciled. The remaining device requires matching a valid identifier and transfer evidence; the incomplete record is not enough by itself.",
+          "checkpoints": [
+            "Count ten present plus one documented loan.",
+            "Identify the unmatched device.",
+            "Explain why the incomplete record cannot close the discrepancy."
+          ],
+          "hints": [
+            "Only count records that can be matched to a specific asset.",
+            "Avoid treating a plausible explanation as verified."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "A sequence of events is not proof of responsibility.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "A visitor log shows a person entered before a device was reported missing. Does this establish theft by that person? Explain an appropriate evidence-based response.",
+          "answer": "No. Timing alone does not establish who moved the device or whether it was stolen. Preserve the log, reconcile authorised movements and report the facts for review without unsupported accusation.",
+          "checkpoints": [
+            "Reject the causal leap from timing.",
+            "Identify alternative authorised movement possibilities.",
+            "Preserve and report evidence through the established process."
+          ],
+          "hints": [
+            "A sequence of events is not proof of responsibility.",
+            "Keep observation separate from inference."
+          ]
         }
       ],
       "frameworkUnit": "Unit 2",
-      "id": "cybersecurity-2"
+      "id": "cybersecurity-2",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through protect spaces without overclaiming certainty",
+            "paragraphs": [
+              "Physical security protects people, equipment and information by limiting opportunities for unauthorised access and by recording relevant events. An inventory identifies what should exist, where it belongs and who is responsible; it does not itself prevent theft. Visitor controls can establish an access record, but a sign-in entry alone does not prove what a person did inside. Combine prevention, detection and response measures according to the environment. When an item is missing, preserve accurate observations and report through the established process without accusing someone based only on proximity. Privacy and proportionality matter when collecting access or camera records."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A fictional lab inventory lists 25 laptops. A count finds 23, one documented repair shipment and one unexplained absence. State the reconciliation and next step.",
+            "steps": [
+              "The 23 present plus one documented off-site unit account for 24 of 25; one remains unexplained.",
+              "Check authorised transfer records and report the discrepancy with device identifier, last confirmed location and time, preserving existing records."
+            ],
+            "conclusion": "One laptop is unaccounted for; the evidence supports a discrepancy report, not an accusation."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What does an inventory establish?",
+            "back": "Expected assets, identifiers, locations and responsibility."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Does a visitor log prove misconduct?",
+            "back": "No; it records access information with limits."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What is reconciliation?",
+            "back": "Comparing expected records with observed assets and documented movements."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why preserve original records?",
+            "back": "They support reliable reconstruction and review."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Protect spaces without overclaiming certainty: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Expected inventory",
+                "detail": "Record uniquely identified equipment and authorised locations."
+              },
+              {
+                "id": "n2",
+                "label": "Observed count and movements",
+                "detail": "Compare physical presence with documented loans or transfers."
+              },
+              {
+                "id": "n3",
+                "label": "Discrepancy response",
+                "detail": "Preserve facts and escalate unexplained differences through the approved process."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "is compared with"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "reveals"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Reason about segmentation and logs",
@@ -131,10 +363,126 @@
             "Avoids overclaiming"
           ],
           "id": "cybersecurity-3-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Use the event outcome literally.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A log records 20 denied connections from a guest device to a server. What can be stated directly, and what cannot be concluded from this record alone?",
+          "answer": "The logging control recorded 20 denied attempts on the specified path. The record alone does not establish successful server access, malicious intent or the absence of other successful routes.",
+          "checkpoints": [
+            "State the observed denied events.",
+            "Avoid claiming successful access.",
+            "Identify an additional inference the log does not support."
+          ],
+          "hints": [
+            "Use the event outcome literally.",
+            "One log source has a limited view."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Check what traffic can actually pass.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "A school separates guest and staff networks but accidentally permits guest access to the staff file service. Explain why separate network names alone are insufficient.",
+          "answer": "The required access restriction is not enforced on that path. Segmentation must be verified through actual permitted flows and access controls, not just labels or network names.",
+          "checkpoints": [
+            "Identify the unintended permitted flow.",
+            "Distinguish labels from enforcement.",
+            "Recommend authorised testing against the intended access policy."
+          ],
+          "hints": [
+            "Check what traffic can actually pass.",
+            "The security outcome depends on controls between groups."
+          ]
         }
       ],
       "frameworkUnit": "Unit 3",
-      "id": "cybersecurity-3"
+      "id": "cybersecurity-3",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through reason about segmentation and logs",
+            "paragraphs": [
+              "Network segmentation separates systems so a problem in one area has fewer routes to affect others. A guest network may need internet access while having no business reason to reach administrative records; policy should describe the required flows before controls are tested. Logs record events from particular systems and can be incomplete because of retention, collection failures or clock differences. A denied connection shows an attempted path was blocked at that control, not that every related action failed or that a breach succeeded. Effective review correlates time, source, destination, action and outcome while respecting the limits of the evidence."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A fictional policy allows guest devices to reach the internet but denies access to a records server. A test records one blocked server connection and one successful internet connection. What is demonstrated?",
+            "steps": [
+              "The observed cases match the intended deny and allow rules for those specific paths and times.",
+              "They do not prove every protocol, device or alternative route is controlled; additional authorised tests should cover the stated policy matrix."
+            ],
+            "conclusion": "Two tested paths behaved as intended, with broader coverage still to be checked."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is segmentation intended to limit?",
+            "back": "Unnecessary connectivity and the spread of incidents."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What should define a firewall test?",
+            "back": "The required source, destination, service and expected outcome."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Does a denied log prove a successful intrusion?",
+            "back": "No."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why consider clock alignment?",
+            "back": "Incorrect timestamps can distort event ordering across systems."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Reason about segmentation and logs: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Required communication",
+                "detail": "Document the flows each group actually needs."
+              },
+              {
+                "id": "n2",
+                "label": "Segmentation rules",
+                "detail": "Permit necessary paths and restrict unnecessary ones."
+              },
+              {
+                "id": "n3",
+                "label": "Authorised verification",
+                "detail": "Test representative allowed and denied paths and inspect evidence."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "defines"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "requires"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Use a device baseline and safe response",
@@ -174,10 +522,126 @@
             "Preserves appropriate handling"
           ],
           "id": "cybersecurity-4-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Match permissions to the task.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A student uses an administrator account for routine browsing. Explain the least-privilege concern and a suitable administrative remedy.",
+          "answer": "Routine browsing does not usually need broad administrative rights. An authorised administrator can provide a standard account for ordinary use and require elevated access only for approved tasks.",
+          "checkpoints": [
+            "Identify unnecessary privilege.",
+            "Explain the greater impact if the account or application is misused.",
+            "Suggest separated routine and approved elevated access."
+          ],
+          "hints": [
+            "Match permissions to the task.",
+            "The remedy should preserve legitimate administration without giving it to every activity."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Check whether this exact change was expected.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "A device reports an unexpected configuration change immediately after a scheduled update. What should a reviewer compare before classifying it as an incident?",
+          "answer": "Compare the observed change with the approved update scope, change record and baseline version; timing is relevant but does not by itself prove either legitimacy or compromise.",
+          "checkpoints": [
+            "Identify the observed configuration difference.",
+            "Compare it with authorised change evidence.",
+            "Avoid treating timing alone as a definitive explanation."
+          ],
+          "hints": [
+            "Check whether this exact change was expected.",
+            "Preserve the evidence even while a benign explanation is investigated."
+          ]
         }
       ],
       "frameworkUnit": "Unit 4",
-      "id": "cybersecurity-4"
+      "id": "cybersecurity-4",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through use a device baseline and safe response",
+            "paragraphs": [
+              "A managed-device baseline records expected software, accounts, settings and update status so deviations can be investigated consistently. A difference is evidence to assess, not automatic proof of compromise: an approved update or administrative change may explain it. Least privilege reduces the actions available to ordinary accounts and limits consequences if those accounts are misused. A response should follow the organisation’s process, preserve relevant observations and avoid improvised deletion that destroys evidence. Record what was seen, when, where and under which account, then let authorised responders decide containment and recovery steps appropriate to the situation."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A fictional laptop baseline lists two administrator accounts, but a review finds three. The third was created yesterday and has no matching change record. Describe a proportionate first response.",
+            "steps": [
+              "Record the unexpected account identifier, timestamps and relevant baseline comparison, and check the approved change process without using the account.",
+              "Report the unexplained deviation to the authorised support or incident team; preserve logs and follow their containment instructions."
+            ],
+            "conclusion": "The evidence supports investigation of an unexplained privileged account, not an immediate conclusion about its origin."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is a device baseline?",
+            "back": "A recorded expected configuration used for comparison."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What does least privilege mean?",
+            "back": "Grant only the access needed for the authorised task."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Does every configuration change prove compromise?",
+            "back": "No; authorised changes may explain it."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why avoid deleting suspicious records immediately?",
+            "back": "Deletion can destroy evidence needed for investigation."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Use a device baseline and safe response: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Expected baseline",
+                "detail": "Record approved accounts, software and settings."
+              },
+              {
+                "id": "n2",
+                "label": "Observed deviation",
+                "detail": "Identify the exact difference and available timestamps."
+              },
+              {
+                "id": "n3",
+                "label": "Authorised response",
+                "detail": "Verify change records, preserve evidence and escalate through the agreed process."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "is compared with"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "triggers"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Protect data and interpret access evidence",
@@ -217,10 +681,126 @@
             "Does not assume success from file presence"
           ],
           "id": "cybersecurity-5-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "A comparison is only as trustworthy as its reference.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A file’s hash matches an expected value downloaded from the same untrusted location as the file. Does this alone establish integrity against a malicious source?",
+          "answer": "No. The source could replace both file and expected hash. The expected digest needs an independently trusted origin or authenticated mechanism for the comparison to provide that assurance.",
+          "checkpoints": [
+            "Recognise that both values can be controlled together.",
+            "Explain the missing trust in the reference digest.",
+            "Identify the need for a trusted or authenticated reference."
+          ],
+          "hints": [
+            "A comparison is only as trustworthy as its reference.",
+            "Matching numbers do not establish who supplied them."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "A readable backup may still fail to produce a working service.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "A backup job reports success, but no restoration has been attempted. What additional evidence is needed before claiming recovery readiness?",
+          "answer": "An authorised restoration test should verify that required records, access permissions and dependencies are recovered correctly within the relevant time and data-loss objectives.",
+          "checkpoints": [
+            "Distinguish successful copying from successful recovery.",
+            "Verify restored data and usable permissions or dependencies.",
+            "Measure the required recovery timing and data coverage."
+          ],
+          "hints": [
+            "A readable backup may still fail to produce a working service.",
+            "Test the actual recovery objective, not only the job status."
+          ]
         }
       ],
       "frameworkUnit": "Unit 5",
-      "id": "cybersecurity-5"
+      "id": "cybersecurity-5",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through protect data and interpret access evidence",
+            "paragraphs": [
+              "Data protection combines confidentiality, integrity and availability. Encryption protects readable content from parties without the required key, while hashing produces a digest useful for integrity checks when the expected digest is trusted. A hash does not provide a reversible confidential copy. Access checks must bind the authenticated user to the particular record and action, including when an identifier in a request changes. Backups support availability only if they can be restored with the required data, permissions and timing. Retention and access should match legitimate needs, because collecting or keeping extra sensitive information increases the amount that must be protected."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A fictional portal authorises a learner once at login but returns any feedback record whose numeric identifier is requested. Identify the flaw and a defensive check.",
+            "steps": [
+              "The request selects an object without verifying that the current learner is allowed to access that object.",
+              "Each retrieval must check the authenticated identity’s permission for the requested record and action, returning no private data when permission is absent."
+            ],
+            "conclusion": "The missing control is per-record authorisation, which must be enforced on the server for each request."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What does confidentiality protect?",
+            "back": "Information from unauthorised disclosure."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What does integrity protect?",
+            "back": "Information from unauthorised or undetected alteration."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Why is hashing not encryption?",
+            "back": "A digest is not a reversible protected copy of the original data."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What proves a backup is usable?",
+            "back": "A successful authorised restoration test meeting the required scope and timing."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Protect data and interpret access evidence: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Authenticated request",
+                "detail": "Identify the user and requested record/action."
+              },
+              {
+                "id": "n2",
+                "label": "Object-level authorisation",
+                "detail": "Check permission for that exact resource on the server."
+              },
+              {
+                "id": "n3",
+                "label": "Controlled response",
+                "detail": "Return only authorised data and record the appropriate outcome."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "must pass"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "determines"
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

@@ -1,0 +1,1865 @@
+{
+  "subjectSlug": "mathematics",
+  "lessons": {
+    "myp5-mathematics-number": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Scale and representation",
+            "paragraphs": [
+              "Scientific notation separates the size of a quantity from its significant digits. Write a non-zero positive number as a × 10ⁿ with 1 ≤ a < 10. Multiplying powers with the same base adds their exponents; dividing subtracts them. A negative exponent represents a reciprocal, not a negative quantity. When combining measurements, convert them to compatible units first. Rounding each intermediate result can accumulate error, so retain digits until the final report. An order-of-magnitude estimate checks whether a calculator entry has accidentally shifted the decimal point."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-number-worked",
+            "prompt": "A sensor records 0.000036 m. Express this in scientific notation and micrometres, where 1 μm = 10⁻⁶ m.",
+            "steps": [
+              "Move the decimal five places: 0.000036 = 3.6 × 10⁻⁵.",
+              "Divide by 10⁻⁶ m/μm: 3.6 × 10¹ = 36 μm."
+            ],
+            "conclusion": "The readings 3.6 × 10⁻⁵ m and 36 μm describe the same length."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-number-card-1",
+            "front": "What does 10⁻³ mean?",
+            "back": "1/1000, a positive reciprocal."
+          },
+          {
+            "id": "extension-number-card-2",
+            "front": "What range must the coefficient in scientific notation satisfy?",
+            "back": "For positive values, 1 ≤ a < 10."
+          },
+          {
+            "id": "extension-number-card-3",
+            "front": "How are powers divided?",
+            "back": "Subtract exponents when the base is the same and non-zero."
+          },
+          {
+            "id": "extension-number-card-4",
+            "front": "Why convert units before adding?",
+            "back": "Only quantities expressed in compatible units can be combined numerically."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-number-diagram",
+            "title": "Scale and representation",
+            "description": "Equivalent representations of one small length.",
+            "nodes": [
+              {
+                "id": "extension-number-node-1",
+                "label": "Decimal metres",
+                "detail": "0.000036 m"
+              },
+              {
+                "id": "extension-number-node-2",
+                "label": "Scientific notation",
+                "detail": "3.6 × 10⁻⁵ m"
+              },
+              {
+                "id": "extension-number-node-3",
+                "label": "Micrometres",
+                "detail": "36 μm"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-number-node-1",
+                "to": "extension-number-node-2",
+                "label": "normalise the coefficient"
+              },
+              {
+                "from": "extension-number-node-2",
+                "to": "extension-number-node-3",
+                "label": "divide by 10⁻⁶"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-mathematics-number-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "Calculate (6 × 10⁴)/(2 × 10⁻²), showing the exponent operation.",
+          "hints": [
+            "Divide the coefficients.",
+            "Subtract the denominator exponent, including its sign."
+          ],
+          "solution": [
+            "6/2 = 3.",
+            "10⁴/10⁻² = 10⁶, so the result is 3 × 10⁶."
+          ],
+          "successCriteria": [
+            "Coefficient 3.",
+            "Exponent 4 − (−2) = 6.",
+            "Normalised result 3 × 10⁶."
+          ]
+        },
+        {
+          "id": "extension-myp5-mathematics-number-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A learner writes 0.0048 kg = 4.8 g = 4.8 × 10³ kg. Correct the false equality and justify it.",
+          "hints": [
+            "A kilogram contains 1000 grams.",
+            "Check whether the original mass is above or below 1 kg."
+          ],
+          "solution": [
+            "0.0048 kg × 1000 = 4.8 g, so the first equality is correct.",
+            "The scientific notation is 4.8 × 10⁻³ kg; 4.8 × 10³ kg would be 4800 kg."
+          ],
+          "successCriteria": [
+            "Correct gram conversion.",
+            "Exponent −3.",
+            "Explains the size error."
+          ]
+        }
+      ]
+    },
+    "myp5-mathematics-algebra": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Elimination preserves both constraints",
+            "paragraphs": [
+              "An inequality describes a set of permitted values rather than just a single equality. Adding or subtracting the same quantity preserves its order. Multiplication or division by a negative quantity reverses the order because the number line is reflected. Keep restrictions attached to every step: dividing by an expression that could be zero needs separate consideration. Simultaneous equations describe values satisfying both conditions together. Elimination combines equations to remove one variable, but the resulting pair should still be checked in both original equations."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-algebra-worked",
+            "prompt": "Solve 2x + y = 13 and x − y = 2.",
+            "steps": [
+              "Add the equations: 3x = 15, hence x = 5.",
+              "Substitute in x − y = 2: 5 − y = 2, so y = 3."
+            ],
+            "conclusion": "Both checks hold: 10 + 3 = 13 and 5 − 3 = 2."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-algebra-card-1",
+            "front": "When must an inequality sign reverse?",
+            "back": "When multiplying or dividing both sides by a negative number."
+          },
+          {
+            "id": "extension-algebra-card-2",
+            "front": "What is a simultaneous solution?",
+            "back": "A value or set of values satisfying every equation together."
+          },
+          {
+            "id": "extension-algebra-card-3",
+            "front": "Why check original equations?",
+            "back": "An algebraic mistake or invalid operation may introduce a false solution."
+          },
+          {
+            "id": "extension-algebra-card-4",
+            "front": "Can you divide by x without qualification?",
+            "back": "Only after considering whether x could be zero."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-algebra-diagram",
+            "title": "Elimination preserves both constraints",
+            "description": "Two linear conditions meet at one solution.",
+            "nodes": [
+              {
+                "id": "extension-algebra-node-1",
+                "label": "Two constraints",
+                "detail": "2x + y = 13; x − y = 2"
+              },
+              {
+                "id": "extension-algebra-node-2",
+                "label": "Eliminate y",
+                "detail": "3x = 15"
+              },
+              {
+                "id": "extension-algebra-node-3",
+                "label": "Recover the pair",
+                "detail": "x = 5, y = 3"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-algebra-node-1",
+                "to": "extension-algebra-node-2",
+                "label": "add corresponding sides"
+              },
+              {
+                "from": "extension-algebra-node-2",
+                "to": "extension-algebra-node-3",
+                "label": "substitute into an original equation"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-mathematics-algebra-practice-1",
+          "difficulty": "Standard",
+          "command": "Solve",
+          "marks": 3,
+          "prompt": "Solve −3x + 4 > 19 and describe the solution on a number line.",
+          "hints": [
+            "Subtract 4 first.",
+            "Division by −3 reverses the inequality."
+          ],
+          "solution": [
+            "−3x > 15.",
+            "x < −5; use an open circle at −5 and shade to its left."
+          ],
+          "successCriteria": [
+            "Obtains −3x > 15.",
+            "Reverses inequality to x < −5.",
+            "Open endpoint and leftward interval."
+          ]
+        },
+        {
+          "id": "extension-myp5-mathematics-algebra-practice-2",
+          "difficulty": "Advanced",
+          "command": "Solve",
+          "marks": 3,
+          "prompt": "Solve 3a + b = 17 and a + b = 9, checking your result.",
+          "hints": [
+            "Subtract the second equation from the first.",
+            "Use the simpler original equation to find b."
+          ],
+          "solution": [
+            "2a = 8, so a = 4.",
+            "b = 9 − 4 = 5; 3(4) + 5 = 17 verifies the other equation."
+          ],
+          "successCriteria": [
+            "Eliminates b.",
+            "a = 4 and b = 5.",
+            "Valid original-equation check."
+          ]
+        }
+      ]
+    },
+    "myp5-mathematics-functions": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "A quadratic has symmetric outputs",
+            "paragraphs": [
+              "Two different inputs may produce the same output without breaking the definition of a function. The defining requirement is that each permitted input has exactly one output. For a quadratic function, symmetry helps locate equal outputs and its turning point. Transformations change the rule systematically: adding a constant outside the function moves outputs vertically, while replacing x by x − h shifts the graph horizontally. An inverse reverses input and output only when each output identifies one permitted input; restricting the domain can make that possible."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-functions-worked",
+            "prompt": "For f(x) = (x − 2)² + 1, find the minimum value and solve f(x) = 10.",
+            "steps": [
+              "A square is non-negative, so the minimum is 1 at x = 2.",
+              "(x − 2)² = 9 gives x − 2 = ±3, hence x = −1 or 5."
+            ],
+            "conclusion": "The two inputs are equally spaced from the axis x = 2."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-functions-card-1",
+            "front": "May a function have repeated outputs?",
+            "back": "Yes; each input must have one output, but different inputs may share it."
+          },
+          {
+            "id": "extension-functions-card-2",
+            "front": "Where is the vertex of (x − h)² + k?",
+            "back": "At (h, k)."
+          },
+          {
+            "id": "extension-functions-card-3",
+            "front": "Why can x² lack a single-valued inverse on all real numbers?",
+            "back": "A positive output has both a positive and a negative input."
+          },
+          {
+            "id": "extension-functions-card-4",
+            "front": "What does f(x) + 3 change?",
+            "back": "Every output increases by 3; the graph shifts upwards."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-functions-diagram",
+            "title": "A quadratic has symmetric outputs",
+            "description": "Track the rule from input to square to vertical shift.",
+            "nodes": [
+              {
+                "id": "extension-functions-node-1",
+                "label": "Input x",
+                "detail": "Distance from 2 is x − 2"
+              },
+              {
+                "id": "extension-functions-node-2",
+                "label": "Square",
+                "detail": "(x − 2)² is at least zero"
+              },
+              {
+                "id": "extension-functions-node-3",
+                "label": "Output",
+                "detail": "Add 1: minimum output 1"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-functions-node-1",
+                "to": "extension-functions-node-2",
+                "label": "square the displacement"
+              },
+              {
+                "from": "extension-functions-node-2",
+                "to": "extension-functions-node-3",
+                "label": "raise every output by 1"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-mathematics-functions-practice-1",
+          "difficulty": "Standard",
+          "command": "Determine",
+          "marks": 3,
+          "prompt": "For g(x) = (x + 3)² − 4, state the vertex and find g(−1).",
+          "hints": [
+            "Rewrite x + 3 as x − (−3).",
+            "Substitute −1 before squaring."
+          ],
+          "solution": [
+            "The vertex is (−3, −4).",
+            "g(−1) = 2² − 4 = 0."
+          ],
+          "successCriteria": [
+            "Horizontal coordinate −3.",
+            "Minimum output −4.",
+            "g(−1) = 0."
+          ]
+        },
+        {
+          "id": "extension-myp5-mathematics-functions-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Explain why y = x² has no single-valued inverse on the real numbers, then state a suitable restricted domain.",
+          "hints": [
+            "Use one positive output such as 9.",
+            "Choose a domain on which outputs do not repeat."
+          ],
+          "solution": [
+            "Output 9 comes from both x = 3 and x = −3, so reversing the rule gives two outputs.",
+            "Restrict to x ≥ 0; the inverse is x = √y for y ≥ 0."
+          ],
+          "successCriteria": [
+            "Identifies a repeated output.",
+            "Explains failure of inverse uniqueness.",
+            "Valid domain restriction and inverse."
+          ]
+        }
+      ]
+    },
+    "myp5-mathematics-geometry": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Length, area and volume scale differently",
+            "paragraphs": [
+              "Enlargement affects different measurements in different ways. A length scale factor k multiplies every corresponding length by k, but area depends on two dimensions and therefore scales by k². Volume depends on three dimensions and scales by k³. These relationships require similar shapes; doubling only a rectangle’s width is not a uniform enlargement. Match corresponding dimensions before choosing a ratio. A useful reasonableness check is that enlarging a solid by a factor greater than one increases its volume faster than its surface area."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-geometry-worked",
+            "prompt": "Similar solid models have length scale factor 3 from small to large. The small model has area 24 cm² and volume 10 cm³. Find the large values.",
+            "steps": [
+              "Area multiplier = 3² = 9, so area = 216 cm².",
+              "Volume multiplier = 3³ = 27, so volume = 270 cm³."
+            ],
+            "conclusion": "The scale factor applies to corresponding lengths; area and volume require different powers."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-geometry-card-1",
+            "front": "How does area scale under enlargement by k?",
+            "back": "By k²."
+          },
+          {
+            "id": "extension-geometry-card-2",
+            "front": "How does volume scale?",
+            "back": "By k³."
+          },
+          {
+            "id": "extension-geometry-card-3",
+            "front": "Does equal area prove similarity?",
+            "back": "No; shapes can have equal areas and different proportions."
+          },
+          {
+            "id": "extension-geometry-card-4",
+            "front": "Why must corresponding lengths be matched?",
+            "back": "An incorrect pairing produces an invalid scale factor."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-geometry-diagram",
+            "title": "Length, area and volume scale differently",
+            "description": "One uniform enlargement generates three measurement factors.",
+            "nodes": [
+              {
+                "id": "extension-geometry-node-1",
+                "label": "Length factor",
+                "detail": "k = 3"
+              },
+              {
+                "id": "extension-geometry-node-2",
+                "label": "Area factor",
+                "detail": "k² = 9"
+              },
+              {
+                "id": "extension-geometry-node-3",
+                "label": "Volume factor",
+                "detail": "k³ = 27"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-geometry-node-1",
+                "to": "extension-geometry-node-2",
+                "label": "a second dimension multiplies again"
+              },
+              {
+                "from": "extension-geometry-node-2",
+                "to": "extension-geometry-node-3",
+                "label": "a third dimension multiplies again"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-mathematics-geometry-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "Two similar shapes have areas 20 cm² and 80 cm². Find the larger-to-smaller length factor.",
+          "hints": [
+            "Find the area ratio.",
+            "Length factor is the positive square root."
+          ],
+          "solution": [
+            "Area ratio = 80/20 = 4.",
+            "Length factor = √4 = 2."
+          ],
+          "successCriteria": [
+            "Uses corresponding area ratio.",
+            "Takes square root.",
+            "Length factor 2."
+          ]
+        },
+        {
+          "id": "extension-myp5-mathematics-geometry-practice-2",
+          "difficulty": "Advanced",
+          "command": "Evaluate",
+          "marks": 3,
+          "prompt": "A cube of side 2 cm is enlarged to side 4 cm. Evaluate the claim that its volume merely doubles.",
+          "hints": [
+            "Calculate each cube volume.",
+            "Compare volume and length ratios."
+          ],
+          "solution": [
+            "Volumes are 2³ = 8 cm³ and 4³ = 64 cm³.",
+            "Volume increases eightfold, because each of three dimensions doubles."
+          ],
+          "successCriteria": [
+            "Correct two volumes.",
+            "Ratio 8.",
+            "Explains three-dimensional scaling."
+          ]
+        }
+      ]
+    },
+    "myp5-mathematics-coordinate-geometry": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Coordinate evidence for a rectangle",
+            "paragraphs": [
+              "Coordinate methods can establish shape properties without trusting the appearance of a sketch. Equal distances can show equal side lengths; gradients can show parallelism or perpendicularity. The midpoint can identify whether diagonals bisect each other. Choose the shortest sufficient argument instead of calculating every possible feature. Horizontal and vertical lines need special care because a vertical gradient is undefined. A coordinate proof should identify the property being tested, carry out exact calculations, and explain why those results imply the named geometric conclusion."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-coordinate-geometry-worked",
+            "prompt": "Show that A(0,0), B(4,0), C(4,3), D(0,3), taken in that order, form a rectangle.",
+            "steps": [
+              "AB and CD are horizontal; BC and DA are vertical, giving parallel opposite sides.",
+              "Each adjacent horizontal and vertical pair is perpendicular."
+            ],
+            "conclusion": "All four angles are right angles, so ABCD is a rectangle; unequal sides show it is not a square."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-coordinate-geometry-card-1",
+            "front": "What is the equation of a vertical line through (3, 7)?",
+            "back": "x = 3."
+          },
+          {
+            "id": "extension-coordinate-geometry-card-2",
+            "front": "What is the gradient of a horizontal line?",
+            "back": "Zero."
+          },
+          {
+            "id": "extension-coordinate-geometry-card-3",
+            "front": "What does equality of diagonal midpoints establish?",
+            "back": "The diagonals bisect one another."
+          },
+          {
+            "id": "extension-coordinate-geometry-card-4",
+            "front": "Does a sketch prove perpendicularity?",
+            "back": "No; use angles, gradients or horizontal–vertical relationships."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-coordinate-geometry-diagram",
+            "title": "Coordinate evidence for a rectangle",
+            "description": "Each fact supplies a geometric reason.",
+            "nodes": [
+              {
+                "id": "extension-coordinate-geometry-node-1",
+                "label": "Axis-aligned sides",
+                "detail": "Two horizontal and two vertical"
+              },
+              {
+                "id": "extension-coordinate-geometry-node-2",
+                "label": "Perpendicular neighbours",
+                "detail": "Every adjacent pair meets at 90°"
+              },
+              {
+                "id": "extension-coordinate-geometry-node-3",
+                "label": "Rectangle",
+                "detail": "Four right angles"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-coordinate-geometry-node-1",
+                "to": "extension-coordinate-geometry-node-2",
+                "label": "horizontal meets vertical at a right angle"
+              },
+              {
+                "from": "extension-coordinate-geometry-node-2",
+                "to": "extension-coordinate-geometry-node-3",
+                "label": "apply the rectangle definition"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-mathematics-coordinate-geometry-practice-1",
+          "difficulty": "Standard",
+          "command": "Determine",
+          "marks": 3,
+          "prompt": "Find the equation of the line through (2, 7) perpendicular to y = 2x + 1.",
+          "hints": [
+            "The perpendicular gradient is the negative reciprocal.",
+            "Use the given point to find the intercept."
+          ],
+          "solution": [
+            "Gradient = −1/2.",
+            "7 = −(1/2)(2) + c gives c = 8, so y = −x/2 + 8."
+          ],
+          "successCriteria": [
+            "Perpendicular gradient −1/2.",
+            "Uses (2, 7).",
+            "Correct line equation."
+          ]
+        },
+        {
+          "id": "extension-myp5-mathematics-coordinate-geometry-practice-2",
+          "difficulty": "Advanced",
+          "command": "Justify",
+          "marks": 3,
+          "prompt": "A(−2,0), B(0,2), C(2,0), D(0,−2) form a quadrilateral. Justify that it is a square.",
+          "hints": [
+            "Compare side lengths using coordinate differences.",
+            "Check one adjacent pair of gradients."
+          ],
+          "solution": [
+            "Every side length is √(2² + 2²) = √8.",
+            "AB has gradient 1 and BC has gradient −1; symmetry gives four right angles, so the equal-sided rectangle is a square."
+          ],
+          "successCriteria": [
+            "Equal side lengths.",
+            "Perpendicular adjacent sides.",
+            "Connects facts to square definition."
+          ]
+        }
+      ]
+    },
+    "myp5-mathematics-trigonometry": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Solving for a hidden denominator",
+            "paragraphs": [
+              "Right-triangle trigonometry becomes more reliable when the unknown is isolated before numbers are entered. If the unknown is the denominator, multiplying by the hypotenuse and then dividing by the ratio prevents a common inversion error. Complementary acute angles exchange the opposite and adjacent sides, which explains sin θ = cos(90° − θ). Keep lengths in a single unit and angles in the requested unit. In a context question, the calculated triangle side may be only part of the requested height or distance, so return to the diagram."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-trigonometry-worked",
+            "prompt": "A right triangle has side adjacent to 40° of length 7 cm. Find its hypotenuse.",
+            "steps": [
+              "cos 40° = 7/h, so h = 7/cos 40°.",
+              "In degree mode, h ≈ 9.1379 cm."
+            ],
+            "conclusion": "The hypotenuse is about 9.14 cm and exceeds the 7 cm adjacent side."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-trigonometry-card-1",
+            "front": "How do you isolate h in cos θ = a/h?",
+            "back": "h = a/cos θ."
+          },
+          {
+            "id": "extension-trigonometry-card-2",
+            "front": "What is sin 30°?",
+            "back": "1/2."
+          },
+          {
+            "id": "extension-trigonometry-card-3",
+            "front": "How are sin θ and cos(90° − θ) related?",
+            "back": "They are equal for complementary acute angles."
+          },
+          {
+            "id": "extension-trigonometry-card-4",
+            "front": "Why check the hypotenuse size?",
+            "back": "It must be longer than either leg in a non-degenerate right triangle."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-trigonometry-diagram",
+            "title": "Solving for a hidden denominator",
+            "description": "The triangle ratio is rearranged before substitution.",
+            "nodes": [
+              {
+                "id": "extension-trigonometry-node-1",
+                "label": "Known adjacent side",
+                "detail": "a = 7 cm, θ = 40°"
+              },
+              {
+                "id": "extension-trigonometry-node-2",
+                "label": "Cosine relation",
+                "detail": "cos θ = a/h"
+              },
+              {
+                "id": "extension-trigonometry-node-3",
+                "label": "Hypotenuse",
+                "detail": "h = a/cos θ ≈ 9.14 cm"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-trigonometry-node-1",
+                "to": "extension-trigonometry-node-2",
+                "label": "match adjacent and hypotenuse"
+              },
+              {
+                "from": "extension-trigonometry-node-2",
+                "to": "extension-trigonometry-node-3",
+                "label": "multiply by h and divide by cos θ"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-mathematics-trigonometry-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "A right triangle has legs 6 cm opposite θ and 8 cm adjacent to θ. Find θ to one decimal place.",
+          "hints": [
+            "Use the ratio involving both legs.",
+            "Apply inverse tangent in degree mode."
+          ],
+          "solution": [
+            "tan θ = 6/8 = 0.75.",
+            "θ = tan⁻¹(0.75) ≈ 36.9°."
+          ],
+          "successCriteria": [
+            "Correct opposite/adjacent ratio.",
+            "Inverse tangent.",
+            "36.9° with degree units."
+          ]
+        },
+        {
+          "id": "extension-myp5-mathematics-trigonometry-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A right triangle has opposite side 5 cm and hypotenuse h cm, so sin 25° = 5/h. A learner writes h = 5 sin 25°. Correct the rearrangement and estimate h.",
+          "hints": [
+            "Multiply both sides by h.",
+            "The hypotenuse must exceed 5 cm."
+          ],
+          "solution": [
+            "h sin 25° = 5, hence h = 5/sin 25°.",
+            "h ≈ 11.83 cm; multiplication would incorrectly give about 2.11 cm."
+          ],
+          "successCriteria": [
+            "Correct algebraic rearrangement.",
+            "Approximately 11.83 cm.",
+            "Checks the longest-side requirement."
+          ]
+        }
+      ]
+    },
+    "myp5-mathematics-statistics": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Frequency-weighted totals",
+            "paragraphs": [
+              "When data have frequencies, each frequency counts repeated observations rather than contributing a new measurement value. A weighted mean multiplies each value by its frequency, adds those products, and divides by the total frequency. Comparing two groups also requires attention to spread and sample size. A pooled mean is weighted by group sizes; simply averaging group means is valid only when those sizes are equal. Frequency tables can hide individual detail, but exact discrete values still permit an exact mean, unlike broad grouped intervals that require estimates."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-statistics-worked",
+            "prompt": "Four pupils read 2 books each and six read 5 books each. Find the mean for the ten pupils.",
+            "steps": [
+              "Total books = 4 × 2 + 6 × 5 = 38.",
+              "Total pupils = 4 + 6 = 10; mean = 38/10 = 3.8."
+            ],
+            "conclusion": "The unweighted average of 2 and 5 would ignore the different frequencies."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-statistics-card-1",
+            "front": "What is the denominator of a weighted mean?",
+            "back": "The sum of the weights or frequencies."
+          },
+          {
+            "id": "extension-statistics-card-2",
+            "front": "When may two group means be averaged directly?",
+            "back": "When the groups contain equal numbers of observations."
+          },
+          {
+            "id": "extension-statistics-card-3",
+            "front": "Does a mean have to be an observed value?",
+            "back": "No; it can lie between possible discrete observations."
+          },
+          {
+            "id": "extension-statistics-card-4",
+            "front": "What does frequency count?",
+            "back": "How many observations have the stated value."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-statistics-diagram",
+            "title": "Frequency-weighted totals",
+            "description": "Use all ten pupils rather than two table rows.",
+            "nodes": [
+              {
+                "id": "extension-statistics-node-1",
+                "label": "Value × frequency",
+                "detail": "2 × 4 and 5 × 6"
+              },
+              {
+                "id": "extension-statistics-node-2",
+                "label": "Total observations",
+                "detail": "38 books across 10 pupils"
+              },
+              {
+                "id": "extension-statistics-node-3",
+                "label": "Mean",
+                "detail": "3.8 books per pupil"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-statistics-node-1",
+                "to": "extension-statistics-node-2",
+                "label": "sum products and frequencies"
+              },
+              {
+                "from": "extension-statistics-node-2",
+                "to": "extension-statistics-node-3",
+                "label": "divide total by count"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-mathematics-statistics-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "A score table has value 1 with frequency 2, value 3 with frequency 5, and value 6 with frequency 3. Find the mean.",
+          "hints": [
+            "Multiply each score by its frequency.",
+            "Divide by 2 + 5 + 3."
+          ],
+          "solution": [
+            "Weighted total = 2 + 15 + 18 = 35.",
+            "There are 10 scores, so the mean is 3.5."
+          ],
+          "successCriteria": [
+            "Correct weighted total.",
+            "Total frequency 10.",
+            "Mean 3.5."
+          ]
+        },
+        {
+          "id": "extension-myp5-mathematics-statistics-practice-2",
+          "difficulty": "Advanced",
+          "command": "Evaluate",
+          "marks": 3,
+          "prompt": "Class A has 12 pupils and mean score 8; class B has 18 pupils and mean score 6. Evaluate a combined mean of 7.",
+          "hints": [
+            "Reconstruct each group total.",
+            "The group sizes differ."
+          ],
+          "solution": [
+            "Total score = 12 × 8 + 18 × 6 = 204.",
+            "Combined mean = 204/30 = 6.8, so 7 is the unweighted and incorrect mean."
+          ],
+          "successCriteria": [
+            "Reconstructs weighted totals.",
+            "Divides by 30.",
+            "Explains why 7 is invalid."
+          ]
+        }
+      ]
+    },
+    "myp5-mathematics-probability": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "The denominator follows the condition",
+            "paragraphs": [
+              "A two-way table records two classifications together and helps distinguish joint from conditional probabilities. A joint probability uses the whole population as its denominator. A conditional probability restricts attention to the group named after “given that”, so its denominator is smaller. Read the wording before calculating. Independence means that learning one event occurred leaves the probability of the other unchanged. It is not the same as mutual exclusivity, where the events cannot happen together. Counts in a table should add consistently across rows, columns and the grand total."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-probability-worked",
+            "prompt": "Among 40 pupils, 18 cycle; 12 of those cyclists wear a blue coat. Find P(blue and cycles) and P(blue given cycles).",
+            "steps": [
+              "The joint event contains 12 of all 40 pupils: 12/40 = 0.3.",
+              "Conditioning on cycling restricts the group to 18 pupils: 12/18 = 2/3."
+            ],
+            "conclusion": "The numerator is the same; the question determines the denominator."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-probability-card-1",
+            "front": "What does “given A” do?",
+            "back": "It restricts the probability space to outcomes in A."
+          },
+          {
+            "id": "extension-probability-card-2",
+            "front": "What is a joint probability?",
+            "back": "The probability that both stated events occur."
+          },
+          {
+            "id": "extension-probability-card-3",
+            "front": "What establishes independence?",
+            "back": "Conditioning on one event leaves the other probability unchanged."
+          },
+          {
+            "id": "extension-probability-card-4",
+            "front": "Can disjoint positive-probability events be independent?",
+            "back": "No; occurrence of one prevents the other."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-probability-diagram",
+            "title": "The denominator follows the condition",
+            "description": "A restricted sample space changes the comparison.",
+            "nodes": [
+              {
+                "id": "extension-probability-node-1",
+                "label": "All pupils",
+                "detail": "40 people"
+              },
+              {
+                "id": "extension-probability-node-2",
+                "label": "Cyclists only",
+                "detail": "18 people"
+              },
+              {
+                "id": "extension-probability-node-3",
+                "label": "Blue-coated cyclists",
+                "detail": "12 of those 18"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-probability-node-1",
+                "to": "extension-probability-node-2",
+                "label": "condition on cycling"
+              },
+              {
+                "from": "extension-probability-node-2",
+                "to": "extension-probability-node-3",
+                "label": "count blue within the restricted group"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-mathematics-probability-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "A class has 30 pupils: 10 play chess, and 4 of the chess players also swim. Find the probability a randomly selected chess player swims.",
+          "hints": [
+            "The selection is already restricted to chess players.",
+            "Use the overlap as the numerator."
+          ],
+          "solution": [
+            "The relevant group contains 10 chess players.",
+            "P(swims given chess) = 4/10 = 0.4."
+          ],
+          "successCriteria": [
+            "Denominator 10.",
+            "Numerator 4.",
+            "Probability 0.4."
+          ]
+        },
+        {
+          "id": "extension-myp5-mathematics-probability-practice-2",
+          "difficulty": "Advanced",
+          "command": "Determine",
+          "marks": 3,
+          "prompt": "In a group, P(A) = 0.4, P(B) = 0.5 and P(A and B) = 0.2. Decide whether A and B are independent.",
+          "hints": [
+            "Compare the joint probability with P(A)P(B).",
+            "Alternatively find P(B given A)."
+          ],
+          "solution": [
+            "P(A)P(B) = 0.4 × 0.5 = 0.2, equal to the given joint probability.",
+            "The events are independent; also P(B given A) = 0.2/0.4 = 0.5."
+          ],
+          "successCriteria": [
+            "Correct product.",
+            "Compares with joint probability.",
+            "Valid independence conclusion."
+          ]
+        }
+      ]
+    },
+    "myp5-mathematics-sequences": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Pairing an arithmetic sequence",
+            "paragraphs": [
+              "The sum of a sequence is different from one term of that sequence. For an arithmetic sequence, pairing the first and last terms gives the same total as pairing the second and second-last. This leads to Sₙ = n(a + l)/2, where a and l are the first and last terms. Calculate the last term using the correct index before applying the formula. A negative common difference is permitted. In a finite context, check that the proposed number of terms is an integer and does not extend beyond a sensible domain."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-sequences-worked",
+            "prompt": "Find the sum of the first 12 terms of 5, 8, 11, …, assuming an arithmetic sequence.",
+            "steps": [
+              "The twelfth term is 5 + 11 × 3 = 38.",
+              "S₁₂ = 12(5 + 38)/2 = 258."
+            ],
+            "conclusion": "The answer 258 is the sum, while 38 is only the final term."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-sequences-card-1",
+            "front": "What does Sₙ represent?",
+            "back": "The sum of the first n terms."
+          },
+          {
+            "id": "extension-sequences-card-2",
+            "front": "How many differences separate term 1 and term n?",
+            "back": "n − 1 differences."
+          },
+          {
+            "id": "extension-sequences-card-3",
+            "front": "What is the arithmetic-sum formula?",
+            "back": "Sₙ = n(first + last)/2."
+          },
+          {
+            "id": "extension-sequences-card-4",
+            "front": "Why do endpoint pairs help?",
+            "back": "Every pair has the same sum in an arithmetic sequence."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-sequences-diagram",
+            "title": "Pairing an arithmetic sequence",
+            "description": "Constant pair sums explain the summation formula.",
+            "nodes": [
+              {
+                "id": "extension-sequences-node-1",
+                "label": "Endpoints",
+                "detail": "5 and 38 sum to 43"
+              },
+              {
+                "id": "extension-sequences-node-2",
+                "label": "Six pairs",
+                "detail": "12 terms make 6 pairs"
+              },
+              {
+                "id": "extension-sequences-node-3",
+                "label": "Total",
+                "detail": "6 × 43 = 258"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-sequences-node-1",
+                "to": "extension-sequences-node-2",
+                "label": "pair inward with the same sum"
+              },
+              {
+                "from": "extension-sequences-node-2",
+                "to": "extension-sequences-node-3",
+                "label": "multiply pair count by pair sum"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-mathematics-sequences-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "Find the sum of the first 10 terms of the arithmetic sequence 20, 18, 16, … .",
+          "hints": [
+            "The common difference is −2.",
+            "Find term 10 before summing."
+          ],
+          "solution": [
+            "Term 10 = 20 + 9(−2) = 2.",
+            "S₁₀ = 10(20 + 2)/2 = 110."
+          ],
+          "successCriteria": [
+            "Common difference −2.",
+            "Last term 2.",
+            "Sum 110."
+          ]
+        },
+        {
+          "id": "extension-myp5-mathematics-sequences-practice-2",
+          "difficulty": "Advanced",
+          "command": "Determine",
+          "marks": 3,
+          "prompt": "An arithmetic sequence starts 4, 9, 14, … . Find the smallest term exceeding 100 and its position.",
+          "hints": [
+            "Write uₙ = 4 + 5(n − 1).",
+            "Solve a strict inequality and choose an integer."
+          ],
+          "solution": [
+            "5n − 1 > 100 gives n > 20.2.",
+            "The smallest integer is n = 21 and u₂₁ = 104."
+          ],
+          "successCriteria": [
+            "Correct explicit rule.",
+            "Integer position 21.",
+            "Term 104 and strict-threshold reasoning."
+          ]
+        }
+      ]
+    },
+    "myp5-mathematics-patterns": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Count the border by subtraction",
+            "paragraphs": [
+              "Visual patterns can be proved by decomposing a general figure into parts that do not overlap. For a rectangular array, counting rows and columns gives a product. For a border, corners must not be counted twice. A table is useful for finding mistakes, but a structural count explains every allowed size. Equivalent formulas can reveal different decompositions of the same object. Always state the smallest permitted case: an expression involving an interior square may need separate treatment when that square does not yet exist."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-patterns-worked",
+            "prompt": "An n by n square grid of tiles has its outside border coloured, with n ≥ 2. Derive the number of coloured tiles.",
+            "steps": [
+              "Subtract the uncoloured interior: n² − (n − 2)².",
+              "Expand to obtain 4n − 4."
+            ],
+            "conclusion": "For n = 5, the border contains 16 tiles; corners are counted only once."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-patterns-card-1",
+            "front": "Why can 4n overcount a square border?",
+            "back": "Each corner belongs to two counted sides."
+          },
+          {
+            "id": "extension-patterns-card-2",
+            "front": "What does a structural proof explain?",
+            "back": "Why the rule holds for every allowed figure."
+          },
+          {
+            "id": "extension-patterns-card-3",
+            "front": "What is n² − (n − 2)²?",
+            "back": "4n − 4."
+          },
+          {
+            "id": "extension-patterns-card-4",
+            "front": "Why specify n ≥ 2 for the border rule?",
+            "back": "It matches the construction and avoids treating a nonexistent interior as a real square."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-patterns-diagram",
+            "title": "Count the border by subtraction",
+            "description": "Separate whole square, interior and retained border.",
+            "nodes": [
+              {
+                "id": "extension-patterns-node-1",
+                "label": "Whole grid",
+                "detail": "n² tiles"
+              },
+              {
+                "id": "extension-patterns-node-2",
+                "label": "Remove interior",
+                "detail": "(n − 2)² tiles"
+              },
+              {
+                "id": "extension-patterns-node-3",
+                "label": "Border",
+                "detail": "4n − 4 tiles for n ≥ 2"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-patterns-node-1",
+                "to": "extension-patterns-node-2",
+                "label": "exclude the inner square"
+              },
+              {
+                "from": "extension-patterns-node-2",
+                "to": "extension-patterns-node-3",
+                "label": "simplify the difference of squares"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-mathematics-patterns-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "A square tile grid has 10 tiles along each side. How many tiles lie on its outer border? Show a corner-safe count.",
+          "hints": [
+            "Subtract the 8 by 8 interior.",
+            "Or count top and bottom, then the two remaining side strips."
+          ],
+          "solution": [
+            "Whole grid = 100 and interior = 64.",
+            "Border = 100 − 64 = 36 tiles."
+          ],
+          "successCriteria": [
+            "Correct whole count.",
+            "Correct interior or corner adjustment.",
+            "36 border tiles."
+          ]
+        },
+        {
+          "id": "extension-myp5-mathematics-patterns-practice-2",
+          "difficulty": "Advanced",
+          "command": "Justify",
+          "marks": 3,
+          "prompt": "For positive integer n, show why the difference between consecutive square numbers (n + 1)² − n² is odd.",
+          "hints": [
+            "Expand the larger square.",
+            "An odd integer has the form 2k + 1."
+          ],
+          "solution": [
+            "(n + 1)² − n² = 2n + 1.",
+            "Since n is an integer, 2n is even and 2n + 1 is odd."
+          ],
+          "successCriteria": [
+            "Correct expansion.",
+            "Cancellation to 2n + 1.",
+            "Explains parity for every integer n."
+          ]
+        }
+      ]
+    },
+    "myp5-mathematics-modelling": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "A charge changes after an allowance",
+            "paragraphs": [
+              "Choosing between models involves more than fitting the observations exactly. A piecewise rule can describe a process whose rate changes after a threshold, such as a fixed allowance followed by a per-unit charge. Define which interval includes the boundary and check whether the two pieces agree there. Predictions should retain meaningful units and restrictions. Compare residuals over several settings: a repeated pattern in residuals can suggest that an important feature is missing. A small residual at one observation does not establish that a model will work in a new range."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-modelling-worked",
+            "prompt": "A fictional hire service charges 12 credits for up to 2 hours, then 4 credits per extra hour. Write a model and price a 3.5-hour hire.",
+            "steps": [
+              "For 0 < t ≤ 2, C(t) = 12; for t > 2, C(t) = 12 + 4(t − 2).",
+              "At 3.5 hours, C = 12 + 4(1.5) = 18 credits."
+            ],
+            "conclusion": "The second piece meets the first at t = 2; this model assumes fractional extra hours are charged proportionally."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-modelling-card-1",
+            "front": "What is a piecewise model?",
+            "back": "A rule using different expressions on different parts of the domain."
+          },
+          {
+            "id": "extension-modelling-card-2",
+            "front": "Why specify boundary inclusion?",
+            "back": "Every permitted input needs a clear applicable rule."
+          },
+          {
+            "id": "extension-modelling-card-3",
+            "front": "What is a residual?",
+            "back": "Observed value minus model prediction."
+          },
+          {
+            "id": "extension-modelling-card-4",
+            "front": "What can patterned residuals suggest?",
+            "back": "A systematic feature may be missing from the model."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-modelling-diagram",
+            "title": "A charge changes after an allowance",
+            "description": "The threshold controls which rate applies.",
+            "nodes": [
+              {
+                "id": "extension-modelling-node-1",
+                "label": "First two hours",
+                "detail": "Fixed charge 12 credits"
+              },
+              {
+                "id": "extension-modelling-node-2",
+                "label": "Extra time",
+                "detail": "t − 2 hours when t > 2"
+              },
+              {
+                "id": "extension-modelling-node-3",
+                "label": "Total charge",
+                "detail": "12 + 4(t − 2)"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-modelling-node-1",
+                "to": "extension-modelling-node-2",
+                "label": "subtract the included time"
+              },
+              {
+                "from": "extension-modelling-node-2",
+                "to": "extension-modelling-node-3",
+                "label": "add 4 credits per extra hour"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-mathematics-modelling-practice-1",
+          "difficulty": "Standard",
+          "command": "Model",
+          "marks": 3,
+          "prompt": "A fictional delivery fee is 5 credits for masses up to 3 kg, then 2 credits per extra kg, charged proportionally. Find the fee for 4.5 kg.",
+          "hints": [
+            "Only mass beyond 3 kg attracts the extra charge.",
+            "Add the fixed fee after calculating the excess."
+          ],
+          "solution": [
+            "Extra mass = 4.5 − 3 = 1.5 kg.",
+            "Fee = 5 + 2(1.5) = 8 credits."
+          ],
+          "successCriteria": [
+            "Extra mass 1.5 kg.",
+            "Correct fixed-plus-variable model.",
+            "Fee 8 credits."
+          ]
+        },
+        {
+          "id": "extension-myp5-mathematics-modelling-practice-2",
+          "difficulty": "Advanced",
+          "command": "Evaluate",
+          "marks": 3,
+          "prompt": "A model predicts 10, 20 and 30 units while independent observations are 12, 24 and 36. Assess its residual pattern.",
+          "hints": [
+            "Subtract each prediction from its observation.",
+            "Compare the residual size across the range."
+          ],
+          "solution": [
+            "Residuals are +2, +4 and +6 units.",
+            "Increasing positive residuals suggest systematic underprediction rather than a constant offset; more data could test a rate adjustment."
+          ],
+          "successCriteria": [
+            "Three correct residuals.",
+            "Identifies growing underprediction.",
+            "Qualified model-improvement interpretation."
+          ]
+        }
+      ]
+    },
+    "myp5-mathematics-financial": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Fixed and variable costs cross",
+            "paragraphs": [
+              "A percentage change can be expressed as a multiplier, which makes reverse calculations and comparisons transparent. In a classroom purchasing model, an upfront fixed charge and a usage charge contribute differently as use increases. The cheaper option can therefore depend on the number of uses. Solve an equality to find a break-even point, then test values on either side. Distinguish a numerical model from a real contract: rounding rules, taxes, timing and fees affect actual totals. The examples here use invented credits and stated assumptions, not financial-product recommendations."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-financial-worked",
+            "prompt": "Fictional plans cost A(n) = 18 + 2n credits and B(n) = 6 + 5n credits for n whole uses. Find where they cost the same.",
+            "steps": [
+              "18 + 2n = 6 + 5n gives 12 = 3n, so n = 4.",
+              "Both cost 26 credits at four uses."
+            ],
+            "conclusion": "At fewer than four uses B is cheaper; above four uses A is cheaper under this model."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-financial-card-1",
+            "front": "What is a break-even comparison?",
+            "back": "The input at which two specified total costs are equal."
+          },
+          {
+            "id": "extension-financial-card-2",
+            "front": "Why include fixed charges?",
+            "back": "They contribute even when usage charges are small."
+          },
+          {
+            "id": "extension-financial-card-3",
+            "front": "How is a percentage rise reversed?",
+            "back": "Divide by its multiplier."
+          },
+          {
+            "id": "extension-financial-card-4",
+            "front": "Does the cheapest model prove the best real purchase?",
+            "back": "No; service, constraints and actual terms also matter."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-financial-diagram",
+            "title": "Fixed and variable costs cross",
+            "description": "Two cost rules agree at one usage level.",
+            "nodes": [
+              {
+                "id": "extension-financial-node-1",
+                "label": "Plan A",
+                "detail": "18 + 2n"
+              },
+              {
+                "id": "extension-financial-node-2",
+                "label": "Equality",
+                "detail": "18 + 2n = 6 + 5n"
+              },
+              {
+                "id": "extension-financial-node-3",
+                "label": "Threshold",
+                "detail": "n = 4; total 26 credits"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-financial-node-1",
+                "to": "extension-financial-node-2",
+                "label": "compare with Plan B"
+              },
+              {
+                "from": "extension-financial-node-2",
+                "to": "extension-financial-node-3",
+                "label": "solve the linear equation"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-mathematics-financial-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "In a fictional price model, a 12% rise produces a final price of 84 credits. Find the original price.",
+          "hints": [
+            "The final price is 112% of the original.",
+            "Divide by 1.12."
+          ],
+          "solution": [
+            "1.12P = 84.",
+            "P = 84/1.12 = 75 credits."
+          ],
+          "successCriteria": [
+            "Multiplier 1.12.",
+            "Uses division rather than subtraction.",
+            "Original price 75 credits."
+          ]
+        },
+        {
+          "id": "extension-myp5-mathematics-financial-practice-2",
+          "difficulty": "Advanced",
+          "command": "Compare",
+          "marks": 3,
+          "prompt": "Fictional plans cost 30 + n credits and 10 + 3n credits for n whole uses. Compare them for 8 and 12 uses.",
+          "hints": [
+            "Substitute into both complete cost rules.",
+            "Check how the lower fixed cost trades against the higher usage rate."
+          ],
+          "solution": [
+            "At 8 uses the costs are 38 and 34 credits, so the second plan is cheaper.",
+            "At 12 uses they are 42 and 46 credits, so the first plan is cheaper."
+          ],
+          "successCriteria": [
+            "Correct pair at 8 uses.",
+            "Correct pair at 12 uses.",
+            "Identifies reversal of the cheaper option."
+          ]
+        }
+      ]
+    },
+    "myp5-mathematics-problem-solving": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "A bounded integer search",
+            "paragraphs": [
+              "An efficient search defines its constraints before listing possibilities. Whole-number restrictions, positivity and capacity limits can reduce a large search to a few cases. Organise cases so that none are skipped or counted twice, then show why the list is complete. Working backwards is useful when a process ends at a known result: reverse operations in the opposite order. A numerical answer is only a candidate until it satisfies every condition. If a problem has no solution, the contradiction should come from the constraints rather than an unsuccessful guess."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-problem-solving-worked",
+            "prompt": "A box holds red packs of 4 tokens and blue packs of 7 tokens. Exactly 25 tokens are packed using non-negative whole numbers of packs. Find all possibilities.",
+            "steps": [
+              "4r + 7b = 25 implies b can be 0, 1, 2 or 3.",
+              "These give r = 6.25, 4.5, 2.75 or 1 respectively."
+            ],
+            "conclusion": "Only r = 1 and b = 3 are allowed; 4 + 21 = 25 checks the unique solution."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-problem-solving-card-1",
+            "front": "Why bound the case list?",
+            "back": "It makes the search finite and allows completeness to be justified."
+          },
+          {
+            "id": "extension-problem-solving-card-2",
+            "front": "What reverses “multiply by 3 then add 5”?",
+            "back": "Subtract 5, then divide by 3."
+          },
+          {
+            "id": "extension-problem-solving-card-3",
+            "front": "What must a candidate solution satisfy?",
+            "back": "Every original condition, including integer restrictions."
+          },
+          {
+            "id": "extension-problem-solving-card-4",
+            "front": "Can one successful example prove uniqueness?",
+            "back": "No; other feasible cases must be excluded."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-problem-solving-diagram",
+            "title": "A bounded integer search",
+            "description": "Capacity bounds the cases before testing divisibility.",
+            "nodes": [
+              {
+                "id": "extension-problem-solving-node-1",
+                "label": "Total constraint",
+                "detail": "4r + 7b = 25"
+              },
+              {
+                "id": "extension-problem-solving-node-2",
+                "label": "Possible b values",
+                "detail": "0, 1, 2, 3"
+              },
+              {
+                "id": "extension-problem-solving-node-3",
+                "label": "Only integer pair",
+                "detail": "r = 1, b = 3"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-problem-solving-node-1",
+                "to": "extension-problem-solving-node-2",
+                "label": "use non-negativity to bound b"
+              },
+              {
+                "from": "extension-problem-solving-node-2",
+                "to": "extension-problem-solving-node-3",
+                "label": "require r to be a whole number"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-mathematics-problem-solving-practice-1",
+          "difficulty": "Standard",
+          "command": "Solve",
+          "marks": 3,
+          "prompt": "A number is doubled, then 9 is added, giving 35. Find the original number and check it.",
+          "hints": [
+            "Undo addition first.",
+            "Then undo multiplication."
+          ],
+          "solution": [
+            "35 − 9 = 26; 26/2 = 13.",
+            "Check: 2(13) + 9 = 35."
+          ],
+          "successCriteria": [
+            "Correct reverse order.",
+            "Original number 13.",
+            "Checks in original process."
+          ]
+        },
+        {
+          "id": "extension-myp5-mathematics-problem-solving-practice-2",
+          "difficulty": "Advanced",
+          "command": "Determine",
+          "marks": 3,
+          "prompt": "Packs contain 3 or 5 counters. Find all ways to obtain exactly 16 counters using whole packs.",
+          "hints": [
+            "Write 3a + 5b = 16.",
+            "The number of five-counter packs cannot exceed 3."
+          ],
+          "solution": [
+            "Testing b = 0, 1, 2, 3 gives a = 16/3, 11/3, 2, 1/3.",
+            "Only a = 2, b = 2 is integral; 6 + 10 = 16."
+          ],
+          "successCriteria": [
+            "Finite bound b ≤ 3.",
+            "Complete divisibility check.",
+            "Unique valid pair (2, 2)."
+          ]
+        }
+      ]
+    },
+    "myp5-mathematics-communication": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "From a general form to a proof",
+            "paragraphs": [
+              "A mathematical explanation separates a claim, its evidence and its conclusion. Define symbols before using them and distinguish an example from a general proof. An equality sign asserts equal values, while an implication arrow indicates that one statement follows from another. Approximation signs communicate rounding. Units can help test an equation: adding an area to a length is not meaningful without another relationship. In a proof, name assumptions such as “n is an integer”; those assumptions explain why a property like parity follows."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-communication-worked",
+            "prompt": "Explain why the sum of two odd integers is even.",
+            "steps": [
+              "Write the integers as 2a + 1 and 2b + 1, where a and b are integers.",
+              "Their sum is 2a + 2b + 2 = 2(a + b + 1)."
+            ],
+            "conclusion": "Because a + b + 1 is an integer, the sum is a multiple of 2 and is even."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-communication-card-1",
+            "front": "What does ≈ communicate?",
+            "back": "An approximate rather than exact equality."
+          },
+          {
+            "id": "extension-communication-card-2",
+            "front": "Why define a variable’s domain?",
+            "back": "The allowed values can be essential to the argument."
+          },
+          {
+            "id": "extension-communication-card-3",
+            "front": "What is a counterexample?",
+            "back": "One valid case that disproves a universal claim."
+          },
+          {
+            "id": "extension-communication-card-4",
+            "front": "Why are units part of communication?",
+            "back": "They identify the quantity and expose incompatible operations."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-communication-diagram",
+            "title": "From a general form to a proof",
+            "description": "The parity conclusion depends on integer assumptions.",
+            "nodes": [
+              {
+                "id": "extension-communication-node-1",
+                "label": "Odd integers",
+                "detail": "2a + 1 and 2b + 1"
+              },
+              {
+                "id": "extension-communication-node-2",
+                "label": "Factor their sum",
+                "detail": "2(a + b + 1)"
+              },
+              {
+                "id": "extension-communication-node-3",
+                "label": "Even result",
+                "detail": "Twice an integer"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-communication-node-1",
+                "to": "extension-communication-node-2",
+                "label": "add and collect terms"
+              },
+              {
+                "from": "extension-communication-node-2",
+                "to": "extension-communication-node-3",
+                "label": "apply the definition of even"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-mathematics-communication-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Improve the statement “area = 5 + 3 = 8 cm²” for a rectangle with sides 5 cm and 3 cm.",
+          "hints": [
+            "Area uses multiplication of perpendicular lengths.",
+            "Keep squared units attached to area."
+          ],
+          "solution": [
+            "A = length × width = 5 cm × 3 cm.",
+            "A = 15 cm²; adding lengths gives neither the area nor the perimeter."
+          ],
+          "successCriteria": [
+            "Names area relationship.",
+            "Correct multiplication and result.",
+            "Correct cm² units."
+          ]
+        },
+        {
+          "id": "extension-myp5-mathematics-communication-practice-2",
+          "difficulty": "Advanced",
+          "command": "Justify",
+          "marks": 3,
+          "prompt": "Prove that the product of an even integer and any integer is even.",
+          "hints": [
+            "Write the even integer as 2k.",
+            "State that all introduced letters represent integers."
+          ],
+          "solution": [
+            "Let the integers be 2k and m, with k and m integers.",
+            "Their product is 2km = 2(km); km is an integer, so the product is even."
+          ],
+          "successCriteria": [
+            "General even representation.",
+            "Correct factorisation.",
+            "Uses integer closure to conclude."
+          ]
+        }
+      ]
+    },
+    "myp5-mathematics-investigation": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Counting unordered pairs",
+            "paragraphs": [
+              "An investigation can begin by measuring small cases, but its final claim needs a stated domain and a justification. Separate the conjecture from the method used to test it. A useful next case is one that could reveal a boundary failure rather than merely repeat an easy pattern. When counting connections, decide whether order matters and whether self-connections are allowed. Overcounting often comes from counting the same pair from both endpoints. A general counting argument explains why the formula works and what would change under a different definition."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-investigation-worked",
+            "prompt": "In a group of n people, each shakes hands once with every other person. Derive the number of handshakes for n ≥ 2.",
+            "steps": [
+              "Each person has n − 1 partners, giving n(n − 1) endpoint counts.",
+              "Each handshake appears twice, once from each person, so divide by 2."
+            ],
+            "conclusion": "There are n(n − 1)/2 handshakes; for six people this gives 15."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-investigation-card-1",
+            "front": "Why divide the handshake count by two?",
+            "back": "Each unordered pair is counted from both endpoints."
+          },
+          {
+            "id": "extension-investigation-card-2",
+            "front": "What does a conjecture need?",
+            "back": "A clear claim, domain and subsequent justification or refutation."
+          },
+          {
+            "id": "extension-investigation-card-3",
+            "front": "Why test a boundary case?",
+            "back": "It may expose assumptions hidden by typical cases."
+          },
+          {
+            "id": "extension-investigation-card-4",
+            "front": "Does checking ten cases prove every integer case?",
+            "back": "No; a general argument is still needed."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-investigation-diagram",
+            "title": "Counting unordered pairs",
+            "description": "Endpoint counting is corrected for duplication.",
+            "nodes": [
+              {
+                "id": "extension-investigation-node-1",
+                "label": "Choose a person",
+                "detail": "n choices"
+              },
+              {
+                "id": "extension-investigation-node-2",
+                "label": "Choose a different partner",
+                "detail": "n − 1 choices"
+              },
+              {
+                "id": "extension-investigation-node-3",
+                "label": "Remove double counting",
+                "detail": "n(n − 1)/2 pairs"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-investigation-node-1",
+                "to": "extension-investigation-node-2",
+                "label": "count all partners"
+              },
+              {
+                "from": "extension-investigation-node-2",
+                "to": "extension-investigation-node-3",
+                "label": "divide by the two endpoint orders"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-mathematics-investigation-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "Nine teams each play every other team once. Find the number of matches and explain the counting adjustment.",
+          "hints": [
+            "Count opponents for each team.",
+            "Every match has two teams."
+          ],
+          "solution": [
+            "9 × 8 = 72 team-opponent counts.",
+            "72/2 = 36 matches because each match was counted twice."
+          ],
+          "successCriteria": [
+            "Counts 9 × 8.",
+            "Explains duplicate counting.",
+            "36 matches."
+          ]
+        },
+        {
+          "id": "extension-myp5-mathematics-investigation-practice-2",
+          "difficulty": "Advanced",
+          "command": "Evaluate",
+          "marks": 3,
+          "prompt": "A learner proposes that adding one person to an n-person handshake group adds n − 1 handshakes. Correct the rule and test n = 4.",
+          "hints": [
+            "The newcomer meets every existing person.",
+            "Compare totals for four and five people."
+          ],
+          "solution": [
+            "The added person creates n new handshakes, not n − 1.",
+            "For n = 4, totals rise from 6 to 10, an increase of 4."
+          ],
+          "successCriteria": [
+            "Correct increase n.",
+            "Explains newcomer connections.",
+            "Checks four-to-five case."
+          ]
+        }
+      ]
+    }
+  }
+}

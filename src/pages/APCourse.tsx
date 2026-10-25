@@ -1,3 +1,5 @@
+import StudyResourcePack from '@/components/StudyResourcePack';
+import { APP_ORIGIN } from '@/lib/appOrigin';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router';
 import SEO from '@/components/SEO';
@@ -44,7 +46,7 @@ export default function APCourse() {
   if (moduleSlug && !summary.modules.some((entry) => entry.id === moduleSlug)) return <PageSection className="ap-library"><h1>Study module not found</h1><p>This link does not identify a module in {summary.title}.</p><Link to={`/ap/${summary.slug}`}>Return to the course outline</Link></PageSection>;
 
   return <>
-    <SEO title={`${unit?.title ?? summary.title} | VertexED`} description={unit?.focus ?? summary.summary} canonical={`https://www.vertexed.app/ap/${courseSlug}${moduleSlug ? `/${moduleSlug}` : ''}`} />
+    <SEO title={`${unit?.title ?? summary.title} | VertexED`} description={unit?.focus ?? summary.summary} canonical={`${APP_ORIGIN}/ap/${courseSlug}${moduleSlug ? `/${moduleSlug}` : ''}`} />
     <PageSection className="ap-library ap-study">
       <nav className="ap-breadcrumb" aria-label="AP breadcrumbs"><Link to="/ap">All AP courses</Link><span aria-hidden>/</span><Link to={`/ap/${courseSlug}`}>{summary.title}</Link></nav>
       <header className="ap-course-header"><p className="ap-kicker">{summary.category} / Independent practice</p><h1>{summary.title}</h1><p>{summary.summary}</p>
@@ -54,20 +56,21 @@ export default function APCourse() {
       {failure && <div role="alert" className="ap-note"><p>{failure}</p><button type="button" onClick={() => setRetry((value) => value + 1)}>Try loading again</button></div>}
       {moduleSlug && !course && !failure && <p role="status">Loading the study module…</p>}
       {unit && course && <div className="ap-module" key={`${courseSlug}/${unit.id}`}>
-        <label className="ap-module-select">Study module<select value={unit.id} onChange={(event) => navigate(`/ap/${courseSlug}/${event.target.value}`)}>{course.modules.map((entry) => <option key={entry.id} value={entry.id}>{entry.frameworkUnit}: {entry.title}</option>)}</select></label>
+        <label className="ap-module-select"><span id="ap-module-select-label">Study module</span><select aria-labelledby="ap-module-select-label" value={unit.id} onChange={(event) => navigate(`/ap/${courseSlug}/${event.target.value}`)}>{course.modules.map((entry) => <option key={entry.id} value={entry.id}>{entry.frameworkUnit}: {entry.title}</option>)}</select></label>
         <article className="ap-lesson" aria-labelledby="ap-unit-title">
           <p className="ap-kicker">{unit.frameworkUnit} / Read</p><h2 id="ap-unit-title">{unit.title}</h2><p className="ap-focus">{unit.focus}</p>
           {unit.explanation.map((paragraph, index) => <p key={index}>{paragraph}</p>)}
           <section className="ap-example"><h3>Follow the reasoning</h3><p>{unit.workedExample.prompt}</p><ol>{unit.workedExample.steps.map((step, index) => <li key={index}>{step}</li>)}</ol></section>
           <aside className="ap-misconception"><h3>A misconception to check</h3><p><strong>Claim to challenge:</strong> {unit.misconception.claim}</p><p>{unit.misconception.correction}</p></aside>
         </article>
+        {unit.studyPack && <StudyResourcePack key={unit.id} pack={{ ...unit.studyPack, flashcards: [...(unit.reviewCards ?? []), ...unit.studyPack.flashcards] }} />}
         <section className="ap-practice" aria-labelledby="ap-practice-title"><p className="ap-kicker">Attempt / Review / Retry</p><h2 id="ap-practice-title">Now try it yourself.</h2><p>Your working stays here as you move between AP modules. It is temporary and clears on reload or when you leave this workspace. Download it before leaving. No account progress or AP marks are recorded.</p>
           {unit.questions.map((question, index) => {
             const key = `${courseSlug}/${unit.id}/${question.id}`;
             return <section className="ap-question" key={question.id} aria-labelledby={`question-${question.id}`}><h3 id={`question-${question.id}`}>Attempt {index + 1}</h3><p>{question.prompt}</p>
               <label htmlFor={`answer-${question.id}`}>Your working for attempt {index + 1}</label><textarea id={`answer-${question.id}`} rows={5} value={drafts[key] ?? ''} maxLength={12000} onChange={(event) => setDrafts((previous) => ({ ...previous, [key]: event.target.value }))} />
-              <details><summary>Show a hint</summary><p>{question.hint}</p></details>
-              <details><summary>Review reasoning and checkpoints</summary><p>{question.answer}</p><ul>{question.checkpoints.map((checkpoint, i) => <li key={i}>{checkpoint}</li>)}</ul><p>Compare the evidence and reasoning, then revise your response. These checkpoints are not an official scoring rubric.</p></details>
+              <details><summary>Show a hint</summary><ol aria-label={`Hint steps for attempt ${index + 1}`}>{(question.hints ?? [question.hint]).map((hint, i) => <li key={i}>{hint}</li>)}</ol></details>
+              <details><summary>Review reasoning and checkpoints</summary>{question.marks && question.difficulty && question.calculatorPolicy && <p><strong>Editorial practice guide:</strong> {question.marks} {question.marks === 1 ? 'mark' : 'marks'}; {question.difficulty}; calculator {question.calculatorPolicy === 'not-required' ? 'not required' : question.calculatorPolicy}.</p>}<p>{question.answer}</p><ul>{question.checkpoints.map((checkpoint, i) => <li key={i}>{checkpoint}</li>)}</ul><p>Compare the evidence and reasoning, then revise your response. These checkpoints are not an official scoring rubric.</p></details>
             </section>;
           })}
           <button type="button" className="ap-primary" onClick={exportWorking} disabled={!Object.entries(drafts).some(([key, value]) => key.startsWith(`${courseSlug}/`) && value.trim())}>Download course working</button>

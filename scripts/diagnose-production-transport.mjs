@@ -7,7 +7,7 @@ import https from 'node:https';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { dirname } from 'node:path';
 
-const TARGET_URL = new URL(process.env.TRANSPORT_DIAGNOSTIC_URL || 'https://www.vertexed.app');
+const TARGET_URL = new URL(process.env.TRANSPORT_DIAGNOSTIC_URL || 'https://vertex-ed-ai.vercel.app');
 const TIMEOUT_MS = Number(process.env.TRANSPORT_DIAGNOSTIC_TIMEOUT_MS || 10_000);
 const OUTPUT_PATH = process.env.TRANSPORT_DIAGNOSTIC_OUTPUT || '';
 const DNS_CNAME_MAX_HOPS = 8;

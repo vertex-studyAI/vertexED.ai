@@ -1,4 +1,5 @@
 import crypto from 'crypto';
+import { normalizeAppOrigin, resolveAppOrigin } from '../../contracts/appOrigin.js';
 
 export const WAITLIST_INVITE_TTL_MS = 7 * 24 * 60 * 60 * 1000;
 
@@ -20,6 +21,6 @@ export function getInviteExpiry(issuedAt = new Date()) {
 }
 
 export function buildInviteSignupUrl(origin, token) {
-  const base = (origin || 'https://www.vertexed.app').replace(/\/$/, '');
+  const base = normalizeAppOrigin(origin) || resolveAppOrigin(process.env);
   return `${base}/signup?invite=${encodeURIComponent(token)}`;
 }
