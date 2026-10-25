@@ -563,5 +563,12 @@
     "Restore or retire vertexed.app through the domain owner.",
     "Name backup/restore/rollback and alert owner, approve maintenance window and restore target before managed patch.",
     "Provide real-device and independent learner/legal acceptance; issue release GO only after outstanding evidence passes."
-  ]
+  ],
+  "review": {
+    "url": "https://github.com/vertex-studyAI/vertexED.ai/pull/1146",
+    "draft": true,
+    "initialPushedSnapshot": "7f4b18c7431c4f7c21fdce374249246f5b49cede",
+    "hostedChecks": "Must be checked against the current PR head; local implementation evidence is separate.",
+    "defaultBranchAdvisories": "Still present until reviewed dependency changes reach the default branch."
+  }
 }

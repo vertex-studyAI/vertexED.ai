@@ -2,6 +2,8 @@
 
 Decision: **NO-GO for full public release**. This is an engineering repair and verification receipt, not independent content approval or live-provider certification. Production remains at `200c0b17f61a53de0dff5ae62e088d274d4b9ac3` on `https://vertex-ed-ai.vercel.app` until a separately verified release.
 
+Review: [draft PR #1146](https://github.com/vertex-studyAI/vertexED.ai/pull/1146). Local canonical CI is bound to implementation `9c29a2223f4e8f3822b4d411fb9ea4e70fe8750a`; subsequent commits contain this report and review bookkeeping. Hosted checks must certify the current PR head separately. The initial pushed review snapshot was `7f4b18c7431c4f7c21fdce374249246f5b49cede`. GitHub still reports advisories on the unchanged default branch; the zero-vulnerability audit applies to this candidate's lockfile.
+
 ## Repairs completed
 
 - Revision events now enter an account-bound durable outbox before delivery. Reload, failed responses, wrong acknowledgements, concurrent sync, account switching, deletion and parent ordering have regression coverage. Failed uploads stay pending and exportable; volatile entries receive an explicit warning.

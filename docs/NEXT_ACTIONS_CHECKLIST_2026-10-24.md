@@ -4,7 +4,7 @@ Updated: 25 October 2026
 
 Current decision: **NO-GO for full public release**.
 
-The canonical Vercel application is operational at `https://vertex-ed-ai.vercel.app`, but the newest local candidate is not pushed or deployed. Curriculum publication, real-account authentication, live-provider quality, operational recovery and final release evidence remain incomplete. A checked item requires the stated acceptance evidence. Historical passes do not close a gate after the candidate, schema, content or environment changes.
+The canonical Vercel application is operational at `https://vertex-ed-ai.vercel.app`, and the candidate is published for draft review in [PR #1146](https://github.com/vertex-studyAI/vertexED.ai/pull/1146). It has not been deployed to production. Curriculum publication, real-account authentication, live-provider quality, operational recovery and final release evidence remain incomplete. A checked item requires the stated acceptance evidence. Historical passes do not close a gate after the candidate, schema, content or environment changes.
 
 Latest execution: [25 October repair and verification report](COMPLETION_EXECUTION_2026-10-25.md). Checked items below cover the stated local or hosted configuration evidence only; real-provider, independent review and full release gates remain open. The report retains failed attempts, correction runs and held-content skips.
 
@@ -20,16 +20,16 @@ Latest execution: [25 October repair and verification report](COMPLETION_EXECUTI
 - [x] Commit the Supabase receipt if it is part of the release evidence, or explicitly document why it remains external.
 - [x] Confirm generated files match their checked-in sources and manifests.
 - [x] Run `git diff --check` on the final candidate.
-- [ ] Run an outgoing secret scan on the exact final diff.
-- [ ] Record a clean or explicitly explained working-tree receipt.
+- [x] Run an outgoing secret scan on the exact final diff.
+- [x] Record a clean or explicitly explained working-tree receipt.
 
 Acceptance evidence: branch name, full candidate SHA, remote base SHA, commit list, diff summary, secret-scan receipt and final `git status`.
 
 ## 1. Reconcile source, GitHub and deployment identity
 
-- [ ] Push the reviewed candidate branch to GitHub.
-- [ ] Verify the remote branch tip equals the intended local SHA.
-- [ ] Open or update a review tied to that exact SHA.
+- [x] Push the reviewed candidate branch to GitHub.
+- [x] Verify the remote branch tip equals the intended local SHA.
+- [x] Open or update a review tied to that exact SHA.
 - [ ] Ensure required GitHub checks execute on the candidate rather than an earlier merge or synthetic revision.
 - [ ] Record the immutable workflow run URLs.
 - [ ] Record the tested head SHA separately from any pull-request merge SHA.
@@ -362,8 +362,8 @@ Acceptance evidence: first-hour report, issue register, final live revision and 
 
 ## Immediate execution order
 
-- [ ] 1. Freeze and review the candidate and outgoing diff.
-- [ ] 2. Resolve the untracked Supabase receipt.
+- [x] 1. Freeze and review the candidate and outgoing diff.
+- [x] 2. Resolve the untracked Supabase receipt.
 - [ ] 3. Push the reviewed branch and bind CI to its exact SHA.
 - [ ] 4. Correct Supabase Auth Site URL and callback variants.
 - [ ] 5. Reconcile the hosted migration ledger and run disposable replay.
