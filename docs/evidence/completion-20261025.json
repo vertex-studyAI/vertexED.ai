@@ -605,5 +605,46 @@
       }
     ],
     "finalHostedStatus": "See the current PR head and its checks; historical run receipts are not promoted to current-head success."
+  },
+  "linuxThemeFollowup": {
+    "reviewedCommit": "0dc67c9eff1a38183fa744003bade31bffd87f64",
+    "runUrl": "https://github.com/vertex-studyAI/vertexED.ai/actions/runs/40187017938",
+    "failure": "Nine Linux WebKit planner cases stalled in the shared theme helper while awaiting animation-frame callbacks. The trace reached the requested planner states before this verification stall.",
+    "correction": "Poll computed styles synchronously through the test runner. Preserve exact body foreground/background equality and opaque root checks, requiring three consecutive settled samples. A regression fixture pauses frame callbacks and exercises both themes.",
+    "sourceHashes": {
+      "e2e/theme-controls.ts": "12d924e5579ad616b68f2b23ab1645741b72688f40925a928e3e80ac9ddf066c",
+      "e2e/study-desk.spec.ts": "04b870166a05a6c3f011688fe312f27e31ec339e4cd4907979ba317dcc508ece"
+    },
+    "checks": [
+      {
+        "log": ".tmp/completion-20261025/hosted-learner-failure-0dc67c9e.log",
+        "sha256": "577bb9973b6e2575cd24953fce926f260bece98a8802d3a7f74b7962b30c8b5e",
+        "status": "FAILED_THEN_CORRECTED",
+        "learnerPassed": 66,
+        "learnerFailed": 9,
+        "learnerSkipped": 39,
+        "accessibilityPassed": 51,
+        "accessibilitySkipped": 1
+      },
+      {
+        "log": ".tmp/completion-20261025/theme-frame-correction.log",
+        "sha256": "1c049a79fc422abdecdbf27bc91f67ef8f3b988743c46f71b9e350081a0549f5",
+        "status": "PASS",
+        "passed": 12,
+        "browsers": [
+          "Chromium",
+          "Firefox",
+          "WebKit"
+        ]
+      },
+      {
+        "log": ".tmp/completion-20261025/theme-calendar-correction.log",
+        "sha256": "f6a919e99c6061d5345b86f56c5bd07cf4d1d990bb69825284a53b3de8402e95",
+        "status": "PASS",
+        "passed": 8,
+        "browser": "WebKit"
+      }
+    ],
+    "finalHostedStatus": "Current PR head must pass its own hosted run; the failed run above remains historical evidence."
   }
 }

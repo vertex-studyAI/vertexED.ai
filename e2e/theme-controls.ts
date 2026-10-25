@@ -15,46 +15,46 @@ export async function selectTheme(page: Page, theme: 'light' | 'dark') {
   // Compare the body with a DOM sentinel that uses the same tokens. Canvas pixel
   // reads and browser-computed colours pass through different colour-management
   // paths in WebKit, so comparing those representations produced false failures.
-  // Returning diagnostics instead of a boolean keeps any real mismatch visible.
-  await expect.poll(() => page.evaluate(async () => {
-    const sentinel = document.createElement('span');
-    sentinel.setAttribute('aria-hidden', 'true');
-    sentinel.style.cssText = [
-      'position:fixed',
-      'width:1px',
-      'height:1px',
-      'inset:auto auto 0 0',
-      'pointer-events:none',
-      'visibility:hidden',
-      'color:hsl(var(--foreground))',
-      'background-color:var(--page-bg-base)',
-    ].join(';');
-    document.body.append(sentinel);
-    const expected = getComputedStyle(sentinel);
-    const expectedColor = expected.color;
-    const expectedBackground = expected.backgroundColor;
-    let diagnostic = '';
-    for (let frame = 0; frame < 3; frame += 1) {
-      await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
+  // Sample through the test runner: headless Linux WebKit can pause animation
+  // frames even while DOM/style reads work. A frame callback must not block the
+  // predicate indefinitely. Three consecutive samples still require stable computed styles.
+  let settledSamples = 0;
+  await expect.poll(async () => {
+    const diagnostic = await page.evaluate(() => {
+      const sentinel = document.createElement('span');
+      sentinel.setAttribute('aria-hidden', 'true');
+      sentinel.style.cssText = [
+        'position:fixed',
+        'width:1px',
+        'height:1px',
+        'inset:auto auto 0 0',
+        'pointer-events:none',
+        'visibility:hidden',
+        'color:hsl(var(--foreground))',
+        'background-color:var(--page-bg-base)',
+      ].join(';');
+      document.body.append(sentinel);
+      const expected = getComputedStyle(sentinel);
+      const expectedColor = expected.color;
+      const expectedBackground = expected.backgroundColor;
       const body = getComputedStyle(document.body);
       const root = getComputedStyle(document.documentElement);
       const rootBackground = root.backgroundColor;
       const rootIsOpaque = rootBackground !== 'transparent' &&
         !/^rgba\([^,]+,[^,]+,[^,]+,\s*0(?:\.0+)?\)$/.test(rootBackground);
-      if (body.color !== expectedColor || body.backgroundColor !== expectedBackground || !rootIsOpaque) {
-        diagnostic = JSON.stringify({
-          frame,
+      const diagnostic = body.color !== expectedColor || body.backgroundColor !== expectedBackground || !rootIsOpaque
+        ? JSON.stringify({
           className: document.documentElement.className,
           bodyColor: body.color,
           expectedColor,
           bodyBackground: body.backgroundColor,
           expectedBackground,
           rootBackground,
-        });
-        break;
-      }
-    }
-    sentinel.remove();
-    return diagnostic || 'settled';
-  }), { message: 'Body text and html/body backgrounds have settled to the selected theme' }).toBe('settled');
+        }) : '';
+      sentinel.remove();
+      return diagnostic;
+    });
+    settledSamples = diagnostic ? 0 : settledSamples + 1;
+    return diagnostic || (settledSamples >= 3 ? 'settled' : `settling (${settledSamples}/3)`);
+  }, { intervals: [50, 100, 250], message: 'Body text and html/body backgrounds have settled to the selected theme' }).toBe('settled');
 }

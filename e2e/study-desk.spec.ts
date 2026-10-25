@@ -1,6 +1,24 @@
 import { selectTheme } from './theme-controls';
 import { expect, test, type Page } from '@playwright/test';
 
+test('theme checks finish when animation-frame callbacks are paused', async ({ page }) => {
+  await page.setContent(`<html class="light"><head><style>
+    :root { --foreground: 220 50% 15%; --page-bg-base: rgb(248, 250, 255); }
+    :root.dark { --foreground: 220 20% 90%; --page-bg-base: rgb(7, 15, 31); }
+    html, body { background-color: var(--page-bg-base); color: hsl(var(--foreground)); }
+  </style></head><body><button type="button" aria-label="Theme: Blue. Click to switch.">Theme</button>
+  <script>
+    window.requestAnimationFrame = () => 0;
+    document.querySelector('button').onclick = event => {
+      const dark = document.documentElement.className !== 'dark';
+      document.documentElement.className = dark ? 'dark' : 'light';
+      event.currentTarget.setAttribute('aria-label', 'Theme: ' + (dark ? 'Midnight' : 'Blue') + '. Click to switch.');
+    };
+  </script></body></html>`);
+  await selectTheme(page, 'dark');
+  await selectTheme(page, 'light');
+});
+
 // Local browser fixtures only. These do not certify live account access or cloud sync.
 async function signIn(page: Page, id = 'f40db66b-1b55-4ab8-88d0-14a9ba476c16') {
   const user = { id, aud: 'authenticated', role: 'authenticated', email: 'learner@example.test', app_metadata: { provider: 'email' }, user_metadata: { username: 'alexlearner', full_name: 'Alex', board: 'IB_MYP', grade: 10, subjects: ['Physics'] }, created_at: '2026-09-21T00:00:00Z', identities: [] };
