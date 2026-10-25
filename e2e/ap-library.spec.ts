@@ -115,6 +115,7 @@ test('failed AP content load can retry without rendering another course', async 
 });
 
 test('installed AP content opens an unvisited course offline', async ({ page, context }) => {
+  test.skip(!productionBundle, 'Offline installation requires the production service worker; draft authoring has none.');
   await page.goto('/ap');
   await page.evaluate(async () => {
     await navigator.serviceWorker.ready;

@@ -570,5 +570,40 @@
     "initialPushedSnapshot": "7f4b18c7431c4f7c21fdce374249246f5b49cede",
     "hostedChecks": "Must be checked against the current PR head; local implementation evidence is separate.",
     "defaultBranchAdvisories": "Still present until reviewed dependency changes reach the default branch."
+  },
+  "hostedFollowup": {
+    "reviewedCommit": "7ed211c3e7378c7ddacb5fc7357cd400a720c2dd",
+    "runUrl": "https://github.com/vertex-studyAI/vertexED.ai/actions/runs/40186068909",
+    "canonicalGate": "PASS; downloaded manifest source SHA and log size/hash verified.",
+    "databaseContract": "PASS",
+    "workflowBoundary": "AP job failed because its config started draft authoring despite requesting production. Other jobs were still running when this correction was prepared; this is not an overall workflow PASS.",
+    "correction": "Built-mode AP tests now inherit the production preview server. Authoring mode retains its dedicated server; its inapplicable offline check is explicitly skipped, while production still runs it.",
+    "sourceHashes": {
+      "playwright.ap.config.ts": "eab37f00863ab51a1d30c773167ddb1d559a4830edd21aef7a1d2b9cd62c5e29",
+      "e2e/ap-library.spec.ts": "be469c543c0d498e465279de484a52b8e56f0667c45ea9b0c245fbf5000ab090"
+    },
+    "checks": [
+      {
+        "log": ".tmp/completion-20261025/hosted-ap-failure.log",
+        "sha256": "7c8d4964fa6367b71dd8a60f5ea8f6f30ee8e27de467a61e0db35aeb1eedf302",
+        "status": "FAILED_THEN_CORRECTED",
+        "failed": 7
+      },
+      {
+        "log": ".tmp/completion-20261025/ap-production-correction.log",
+        "sha256": "66481c3470c5336abac79cf20cdd3b33b7576805f0a788ed1bda4eb6e7f5baba",
+        "status": "PASS",
+        "passed": 7
+      },
+      {
+        "log": ".tmp/completion-20261025/ap-authoring-correction.log",
+        "sha256": "daf33c8fe73e222d51791ade3e4b3d7f01641d77fa2d0f642769bdd916311a3e",
+        "status": "PASS_WITH_EXPECTED_SKIP",
+        "passed": 6,
+        "skipped": 1,
+        "reason": "Authoring has no service worker; offline is certified in the seven-case production suite."
+      }
+    ],
+    "finalHostedStatus": "See the current PR head and its checks; historical run receipts are not promoted to current-head success."
   }
 }
