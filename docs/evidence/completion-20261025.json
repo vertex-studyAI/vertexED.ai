@@ -718,5 +718,34 @@
       }
     ],
     "finalHostedStatus": "The current PR head must pass its own hosted run; no hosted pass is inferred from local correction checks."
+  },
+  "playwrightCompatibility": {
+    "version": "1.63.0",
+    "previousVersion": "1.64.1",
+    "upstreamIssue": "https://github.com/microsoft/playwright/issues/43426",
+    "reason": "Linux WebKit r2370 backdrop-filter rendering regression; the newer preview fix is incomplete for overlapping filters. Retain the unaffected stable test engine until a stable fix passes the full matrix.",
+    "productionDependencyChanges": false,
+    "auditVulnerabilities": 0,
+    "learnerTestsDiscovered": 117,
+    "localWebKitPassed": 11,
+    "sourceHashes": {
+      "package.json": "ef3c4be5be5d74fd256a5b4329bd11591ced7b92ef448a4a034f4a898b3a7a75",
+      "package-lock.json": "2a60d162d8aaf12563b14d3ebe095f021fa3e3556fbe98a6fc5343a9c068a750"
+    },
+    "logs": [
+      {
+        "path": ".tmp/completion-20261025/playwright-compat-install.log",
+        "sha256": "413a3a1013a3cfce3f371be454f1ffc15bef9b9b2695ac3e3606e0fb8fcc7a34"
+      },
+      {
+        "path": ".tmp/completion-20261025/playwright-compat-list.log",
+        "sha256": "2ded7e1624807831ca492776ddfac273e5d92479ef3af197db79d7be734cb1a0"
+      },
+      {
+        "path": ".tmp/completion-20261025/playwright-compat-correction.log",
+        "sha256": "8168a97d3e5893c124d49282f441499b7cf545ca39de73f0d4f60f2ef2a31bf8"
+      }
+    ],
+    "finalHostedStatus": "Current-head full hosted checks remain required."
   }
 }
