@@ -1,0 +1,567 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-25T10:43:21.999335+00:00",
+  "decision": "NO-GO",
+  "implementationCommit": "9c29a2223f4e8f3822b4d411fb9ea4e70fe8750a",
+  "startingCommit": "fb58d80b906fd6250cf22f45ba480c0ff12eb5d1",
+  "baseCommit": "b398bf921dbef71ba98303b121e04944a2954cff",
+  "branch": "codex/liquid-glass-polish",
+  "runtime": {
+    "node": "22.22.0",
+    "npm": "10.9.4"
+  },
+  "production": {
+    "origin": "https://vertex-ed-ai.vercel.app",
+    "revision": "200c0b17f61a53de0dff5ae62e088d274d4b9ac3",
+    "candidateDeployed": false
+  },
+  "checks": [
+    {
+      "log": ".tmp/completion-20261025/ci-9c29a222.log",
+      "sha256": "a839df44f010c1a9f3dfdc61083863a163175302486f7a976c18d62b4c52a084",
+      "status": "PASS",
+      "command": "npm run ci",
+      "sourceCommit": "9c29a2223f4e8f3822b4d411fb9ea4e70fe8750a",
+      "applicationTests": 1858,
+      "evaluationUnitTests": 25,
+      "copyLintFiles": 623,
+      "copyLintFindings": 0,
+      "contentReviewFlags": 53
+    },
+    {
+      "log": ".tmp/completion-20261025/ci-8812c9ff.log",
+      "sha256": "6476606d47dc3172398c2803e64fbd17444cfcea760181160757c68a0eb84a7f",
+      "status": "PASS_WITH_WARNING",
+      "sourceCommit": "8812c9ff0b49641321542c8856b1adf788def74c",
+      "warning": "React cleanup warning fixed in 9716afbb; superseded by final CI."
+    },
+    {
+      "log": ".tmp/completion-20261025/ci-9716afbb.log",
+      "sha256": "257a8769d3921539f02182d8c4f080380cd6886eea5f58b11861e1ffae1bdb0e",
+      "status": "INVALID_ATTEMPT",
+      "reason": "Lint encountered removed generated browser assets during concurrent build; generated-directory exclusion corrected in 9c29a222."
+    },
+    {
+      "log": ".tmp/completion-20261025/db-final-test.log",
+      "sha256": "4e6678159e80768ab4e8d7a7f7bd1d9ddc723b12ee0e5ee55c453ab3c4043076",
+      "status": "PASS",
+      "migrations": 37,
+      "assertions": 198,
+      "files": 10,
+      "postgres": "17.6",
+      "boundary": "Disposable isolated replay; not a hosted data backup or live-account acceptance."
+    },
+    {
+      "log": ".tmp/completion-20261025/product-browser-final.log",
+      "sha256": "d26ccc1d045b9c3f5e567c5e26f923099a62aecbdc31549406eb1c1793167b7c",
+      "status": "FAILED_THEN_CORRECTED",
+      "passed": 152,
+      "failed": 10,
+      "corrections": [
+        "browser-corrections.log",
+        "math-footer-correction.log"
+      ]
+    },
+    {
+      "log": ".tmp/completion-20261025/browser-corrections.log",
+      "sha256": "5256fc1d3129112c217f3f3cc805ccee789114fa9c52fe6c2f2fc841d05b793e",
+      "status": "FAILED_THEN_CORRECTED",
+      "passed": 22,
+      "failed": 2,
+      "details": "All 15 AI scenarios passed. Two mobile footer failures resolved by maths correction."
+    },
+    {
+      "log": ".tmp/completion-20261025/math-footer-correction.log",
+      "sha256": "b550c791096f12d1e511385849458facb041cff2294a40f7014ae987cd828c6e",
+      "status": "PASS",
+      "passed": 9,
+      "browsers": [
+        "Chromium",
+        "Firefox",
+        "WebKit"
+      ],
+      "widths": [
+        1440,
+        1024,
+        390
+      ]
+    },
+    {
+      "log": ".tmp/completion-20261025/learner-browser-final.log",
+      "sha256": "384bf1fefcef0b88a662d783c542a462d7a8e012ebdc80fa4ffa0f8b30b41545",
+      "status": "INVALID_ATTEMPT",
+      "reason": "Missing required VERTEXED_REFERENCE_BUILT=1 held-content build boundary; stopped."
+    },
+    {
+      "log": ".tmp/completion-20261025/learner-browser-corrected.log",
+      "sha256": "2a571cf971c63c0e06fb13fd4208e1d7ce07d22576c7808da1f3ff14a8155356",
+      "status": "FAILED_THEN_CORRECTED",
+      "passed": 69,
+      "failed": 6,
+      "skipped": 39,
+      "reason": "Six stale study-desk count assertions corrected; held curriculum intentionally excluded.",
+      "correction": "study-desk-final.log"
+    },
+    {
+      "log": ".tmp/completion-20261025/study-desk-final.log",
+      "sha256": "db396d61cebff6b1bfde3bd202acac373a4886191bb40d234d87d640cc5e0a17",
+      "status": "PASS",
+      "passed": 18,
+      "browsers": [
+        "Chromium",
+        "Firefox",
+        "WebKit"
+      ]
+    },
+    {
+      "log": ".tmp/completion-20261025/accessibility.log",
+      "sha256": "8d7d0f054591e6511c8bebe98e2ea9e2350bc6b3e7bedda0b9238377e2e225a6",
+      "status": "PASS_WITH_EXPECTED_SKIP",
+      "passed": 51,
+      "skipped": 1,
+      "reason": "Mobile-navigation check is inapplicable to desktop viewport.",
+      "widths": [
+        375,
+        390,
+        430,
+        768,
+        1024,
+        1440
+      ]
+    },
+    {
+      "log": ".tmp/completion-20261025/revision-final.log",
+      "sha256": "f01daf07475b0ba456cd32c9ce1bc110e1bc3e5303cd90ead20f84626da1f911",
+      "status": "INVALID_ATTEMPT",
+      "reason": "Selected test was outside product-config testMatch; no assertions ran."
+    },
+    {
+      "log": ".tmp/completion-20261025/revision-final-corrected.log",
+      "sha256": "791965f5b51f014b8c383886f4469de221847b468f6140533a0c4a89a22f547b",
+      "status": "PASS",
+      "passed": 9,
+      "sourceCommit": "9c29a2223f4e8f3822b4d411fb9ea4e70fe8750a",
+      "browsers": [
+        "Chromium",
+        "Firefox",
+        "WebKit"
+      ],
+      "widths": [
+        1440,
+        1024,
+        390
+      ]
+    },
+    {
+      "log": ".tmp/completion-20261025/clean-install.log",
+      "sha256": "0dd9850fb40ee73bbab6ea2caa8d7c9419227d93a6b725717a1351628e905ad7",
+      "status": "PASS",
+      "packagesInstalled": 523,
+      "warning": "Upstream glob@10.5.0 deprecation retained."
+    },
+    {
+      "log": ".tmp/completion-20261025/dependency-audit-final.json",
+      "sha256": "0294be6a5449b32e8e4b5d8d73779e640d6f2e71cd3f6a68d31fd07fee061a21",
+      "status": "PASS",
+      "vulnerabilities": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 0,
+        "critical": 0,
+        "total": 0
+      }
+    },
+    {
+      "log": ".tmp/completion-20261025/candidate-secret-scan-final.log",
+      "sha256": "afa572b6cf9385f92033f7f9bc96b4694bf72abec3c5cda5488b0e0ad9daed5a",
+      "status": "PASS",
+      "boundary": "726 candidate files at the pre-final-docs snapshot; later history and staged-document scans supplement it."
+    },
+    {
+      "log": ".tmp/completion-20261025/history-secret-scan-9c29a222.log",
+      "sha256": "7ad140e760b3007f4e9dede90ef18268f3225a59ba8f4cc6b67e7c6b09e79d17",
+      "status": "PASS",
+      "commits": 8,
+      "boundary": "Outgoing implementation range through 9c29a222; staged documentation is scanned separately before commit."
+    },
+    {
+      "log": ".tmp/completion-20261025/bundle-secret-scan-9c29a222.log",
+      "sha256": "387356a21c71ba4197663c71b6e219325d58a6b3d19c50d33032a0edb6ccedc8",
+      "status": "PASS",
+      "boundary": "Final implementation build used for the nine revision recovery scenarios."
+    },
+    {
+      "log": ".tmp/completion-20261025/css-security-update-check.json",
+      "sha256": "1f90b510fa4e3f1fcf27e901a47a620d8fb321abba072ffc1c0aef2fe14ad125",
+      "status": "PASS",
+      "assets": 20,
+      "boundary": "Dependency-only CSS comparison, before intentional notebook/navigation corrections."
+    },
+    {
+      "log": ".tmp/completion-20261025/production-smoke.log",
+      "sha256": "6a21b79abdb9f5859c6e04b038439aacdb7ea6f486f8e0f7fbed46773c908f72",
+      "status": "PASS",
+      "sourceCommit": "200c0b17f61a53de0dff5ae62e088d274d4b9ac3",
+      "boundary": "Existing production only; does not certify the candidate."
+    },
+    {
+      "log": ".tmp/completion-20261025/vercel-production-env-names.log",
+      "sha256": "dccbf5a6e48c6dedde616f329ac121177dab35a39c55e578837c8cb5f82d488a",
+      "status": "BLOCKED",
+      "reason": "Existing CLI session not authorized; no environment values retrieved."
+    },
+    {
+      "log": ".tmp/completion-20261025/vercel-project-access.log",
+      "sha256": "dac96366b562ef4f6a8d96eede3153c491030ccf2c4be7fd8fc6d59262879928",
+      "status": "BLOCKED",
+      "reason": "Account access required; existing project link preserved."
+    }
+  ],
+  "hostedDatabase": {
+    "projectId": "xwlrzgfuhfbckgvcmyoq",
+    "postgres": "17.4.1.074",
+    "migrations": [
+      {
+        "hostedVersion": "20261025095123",
+        "source": "supabase/migrations/20260927083605_apex_conversation_snapshot.sql",
+        "sourceSha256": "0b5e1949ea05977e51d2fcbeefae6c1e18f86d7c4c0b4d826520d0eb84fe9df4"
+      },
+      {
+        "hostedVersion": "20261025095138",
+        "source": "supabase/migrations/20261016123000_ai_usage_service_only.sql",
+        "sourceSha256": "2de530c318bacc5d9c3d9b5df05b7cda512649107696e0426a868d1b75b190d7"
+      },
+      {
+        "hostedVersion": "20261025095141",
+        "source": "supabase/migrations/20261019031851_verified_revision_graph.sql",
+        "sourceSha256": "ab0e6ef581939a33559ef55f2b5f29586df4bb9f01d0593fef9c1350645bc4e6"
+      },
+      {
+        "hostedVersion": "20261025095146",
+        "source": "supabase/migrations/20261025092940_revision_history_readiness.sql",
+        "sourceSha256": "8cb4dd0e969c388d54098ac138cd4ed0cd9ac20e9d8a3c648e12ddc783c041b5"
+      },
+      {
+        "hostedVersion": "20261025095343",
+        "source": "supabase/migrations/20261025094027_scheduled_rate_limit_retention.sql",
+        "sourceSha256": "f05eb2273c9b7ab877409c60f46cd7b6a270f2fa58b4da5b8ed977eb9d2f97c2"
+      },
+      {
+        "hostedVersion": "20261025100314",
+        "source": "supabase/migrations/20260921141447_learning_practice_state.sql",
+        "sourceSha256": "922829b7a36fe62f37eab7f4e5dbcb23cde66d7c543111847fb73100f6f44dd9"
+      },
+      {
+        "hostedVersion": "20261025100333",
+        "source": "supabase/migrations/20261025095740_practice_state_readiness.sql",
+        "sourceSha256": "932060ed28b93663e92c5f5b5cb3003db1f63c12300a55ffefc76a05cc73d5f6"
+      }
+    ],
+    "readinessCapabilitiesTrue": 10,
+    "publicTablesRlsAndForceRls": 34,
+    "serviceOnlyTablesWithoutBrowserGrants": 5,
+    "savedStudyArtifactsPreserved": 3,
+    "practiceRows": 0,
+    "revisionRows": 0,
+    "revisionServiceUpdate": false,
+    "revisionServiceDelete": false,
+    "practiceBrowserExecute": false,
+    "retention": {
+      "job": "vertexed-rate-limit-retention-v1",
+      "scheduleUtc": "17 3 * * *",
+      "days": 30,
+      "retainedRows": 1,
+      "expiredRows": 0,
+      "firstScheduledExecutionVerified": false
+    },
+    "securityWarnings": [
+      "auth_leaked_password_protection",
+      "vulnerable_postgres_version"
+    ],
+    "intentionalServiceOnlyInfoAdvisories": 5,
+    "catalogReceipts": [
+      {
+        "log": ".tmp/completion-20261025/hosted-schema-preflight.json",
+        "sha256": "0d2e592771fda21133f8a2fb565f609b96b4f61ce795583e9203a4b9b0261cb6",
+        "status": "READ_ONLY_CATALOG"
+      },
+      {
+        "log": ".tmp/completion-20261025/hosted-schema-postflight.json",
+        "sha256": "35d97ebebb5cf2e83eedcd0acf3f48d0f435373727cdada31e13351e3f9fc6b0",
+        "status": "READ_ONLY_CATALOG"
+      },
+      {
+        "log": ".tmp/completion-20261025/hosted-practice-preflight.json",
+        "sha256": "1f811dab999c5229e4c72df7958a5d24d1e50e271f20411926828497725af1cc",
+        "status": "READ_ONLY_CATALOG"
+      },
+      {
+        "log": ".tmp/completion-20261025/hosted-practice-postflight.json",
+        "sha256": "466c158724ec73cd6eb1c9b947d8d91caa92fb17acd46b28e6870d756d57d884",
+        "status": "READ_ONLY_CATALOG"
+      }
+    ],
+    "boundary": "Catalog snapshots are not backups. Only listed migration applications are mapped; historical shared ledger ownership, managed patch, restore and live-account acceptance remain open."
+  },
+  "curriculum": {
+    "sharedLessons": 91,
+    "foundationLessons": 43,
+    "approvedSharedLessons": 0,
+    "legacyReviewFlags": 53,
+    "completedCourses": 0,
+    "publicDelivery": "Exact-hash approval required; unapproved content held."
+  },
+  "screenshots": [
+    {
+      "path": ".tmp/completion-20261025/math-footer-correction/math-rendering-private-not-e6939-ng-and-untrusted-TeX-at-390-chromium/maths-390-dark.png",
+      "sha256": "e45e7c1f74d1963007fbb568c5707469f3096c3e43939412f4dcbcb3d77ac296"
+    },
+    {
+      "path": ".tmp/completion-20261025/math-footer-correction/math-rendering-private-not-e6939-ng-and-untrusted-TeX-at-390-chromium/maths-390-light.png",
+      "sha256": "721abc9290353352fe0e4973a630ddf88705a885e91e408d3955115a3a83a229"
+    },
+    {
+      "path": ".tmp/completion-20261025/math-footer-correction/math-rendering-private-not-e6939-ng-and-untrusted-TeX-at-390-chromium/maths-footer-390-dark.png",
+      "sha256": "9fe227637627096292b281b6e1b2a279cb8f745818cd2b6bf31394e283c93982"
+    },
+    {
+      "path": ".tmp/completion-20261025/math-footer-correction/math-rendering-private-not-e6939-ng-and-untrusted-TeX-at-390-chromium/maths-footer-390-light.png",
+      "sha256": "a53d07161cf03c7a8560385cc147b97fe70872187d6ed94c043c9de4783ad9b1"
+    },
+    {
+      "path": ".tmp/completion-20261025/math-footer-correction/math-rendering-private-not-e6939-ng-and-untrusted-TeX-at-390-chromium/maths-page-390-dark.png",
+      "sha256": "3379300d5df2f835edf4bb225ebbd68719977c387084fcb6fff0b5b491b7db1e"
+    },
+    {
+      "path": ".tmp/completion-20261025/math-footer-correction/math-rendering-private-not-e6939-ng-and-untrusted-TeX-at-390-chromium/maths-page-390-light.png",
+      "sha256": "45f472eea2eaceb62002b2c368535b775310f215a0971640038673d6d354f482"
+    },
+    {
+      "path": ".tmp/completion-20261025/math-footer-correction/math-rendering-private-not-e6939-ng-and-untrusted-TeX-at-390-firefox/maths-390-dark.png",
+      "sha256": "8782d53f2f61330e65f86924f824c1ac3d29569cd5cec794572eeb0ebe41c904"
+    },
+    {
+      "path": ".tmp/completion-20261025/math-footer-correction/math-rendering-private-not-e6939-ng-and-untrusted-TeX-at-390-firefox/maths-390-light.png",
+      "sha256": "a968aaad82e464dc4d6d2a9a389386a1941004b9589105c0d0f333cd57430d7f"
+    },
+    {
+      "path": ".tmp/completion-20261025/math-footer-correction/math-rendering-private-not-e6939-ng-and-untrusted-TeX-at-390-firefox/maths-footer-390-dark.png",
+      "sha256": "7b6e2a084df8d6f8346fd0299e971b5efc569489984ee800d5493fd99aa699c2"
+    },
+    {
+      "path": ".tmp/completion-20261025/math-footer-correction/math-rendering-private-not-e6939-ng-and-untrusted-TeX-at-390-firefox/maths-footer-390-light.png",
+      "sha256": "10b7fbdc9442541f0857094506aa782f92da0f050e612a38659083be48653180"
+    },
+    {
+      "path": ".tmp/completion-20261025/math-footer-correction/math-rendering-private-not-e6939-ng-and-untrusted-TeX-at-390-firefox/maths-page-390-dark.png",
+      "sha256": "fa28a65c8a796b13a6f185abd033e7b1d168882774a0b9fe3385453dd225aac1"
+    },
+    {
+      "path": ".tmp/completion-20261025/math-footer-correction/math-rendering-private-not-e6939-ng-and-untrusted-TeX-at-390-firefox/maths-page-390-light.png",
+      "sha256": "ed4d75ca4b582847514c51d5d30f95a0793111690b6f42dd7628c3a3dc42133b"
+    },
+    {
+      "path": ".tmp/completion-20261025/math-footer-correction/math-rendering-private-not-e6939-ng-and-untrusted-TeX-at-390-webkit/maths-390-dark.png",
+      "sha256": "643ae9bf92794303300e66d5dfc5c06e672c80485660c20c5b76f90f8b250c42"
+    },
+    {
+      "path": ".tmp/completion-20261025/math-footer-correction/math-rendering-private-not-e6939-ng-and-untrusted-TeX-at-390-webkit/maths-390-light.png",
+      "sha256": "27532a1d111df0d4a6f0064efaccc97c6fd2a215fd9c41fd0d53a343db7dd30d"
+    },
+    {
+      "path": ".tmp/completion-20261025/math-footer-correction/math-rendering-private-not-e6939-ng-and-untrusted-TeX-at-390-webkit/maths-footer-390-dark.png",
+      "sha256": "86c9018d1f9148207f4b245e9dfc1881a8abebd236ae44a30bc0f35a828f74aa"
+    },
+    {
+      "path": ".tmp/completion-20261025/math-footer-correction/math-rendering-private-not-e6939-ng-and-untrusted-TeX-at-390-webkit/maths-footer-390-light.png",
+      "sha256": "9d708033f6df0c3c0b60c03695287e949d322c4898d5e8bcb88fe75bbef408b3"
+    },
+    {
+      "path": ".tmp/completion-20261025/math-footer-correction/math-rendering-private-not-e6939-ng-and-untrusted-TeX-at-390-webkit/maths-page-390-dark.png",
+      "sha256": "31d0cc81c3573d8664e692554c767e8d25a60f0cc3cf70d764c3d7e8fcebb3ae"
+    },
+    {
+      "path": ".tmp/completion-20261025/math-footer-correction/math-rendering-private-not-e6939-ng-and-untrusted-TeX-at-390-webkit/maths-page-390-light.png",
+      "sha256": "952c01f5f4d6f9d52e8984ad087697fe01aecc450e24b2407af257671dc04b86"
+    },
+    {
+      "path": ".tmp/completion-20261025/math-footer-correction/math-rendering-private-not-e9b70-g-and-untrusted-TeX-at-1440-chromium/maths-1440-dark.png",
+      "sha256": "2c4885ec14f4652fb4b0beed63b2b07e97417ecd9e87f2fd5da03713774b3212"
+    },
+    {
+      "path": ".tmp/completion-20261025/math-footer-correction/math-rendering-private-not-e9b70-g-and-untrusted-TeX-at-1440-chromium/maths-1440-light.png",
+      "sha256": "67ed87fa0b813605b89fda89b4bd69b273996d346c7db49e87d18cad52e365c6"
+    },
+    {
+      "path": ".tmp/completion-20261025/math-footer-correction/math-rendering-private-not-e9b70-g-and-untrusted-TeX-at-1440-chromium/maths-footer-1440-dark.png",
+      "sha256": "c62f014f2c87a5ca213e3ecc9f7bb85c8d9586ba9319ad643f1f366e00843018"
+    },
+    {
+      "path": ".tmp/completion-20261025/math-footer-correction/math-rendering-private-not-e9b70-g-and-untrusted-TeX-at-1440-chromium/maths-footer-1440-light.png",
+      "sha256": "fa7630cb9bfe06a6d5855cf765f2f588b4a3b4f234ddb5a2d9be057fa399da94"
+    },
+    {
+      "path": ".tmp/completion-20261025/math-footer-correction/math-rendering-private-not-e9b70-g-and-untrusted-TeX-at-1440-chromium/maths-page-1440-dark.png",
+      "sha256": "4718cb4d5a6870c8e92e88707d93a59b3c445b023eaed06636237f4fb5dd8a93"
+    },
+    {
+      "path": ".tmp/completion-20261025/math-footer-correction/math-rendering-private-not-e9b70-g-and-untrusted-TeX-at-1440-chromium/maths-page-1440-light.png",
+      "sha256": "157a079d51cb20b4aca3a33cf297128db2d2ed605bd13f516f2e245e790aa562"
+    },
+    {
+      "path": ".tmp/completion-20261025/math-footer-correction/math-rendering-private-not-e9b70-g-and-untrusted-TeX-at-1440-firefox/maths-1440-dark.png",
+      "sha256": "c05795968acf158dff2c0a755484adc4d2e23ca63b5cc3c49bc87071894fb09e"
+    },
+    {
+      "path": ".tmp/completion-20261025/math-footer-correction/math-rendering-private-not-e9b70-g-and-untrusted-TeX-at-1440-firefox/maths-1440-light.png",
+      "sha256": "dd21b48aa271a40e16436df7138a64c3caa1fae58e485505bb5e806b19f07749"
+    },
+    {
+      "path": ".tmp/completion-20261025/math-footer-correction/math-rendering-private-not-e9b70-g-and-untrusted-TeX-at-1440-firefox/maths-footer-1440-dark.png",
+      "sha256": "d22f38f484b8e70f9c893d4808079e459340bfdb90c7b63c3fda662dfa315b5b"
+    },
+    {
+      "path": ".tmp/completion-20261025/math-footer-correction/math-rendering-private-not-e9b70-g-and-untrusted-TeX-at-1440-firefox/maths-footer-1440-light.png",
+      "sha256": "898cee79a6aba0031640d76bdd725df8e817ecb875308e075a53078332233bf1"
+    },
+    {
+      "path": ".tmp/completion-20261025/math-footer-correction/math-rendering-private-not-e9b70-g-and-untrusted-TeX-at-1440-firefox/maths-page-1440-dark.png",
+      "sha256": "c8059a43d4e1ecd034d048add0c8e22aac418831a0200eb1ea4114b480cdc662"
+    },
+    {
+      "path": ".tmp/completion-20261025/math-footer-correction/math-rendering-private-not-e9b70-g-and-untrusted-TeX-at-1440-firefox/maths-page-1440-light.png",
+      "sha256": "4a3c9ccb8c4d5acd497ca15067e70d9c0236670e72c99f749771fba5910e3362"
+    },
+    {
+      "path": ".tmp/completion-20261025/math-footer-correction/math-rendering-private-not-e9b70-g-and-untrusted-TeX-at-1440-webkit/maths-1440-dark.png",
+      "sha256": "5860a47f0c0220f517c6812f2f478a46a259116c044be036a882fee97dae3a1f"
+    },
+    {
+      "path": ".tmp/completion-20261025/math-footer-correction/math-rendering-private-not-e9b70-g-and-untrusted-TeX-at-1440-webkit/maths-1440-light.png",
+      "sha256": "3576ceb0aa7ca6747d1489b69c12332e1dd685f13ac07b74df452639ae907399"
+    },
+    {
+      "path": ".tmp/completion-20261025/math-footer-correction/math-rendering-private-not-e9b70-g-and-untrusted-TeX-at-1440-webkit/maths-footer-1440-dark.png",
+      "sha256": "70113a95aab4249c86fc89af92d463810ff98906e4842c1b8de82ce094a2b5d2"
+    },
+    {
+      "path": ".tmp/completion-20261025/math-footer-correction/math-rendering-private-not-e9b70-g-and-untrusted-TeX-at-1440-webkit/maths-footer-1440-light.png",
+      "sha256": "005f4ca88e7260b509b14382e56988b9da71e2f08b21993321121823df8b5fc7"
+    },
+    {
+      "path": ".tmp/completion-20261025/math-footer-correction/math-rendering-private-not-e9b70-g-and-untrusted-TeX-at-1440-webkit/maths-page-1440-dark.png",
+      "sha256": "c1075d1ffe623f0df7af5d8cb6f924982e8044a86e1291dfe24233776417b1e2"
+    },
+    {
+      "path": ".tmp/completion-20261025/math-footer-correction/math-rendering-private-not-e9b70-g-and-untrusted-TeX-at-1440-webkit/maths-page-1440-light.png",
+      "sha256": "98f70c144dbff9599e83676e52e2ad260a6e7af65ed130935e7ed8e70d58794e"
+    },
+    {
+      "path": ".tmp/completion-20261025/math-footer-correction/math-rendering-private-not-f6e48-g-and-untrusted-TeX-at-1024-chromium/maths-1024-dark.png",
+      "sha256": "35e522efe38373caf82170160852002f52392aaec41823bf20f162ed55ae133d"
+    },
+    {
+      "path": ".tmp/completion-20261025/math-footer-correction/math-rendering-private-not-f6e48-g-and-untrusted-TeX-at-1024-chromium/maths-1024-light.png",
+      "sha256": "3df618df9f8318b564fd897c550d0f1a6261f6d05587de4afd63db94d0d2b2af"
+    },
+    {
+      "path": ".tmp/completion-20261025/math-footer-correction/math-rendering-private-not-f6e48-g-and-untrusted-TeX-at-1024-chromium/maths-footer-1024-dark.png",
+      "sha256": "2eed3ec0c818e45fe8aa74314a0e5676e30bf160f6b89670673dfe6cab94dafa"
+    },
+    {
+      "path": ".tmp/completion-20261025/math-footer-correction/math-rendering-private-not-f6e48-g-and-untrusted-TeX-at-1024-chromium/maths-footer-1024-light.png",
+      "sha256": "cf960891485f29ffa0a1e1fe81bbf576fe66979496a153296ae3ae3cbda6401e"
+    },
+    {
+      "path": ".tmp/completion-20261025/math-footer-correction/math-rendering-private-not-f6e48-g-and-untrusted-TeX-at-1024-chromium/maths-page-1024-dark.png",
+      "sha256": "27e472d9558850567d27a07a34ef06e50a210cec67f6b93b78bd1a90bdc82ff6"
+    },
+    {
+      "path": ".tmp/completion-20261025/math-footer-correction/math-rendering-private-not-f6e48-g-and-untrusted-TeX-at-1024-chromium/maths-page-1024-light.png",
+      "sha256": "f701d994c457a09e05c08b668329bafae2c4c565bc34ab18fd4441eb59839920"
+    },
+    {
+      "path": ".tmp/completion-20261025/math-footer-correction/math-rendering-private-not-f6e48-g-and-untrusted-TeX-at-1024-firefox/maths-1024-dark.png",
+      "sha256": "e5d6d8633db11fce71fa646e98f252d5f09535b13754e26b24b6a3371022c037"
+    },
+    {
+      "path": ".tmp/completion-20261025/math-footer-correction/math-rendering-private-not-f6e48-g-and-untrusted-TeX-at-1024-firefox/maths-1024-light.png",
+      "sha256": "1c7653bd2873c1e4e7a55d7a94ca57d8d64ee5e7da2cc2c671c4bccdf71dbd58"
+    },
+    {
+      "path": ".tmp/completion-20261025/math-footer-correction/math-rendering-private-not-f6e48-g-and-untrusted-TeX-at-1024-firefox/maths-footer-1024-dark.png",
+      "sha256": "23ff2d840de9ad154ff3978b8b50bb4b458747aff335098f1f6a243f70527fc1"
+    },
+    {
+      "path": ".tmp/completion-20261025/math-footer-correction/math-rendering-private-not-f6e48-g-and-untrusted-TeX-at-1024-firefox/maths-footer-1024-light.png",
+      "sha256": "45169e5ddf9fa1a86d9c12699de4894b15fef1e74449c9523e1bc447cec9e7f6"
+    },
+    {
+      "path": ".tmp/completion-20261025/math-footer-correction/math-rendering-private-not-f6e48-g-and-untrusted-TeX-at-1024-firefox/maths-page-1024-dark.png",
+      "sha256": "62cda16366f8a8bcfc56b369bc7c7f349d924074b3f1777c17255aeb205f654a"
+    },
+    {
+      "path": ".tmp/completion-20261025/math-footer-correction/math-rendering-private-not-f6e48-g-and-untrusted-TeX-at-1024-firefox/maths-page-1024-light.png",
+      "sha256": "4e8ee629f38b6a65c762cd15d7b07b92184fd86c5c053196797bea8a210a8773"
+    },
+    {
+      "path": ".tmp/completion-20261025/math-footer-correction/math-rendering-private-not-f6e48-g-and-untrusted-TeX-at-1024-webkit/maths-1024-dark.png",
+      "sha256": "b62067baba072bc7881cbd8e56c3c04a485ec50e0be15d21fe2a03a2405df007"
+    },
+    {
+      "path": ".tmp/completion-20261025/math-footer-correction/math-rendering-private-not-f6e48-g-and-untrusted-TeX-at-1024-webkit/maths-1024-light.png",
+      "sha256": "7ce35699a7a5a18587ef83f9f682b695367edbb94b807d30822ca6cc91984cb9"
+    },
+    {
+      "path": ".tmp/completion-20261025/math-footer-correction/math-rendering-private-not-f6e48-g-and-untrusted-TeX-at-1024-webkit/maths-footer-1024-dark.png",
+      "sha256": "6bd8902914690e0104aa0251ae899687004f45fc4b16e7f880bea1362aabc19d"
+    },
+    {
+      "path": ".tmp/completion-20261025/math-footer-correction/math-rendering-private-not-f6e48-g-and-untrusted-TeX-at-1024-webkit/maths-footer-1024-light.png",
+      "sha256": "c96456b9e9c2f118fdb502af661f003ff30328f3e9fd19942abd6886d348f7f1"
+    },
+    {
+      "path": ".tmp/completion-20261025/math-footer-correction/math-rendering-private-not-f6e48-g-and-untrusted-TeX-at-1024-webkit/maths-page-1024-dark.png",
+      "sha256": "20389ce11b92eacc3e57c837045b496845387ca449d7b9e024a27608a1e6bec3"
+    },
+    {
+      "path": ".tmp/completion-20261025/math-footer-correction/math-rendering-private-not-f6e48-g-and-untrusted-TeX-at-1024-webkit/maths-page-1024-light.png",
+      "sha256": "a5799586e92ef77961baeedd18f91a751f855153fd83b8d06ac96eaea4b6d2b4"
+    },
+    {
+      "path": ".tmp/completion-20261025/revision-final-corrected/persistence-recovery-pendi-63b80-exports-and-retries-at-1440-chromium/revision-pending-dark-1440.png",
+      "sha256": "211d60da005d6663f6655cd5531d0300a0197c988be1ec7a91dd8d2258582ee7"
+    },
+    {
+      "path": ".tmp/completion-20261025/revision-final-corrected/persistence-recovery-pendi-63b80-exports-and-retries-at-1440-chromium/revision-pending-light-1440.png",
+      "sha256": "0f285fd7213a04f92f0db36d8f60521a19615e1a8897cc9ca5a4b4f2185022a9"
+    },
+    {
+      "path": ".tmp/completion-20261025/revision-final-corrected/persistence-recovery-pendi-924df-exports-and-retries-at-1024-chromium/revision-pending-dark-1024.png",
+      "sha256": "661c15aa13ba5f5d03ae7a81cc0331406cb10bfda2bd208edff4bc91ef2d2d2d"
+    },
+    {
+      "path": ".tmp/completion-20261025/revision-final-corrected/persistence-recovery-pendi-924df-exports-and-retries-at-1024-chromium/revision-pending-light-1024.png",
+      "sha256": "cbc758da9e631fc7423b84b456d6070c4060a19db5496b6665264cf5ca148a8e"
+    },
+    {
+      "path": ".tmp/completion-20261025/revision-final-corrected/persistence-recovery-pendi-ae23a--exports-and-retries-at-390-chromium/revision-pending-dark-390.png",
+      "sha256": "8f08eaf7130549a0db8b9b8b2ba71fd2118c08967ece97c99a96b785ad49438a"
+    },
+    {
+      "path": ".tmp/completion-20261025/revision-final-corrected/persistence-recovery-pendi-ae23a--exports-and-retries-at-390-chromium/revision-pending-light-390.png",
+      "sha256": "6f30703dab54ff36f493122334326bc9a35ae6ccc2fd8c40de5be6c8bbd284e0"
+    }
+  ],
+  "reviewBoundary": "Full baseline runs plus focused corrections are retained individually. No claim that one final complete browser run passed. Fixture results do not certify real identities, email delivery, live providers, learning gains or independent content approval.",
+  "remainingOwnerInputs": [
+    "Complete Supabase/GitHub sign-in for Site URL, callback and leaked-password settings.",
+    "Restore Vercel CLI access for the account owning vertex-ed-ai.",
+    "Provide controlled approved A/B, denied and admin identities and inbox access for real acceptance.",
+    "Choose launch curriculum scope and independent subject, answer-key, rights and safeguarding reviewers.",
+    "Restore or retire vertexed.app through the domain owner.",
+    "Name backup/restore/rollback and alert owner, approve maintenance window and restore target before managed patch.",
+    "Provide real-device and independent learner/legal acceptance; issue release GO only after outstanding evidence passes."
+  ]
+}

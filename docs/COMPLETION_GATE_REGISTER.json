@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-19T00:00:00+05:30",
+  "updatedAt": "2026-10-25T00:00:00+05:30",
   "checklist": "PUBLISHABLE_COMPLETION_CHECKLIST.md",
   "decision": "NO-GO",
   "scope": "Execution register. PASS requires the complete gate acceptance; local partial receipts do not close live or full-product gates.",
@@ -6508,5 +6508,14 @@
       "content": "Blue/white identity and revision trace preserved; unavailable content shown honestly",
       "errorBehavior": "Visible loading/empty/error/retry/focus behavior requires actual keyboard/browser inspection; source tests are not visual acceptance."
     }
+  },
+  "latestExecution": {
+    "report": "COMPLETION_EXECUTION_2026-10-25.md",
+    "evidenceIndex": "evidence/completion-20261025.json",
+    "implementationCommit": "9c29a2223f4e8f3822b4d411fb9ea4e70fe8750a",
+    "startingCommit": "fb58d80b906fd6250cf22f45ba480c0ff12eb5d1",
+    "decision": "NO-GO",
+    "newFullGateClosures": 0,
+    "boundary": "Current local and hosted configuration repairs are recorded separately. Historical gate PASS and PARTIAL_LOCAL entries below are not recertified by this pointer. Real identities, provider delivery, independent content approval, backup restore and release ownership remain required."
   }
 }

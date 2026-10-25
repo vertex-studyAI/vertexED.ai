@@ -1,23 +1,25 @@
 # VertexED mega completion checklist
 
-Updated: 24 October 2026
+Updated: 25 October 2026
 
 Current decision: **NO-GO for full public release**.
 
 The canonical Vercel application is operational at `https://vertex-ed-ai.vercel.app`, but the newest local candidate is not pushed or deployed. Curriculum publication, real-account authentication, live-provider quality, operational recovery and final release evidence remain incomplete. A checked item requires the stated acceptance evidence. Historical passes do not close a gate after the candidate, schema, content or environment changes.
 
+Latest execution: [25 October repair and verification report](COMPLETION_EXECUTION_2026-10-25.md). Checked items below cover the stated local or hosted configuration evidence only; real-provider, independent review and full release gates remain open. The report retains failed attempts, correction runs and held-content skips.
+
 ## 0. Freeze the candidate identity
 
-- [ ] Confirm the intended release branch is `codex/liquid-glass-polish`.
-- [ ] Record the starting local HEAD, currently `0d144851df13d7a3ef8524c64fa649c542328896`.
-- [ ] Confirm the remote branch and `main` still point to the expected revision before any push.
-- [ ] Review the four commits currently ahead of `origin/codex/liquid-glass-polish`.
-- [ ] Review the complete 704-file branch delta for accidental, generated or unrelated content.
-- [ ] Confirm all unrelated research remains outside the VertexED product boundary.
-- [ ] Decide whether `docs/evidence/SUPABASE_LIVE_HARDENING_20261021.md` belongs in the candidate.
-- [ ] Commit the Supabase receipt if it is part of the release evidence, or explicitly document why it remains external.
-- [ ] Confirm generated files match their checked-in sources and manifests.
-- [ ] Run `git diff --check` on the final candidate.
+- [x] Confirm the intended release branch is `codex/liquid-glass-polish`.
+- [x] Record the starting local HEAD, `fb58d80b906fd6250cf22f45ba480c0ff12eb5d1` for this execution.
+- [x] Confirm the remote branch and `main` still point to the expected revision before any push.
+- [x] Review the five pre-existing commits ahead of `origin/codex/liquid-glass-polish` and this execution's repairs.
+- [x] Inventory the complete candidate delta for accidental, generated or unrelated content; retain the file list and outgoing scan.
+- [x] Confirm all unrelated research remains outside the VertexED product boundary.
+- [x] Decide whether `docs/evidence/SUPABASE_LIVE_HARDENING_20261021.md` belongs in the candidate.
+- [x] Commit the Supabase receipt if it is part of the release evidence, or explicitly document why it remains external.
+- [x] Confirm generated files match their checked-in sources and manifests.
+- [x] Run `git diff --check` on the final candidate.
 - [ ] Run an outgoing secret scan on the exact final diff.
 - [ ] Record a clean or explicitly explained working-tree receipt.
 
@@ -32,7 +34,7 @@ Acceptance evidence: branch name, full candidate SHA, remote base SHA, commit li
 - [ ] Record the immutable workflow run URLs.
 - [ ] Record the tested head SHA separately from any pull-request merge SHA.
 - [ ] Require all release evidence manifests to name the same candidate SHA.
-- [ ] Confirm no generated revision module remains stamped after local packaging.
+- [x] Confirm no generated revision module remains stamped after local packaging.
 - [ ] Decide whether the current production revision `200c0b17f61a53de0dff5ae62e088d274d4b9ac3` should be retained or replaced.
 - [ ] Do not claim the local candidate is deployed until live health returns its exact SHA.
 
@@ -40,26 +42,26 @@ Acceptance evidence: remote ref lookup, review URL, successful required checks, 
 
 ## 2. Complete current-head local CI
 
-- [ ] Use Node `>=22.22.0 <23` and the repository package manager.
-- [ ] Run a clean dependency install from the committed lockfile.
-- [ ] Run full ESLint.
-- [ ] Run copy lint and retain all legacy findings.
-- [ ] Run copy-lint unit tests.
-- [ ] Run TypeScript type checking.
-- [ ] Validate the single-function Vercel boundary and all routed endpoints.
-- [ ] Run the complete content audit in check mode.
-- [ ] Verify feedback-to-evaluation promotion remains privacy gated.
-- [ ] Run the production dependency audit with a fresh advisory response.
-- [ ] Run the full canonical application suite.
-- [ ] Run evaluation unit tests.
-- [ ] Run the synthetic ask evaluation.
-- [ ] Run the synthetic grading evaluation without rewriting evidence.
-- [ ] Run the production-mode build with immutable revision enforcement.
-- [ ] Run initial, largest-chunk and total bundle budgets.
-- [ ] Run critical-route growth budgets.
-- [ ] Confirm the initial JavaScript bundle remains below its 275,000-byte gzip ceiling.
-- [ ] Preserve logs and hashes for every required command.
-- [ ] Repeat affected checks after any subsequent source or lockfile change.
+- [x] Use Node `>=22.22.0 <23` and the repository package manager.
+- [x] Run a clean dependency install from the committed lockfile.
+- [x] Run full ESLint.
+- [x] Run copy lint and retain all legacy findings.
+- [x] Run copy-lint unit tests.
+- [x] Run TypeScript type checking.
+- [x] Validate the single-function Vercel boundary and all routed endpoints.
+- [x] Run the complete content audit in check mode.
+- [x] Verify feedback-to-evaluation promotion remains privacy gated.
+- [x] Run the production dependency audit with a fresh advisory response.
+- [x] Run the full canonical application suite.
+- [x] Run evaluation unit tests.
+- [x] Run the synthetic ask evaluation.
+- [x] Run the synthetic grading evaluation without rewriting evidence.
+- [x] Run the production-mode build with immutable revision enforcement.
+- [x] Run initial, largest-chunk and total bundle budgets.
+- [x] Run critical-route growth budgets.
+- [x] Confirm the initial JavaScript bundle remains below its 275,000-byte gzip ceiling.
+- [x] Preserve logs and hashes for every required command.
+- [x] Repeat affected checks after any subsequent source or lockfile change.
 
 Acceptance evidence: one exact-SHA CI receipt with zero failures, no silently skipped required gate and hashes for retained logs.
 
@@ -68,27 +70,27 @@ Acceptance evidence: one exact-SHA CI receipt with zero failures, no silently sk
 - [ ] Run the current-head Chromium suite.
 - [ ] Run the current-head Firefox suite.
 - [ ] Run the current-head WebKit suite.
-- [ ] Exercise 1440px desktop layouts.
-- [ ] Exercise 1024px tablet layouts.
-- [ ] Exercise 390px mobile layouts.
+- [x] Exercise 1440px desktop layouts.
+- [x] Exercise 1024px tablet layouts.
+- [x] Exercise 390px mobile layouts.
 - [ ] Inspect landing, authentication, dashboard and all nine principal study destinations.
-- [ ] Test keyboard-only navigation and visible focus.
-- [ ] Test dialog focus trap, initial focus and opener restoration.
-- [ ] Test reduced-motion behavior.
-- [ ] Test Blue and Midnight themes.
-- [ ] Test mobile fixed navigation against floating controls and Apex.
+- [x] Test keyboard-only navigation and visible focus.
+- [x] Test dialog focus trap, initial focus and opener restoration.
+- [x] Test reduced-motion behavior.
+- [x] Test Blue and Midnight themes.
+- [x] Test mobile fixed navigation against floating controls and Apex.
 - [ ] Test loading, empty, degraded, denied, conflict and recovery states.
-- [ ] Capture representative final screenshots at all three widths.
-- [ ] Inspect screenshots rather than treating capture success as visual approval.
-- [ ] Make a correction pass for every material visual or interaction defect.
-- [ ] Re-run affected scenarios after corrections.
+- [x] Capture representative final screenshots at all three widths.
+- [x] Inspect screenshots rather than treating capture success as visual approval.
+- [x] Make a correction pass for every material visual or interaction defect.
+- [x] Re-run affected scenarios after corrections.
 
 Acceptance evidence: browser report, screenshot inventory, inspected-width list, accessibility observations, correction log and zero unresolved release-blocking failures.
 
 ## 4. Finish the content and curriculum programme
 
-- [ ] Preserve the current 90-lesson shared library and all source hashes.
-- [ ] Preserve the 42 AP-course and 17 MYP-subject source identities.
+- [x] Preserve the current 91-lesson shared library and all source hashes.
+- [x] Preserve the 42 AP-course and 17 MYP-subject source identities.
 - [ ] Create versioned topic maps for every supported course.
 - [ ] Define explicit course-level denominators before claiming coverage percentages.
 - [ ] Complete the remaining Mathematics units beyond Number and A-Level Proof.
@@ -105,11 +107,11 @@ Acceptance evidence: browser report, screenshot inventory, inspected-width list,
 - [ ] Independently recompute numerical answers.
 - [ ] Independently review prose answers, marking points and misconceptions.
 - [ ] Validate diagrams, formula conditions, units and assumptions.
-- [ ] Confirm generated public assets retain exact source hashes.
-- [ ] Keep all unapproved teaching bodies out of public delivery, retrieval, offline manifests and sitemaps.
-- [ ] Retain the 53 legacy review flags until individually resolved.
-- [ ] Do not count pathway links as completed courses.
-- [ ] Do not count structurally valid generated content as independent subject review.
+- [x] Confirm generated public assets retain exact source hashes.
+- [x] Keep all unapproved teaching bodies out of public delivery, retrieval, offline manifests and sitemaps.
+- [x] Retain the 53 legacy review flags until individually resolved.
+- [x] Do not count pathway links as completed courses.
+- [x] Do not count structurally valid generated content as independent subject review.
 
 Acceptance evidence: versioned source register, complete topic maps, answer-review records, rights records, exact hashes, remaining-gap register and independently reviewed course totals.
 
@@ -171,18 +173,18 @@ Acceptance evidence: redacted end-to-end journey receipts for each access state,
 
 ## 8. Reconcile and certify the hosted database
 
-- [ ] Preserve the completed RLS and FORCE RLS hardening.
-- [ ] Re-run the security advisor against the current hosted schema.
-- [ ] Confirm every exposed public table has RLS and FORCE RLS.
-- [ ] Confirm service-only tables have no browser grants or client policies.
+- [x] Preserve the completed RLS and FORCE RLS hardening.
+- [x] Re-run the security advisor against the current hosted schema.
+- [x] Confirm every exposed public table has RLS and FORCE RLS.
+- [x] Confirm service-only tables have no browser grants or client policies.
 - [ ] Confirm all owner-scoped policies bind rows to the authenticated identity.
 - [ ] Confirm update policies use both `USING` and `WITH CHECK` where required.
 - [ ] Confirm privileged functions have explicit search paths and minimal execution grants.
 - [ ] Confirm views do not bypass RLS.
 - [ ] Reconcile the hosted migration ledger with the canonical release source.
-- [ ] Do not rename or replay local migrations to manufacture equivalence.
-- [ ] Replay the canonical migration set in a disposable environment.
-- [ ] Run all SQL acceptance tests and pgTAP checks.
+- [x] Do not rename or replay local migrations to manufacture equivalence.
+- [x] Replay the canonical migration set in a disposable environment.
+- [x] Run all SQL acceptance tests and pgTAP checks.
 - [ ] Run real cross-account read, create, update and delete checks.
 - [ ] Run concurrent idempotency, revision and rate-limit checks.
 - [ ] Verify account deletion cascades and pseudonymous quota protections.
@@ -194,15 +196,15 @@ Acceptance evidence: reconciled migration ledger, disposable replay log, SQL tes
 
 ## 9. Complete retention and scheduled maintenance
 
-- [ ] Recount `waitlist_rate_limits` before any retention change.
-- [ ] Create the intended attempted-at index through the canonical migration workflow.
-- [ ] Add the server-only pruning function with minimal execution rights.
-- [ ] Select an approved scheduler rather than assuming `pg_cron` exists.
+- [x] Recount `waitlist_rate_limits` before any retention change.
+- [x] Create the intended attempted-at index through the canonical migration workflow.
+- [x] Add the server-only pruning function with minimal execution rights.
+- [x] Select an approved scheduler rather than assuming `pg_cron` exists.
 - [ ] Define the retention duration and legal/privacy basis.
-- [ ] Test pruning against disposable rows first.
-- [ ] Apply the migration through the approved deployment path.
-- [ ] Verify no unrelated rate-limit rows are removed.
-- [ ] Record pre/post counts and oldest/newest retained timestamps.
+- [x] Test pruning against disposable rows first.
+- [x] Apply the migration through the approved deployment path.
+- [x] Verify no unrelated rate-limit rows are removed.
+- [x] Record pre/post counts and oldest/newest retained timestamps.
 - [ ] Add monitoring for failed scheduled maintenance.
 - [ ] Document manual recovery if the scheduler is unavailable.
 
@@ -259,11 +261,11 @@ Acceptance evidence: device/browser matrix, permission-state screenshots, redact
 
 ## 13. Finish security and privacy review
 
-- [ ] Re-run production dependency audit against the final lockfile.
-- [ ] Review moderate development/build dependency findings separately.
+- [x] Re-run production dependency audit against the final lockfile.
+- [x] Review moderate development/build dependency findings separately.
 - [ ] Review dependency licences.
-- [ ] Verify all third-party GitHub Actions remain pinned to immutable SHAs.
-- [ ] Run secret scanning against source, history range and build output.
+- [x] Verify all third-party GitHub Actions remain pinned to immutable SHAs.
+- [x] Run secret scanning against source, history range and build output.
 - [ ] Review CORS against exact production origins.
 - [ ] Review CSP and sanitization with DOMPurify 3.4.17.
 - [ ] Review Zod 4 migration behavior at every external-data boundary.
@@ -328,12 +330,12 @@ Acceptance evidence: immutable staging URL, exact revision, database ledger iden
 
 ## 17. Make and execute the release decision
 
-- [ ] Review every P0 gate in `docs/COMPLETION_GATE_REGISTER.json`.
-- [ ] Confirm no failed, blocked or unexecuted gate has been relabelled as passed.
+- [ ] Review every release-blocking gate in `docs/COMPLETION_GATE_REGISTER.json` (the register has no separate P0 field).
+- [x] Confirm no failed, blocked or unexecuted gate has been relabelled as passed.
 - [ ] Confirm known limitations are reflected in product copy and release notes.
 - [ ] Confirm rollback ownership and the previous good deployment.
 - [ ] Record the final candidate SHA, migration state, content approval state and model configuration.
-- [ ] Record an explicit `GO` or retain `NO-GO`.
+- [x] Record an explicit `GO` or retain `NO-GO`.
 - [ ] Deploy only the signed candidate if the decision is `GO`.
 - [ ] Verify the canonical live alias serves the exact released SHA.
 - [ ] Re-run health, readiness, Auth boundary, CORS and public-boundary probes.
@@ -360,7 +362,7 @@ Acceptance evidence: first-hour report, issue register, final live revision and 
 
 ## Immediate execution order
 
-- [ ] 1. Freeze and review the four-commit candidate.
+- [ ] 1. Freeze and review the candidate and outgoing diff.
 - [ ] 2. Resolve the untracked Supabase receipt.
 - [ ] 3. Push the reviewed branch and bind CI to its exact SHA.
 - [ ] 4. Correct Supabase Auth Site URL and callback variants.
