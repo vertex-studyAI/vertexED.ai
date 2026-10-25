@@ -30,7 +30,8 @@ export default function RevisionHistory() {
     finally { if (request === generation.current) setLoading(false); }
   }, [scope]);
 
-  useEffect(() => { void reload(); return () => { generation.current++; }; }, [reload]);
+  const invalidateRequests = useCallback(() => { generation.current++; }, []);
+  useEffect(() => { void reload(); return invalidateRequests; }, [reload, invalidateRequests]);
 
   return <PageSection className="space-y-8">
     <Helmet><title>Revision history - VertexED</title><meta name="robots" content="noindex, nofollow" /></Helmet>
