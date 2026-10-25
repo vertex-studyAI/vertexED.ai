@@ -646,5 +646,77 @@
       }
     ],
     "finalHostedStatus": "Current PR head must pass its own hosted run; the failed run above remains historical evidence."
+  },
+  "reducedMotionFollowup": {
+    "reviewedCommit": "60896b90b09443298acc966d5f793b0986cf8720",
+    "runUrl": "https://github.com/vertex-studyAI/vertexED.ai/actions/runs/40189820600",
+    "failure": "Seven Linux WebKit learner failures. Theme tokens switched while root/body retained light colours; some calendar actions also timed out. The six other applicable CI suites and the 198-assertion database contract passed.",
+    "correction": "Reduced-motion CSS now removes transitions rather than leaving nonzero durations. Planner checks assert root/body transition absence and retain computed foreground/background checks.",
+    "sourceHashes": {
+      "src/index.css": "2bbe8456477836e5f1e11ae7145730d3c20e10232163e1665ed32c4d07a9c061",
+      "src/styles/workbook.css": "185b8c972562cf2fd316f7db991eef18d852880b2ae9cee1d836a27c3e219744",
+      "src/styles/learning-library.css": "be1bcd2cb9367b49c0b269cce18b200bee15b8a1962f5b99e16314a3e824e7e8",
+      "src/styles/learning-method.css": "0cc3ab0dc14f4ba848358d55b2d2a2385471e6bcca4fcd1759f5e7d1ec8737ba",
+      "e2e/learning-os.spec.ts": "72b59c442e5419386192af6ac357a13dadcb1a7e08215a4030ec5af66cf8ec2e"
+    },
+    "checks": [
+      {
+        "log": ".tmp/completion-20261025/hosted-learner-failure-60896b90.log",
+        "sha256": "4cd7ddbb7527ed6736bfab143617493376611b304deb69d83a94f4878527b03d",
+        "status": "FAIL",
+        "learnerPassed": 71,
+        "learnerFailed": 7,
+        "learnerSkipped": 39,
+        "accessibilityPassed": 51,
+        "accessibilitySkipped": 1
+      },
+      {
+        "log": ".tmp/completion-20261025/reduced-motion-correction.log",
+        "sha256": "2531a40bf4ad3e9cd15fbad5bf7f24dc8239a9a597993a5bf20e2281e63d0300",
+        "status": "PASS",
+        "passed": 10,
+        "browser": "WebKit"
+      },
+      {
+        "log": ".tmp/completion-20261025/reduced-motion-lint.log",
+        "sha256": "74979c191011b87ba79fd7d4828dc783b89ed3ded8ce4feef53f3c3c41fe9843",
+        "status": "PASS",
+        "copyFiles": 623,
+        "copyFindings": 0
+      }
+    ],
+    "screenshots": [
+      {
+        "path": ".tmp/completion-20261025/reduced-motion-correction/learning-os-planner-naviga-4d331-s-to-the-chosen-day-at-1440-webkit/planner-navigation-1440-dark.png",
+        "sha256": "f31c8886dbadba0d5336bda20f8a9687a4324dcf26f65135606dccb175cd9c8e",
+        "inspected": true
+      },
+      {
+        "path": ".tmp/completion-20261025/reduced-motion-correction/learning-os-planner-naviga-4d331-s-to-the-chosen-day-at-1440-webkit/planner-navigation-1440-light.png",
+        "sha256": "eb6dd69640072583ce93a33bd5fe31f59f459fe5660d038b1b65906b5331389e",
+        "inspected": true
+      },
+      {
+        "path": ".tmp/completion-20261025/reduced-motion-correction/learning-os-planner-naviga-a4f42-ds-to-the-chosen-day-at-390-webkit/planner-navigation-390-dark.png",
+        "sha256": "dc8d5a92ad3c8581a31d9babce0cf2868cba663ec09c619368fa823e7700784b",
+        "inspected": true
+      },
+      {
+        "path": ".tmp/completion-20261025/reduced-motion-correction/learning-os-planner-naviga-a4f42-ds-to-the-chosen-day-at-390-webkit/planner-navigation-390-light.png",
+        "sha256": "80016678dd27935397ae03969b201a7ed5a41d16e92591cb424a2664ae5ece0d",
+        "inspected": true
+      },
+      {
+        "path": ".tmp/completion-20261025/reduced-motion-correction/learning-os-planner-naviga-f092c-s-to-the-chosen-day-at-1024-webkit/planner-navigation-1024-dark.png",
+        "sha256": "efa621c6343dfed7295131e99f76c3b0443e3cb631f0196b93388e0aa2671f4e",
+        "inspected": true
+      },
+      {
+        "path": ".tmp/completion-20261025/reduced-motion-correction/learning-os-planner-naviga-f092c-s-to-the-chosen-day-at-1024-webkit/planner-navigation-1024-light.png",
+        "sha256": "07dfd4311dcf6351c79c494488e5cb0c1b19a522ca94d5337c4e001cf304ebaa",
+        "inspected": true
+      }
+    ],
+    "finalHostedStatus": "The current PR head must pass its own hosted run; no hosted pass is inferred from local correction checks."
   }
 }

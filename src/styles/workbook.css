@@ -233,7 +233,7 @@ body::before, body::after { display: none; }
   .tool-directory-row > p:not(.tool-phase), .tool-directory-row .text-link { grid-column: 1 / -1; }
 }
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+  *, *::before, *::after { animation-duration: .01ms !important; transition: none !important; }
   .portal-rise { animation: none !important; opacity: 1 !important; transform: none !important; }
 }
 
