@@ -3,12 +3,13 @@ import test from 'node:test';
 import { dispatchRoute, ROUTES } from '../api/_lib/routes.js';
 import { createMocks } from './helpers/mock-http.mjs';
 
-const PUBLIC_ROUTES = ['health', 'signup-invite', 'telemetry', 'waitlist'];
-const ACCOUNT_ROUTES = ['account', 'account-export', 'ai-usage', 'admin-status', 'waitlist-status'];
+const PUBLIC_ROUTES = ['health', 'payment-alert', 'signup-invite', 'telemetry', 'waitlist'];
+const ACCOUNT_ROUTES = ['account', 'account-export', 'ai-usage', 'admin-status', 'payment', 'waitlist-status'];
+const ADMIN_ROUTES = ['payment-admin', 'waitlist-admin'];
 const MEMBER_ROUTES = Object.keys(ROUTES).filter(key => !PUBLIC_ROUTES.includes(key) && !ACCOUNT_ROUTES.includes(key));
 const VERIFIED_AT = '2026-10-16T00:00:00.000Z';
 
-function fixture(t, { status = 'approved', identity = '11111111-1111-4111-8111-111111111111', verified = true, authFailure, membershipFailure = false, admin = false } = {}) {
+function fixture(t, { status = 'approved', identity = '11111111-1111-4111-8111-111111111111', verified = true, authFailure, membershipFailure = false, admin = false, paidUntil = null } = {}) {
   for (const [key, value] of Object.entries({
     SUPABASE_URL: 'https://membership-boundary.supabase.co',
     SUPABASE_ANON_KEY: 'test-public-key',
@@ -35,6 +36,10 @@ function fixture(t, { status = 'approved', identity = '11111111-1111-4111-8111-1
       const data = currentStatus === 'unregistered' ? [] : [{ id: 'wait-1', auth_user_id: identity, status: currentStatus, signup_method: 'email' }];
       return Response.json(data);
     }
+    if (url.pathname === '/rest/v1/upi_subscriptions') {
+      assert.equal(url.searchParams.get('user_id'), `eq.${identity}`);
+      return Response.json(paidUntil ? [{ plan: 'monthly', paid_until: paidUntil }] : []);
+    }
     assert.fail(`Unexpected protected store or provider request: ${url.pathname}`);
   });
   return calls;
@@ -42,7 +47,7 @@ function fixture(t, { status = 'approved', identity = '11111111-1111-4111-8111-1
 
 test('every registered endpoint declares an explicit access policy', () => {
   for (const [key, route] of Object.entries(ROUTES)) {
-    const expected = PUBLIC_ROUTES.includes(key) ? 'public' : ACCOUNT_ROUTES.includes(key) ? 'account' : key === 'waitlist-admin' ? 'admin' : 'member';
+    const expected = PUBLIC_ROUTES.includes(key) ? 'public' : ACCOUNT_ROUTES.includes(key) ? 'account' : ADMIN_ROUTES.includes(key) ? 'admin' : 'member';
     assert.equal(route.access, expected, key);
   }
 });
@@ -61,7 +66,7 @@ test('pending identity cannot load any product handler or reach its providers/st
       assert.equal(loaded, false, `${key} loaded before membership denial`);
     } finally { ROUTES[key].loader = original; }
   }
-  assert.ok(calls.every(call => ['/auth/v1/user', '/rest/v1/waitlist'].includes(call.path)));
+  assert.ok(calls.every(call => ['/auth/v1/user', '/rest/v1/waitlist', '/rest/v1/upi_subscriptions'].includes(call.path)));
 });
 
 test('all product endpoints fail closed for the direct-access identity and dependency matrix', async t => {
@@ -103,8 +108,8 @@ test('approved A/B accounts reach product handlers under their verified identity
         st.mock.method(ROUTES[key], 'loader', async () => { loaded = true; return { default: (_req, res) => res.status(200).json({ ok: true }) }; });
         const { req, res, getStatus } = createMocks({ method: ROUTES[key].methods[0], headers: { 'idempotency-key': 'membership-fixture-operation', authorization: `Bearer ${identity}` } });
         await dispatchRoute(key, req, res);
-        assert.equal(getStatus(), key === 'waitlist-admin' ? 403 : 200, key);
-        assert.equal(loaded, key !== 'waitlist-admin', key);
+        assert.equal(getStatus(), ADMIN_ROUTES.includes(key) ? 403 : 200, key);
+        assert.equal(loaded, !ADMIN_ROUTES.includes(key), key);
       }
       const reads = calls.filter(call => call.path === '/rest/v1/waitlist');
       assert.equal(reads.length, MEMBER_ROUTES.length);
@@ -175,4 +180,25 @@ test('a newly registered endpoint without a policy cannot execute', async () => 
     await dispatchRoute('missing-policy-fixture', req, res);
     assert.equal(getStatus(), 503);
   } finally { delete ROUTES['missing-policy-fixture']; }
+});
+
+test('an active UPI subscription admits non-revoked accounts and expires on time', async t => {
+  const future = new Date(Date.now() + 86_400_000).toISOString();
+  const past = new Date(Date.now() - 1000).toISOString();
+  for (const scenario of [
+    { status: 'pending', paidUntil: future, expected: 200 },
+    { status: 'rejected', paidUntil: future, expected: 200 },
+    { status: 'unregistered', paidUntil: future, expected: 200 },
+    { status: 'revoked', paidUntil: future, expected: 403 },
+    { status: 'pending', paidUntil: past, expected: 403 },
+  ]) {
+    await t.test(`${scenario.status} ${scenario.paidUntil === future ? 'paid' : 'lapsed'}`, async st => {
+      const calls = fixture(st, scenario);
+      st.mock.method(ROUTES.ask, 'loader', async () => ({ default: (_req, res) => res.status(200).json({ ok: true }) }));
+      const { req, res, getStatus } = createMocks({ method: 'POST', headers: { 'idempotency-key': 'membership-fixture-operation', authorization: 'Bearer paid' } });
+      await dispatchRoute('ask', req, res);
+      assert.equal(getStatus(), scenario.expected);
+      assert.equal(calls.some(call => call.path === '/rest/v1/upi_subscriptions'), scenario.status !== 'revoked');
+    });
+  }
 });

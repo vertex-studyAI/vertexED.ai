@@ -63,6 +63,23 @@ export const ROUTES = {
     loader: () => import('../_handlers/waitlist-admin.js'),
     methods: ['POST'],
   },
+  payment: {
+    access: 'account',
+    loader: () => import('../_handlers/payment.js'),
+    methods: ['GET', 'POST'],
+    maxBodyBytes: 4 * 1024,
+  },
+  'payment-alert': {
+    access: 'public',
+    loader: () => import('../_handlers/payment-alert.js'),
+    methods: ['POST'],
+    maxBodyBytes: 32 * 1024,
+  },
+  'payment-admin': {
+    access: 'admin',
+    loader: () => import('../_handlers/payment-admin.js'),
+    methods: ['POST'],
+  },
   'study-guide-chat': {
     access: 'member',
     loader: () => import('../_handlers/study-guide-chat.js'),
