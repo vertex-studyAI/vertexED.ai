@@ -10,6 +10,12 @@ import PageLoader from "@/components/PageLoader";
 import '@/styles/beta-access.css';
 import { accessFailureMessage, accessStateFromResponse, requestAccessJson } from '@/lib/accessRequest.mjs';
 
+function SubscribeAction() {
+  return <div className="mt-5">
+    <Link className="neu-button inline-flex min-h-11 items-center px-5 py-2" to="/subscribe">Pay with UPI for access now</Link>
+  </div>;
+}
+
 function AccessActions() {
   return <div className="mt-5 flex flex-wrap justify-center gap-4 text-sm">
     <Link className="inline-flex min-h-11 items-center text-primary underline" to="/user-settings">Account and data controls</Link>
@@ -17,7 +23,7 @@ function AccessActions() {
   </div>;
 }
 
-function WaitlistPending() {
+function WaitlistPending({ canSubscribe }: { canSubscribe: boolean }) {
   return (
     <div className="beta-access-state mx-auto flex min-h-[55vh] max-w-lg items-center px-5">
       <section
@@ -33,13 +39,14 @@ function WaitlistPending() {
         <p id="waitlist-pending-description" className="mt-3 text-sm leading-relaxed text-muted-foreground">
           We have your request. We will email you when your beta access is approved.
         </p>
+        {canSubscribe && <SubscribeAction />}
         <AccessActions />
       </section>
     </div>
   );
 }
 
-function WaitlistRejected() {
+function WaitlistRejected({ canSubscribe }: { canSubscribe: boolean }) {
   return (
     <div className="beta-access-state mx-auto flex min-h-[55vh] max-w-lg items-center px-5">
       <section
@@ -55,6 +62,7 @@ function WaitlistRejected() {
         <p id="waitlist-rejected-description" className="mt-3 text-sm leading-relaxed text-muted-foreground">
           This account does not currently have beta access. Contact support if you believe this is a mistake.
         </p>
+        {canSubscribe && <SubscribeAction />}
         <AccessActions />
       </section>
     </div>
@@ -90,6 +98,7 @@ export default function ProtectedRoute({ children, accountControls = false }: { 
   const location = useLocation();
   const userId = user?.id;
   const [access, setAccess] = useState('checking');
+  const [canSubscribe, setCanSubscribe] = useState(false);
   const [accessUserId, setAccessUserId] = useState<string | null>(null);
   const [retryAttempt, setRetryAttempt] = useState(0);
   const [failureMessage, setFailureMessage] = useState('');
@@ -132,6 +141,7 @@ export default function ProtectedRoute({ children, accountControls = false }: { 
         if (active) {
           const next = accessStateFromResponse(data);
           setAccess(next);
+          setCanSubscribe(data?.canSubscribe === true);
           setFailureMessage(accessFailureMessage(null));
           setAccessUserId(userId);
           setRetryAt(0);
@@ -169,8 +179,8 @@ export default function ProtectedRoute({ children, accountControls = false }: { 
   if (accountControls) return children;
   if (!accessDecisionIsCurrent || access === 'checking') return <PageLoader label="Checking your access" />;
   if (access === "unavailable") return <WaitlistUnavailable message={failureMessage} retrySeconds={retrySeconds} onRetry={() => { if (Date.now() >= retryAt) setRetryAttempt(attempt => attempt + 1); }} />;
-  if (access === "denied") return <WaitlistRejected />;
-  if (access === "pending") return <WaitlistPending />;
+  if (access === "denied") return <WaitlistRejected canSubscribe={canSubscribe} />;
+  if (access === "pending") return <WaitlistPending canSubscribe={canSubscribe} />;
   if (access === 'verification_required' || access === 'signed_out') return <div className="beta-access-state mx-auto flex min-h-[55vh] max-w-lg items-center px-5"><section className="glass-panel w-full p-8 text-center" role="status" aria-labelledby="access-verification-title">
     <h1 id="access-verification-title" className="text-2xl font-semibold">{access === 'signed_out' ? 'Sign in again' : 'Verify your email'}</h1>
     <p className="mt-3 text-sm text-muted-foreground">{access === 'signed_out' ? failureMessage : 'Open the secure link in your invitation email. Email verification and beta approval are separate steps.'}</p>
