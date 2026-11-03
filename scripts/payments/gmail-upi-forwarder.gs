@@ -83,18 +83,35 @@ function forwardBankAlerts() {
   }
 }
 
+// The bare address inside the From header. A display name can itself look like
+// an address ("alerts@hdfcbank.net" <someone@else.com>), so the angle-bracket
+// part wins, and the match must be exact.
+function fromAddress(message) {
+  const from = String(message.getFrom()).toLowerCase().trim();
+  const bracketed = from.match(/<([^<>\s]+@[^<>\s]+)>\s*$/);
+  if (bracketed) return bracketed[1];
+  return /^[^\s<>@"]+@[^\s<>@"]+$/.test(from) ? from : '';
+}
+
 function senderFor(message) {
-  const from = String(message.getFrom()).toLowerCase();
-  return BANK_SENDERS.find(sender => from.includes(sender.address.toLowerCase())) || null;
+  const address = fromAddress(message);
+  return BANK_SENDERS.find(sender => sender.address.toLowerCase() === address) || null;
+}
+
+function escapeRegExp(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
 // Gmail records whether the bank's domain really signed the message. This stops
-// a forged "credited" email from someone else being forwarded.
+// a forged "credited" email from someone else being forwarded. The signing
+// domain must be the bank's domain or a subdomain of it, ending at a field
+// boundary, so a lookalike such as hdfcbank.net.example.com fails.
 function isAuthenticated(message, dkimDomain) {
   const results = String(message.getHeader('Authentication-Results') || '').toLowerCase();
-  const domain = dkimDomain.toLowerCase();
-  const dkimPass = new RegExp(`dkim=pass[^;]*header\\.(?:d|i)=@?(?:[a-z0-9-]+\\.)*${domain.replace(/\./g, '\\.')}`).test(results);
-  const dmarcPass = new RegExp(`dmarc=pass[^;]*header\\.from=(?:[a-z0-9-]+\\.)*${domain.replace(/\./g, '\\.')}`).test(results);
+  if (!/^\s*mx\.google\.com\s*;/.test(results)) return false;
+  const domain = `(?:[a-z0-9-]+\\.)*${escapeRegExp(dkimDomain.toLowerCase())}(?=[\\s;)]|$)`;
+  const dkimPass = new RegExp(`(?:^|;)\\s*dkim=pass\\b[^;]*\\bheader\\.(?:d=|i=@?(?:[^\\s;@]*@)?)${domain}`).test(results);
+  const dmarcPass = new RegExp(`(?:^|;)\\s*dmarc=pass\\b[^;]*\\bheader\\.from=${domain}`).test(results);
   return dkimPass || dmarcPass;
 }
 

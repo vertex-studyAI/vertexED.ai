@@ -7,7 +7,8 @@
  * rejected rather than guessed at.
  */
 
-const AMOUNT_RE = /(?:rs\.?|inr|₹)\s*([0-9][0-9,]*(?:\.[0-9]{1,2})?)/gi;
+// The currency word must stand alone, so "Customers 1800" is not read as Rs 1800.
+const AMOUNT_RE = /(?:(?<![a-z0-9])(?:rs\.?|inr)|₹)\s*([0-9][0-9,]*(?:\.[0-9]{1,2})?)(?![0-9])/gi;
 const LABELLED_REF_RE = /(?:utr|rrn|ref(?:erence)?(?:\s*(?:no|number|id))?|upi(?:\s*ref(?:erence)?)?(?:\s*(?:no|number|id))?|transaction\s*(?:id|ref(?:erence)?)(?:\s*(?:no|number))?)\s*(?:is|:|-|\.|no\.?|#)?\s*:?\s*([0-9]{12})(?![0-9])/i;
 const SLASHED_UPI_REF_RE = /upi\/(?:[a-z0-9]+\/)?([0-9]{12})(?![0-9])/i;
 const BARE_REF_RE = /(?<![0-9])([0-9]{12})(?![0-9])/g;

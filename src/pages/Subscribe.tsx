@@ -17,7 +17,12 @@ type PaymentInfo = {
   subscription: Subscription | null; order: Order | null;
 };
 
-const POLL_MS = 4000;
+// Fast checks while a code is on screen, slow ones while waiting on a manual
+// check or a late alert. Hidden tabs do not poll. The server allows 1,800
+// checks an hour (api/_handlers/payment.js).
+const FAST_POLL_MS = 5000;
+const SLOW_POLL_MS = 30000;
+const STOP_POLLING_AFTER_EXPIRY_MS = 30 * 60 * 1000;
 const PLAN_LABELS: Record<Plan, { title: string; period: string; detail: string }> = {
   monthly: { title: 'Monthly', period: 'per month', detail: '30 days of access from the day you pay.' },
   yearly: { title: 'Yearly', period: 'per year', detail: '365 days of access from the day you pay.' },
@@ -84,21 +89,44 @@ export default function Subscribe() {
   // Poll while a checkout is open; the server settles it when the bank alert arrives.
   useEffect(() => {
     if (!order || !['pending', 'expired', 'needs_review'].includes(order.status) || paidUntil) return;
+    const fast = order.status === 'pending' && Date.parse(order.expiresAt) > Date.now();
+    const delay = fast ? FAST_POLL_MS : SLOW_POLL_MS;
     let active = true;
-    const timer = window.setInterval(async () => {
-      try {
-        const response = await authFetch('/api/payment', {
-          method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ action: 'status', orderId: order.id }),
-        });
-        if (!response.ok || !active) return;
-        const data = await readJson(response);
-        if (!active || !data.order) return;
-        if (data.order.status === 'paid') setPaidUntil(data.subscription?.paidUntil ?? data.order.expiresAt);
-        setOrder(current => (current?.id === data.order.id && current.status === data.order.status ? current : data.order));
-      } catch { /* next tick retries */ }
-    }, POLL_MS);
-    return () => { active = false; window.clearInterval(timer); };
+    let inFlight = false;
+    let timer: number | undefined;
+
+    const check = async () => {
+      if (!active || inFlight) return;
+      if (order.status !== 'needs_review' && Date.now() - Date.parse(order.expiresAt) > STOP_POLLING_AFTER_EXPIRY_MS) return;
+      if (document.visibilityState === 'visible') {
+        inFlight = true;
+        try {
+          const response = await authFetch('/api/payment', {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'status', orderId: order.id }),
+          });
+          const data = response.ok ? await readJson(response) : null;
+          if (active && data?.order) {
+            if (data.order.status === 'paid') setPaidUntil(data.subscription?.paidUntil ?? data.order.expiresAt);
+            setOrder(current => (current?.id === data.order.id && current.status === data.order.status ? current : data.order));
+          }
+        } catch { /* the next check retries */ } finally { inFlight = false; }
+      }
+      if (active) timer = window.setTimeout(check, delay);
+    };
+
+    const onVisibilityChange = () => {
+      if (document.visibilityState !== 'visible' || inFlight) return;
+      window.clearTimeout(timer);
+      void check();
+    };
+    timer = window.setTimeout(check, delay);
+    document.addEventListener('visibilitychange', onVisibilityChange);
+    return () => {
+      active = false;
+      window.clearTimeout(timer);
+      document.removeEventListener('visibilitychange', onVisibilityChange);
+    };
   }, [order, paidUntil]);
 
   useEffect(() => { if (paidUntil) successRef.current?.focus(); }, [paidUntil]);
@@ -182,6 +210,8 @@ export default function Subscribe() {
 
   const openOrder = order && ['pending', 'expired', 'needs_review'].includes(order.status) ? order : null;
   const expired = openOrder?.status === 'expired' || (openOrder?.status === 'pending' && remaining === 0);
+  const inReview = openOrder?.status === 'needs_review';
+  const declined = order?.status === 'rejected';
 
   return shell(
     <>
@@ -195,10 +225,12 @@ export default function Subscribe() {
         )}
       </header>
 
-      {!openOrder || (expired && openOrder.status !== 'needs_review' && !claimMessage) ? (
+      {!openOrder || inReview || (expired && !claimMessage) ? (
         <section className="glass-panel p-6" aria-labelledby="plan-heading">
           <h2 id="plan-heading" className="text-lg font-semibold text-foreground">Choose a plan</h2>
           {expired && <p className="mt-2 text-sm text-muted-foreground" role="status">The previous amount expired. If you already paid it, enter the reference number below instead of paying again.</p>}
+          {inReview && <p className="mt-2 text-sm text-muted-foreground" role="status">Your earlier payment is waiting for a manual check. Start a new checkout only if that payment did not go through.</p>}
+          {declined && <p className="mt-2 text-sm text-destructive" role="alert">We could not confirm your last payment, so that checkout was closed. If money left your account, contact support with the UPI reference number.</p>}
           <fieldset className="mt-4 grid gap-3 sm:grid-cols-2">
             <legend className="sr-only">Plan</legend>
             {(Object.keys(PLAN_LABELS) as Plan[]).map(key => (

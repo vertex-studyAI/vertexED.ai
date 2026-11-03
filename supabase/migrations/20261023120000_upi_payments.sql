@@ -166,14 +166,17 @@ begin
   update public.payment_orders set status = 'expired', updated_at = now()
   where user_id = p_user_id and status = 'pending';
 
-  -- An amount stays out of circulation for three hours, longer than the
-  -- two-hour matching window, so a late alert can only match one order.
+  -- An amount stays out of circulation for twelve hours, the same as the
+  -- matching window in record_payment_alert. A late alert therefore finds
+  -- either its own order alone, or its order and a newer one with the same
+  -- amount, which is ambiguous and goes to the UTR claim instead. It never
+  -- finds only someone else's order unless it is over twelve hours late.
   select candidate.offset_paise into chosen_offset
   from generate_series(1, 499) as candidate(offset_paise)
   where not exists (
     select 1 from public.payment_orders used
     where used.amount_paise = p_base_paise + candidate.offset_paise
-      and (used.status in ('pending', 'needs_review') or used.created_at > now() - interval '3 hours')
+      and (used.status in ('pending', 'needs_review') or used.created_at > now() - interval '12 hours')
   )
   order by (candidate.offset_paise > 99), random()
   limit 1;
@@ -232,7 +235,7 @@ begin
   from public.payment_orders candidate
   where candidate.amount_paise = p_amount_paise
     and candidate.status in ('pending', 'expired', 'needs_review')
-    and candidate.created_at between p_received_at - interval '2 hours' and p_received_at + interval '2 minutes';
+    and candidate.created_at between p_received_at - interval '12 hours' and p_received_at + interval '2 minutes';
 
   if candidate_count <> 1 then
     return query select 'unmatched'::text, null::uuid;

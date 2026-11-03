@@ -32,11 +32,17 @@ export function formatRupees(paise) {
   return (paise / 100).toFixed(2);
 }
 
+// Percent-encodes a UPI link value but keeps '@' literal: several UPI apps
+// read pa=name%40bank as an invalid UPI ID.
+function upiParam(value) {
+  return encodeURIComponent(value).replace(/%40/g, '@');
+}
+
 /** UPI deep link / QR payload (NPCI UPI linking specification). */
 export function buildUpiUri({ vpa, payeeName, amountPaise, note }) {
-  const params = new URLSearchParams({ pa: vpa, pn: payeeName, am: formatRupees(amountPaise), cu: 'INR' });
-  if (note) params.set('tn', note.slice(0, 50));
-  return `upi://pay?${params.toString().replace(/\+/g, '%20')}`;
+  const params = [['pa', vpa], ['pn', payeeName], ['am', formatRupees(amountPaise)], ['cu', 'INR']];
+  if (note) params.push(['tn', note.slice(0, 50)]);
+  return `upi://pay?${params.map(([key, value]) => `${key}=${upiParam(value)}`).join('&')}`;
 }
 
 export function orderNote(orderId) {

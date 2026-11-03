@@ -8,7 +8,12 @@ import {
   isMissingRelation, normaliseUtr, publicOrder,
 } from '../_lib/upiPayments.js';
 
-const ORDER_COLUMNS = 'id, plan, status, amount_paise, claimed_utr, created_at, expires_at';
+const ORDER_COLUMNS = 'id, plan, status, amount_paise, claimed_utr, created_at, expires_at, updated_at';
+// A declined checkout is shown to its buyer for three days, then dropped.
+const DECLINED_VISIBLE_MS = 3 * 24 * 60 * 60 * 1000;
+// Shared by the page load and polling. The page polls every 5 seconds while a
+// code is on screen and pauses in hidden tabs, about 720 checks an hour.
+const STATUS_LIMIT = { limit: 1800, windowMs: 60 * 60 * 1000 };
 
 function unavailable(res, error = 'Payments are not available right now. Try again later.') {
   res.setHeader('Retry-After', '60');
@@ -20,11 +25,12 @@ async function latestOpenOrder(supabase, userId) {
     .from('payment_orders')
     .select(ORDER_COLUMNS)
     .eq('user_id', userId)
-    .in('status', ['pending', 'needs_review'])
+    .in('status', ['pending', 'needs_review', 'rejected'])
     .order('created_at', { ascending: false })
     .limit(1)
     .maybeSingle();
   if (error) throw error;
+  if (data?.status === 'rejected' && !(Date.now() - Date.parse(data.updated_at) < DECLINED_VISIBLE_MS)) return null;
   return data;
 }
 
@@ -43,12 +49,11 @@ export default async function handler(req, res) {
 
   try {
     if (req.method === 'GET') {
-      if (!(await rateLimitUserEndpoint(user.id, 'payment-status', res, { limit: 600, windowMs: 60 * 60 * 1000 }))) return;
-      const [access, subscription, order] = await Promise.all([
-        getVertexAccess(user, supabase),
-        getActiveSubscription(supabase, user.id),
-        latestOpenOrder(supabase, user.id),
-      ]);
+      if (!(await rateLimitUserEndpoint(user.id, 'payment-status', res, STATUS_LIMIT))) return;
+      const [access, order] = await Promise.all([getVertexAccess(user, supabase), latestOpenOrder(supabase, user.id)]);
+      // getVertexAccess already read the subscription unless the waitlist
+      // approved the account first.
+      const subscription = access.subscription ?? (access.access ? await getActiveSubscription(supabase, user.id) : null);
       return res.status(200).json({
         plans, payeeVpa: config.vpa, payeeName: config.payeeName,
         access: access.access, canSubscribe: access.status !== 'revoked' && access.status !== 'verification_required',
@@ -60,7 +65,8 @@ export default async function handler(req, res) {
 
     if (body.action === 'create') {
       if (!PAYMENT_PLANS.includes(body.plan)) return res.status(400).json({ error: 'Choose the monthly or yearly plan.' });
-      if (!(await rateLimitUserEndpoint(user.id, 'payment-create', res, { limit: 20, windowMs: 60 * 60 * 1000 }))) return;
+      // Each new checkout holds an amount for twelve hours, so this stays low.
+      if (!(await rateLimitUserEndpoint(user.id, 'payment-create', res, { limit: 10, windowMs: 60 * 60 * 1000 }))) return;
       const access = await getVertexAccess(user, supabase);
       if (access.status === 'verification_required') return res.status(403).json({ code: 'EMAIL_VERIFICATION_REQUIRED', error: 'Verify your email address before paying.' });
       if (access.status === 'revoked') return res.status(403).json({ code: 'ACCESS_REVOKED', error: 'This account cannot buy access. Contact support.' });
@@ -78,7 +84,7 @@ export default async function handler(req, res) {
 
     if (body.action === 'status') {
       if (!isValidUuid(body.orderId)) return res.status(400).json({ error: 'Unknown checkout.' });
-      if (!(await rateLimitUserEndpoint(user.id, 'payment-status', res, { limit: 600, windowMs: 60 * 60 * 1000 }))) return;
+      if (!(await rateLimitUserEndpoint(user.id, 'payment-status', res, STATUS_LIMIT))) return;
       const { data: order, error } = await supabase
         .from('payment_orders').select(ORDER_COLUMNS).eq('id', body.orderId).eq('user_id', user.id).maybeSingle();
       if (error) throw error;

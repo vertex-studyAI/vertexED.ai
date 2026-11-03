@@ -1,5 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import { readFileSync } from 'node:fs';
+import vm from 'node:vm';
 import { parseUpiCreditAlert } from '../api/_lib/upiAlertParser.js';
 import { buildUpiUri, getPaymentConfig, isValidAlertSecret, normaliseUtr, publicOrder } from '../api/_lib/upiPayments.js';
 import alertHandler from '../api/_handlers/payment-alert.js';
@@ -41,11 +43,16 @@ test('alerts that are not unambiguous credits are rejected, never guessed', () =
   // The balance is skipped; the first payment amount is used.
   assert.equal(parseUpiCreditAlert('Avl Bal Rs 5,000.00. Rs 199.37 credited. UPI Ref 612345678901').amountPaise, 19937);
   assert.equal(parseUpiCreditAlert('').reason, 'empty');
+  // "Customers 1800" is not an amount of Rs 1800.
+  assert.equal(parseUpiCreditAlert('Dear Customers 1800 202 6161 is our helpline. Rs.199.37 has been credited. UPI Ref 612345678901').amountPaise, 19937);
+  assert.equal(parseUpiCreditAlert('Interest Rs 199.37 credited. UPI Ref 612345678901').amountPaise, 19937);
 });
 
 test('UPI links carry the exact reserved amount and stay within app limits', () => {
   const uri = buildUpiUri({ vpa: 'owner@okhdfcbank', payeeName: 'Vertex ED', amountPaise: 19937, note: 'VertexED 33333333' });
-  assert.equal(uri, 'upi://pay?pa=owner%40okhdfcbank&pn=Vertex%20ED&am=199.37&cu=INR&tn=VertexED%2033333333');
+  // '@' stays literal: some UPI apps reject pa=owner%40okhdfcbank.
+  assert.equal(uri, 'upi://pay?pa=owner@okhdfcbank&pn=Vertex%20ED&am=199.37&cu=INR&tn=VertexED%2033333333');
+  assert.equal(buildUpiUri({ vpa: 'a.b@ok', payeeName: 'A&B=C', amountPaise: 100 }), 'upi://pay?pa=a.b@ok&pn=A%26B%3DC&am=1.00&cu=INR');
   const order = publicOrder({ id: ORDER, plan: 'monthly', status: 'pending', amount_paise: 19905, expires_at: new Date(Date.now() - 1).toISOString() },
     { vpa: 'owner@okhdfcbank', payeeName: 'VertexED' });
   assert.equal(order.status, 'expired');
@@ -71,7 +78,7 @@ test('alert secret comparison is strict and refuses weak secrets', () => {
   assert.equal(normaliseUtr('61234567890'), null);
 });
 
-function alertFixture(t, { rpcResult = [{ outcome: 'matched', order_id: ORDER }] } = {}) {
+function alertFixture(t, { rpcResult = [{ outcome: 'matched', order_id: ORDER }], rpcStatus = 200 } = {}) {
   withEnv(t, {
     SUPABASE_URL: 'https://payments.supabase.co', SUPABASE_ANON_KEY: 'test-public-key', SUPABASE_SERVICE_ROLE_KEY: 'test-server-key',
     PAYMENT_ALERT_SECRET: SECRET, PAYMENT_ALERT_SENDERS: 'hdfcbank.net', NODE_ENV: 'test',
@@ -82,7 +89,7 @@ function alertFixture(t, { rpcResult = [{ outcome: 'matched', order_id: ORDER }]
     if (url.pathname.endsWith('/rpc/consume_waitlist_rate_limit')) return Response.json({ allowed: true });
     if (url.pathname === '/rest/v1/rpc/record_payment_alert') {
       rpcBodies.push(JSON.parse(options.body));
-      return Response.json(rpcResult);
+      return Response.json(rpcResult, { status: rpcStatus });
     }
     assert.fail(`Unexpected request ${url.pathname}`);
   });
@@ -125,7 +132,99 @@ test('alerts from other senders or without a readable credit never reach the dat
   const debit = createMocks({ headers: { authorization: `Bearer ${SECRET}` }, body: { ...HDFC_ALERT, text: 'Rs.199.37 has been debited. UPI Ref 612345678901' } });
   await alertHandler(debit.req, debit.res);
   assert.equal(debit.getStatus(), 422);
+  // A display name that looks like the bank's address does not count.
+  const disguised = createMocks({ headers: { authorization: `Bearer ${SECRET}` }, body: { ...HDFC_ALERT, sender: '"alerts@hdfcbank.net" <alerts@evil.test>' } });
+  await alertHandler(disguised.req, disguised.res);
+  assert.equal(disguised.getJson().outcome, 'ignored');
+  // A clock far off is a final rejection, so the forwarder stops retrying.
+  const stale = createMocks({ headers: { authorization: `Bearer ${SECRET}` }, body: { ...HDFC_ALERT, receivedAt: '2020-01-01T00:00:00Z' } });
+  await alertHandler(stale.req, stale.res);
+  assert.equal(stale.getStatus(), 422);
   assert.equal(rpcBodies.length, 0);
+});
+
+test('SMS alerts skip the email sender-domain check', async t => {
+  const rpcBodies = alertFixture(t);
+  const sms = createMocks({ headers: { authorization: `Bearer ${SECRET}` }, body: { ...HDFC_ALERT, source: 'sms', sender: 'AX-HDFCBK' } });
+  await alertHandler(sms.req, sms.res);
+  assert.equal(sms.getStatus(), 200);
+  assert.equal(rpcBodies[0].p_source, 'sms');
+});
+
+test('database validation errors are final; outages ask the forwarder to retry', async t => {
+  await t.test('validation', async st => {
+    alertFixture(st, { rpcResult: { code: 'P0001', message: 'Invalid payment alert input' }, rpcStatus: 400 });
+    const { req, res, getStatus } = createMocks({ headers: { authorization: `Bearer ${SECRET}` }, body: HDFC_ALERT });
+    await alertHandler(req, res);
+    assert.equal(getStatus(), 422);
+  });
+  await t.test('outage', async st => {
+    alertFixture(st, { rpcResult: { code: '57P01', message: 'terminating connection' }, rpcStatus: 503 });
+    const { req, res, getStatus } = createMocks({ headers: { authorization: `Bearer ${SECRET}` }, body: HDFC_ALERT });
+    await alertHandler(req, res);
+    assert.equal(getStatus(), 503);
+  });
+});
+
+test('wrong secrets do not use up the real forwarder\'s rate limit', async t => {
+  withEnv(t, {
+    SUPABASE_URL: 'https://payments.supabase.co', SUPABASE_ANON_KEY: 'test-public-key', SUPABASE_SERVICE_ROLE_KEY: 'test-server-key',
+    PAYMENT_ALERT_SECRET: SECRET, PAYMENT_ALERT_SENDERS: 'hdfcbank.net', NODE_ENV: 'test',
+  });
+  const keys = [];
+  t.mock.method(globalThis, 'fetch', async (input, options = {}) => {
+    const url = new URL(String(input));
+    if (url.pathname.endsWith('/rpc/consume_waitlist_rate_limit')) {
+      keys.push(JSON.stringify(JSON.parse(options.body)));
+      return Response.json({ allowed: true });
+    }
+    if (url.pathname === '/rest/v1/rpc/record_payment_alert') return Response.json([{ outcome: 'matched', order_id: ORDER }]);
+    assert.fail(`Unexpected request ${url.pathname}`);
+  });
+  const denied = createMocks({ headers: { authorization: 'Bearer wrong' }, body: HDFC_ALERT });
+  await alertHandler(denied.req, denied.res);
+  const allowed = createMocks({ headers: { authorization: `Bearer ${SECRET}` }, body: HDFC_ALERT });
+  await alertHandler(allowed.req, allowed.res);
+  assert.equal(allowed.getStatus(), 200);
+  assert.equal(keys.length, 2);
+  // Keys are hashed, so compare the two budgets instead of the key text.
+  const [deniedBudget, forwarderBudget] = keys.map(key => JSON.parse(key));
+  assert.notEqual(deniedBudget.rate_key, forwarderBudget.rate_key);
+  assert.equal(deniedBudget.max_attempts, 60);
+  assert.equal(forwarderBudget.max_attempts, 1200);
+});
+
+function loadForwarder() {
+  const context = {};
+  vm.createContext(context);
+  vm.runInContext(readFileSync(new URL('../scripts/payments/gmail-upi-forwarder.gs', import.meta.url), 'utf8'), context);
+  return context;
+}
+
+function gmailMessage(from, authenticationResults) {
+  return { getFrom: () => from, getHeader: name => (name === 'Authentication-Results' ? authenticationResults : '') };
+}
+
+test('the Gmail forwarder accepts only the exact bank address signed by the bank domain', () => {
+  const forwarder = loadForwarder();
+  const signed = 'mx.google.com;\r\n       dkim=pass header.i=@hdfcbank.net header.s=sel header.b=abc;\r\n       spf=pass smtp.mailfrom=alerts@hdfcbank.net;\r\n       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=hdfcbank.net';
+  const bank = gmailMessage('HDFC Bank InstaAlerts <alerts@hdfcbank.net>', signed);
+  assert.ok(forwarder.senderFor(bank));
+  assert.equal(forwarder.isAuthenticated(bank, 'hdfcbank.net'), true);
+  assert.equal(forwarder.isAuthenticated(gmailMessage('', 'mx.google.com; dkim=pass header.d=mail.hdfcbank.net header.s=x'), 'hdfcbank.net'), true);
+
+  for (const from of ['alerts@hdfcbank.net.evil.test', 'Bank <alerts@hdfcbank.net.evil.test>', '"alerts@hdfcbank.net" <x@evil.test>', 'x-alerts@hdfcbank.net']) {
+    assert.equal(forwarder.senderFor(gmailMessage(from, signed)), null, from);
+  }
+  for (const results of [
+    'mx.google.com; dkim=pass header.i=@hdfcbank.net.evil.test header.s=x; dmarc=pass header.from=hdfcbank.net.evil.test',
+    'mx.google.com; dkim=pass header.d=evilhdfcbank.net; dmarc=pass header.from=evilhdfcbank.net',
+    'mx.google.com; dkim=fail header.i=@hdfcbank.net; dmarc=fail header.from=hdfcbank.net',
+    'evil.test; dkim=pass header.i=@hdfcbank.net; dmarc=pass header.from=hdfcbank.net',
+    '',
+  ]) {
+    assert.equal(forwarder.isAuthenticated(gmailMessage('alerts@hdfcbank.net', results), 'hdfcbank.net'), false, results);
+  }
 });
 
 function paymentFixture(t, { vpa = 'owner@okhdfcbank', waitlistStatus = 'pending', claimOutcome = 'needs_review' } = {}) {
@@ -139,7 +238,8 @@ function paymentFixture(t, { vpa = 'owner@okhdfcbank', waitlistStatus = 'pending
     if (url.pathname === '/auth/v1/user') return Response.json({ id: USER, email: 'buyer@example.test', email_confirmed_at: '2026-10-16T00:00:00Z' });
     if (url.pathname.endsWith('/rpc/consume_waitlist_rate_limit')) return Response.json({ allowed: true });
     if (url.pathname === '/rest/v1/waitlist') return Response.json([{ id: 'w1', auth_user_id: USER, status: waitlistStatus, signup_method: 'google' }]);
-    if (url.pathname === '/rest/v1/upi_subscriptions') return Response.json([]);
+    if (url.pathname === '/rest/v1/upi_subscriptions') { rpc.push({ name: 'subscription' }); return Response.json([]); }
+    if (url.pathname === '/rest/v1/payment_orders') return Response.json([]);
     if (url.pathname === '/rest/v1/rpc/reserve_payment_order') {
       rpc.push({ name: 'reserve', body: JSON.parse(options.body) });
       return Response.json([{ id: ORDER, plan: 'monthly', status: 'pending', amount_paise: 19937, claimed_utr: null,
@@ -161,7 +261,7 @@ test('checkout reserves a unique amount for the signed-in buyer only', async t =
   assert.equal(getStatus(), 201);
   assert.equal(getJson().order.amount, '199.37');
   assert.match(getJson().order.upiUri, /am=199\.37/);
-  assert.deepEqual(rpc[0].body, { p_user_id: USER, p_plan: 'monthly', p_base_paise: 19900, p_ttl_minutes: 15 });
+  assert.deepEqual(rpc.find(call => call.name === 'reserve').body, { p_user_id: USER, p_plan: 'monthly', p_base_paise: 19900, p_ttl_minutes: 15 });
 });
 
 test('revoked accounts and unconfigured servers cannot open a checkout', async t => {
@@ -170,7 +270,7 @@ test('revoked accounts and unconfigured servers cannot open a checkout', async t
     const { req, res, getStatus } = createMocks({ headers: { authorization: 'Bearer buyer' }, body: { action: 'create', plan: 'yearly' } });
     await paymentHandler(req, res);
     assert.equal(getStatus(), 403);
-    assert.equal(rpc.length, 0);
+    assert.equal(rpc.filter(call => call.name === 'reserve').length, 0);
   });
   await t.test('no UPI ID', async st => {
     paymentFixture(st, { vpa: '' });
@@ -189,5 +289,14 @@ test('a buyer-supplied UTR is validated and handed to the claim function', async
   await paymentHandler(good.req, good.res);
   assert.equal(good.getStatus(), 202);
   assert.equal(good.getJson().outcome, 'needs_review');
-  assert.deepEqual(rpc.map(call => call.body), [{ p_user_id: USER, p_order_id: ORDER, p_utr: '612345678901' }]);
+  assert.deepEqual(rpc.filter(call => call.name === 'claim').map(call => call.body), [{ p_user_id: USER, p_order_id: ORDER, p_utr: '612345678901' }]);
+});
+
+test('loading the payment page reads the subscription once', async t => {
+  const calls = paymentFixture(t);
+  const { req, res, getStatus, getJson } = createMocks({ method: 'GET', headers: { authorization: 'Bearer buyer' } });
+  await paymentHandler(req, res);
+  assert.equal(getStatus(), 200);
+  assert.equal(getJson().canSubscribe, true);
+  assert.equal(calls.filter(call => call.name === 'subscription').length, 1);
 });

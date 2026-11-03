@@ -9,7 +9,7 @@ usually within a minute of payment.
 1. A signed-in student picks **Monthly** or **Yearly** on `/subscribe`.
 2. The server reserves a unique amount for 15 minutes: the plan price plus
    1-99 paise (up to 499 when busy). Example: Rs 199.37. That amount is not
-   handed to anyone else for three hours.
+   handed to anyone else for twelve hours.
 3. The page shows a UPI QR with that exact amount, plus the UPI ID and amount
    to copy. The student pays from any UPI app.
 4. Your bank emails you a credit alert. A Google Apps Script in that Gmail
@@ -50,7 +50,7 @@ functions. The browser roles have no access to any of them.
 | `UPI_PLAN_MONTHLY_PAISE` | `19900` | Rs 199. |
 | `UPI_PLAN_YEARLY_PAISE` | `199900` | Rs 1,999. |
 | `PAYMENT_ALERT_SECRET` | output of `openssl rand -hex 32` | At least 32 characters. |
-| `PAYMENT_ALERT_SENDERS` | `hdfcbank.net` | Optional extra check on the alert's sender domain. |
+| `PAYMENT_ALERT_SENDERS` | `hdfcbank.net` | Set this. Email alerts from any other sender domain are ignored. SMS alerts are not checked against it. |
 
 ### 3. Gmail forwarder
 
@@ -64,8 +64,11 @@ functions. The browser roles have no access to any of them.
 5. Run `installTrigger` once and allow the Gmail and external-request
    permissions. Open **Executions** to watch it run each minute.
 
-The script forwards only messages that Gmail shows as signed by the bank's
-domain (DKIM or DMARC pass). A forged "credited" email is skipped.
+The script forwards only messages whose sender address exactly matches
+`BANK_SENDERS` and that Gmail shows as signed by the bank's domain (DKIM or
+DMARC pass). A forged "credited" email, including one from a lookalike domain
+such as `hdfcbank.net.example.com`, is skipped. The server checks the sender
+domain again against `PAYMENT_ALERT_SENDERS`.
 
 ### SMS instead of email (optional)
 
@@ -78,8 +81,10 @@ Any forwarder that can POST JSON works. Send
 
 On iPhone, use a Shortcuts personal automation (Message contains "credited",
 then Get Contents of URL). On Android, use an SMS-to-webhook forwarder app.
-The phone must stay online. Leave `PAYMENT_ALERT_SENDERS` empty if SMS sender
-IDs do not look like email domains.
+The phone must stay online. Include `receivedAt` when the forwarder can: an
+alert that arrives more than twelve hours late is not matched automatically,
+and the buyer enters the UTR instead. Anyone holding the secret can submit an
+SMS alert, so keep it only on your own phone.
 
 ## Checking a new bank's wording
 
