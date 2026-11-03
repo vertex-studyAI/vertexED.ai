@@ -28,6 +28,9 @@ test('credit alerts from common bank formats yield the amount in paise and the U
     ['ICICI Bank Account XX123 credited with INR 199.08 on 23-Oct-26. Info: UPI:612345678904. Available Balance is INR 12,345.67.', 19908, '612345678904'],
     ['INR 199.11 credited to A/c no. XX1234 on 23-10-26 at 10:02:11 IST. Info- UPI/P2A/612345678905/ASHA KUMAR', 19911, '612345678905'],
     ['<p>Rs.&nbsp;199.50 has been <b>credited</b> to your account. RRN: 612345678906</p>', 19950, '612345678906'],
+    // FamApp (@fam) receipt email: subject plus body, names replaced.
+    ['You received ₹199.37 in your FamX account Hey Student Name, You have successfully received ₹199.37 from PAYER NAME Transaction ID : FMPIB6919644759 Date : 05:23 PM IST, 03 November 2026 Updated Balance : ₹201.62 UTR : 630752507984 If this was not done by you, call us and report this at +91 8095858881 or email us at support@famapp.in', 19937, '630752507984'],
+    ['You received ₹199.3 in your FamX account You have successfully received ₹199.3 from PAYER NAME UTR : 630752507985', 19930, '630752507985'],
   ];
   for (const [text, amountPaise, utr] of cases) {
     assert.deepEqual(parseUpiCreditAlert(text), { ok: true, amountPaise, utr }, text);
@@ -209,9 +212,14 @@ test('the Gmail forwarder accepts only the exact bank address signed by the bank
   const forwarder = loadForwarder();
   const signed = 'mx.google.com;\r\n       dkim=pass header.i=@hdfcbank.net header.s=sel header.b=abc;\r\n       spf=pass smtp.mailfrom=alerts@hdfcbank.net;\r\n       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=hdfcbank.net';
   const bank = gmailMessage('HDFC Bank InstaAlerts <alerts@hdfcbank.net>', signed);
+  // BANK_SENDERS is a script-level const, so add the bank inside the script context.
+  vm.runInContext("BANK_SENDERS.push({ address: 'alerts@hdfcbank.net', dkimDomain: 'hdfcbank.net' })", forwarder);
   assert.ok(forwarder.senderFor(bank));
   assert.equal(forwarder.isAuthenticated(bank, 'hdfcbank.net'), true);
   assert.equal(forwarder.isAuthenticated(gmailMessage('', 'mx.google.com; dkim=pass header.d=mail.hdfcbank.net header.s=x'), 'hdfcbank.net'), true);
+  const famapp = gmailMessage('FamApp <no-reply@famapp.in>', 'mx.google.com; dkim=pass header.i=@famapp.in header.s=s1 header.b=x; spf=pass smtp.mailfrom=famapp.in; dmarc=pass (p=REJECT) header.from=famapp.in');
+  assert.equal(forwarder.senderFor(famapp)?.dkimDomain, 'famapp.in');
+  assert.equal(forwarder.isAuthenticated(famapp, 'famapp.in'), true);
 
   for (const from of ['alerts@hdfcbank.net.evil.test', 'Bank <alerts@hdfcbank.net.evil.test>', '"alerts@hdfcbank.net" <x@evil.test>', 'x-alerts@hdfcbank.net']) {
     assert.equal(forwarder.senderFor(gmailMessage(from, signed)), null, from);

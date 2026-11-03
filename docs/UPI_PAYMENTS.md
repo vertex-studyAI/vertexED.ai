@@ -45,20 +45,27 @@ functions. The browser roles have no access to any of them.
 
 | Variable | Example | Notes |
 | --- | --- | --- |
-| `UPI_PAYEE_VPA` | `yourname@okhdfcbank` | The UPI ID that receives money. Payments stay off until this is set. |
+| `UPI_PAYEE_VPA` | `yourname@fam` | The UPI ID that receives money. Payments stay off until this is set. |
 | `UPI_PAYEE_NAME` | `VertexED` | Shown in the payer's app. |
 | `UPI_PLAN_MONTHLY_PAISE` | `19900` | Rs 199. |
 | `UPI_PLAN_YEARLY_PAISE` | `199900` | Rs 1,999. |
 | `PAYMENT_ALERT_SECRET` | output of `openssl rand -hex 32` | At least 32 characters. |
-| `PAYMENT_ALERT_SENDERS` | `hdfcbank.net` | Set this. Email alerts from any other sender domain are ignored. SMS alerts are not checked against it. |
+| `PAYMENT_ALERT_SENDERS` | `famapp.in` | Set this. Email alerts from any other sender domain are ignored. SMS alerts are not checked against it. |
 
 ### 3. Gmail forwarder
 
-1. Make sure your bank emails you for **incoming** UPI credits. Send yourself
+FamApp (`@fam` UPI IDs) emails a receipt for every payment you receive, from
+`no-reply@famapp.in`, with the subject "You received ₹... in your FamX
+account" and the UTR in the body. The script watches for it by default. The
+receipt goes to the email address on your FamApp profile, so the script must
+run in that Gmail account.
+
+1. Make sure you get an email for **incoming** payments. Ask someone to send
    Rs 1 from another UPI app to confirm, and note the sender address.
 2. Open <https://script.google.com>, sign in with that Gmail account, create
    a project and paste `scripts/payments/gmail-upi-forwarder.gs`.
-3. Set `BANK_SENDERS` to your bank's alert address and signing domain.
+3. For FamApp, leave `BANK_SENDERS` as it is. For a bank, set its alert
+   address and signing domain.
 4. Under **Project Settings > Script properties**, add `PAYMENT_ALERT_SECRET`
    with the same value as in Vercel.
 5. Run `installTrigger` once and allow the Gmail and external-request

@@ -15,10 +15,12 @@
 
 const ENDPOINT = 'https://www.vertexed.app/api/payment-alert';
 
-// Exact sender addresses your bank uses for credit alerts, and the domain that
-// must sign them (DKIM). Example for HDFC: alerts@hdfcbank.net / hdfcbank.net.
+// Exact sender addresses that email you when money arrives, and the domain
+// that must sign them (DKIM). FamApp (@fam UPI IDs) sends "You received ₹..."
+// receipts from no-reply@famapp.in. For a bank, add its alert address, for
+// example { address: 'alerts@hdfcbank.net', dkimDomain: 'hdfcbank.net' }.
 const BANK_SENDERS = [
-  { address: 'alerts@hdfcbank.net', dkimDomain: 'hdfcbank.net' },
+  { address: 'no-reply@famapp.in', dkimDomain: 'famapp.in' },
 ];
 
 const PROCESSED_KEY = 'processedMessageIds';
