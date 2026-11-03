@@ -11,7 +11,7 @@ import { formatAiUsageAmount, formatAiUsageReset, loadAiUsage, parseAiUsage } fr
 const fixture = (changes = {}) => {
   const startsAt = Math.floor(Date.now() / 86_400_000) * 86_400_000;
   return {
-    currency: 'USD', policyVersion: 'beta-usd-2026-10-16-v1',
+    currency: 'USD', policyVersion: 'beta-usd-2026-11-03-v1',
     period: { startsAt: new Date(startsAt).toISOString(), resetsAt: new Date(startsAt + 86_400_000).toISOString(), timeZone: 'UTC' },
     account: { limitMicros: 1_000_000, usedMicros: 200_000, reservedMicros: 100_000, remainingMicros: 700_000, carriedReservedMicros: 0 },
     project: { available: true }, concurrency: { accountLimit: 2, accountActive: 1, accountUncertain: 0, accountBlocked: false }, ...changes,

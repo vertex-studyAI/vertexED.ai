@@ -1,11 +1,13 @@
-/** Reviewed official text-token prices and context bounds, 2026-10-16.
+/** Reviewed official text-token prices and context bounds, 2026-11-03.
+ * Unchanged since 2026-10-16. Both snapshots are now marked deprecated by
+ * OpenAI; plan a move before they are retired.
  * https://developers.openai.com/api/docs/models/gpt-4.1-mini
  * https://developers.openai.com/api/docs/models/gpt-4o-mini
  * https://developers.openai.com/api/docs/guides/token-counting
  * Reserve the entire context at uncached standard input rates, plus capped
  * output. This deliberately overstates cost; character estimates are not caps.
  */
-export const AI_USAGE_POLICY = Object.freeze({ version: 'beta-usd-2026-10-16-v1', accountLimit: 1_000_000, projectLimit: 10_000_000, accountConcurrency: 2, projectConcurrency: 8, expiresAt: '2026-10-23T00:00:00.000Z' });
+export const AI_USAGE_POLICY = Object.freeze({ version: 'beta-usd-2026-11-03-v1', accountLimit: 1_000_000, projectLimit: 10_000_000, accountConcurrency: 2, projectConcurrency: 8, validFrom: '2026-10-16T00:00:00.000Z', expiresAt: '2026-11-10T00:00:00.000Z' });
 const MODELS = Object.freeze({
   'gpt-4.1-mini': { snapshot: 'gpt-4.1-mini-2025-04-14', context: 1_047_576, inputRate: 400_000, outputRate: 1_600_000 },
   'gpt-4.1-mini-2025-04-14': { snapshot: 'gpt-4.1-mini-2025-04-14', context: 1_047_576, inputRate: 400_000, outputRate: 1_600_000 },
@@ -22,7 +24,7 @@ const unsupported = () => new AiUsageError('AI_MODEL_UNSUPPORTED', 503, 'This mo
 const tokenCost = (tokens, rate) => (BigInt(tokens) * BigInt(rate) + 999_999n) / 1_000_000n;
 
 export function requireCurrentAiPolicy(now = Date.now()) {
-  if (!Number.isFinite(now) || now >= Date.parse(AI_USAGE_POLICY.expiresAt) || now < Date.parse('2026-10-16T00:00:00Z')) throw new AiUsageError();
+  if (!Number.isFinite(now) || now >= Date.parse(AI_USAGE_POLICY.expiresAt) || now < Date.parse(AI_USAGE_POLICY.validFrom)) throw new AiUsageError();
 }
 
 function textOnly(value) {
