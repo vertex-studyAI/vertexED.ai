@@ -141,6 +141,10 @@ for (const width of [1440, 1024, 390]) {
       await activateWithKeyboard(page.getByRole('button', { name: 'Hide calendar', exact: true }));
     }
     for (const theme of ['light', 'dark'] as const) {
+      // A tiny transition duration still waits for a rendering frame and can
+      // leave inherited page colours behind the theme tokens in WebKit.
+      await expect(page.locator('html')).toHaveCSS('transition-property', 'none');
+      await expect(page.locator('body')).toHaveCSS('transition-property', 'none');
       await selectTheme(page, theme);
       await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
       await page.screenshot({ path: info.outputPath(`planner-navigation-${width}-${theme}.png`), animations: 'disabled' });
