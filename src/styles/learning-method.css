@@ -198,7 +198,7 @@
   .learning-method-band *::before,
   .learning-method-band *::after {
     scroll-behavior: auto !important;
-    transition-duration: 0.01ms !important;
+    transition: none !important;
     animation-duration: 0.01ms !important;
   }
 }
