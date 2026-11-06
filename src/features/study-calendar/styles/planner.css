@@ -143,6 +143,7 @@
 .popup.planner-task-dialog.calendar-import-dialog { display: flex; flex-direction: column; overflow: hidden; padding: 0; width: min(600px, calc(100vw - 32px)); }
 .calendar-import-header, .calendar-import-body, .calendar-import-actions { padding: 24px; }
 .calendar-import-header { flex: none; padding-bottom: 16px; border-bottom: 1px solid hsl(var(--border)); }
+.calendar-import-header .planner-dialog-heading > button { flex: none; white-space: nowrap; }
 .calendar-import-header p { margin: 12px 0 16px; color: hsl(var(--muted-foreground)); }
 .calendar-import-steps { display: flex; gap: 24px; margin: 0; padding: 0; list-style: none; font-size: 14px; color: hsl(var(--muted-foreground)); }
 .calendar-import-steps li { padding-bottom: 8px; border-bottom: 2px solid transparent; }
