@@ -65,6 +65,7 @@ const ExamPrep = lazy(() => import("@/pages/ExamPrep"));
 const APLibrary = lazy(() => import("@/pages/APLibrary"));
 const APCourse = lazy(() => import("@/pages/APCourse"));
 const MYPHub = lazy(() => import("@/pages/MYPHub"));
+const MYPMentorship = lazy(() => import("@/pages/MYPMentorship"));
 const MYPSubject = lazy(() => import("@/pages/MYPSubject"));
 const MYPEAssessment = lazy(() => import("@/pages/MYPEAssessment"));
 import { AuthProvider } from "@/contexts/AuthContext";
@@ -179,6 +180,7 @@ return (
 <Route path="ap/:courseSlug" element={<APCourse />} />
 <Route path="ap/:courseSlug/:moduleSlug" element={<APCourse />} />
 <Route path="myp" element={<MYPHub />} />
+<Route path="myp/mentorship" element={<MYPMentorship />} />
 						<Route path="myp/eassessment" element={<MYPEAssessment />} />
 						<Route path="myp/subjects/:subjectSlug" element={<MYPSubject />} />
 						<Route path="myp/subjects/:subjectSlug/:topicSlug" element={<MYPSubject />} />
