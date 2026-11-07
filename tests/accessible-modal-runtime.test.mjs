@@ -8,8 +8,8 @@ import React, { act } from 'react';
 import { createRoot } from 'react-dom/client';
 import ts from 'typescript';
 
-test('the rendered modal focuses its requested title, traps Tab and restores its opener', async () => {
-  const dom = new JSDOM('<button id="opener">Take timed exam</button><div id="root"></div>');
+async function verifyModalFocus(removeOpener) {
+  const dom = new JSDOM('<button id="opener">Take timed exam</button><button id="fallback">New Task</button><div id="root"></div>');
   const { document } = dom.window;
   const previous = { window: globalThis.window, document: globalThis.document,
     HTMLElement: globalThis.HTMLElement, act: globalThis.IS_REACT_ACT_ENVIRONMENT };
@@ -34,6 +34,7 @@ test('the rendered modal focuses its requested title, traps Tab and restores its
     opener.focus();
     await act(async () => root.render(React.createElement(AccessibleModal, {
       titleId: 'exam-title', initialFocusRef: titleRef,
+      fallbackFocusRef: { current: document.getElementById('fallback') },
       onClose: () => root.render(null),
     }, React.createElement('h1', { id: 'exam-title', ref: titleRef, tabIndex: -1 }, 'Practice exam'),
     React.createElement('button', { id: 'first' }, 'Exit exam'),
@@ -50,9 +51,10 @@ test('the rendered modal focuses its requested title, traps Tab and restores its
     assert.equal(document.activeElement?.id, 'first');
     await press('Tab', true);
     assert.equal(document.activeElement?.id, 'last');
+    if (removeOpener) opener.remove();
     await press('Escape');
     assert.equal(document.querySelector('[role="dialog"]'), null);
-    assert.equal(document.activeElement?.id, 'opener');
+    assert.equal(document.activeElement?.id, removeOpener ? 'fallback' : 'opener');
     assert.equal(rootElement.hasAttribute('aria-hidden'), false);
     assert.equal(Boolean(rootElement.inert), false);
   } finally {
@@ -63,4 +65,7 @@ test('the rendered modal focuses its requested title, traps Tab and restores its
     globalThis.IS_REACT_ACT_ENVIRONMENT = previous.act;
     dom.window.close();
   }
-});
+}
+
+test('the rendered modal focuses its requested title, traps Tab and prefers its connected opener', () => verifyModalFocus(false));
+test('the rendered modal returns to its fallback when the invoking control is removed', () => verifyModalFocus(true));

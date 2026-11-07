@@ -19,6 +19,7 @@ type AccessibleModalProps = PropsWithChildren<{
   onClose: () => void;
   initialFocusRef?: RefObject<HTMLElement | null>;
   openerRef?: RefObject<HTMLElement | null>;
+  fallbackFocusRef?: RefObject<HTMLElement | null>;
   overlayClassName?: string;
   className?: string;
   style?: CSSProperties;
@@ -31,6 +32,7 @@ export default function AccessibleModal({
   onClose,
   initialFocusRef,
   openerRef,
+  fallbackFocusRef,
   overlayClassName = "blur-background",
   className,
   style,
@@ -49,6 +51,7 @@ export default function AccessibleModal({
       : null);
     const hiddenSiblings: Array<{ element: HTMLElement; inert: boolean; ariaHidden: string | null }> = [];
     const dialog = dialogRef.current;
+    const fallbackTarget = fallbackFocusRef?.current ?? null;
     // A visible dialog must already own keyboard focus. Waiting for another
     // animation frame lets an immediate Escape go to the background in WebKit.
     focusInitialModalElement(dialog, initialFocusRef?.current ?? null);
@@ -71,10 +74,13 @@ export default function AccessibleModal({
       }
       const returnTarget = returnFocusRef.current;
       window.queueMicrotask(() => {
-        if (!dialog?.isConnected) restoreModalFocus(returnTarget);
+        if (!dialog?.isConnected && !restoreModalFocus(returnTarget)) {
+          // Saving can remove the invoking control from the surrounding view.
+          restoreModalFocus(fallbackTarget);
+        }
       });
     };
-  }, [initialFocusRef, openerRef]);
+  }, [initialFocusRef, openerRef, fallbackFocusRef]);
 
   const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
     if (event.key === "Escape") {
