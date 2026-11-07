@@ -171,6 +171,7 @@ export default function SiteLayout() {
     : [
         { to: "/", label: "Home" },
         { to: "/features", label: "Features" },
+        { to: "/myp/mentorship", label: "MYP mentoring" },
         { to: "/resources", label: "Library" },
         { to: "/projects", label: "Projects" },
         { to: "/#concept-lens", label: "Try the lens" },
@@ -439,6 +440,7 @@ export default function SiteLayout() {
                 <Link to="/login" className="hover:text-foreground transition">Login</Link>
               </>
             )}
+            <Link to="/myp/mentorship" className="hover:text-foreground transition">MYP mentoring</Link>
             <a href={PUBLIC_INTAKE_ROUTES.support} className="hover:text-foreground transition">Support</a>
             <a href={PUBLIC_INTAKE_ROUTES.privacyRequest} className="hover:text-foreground transition">Privacy request</a>
             <a href={PUBLIC_INTAKE_ROUTES.security} className="hover:text-foreground transition">Security</a>
