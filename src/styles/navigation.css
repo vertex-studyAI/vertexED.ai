@@ -47,6 +47,12 @@
 .vertex-search-popover button:focus-visible { outline:2px solid hsl(var(--ring)); outline-offset:-2px; }
 .vertex-search-popover button:disabled { opacity:.6; }
 @media(min-width:1000px) { .vertex-navigation[data-authenticated=false] nav[aria-label="Main navigation"] { display:flex; }.vertex-navigation[data-authenticated=false]>div:first-child>div:last-child { display:none; } }
+@media(min-width:1000px) and (max-width:1199px) {
+  .vertex-navigation[data-authenticated=false]>div:first-child { gap:16px; }
+  .vertex-navigation[data-authenticated=false] .nav-link-pill { padding-inline:8px; white-space:nowrap; }
+  .vertex-navigation[data-authenticated=false] nav[aria-label="Main navigation"]>a[href="/login"] { margin-left:12px; padding-left:12px; }
+  .vertex-navigation[data-authenticated=false] .brand-cta { white-space:nowrap; }
+}
 @media(max-width:999px) { .vertex-navigation { width:calc(100% - 24px); top:8px; margin-top:8px; border-radius:var(--radius-glass); }.vertex-navigation>div:first-child { padding-inline:12px; gap:12px; height:60px; }.vertex-navigation>div:first-child>a>span { font-size:16px; }.vertex-search-row { grid-template-columns:minmax(0,1fr); min-height:54px; padding:7px 10px 9px; }.vertex-search-index,.vertex-search-hint { display:none; }.vertex-global-search input { min-height:38px; } }
 @media(max-width:520px) { .vertex-navigation { width:calc(100% - 16px); }.vertex-global-search input { padding-right:52px; font-size:16px; min-height:44px; }.vertex-global-search kbd { display:none; }.vertex-search-clear { right:4px; width:44px; height:44px; }.vertex-search-result-area { grid-column:1; grid-row:auto; justify-self:start; text-align:left; }.vertex-search-popover button[role=option] { grid-template-columns:1fr; padding-right:38px; } }
 @media(max-width:520px) { .vertex-navigation .mobile-join-link { display:none; } }
