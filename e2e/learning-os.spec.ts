@@ -12,6 +12,8 @@ const learnerId = 'f40db66b-1b55-4ab8-88d0-14a9ba476c16';
 const artifactId = '25734997-775e-473f-b415-897751b08497';
 
 async function activateWithKeyboard(locator: Locator) {
+  // focus() does not wait for enabled state; a loading control ignores it.
+  await expect(locator).toBeEnabled();
   await locator.focus();
   await expect(locator).toBeFocused();
   await locator.press('Enter');
@@ -693,6 +695,31 @@ test('planner calendar import keeps errors actionable and primary actions visibl
   await page.screenshot({ path: info.outputPath('calendar-import-390-error.png'), animations: 'disabled' });
   await page.keyboard.press('Escape');
   await expect(page.getByRole('button', { name: 'Import calendar', exact: true })).toBeFocused();
+});
+
+test('keyboard activation waits for planner hydration before focusing New Task', async ({ page }) => {
+  const state = await installAccountHarness(page, true);
+  let releaseHydration!: () => void;
+  state.holdReads = new Promise<void>(resolve => { releaseHydration = resolve; });
+  let releaseTimer: ReturnType<typeof setTimeout> | undefined;
+  try {
+    await page.goto('/planner');
+    const newTask = page.getByRole('button', { name: 'New Task', exact: true });
+    await expect(newTask).toBeDisabled();
+    // Deliberately delay the fixture response until activation has started.
+    // A focus request made while disabled is ignored, even after loading ends.
+    releaseTimer = setTimeout(() => {
+      state.holdReads = null;
+      releaseHydration();
+    }, 750);
+    await activateWithKeyboard(newTask);
+    await expect(page.getByRole('dialog', { name: 'Add a study task' })).toBeVisible();
+    await expect(page.getByLabel('Task name', { exact: true })).toBeFocused();
+  } finally {
+    clearTimeout(releaseTimer);
+    state.holdReads = null;
+    releaseHydration();
+  }
 });
 
 test('planner calendar cancellation discards an in-flight file', async ({ page }) => {
