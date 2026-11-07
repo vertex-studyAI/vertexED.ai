@@ -17,6 +17,7 @@ export type GlobalSearchEntry = {
 const pages: GlobalSearchEntry[] = [
   { title: 'Home', description: 'The VertexED revision loop and interactive examples.', to: '/', area: 'Page', keywords: 'landing start' },
   { title: 'Features', description: 'See the connected planning, practice and review tools.', to: '/features', area: 'Page' },
+  { title: 'Free MYP mentoring', description: 'Request one-to-one support or volunteer as an MYP mentor.', to: '/myp/mentorship', area: 'Page', keywords: 'peer tutoring mentorship mentor volunteer student help IB' },
   { title: 'Courses', description: 'Browse study tools by curriculum and exam board.', to: '/curricula', area: 'Course', keywords: 'curriculum programme board' },
   { title: 'MYP 5', description: MYP5_CONTENT_TOTALS.lessons ? 'Explore available MYP 5 subjects, topics and practice.' : 'Browse the MYP subject directory. Lessons and practice are awaiting subject review.', to: '/myp', area: 'Course', keywords: 'IB middle years programme' },
   { title: 'MYP eAssessment', description: MYP5_CONTENT_TOTALS.questions ? 'Practise available MYP on-screen assessment question types.' : 'View the assessment overview. Practice questions are awaiting subject review.', to: '/myp/eassessment', area: 'Course', keywords: 'exam assessment' },
