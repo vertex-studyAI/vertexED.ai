@@ -123,7 +123,13 @@
     "postcss-selector-parser": "6.1.5",
     "qs": "6.16.0",
     "uuid": "^11.1.1",
-    "katex": "$katex"
+    "katex": "$katex",
+    "@typescript-eslint/typescript-estree": {
+      "minimatch": {
+        ".": "11.0.4",
+        "brace-expansion": "5.0.12"
+      }
+    }
   },
   "browserslist": [
     "defaults",
