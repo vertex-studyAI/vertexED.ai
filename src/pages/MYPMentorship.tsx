@@ -25,6 +25,10 @@ const questions = [
     question: 'Can I volunteer as a mentor?',
     answer: 'If you have completed the MYP, use the mentor application to share the subjects you can support and the time you can realistically offer. The team will discuss a suitable match before sessions begin.',
   },
+  {
+    question: 'How are students kept safe?',
+    answer: 'An application is only a request to be considered. Before any session starts, the team needs an agreed safeguarding and consent process, including suitable contact channels and parent or guardian involvement where required. Please do not share passwords, home addresses, health details or other sensitive information in an application or mentoring conversation.',
+  },
 ];
 
 export default function MYPMentorship() {
@@ -51,7 +55,7 @@ export default function MYPMentorship() {
               <span className="sr-only"> (Google Forms, opens in a new tab)</span>
             </a>
           </div>
-          <p className="mentorship-note">Both applications open in Google Forms. Matching depends on subject coverage and mentor availability.</p>
+          <p className="mentorship-note">Both applications open in Google Forms. Applying does not arrange a session or authorize private contact. Matches and sessions depend on mentor availability and appropriate safeguarding and consent arrangements.</p>
         </div>
         <aside className="mentorship-session" aria-labelledby="mentorship-session-title">
           <p className="mentorship-kicker">Bring your next question</p>
