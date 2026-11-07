@@ -57,6 +57,7 @@ const PlannerView: React.FC = () => {
   const [aiBusy, setAiBusy] = useState(false);
   const [aiError, setAiError] = useState<string | null>(null);
   const aiInputRef = useRef<HTMLInputElement>(null);
+  const newTaskButtonRef = useRef<HTMLButtonElement>(null);
   const [weekPlanBusy, setWeekPlanBusy] = useState(false);
   const [useAi, setUseAi] = useState(false);
   const [planError, setPlanError] = useState<string | null>(null);
@@ -408,7 +409,7 @@ const PlannerView: React.FC = () => {
           </DateNavigation>
         </div>
 	<div className="planner-actions">
-          <button className="planner-new" disabled={!plannerReady} onClick={() => openNewTask()}>New Task</button>
+          <button ref={newTaskButtonRef} className="planner-new" disabled={!plannerReady} onClick={() => openNewTask()}>New Task</button>
           {plannerReady && <button className="planner-today" onClick={() => {
             const url = URL.createObjectURL(new Blob([JSON.stringify({ format: 'vertexed-planner', version: 2, tasks, coursework, mode, exportedAt: new Date().toISOString() }, null, 2)], { type: 'application/json' }));
             const link = document.createElement('a'); link.href = url; link.download = 'vertexed-planner.json'; link.click();
@@ -496,6 +497,7 @@ const PlannerView: React.FC = () => {
           descriptionId="planner-ai-dialog-description"
           onClose={() => setAiOpen(false)}
           initialFocusRef={aiInputRef}
+          fallbackFocusRef={newTaskButtonRef}
           busy={aiBusy}
           className="popup planner-task-dialog"
         >
@@ -546,6 +548,7 @@ const PlannerView: React.FC = () => {
           descriptionId="planner-edit-dialog-description"
           onClose={() => setEditOpen(false)}
           initialFocusRef={editNameRef}
+          fallbackFocusRef={newTaskButtonRef}
           className="popup task-popup planner-task-dialog"
         >
             <div className="planner-dialog-heading">
