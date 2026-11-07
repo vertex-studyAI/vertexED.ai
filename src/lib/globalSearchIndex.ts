@@ -19,6 +19,7 @@ const pages: GlobalSearchEntry[] = [
   { title: 'Features', description: 'See the connected planning, practice and review tools.', to: '/features', area: 'Page' },
   { title: 'Courses', description: 'Browse study tools by curriculum and exam board.', to: '/curricula', area: 'Course', keywords: 'curriculum programme board' },
   { title: 'MYP 5', description: MYP5_CONTENT_TOTALS.lessons ? 'Explore available MYP 5 subjects, topics and practice.' : 'Browse the MYP subject directory. Lessons and practice are awaiting subject review.', to: '/myp', area: 'Course', keywords: 'IB middle years programme' },
+  { title: 'Free MYP mentoring', description: 'Apply for free one-to-one study support or volunteer as an MYP graduate.', to: '/myp/mentorship', area: 'Page', keywords: 'tutoring mentor volunteer help student application' },
   { title: 'MYP eAssessment', description: MYP5_CONTENT_TOTALS.questions ? 'Practise available MYP on-screen assessment question types.' : 'View the assessment overview. Practice questions are awaiting subject review.', to: '/myp/eassessment', area: 'Course', keywords: 'exam assessment' },
   { title: 'Study guides', description: 'Open subject guides and source-bound study pages.', to: '/study-guides', area: 'Guide', keywords: 'revision learning pages' },
   { title: 'Learning library', description: 'Search course directories, available materials, curriculum desks, guides, tools and archives.', to: '/resources', area: 'Guide', keywords: 'resources articles help index content' },

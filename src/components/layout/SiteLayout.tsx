@@ -439,6 +439,7 @@ export default function SiteLayout() {
                 <Link to="/login" className="hover:text-foreground transition">Login</Link>
               </>
             )}
+            <Link to="/myp/mentorship" className="hover:text-foreground transition">Free MYP mentoring</Link>
             <a href={PUBLIC_INTAKE_ROUTES.support} className="hover:text-foreground transition">Support</a>
             <a href={PUBLIC_INTAKE_ROUTES.privacyRequest} className="hover:text-foreground transition">Privacy request</a>
             <a href={PUBLIC_INTAKE_ROUTES.security} className="hover:text-foreground transition">Security</a>

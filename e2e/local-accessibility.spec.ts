@@ -11,6 +11,57 @@ const launchViewports = [
 
 const visualEvidenceWidths = new Set([390, 1024, 1440]);
 
+test.describe('free MYP mentoring', () => {
+  test('visitors can reach both application paths without signing in', async ({ page }) => {
+    await page.goto('/myp');
+    await page.locator('main').getByRole('link', { name: 'Free MYP mentoring', exact: true }).click();
+    await expect(page).toHaveURL(/\/myp\/mentorship$/);
+    await expect(page.getByRole('heading', { name: 'Bring the question you’re stuck on.' })).toBeVisible();
+
+    const student = page.getByRole('link', { name: 'Apply for free support', exact: true });
+    const mentor = page.getByRole('link', { name: 'Apply to mentor', exact: true });
+    await expect(student).toHaveAttribute('href', 'https://forms.gle/JbkVEATVf3f3X4yF9');
+    await expect(mentor).toHaveAttribute('href', 'https://forms.gle/gisd6w65hb6L7keu9');
+    for (const link of [student, mentor]) {
+      await expect(link).toHaveAttribute('target', '_blank');
+      await expect(link).toHaveAttribute('rel', /noopener/);
+      await expect(link).toHaveAccessibleDescription(/Opens a Google Form in a new tab/);
+    }
+
+    await page.reload();
+    await expect(student).toBeVisible();
+    await expect(page).toHaveURL(/\/myp\/mentorship$/);
+    await page.goto('/');
+    // The existing homepage preview is included in the link's accessible name.
+    const homeMentoring = page.getByRole('navigation', { name: 'Programme shortcuts' }).getByRole('link', { name: /^Free MYP mentoring/ });
+    await expect(homeMentoring).toHaveAttribute('href', '/myp/mentorship');
+    await homeMentoring.click();
+    await expect(page).toHaveURL(/\/myp\/mentorship$/);
+    await expect(page.locator('footer').getByRole('link', { name: 'Free MYP mentoring', exact: true })).toHaveAttribute('href', '/myp/mentorship');
+  });
+
+  test('application details work by keyboard and fit with reduced motion', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.goto('/myp/mentorship');
+    const student = page.getByRole('link', { name: 'Apply for free support', exact: true });
+    await student.focus();
+    await page.keyboard.press('Tab');
+    await expect(page.getByRole('link', { name: 'Apply to mentor', exact: true })).toBeFocused();
+
+    await page.keyboard.press('Tab');
+    const freeDetails = page.locator('summary').filter({ hasText: 'Is the tutoring free?' });
+    await expect(freeDetails).toBeFocused();
+    await page.keyboard.press('Enter');
+    await expect(page.getByText('Yes. This is volunteer MYP support with no tutoring fee.', { exact: false })).toBeVisible();
+    await page.keyboard.press('Enter');
+    await expect(page.getByText('Yes. This is volunteer MYP support with no tutoring fee.', { exact: false })).toBeHidden();
+
+    await expectNoHorizontalOverflow(page);
+    const motion = await page.locator('.mentorship-page').evaluate((element) => element.getAnimations({ subtree: true }).filter((animation) => animation.playState === 'running').length);
+    expect(motion).toBe(0);
+  });
+});
+
 async function expectNoHorizontalOverflow(page: Page) {
   const dimensions = await page.evaluate(() => ({
     viewportWidth: window.innerWidth,
