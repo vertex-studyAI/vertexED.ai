@@ -6,6 +6,28 @@ import { dirname, extname, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+const budgetMetrics = [
+  'initialJavaScriptGzipBytes',
+  'initialCssGzipBytes',
+  'largestJavaScriptGzipBytes',
+  'totalJavaScriptGzipBytes',
+];
+
+function validateBudgets(budgets, { requireAll = false } = {}) {
+  if (!budgets || typeof budgets !== 'object' || Array.isArray(budgets) || !Object.keys(budgets).length) {
+    throw new Error('bundle budgets must be a nonempty object');
+  }
+  for (const [name, limit] of Object.entries(budgets)) {
+    if (!budgetMetrics.includes(name)) throw new Error(`unknown bundle budget: ${name}`);
+    if (!Number.isSafeInteger(limit) || limit < 0) {
+      throw new Error(`bundle budget ${name} must be a nonnegative safe integer in bytes`);
+    }
+  }
+  if (requireAll) {
+    const missing = budgetMetrics.filter((name) => !Object.hasOwn(budgets, name));
+    if (missing.length) throw new Error(`missing bundle budget(s): ${missing.join(', ')}`);
+  }
+}
 
 export function extractInitialAssetPaths(html) {
   const paths = new Set();
@@ -36,6 +58,7 @@ async function measureFile(distDir, publicPath) {
 }
 
 export async function measureBuild({ distDir, html, budgets }) {
+  validateBudgets(budgets);
   const initial = await Promise.all(
     extractInitialAssetPaths(html).map((asset) => measureFile(distDir, asset)),
   );
@@ -53,7 +76,7 @@ export async function measureBuild({ distDir, html, budgets }) {
     totalJavaScriptGzipBytes: sum(allJavaScript),
   };
   const violations = Object.entries(budgets)
-    .filter(([name, limit]) => !Number.isFinite(limit) || metrics[name] > limit)
+    .filter(([name, limit]) => metrics[name] > limit)
     .map(([name, limit]) => ({ name, actual: metrics[name], limit }));
   return { metrics, budgets, initialAssets: initial, violations };
 }
@@ -67,9 +90,10 @@ export async function checkBuildPerformance({
     readFile(budgetPath, 'utf8'),
   ]);
   const config = JSON.parse(configSource);
-  if (config.version !== 1 || !config.budgets || typeof config.budgets !== 'object') {
+  if (!config || config.version !== 1) {
     throw new Error('performance-budgets.json must contain version 1 budgets');
   }
+  validateBudgets(config.budgets, { requireAll: true });
   return measureBuild({ distDir, html, budgets: config.budgets });
 }
 
