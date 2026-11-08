@@ -1,8 +1,10 @@
 // File: /src/App.tsx
 import SiteLayout from "@/components/layout/SiteLayout";
 import AuthLandingRedirect from "@/components/AuthLandingRedirect";
-import FeedbackLauncher from "@/components/FeedbackLauncher";
-import { lazy, useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
+const FeedbackLauncher = lazy(() => import("@/components/FeedbackLauncher").catch(() => ({
+  default: () => <p role="status">The feedback form is temporarily unavailable.</p>,
+})));
 const Features = lazy(() => import("@/pages/Features"));
 const Login = lazy(() => import("@/pages/Login"));
 const Signup = lazy(() => import("@/pages/Signup"));
@@ -68,7 +70,7 @@ const MYPHub = lazy(() => import("@/pages/MYPHub"));
 const MYPMentorship = lazy(() => import("@/pages/MYPMentorship"));
 const MYPSubject = lazy(() => import("@/pages/MYPSubject"));
 const MYPEAssessment = lazy(() => import("@/pages/MYPEAssessment"));
-import { AuthProvider } from "@/contexts/AuthContext";
+import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import { AppPreferencesProvider } from "@/contexts/AppPreferencesContext";
 import AdminRoute from "@/components/AdminRoute";
 import NotetakerAccessibilityBoundary from "@/components/NotetakerAccessibilityBoundary";
@@ -231,7 +233,7 @@ return (
 </Route>
 </Routes>
 </BrowserRouter>
-<FeedbackLauncher />
+<SignedInFeedback />
 <Toaster />
 {telemetryReady && <DeferredTelemetry />}
 </AppPreferencesProvider>
@@ -240,6 +242,11 @@ return (
 );
 }
 export default App;
+
+function SignedInFeedback() {
+  const { user } = useAuth();
+  return user ? <Suspense fallback={null}><FeedbackLauncher /></Suspense> : null;
+}
 
 function DeferredTelemetry() {
   const [Telemetry, setTelemetry] = useState<React.ComponentType | null>(null);
