@@ -31,6 +31,12 @@ for (const width of [1440, 1024, 390]) {
     await page.keyboard.press('Enter');
     await expect(question.locator('..')).not.toHaveAttribute('open', '');
 
+    // An application is not permission for an unsupervised private session.
+    await expect(page.getByText(/Applying does not arrange a session or authorize private contact/)).toBeVisible();
+    const safety = page.locator('summary', { hasText: 'How are students kept safe?' });
+    await safety.click();
+    await expect(page.getByText(/Before any session starts, the team needs an agreed safeguarding and consent process/)).toBeVisible();
+
     for (const theme of ['light', 'dark'] as const) {
       await selectTheme(page, theme);
       await page.evaluate(() => window.scrollTo(0, 0));
