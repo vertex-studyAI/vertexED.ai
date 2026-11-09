@@ -175,7 +175,7 @@ test('failed optional downloads preserve mentoring and its usable feedback form'
     return route.abort();
   });
   await signInWithUnavailableCloud(page);
-  expect(blockedDownloads).toBeGreaterThan(0);
+  await expect.poll(() => blockedDownloads).toBeGreaterThan(0);
   await page.route(/\/assets\/[^/]+\.js(?:\?.*)?$/, route => route.abort());
   await expect(page.getByRole('status').filter({ hasText: 'The feedback form is temporarily unavailable.' })).toHaveCount(0);
   await expect(page.getByRole('heading', { name: 'Free MYP mentoring.', exact: true })).toBeVisible();
