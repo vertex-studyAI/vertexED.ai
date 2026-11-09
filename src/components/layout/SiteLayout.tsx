@@ -94,10 +94,22 @@ export default function SiteLayout() {
     previousFocusPath.current = location.pathname;
     // Query-backed search and filters must keep focus in the active control.
     if (!routeChanged || location.hash) return;
+    const origin = document.activeElement;
+    let superseded = false;
+    const onNewFocus = () => { superseded = true; };
+    document.addEventListener('focusin', onNewFocus, true);
     const frame = window.requestAnimationFrame(() => {
+      document.removeEventListener('focusin', onNewFocus, true);
+      const active = document.activeElement;
+      // A learner or dialog may already have chosen a control while this
+      // frame was pending. The route announcement must yield to that focus.
+      if (superseded || (active !== origin && active !== document.body && active !== document.documentElement)) return;
       document.getElementById('main-content')?.focus({ preventScroll: true });
     });
-    return () => window.cancelAnimationFrame(frame);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      document.removeEventListener('focusin', onNewFocus, true);
+    };
   }, [location.pathname, location.hash]);
 
   const handleLogout = async () => {

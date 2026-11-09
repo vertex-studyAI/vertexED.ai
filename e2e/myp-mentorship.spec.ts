@@ -142,7 +142,7 @@ test('a failed cloud-notice download leaves the active page usable', async ({ pa
 });
 
 
-test('feedback loads after sign-in and keeps its keyboard return path', async ({ page }) => {
+test('feedback is ready after sign-in without a separate download and keeps its keyboard return path', async ({ page }) => {
   const feedbackDownloads: string[] = [];
   page.on('request', request => {
     if (/\/assets\/FeedbackLauncher-[^/]+\.js$/.test(new URL(request.url()).pathname)) {
@@ -152,11 +152,12 @@ test('feedback loads after sign-in and keeps its keyboard return path', async ({
   await page.goto('/myp/mentorship');
   await expect(page.getByRole('heading', { name: 'Free MYP mentoring.', exact: true })).toBeVisible();
   expect(feedbackDownloads).toHaveLength(0);
+  await expect(page.getByRole('button', { name: 'Give VertexED feedback', exact: true })).toHaveCount(0);
 
   await signInWithUnavailableCloud(page);
   const launcher = page.getByRole('button', { name: 'Give VertexED feedback', exact: true });
   await expect(launcher).toBeVisible();
-  expect(feedbackDownloads.length).toBeGreaterThan(0);
+  expect(feedbackDownloads).toHaveLength(0);
   await launcher.focus();
   await page.keyboard.press('Enter');
   const dialog = page.getByRole('dialog', { name: 'Help improve VertexED', exact: true });
@@ -167,11 +168,26 @@ test('feedback loads after sign-in and keeps its keyboard return path', async ({
   await expect(launcher).toBeFocused();
 });
 
-test('a failed feedback download preserves the active mentoring page', async ({ page }) => {
-  await page.route('**/assets/FeedbackLauncher-*.js', route => route.abort());
+test('failed optional downloads preserve mentoring and its usable feedback form', async ({ page }) => {
+  let blockedDownloads = 0;
+  await page.route(/\/assets\/(?:FeedbackLauncher|OptionalAppEnhancements)-[^/]+\.js(?:\?.*)?$/, route => {
+    blockedDownloads += 1;
+    return route.abort();
+  });
   await signInWithUnavailableCloud(page);
-  await expect(page.getByRole('status').filter({ hasText: 'The feedback form is temporarily unavailable.' })).toBeVisible();
+  expect(blockedDownloads).toBeGreaterThan(0);
+  await page.route(/\/assets\/[^/]+\.js(?:\?.*)?$/, route => route.abort());
+  await expect(page.getByRole('status').filter({ hasText: 'The feedback form is temporarily unavailable.' })).toHaveCount(0);
   await expect(page.getByRole('heading', { name: 'Free MYP mentoring.', exact: true })).toBeVisible();
   await expect(page.getByRole('link', { name: /^Request free mentoring/ })).toHaveAttribute('href', studentForm);
   await expect(page.getByRole('heading', { name: 'This page could not open', exact: true })).toHaveCount(0);
+  const launcher = page.getByRole('button', { name: 'Give VertexED feedback', exact: true });
+  await launcher.focus();
+  await page.keyboard.press('Enter');
+  const dialog = page.getByRole('dialog', { name: 'Help improve VertexED', exact: true });
+  await expect(dialog).toBeVisible();
+  await expect(dialog.getByLabel('Your feedback')).toBeFocused();
+  await page.keyboard.press('Escape');
+  await expect(dialog).toHaveCount(0);
+  await expect(launcher).toBeFocused();
 });
