@@ -3,6 +3,7 @@ import { Helmet } from "react-helmet-async";
 import { Link } from "react-router";
 import NeumorphicCard from "@/components/NeumorphicCard";
 import PageSection from "@/components/PageSection";
+import NotetakerAccessibilityBoundary from "@/components/NotetakerAccessibilityBoundary";
 import { authFetch } from "@/lib/apiAuth";
 import { notetakerError } from "@/lib/notetakerError.mjs";
 import {
@@ -176,6 +177,10 @@ const markdownComponents = {
 };
 
 export default function NotetakerQuiz(): React.JSX.Element {
+  return <NotetakerAccessibilityBoundary><NotetakerContent /></NotetakerAccessibilityBoundary>;
+}
+
+function NotetakerContent(): React.JSX.Element {
   const { user } = useAuth();
   const [searchParams] = useSearchParams();
   const cramStudy = searchParams.get("cram") === "1";

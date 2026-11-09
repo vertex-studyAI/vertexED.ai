@@ -200,6 +200,73 @@ test('planner task dialogs preserve focus through cancellation, rescheduling and
 });
 
 for (const width of [1440, 1024, 390]) {
+  test(`feedback opens without a deferred download or discarding an unfinished answer at ${width}`, async ({ page }, info) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.route(/^https?:\/\//, route => {
+      const hostname = new URL(route.request().url()).hostname;
+      return ['127.0.0.1', 'localhost'].includes(hostname) ? route.continue() : route.abort('blockedbyclient');
+    });
+    // A failed optional module used to permanently replace the launcher with
+    // an unavailable message. The signed-in app must already contain this UI.
+    await page.route(/\/assets\/(?:FeedbackLauncher|OptionalAppEnhancements)-[^/]+\.js(?:\?.*)?$/, route => route.abort('failed'));
+    await installAccountHarness(page, true);
+    await page.goto('/answer-reviewer');
+    await page.getByLabel('Question', { exact: true }).fill('Why can photosynthesis plateau at high light intensity?');
+    const answer = page.getByLabel('Your answer', { exact: true });
+    const draft = 'Carbon dioxide may become limiting while I finish this explanation.';
+    await answer.fill(draft);
+    // Once the learner has started work, even later script downloads may fail.
+    // Opening the reporting form must use code that is already available.
+    await page.route(/\/assets\/[^/]+\.js(?:\?.*)?$/, route => route.abort('failed'));
+    await page.evaluate(() => { (window as any).__feedbackRecoveryDocument = true; });
+    const launcher = page.getByRole('button', { name: 'Give VertexED feedback', exact: true });
+    await expect(launcher).toBeVisible();
+    await launcher.scrollIntoViewIfNeeded();
+    await expect(launcher).toBeInViewport();
+    await page.screenshot({ path: info.outputPath(`feedback-available-${width}.png`), animations: 'disabled' });
+    await activateWithKeyboard(launcher);
+    const dialog = page.getByRole('dialog', { name: 'Help improve VertexED' });
+    await expect(dialog).toBeVisible();
+    const feedback = dialog.getByRole('textbox', { name: /^Your feedback \d+\/1500$/ });
+    await expect(feedback).toBeFocused();
+    await feedback.fill('Feedback stays available while I finish my answer.');
+    await page.screenshot({ path: info.outputPath(`feedback-open-${width}.png`), animations: 'disabled' });
+    expect(await page.evaluate(() => (window as any).__feedbackRecoveryDocument)).toBe(true);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width + 1);
+    await page.keyboard.press('Escape');
+    await expect(launcher).toBeFocused();
+    await expect(answer).toHaveValue(draft);
+    await expect(page).toHaveURL(/\/answer-reviewer$/);
+  });
+}
+
+test('notetaker loads its control labels and keyboard dialog behavior with the page', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.route(/^https?:\/\//, route => {
+    const hostname = new URL(route.request().url()).hostname;
+    return ['127.0.0.1', 'localhost'].includes(hostname) ? route.continue() : route.abort('blockedbyclient');
+  });
+  await installAccountHarness(page, true);
+  await page.route('**/api/note', route => route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({
+    result: 'Impulse is the change in momentum.',
+    flashcards: [{ front: 'What does impulse measure?', back: 'The change in momentum.' }],
+  }) }));
+  await page.goto('/notetaker');
+  await page.getByRole('textbox', { name: 'Topic or source material', exact: true }).fill('Impulse and momentum');
+  await activateWithKeyboard(page.getByRole('button', { name: 'Build notes', exact: true }));
+  await expect(page.getByRole('textbox', { name: 'Editable study notes', exact: true })).toHaveValue('Impulse is the change in momentum.');
+  const enlarge = page.getByRole('button', { name: 'Enlarge', exact: true });
+  await activateWithKeyboard(enlarge);
+  const dialog = page.getByRole('dialog', { name: 'Fullscreen flashcard study', exact: true });
+  await expect(dialog).toBeVisible();
+  await expect(dialog.getByRole('button', { name: 'Close Fullscreen flashcard study', exact: true })).toBeFocused();
+  await page.keyboard.press('Escape');
+  await expect(dialog).toHaveCount(0);
+  await expect(enlarge).toBeFocused();
+});
+
+for (const width of [1440, 1024, 390]) {
   test(`learning loop improvements at ${width}`, async ({ page }, info) => {
     test.skip(productionBundle, heldPracticeReason);
     await page.setViewportSize({ width, height: 900 });
