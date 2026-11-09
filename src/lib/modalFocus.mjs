@@ -74,8 +74,13 @@ export function trapModalFocus(event, container) {
   return true;
 }
 
+export function isAvailableModalFocusTarget(element) {
+  return Boolean(element && element.isConnected !== false && isAvailable(element)
+    && (element.tabIndex >= 0 || element.hasAttribute('tabindex')));
+}
+
 export function restoreModalFocus(element) {
-  if (!element || element.isConnected === false || typeof element.focus !== 'function') return false;
+  if (!isAvailableModalFocusTarget(element)) return false;
   element.focus();
-  return true;
+  return element.ownerDocument?.activeElement === element;
 }
