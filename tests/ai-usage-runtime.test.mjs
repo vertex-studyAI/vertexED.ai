@@ -4,6 +4,7 @@ import { fetchPaidProviderResponse, runAiUsageContext, readAiUsage } from '../ap
 import { callChatProvider } from '../api/_lib/aiProviders.js';
 import { fetchProvider } from '../api/_lib/providerRequest.js';
 import { ProviderTimeoutError } from '../api/_lib/fetchWithTimeout.js';
+import { AI_USAGE_POLICY } from '../api/_lib/aiUsagePolicy.js';
 import { AI_USER, usageFixture, paidResponse } from './helpers/ai-usage-fixture.mjs';
 const request = (extra = {}) => ({ capability: 'chatbot', provider: 'openai', model: 'gpt-4.1-mini', url: 'https://api.openai.com/v1/responses', options: { method: 'POST', body: JSON.stringify({ model: 'gpt-4.1-mini', input: 'hello', max_output_tokens: 1200 }) }, ...extra });
 test('no trusted account or stable operation identity means zero provider calls', async () => {
@@ -23,6 +24,34 @@ test('reserve then mark precede provider; exact validated actual usage settles o
   assert.equal(fixture.calls[0].args.p_user_id, AI_USER);
   assert.match(fixture.calls[0].args.p_request_fingerprint, /^[0-9a-f]{64}$/);
   assert.equal(JSON.stringify(fixture.calls).includes('hello'), false);
+});
+test('review renewal admits the previous deadline with the same reservation and resource limits', async () => {
+  const fixture = usageFixture(); let providerCalls = 0;
+  await fixture.run(() => fetchPaidProviderResponse(request({ fetchImpl: async () => {
+    providerCalls++; return paidResponse();
+  } })), { now: () => Date.parse('2026-11-10T00:00:00.000Z') });
+  assert.equal(providerCalls, 1);
+  assert.deepEqual(fixture.calls.map(row => row.name), ['reserve_ai_usage', 'mark_ai_usage_dispatched', 'settle_ai_usage']);
+  const reservation = fixture.calls[0].args;
+  assert.equal(reservation.p_policy_version, AI_USAGE_POLICY.version);
+  assert.equal(reservation.p_model, 'gpt-4.1-mini-2025-04-14');
+  assert.equal(reservation.p_reserved_microusd, 420951);
+  assert.equal(reservation.p_account_limit_microusd, 1_000_000);
+  assert.equal(reservation.p_project_limit_microusd, 10_000_000);
+  assert.equal(reservation.p_account_concurrency, 2);
+  assert.equal(reservation.p_project_concurrency, 8);
+  assert.equal(fixture.calls[2].args.p_actual_microusd, 16);
+});
+test('an expired or invalid review time stops before both reservation and provider dispatch', async () => {
+  for (const now of [Date.parse(AI_USAGE_POLICY.expiresAt), Date.parse(AI_USAGE_POLICY.expiresAt) + 1,
+    Date.parse(AI_USAGE_POLICY.validFrom) - 1, NaN, Infinity]) {
+    const fixture = usageFixture(); let providerCalls = 0;
+    await assert.rejects(fixture.run(() => fetchPaidProviderResponse(request({ fetchImpl: async () => {
+      providerCalls++; return paidResponse();
+    } })), { now: () => now }), { code: 'AI_USAGE_UNAVAILABLE' });
+    assert.equal(providerCalls, 0);
+    assert.deepEqual(fixture.calls, []);
+  }
 });
 test('quota, concurrency, duplicate, unavailable and invalid acknowledgements prevent dispatch', async () => {
   for (const [result, code] of [[{ allowed: false, reason: 'account_limit', resets_at: '2026-10-17T00:00:00Z' }, 'AI_BUDGET_EXHAUSTED'], [{ allowed: false, reason: 'project_limit' }, 'AI_BUDGET_EXHAUSTED'], [{ allowed: false, reason: 'account_concurrency' }, 'AI_CAPACITY_EXCEEDED'], [{ allowed: false, reason: 'project_concurrency' }, 'AI_CAPACITY_EXCEEDED'], [{ allowed: false, reason: 'duplicate' }, 'AI_OPERATION_EXISTS'], [{ allowed: false, reason: 'idempotency_conflict' }, 'AI_OPERATION_EXISTS'], [{ allowed: 'true' }, 'AI_USAGE_UNAVAILABLE']]) {

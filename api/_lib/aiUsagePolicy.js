@@ -1,15 +1,15 @@
-/** Reviewed official text-token prices and context bounds, 2026-11-03.
- * Reconfirmed against the same official model pages on 2026-11-05; no rate,
- * context, model, budget or expiry extension beyond that review was made.
- * Unchanged since 2026-10-16. Both snapshots are now marked deprecated by
- * OpenAI; plan a move before they are retired.
+/** Reviewed official text-token prices and context bounds, 2026-11-09.
+ * Rates, context, pinned models and resource limits are unchanged. expiresAt
+ * is the next price-review deadline; admission still fails closed afterward.
+ * Both snapshots are deprecated with API shutdown scheduled for 2027-01-14.
  * https://developers.openai.com/api/docs/models/gpt-4.1-mini
  * https://developers.openai.com/api/docs/models/gpt-4o-mini
+ * https://developers.openai.com/api/docs/deprecations
  * https://developers.openai.com/api/docs/guides/token-counting
  * Reserve the entire context at uncached standard input rates, plus capped
  * output. This deliberately overstates cost; character estimates are not caps.
  */
-export const AI_USAGE_POLICY = Object.freeze({ version: 'beta-usd-2026-11-03-v1', accountLimit: 1_000_000, projectLimit: 10_000_000, accountConcurrency: 2, projectConcurrency: 8, validFrom: '2026-10-16T00:00:00.000Z', expiresAt: '2026-11-10T00:00:00.000Z' });
+export const AI_USAGE_POLICY = Object.freeze({ version: 'beta-usd-2026-11-09-v1', accountLimit: 1_000_000, projectLimit: 10_000_000, accountConcurrency: 2, projectConcurrency: 8, validFrom: '2026-10-16T00:00:00.000Z', expiresAt: '2026-11-16T00:00:00.000Z' });
 const MODELS = Object.freeze({
   'gpt-4.1-mini': { snapshot: 'gpt-4.1-mini-2025-04-14', context: 1_047_576, inputRate: 400_000, outputRate: 1_600_000 },
   'gpt-4.1-mini-2025-04-14': { snapshot: 'gpt-4.1-mini-2025-04-14', context: 1_047_576, inputRate: 400_000, outputRate: 1_600_000 },
