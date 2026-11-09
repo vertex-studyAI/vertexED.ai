@@ -118,6 +118,29 @@ test('closing a modal restores focus to the connected invoking control', () => {
   assert.equal(document.activeElement, opener);
 });
 
+test('restoration reports a refused focus attempt instead of claiming success', () => {
+  const { dom, opener, last } = fixture();
+  try {
+    last.focus();
+    opener.focus = () => {};
+    assert.equal(restoreModalFocus(opener), false);
+  } finally { dom.window.close(); }
+});
+
+test('restoration rejects unavailable targets before invoking focus', () => {
+  const { dom, opener } = fixture();
+  try {
+    let attempts = 0;
+    opener.focus = () => { attempts++; };
+    opener.disabled = true;
+    assert.equal(restoreModalFocus(opener), false);
+    opener.disabled = false;
+    opener.parentElement.setAttribute('inert', '');
+    assert.equal(restoreModalFocus(opener), false);
+    assert.equal(attempts, 0);
+  } finally { dom.window.close(); }
+});
+
 test('Tab from an answer field explicitly reaches buttons even when the browser would skip them', () => {
   const dom = new JSDOM('<div id="dialog"><button id="exit">Exit</button><textarea id="answer"></textarea><button id="submit">Submit</button></div>');
   const document = dom.window.document;
