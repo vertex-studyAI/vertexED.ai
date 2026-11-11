@@ -1,0 +1,390 @@
+{
+  "schemaVersion": 1,
+  "taskId": "VE05",
+  "task": "Finish AP, IB, IGCSE and CBSE content: bounded curriculum coverage repair",
+  "inspectedAtUTC": "2026-11-11T15:56:28Z",
+  "sourceRevision": "a097e4d0c05335e825fb7ee60a926e8f8d242d72",
+  "sourceBranch": "ryan/adaptive-practice-evidence-integration-20261111",
+  "status": "prepared-content-awaiting-authorised-review; not published, deployed or full-curriculum-complete",
+  "scope": "Original IB DP microeconomics and thermal Physics practice using existing ExamDrill and FormulaReference types, plus the adopted CBSE subject gap inventory.",
+  "adoptedMapEvidence": {
+    "file": "src/lib/curriculum.ts",
+    "ibDpSubjectsConfirmed": [
+      "Economics",
+      "Physics"
+    ],
+    "cbseGradeRange": [
+      6,
+      12
+    ],
+    "cbseSubjects": [
+      "Mathematics",
+      "Physics",
+      "Chemistry",
+      "Biology",
+      "English",
+      "Hindi",
+      "Social Science",
+      "Computer Science",
+      "Economics",
+      "Accountancy"
+    ],
+    "limitation": "The configured CBSE grade range is an onboarding range, not a claim that each subject applies in every class. Adopted class, syllabus year and subject specifications remain unknown."
+  },
+  "beforeAfter": {
+    "authoredExamDrills": [
+      25,
+      35
+    ],
+    "authoredIbEconomicsDrills": [
+      0,
+      6
+    ],
+    "authoredIbPhysicsDrills": [
+      6,
+      10
+    ],
+    "authoredCalorimetryAndThermalDrills": [
+      0,
+      4
+    ],
+    "formulaReferences": [
+      30,
+      32
+    ],
+    "physicsFormulaReferences": [
+      6,
+      8
+    ],
+    "cbseMandatorySubjectGaps": [
+      0,
+      10
+    ],
+    "allMandatoryCourseGaps": [
+      40,
+      50
+    ],
+    "approvedStaticAssets": [
+      0,
+      0
+    ]
+  },
+  "concreteRepair": [
+    "Six original economics drills distinguish private/social curves, negative production and consumption externalities, positive consumption externalities, emissions charges and price ceilings.",
+    "Four original Physics drills cover temperature intervals, two-body calorimetry, calorimeter heat capacity, and melting followed by warming.",
+    "Two reference cards add Q = mcDeltaT and |Q| = mL with assumptions, mistakes, examples and numeric self-checks.",
+    "The coverage generator now inventories all ten configured CBSE subjects as OPEN, uses class-specific syllabus wording, and removes CBSE from optional scope.",
+    "The legacy-named coverage JSON is regenerated with snapshot date 2026-11-11. Historical source-inspection dates are preserved; current IB source reads are added."
+  ],
+  "items": [
+    {
+      "id": "dp-econ-private-social",
+      "coverageRow": "exam-drill:dp-econ-private-social",
+      "sourceFile": "src/content/examPractice.ts",
+      "approvalPath": "module:/src/content/examPractice.ts#dp-econ-private-social",
+      "contentHash": "sha256:f9ad3bfb57f25d9b860a8c7b7523448f6eed73aeefbdd9f006edf37ebc8eab0d",
+      "answerHash": "sha256:a2033adb0f6b516c0c9cb148ed2034358906b9382e50b1da074ded3db6144910",
+      "subject": "Economics",
+      "intendedTopicMapping": [
+        "2.7",
+        "2.8"
+      ],
+      "curriculumSources": [
+        "https://ibo.org/globalassets/new-structure/programmes/dp/pdfs/sl-economics-en.pdf",
+        "https://ibo.org/globalassets/new-structure/programmes/dp/pdfs/hl-economics-en.pdf"
+      ],
+      "sourceFactsVersion": "First assessments 2022; public SL/HL briefs, copyright 2025",
+      "mappingStatus": "partial-topic-inference; exact assessment applicability still requires subject review",
+      "publicationStatus": "held",
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "dp-econ-negative-production",
+      "coverageRow": "exam-drill:dp-econ-negative-production",
+      "sourceFile": "src/content/examPractice.ts",
+      "approvalPath": "module:/src/content/examPractice.ts#dp-econ-negative-production",
+      "contentHash": "sha256:c9c95acb38e25c4319ddbc14d062da04c1a425df9773d3215ebaa353b83bc263",
+      "answerHash": "sha256:4d2b041d18e113821d225594dc1bde605b634ef43c5479a8775c62ef7317c3f4",
+      "subject": "Economics",
+      "intendedTopicMapping": [
+        "2.7",
+        "2.8"
+      ],
+      "curriculumSources": [
+        "https://ibo.org/globalassets/new-structure/programmes/dp/pdfs/sl-economics-en.pdf",
+        "https://ibo.org/globalassets/new-structure/programmes/dp/pdfs/hl-economics-en.pdf"
+      ],
+      "sourceFactsVersion": "First assessments 2022; public SL/HL briefs, copyright 2025",
+      "mappingStatus": "partial-topic-inference; exact assessment applicability still requires subject review",
+      "publicationStatus": "held",
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "dp-econ-positive-consumption",
+      "coverageRow": "exam-drill:dp-econ-positive-consumption",
+      "sourceFile": "src/content/examPractice.ts",
+      "approvalPath": "module:/src/content/examPractice.ts#dp-econ-positive-consumption",
+      "contentHash": "sha256:7ff941e36f39511b4e5746dd0751e906d7f611cc57e638b94a68f7f50859c91b",
+      "answerHash": "sha256:c233c8b3db8e791d2e179df584900cf2f4b70f2524cbc1d1896f00a01e1cfcdf",
+      "subject": "Economics",
+      "intendedTopicMapping": [
+        "2.7",
+        "2.8"
+      ],
+      "curriculumSources": [
+        "https://ibo.org/globalassets/new-structure/programmes/dp/pdfs/sl-economics-en.pdf",
+        "https://ibo.org/globalassets/new-structure/programmes/dp/pdfs/hl-economics-en.pdf"
+      ],
+      "sourceFactsVersion": "First assessments 2022; public SL/HL briefs, copyright 2025",
+      "mappingStatus": "partial-topic-inference; exact assessment applicability still requires subject review",
+      "publicationStatus": "held",
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "dp-econ-negative-consumption",
+      "coverageRow": "exam-drill:dp-econ-negative-consumption",
+      "sourceFile": "src/content/examPractice.ts",
+      "approvalPath": "module:/src/content/examPractice.ts#dp-econ-negative-consumption",
+      "contentHash": "sha256:87bc5fde0c7442decbf59776b7de8a6a7df57972478dd4d628a61640dd1a4372",
+      "answerHash": "sha256:63d406827f98029aef6468daf62d46b541d23aea1afa16b07468bffca6c2a487",
+      "subject": "Economics",
+      "intendedTopicMapping": [
+        "2.7",
+        "2.8"
+      ],
+      "curriculumSources": [
+        "https://ibo.org/globalassets/new-structure/programmes/dp/pdfs/sl-economics-en.pdf",
+        "https://ibo.org/globalassets/new-structure/programmes/dp/pdfs/hl-economics-en.pdf"
+      ],
+      "sourceFactsVersion": "First assessments 2022; public SL/HL briefs, copyright 2025",
+      "mappingStatus": "partial-topic-inference; exact assessment applicability still requires subject review",
+      "publicationStatus": "held",
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "dp-econ-carbon-policy",
+      "coverageRow": "exam-drill:dp-econ-carbon-policy",
+      "sourceFile": "src/content/examPractice.ts",
+      "approvalPath": "module:/src/content/examPractice.ts#dp-econ-carbon-policy",
+      "contentHash": "sha256:6ae031e2ef889607cdf031f8d73c859211725033ddb92b0b8d774c9f868b8002",
+      "answerHash": "sha256:79f8e6585367cd8ff049a5b34311330cb1795d6b7cd36688541594ed668da978",
+      "subject": "Economics",
+      "intendedTopicMapping": [
+        "2.7",
+        "2.8"
+      ],
+      "curriculumSources": [
+        "https://ibo.org/globalassets/new-structure/programmes/dp/pdfs/sl-economics-en.pdf",
+        "https://ibo.org/globalassets/new-structure/programmes/dp/pdfs/hl-economics-en.pdf"
+      ],
+      "sourceFactsVersion": "First assessments 2022; public SL/HL briefs, copyright 2025",
+      "mappingStatus": "partial-topic-inference; exact assessment applicability still requires subject review",
+      "publicationStatus": "held",
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "dp-econ-price-ceiling",
+      "coverageRow": "exam-drill:dp-econ-price-ceiling",
+      "sourceFile": "src/content/examPractice.ts",
+      "approvalPath": "module:/src/content/examPractice.ts#dp-econ-price-ceiling",
+      "contentHash": "sha256:30ea0dff3bd0b11287196c5ff922d4d9ef95c0f077b41f4102cab24c2880aec1",
+      "answerHash": "sha256:73a9ac249058bea5176cbed2cb180e32ce01878f1a1f544c25bc2daed577091b",
+      "subject": "Economics",
+      "intendedTopicMapping": [
+        "2.3",
+        "2.7"
+      ],
+      "curriculumSources": [
+        "https://ibo.org/globalassets/new-structure/programmes/dp/pdfs/sl-economics-en.pdf",
+        "https://ibo.org/globalassets/new-structure/programmes/dp/pdfs/hl-economics-en.pdf"
+      ],
+      "sourceFactsVersion": "First assessments 2022; public SL/HL briefs, copyright 2025",
+      "mappingStatus": "partial-topic-inference; exact assessment applicability still requires subject review",
+      "publicationStatus": "held",
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "dp-physics-thermal-energy",
+      "coverageRow": "exam-drill:dp-physics-thermal-energy",
+      "sourceFile": "src/content/examPractice.ts",
+      "approvalPath": "module:/src/content/examPractice.ts#dp-physics-thermal-energy",
+      "contentHash": "sha256:2bf9f33f6ce26175ebc10ac9562c352fa897bf483d2bf9ed31bb77b5dc8e5598",
+      "answerHash": "sha256:8a7e6675d832170e7657f2bfbf51d048b7e84ec38d9b870cc5fbd29bf0af82ed",
+      "subject": "Physics",
+      "intendedTopicMapping": [
+        "B.1"
+      ],
+      "curriculumSources": [
+        "https://www.ibo.org/globalassets/new-structure/university-admission/pdfs/subject-guides/physics-guide.pdf"
+      ],
+      "sourceFactsVersion": "First assessment 2025; Physics guide, February 2023",
+      "mappingStatus": "partial-topic-inference; exact assessment applicability still requires subject review",
+      "publicationStatus": "held",
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "dp-physics-calorimetry-metal",
+      "coverageRow": "exam-drill:dp-physics-calorimetry-metal",
+      "sourceFile": "src/content/examPractice.ts",
+      "approvalPath": "module:/src/content/examPractice.ts#dp-physics-calorimetry-metal",
+      "contentHash": "sha256:a23686e7b57aab53fe6c00fc9350c2709b9f8d0855e86907e97ec24d9ceb84a6",
+      "answerHash": "sha256:80129ede006c467fbc460c4cf22874590de57908a96b0d79410be954e190f76e",
+      "subject": "Physics",
+      "intendedTopicMapping": [
+        "B.1"
+      ],
+      "curriculumSources": [
+        "https://www.ibo.org/globalassets/new-structure/university-admission/pdfs/subject-guides/physics-guide.pdf"
+      ],
+      "sourceFactsVersion": "First assessment 2025; Physics guide, February 2023",
+      "mappingStatus": "partial-topic-inference; exact assessment applicability still requires subject review",
+      "publicationStatus": "held",
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "dp-physics-calorimeter",
+      "coverageRow": "exam-drill:dp-physics-calorimeter",
+      "sourceFile": "src/content/examPractice.ts",
+      "approvalPath": "module:/src/content/examPractice.ts#dp-physics-calorimeter",
+      "contentHash": "sha256:1118151e851c263546bd4b61fe5e37e1245e26025b0b5fb2aee5ad743a0d59c4",
+      "answerHash": "sha256:6ed948b9856e257025a2810087328fcba48d41e100a0cb145673de95bb65e428",
+      "subject": "Physics",
+      "intendedTopicMapping": [
+        "B.1"
+      ],
+      "curriculumSources": [
+        "https://www.ibo.org/globalassets/new-structure/university-admission/pdfs/subject-guides/physics-guide.pdf"
+      ],
+      "sourceFactsVersion": "First assessment 2025; Physics guide, February 2023",
+      "mappingStatus": "partial-topic-inference; exact assessment applicability still requires subject review",
+      "publicationStatus": "held",
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "dp-physics-latent-heat",
+      "coverageRow": "exam-drill:dp-physics-latent-heat",
+      "sourceFile": "src/content/examPractice.ts",
+      "approvalPath": "module:/src/content/examPractice.ts#dp-physics-latent-heat",
+      "contentHash": "sha256:a7ee65ea0c898c175dc2af112f1b099f65e5d397dc358668882ddee215d14b27",
+      "answerHash": "sha256:93b71d713aa30b4431cdf516772a4e00244f262431f201def28b961f12426d92",
+      "subject": "Physics",
+      "intendedTopicMapping": [
+        "B.1"
+      ],
+      "curriculumSources": [
+        "https://www.ibo.org/globalassets/new-structure/university-admission/pdfs/subject-guides/physics-guide.pdf"
+      ],
+      "sourceFactsVersion": "First assessment 2025; Physics guide, February 2023",
+      "mappingStatus": "partial-topic-inference; exact assessment applicability still requires subject review",
+      "publicationStatus": "held",
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "specific-heat",
+      "coverageRow": "formula:specific-heat",
+      "sourceFile": "src/content/formulaReference.ts",
+      "approvalPath": "module:/src/content/formulaReference.ts#specific-heat",
+      "contentHash": "sha256:8ec1a3087431cf6d447743619af5e11f8c966bfa1f6d65032c366d26102ed289",
+      "answerHash": "sha256:e20d7c62f0c032209e176eb0bdc43e25852dfde10b63f5bc8597d8a64e8da6e2",
+      "subject": "physics",
+      "intendedTopicMapping": [
+        "B.1"
+      ],
+      "curriculumSources": [
+        "https://www.ibo.org/globalassets/new-structure/university-admission/pdfs/subject-guides/physics-guide.pdf"
+      ],
+      "sourceFactsVersion": "First assessment 2025; Physics guide, February 2023",
+      "mappingStatus": "partial-topic-inference; exact assessment applicability still requires subject review",
+      "publicationStatus": "held",
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "latent-heat",
+      "coverageRow": "formula:latent-heat",
+      "sourceFile": "src/content/formulaReference.ts",
+      "approvalPath": "module:/src/content/formulaReference.ts#latent-heat",
+      "contentHash": "sha256:c0f5e22d4b3cdf670b7914d018e83135817b8811d56569f21b5e33b3803126bb",
+      "answerHash": "sha256:62154c9482d06b2da6c7f4a738854dec4cb9cea6781efd8b3dbfefccaca192c3",
+      "subject": "physics",
+      "intendedTopicMapping": [
+        "B.1"
+      ],
+      "curriculumSources": [
+        "https://www.ibo.org/globalassets/new-structure/university-admission/pdfs/subject-guides/physics-guide.pdf"
+      ],
+      "sourceFactsVersion": "First assessment 2025; Physics guide, February 2023",
+      "mappingStatus": "partial-topic-inference; exact assessment applicability still requires subject review",
+      "publicationStatus": "held",
+      "reviewStatus": "unreviewed"
+    }
+  ],
+  "curriculumBoundaries": {
+    "economics": "Public official SL/HL briefs establish topic headings 2.3, 2.7 and 2.8. They do not certify exact question-level assessment requirements. Quantitative models are explicitly original extensions; no complete unit, paper, IA or HL/SL coverage is claimed.",
+    "physics": "Official first-assessment-2025 guide B.1 includes heat-capacity and latent-heat relationships for SL and HL. This repair addresses only selected thermal-transfer skills; other B.1 topics and the full Physics course remain incomplete.",
+    "otherBoards": "No AP, IGCSE or full CBSE content completion is inferred from this patch. Their existing course gates remain open."
+  },
+  "authorship": "All new scenarios, numerical data, explanations and checks are original editorial work. Source URLs provide conceptual references and curriculum context, not copied questions, endorsement or mark schemes.",
+  "validation": {
+    "runtime": "Node v22.22.0",
+    "focusedTests": {
+      "status": "passed",
+      "passed": 33,
+      "failed": 0,
+      "files": [
+        "tests/exam-practice-content.test.mjs",
+        "tests/exam-baseline-flow.test.mjs",
+        "tests/formula-reference.test.mjs",
+        "tests/content-coverage.test.mjs",
+        "tests/content-publication-modules.test.mjs",
+        "tests/ib-micro-thermal-content.test.mjs",
+        "tests/copy-lint.test.mjs"
+      ],
+      "scope": "Content structure, numerical calculations derived from prompt values, subject/topic baseline routing, reproducible coverage and held-body publication filtering."
+    },
+    "typescript": {
+      "status": "passed",
+      "command": "node node_modules/typescript/bin/tsc --noEmit -p tsconfig.app.json"
+    },
+    "copyLint": {
+      "status": "passed",
+      "filesScanned": 475,
+      "findings": 0
+    },
+    "aiPeerReview": {
+      "status": "no-material-defects-found",
+      "scope": "All ten new drills and two formula cards; externality conventions, equations, welfare areas, subsidy wedge, emissions arithmetic, price controls, thermal balances and stated limitations.",
+      "humanSubjectApproval": false
+    },
+    "notRun": [
+      "Full application suite",
+      "Build and deployment",
+      "Authenticated live content journey"
+    ],
+    "scopedEslint": {
+      "status": "passed",
+      "errors": 0,
+      "warnings": 0,
+      "scope": "Both authored content files, coverage generator and three changed/new test files."
+    }
+  },
+  "publicationBoundary": {
+    "approvalRegister": "contracts/content-publication-approvals.json",
+    "approvalRegisterUnchanged": true,
+    "approvalRegisterSha256": "1f01488388dcf880d7fc8b2e600ccacb6f69cdd256bd1912d85f289588fa7f0c",
+    "newHeldItems": 12,
+    "newApprovals": 0,
+    "meaning": "Prepared source content is removed from learner bundles until exact-item authorised editorial approval. Passing tests and AI peer review are not publication approval."
+  },
+  "liveObservation": {
+    "attemptedUrl": "https://www.vertexed.app/exam-prep",
+    "status": "unverified",
+    "observed": "Cloud browser twice displayed upstream connect error or disconnect/reset before headers; reset reason remote connection failure.",
+    "limitation": "This is a connection failure in the inspected browser, not evidence of a general product outage. No live route or new content availability claim is made."
+  },
+  "remainingOwnerActions": [
+    "Review this scoped source addition on the existing Ryan draft path; resolve any later overlapping changes before merging.",
+    "Obtain authorised subject/rights review for exact item hashes and confirm relevant syllabus, level and assessment applicability before any publication approval.",
+    "Verify the app in a reachable preview/production session after integration; test that holds remain effective until a separate authorised publication decision.",
+    "Continue the full AP, IB, IGCSE and class/year-specific CBSE course maps; VE05 remains partial."
+  ]
+}
