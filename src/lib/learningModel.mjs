@@ -36,12 +36,18 @@ const learningMetadata = q => ({
 });
 export const LEARNING_QUESTIONS = ADAPTIVE_QUESTION_BANK.map(learningMetadata);
 export const LEARNING_QUESTION_METADATA = ADAPTIVE_QUESTION_METADATA.map(learningMetadata);
-export const CONCEPT_GRAPH = [...new Map(LEARNING_QUESTIONS.flatMap(q => q.concepts.map(label => {
-  const id = conceptId(q.subject, label);
-  return [id, { id, label, subject: q.subject, unit: q.topic, topic: q.topic,
+function conceptGraphForQuestions(questions) {
+  const nodes = [...new Map(questions.flatMap(q => q.conceptIds.map((id, index) => [id, {
+    id, label: q.concepts?.[index] || id, subject: q.subject, unit: q.topic, topic: q.topic,
     skill: q.skill, curricula: q.curriculum,
-    prerequisites: (prerequisites[label] || []).map(c => conceptId(q.subject, c)) }];
-}))).values()];
+  }]))).values()];
+  const byLabel = new Map(nodes.map(node => [conceptId(node.subject, node.label), node.id]));
+  return nodes.map(node => ({ ...node,
+    prerequisites: (Object.hasOwn(prerequisites, node.label) ? prerequisites[node.label] : []).map(label =>
+      byLabel.get(conceptId(node.subject, label)) || conceptId(node.subject, label)),
+  }));
+}
+export const CONCEPT_GRAPH = conceptGraphForQuestions(LEARNING_QUESTIONS);
 
 export function normalisePracticeAttempt(value, { questions = LEARNING_QUESTIONS } = {}) {
   return assessPracticeAttempt(value, questions);
@@ -104,11 +110,18 @@ export function mergeLearningRecord(records, record, type) {
   return rows;
 }
 
-export function buildKnowledgeModel(attempts = [], now = Date.now(), questions = LEARNING_QUESTIONS) {
-  const valid = attempts.map(value => normalisePracticeAttempt(value, { questions })).filter(a => a?.assessmentStatus === 'verified').filter(a => Date.parse(a.at) <= now);
-  return CONCEPT_GRAPH.map(node => {
-    const rows = valid.filter(a => LEARNING_QUESTIONS.find(q => q.id === a.questionId)?.conceptIds.includes(node.id))
-      .sort((a, b) => Date.parse(a.at) - Date.parse(b.at));
+// Saved history remains unchanged. Only current answer-key evidence may guide
+// adaptation, and cloud/merge array order does not establish attempt recency.
+function verifiedPracticeHistory(attempts, now, questions) {
+  return attempts.map(value => normalisePracticeAttempt(value, { questions }))
+    .filter(a => a?.assessmentStatus === 'verified' && Date.parse(a.at) <= now)
+    .sort((a, b) => Date.parse(a.at) - Date.parse(b.at) || a.id.localeCompare(b.id));
+}
+
+function knowledgeModelFromHistory(valid, now, questions) {
+  const byQuestionId = new Map(questions.map(question => [question.id, question]));
+  return conceptGraphForQuestions(questions).map(node => {
+    const rows = valid.filter(a => byQuestionId.get(a.questionId)?.conceptIds.includes(node.id));
     const recent = rows.slice(-5);
     const independent = recent.filter(a => a.correct && !a.hinted);
     const distinct = new Set(independent.map(a => a.questionId)).size;
@@ -129,17 +142,25 @@ export function buildKnowledgeModel(attempts = [], now = Date.now(), questions =
   });
 }
 
-export function selectLearningQuestion({ attempts = [], subject = '', topic = '', concept = '', curriculum = '', mode = 'diagnostic', exclude = [], targetId = '', questions = LEARNING_QUESTIONS } = {}) {
-  const model = buildKnowledgeModel(attempts, Date.now(), questions);
+export function buildKnowledgeModel(attempts = [], now = Date.now(), questions = LEARNING_QUESTIONS) {
+  return knowledgeModelFromHistory(verifiedPracticeHistory(attempts, now, questions), now, questions);
+}
+
+export function selectLearningQuestion({ attempts = [], subject = '', topic = '', concept = '', curriculum = '', mode = 'diagnostic', exclude = [], targetId = '', questions = LEARNING_QUESTIONS, now = Date.now() } = {}) {
+  const verified = verifiedPracticeHistory(attempts, now, questions);
+  const model = knowledgeModelFromHistory(verified, now, questions);
   const byId = new Map(model.map(n => [n.id, n]));
   const target = byId.get(concept);
+  const previous = verified.at(-1);
+  const previousLevel = LEVELS.indexOf(questions.find(q => q.id === previous?.questionId)?.difficulty);
+  const desired = mode === 'challenge' ? 3 : mode === 'rapid' ? 0 : previous ? Math.max(0, Math.min(3, previousLevel + (previous.correct && !previous.hinted ? 1 : -1))) : 0;
   const pool = questions.filter(q => !exclude.includes(q.id)
     && (!subject || q.subject === subject) && (!curriculum || q.curriculum.includes(curriculum))
     && (!topic || q.topic === topic)
     && (!concept || q.conceptIds.includes(concept) || mode === 'prerequisites' && q.conceptIds.some(id => target?.prerequisites.includes(id))));
   return pool.map(q => {
     const nodes = q.conceptIds.map(id => byId.get(id));
-    const history = attempts.filter(a => a.questionId === q.id);
+    const history = verified.filter(a => a.questionId === q.id);
     const last = history.at(-1);
     let priority = !history.length ? 20 : 0;
     priority += nodes.some(n => n.status === 'weak') ? 30 : 0;
@@ -147,9 +168,6 @@ export function selectLearningQuestion({ attempts = [], subject = '', topic = ''
     if (mode === 'diagnostic') priority += nodes.some(n => n.status === 'unassessed') ? 50 : 0;
     if (mode === 'targeted' && last && !last.correct) priority += 50;
     if (mode === 'prerequisites' && q.conceptIds.some(id => target?.prerequisites.includes(id))) priority += 100;
-    const previous = attempts.at(-1);
-    const previousLevel = LEVELS.indexOf(questions.find(q => q.id === previous?.questionId)?.difficulty);
-    const desired = mode === 'challenge' ? 3 : mode === 'rapid' ? 0 : previous ? Math.max(0, Math.min(3, previousLevel + (previous.correct && !previous.hinted ? 1 : -1))) : 0;
     priority -= Math.abs(LEVELS.indexOf(q.difficulty) - desired) * 8;
     if (q.id === targetId) priority += 1000;
     return { q, priority };
