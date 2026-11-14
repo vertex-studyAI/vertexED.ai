@@ -2,6 +2,7 @@ import { ADAPTIVE_QUESTION_BANK, ADAPTIVE_QUESTION_METADATA } from '../content/a
 import { assessPracticeAttempt, isPracticeAttemptRecord } from './practiceHistory.mjs';
 
 export const PRACTICE_MODES = ['diagnostic', 'targeted', 'mixed', 'exam', 'rapid', 'prerequisites', 'challenge'];
+export const PRACTICE_TIME_BUDGETS = [5, 10, 15, 30, 60];
 export const MISTAKE_CAUSES = ['unclassified', 'conceptual', 'algebraic', 'arithmetic', 'misread', 'time pressure', 'forgot formula', 'weak prerequisite', 'careless'];
 export const LEVELS = ['foundation', 'intermediate', 'advanced', 'very-hard'];
 const DAY = 86400000;
@@ -151,13 +152,17 @@ export function selectLearningQuestion({ attempts = [], subject = '', topic = ''
   const model = knowledgeModelFromHistory(verified, now, questions);
   const byId = new Map(model.map(n => [n.id, n]));
   const target = byId.get(concept);
-  const previous = verified.at(-1);
-  const previousLevel = LEVELS.indexOf(questions.find(q => q.id === previous?.questionId)?.difficulty);
-  const desired = mode === 'challenge' ? 3 : mode === 'rapid' ? 0 : previous ? Math.max(0, Math.min(3, previousLevel + (previous.correct && !previous.hinted ? 1 : -1))) : 0;
-  const pool = questions.filter(q => !exclude.includes(q.id)
-    && (!subject || q.subject === subject) && (!curriculum || q.curriculum.includes(curriculum))
+  const scoped = questions.filter(q => (!subject || q.subject === subject) && (!curriculum || q.curriculum.includes(curriculum))
     && (!topic || q.topic === topic)
     && (!concept || q.conceptIds.includes(concept) || mode === 'prerequisites' && q.conceptIds.some(id => target?.prerequisites.includes(id))));
+  const scopedById = new Map(scoped.map(q => [q.id, q]));
+  // Other subjects or filters do not establish readiness for this selection.
+  // Excluded questions still supply evidence: a visited item must not erase
+  // the progression it established merely because it cannot be shown again.
+  const previous = verified.findLast(a => scopedById.has(a.questionId));
+  const previousLevel = LEVELS.indexOf(scopedById.get(previous?.questionId)?.difficulty);
+  const desired = mode === 'challenge' ? 3 : mode === 'rapid' ? 0 : previous ? Math.max(0, Math.min(3, previousLevel + (previous.correct && !previous.hinted ? 1 : -1))) : 0;
+  const pool = scoped.filter(q => !exclude.includes(q.id));
   return pool.map(q => {
     const nodes = q.conceptIds.map(id => byId.get(id));
     const history = verified.filter(a => a.questionId === q.id);
@@ -197,7 +202,8 @@ export function buildLearningPlan({ attempts = [], tasks = [], exams = [], subje
       gap ? `Review prerequisite: ${gap.label}.` : '', days !== null ? `${node.subject} assessment in ${days} day${days === 1 ? '' : 's'}.` : ''].filter(Boolean).join(' ');
     const actionNode = gap || node;
     const minimum = Math.min(...questions.filter(q => q.conceptIds.includes(actionNode.id)).map(q => Math.ceil((q.estimatedSeconds + 60) / 60)));
-    const actionMinutes = Math.max(Math.min(10, budget), minimum);
+    const actionMinutes = PRACTICE_TIME_BUDGETS.find(value => value >= Math.max(Math.min(10, budget), minimum));
+    if (!actionMinutes) continue;
     candidates.push({ id: node.id, title: gap ? `Repair ${gap.label}` : `Practise ${node.label}`, minutes: actionMinutes, reason,
       score: (node.status === 'weak' ? 65 : 20) + (node.reviewDue ? 20 : 0) + (gap ? 15 : 0) + (days !== null ? Math.max(0, 35 - days * 3) : 0),
       to: `/learn?concept=${encodeURIComponent((gap || node).id)}&mode=targeted&minutes=${actionMinutes}`, kind: 'concept' });
@@ -206,7 +212,13 @@ export function buildLearningPlan({ attempts = [], tasks = [], exams = [], subje
   if (!candidates.length && (!questions.length || subjects.length && !questions.some(q => subjects.includes(q.subject)))) {
     candidates.push({ id: 'source-start', title: 'Start with your course materials', minutes: Math.min(10, budget), reason: !questions.length ? 'Practice questions are awaiting publication review. Your saved history is preserved. Use your course materials to continue.' : 'The original bank does not cover your selected subjects yet. Add a short source and choose what to study from it.', score: 0, to: '/study-notebook?start=1', kind: 'source' });
   }
-  if (!candidates.length) candidates.push({ id: 'diagnostic', title: 'Find your starting point', minutes: Math.min(10, budget), reason: 'No assessed concept needs review yet. Try an original question to start collecting evidence.', score: 0, to: '/learn?mode=diagnostic&minutes=' + Math.min(10, budget) + (subjects.length ? '&subject=' + encodeURIComponent(subjects[0]) : ''), kind: 'diagnostic' });
+  // A plan link must reserve a duration accepted by the practice page and
+  // enough time for at least one matching question plus its feedback.
+  const diagnosticSlots = PRACTICE_TIME_BUDGETS.filter(value => value <= budget)
+    .map(minutes => ({ minutes, question: questions.find(q => (!subjects.length || subjects.includes(q.subject)) && q.estimatedSeconds + 60 <= minutes * 60) }))
+    .filter(slot => slot.question);
+  const startingSlot = diagnosticSlots.find(slot => slot.minutes >= Math.min(10, budget)) || diagnosticSlots.at(-1);
+  if (!candidates.length && startingSlot) candidates.push({ id: 'diagnostic', title: 'Find your starting point', minutes: startingSlot.minutes, reason: 'No assessed concept needs review yet. Try an original question to start collecting evidence.', score: 0, to: '/learn?mode=diagnostic&minutes=' + startingSlot.minutes + '&subject=' + encodeURIComponent(startingSlot.question.subject), kind: 'diagnostic' });
   const unique = new Map();
   for (const item of candidates) { const key = item.kind === 'concept' ? item.to : item.id; if (!unique.has(key) || unique.get(key).score < item.score) unique.set(key, item); }
   const sorted = [...unique.values()].sort((a, b) => b.score - a.score || a.id.localeCompare(b.id));
@@ -216,8 +228,8 @@ export function buildLearningPlan({ attempts = [], tasks = [], exams = [], subje
     if (item.minutes <= remaining && planned.length < 5) { planned.push(item); remaining -= item.minutes; } else backlog.push(item);
   }
   if (!planned.length) {
-    const question = questions.find(q => (!subjects.length || subjects.includes(q.subject)) && q.estimatedSeconds + 60 <= budget * 60);
-    if (question) planned.push({ id: 'quick-diagnostic', title: 'One short practice attempt', minutes: Math.min(5, budget), reason: 'Your other tasks need more time. Use this window for an original question and feedback.', to: '/learn?mode=diagnostic&minutes=5&subject=' + encodeURIComponent(question.subject), kind: 'diagnostic', score: 0 });
+    const slot = diagnosticSlots[0];
+    if (slot) planned.push({ id: 'quick-diagnostic', title: 'One short practice attempt', minutes: slot.minutes, reason: 'Your other tasks need more time. Use this window for an original question and feedback.', to: '/learn?mode=diagnostic&minutes=' + slot.minutes + '&subject=' + encodeURIComponent(slot.question.subject), kind: 'diagnostic', score: 0 });
   }
   return { planned, backlog, plannedMinutes: planned.reduce((n, item) => n + item.minutes, 0), model };
 }
