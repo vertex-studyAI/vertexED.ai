@@ -5,7 +5,7 @@ import test from 'node:test';
 const readSource = (path) => readFile(new URL(`../${path}`, import.meta.url), 'utf8');
 
 test('optional page prefetch cannot become an unhandled rejection', async () => {
-  const source = await readSource('src/app/App.tsx');
+  const source = await readSource('src/components/OptionalAppEnhancements.tsx');
 
   assert.match(source, /void Promise\.allSettled\(\[/);
   assert.match(source, /import\("@\/pages\/Login"\)/);
@@ -16,7 +16,7 @@ test('optional page prefetch cannot become an unhandled rejection', async () => 
 });
 
 test('deferred telemetry rejects safely and clears delayed state updates', async () => {
-  const source = await readSource('src/app/App.tsx');
+  const source = await readSource('src/components/OptionalAppEnhancements.tsx');
 
   assert.match(source, /let timer: number \| undefined/);
   assert.match(source, /timer = window\.setTimeout\(\(\) => setTelemetryReady\(true\), 4000\)/);

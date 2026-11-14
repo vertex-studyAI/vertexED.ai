@@ -7,7 +7,6 @@ import { useAppPreferences } from "@/contexts/AppPreferencesContext";
 import BreadcrumbsJsonLd from "@/components/BreadcrumbsJsonLd";
 import RouteErrorBoundary from "@/components/RouteErrorBoundary";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
-import CloudSaveBanner from "@/components/CloudSaveBanner";
 import ThemeToggle from "@/components/ThemeToggle";
 import PageLoader from "@/components/PageLoader";
 import GlobalStudySearch from "@/components/GlobalStudySearch";
@@ -25,6 +24,9 @@ import { BetaAccessDisplayContext } from '@/contexts/BetaAccessDisplayContext';
 
 const GlobalChatPanel = lazy(() => import("@/components/chat/GlobalChatPanel"));
 const ApexCompanion = lazy(() => import("@/components/ApexCompanion"));
+const CloudSaveBanner = lazy(() => import("@/components/CloudSaveBanner").catch(() => ({
+  default: () => <p role="status">Cloud sync status is unavailable. Check each tool&apos;s save status.</p>,
+})));
 
 export default function SiteLayout() {
   const { isAuthenticated, logout, user } = useAuth();
@@ -92,10 +94,22 @@ export default function SiteLayout() {
     previousFocusPath.current = location.pathname;
     // Query-backed search and filters must keep focus in the active control.
     if (!routeChanged || location.hash) return;
+    const origin = document.activeElement;
+    let superseded = false;
+    const onNewFocus = () => { superseded = true; };
+    document.addEventListener('focusin', onNewFocus, true);
     const frame = window.requestAnimationFrame(() => {
+      document.removeEventListener('focusin', onNewFocus, true);
+      const active = document.activeElement;
+      // A learner or dialog may already have chosen a control while this
+      // frame was pending. The route announcement must yield to that focus.
+      if (superseded || (active !== origin && active !== document.body && active !== document.documentElement)) return;
       document.getElementById('main-content')?.focus({ preventScroll: true });
     });
-    return () => window.cancelAnimationFrame(frame);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      document.removeEventListener('focusin', onNewFocus, true);
+    };
   }, [location.pathname, location.hash]);
 
   const handleLogout = async () => {
@@ -171,6 +185,7 @@ export default function SiteLayout() {
     : [
         { to: "/", label: "Home" },
         { to: "/features", label: "Features" },
+        { to: "/myp/mentorship", label: "MYP mentoring" },
         { to: "/resources", label: "Library" },
         { to: "/projects", label: "Projects" },
         { to: "/#concept-lens", label: "Try the lens" },
@@ -397,7 +412,7 @@ export default function SiteLayout() {
         tabIndex={-1}
         className="immersive-main relative z-10 flex-1 container mx-auto px-4 md:px-6 pt-6 md:pt-8 pb-10"
       >
-        <CloudSaveBanner />
+        {isAuthenticated && <Suspense fallback={null}><CloudSaveBanner /></Suspense>}
         <RouteErrorBoundary resetKey={`${location.pathname}${location.search}${location.hash}`}>
           <Suspense fallback={<PageLoader label="Opening" />}>
             <Outlet />
@@ -439,6 +454,7 @@ export default function SiteLayout() {
                 <Link to="/login" className="hover:text-foreground transition">Login</Link>
               </>
             )}
+            <Link to="/myp/mentorship" className="hover:text-foreground transition">MYP mentoring</Link>
             <a href={PUBLIC_INTAKE_ROUTES.support} className="hover:text-foreground transition">Support</a>
             <a href={PUBLIC_INTAKE_ROUTES.privacyRequest} className="hover:text-foreground transition">Privacy request</a>
             <a href={PUBLIC_INTAKE_ROUTES.security} className="hover:text-foreground transition">Security</a>

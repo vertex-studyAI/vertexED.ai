@@ -32,6 +32,8 @@
 .planner-recovery { grid-column: 1 / -1; grid-row: 2; min-width: 0; width: 100%; }
 .planner-recovery .planner-today { min-height: 44px; font-size: .875rem; }
 .planner-select, .planner-today { padding: 0.5rem .85rem; border-radius: 12px; border: 1px solid hsl(var(--border)); background: hsl(var(--card)); color: hsl(var(--foreground)); box-shadow: var(--shadow-soft); font-size:.75rem; backdrop-filter: blur(2px); transition: background .35s, transform .35s, border-color .35s; font-family:'Sen',sans-serif; }
+/* Both palettes use dark surfaces; keep the native menu legible in WebKit. */
+.planner-select { color-scheme: dark; }
 .planner-select:hover, .planner-today:hover { background: hsl(var(--card) / 0.9); transform: translateY(-1px); border-color: hsl(var(--primary)); }
 .planner-select:focus-visible, .planner-today:focus-visible { outline:3px solid hsl(var(--primary)); outline-offset:2px; }
 .planner-new { padding: .65rem 1.25rem; border-radius: 9999px; border: 1px solid hsl(var(--primary) / 0.6); background: linear-gradient(145deg,hsl(var(--primary) / 0.2),hsl(var(--primary) / 0.05)); color: hsl(var(--foreground)); font-weight:600; font-size:.75rem; letter-spacing:.5px; box-shadow: var(--shadow-soft); backdrop-filter: blur(2px); transition: transform .5s cubic-bezier(.22,1,.36,1), box-shadow .5s, background .5s; font-family:'Sen',sans-serif; }
@@ -141,6 +143,7 @@
 .popup.planner-task-dialog.calendar-import-dialog { display: flex; flex-direction: column; overflow: hidden; padding: 0; width: min(600px, calc(100vw - 32px)); }
 .calendar-import-header, .calendar-import-body, .calendar-import-actions { padding: 24px; }
 .calendar-import-header { flex: none; padding-bottom: 16px; border-bottom: 1px solid hsl(var(--border)); }
+.calendar-import-header .planner-dialog-heading > button { flex: none; white-space: nowrap; }
 .calendar-import-header p { margin: 12px 0 16px; color: hsl(var(--muted-foreground)); }
 .calendar-import-steps { display: flex; gap: 24px; margin: 0; padding: 0; list-style: none; font-size: 14px; color: hsl(var(--muted-foreground)); }
 .calendar-import-steps li { padding-bottom: 8px; border-bottom: 2px solid transparent; }

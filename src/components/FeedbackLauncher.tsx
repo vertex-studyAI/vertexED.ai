@@ -1,9 +1,10 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { MessageSquare, X } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/lib/supabaseClient";
 import { trackProductEvent } from "@/lib/productAnalytics.mjs";
+import { getUserContentStorageScope } from "@/lib/userContentStorageScope.mjs";
 import AccessibleModal from "@/components/AccessibleModal";
 import {
   buildFeedbackAnalyticsProperties,
@@ -24,17 +25,27 @@ const CATEGORY_LABELS: Record<FeedbackCategory, string> = {
 
 export default function FeedbackLauncher() {
   const { user } = useAuth();
+  return user ? <AccountFeedbackForm key={user.id} accountId={user.id} /> : null;
+}
+
+function AccountFeedbackForm({ accountId }: { accountId: string }) {
   const [open, setOpen] = useState(false);
   const [category, setCategory] = useState<FeedbackCategory>("idea");
   const [rating, setRating] = useState<number | "">("");
   const [feedback, setFeedback] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  const active = useRef(true);
 
-  if (!user) return null;
+  useEffect(() => {
+    active.current = true;
+    return () => { active.current = false; };
+  }, []);
+
+  const isCurrentAccount = () => active.current && getUserContentStorageScope() === accountId;
 
   const submitFeedback = async () => {
-    if (!supabase || submitting) return;
+    if (!supabase || submitting || !isCurrentAccount()) return;
 
     const normalized = normalizeProductFeedback({
       category,
@@ -55,9 +66,10 @@ export default function FeedbackLauncher() {
     setSubmitting(true);
     try {
       const { error } = await supabase.from("product_feedback").insert({
-        user_id: user.id,
+        user_id: accountId,
         ...normalized.data,
       });
+      if (!isCurrentAccount()) return;
       if (error) throw error;
 
       trackProductEvent(
@@ -74,13 +86,14 @@ export default function FeedbackLauncher() {
         description: "Your note is tied to your account for follow-up, but its text is not sent to product analytics.",
       });
     } catch {
+      if (!isCurrentAccount()) return;
       toast({
         title: "Feedback was not saved",
         description: "Please try again. Your note stays in this form until submission succeeds.",
         variant: "destructive",
       });
     } finally {
-      setSubmitting(false);
+      if (isCurrentAccount()) setSubmitting(false);
     }
   };
 

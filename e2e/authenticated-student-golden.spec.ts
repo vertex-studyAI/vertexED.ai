@@ -603,6 +603,10 @@ test('approved learner completes the golden study journey and resumes saved work
   await page.getByRole('button', { name: 'Generate practice paper' }).click();
   await expect(page.getByText('IB Biology limiting factors practice')).toBeVisible();
   await page.getByRole('button', { name: 'Take timed exam' }).click();
+  const exam = page.getByRole('dialog', { name: 'IB Biology limiting factors practice' });
+  await expect(exam.getByRole('heading', { name: 'IB Biology limiting factors practice' })).toBeFocused();
+  await page.keyboard.press('Tab');
+  await expect(exam.getByRole('button', { name: 'Exit exam' })).toBeFocused();
   await page.getByLabel('Answer for question 1').fill('Carbon dioxide becomes limiting.');
   await page.getByRole('button', { name: 'Submit exam' }).click();
   await expect(page.getByRole('heading', { name: 'Exam complete' })).toBeVisible();

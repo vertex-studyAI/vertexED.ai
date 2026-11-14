@@ -5,11 +5,13 @@ import test from 'node:test';
 const source = fs.readFileSync('src/pages/NotetakerQuiz.tsx', 'utf8');
 const app = fs.readFileSync('src/app/App.tsx', 'utf8');
 
-test('notetaker route keeps the accessibility boundary wrapper', () => {
+test('notetaker route loads its accessibility boundary with the page', () => {
   assert.match(
     app,
-    /path="notetaker"\s+element=\{<ProtectedRoute><NotetakerAccessibilityBoundary><NotetakerQuiz \/><\/NotetakerAccessibilityBoundary><\/ProtectedRoute>\}/,
+    /path="notetaker"\s+element=\{<ProtectedRoute><NotetakerQuiz \/><\/ProtectedRoute>\}/,
   );
+  assert.match(source, /import NotetakerAccessibilityBoundary from "@\/components\/NotetakerAccessibilityBoundary"/);
+  assert.match(source, /export default function NotetakerQuiz\(\): React\.JSX\.Element \{\s*return <NotetakerAccessibilityBoundary><NotetakerContent \/><\/NotetakerAccessibilityBoundary>/);
 });
 
 test('fullscreen flashcard overlay ships native dialog semantics', () => {

@@ -17,6 +17,7 @@ const publicPages = [
   ["/curricula", "weekly", "0.8"],
   ["/ap", "weekly", "0.8"],
   ["/myp", "weekly", "0.9"],
+  ["/myp/mentorship", "weekly", "0.8"],
   ["/myp/eassessment", "weekly", "0.9"],
   ["/study-tools", "weekly", "0.8"],
   ["/resources", "weekly", "0.8"],

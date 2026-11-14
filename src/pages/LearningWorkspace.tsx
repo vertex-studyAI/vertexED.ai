@@ -3,7 +3,7 @@ import { Link, useSearchParams } from 'react-router';
 import { Helmet } from 'react-helmet-async';
 import { useAuth } from '@/contexts/AuthContext';
 import RichMarkdown from '@/components/RichMarkdown';
-import { LEARNING_QUESTIONS, LEARNING_QUESTION_METADATA, CONCEPT_GRAPH, CURRICULUM_CATALOG, PRACTICE_MODES, MISTAKE_CAUSES, buildKnowledgeModel, selectLearningQuestion } from '@/lib/learningModel.mjs';
+import { LEARNING_QUESTIONS, LEARNING_QUESTION_METADATA, CONCEPT_GRAPH, CURRICULUM_CATALOG, PRACTICE_MODES, PRACTICE_TIME_BUDGETS, MISTAKE_CAUSES, buildKnowledgeModel, selectLearningQuestion } from '@/lib/learningModel.mjs';
 import { answerLabel, classifyPracticeAnswer } from '@/lib/adaptivePractice.mjs';
 import { readLearningState, saveLearningRecord, type PracticeAttempt, type PracticeMistake } from '@/lib/learningStore';
 import { parsePracticeSession, advancePracticeSession, writePracticeSession, practiceSessionNeedsReview, archiveHeldPracticeSession } from '@/lib/practiceSession.mjs';
@@ -40,7 +40,7 @@ function Workspace() {
   const [curriculum, setCurriculum] = useState('');
   const [mode, setMode] = useState(PRACTICE_MODES.includes(params.get('mode') || '') ? params.get('mode')! : 'diagnostic');
   const [count, setCount] = useState(5);
-  const [timeBudget, setTimeBudget] = useState(['5','10','15','30','60'].includes(params.get('minutes') || '') ? params.get('minutes')! : '');
+  const [timeBudget, setTimeBudget] = useState(PRACTICE_TIME_BUDGETS.map(String).includes(params.get('minutes') || '') ? params.get('minutes')! : '');
   const [tutorOpen, setTutorOpen] = useState(false);
   const tutorOpener = useRef<HTMLButtonElement | null>(null);
   const [historyRange, setHistoryRange] = useState(30);
@@ -209,7 +209,7 @@ function Workspace() {
           <label>Unit / topic<select value={topic} onChange={e => { setTopic(e.target.value); setConcept(''); }}><option value="">All available topics</option>{(Array.from(new Set(LEARNING_QUESTIONS.filter(q => q.subject === subject).map(q => q.topic))) as string[]).map(t => <option key={t}>{t}</option>)}</select></label>
           <label>Concept<select value={concept} onChange={e => setConcept(e.target.value)}><option value="">All concepts in scope</option>{CONCEPT_GRAPH.filter(n => n.subject === subject && (!topic || n.topic === topic)).map(n => <option key={n.id} value={n.id}>{n.label}</option>)}</select></label>
           <label>Practice mode<select value={mode} onChange={e => setMode(e.target.value)}>{PRACTICE_MODES.map(m => <option key={m} value={m}>{modeNames[m]}</option>)}</select></label>
-          <label>Time budget<select value={timeBudget} onChange={e => setTimeBudget(e.target.value)}><option value="">Choose by question count</option>{[5,10,15,30,60].map(n => <option key={n} value={n}>{n} minutes</option>)}</select></label>
+          <label>Time budget<select value={timeBudget} onChange={e => setTimeBudget(e.target.value)}><option value="">Choose by question count</option>{PRACTICE_TIME_BUDGETS.map(n => <option key={n} value={n}>{n} minutes</option>)}</select></label>
           <label>Questions<select disabled={Boolean(timeBudget)} value={count} onChange={e => setCount(Number(e.target.value))}>{[3,5,10,20].map(n => <option key={n}>{n}</option>)}</select></label>
         </div>}{!LEARNING_QUESTIONS.length && <p role="status" className="learning-notice">Practice questions are awaiting subject review. New practice is unavailable. Your previous answers and reflections remain in your learning record. Continue with your own course materials in <Link to="/study-notebook">Study notebook</Link>.</p>}{LEARNING_QUESTIONS.length > 0 && <p>Limited original bank: {LEARNING_QUESTIONS.length} questions. This is not a complete syllabus, official paper or predicted grade. Fewer questions appear when your scope is narrow.</p>}
         {LEARNING_QUESTIONS.length > 0 && timeBudget && <p>Up to {timeBudget} minutes of estimated work, including feedback. The bank may have fewer questions than this budget allows.</p>}

@@ -40,6 +40,48 @@ test('initial focus prefers the requested element inside the modal', () => {
   assert.equal(document.activeElement, last);
 });
 
+test('initial focus can announce a requested heading without adding it to the Tab sequence', () => {
+  const { dom, document, dialog, first, last } = fixture();
+  try {
+    const heading = document.createElement('h2');
+    heading.tabIndex = -1;
+    heading.textContent = 'Mock exam';
+    dialog.prepend(heading);
+
+    assert.equal(focusInitialModalElement(dialog, heading) === heading, true, 'requested heading receives initial focus');
+    assert.equal(document.activeElement === heading, true, 'heading is the active element');
+    assert.deepEqual(getModalFocusableElements(dialog), [first, last]);
+    trapModalFocus({ key: 'Tab', preventDefault() {} }, dialog);
+    assert.equal(document.activeElement, first);
+    trapModalFocus({ key: 'Tab', shiftKey: true, preventDefault() {} }, dialog);
+    assert.equal(document.activeElement, last);
+  } finally {
+    dom.window.close();
+  }
+});
+
+test('requested programmatic focus still rejects unavailable or outside targets', () => {
+  const { dom, document, dialog, first, opener } = fixture();
+  try {
+    dialog.insertAdjacentHTML('afterbegin', `
+      <h2 id="plain-title">Not programmatically focusable</h2>
+      <h2 id="hidden-title" tabindex="-1" hidden>Hidden</h2>
+      <h2 id="invisible-title" tabindex="-1" style="visibility:hidden">Invisible</h2>
+      <div inert><h2 id="inert-title" tabindex="-1">Inert</h2></div>
+      <div aria-hidden="true"><h2 id="aria-hidden-title" tabindex="-1">Hidden from assistive technology</h2></div>
+      <button id="disabled-preference" tabindex="-1" disabled>Disabled</button>
+    `);
+    for (const id of ['plain-title', 'hidden-title', 'invisible-title', 'inert-title', 'aria-hidden-title', 'disabled-preference']) {
+      assert.equal(focusInitialModalElement(dialog, document.getElementById(id)), first, id);
+      assert.equal(document.activeElement, first, id);
+    }
+    assert.equal(focusInitialModalElement(dialog, opener), first, 'outside the modal');
+    assert.equal(document.activeElement, first);
+  } finally {
+    dom.window.close();
+  }
+});
+
 test('Tab and Shift+Tab wrap inside the modal', () => {
   const { document, dialog, first, last } = fixture();
   let prevented = false;
@@ -74,6 +116,29 @@ test('closing a modal restores focus to the connected invoking control', () => {
   last.focus();
   assert.equal(restoreModalFocus(opener), true);
   assert.equal(document.activeElement, opener);
+});
+
+test('restoration reports a refused focus attempt instead of claiming success', () => {
+  const { dom, opener, last } = fixture();
+  try {
+    last.focus();
+    opener.focus = () => {};
+    assert.equal(restoreModalFocus(opener), false);
+  } finally { dom.window.close(); }
+});
+
+test('restoration rejects unavailable targets before invoking focus', () => {
+  const { dom, opener } = fixture();
+  try {
+    let attempts = 0;
+    opener.focus = () => { attempts++; };
+    opener.disabled = true;
+    assert.equal(restoreModalFocus(opener), false);
+    opener.disabled = false;
+    opener.parentElement.setAttribute('inert', '');
+    assert.equal(restoreModalFocus(opener), false);
+    assert.equal(attempts, 0);
+  } finally { dom.window.close(); }
 });
 
 test('Tab from an answer field explicitly reaches buttons even when the browser would skip them', () => {

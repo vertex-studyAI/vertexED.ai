@@ -2,6 +2,7 @@ import { ADAPTIVE_QUESTION_BANK, ADAPTIVE_QUESTION_METADATA } from '../content/a
 import { assessPracticeAttempt, isPracticeAttemptRecord } from './practiceHistory.mjs';
 
 export const PRACTICE_MODES = ['diagnostic', 'targeted', 'mixed', 'exam', 'rapid', 'prerequisites', 'challenge'];
+export const PRACTICE_TIME_BUDGETS = [5, 10, 15, 30, 60];
 export const MISTAKE_CAUSES = ['unclassified', 'conceptual', 'algebraic', 'arithmetic', 'misread', 'time pressure', 'forgot formula', 'weak prerequisite', 'careless'];
 export const LEVELS = ['foundation', 'intermediate', 'advanced', 'very-hard'];
 const DAY = 86400000;
@@ -36,12 +37,18 @@ const learningMetadata = q => ({
 });
 export const LEARNING_QUESTIONS = ADAPTIVE_QUESTION_BANK.map(learningMetadata);
 export const LEARNING_QUESTION_METADATA = ADAPTIVE_QUESTION_METADATA.map(learningMetadata);
-export const CONCEPT_GRAPH = [...new Map(LEARNING_QUESTIONS.flatMap(q => q.concepts.map(label => {
-  const id = conceptId(q.subject, label);
-  return [id, { id, label, subject: q.subject, unit: q.topic, topic: q.topic,
+function conceptGraphForQuestions(questions) {
+  const nodes = [...new Map(questions.flatMap(q => q.conceptIds.map((id, index) => [id, {
+    id, label: q.concepts?.[index] || id, subject: q.subject, unit: q.topic, topic: q.topic,
     skill: q.skill, curricula: q.curriculum,
-    prerequisites: (prerequisites[label] || []).map(c => conceptId(q.subject, c)) }];
-}))).values()];
+  }]))).values()];
+  const byLabel = new Map(nodes.map(node => [conceptId(node.subject, node.label), node.id]));
+  return nodes.map(node => ({ ...node,
+    prerequisites: (Object.hasOwn(prerequisites, node.label) ? prerequisites[node.label] : []).map(label =>
+      byLabel.get(conceptId(node.subject, label)) || conceptId(node.subject, label)),
+  }));
+}
+export const CONCEPT_GRAPH = conceptGraphForQuestions(LEARNING_QUESTIONS);
 
 export function normalisePracticeAttempt(value, { questions = LEARNING_QUESTIONS } = {}) {
   return assessPracticeAttempt(value, questions);
@@ -104,11 +111,18 @@ export function mergeLearningRecord(records, record, type) {
   return rows;
 }
 
-export function buildKnowledgeModel(attempts = [], now = Date.now(), questions = LEARNING_QUESTIONS) {
-  const valid = attempts.map(value => normalisePracticeAttempt(value, { questions })).filter(a => a?.assessmentStatus === 'verified').filter(a => Date.parse(a.at) <= now);
-  return CONCEPT_GRAPH.map(node => {
-    const rows = valid.filter(a => LEARNING_QUESTIONS.find(q => q.id === a.questionId)?.conceptIds.includes(node.id))
-      .sort((a, b) => Date.parse(a.at) - Date.parse(b.at));
+// Saved history remains unchanged. Only current answer-key evidence may guide
+// adaptation, and cloud/merge array order does not establish attempt recency.
+function verifiedPracticeHistory(attempts, now, questions) {
+  return attempts.map(value => normalisePracticeAttempt(value, { questions }))
+    .filter(a => a?.assessmentStatus === 'verified' && Date.parse(a.at) <= now)
+    .sort((a, b) => Date.parse(a.at) - Date.parse(b.at) || a.id.localeCompare(b.id));
+}
+
+function knowledgeModelFromHistory(valid, now, questions) {
+  const byQuestionId = new Map(questions.map(question => [question.id, question]));
+  return conceptGraphForQuestions(questions).map(node => {
+    const rows = valid.filter(a => byQuestionId.get(a.questionId)?.conceptIds.includes(node.id));
     const recent = rows.slice(-5);
     const independent = recent.filter(a => a.correct && !a.hinted);
     const distinct = new Set(independent.map(a => a.questionId)).size;
@@ -129,17 +143,29 @@ export function buildKnowledgeModel(attempts = [], now = Date.now(), questions =
   });
 }
 
-export function selectLearningQuestion({ attempts = [], subject = '', topic = '', concept = '', curriculum = '', mode = 'diagnostic', exclude = [], targetId = '', questions = LEARNING_QUESTIONS } = {}) {
-  const model = buildKnowledgeModel(attempts, Date.now(), questions);
+export function buildKnowledgeModel(attempts = [], now = Date.now(), questions = LEARNING_QUESTIONS) {
+  return knowledgeModelFromHistory(verifiedPracticeHistory(attempts, now, questions), now, questions);
+}
+
+export function selectLearningQuestion({ attempts = [], subject = '', topic = '', concept = '', curriculum = '', mode = 'diagnostic', exclude = [], targetId = '', questions = LEARNING_QUESTIONS, now = Date.now() } = {}) {
+  const verified = verifiedPracticeHistory(attempts, now, questions);
+  const model = knowledgeModelFromHistory(verified, now, questions);
   const byId = new Map(model.map(n => [n.id, n]));
   const target = byId.get(concept);
-  const pool = questions.filter(q => !exclude.includes(q.id)
-    && (!subject || q.subject === subject) && (!curriculum || q.curriculum.includes(curriculum))
+  const scoped = questions.filter(q => (!subject || q.subject === subject) && (!curriculum || q.curriculum.includes(curriculum))
     && (!topic || q.topic === topic)
     && (!concept || q.conceptIds.includes(concept) || mode === 'prerequisites' && q.conceptIds.some(id => target?.prerequisites.includes(id))));
+  const scopedById = new Map(scoped.map(q => [q.id, q]));
+  // Other subjects or filters do not establish readiness for this selection.
+  // Excluded questions still supply evidence: a visited item must not erase
+  // the progression it established merely because it cannot be shown again.
+  const previous = verified.findLast(a => scopedById.has(a.questionId));
+  const previousLevel = LEVELS.indexOf(scopedById.get(previous?.questionId)?.difficulty);
+  const desired = mode === 'challenge' ? 3 : mode === 'rapid' ? 0 : previous ? Math.max(0, Math.min(3, previousLevel + (previous.correct && !previous.hinted ? 1 : -1))) : 0;
+  const pool = scoped.filter(q => !exclude.includes(q.id));
   return pool.map(q => {
     const nodes = q.conceptIds.map(id => byId.get(id));
-    const history = attempts.filter(a => a.questionId === q.id);
+    const history = verified.filter(a => a.questionId === q.id);
     const last = history.at(-1);
     let priority = !history.length ? 20 : 0;
     priority += nodes.some(n => n.status === 'weak') ? 30 : 0;
@@ -147,9 +173,6 @@ export function selectLearningQuestion({ attempts = [], subject = '', topic = ''
     if (mode === 'diagnostic') priority += nodes.some(n => n.status === 'unassessed') ? 50 : 0;
     if (mode === 'targeted' && last && !last.correct) priority += 50;
     if (mode === 'prerequisites' && q.conceptIds.some(id => target?.prerequisites.includes(id))) priority += 100;
-    const previous = attempts.at(-1);
-    const previousLevel = LEVELS.indexOf(questions.find(q => q.id === previous?.questionId)?.difficulty);
-    const desired = mode === 'challenge' ? 3 : mode === 'rapid' ? 0 : previous ? Math.max(0, Math.min(3, previousLevel + (previous.correct && !previous.hinted ? 1 : -1))) : 0;
     priority -= Math.abs(LEVELS.indexOf(q.difficulty) - desired) * 8;
     if (q.id === targetId) priority += 1000;
     return { q, priority };
@@ -179,7 +202,8 @@ export function buildLearningPlan({ attempts = [], tasks = [], exams = [], subje
       gap ? `Review prerequisite: ${gap.label}.` : '', days !== null ? `${node.subject} assessment in ${days} day${days === 1 ? '' : 's'}.` : ''].filter(Boolean).join(' ');
     const actionNode = gap || node;
     const minimum = Math.min(...questions.filter(q => q.conceptIds.includes(actionNode.id)).map(q => Math.ceil((q.estimatedSeconds + 60) / 60)));
-    const actionMinutes = Math.max(Math.min(10, budget), minimum);
+    const actionMinutes = PRACTICE_TIME_BUDGETS.find(value => value >= Math.max(Math.min(10, budget), minimum));
+    if (!actionMinutes) continue;
     candidates.push({ id: node.id, title: gap ? `Repair ${gap.label}` : `Practise ${node.label}`, minutes: actionMinutes, reason,
       score: (node.status === 'weak' ? 65 : 20) + (node.reviewDue ? 20 : 0) + (gap ? 15 : 0) + (days !== null ? Math.max(0, 35 - days * 3) : 0),
       to: `/learn?concept=${encodeURIComponent((gap || node).id)}&mode=targeted&minutes=${actionMinutes}`, kind: 'concept' });
@@ -188,7 +212,13 @@ export function buildLearningPlan({ attempts = [], tasks = [], exams = [], subje
   if (!candidates.length && (!questions.length || subjects.length && !questions.some(q => subjects.includes(q.subject)))) {
     candidates.push({ id: 'source-start', title: 'Start with your course materials', minutes: Math.min(10, budget), reason: !questions.length ? 'Practice questions are awaiting publication review. Your saved history is preserved. Use your course materials to continue.' : 'The original bank does not cover your selected subjects yet. Add a short source and choose what to study from it.', score: 0, to: '/study-notebook?start=1', kind: 'source' });
   }
-  if (!candidates.length) candidates.push({ id: 'diagnostic', title: 'Find your starting point', minutes: Math.min(10, budget), reason: 'No assessed concept needs review yet. Try an original question to start collecting evidence.', score: 0, to: '/learn?mode=diagnostic&minutes=' + Math.min(10, budget) + (subjects.length ? '&subject=' + encodeURIComponent(subjects[0]) : ''), kind: 'diagnostic' });
+  // A plan link must reserve a duration accepted by the practice page and
+  // enough time for at least one matching question plus its feedback.
+  const diagnosticSlots = PRACTICE_TIME_BUDGETS.filter(value => value <= budget)
+    .map(minutes => ({ minutes, question: questions.find(q => (!subjects.length || subjects.includes(q.subject)) && q.estimatedSeconds + 60 <= minutes * 60) }))
+    .filter(slot => slot.question);
+  const startingSlot = diagnosticSlots.find(slot => slot.minutes >= Math.min(10, budget)) || diagnosticSlots.at(-1);
+  if (!candidates.length && startingSlot) candidates.push({ id: 'diagnostic', title: 'Find your starting point', minutes: startingSlot.minutes, reason: 'No assessed concept needs review yet. Try an original question to start collecting evidence.', score: 0, to: '/learn?mode=diagnostic&minutes=' + startingSlot.minutes + '&subject=' + encodeURIComponent(startingSlot.question.subject), kind: 'diagnostic' });
   const unique = new Map();
   for (const item of candidates) { const key = item.kind === 'concept' ? item.to : item.id; if (!unique.has(key) || unique.get(key).score < item.score) unique.set(key, item); }
   const sorted = [...unique.values()].sort((a, b) => b.score - a.score || a.id.localeCompare(b.id));
@@ -198,8 +228,8 @@ export function buildLearningPlan({ attempts = [], tasks = [], exams = [], subje
     if (item.minutes <= remaining && planned.length < 5) { planned.push(item); remaining -= item.minutes; } else backlog.push(item);
   }
   if (!planned.length) {
-    const question = questions.find(q => (!subjects.length || subjects.includes(q.subject)) && q.estimatedSeconds + 60 <= budget * 60);
-    if (question) planned.push({ id: 'quick-diagnostic', title: 'One short practice attempt', minutes: Math.min(5, budget), reason: 'Your other tasks need more time. Use this window for an original question and feedback.', to: '/learn?mode=diagnostic&minutes=5&subject=' + encodeURIComponent(question.subject), kind: 'diagnostic', score: 0 });
+    const slot = diagnosticSlots[0];
+    if (slot) planned.push({ id: 'quick-diagnostic', title: 'One short practice attempt', minutes: slot.minutes, reason: 'Your other tasks need more time. Use this window for an original question and feedback.', to: '/learn?mode=diagnostic&minutes=' + slot.minutes + '&subject=' + encodeURIComponent(slot.question.subject), kind: 'diagnostic', score: 0 });
   }
   return { planned, backlog, plannedMinutes: planned.reduce((n, item) => n + item.minutes, 0), model };
 }

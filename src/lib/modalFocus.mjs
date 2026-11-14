@@ -25,13 +25,13 @@ function isAvailable(element) {
       if (view.getComputedStyle(parent).display === 'none') return false;
     }
   }
-  return element.tabIndex >= 0;
+  return true;
 }
 
 export function getModalFocusableElements(container) {
   if (!container || typeof container.querySelectorAll !== 'function') return [];
   return Array.from(container.querySelectorAll(MODAL_FOCUSABLE_SELECTOR))
-    .filter(isAvailable)
+    .filter(element => isAvailable(element) && element.tabIndex >= 0)
     .sort((left, right) => {
       const leftOrder = left.tabIndex > 0 ? left.tabIndex : Infinity;
       const rightOrder = right.tabIndex > 0 ? right.tabIndex : Infinity;
@@ -42,7 +42,11 @@ export function getModalFocusableElements(container) {
 export function focusInitialModalElement(container, preferredElement) {
   if (!container) return null;
   const focusables = getModalFocusableElements(container);
-  const target = isAvailable(preferredElement) && container.contains(preferredElement)
+  // A heading with tabindex="-1" can receive requested initial focus without
+  // becoming a Tab stop. Keep that separate from the dialog's Tab sequence.
+  const preferredIsFocusable = isAvailable(preferredElement)
+    && (preferredElement.tabIndex >= 0 || preferredElement.hasAttribute('tabindex'));
+  const target = preferredIsFocusable && container.contains(preferredElement)
     ? preferredElement
     : focusables[0] || container;
   if (typeof target.focus === 'function') target.focus();
@@ -70,8 +74,13 @@ export function trapModalFocus(event, container) {
   return true;
 }
 
+export function isAvailableModalFocusTarget(element) {
+  return Boolean(element && element.isConnected !== false && isAvailable(element)
+    && (element.tabIndex >= 0 || element.hasAttribute('tabindex')));
+}
+
 export function restoreModalFocus(element) {
-  if (!element || element.isConnected === false || typeof element.focus !== 'function') return false;
+  if (!isAvailableModalFocusTarget(element)) return false;
   element.focus();
-  return true;
+  return element.ownerDocument?.activeElement === element;
 }
