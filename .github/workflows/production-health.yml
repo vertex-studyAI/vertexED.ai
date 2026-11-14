@@ -9,8 +9,10 @@ on:
       - 'scripts/vercel-ignore-build.mjs'
       - 'scripts/immutable-revision.mjs'
       - 'scripts/validate-immutable-revision.mjs'
+      - 'scripts/select-production-incident.mjs'
       - 'tests/immutableRevision.test.mjs'
       - 'tests/productionHealthWorkflow.test.mjs'
+      - 'tests/productionIncident.test.mjs'
   push:
     branches:
       - main
@@ -21,8 +23,10 @@ on:
       - 'scripts/vercel-ignore-build.mjs'
       - 'scripts/immutable-revision.mjs'
       - 'scripts/validate-immutable-revision.mjs'
+      - 'scripts/select-production-incident.mjs'
       - 'tests/immutableRevision.test.mjs'
       - 'tests/productionHealthWorkflow.test.mjs'
+      - 'tests/productionIncident.test.mjs'
   schedule:
     # Offset from the top of the hour to reduce scheduler congestion.
     - cron: '17 * * * *'
@@ -68,7 +72,7 @@ jobs:
           node-version: '22.22.0'
 
       - name: Verify production health contracts
-        run: node --test tests/immutableRevision.test.mjs tests/productionHealthWorkflow.test.mjs
+        run: node --test tests/immutableRevision.test.mjs tests/productionHealthWorkflow.test.mjs tests/productionIncident.test.mjs
 
       - name: Collect canonical public production health evidence
         if: github.event_name != 'pull_request'
@@ -159,10 +163,9 @@ jobs:
           EOF
 
           issue_number="$(
-            gh api --method GET \
+            gh api --method GET --paginate --slurp \
               "/repos/${GITHUB_REPOSITORY}/issues?state=open&per_page=100" \
-              --jq ".[] | select(.title == \"${INCIDENT_TITLE}\") | .number" \
-              | head -n 1
+              | node scripts/select-production-incident.mjs "${INCIDENT_TITLE}"
           )"
 
           if [ -n "$issue_number" ]; then
@@ -187,10 +190,9 @@ jobs:
           set -euo pipefail
 
           issue_number="$(
-            gh api --method GET \
+            gh api --method GET --paginate --slurp \
               "/repos/${GITHUB_REPOSITORY}/issues?state=open&per_page=100" \
-              --jq ".[] | select(.title == \"${INCIDENT_TITLE}\") | .number" \
-              | head -n 1
+              | node scripts/select-production-incident.mjs "${INCIDENT_TITLE}"
           )"
 
           if [ -n "$issue_number" ]; then
