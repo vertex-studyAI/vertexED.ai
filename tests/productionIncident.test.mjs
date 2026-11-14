@@ -18,7 +18,7 @@ const unrelated = Array.from({ length: 100 }, (_, index) => ({
 const original = { number: 652, title, state: 'open' };
 
 function lookups(source) {
-  return [...source.matchAll(/issue_number="\$\(([\s\S]*?)\n          \)"/g)].map((match) => match[1]);
+  return [...source.matchAll(/issue_number="\$\(([\s\S]*?)\n {10}\)"/g)].map((match) => match[1]);
 }
 
 function runLookup(command, pages, exitStatus = 0) {
