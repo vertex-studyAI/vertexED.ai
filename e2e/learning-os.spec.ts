@@ -38,7 +38,25 @@ for (const width of [1440, 1024, 390]) {
       return raw;
     }, learnerId);
     expect(parseLearningRecords(original, 'practice_attempt')).toHaveLength(6);
-    await page.goto('/learn?tab=progress');
+    // Use the app's route transition so dashboard requests finish in their
+    // original document instead of being cancelled by a synthetic hard reload.
+    const collapsedNavigation = width < 1280;
+    if (collapsedNavigation) {
+      const menu = page.getByRole('button', { name: /navigation menu/ });
+      await expect(menu).toBeEnabled();
+      await menu.focus();
+      await menu.press('Enter');
+      await expect(menu).toHaveAttribute('aria-expanded', 'true');
+    }
+    const navigation = page.getByRole('navigation', {
+      name: collapsedNavigation ? 'Mobile navigation' : 'Main navigation', exact: true,
+    });
+    const practiceLink = navigation.getByRole('link', { name: 'Practise', exact: true });
+    await expect(practiceLink).toBeVisible();
+    await practiceLink.focus();
+    await practiceLink.press('Enter');
+    await expect(page).toHaveURL(/\/learn$/);
+    await page.getByRole('button', { name: 'Progress', exact: true }).click();
     const summary = page.locator('.learning-summary');
     await expect(summary).toContainText('3 submitted attempts');
     await expect(summary).toContainText('0 / 0 answer-key checks correct');
@@ -60,7 +78,21 @@ for (const width of [1440, 1024, 390]) {
     await expect(page.locator('.learning-table tbody tr')).toHaveCount(4);
     for (const theme of ['light', 'dark'] as const) {
       await selectTheme(page, theme);
+      await page.locator('.learning-table').evaluate(element => { element.scrollLeft = 0; });
+      await page.evaluate(() => window.scrollTo(0, 0));
+      await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
       await page.screenshot({ path: info.outputPath(`progress-identity-${width}-${theme}.png`), animations: 'disabled', fullPage: true });
+      if (width === 390) {
+        const conflict = page.getByRole('cell', { name: 'Conflicting saved copies', exact: true }).first();
+        await conflict.scrollIntoViewIfNeeded();
+        await page.evaluate(() => window.scrollTo(0, 0));
+        await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
+        const bounds = await conflict.boundingBox();
+        expect(bounds).not.toBeNull();
+        expect(bounds!.x).toBeGreaterThanOrEqual(0);
+        expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(width + 1);
+        await page.screenshot({ path: info.outputPath(`progress-identity-${width}-${theme}-results.png`), animations: 'disabled', fullPage: true });
+      }
     }
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width + 1);
     expect(await page.evaluate(id => localStorage.getItem(`vertex_content:${id}:practice_attempts`), learnerId)).toBe(original);
