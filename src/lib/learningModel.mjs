@@ -80,31 +80,39 @@ export function mergeLearningRecord(records, record, type) {
   const valid = type === 'practice_attempt' ? isPracticeAttemptRecord : normaliseMistake;
   if (!valid(record)) throw new Error('This practice record is invalid.');
   const clean = record;
-  const existing = records.find(row => row.id === clean.id);
   const timestamp = value => Date.parse(type === 'practice_attempt' ? value.at : value.updatedAt);
+  const matching = records.filter(row => row.id === clean.id);
+  const existing = matching.reduce((latest, row) =>
+    !latest || timestamp(row) > timestamp(latest) ? row : latest, null);
+  // Imported or recovered history may retain duplicate identities. A stale
+  // update must compare with the newest saved copy, regardless of array order.
   if (existing && timestamp(existing) > timestamp(clean)) return records;
   if (existing && timestamp(existing) === timestamp(clean)) {
     const conflict = () => { throw new Error('This practice record conflicts with an existing record at the same time. Original data is preserved; export account data before recovery.'); };
     const facts = type === 'practice_attempt'
       ? ['id', 'questionId', 'answer', 'confidence', 'hinted', 'seconds', 'mode', 'contentRevision']
       : ['id', 'questionId', 'cause', 'reflection', 'correction'];
-    if (facts.some(key => existing[key] !== clean[key])) conflict();
     const derived = type === 'practice_attempt' ? ['correct', 'error', 'evidence', 'assessmentStatus', 'recordedResult'] : [];
     const special = new Set([...facts, ...derived, type === 'practice_attempt' ? 'at' : 'updatedAt']);
     const unsafe = new Set(['__proto__', 'constructor', 'prototype']);
-    if ([...Object.keys(existing), ...Object.keys(clean)].some(key => unsafe.has(key))) conflict();
-    const merged = { ...existing };
-    for (const key of Object.keys(clean)) {
-      if (special.has(key)) continue;
-      if (Object.hasOwn(existing, key)) {
-        if (JSON.stringify(existing[key]) !== JSON.stringify(clean[key])) conflict();
-      } else {
-        Object.defineProperty(merged, key, { value: clean[key], enumerable: true, writable: true, configurable: true });
+    const sameInstant = new Set(matching.filter(row => timestamp(row) === timestamp(clean)));
+    // Check every newest copy. Keep each original date spelling, reported
+    // result, position and metadata; only add nonconflicting missing metadata.
+    return records.map(row => {
+      if (!sameInstant.has(row)) return row;
+      if (facts.some(key => row[key] !== clean[key])) conflict();
+      if ([...Object.keys(row), ...Object.keys(clean)].some(key => unsafe.has(key))) conflict();
+      const merged = { ...row };
+      for (const key of Object.keys(clean)) {
+        if (special.has(key)) continue;
+        if (Object.hasOwn(row, key)) {
+          if (JSON.stringify(row[key]) !== JSON.stringify(clean[key])) conflict();
+        } else {
+          Object.defineProperty(merged, key, { value: clean[key], enumerable: true, writable: true, configurable: true });
+        }
       }
-    }
-    // Same facts and instant: keep the original date spelling, reported result,
-    // record position, and metadata; only add nonconflicting missing metadata.
-    return records.map(row => row === existing ? merged : row);
+      return merged;
+    });
   }
   const rows = records.filter(row => row.id !== clean.id).concat(clean);
   if (rows.length > 10000) throw new Error('Practice storage is full. Export your account data before continuing.');
