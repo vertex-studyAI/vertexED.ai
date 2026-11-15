@@ -122,7 +122,7 @@ export function mergeLearningRecord(records, record, type) {
 // Saved history remains unchanged. One identity supplies at most one observation.
 // Follow the merge contract's newest instant, but hold conflicting latest facts.
 // Neither duplicate copies nor cloud array order may manufacture learning evidence.
-export function verifiedPracticeHistory(attempts, now, questions) {
+function latestPracticeEntries(attempts, now) {
   const latest = new Map();
   const facts = ['questionId', 'answer', 'confidence', 'hinted', 'seconds', 'mode', 'contentRevision'];
   for (const row of attempts) {
@@ -139,10 +139,33 @@ export function verifiedPracticeHistory(attempts, now, questions) {
       else if (row.at < previous.row.at) previous.row = row;
     }
   }
-  return [...latest.values()].filter(entry => !entry.conflict)
+  return [...latest.values()];
+}
+
+export function verifiedPracticeHistory(attempts, now, questions) {
+  return latestPracticeEntries(attempts, now).filter(entry => !entry.conflict)
     .map(({ row }) => normalisePracticeAttempt(row, { questions }))
     .filter(a => a?.assessmentStatus === 'verified')
     .sort((a, b) => Date.parse(a.at) - Date.parse(b.at) || a.id.localeCompare(b.id));
+}
+
+// Progress totals follow the same identity and conflict rules as concept evidence.
+// Apply the date window after choosing each identity's latest saved version, and
+// leave every original record available to the history table and account export.
+export function practiceProgressSummary(attempts = [], { now = Date.now(), days = 0, questions = LEARNING_QUESTIONS } = {}) {
+  const cutoff = days > 0 ? now - days * DAY : -Infinity;
+  const entries = latestPracticeEntries(attempts, now).filter(entry => entry.instant >= cutoff);
+  const resolved = entries.filter(entry => !entry.conflict);
+  const checkedAttempts = resolved.map(({ row }) => normalisePracticeAttempt(row, { questions }))
+    .filter(row => row?.assessmentStatus === 'verified')
+    .sort((a, b) => Date.parse(a.at) - Date.parse(b.at) || a.id.localeCompare(b.id));
+  return {
+    attemptCount: entries.length,
+    checkedAttempts,
+    awaitingReviewCount: entries.length - checkedAttempts.length,
+    seconds: resolved.reduce((total, entry) => total + entry.row.seconds, 0),
+    conflictingIds: entries.filter(entry => entry.conflict).map(entry => entry.row.id).sort(),
+  };
 }
 
 function knowledgeModelFromHistory(valid, now, questions) {
