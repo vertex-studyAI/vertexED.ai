@@ -44,11 +44,13 @@ for (const width of [1440, 1024, 390]) {
     await expect(summary).toContainText('0 / 0 answer-key checks correct');
     await expect(summary).toContainText('3 attempts awaiting review');
     await expect(summary).toContainText('2 active-page minutes');
-    const dateRange = page.getByLabel('Date range', { exact: true });
+    const dateRange = page.getByRole('combobox', { name: 'Date range', exact: true });
+    await expect(dateRange).toBeEnabled();
     await dateRange.focus();
     await expect(dateRange).toBeFocused();
     await dateRange.press('ArrowUp');
-    await dateRange.press('Enter');
+    await dateRange.press('Tab');
+    await expect(dateRange).not.toBeFocused();
     await expect(dateRange).toHaveValue('7');
     await expect(summary).toContainText('2 submitted attempts');
     await expect(summary).toContainText('0 / 0 answer-key checks correct');
