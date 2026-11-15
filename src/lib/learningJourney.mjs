@@ -13,13 +13,24 @@ export function sessionEvidenceChanges(session, attempts, questions = LEARNING_Q
 // Derived views only: preserve the original answer and authoritative attempt record.
 export function buildMistakeNotebook(attempts, reflections = [], questions = LEARNING_QUESTIONS) {
   const rows = verifiedPracticeHistory(attempts, Date.now(), questions);
+  // Recovered history and independently created records may contain more than
+  // one reflection for a question. Open the newest saved explanation without
+  // reordering or replacing any original record. Equal instants keep their
+  // existing first-copy selection; this is not a conflict-resolution write.
+  const latestReflections = new Map();
+  for (const reflection of reflections) {
+    const current = latestReflections.get(reflection.questionId);
+    if (!current || Date.parse(reflection.updatedAt) > Date.parse(current.updatedAt)) {
+      latestReflections.set(reflection.questionId, reflection);
+    }
+  }
   return questions.flatMap(question => {
     const history = rows.filter(a => a.questionId === question.id);
     const errors = history.filter(a => !a.correct);
     if (!errors.length) return [];
     const lastError = errors.at(-1);
     const later = history.filter(a => Date.parse(a.at) > Date.parse(lastError.at));
-    return [{ question, history, errors, lastError, reflection: reflections.find(r => r.questionId === question.id),
+    return [{ question, history, errors, lastError, reflection: latestReflections.get(question.id),
       recovery: later.some(a => a.correct && !a.hinted) ? 'Correct on a later unassisted attempt' : later.some(a => a.correct) ? 'Correct with help; revisit later' : 'Ready to revisit' }];
   }).sort((a, b) => Date.parse(b.lastError.at) - Date.parse(a.lastError.at));
 }
