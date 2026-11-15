@@ -11,6 +11,60 @@ const heldPracticeReason = 'Seeded practice questions are held from production p
 const learnerId = 'f40db66b-1b55-4ab8-88d0-14a9ba476c16';
 const artifactId = '25734997-775e-473f-b415-897751b08497';
 
+for (const width of [1440, 1024, 390]) {
+  test(`progress resolves copied attempts while preserving raw history at ${width}`, async ({ page }, info) => {
+    test.skip(productionBundle, heldPracticeReason);
+    await page.setViewportSize({ width, height: 900 });
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    const errors: string[] = [];
+    page.on('pageerror', error => errors.push(error.message));
+    page.on('console', message => { if (message.type() === 'error' && message.text().includes('same key')) errors.push(message.text()); });
+    await installAccountHarness(page, true);
+    await page.goto('/learn?subject=Mathematics&question=math-modulus-01');
+    await activateWithKeyboard(page.getByRole('button', { name: 'Start practice', exact: true }));
+    await page.getByLabel('Your answer', { exact: true }).fill('5');
+    await activateWithKeyboard(page.getByRole('button', { name: 'Check answer', exact: true }));
+    await expect(page.getByRole('heading', { name: 'Correct', exact: true })).toBeVisible();
+    const original = await page.evaluate(id => {
+      const key = `vertex_content:${id}:practice_attempts`;
+      const stored = JSON.parse(localStorage.getItem(key) || '[]')[0];
+      if (!stored || stored.questionId !== 'math-modulus-01') throw new Error('Expected the recorded modulus fixture');
+      const now = Date.now();
+      const base = { ...stored, seconds: 30, at: new Date(now - 86400000).toISOString() };
+      const conflict = { ...base, id: 'attempt:progress-conflicting' };
+      const rows = [base, { ...base }, conflict, { ...conflict, answer: '7' },
+        { ...base, id: 'attempt:progress-older-valid', seconds: 90, at: new Date(now - 20 * 86400000).toISOString() },
+        { ...base, id: 'attempt:progress-future-only', at: new Date(now + 2 * 86400000).toISOString() }];
+      const raw = JSON.stringify(rows);
+      localStorage.setItem(key, raw);
+      return raw;
+    }, learnerId);
+    await page.goto('/learn?tab=progress');
+    const summary = page.locator('.learning-summary');
+    await expect(summary).toContainText('3 submitted attempts');
+    await expect(summary).toContainText('2 / 2 answer-key checks correct');
+    await expect(summary).toContainText('1 attempts awaiting review');
+    await expect(summary).toContainText('2 active-page minutes');
+    const dateRange = page.getByLabel('Date range', { exact: true });
+    await dateRange.focus();
+    await expect(dateRange).toBeFocused();
+    await dateRange.press('ArrowUp');
+    await dateRange.press('Enter');
+    await expect(dateRange).toHaveValue('7');
+    await expect(summary).toContainText('2 submitted attempts');
+    await expect(summary).toContainText('1 / 1 answer-key checks correct');
+    await expect(page.getByRole('cell', { name: 'Conflicting saved copies', exact: true })).toHaveCount(2);
+    await expect(page.locator('.learning-table tbody tr')).toHaveCount(4);
+    for (const theme of ['light', 'dark'] as const) {
+      await selectTheme(page, theme);
+      await page.screenshot({ path: info.outputPath(`progress-identity-${width}-${theme}.png`), animations: 'disabled', fullPage: true });
+    }
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width + 1);
+    expect(await page.evaluate(id => localStorage.getItem(`vertex_content:${id}:practice_attempts`), learnerId)).toBe(original);
+    expect(errors).toEqual([]);
+  });
+}
+
 async function activateWithKeyboard(locator: Locator) {
   // focus() does not wait for enabled state; a loading control ignores it.
   await expect(locator).toBeEnabled();
