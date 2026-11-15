@@ -1,4 +1,4 @@
-import { LEARNING_QUESTIONS, normalisePracticeAttempt, buildKnowledgeModel } from './learningModel.mjs';
+import { LEARNING_QUESTIONS, normalisePracticeAttempt, buildKnowledgeModel, verifiedPracticeHistory } from './learningModel.mjs';
 
 export function sessionEvidenceChanges(session, attempts, questions = LEARNING_QUESTIONS) {
   const submitted = new Set(Object.values(session.responses).map(r => r.submitted).filter(Boolean));
@@ -12,7 +12,7 @@ export function sessionEvidenceChanges(session, attempts, questions = LEARNING_Q
 
 // Derived views only: preserve the original answer and authoritative attempt record.
 export function buildMistakeNotebook(attempts, reflections = [], questions = LEARNING_QUESTIONS) {
-  const rows = attempts.map(value => normalisePracticeAttempt(value, { questions })).filter(value => value?.assessmentStatus === 'verified').sort((a, b) => Date.parse(a.at) - Date.parse(b.at));
+  const rows = verifiedPracticeHistory(attempts, Date.now(), questions);
   return questions.flatMap(question => {
     const history = rows.filter(a => a.questionId === question.id);
     const errors = history.filter(a => !a.correct);

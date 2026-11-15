@@ -111,11 +111,29 @@ export function mergeLearningRecord(records, record, type) {
   return rows;
 }
 
-// Saved history remains unchanged. Only current answer-key evidence may guide
-// adaptation, and cloud/merge array order does not establish attempt recency.
-function verifiedPracticeHistory(attempts, now, questions) {
-  return attempts.map(value => normalisePracticeAttempt(value, { questions }))
-    .filter(a => a?.assessmentStatus === 'verified' && Date.parse(a.at) <= now)
+// Saved history remains unchanged. One identity supplies at most one observation.
+// Follow the merge contract's newest instant, but hold conflicting latest facts.
+// Neither duplicate copies nor cloud array order may manufacture learning evidence.
+export function verifiedPracticeHistory(attempts, now, questions) {
+  const latest = new Map();
+  const facts = ['questionId', 'answer', 'confidence', 'hinted', 'seconds', 'mode', 'contentRevision'];
+  for (const row of attempts) {
+    if (!isPracticeAttemptRecord(row)) continue;
+    const instant = Date.parse(row.at);
+    if (!(instant <= now)) continue;
+    const previous = latest.get(row.id);
+    if (!previous || instant > previous.instant) {
+      latest.set(row.id, { row, instant, conflict: false });
+    } else if (instant === previous.instant) {
+      if (facts.some(key => previous.row[key] !== row[key])) previous.conflict = true;
+      // Equivalent timestamp spellings are one instant. Choose a stable spelling
+      // for this derived view without rewriting either saved record.
+      else if (row.at < previous.row.at) previous.row = row;
+    }
+  }
+  return [...latest.values()].filter(entry => !entry.conflict)
+    .map(({ row }) => normalisePracticeAttempt(row, { questions }))
+    .filter(a => a?.assessmentStatus === 'verified')
     .sort((a, b) => Date.parse(a.at) - Date.parse(b.at) || a.id.localeCompare(b.id));
 }
 
