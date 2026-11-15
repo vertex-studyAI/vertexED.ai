@@ -68,9 +68,7 @@ test('equivalent newest instants retain the existing first-copy selection and al
 test('reflection ordering leaves mistakes, error counts and recovery evidence unchanged', () => {
   const without = notebook([])[0];
   const withLatest = notebook([old, latest])[0];
-  const { reflection: _empty, ...before } = without;
-  const { reflection: _chosen, ...after } = withLatest;
-  assert.deepEqual(after, before);
+  assert.deepEqual({ ...withLatest, reflection: undefined }, without);
   assert.equal(notebook([])[0].reflection, undefined);
   assert.strictEqual(notebook([old])[0].reflection, old);
 });
