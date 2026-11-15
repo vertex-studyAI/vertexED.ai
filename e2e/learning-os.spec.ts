@@ -3,7 +3,7 @@ import { fixturePdf } from '../tests/fixtures/pdf.mjs';
 import { extractPdf, decodePdfRequest } from '../api/_lib/pdfImport.js';
 import { selectTheme } from './theme-controls';
 import { expect, test, type Locator, type Page } from '@playwright/test';
-import { CONCEPT_GRAPH } from '../src/lib/learningModel.mjs';
+import { CONCEPT_GRAPH, parseLearningRecords } from '../src/lib/learningModel.mjs';
 
 const productionBundle = process.env.VERTEXED_REFERENCE_BUILT === '1';
 const heldPracticeReason = 'Seeded practice questions are held from production pending subject review.';
@@ -30,11 +30,14 @@ for (const width of [1440, 1024, 390]) {
       const conflict = { ...base, id: 'attempt:progress-conflicting' };
       const rows = [base, { ...base }, conflict, { ...conflict, answer: '7' },
         { ...base, id: 'attempt:progress-older-valid', seconds: 90, at: new Date(now - 20 * 86400000).toISOString() },
-        { ...base, id: 'attempt:progress-future-only', at: new Date(now + 2 * 86400000).toISOString() }];
+        // Stay within the storage schema's one-day clock-skew allowance while
+        // remaining future-dated for the Progress summary's current-time view.
+        { ...base, id: 'attempt:progress-future-only', at: new Date(now + 3600000).toISOString() }];
       const raw = JSON.stringify(rows);
       localStorage.setItem(key, raw);
       return raw;
     }, learnerId);
+    expect(parseLearningRecords(original, 'practice_attempt')).toHaveLength(6);
     await page.goto('/learn?tab=progress');
     const summary = page.locator('.learning-summary');
     await expect(summary).toContainText('3 submitted attempts');
