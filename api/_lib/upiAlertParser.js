@@ -8,9 +8,9 @@
  */
 
 // The currency word must stand alone, so "Customers 1800" is not read as Rs 1800.
-const AMOUNT_RE = /(?:(?<![a-z0-9])(?:rs\.?|inr)|₹)\s*([0-9][0-9,]*(?:\.[0-9]{1,2})?)(?![0-9])/gi;
-const LABELLED_REF_RE = /(?:utr|rrn|ref(?:erence)?(?:\s*(?:no|number|id))?|upi(?:\s*ref(?:erence)?)?(?:\s*(?:no|number|id))?|transaction\s*(?:id|ref(?:erence)?)(?:\s*(?:no|number))?)\s*(?:is|:|-|\.|no\.?|#)?\s*:?\s*([0-9]{12})(?![0-9])/i;
-const SLASHED_UPI_REF_RE = /upi\/(?:[a-z0-9]+\/)?([0-9]{12})(?![0-9])/i;
+const AMOUNT_RE = /(?:(?<![a-z0-9])(?:rs\.?|inr)|₹)\s*([0-9][0-9,]*(?:\.[0-9]+)?)(?![0-9])/gi;
+const LABELLED_REF_RE = /(?:utr|rrn|ref(?:erence)?(?:\s*(?:no|number|id))?|upi(?:\s*ref(?:erence)?)?(?:\s*(?:no|number|id))?|transaction\s*(?:id|ref(?:erence)?)(?:\s*(?:no|number))?)\s*(?:is|:|-|\.|no\.?|#)?\s*:?\s*([0-9]{12})(?![0-9])/gi;
+const SLASHED_UPI_REF_RE = /upi\/(?:[a-z0-9]+\/)?([0-9]{12})(?![0-9])/gi;
 const BARE_REF_RE = /(?<![0-9])([0-9]{12})(?![0-9])/g;
 const CREDIT_RE = /\b(?:credited|credit(?:ed)?\s+(?:of|by|with)|has\s+credit|received|deposited)\b/i;
 const DEBIT_RE = /\b(?:debited|debit\s+of|withdrawn|spent|sent\s+to|paid\s+to)\b/i;
@@ -32,22 +32,29 @@ export function normaliseAlertText(text) {
 
 function toPaise(raw) {
   const [rupees, fraction = ''] = raw.replace(/,/g, '').split('.');
+  if (fraction.length > 2) return null;
   const value = Number(rupees) * 100 + Number(fraction.padEnd(2, '0'));
   return Number.isSafeInteger(value) && value > 0 ? value : null;
 }
 
 function findAmountPaise(text) {
+  const amounts = new Set();
   for (const match of text.matchAll(AMOUNT_RE)) {
     const before = text.slice(Math.max(0, match.index - 40), match.index);
     if (NON_PAYMENT_AMOUNT_CONTEXT.test(before)) continue;
-    return toPaise(match[1]);
+    const amount = toPaise(match[1]);
+    if (amount === null) return null;
+    amounts.add(amount);
   }
-  return null;
+  return amounts.size === 1 ? [...amounts][0] : null;
 }
 
 function findUtr(text) {
-  const labelled = text.match(LABELLED_REF_RE) ?? text.match(SLASHED_UPI_REF_RE);
-  if (labelled) return labelled[1];
+  const labelled = new Set([
+    ...text.matchAll(LABELLED_REF_RE),
+    ...text.matchAll(SLASHED_UPI_REF_RE),
+  ].map(match => match[1]));
+  if (labelled.size) return labelled.size === 1 ? [...labelled][0] : null;
   const bare = [...new Set([...text.matchAll(BARE_REF_RE)].map(match => match[1]))];
   return bare.length === 1 ? bare[0] : null;
 }

@@ -4,7 +4,8 @@ import { fetchPaidProviderResponse, runAiUsageContext, readAiUsage } from '../ap
 import { callChatProvider } from '../api/_lib/aiProviders.js';
 import { fetchProvider } from '../api/_lib/providerRequest.js';
 import { ProviderTimeoutError } from '../api/_lib/fetchWithTimeout.js';
-import { AI_USER, usageFixture, paidResponse } from './helpers/ai-usage-fixture.mjs';
+import { AI_USAGE_POLICY } from '../api/_lib/aiUsagePolicy.js';
+import { AI_NOW, AI_USER, usageFixture, paidResponse } from './helpers/ai-usage-fixture.mjs';
 const request = (extra = {}) => ({ capability: 'chatbot', provider: 'openai', model: 'gpt-4.1-mini', url: 'https://api.openai.com/v1/responses', options: { method: 'POST', body: JSON.stringify({ model: 'gpt-4.1-mini', input: 'hello', max_output_tokens: 1200 }) }, ...extra });
 test('no trusted account or stable operation identity means zero provider calls', async () => {
   let count = 0;
@@ -71,10 +72,16 @@ test('nested board-style provider wrappers reserve one operation and dispatch on
 });
 test('usage view is owner scoped, finite, and exposes prior-day unresolved capacity', async () => {
   const row = { observed_at: '2026-10-16T12:00:00Z', period_start: '2026-10-16T00:00:00Z', resets_at: '2026-10-17T00:00:00Z', account_limit_microusd: 1_000_000, account_used_microusd: 10, account_reserved_microusd: 100, account_remaining_microusd: 999890, account_active_count: 2, account_carried_reserved_microusd: 200, account_uncertain_count: 1, account_capacity_blocked: true, project_available: false, private_project_used: 999 };
-  const output = await readAiUsage(AI_USER, async (_name, args) => { assert.equal(args.p_user_id, AI_USER); return row; });
+  const output = await readAiUsage(AI_USER, async (_name, args) => { assert.equal(args.p_user_id, AI_USER); return row; }, AI_NOW);
   assert.equal(output.account.carriedReservedMicros, 200); assert.deepEqual(output.project, { available: false });
   assert.equal(output.concurrency.accountBlocked, true);
-  for (const patch of [{ account_remaining_microusd: Infinity }, { account_capacity_blocked: false }, { account_carried_reserved_microusd: undefined }, { account_uncertain_count: 3 }, { resets_at: row.period_start }]) await assert.rejects(readAiUsage(AI_USER, async () => ({ ...row, ...patch })), { code: 'AI_USAGE_UNAVAILABLE' });
+  for (const patch of [{ account_remaining_microusd: Infinity }, { account_capacity_blocked: false }, { account_carried_reserved_microusd: undefined }, { account_uncertain_count: 3 }, { resets_at: row.period_start }]) await assert.rejects(readAiUsage(AI_USER, async () => ({ ...row, ...patch }), AI_NOW), { code: 'AI_USAGE_UNAVAILABLE' });
+});
+
+test('usage reads reject expired policy before making an RPC', async () => {
+  let calls = 0;
+  await assert.rejects(readAiUsage(AI_USER, async () => { calls++; }, Date.parse(AI_USAGE_POLICY.expiresAt)), { code: 'AI_USAGE_UNAVAILABLE' });
+  assert.equal(calls, 0);
 });
 
 test('simultaneous duplicate operations accept only one provider dispatch from atomic admission replies', async () => {
