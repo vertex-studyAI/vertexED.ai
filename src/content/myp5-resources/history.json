@@ -1,0 +1,1245 @@
+{
+  "subjectSlug": "history",
+  "lessons": {
+    "myp5-history-source-analysis": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "An advertisement supports a bounded claim",
+            "paragraphs": [
+              "A source can be valuable even when its author has a clear interest in persuading an audience. The task is to identify what it can support for a particular inquiry. A recruitment advertisement may reveal the promises used to attract workers without proving that actual conditions matched those promises. Distinguish the words or features observed from the inference drawn from them. Corroboration works best when sources have sufficiently independent origins and address comparable events or conditions. Silence also needs caution: an omitted topic may reflect purpose, space or survival of records rather than the absence of the historical activity."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-source-analysis-worked",
+            "prompt": "Fictional teaching source: a workshop recruitment advertisement promises regular wages and a warm room. Assess its use for studying recruitment priorities.",
+            "steps": [
+              "The promises show which benefits the advertiser chose to emphasise to prospective workers.",
+              "They do not independently establish that workers received those conditions."
+            ],
+            "conclusion": "The advertisement is useful for public recruitment priorities; payroll and worker testimony would test fulfilment."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-source-analysis-card-1",
+            "front": "Does bias make a source useless?",
+            "back": "No; its value depends on the inquiry."
+          },
+          {
+            "id": "extension-source-analysis-card-2",
+            "front": "What is an observation about a source?",
+            "back": "A feature directly present in its content or form."
+          },
+          {
+            "id": "extension-source-analysis-card-3",
+            "front": "What is an inference?",
+            "back": "A reasoned conclusion drawn from observed evidence."
+          },
+          {
+            "id": "extension-source-analysis-card-4",
+            "front": "Why check source independence?",
+            "back": "Repeated claims may derive from one original account."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-source-analysis-diagram",
+            "title": "An advertisement supports a bounded claim",
+            "description": "Promised conditions reveal persuasion before they establish lived experience.",
+            "nodes": [
+              {
+                "id": "extension-source-analysis-node-1",
+                "label": "Recruitment promise",
+                "detail": "Regular wages and a warm room"
+              },
+              {
+                "id": "extension-source-analysis-node-2",
+                "label": "Supported inference",
+                "detail": "These benefits were emphasised to attract workers"
+              },
+              {
+                "id": "extension-source-analysis-node-3",
+                "label": "Unresolved outcome",
+                "detail": "Actual wages and room conditions need separate evidence"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-source-analysis-node-1",
+                "to": "extension-source-analysis-node-2",
+                "label": "reveals chosen appeal"
+              },
+              {
+                "from": "extension-source-analysis-node-2",
+                "to": "extension-source-analysis-node-3",
+                "label": "does not itself verify delivery"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-history-source-analysis-practice-1",
+          "difficulty": "Standard",
+          "command": "Infer",
+          "marks": 3,
+          "prompt": "Fictional teaching source: a shop notice lists early opening hours beside a message aimed at railway workers. Infer one intended audience need.",
+          "hints": [
+            "Link opening time to the named audience.",
+            "Do not invent purchasing behaviour."
+          ],
+          "solution": [
+            "The notice suggests the shop is appealing to workers needing access before their shifts or journeys.",
+            "The early hours and named railway audience support that inference, but do not prove how many workers shopped there."
+          ],
+          "successCriteria": [
+            "Relevant access need.",
+            "Specific source detail.",
+            "Limits inference."
+          ]
+        },
+        {
+          "id": "extension-myp5-history-source-analysis-practice-2",
+          "difficulty": "Advanced",
+          "command": "Evaluate",
+          "marks": 3,
+          "prompt": "Fictional case: a museum catalogue omits domestic servants from a short list of notable residents. Does this prove no servants lived in the town?",
+          "hints": [
+            "Consider selection and purpose.",
+            "Absence from one list is not a population census."
+          ],
+          "solution": [
+            "A selective catalogue may omit people outside its chosen focus.",
+            "Household or employment records would be needed; the omission alone does not establish absence."
+          ],
+          "successCriteria": [
+            "Selection explanation.",
+            "Rejects absence inference.",
+            "Relevant additional evidence."
+          ]
+        }
+      ]
+    },
+    "myp5-history-causation": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Transport change can enable market expansion",
+            "paragraphs": [
+              "Historical causes operate through mechanisms rather than merely appearing before an event. A transport improvement can lower journey costs, enabling traders to reach new markets, but the outcome also depends on demand and available goods. Long-term conditions, immediate triggers and enabling factors may interact. Calling one cause necessary means the outcome could not have occurred without it under the argument’s assumptions; calling it sufficient means it could produce the outcome without additional requirements. These are demanding claims. A careful explanation compares timing, mechanism and alternative influences, and recognises that counterfactual conclusions cannot be observed directly."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-causation-worked",
+            "prompt": "Fictional case: a canal opens, freight charges fall and merchants begin selling in a distant town. Explain a plausible causal chain and a limit.",
+            "steps": [
+              "The canal may reduce transport costs, making sales to the distant market financially feasible.",
+              "Merchant records linking route choice, costs and sales would strengthen the mechanism."
+            ],
+            "conclusion": "The sequence supports a plausible explanation but does not exclude rising demand or other changes."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-causation-card-1",
+            "front": "What is a causal mechanism?",
+            "back": "The process through which one factor produces an outcome."
+          },
+          {
+            "id": "extension-causation-card-2",
+            "front": "Does temporal order establish causation?",
+            "back": "No; it is necessary for many claims but not sufficient evidence."
+          },
+          {
+            "id": "extension-causation-card-3",
+            "front": "What is an enabling factor?",
+            "back": "A condition that makes an outcome possible or easier."
+          },
+          {
+            "id": "extension-causation-card-4",
+            "front": "What does a necessary-cause claim assert?",
+            "back": "The outcome would not occur without that factor under the stated account."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-causation-diagram",
+            "title": "Transport change can enable market expansion",
+            "description": "Each link needs evidence, not chronology alone.",
+            "nodes": [
+              {
+                "id": "extension-causation-node-1",
+                "label": "Canal opens",
+                "detail": "A new freight route becomes available"
+              },
+              {
+                "id": "extension-causation-node-2",
+                "label": "Transport costs fall",
+                "detail": "Distant sales become more feasible"
+              },
+              {
+                "id": "extension-causation-node-3",
+                "label": "Market expands",
+                "detail": "Merchants supply additional customers"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-causation-node-1",
+                "to": "extension-causation-node-2",
+                "label": "may reduce freight costs"
+              },
+              {
+                "from": "extension-causation-node-2",
+                "to": "extension-causation-node-3",
+                "label": "may make new sales worthwhile"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-history-causation-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Fictional case: poor harvests raise food prices, while a neighbourhood network organises a petition. Explain how the two factors could interact.",
+          "hints": [
+            "Separate grievance from collective action.",
+            "Link organisation to expressing the grievance."
+          ],
+          "solution": [
+            "High prices create a shared grievance about food access.",
+            "The network coordinates signatures and action, converting that grievance into an organised petition."
+          ],
+          "successCriteria": [
+            "Grievance mechanism.",
+            "Organisation mechanism.",
+            "Explicit interaction."
+          ]
+        },
+        {
+          "id": "extension-myp5-history-causation-practice-2",
+          "difficulty": "Advanced",
+          "command": "Evaluate",
+          "marks": 3,
+          "prompt": "Fictional case: a festival begins after a new mayor takes office. No planning records are supplied. Evaluate “the mayor alone caused the festival”.",
+          "hints": [
+            "Timing does not reveal who planned or funded it.",
+            "Look for alternative contributors."
+          ],
+          "solution": [
+            "The timing is compatible with the claim but does not establish the mayor’s role.",
+            "Planning, funding and community records are needed to assess earlier plans and other contributors before attributing sole causation."
+          ],
+          "successCriteria": [
+            "Chronology limitation.",
+            "Relevant alternative contributors.",
+            "Evidence for mechanism."
+          ]
+        }
+      ]
+    },
+    "myp5-history-origin-purpose-value-limitation": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "An inspection’s scope limits its inference",
+            "paragraphs": [
+              "Origin and purpose matter because they shape access to information, selection and presentation. An official inspection report may have systematic observations unavailable to a casual visitor, yet its inspection schedule and reporting remit can leave experiences unrecorded. Value and limitation should connect these features to a specific question. Avoid stock labels such as primary therefore reliable or official therefore false. A source can be near an event but narrowly informed, while a later study may combine many records. Evaluate what the author could know, what the format encourages and which claims remain beyond the evidence supplied."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-origin-purpose-value-limitation-worked",
+            "prompt": "Fictional teaching case: a factory inspector visits one workshop on a scheduled morning and records machine guards. Assess value and limitation for everyday safety.",
+            "steps": [
+              "The inspector directly records a safety feature during the visit, providing specific evidence about guards that morning.",
+              "A scheduled visit may not represent all shifts or normal practice, and guards alone do not measure every hazard."
+            ],
+            "conclusion": "The report supports a bounded observation rather than a complete safety history."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-origin-purpose-value-limitation-card-1",
+            "front": "What belongs to origin?",
+            "back": "Creator, date, place and circumstances of production, when supplied."
+          },
+          {
+            "id": "extension-origin-purpose-value-limitation-card-2",
+            "front": "What is purpose?",
+            "back": "The intended function or effect of the source."
+          },
+          {
+            "id": "extension-origin-purpose-value-limitation-card-3",
+            "front": "How should value be expressed?",
+            "back": "As usefulness for a specified historical question."
+          },
+          {
+            "id": "extension-origin-purpose-value-limitation-card-4",
+            "front": "Why avoid “official therefore reliable”?",
+            "back": "Institutional status alone does not establish completeness or accuracy."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-origin-purpose-value-limitation-diagram",
+            "title": "An inspection’s scope limits its inference",
+            "description": "Direct observation has value within the time and features inspected.",
+            "nodes": [
+              {
+                "id": "extension-origin-purpose-value-limitation-node-1",
+                "label": "Scheduled visit",
+                "detail": "One workshop on one morning"
+              },
+              {
+                "id": "extension-origin-purpose-value-limitation-node-2",
+                "label": "Recorded feature",
+                "detail": "Machine guards observed"
+              },
+              {
+                "id": "extension-origin-purpose-value-limitation-node-3",
+                "label": "Historical scope",
+                "detail": "Evidence for that visit, not every shift or hazard"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-origin-purpose-value-limitation-node-1",
+                "to": "extension-origin-purpose-value-limitation-node-2",
+                "label": "provides direct access to one setting"
+              },
+              {
+                "from": "extension-origin-purpose-value-limitation-node-2",
+                "to": "extension-origin-purpose-value-limitation-node-3",
+                "label": "limits the broader safety claim"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-history-origin-purpose-value-limitation-practice-1",
+          "difficulty": "Standard",
+          "command": "Evaluate",
+          "marks": 3,
+          "prompt": "Fictional case: a shipping ledger lists arrivals every day for one month. Give a value and a limitation for an inquiry into annual port activity.",
+          "hints": [
+            "Systematic entries provide detail.",
+            "One month does not cover seasonal variation."
+          ],
+          "solution": [
+            "The ledger supports detailed arrival patterns during the recorded month.",
+            "It cannot alone establish the annual pattern because other months and seasonal changes are missing."
+          ],
+          "successCriteria": [
+            "Specific monthly value.",
+            "Annual coverage limitation.",
+            "Links both to inquiry."
+          ]
+        },
+        {
+          "id": "extension-myp5-history-origin-purpose-value-limitation-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Fictional case: a memoir written forty years later describes the author’s first school day. Identify one possible value and one limitation without dismissing it.",
+          "hints": [
+            "Personal recollection can reveal experience and later meaning.",
+            "Time can affect recall."
+          ],
+          "solution": [
+            "It may reveal the author’s remembered experience and the meaning attached to schooling.",
+            "The delay can affect exact detail, so contemporary records can help check chronology without removing the memoir’s interpretive value."
+          ],
+          "successCriteria": [
+            "Personal or remembered perspective.",
+            "Recall limitation.",
+            "Appropriate corroboration."
+          ]
+        }
+      ]
+    },
+    "myp5-history-consequence": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Removing a toll can redistribute journeys",
+            "paragraphs": [
+              "Consequences differ by group, place and timescale. A policy can achieve its stated aim while creating additional effects that were not intended. Distinguish an immediate administrative change from a later social outcome, and trace the mechanism connecting them. A new service may benefit those able to reach it while leaving distant communities underserved. The absence of an intended benefit does not automatically prove the policy had no effects. Historical evaluation should ask who experienced each consequence and use evidence appropriate to that group, rather than extending one person’s account to the entire population."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-consequence-worked",
+            "prompt": "Fictional case: a toll is removed from a bridge. Cart records show more crossings, while a ferry operator’s accounts show falling fares collected. Analyse two consequences.",
+            "steps": [
+              "Removing the toll may encourage bridge use, consistent with the crossing increase.",
+              "Some travellers may switch from ferry to bridge, contributing to reduced ferry receipts."
+            ],
+            "conclusion": "These are distinct possible consequences; route-choice evidence would strengthen the link to the ferry loss."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-consequence-card-1",
+            "front": "What is an unintended consequence?",
+            "back": "An effect outside the intervention’s stated aims."
+          },
+          {
+            "id": "extension-consequence-card-2",
+            "front": "Can one change benefit and harm different groups?",
+            "back": "Yes; consequences can be uneven."
+          },
+          {
+            "id": "extension-consequence-card-3",
+            "front": "Why distinguish immediate and long-term effects?",
+            "back": "Different mechanisms and evidence may apply."
+          },
+          {
+            "id": "extension-consequence-card-4",
+            "front": "What connects policy and outcome?",
+            "back": "A supported causal mechanism."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-consequence-diagram",
+            "title": "Removing a toll can redistribute journeys",
+            "description": "The same change can affect travellers and competing transport providers.",
+            "nodes": [
+              {
+                "id": "extension-consequence-node-1",
+                "label": "Bridge toll removed",
+                "detail": "Crossing costs fall"
+              },
+              {
+                "id": "extension-consequence-node-2",
+                "label": "More bridge use",
+                "detail": "Cart crossings increase"
+              },
+              {
+                "id": "extension-consequence-node-3",
+                "label": "Ferry receipts fall",
+                "detail": "Some journeys may move away from the ferry"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-consequence-node-1",
+                "to": "extension-consequence-node-2",
+                "label": "may encourage route switching"
+              },
+              {
+                "from": "extension-consequence-node-2",
+                "to": "extension-consequence-node-3",
+                "label": "can reduce demand for the alternative"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-history-consequence-practice-1",
+          "difficulty": "Standard",
+          "command": "Distinguish",
+          "marks": 3,
+          "prompt": "Fictional case: a rule extends shop opening hours to improve access. Records show longer opening and higher lighting costs. Identify the intended and an additional consequence.",
+          "hints": [
+            "Use the stated aim.",
+            "Separate service access from operating cost."
+          ],
+          "solution": [
+            "Longer opening is consistent with the intended increase in access opportunities.",
+            "Higher lighting costs are an additional consequence, though actual customer access still needs usage evidence."
+          ],
+          "successCriteria": [
+            "Intended access opportunity.",
+            "Additional cost.",
+            "Distinguishes opportunity from measured use."
+          ]
+        },
+        {
+          "id": "extension-myp5-history-consequence-practice-2",
+          "difficulty": "Advanced",
+          "command": "Evaluate",
+          "marks": 3,
+          "prompt": "Fictional case: a new road cuts travel time for central residents but not for residents beyond an unconnected river. Assess the claim “everyone benefited equally”.",
+          "hints": [
+            "Compare the two groups.",
+            "Avoid averaging away unequal access."
+          ],
+          "solution": [
+            "Central residents have a recorded travel-time benefit.",
+            "The unconnected group does not share that benefit, so the evidence contradicts an equal-benefit claim."
+          ],
+          "successCriteria": [
+            "Central benefit.",
+            "Unconnected-group distinction.",
+            "Rejects equality claim."
+          ]
+        }
+      ]
+    },
+    "myp5-history-continuity": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "One institution can preserve and change different features",
+            "paragraphs": [
+              "Continuity means persistence in a specified feature across a defined interval. It does not require every aspect of society to remain unchanged. An institution may keep its name and annual ceremony while changing who controls its decisions. Conversely, a new title may conceal familiar practices. Compare like evidence across time, including definitions and the groups represented. Two matching endpoint records establish similarity at those dates, but not necessarily uninterrupted stability between them. Gaps in the surviving record should therefore narrow the claim rather than be filled with an assumption that nothing happened."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-continuity-worked",
+            "prompt": "Fictional case: a guild keeps an annual procession, but its admission rules now include apprentices who were formerly excluded. Identify continuity and change.",
+            "steps": [
+              "The annual procession persists, showing continuity in that public ritual.",
+              "Admission rules change, broadening formal participation."
+            ],
+            "conclusion": "The case combines continuity in ceremony with change in membership rules."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-continuity-card-1",
+            "front": "Can continuity and change coexist?",
+            "back": "Yes, in different features of the same institution."
+          },
+          {
+            "id": "extension-continuity-card-2",
+            "front": "What must a continuity claim specify?",
+            "back": "The feature and interval being compared."
+          },
+          {
+            "id": "extension-continuity-card-3",
+            "front": "Do equal endpoint values prove an unchanged path?",
+            "back": "No; intermediate changes may be unrecorded."
+          },
+          {
+            "id": "extension-continuity-card-4",
+            "front": "Why compare definitions across records?",
+            "back": "A stable label may hide a changed meaning."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-continuity-diagram",
+            "title": "One institution can preserve and change different features",
+            "description": "Ceremony and membership are separate dimensions.",
+            "nodes": [
+              {
+                "id": "extension-continuity-node-1",
+                "label": "Earlier guild",
+                "detail": "Annual procession; apprentices excluded"
+              },
+              {
+                "id": "extension-continuity-node-2",
+                "label": "Persistent ritual",
+                "detail": "Annual procession continues"
+              },
+              {
+                "id": "extension-continuity-node-3",
+                "label": "Later guild",
+                "detail": "Procession remains; apprentices admitted"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-continuity-node-1",
+                "to": "extension-continuity-node-2",
+                "label": "ceremony persists"
+              },
+              {
+                "from": "extension-continuity-node-2",
+                "to": "extension-continuity-node-3",
+                "label": "membership rules change alongside continuity"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-history-continuity-practice-1",
+          "difficulty": "Standard",
+          "command": "Identify",
+          "marks": 3,
+          "prompt": "Fictional case: a town changes the market’s location but retains the same weekly trading day. State one continuity and one change.",
+          "hints": [
+            "Separate time from place.",
+            "Use only supplied details."
+          ],
+          "solution": [
+            "Continuity: the weekly trading day remains the same.",
+            "Change: the market location moves."
+          ],
+          "successCriteria": [
+            "Correct temporal continuity.",
+            "Correct spatial change.",
+            "Keeps dimensions distinct."
+          ]
+        },
+        {
+          "id": "extension-myp5-history-continuity-practice-2",
+          "difficulty": "Advanced",
+          "command": "Evaluate",
+          "marks": 3,
+          "prompt": "Fictional records list the same apprenticeship fee in 1880 and 1900, with no intervening data. Is “the fee never changed for twenty years” justified?",
+          "hints": [
+            "Endpoints do not show every intervening year.",
+            "State the narrower supported claim."
+          ],
+          "solution": [
+            "The records show the same fee at the two surviving dates.",
+            "They do not exclude intervening rises or falls, so uninterrupted continuity is unproven."
+          ],
+          "successCriteria": [
+            "Endpoint similarity.",
+            "Acknowledges missing years.",
+            "Qualified continuity claim."
+          ]
+        }
+      ]
+    },
+    "myp5-history-change": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Formal change can precede practical access",
+            "paragraphs": [
+              "Analysing change requires a baseline, a later comparison and a stated dimension. Pace describes how quickly something changes; extent describes how widely or deeply it changes. A rapidly passed law may take years to alter everyday practice, and implementation can differ across places. A turning point should mark a supported alteration in direction, pace or structure rather than simply being a memorable date. Compare evidence before and after the proposed point while considering trends already underway. Distinguish formal eligibility, practical access and actual participation, since progress on one does not guarantee the others."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-change-worked",
+            "prompt": "Fictional case: an education rule admits girls immediately, but classrooms are added gradually over five years. Analyse pace of formal and practical change.",
+            "steps": [
+              "Formal eligibility changes at the rule’s introduction.",
+              "Practical capacity expands gradually as classrooms are added, so access may lag behind eligibility."
+            ],
+            "conclusion": "The case shows rapid legal change alongside slower implementation."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-change-card-1",
+            "front": "What does pace measure?",
+            "back": "The speed of change."
+          },
+          {
+            "id": "extension-change-card-2",
+            "front": "What does extent measure?",
+            "back": "The scope or depth of change."
+          },
+          {
+            "id": "extension-change-card-3",
+            "front": "Does legal eligibility guarantee participation?",
+            "back": "No; practical barriers may remain."
+          },
+          {
+            "id": "extension-change-card-4",
+            "front": "What supports calling an event a turning point?",
+            "back": "Evidence of a changed direction, pace or structure."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-change-diagram",
+            "title": "Formal change can precede practical access",
+            "description": "A rule and its implementation operate on different timescales.",
+            "nodes": [
+              {
+                "id": "extension-change-node-1",
+                "label": "New admission rule",
+                "detail": "Eligibility changes immediately"
+              },
+              {
+                "id": "extension-change-node-2",
+                "label": "Capacity expansion",
+                "detail": "Classrooms added over five years"
+              },
+              {
+                "id": "extension-change-node-3",
+                "label": "Practical access",
+                "detail": "Opportunities increase as facilities become available"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-change-node-1",
+                "to": "extension-change-node-2",
+                "label": "requires implementation resources"
+              },
+              {
+                "from": "extension-change-node-2",
+                "to": "extension-change-node-3",
+                "label": "translates formal rights into usable places"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-history-change-practice-1",
+          "difficulty": "Standard",
+          "command": "Compare",
+          "marks": 3,
+          "prompt": "Fictional case: one town electrifies all streets in ten years; another electrifies one street in one month. Compare pace and extent.",
+          "hints": [
+            "Use time for pace and coverage for extent.",
+            "Avoid one unqualified ranking."
+          ],
+          "solution": [
+            "The second town’s stated project is faster in calendar time but covers only one street.",
+            "The first has broader stated coverage over a longer interval, so faster does not mean more extensive."
+          ],
+          "successCriteria": [
+            "Correct time comparison.",
+            "Correct coverage comparison.",
+            "Separates pace and extent."
+          ]
+        },
+        {
+          "id": "extension-myp5-history-change-practice-2",
+          "difficulty": "Advanced",
+          "command": "Evaluate",
+          "marks": 3,
+          "prompt": "Fictional data show literacy rising steadily before and after a school law at the same rate. Does the date alone establish a turning point in the trend?",
+          "hints": [
+            "Look for a change in the trend.",
+            "A law can matter without changing this measured slope."
+          ],
+          "solution": [
+            "The supplied series shows no change in the measured rate at that date.",
+            "The law may have other significance, but calling it a turning point in literacy growth needs additional evidence."
+          ],
+          "successCriteria": [
+            "Unchanged trend noted.",
+            "Distinguishes other significance.",
+            "Requires evidence for turning point."
+          ]
+        }
+      ]
+    },
+    "myp5-history-perspectives": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "One development can be experienced differently",
+            "paragraphs": [
+              "A historical perspective reflects a person’s position, experiences and available information, but it should not be reduced to a stereotype about their group. Different accounts may focus on different consequences rather than directly contradict each other. A merchant may describe easier deliveries while a nearby resident describes noise; both can be accurate about their own concerns. Reconstruct the choices and information available at the time before evaluating decisions. Later knowledge can explain outcomes, but attributing that knowledge to earlier actors without evidence creates hindsight error. Supported comparison uses specific details rather than invented motives."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-perspectives-worked",
+            "prompt": "Fictional teaching statements about a dock expansion: a carrier welcomes shorter unloading waits; a resident reports louder nights. Compare perspectives.",
+            "steps": [
+              "The carrier focuses on transport efficiency, while the resident focuses on living conditions.",
+              "Shorter waits and more noise can coexist, so the statements are not necessarily factually inconsistent."
+            ],
+            "conclusion": "The supplied concerns support a difference in priorities, not a claim about every carrier or resident."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-perspectives-card-1",
+            "front": "Can different perspectives both be accurate?",
+            "back": "Yes, if they describe different experiences or effects."
+          },
+          {
+            "id": "extension-perspectives-card-2",
+            "front": "What is hindsight error?",
+            "back": "Attributing later knowledge to people who did not have it."
+          },
+          {
+            "id": "extension-perspectives-card-3",
+            "front": "Why avoid group stereotypes?",
+            "back": "Individuals within a group may differ."
+          },
+          {
+            "id": "extension-perspectives-card-4",
+            "front": "How is a perspective supported?",
+            "back": "By specific supplied words, actions or circumstances."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-perspectives-diagram",
+            "title": "One development can be experienced differently",
+            "description": "Efficiency and living conditions are distinct criteria.",
+            "nodes": [
+              {
+                "id": "extension-perspectives-node-1",
+                "label": "Dock expansion",
+                "detail": "Changes activity around the harbour"
+              },
+              {
+                "id": "extension-perspectives-node-2",
+                "label": "Carrier experience",
+                "detail": "Shorter unloading waits"
+              },
+              {
+                "id": "extension-perspectives-node-3",
+                "label": "Resident experience",
+                "detail": "More nighttime noise"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-perspectives-node-1",
+                "to": "extension-perspectives-node-2",
+                "label": "improves one work process"
+              },
+              {
+                "from": "extension-perspectives-node-2",
+                "to": "extension-perspectives-node-3",
+                "label": "coexists with a different local cost"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-history-perspectives-practice-1",
+          "difficulty": "Standard",
+          "command": "Compare",
+          "marks": 3,
+          "prompt": "Fictional statements: a passenger values a faster express train; a village shopkeeper objects that it no longer stops locally. Compare the stated priorities.",
+          "hints": [
+            "Identify the benefit each person emphasises.",
+            "Neither statement proves the other is false."
+          ],
+          "solution": [
+            "The passenger prioritises journey speed; the shopkeeper prioritises local stopping access.",
+            "A faster service can reduce local access, so the disagreement concerns trade-offs as well as experience."
+          ],
+          "successCriteria": [
+            "Speed priority.",
+            "Local-access priority.",
+            "Explains coexistence and trade-off."
+          ]
+        },
+        {
+          "id": "extension-myp5-history-perspectives-practice-2",
+          "difficulty": "Advanced",
+          "command": "Evaluate",
+          "marks": 3,
+          "prompt": "A fictional 1890 planner lacks later flood records. A student argues the planner deliberately ignored a flood that occurred in 1920. Evaluate the inference.",
+          "hints": [
+            "Later occurrence is not earlier knowledge.",
+            "Intent requires evidence of contemporary awareness."
+          ],
+          "solution": [
+            "The 1920 event cannot by itself show what the planner knew in 1890.",
+            "Contemporary warnings or records would be needed to support deliberate disregard; the supplied claim uses hindsight."
+          ],
+          "successCriteria": [
+            "Chronological knowledge distinction.",
+            "Evidence needed for intent.",
+            "Identifies hindsight."
+          ]
+        }
+      ]
+    },
+    "myp5-history-significance": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Criteria change a significance judgement",
+            "paragraphs": [
+              "Historical significance is an argued judgement based on criteria, not simply a synonym for famous. An event may matter because of its scale, duration, depth of effects or what it reveals about a wider process. The relevant criteria depend on the inquiry. A small local initiative may be important for studying exclusion even if it affected fewer people than a national celebration. Later remembrance provides evidence about how subsequent societies interpreted the past, not automatic proof of contemporary importance. Explain why a chosen criterion matters and apply it consistently to the compared cases."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-significance-worked",
+            "prompt": "Fictional case: a short exhibition attracts 20,000 visitors; a small archive preserves workers’ letters for decades. Compare significance for researching everyday working life.",
+            "steps": [
+              "The exhibition has greater immediate attendance, but attendance is not the inquiry’s only criterion.",
+              "The archive’s preserved testimony may provide deeper and longer-lasting evidence of everyday work."
+            ],
+            "conclusion": "For this inquiry, evidential depth and survival can outweigh visitor numbers."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-significance-card-1",
+            "front": "Is fame the same as historical significance?",
+            "back": "No; significance requires relevant criteria."
+          },
+          {
+            "id": "extension-significance-card-2",
+            "front": "Name a duration criterion.",
+            "back": "How long effects or influence persist."
+          },
+          {
+            "id": "extension-significance-card-3",
+            "front": "What does a later memorial directly show?",
+            "back": "Later remembrance and interpretation."
+          },
+          {
+            "id": "extension-significance-card-4",
+            "front": "Why state the inquiry when ranking significance?",
+            "back": "Different questions make different effects important."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-significance-diagram",
+            "title": "Criteria change a significance judgement",
+            "description": "A large audience and durable evidence answer different questions.",
+            "nodes": [
+              {
+                "id": "extension-significance-node-1",
+                "label": "Exhibition",
+                "detail": "20,000 immediate visitors"
+              },
+              {
+                "id": "extension-significance-node-2",
+                "label": "Inquiry criterion",
+                "detail": "Evidence of everyday working life"
+              },
+              {
+                "id": "extension-significance-node-3",
+                "label": "Archive",
+                "detail": "Letters preserved for long-term research"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-significance-node-1",
+                "to": "extension-significance-node-2",
+                "label": "attendance is one possible measure"
+              },
+              {
+                "from": "extension-significance-node-2",
+                "to": "extension-significance-node-3",
+                "label": "evidential depth can support a different judgement"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-history-significance-practice-1",
+          "difficulty": "Standard",
+          "command": "Justify",
+          "marks": 3,
+          "prompt": "For a fictional inquiry into access to public reading, propose one significance criterion for a travelling library and matching evidence.",
+          "hints": [
+            "Focus on access rather than publicity.",
+            "Choose a measurable or documentable effect."
+          ],
+          "solution": [
+            "A relevant criterion is whether previously underserved communities gained sustained access.",
+            "Route records, borrowing registers and users’ accounts over time could show reach and continued use."
+          ],
+          "successCriteria": [
+            "Relevant access criterion.",
+            "Matched records.",
+            "Attention to sustained use."
+          ]
+        },
+        {
+          "id": "extension-myp5-history-significance-practice-2",
+          "difficulty": "Advanced",
+          "command": "Evaluate",
+          "marks": 3,
+          "prompt": "A fictional event receives little newspaper coverage but changes inheritance rights for a small excluded group. Does limited coverage prove insignificance?",
+          "hints": [
+            "Publicity and depth of effect differ.",
+            "Consider the affected group and the inquiry."
+          ],
+          "solution": [
+            "Limited coverage measures attention, not the depth of the legal change.",
+            "The event may be highly significant for that group’s rights; evaluate scope, duration and consequences rather than coverage alone."
+          ],
+          "successCriteria": [
+            "Publicity distinction.",
+            "Specific rights impact.",
+            "Relevant criteria."
+          ]
+        }
+      ]
+    },
+    "myp5-history-essay-construction": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Evidence shapes the scope of the thesis",
+            "paragraphs": [
+              "A historical argument should answer the question through a claim that the evidence can sustain. Each paragraph needs a clear analytical role rather than merely another event in chronological order. Use evidence to support a mechanism, comparison or qualification, and explain that connection. Counter-evidence should change the scope or strength of the judgement where appropriate. A conclusion can be decisive while remaining bounded: a reform may improve formal access substantially but leave practical barriers. Avoid treating a source’s promise as a measured outcome or extending evidence from one group to everyone without justification."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-essay-construction-worked",
+            "prompt": "Fictional packet: a public reading room removes entry fees; visits rise, but opening hours still exclude night-shift workers. Develop a thesis about access.",
+            "steps": [
+              "Fee removal and increased visits support improved access for some users.",
+              "The opening-hours barrier limits the claim for night-shift workers."
+            ],
+            "conclusion": "Thesis: access improved through lower cost and greater use, but remained uneven because time barriers persisted."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-essay-construction-card-1",
+            "front": "What should a thesis do?",
+            "back": "Answer the question with a supportable judgement."
+          },
+          {
+            "id": "extension-essay-construction-card-2",
+            "front": "What makes evidence analytical?",
+            "back": "Explaining how it supports or limits the claim."
+          },
+          {
+            "id": "extension-essay-construction-card-3",
+            "front": "What should counter-evidence affect?",
+            "back": "The scope, strength or conditions of the conclusion."
+          },
+          {
+            "id": "extension-essay-construction-card-4",
+            "front": "Can a qualified thesis still be clear?",
+            "back": "Yes; it can state both the supported improvement and its limit."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-essay-construction-diagram",
+            "title": "Evidence shapes the scope of the thesis",
+            "description": "A benefit and a barrier must both influence the final judgement.",
+            "nodes": [
+              {
+                "id": "extension-essay-construction-node-1",
+                "label": "Fee removed; visits rise",
+                "detail": "Evidence of improved affordability and use"
+              },
+              {
+                "id": "extension-essay-construction-node-2",
+                "label": "Hours exclude some workers",
+                "detail": "Evidence of continuing access limits"
+              },
+              {
+                "id": "extension-essay-construction-node-3",
+                "label": "Qualified thesis",
+                "detail": "Improvement was real but uneven"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-essay-construction-node-1",
+                "to": "extension-essay-construction-node-2",
+                "label": "test the broad access claim"
+              },
+              {
+                "from": "extension-essay-construction-node-2",
+                "to": "extension-essay-construction-node-3",
+                "label": "limit the conclusion to supported groups"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-history-essay-construction-practice-1",
+          "difficulty": "Standard",
+          "command": "Construct",
+          "marks": 3,
+          "prompt": "Fictional packet: a town installs more pumps, but records show frequent breakdowns. Write a one-sentence judgement about water access.",
+          "hints": [
+            "Separate installed capacity from reliable service.",
+            "Include both pieces of evidence."
+          ],
+          "solution": [
+            "Possible answer: The pumps expanded potential access, but frequent breakdowns limited the reliability of the improvement.",
+            "This uses the additional infrastructure as support while allowing the maintenance evidence to qualify actual service."
+          ],
+          "successCriteria": [
+            "Acknowledges added capacity.",
+            "Includes breakdown limitation.",
+            "Direct balanced judgement."
+          ]
+        },
+        {
+          "id": "extension-myp5-history-essay-construction-practice-2",
+          "difficulty": "Advanced",
+          "command": "Revise",
+          "marks": 3,
+          "prompt": "A fictional essay says “the reform helped all workers” but cites only accounts from skilled workers. Revise the claim and identify needed evidence.",
+          "hints": [
+            "Match the population in the claim to the sources.",
+            "Other worker groups need representation."
+          ],
+          "solution": [
+            "Revise to say the supplied skilled-worker accounts describe benefits for those workers.",
+            "Seek evidence from other occupational groups before extending the judgement to all workers."
+          ],
+          "successCriteria": [
+            "Narrows population.",
+            "Preserves supported benefit.",
+            "Identifies missing groups."
+          ]
+        }
+      ]
+    },
+    "myp5-history-source-based-questions": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "A service rule and an experience answer different questions",
+            "paragraphs": [
+              "Source-based answers need to distinguish agreement, difference and the scope of each source. Two sources may agree on a rule while disagreeing about its effects, or cover different dates rather than genuinely conflict. Identify the precise claim being compared and quote or paraphrase only the relevant detail. When evaluating a packet, use sources together without assuming the packet is complete. An official announcement can establish an intended change, while a user account may illuminate implementation. A small number of accounts can challenge a universal claim but rarely establishes how common an experience was across an entire population."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-source-based-questions-worked",
+            "prompt": "Fictional packet: A announces a new postal delivery every weekday; B is a resident’s diary reporting no delivery on two listed weekdays. Compare the evidence.",
+            "steps": [
+              "A states the intended schedule; B reports exceptions experienced by one resident.",
+              "The diary challenges perfect implementation of the schedule but does not show that all deliveries failed."
+            ],
+            "conclusion": "Use both to distinguish the service rule from local experience."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-source-based-questions-card-1",
+            "front": "What should a comparison identify first?",
+            "back": "The specific claim or feature shared by the sources."
+          },
+          {
+            "id": "extension-source-based-questions-card-2",
+            "front": "Can an exception challenge a universal claim?",
+            "back": "Yes, if the exception is credible and relevant."
+          },
+          {
+            "id": "extension-source-based-questions-card-3",
+            "front": "Does one exception reveal its frequency?",
+            "back": "No; broader coverage is needed."
+          },
+          {
+            "id": "extension-source-based-questions-card-4",
+            "front": "What differs between a schedule and a diary?",
+            "back": "An intended rule versus an account of experienced events."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-source-based-questions-diagram",
+            "title": "A service rule and an experience answer different questions",
+            "description": "A reported exception limits a claim of perfect implementation.",
+            "nodes": [
+              {
+                "id": "extension-source-based-questions-node-1",
+                "label": "Official schedule",
+                "detail": "Weekday postal delivery promised"
+              },
+              {
+                "id": "extension-source-based-questions-node-2",
+                "label": "Resident record",
+                "detail": "Two weekdays without delivery"
+              },
+              {
+                "id": "extension-source-based-questions-node-3",
+                "label": "Combined interpretation",
+                "detail": "Intended service existed, but reported delivery was imperfect"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-source-based-questions-node-1",
+                "to": "extension-source-based-questions-node-2",
+                "label": "compare with actual reported experience"
+              },
+              {
+                "from": "extension-source-based-questions-node-2",
+                "to": "extension-source-based-questions-node-3",
+                "label": "qualify universal implementation"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-history-source-based-questions-practice-1",
+          "difficulty": "Standard",
+          "command": "Compare",
+          "marks": 3,
+          "prompt": "Fictional packet: a theatre notice offers discounted student tickets; a student diary says tickets were discounted but sold out. State one agreement and one additional detail.",
+          "hints": [
+            "Find the shared ticket-price fact.",
+            "Separate affordability from availability."
+          ],
+          "solution": [
+            "Both sources support the existence of a student discount.",
+            "The diary adds a supply limit: discounted tickets were unavailable because they had sold out."
+          ],
+          "successCriteria": [
+            "Discount agreement.",
+            "Sold-out detail.",
+            "Distinguishes price from availability."
+          ]
+        },
+        {
+          "id": "extension-myp5-history-source-based-questions-practice-2",
+          "difficulty": "Advanced",
+          "command": "Evaluate",
+          "marks": 3,
+          "prompt": "Fictional packet: a council claims every street was cleaned daily; a dated diary reports one uncleaned street on a stated day. What can the packet establish if the diary is credible?",
+          "hints": [
+            "Test the word every.",
+            "Do not infer a town-wide failure rate from one instance."
+          ],
+          "solution": [
+            "The diary provides a counterexample to universal daily cleaning.",
+            "It does not establish how frequently streets were missed or the overall quality of the service."
+          ],
+          "successCriteria": [
+            "Challenges universal claim.",
+            "Uses relevant counterexample.",
+            "Limits frequency inference."
+          ]
+        }
+      ]
+    }
+  }
+}

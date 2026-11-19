@@ -1,3 +1,4 @@
+import { APP_ORIGIN } from '@/lib/appOrigin';
 import { Outlet, Link, useLocation } from "react-router";
 import React, { lazy, Suspense, useState, useEffect, useRef } from "react";
 import { Helmet } from "react-helmet-async";
@@ -7,7 +8,6 @@ import { useAppPreferences } from "@/contexts/AppPreferencesContext";
 import BreadcrumbsJsonLd from "@/components/BreadcrumbsJsonLd";
 import RouteErrorBoundary from "@/components/RouteErrorBoundary";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
-import CloudSaveBanner from "@/components/CloudSaveBanner";
 import ThemeToggle from "@/components/ThemeToggle";
 import PageLoader from "@/components/PageLoader";
 import GlobalStudySearch from "@/components/GlobalStudySearch";
@@ -25,6 +25,8 @@ import { BetaAccessDisplayContext } from '@/contexts/BetaAccessDisplayContext';
 
 const GlobalChatPanel = lazy(() => import("@/components/chat/GlobalChatPanel"));
 const ApexCompanion = lazy(() => import("@/components/ApexCompanion"));
+const RevisionSyncNotice = lazy(() => import("@/components/RevisionSyncNotice"));
+const CloudSaveBanner = lazy(() => import("@/components/CloudSaveBanner"));
 
 export default function SiteLayout() {
   const { isAuthenticated, logout, user } = useAuth();
@@ -172,7 +174,6 @@ export default function SiteLayout() {
         { to: "/", label: "Home" },
         { to: "/features", label: "Features" },
         { to: "/resources", label: "Library" },
-        { to: "/projects", label: "Projects" },
         { to: "/#concept-lens", label: "Try the lens" },
         { to: "/about", label: "About" },
         { to: "/login", label: "Login" },
@@ -197,7 +198,7 @@ export default function SiteLayout() {
           content="Plan revision, practise papers, review answers, and revisit topics with notes and flashcards in VertexED."
         />}
         <meta property="og:site_name" content="VertexED" />
-        <meta property="og:image" content="https://www.vertexed.app/socialpreview.jpg" />
+        <meta property="og:image" content={`${APP_ORIGIN}/socialpreview.jpg`} />
         <meta property="og:locale" content="en_US" />
         <meta name="theme-color" content={themeColor} />
       </Helmet>
@@ -397,7 +398,8 @@ export default function SiteLayout() {
         tabIndex={-1}
         className="immersive-main relative z-10 flex-1 container mx-auto px-4 md:px-6 pt-6 md:pt-8 pb-10"
       >
-        <CloudSaveBanner />
+        {isAuthenticated && <Suspense fallback={null}><CloudSaveBanner /></Suspense>}
+        {isAuthenticated && <Suspense fallback={null}><RevisionSyncNotice /></Suspense>}
         <RouteErrorBoundary resetKey={`${location.pathname}${location.search}${location.hash}`}>
           <Suspense fallback={<PageLoader label="Opening" />}>
             <Outlet />
@@ -432,7 +434,6 @@ export default function SiteLayout() {
                 <Link to="/resources" className="hover:text-foreground transition">Learning library</Link>
                 <Link to="/curricula" className="hover:text-foreground transition">Curricula</Link>
                 <Link to="/myp" className="hover:text-foreground transition">MYP 5</Link>
-                <Link to="/projects" className="hover:text-foreground transition">Projects</Link>
                 <Link to="/about" className="hover:text-foreground transition">About</Link>
                 <Link to="/privacy" className="hover:text-foreground transition">Privacy</Link>
                 <Link to="/terms" className="hover:text-foreground transition">Terms</Link>
@@ -448,7 +449,7 @@ export default function SiteLayout() {
             <a href="mailto:vertexed.25@gmail.com" className="hover:text-foreground transition">Contact</a>
             {companionEligible && (
               <Suspense fallback={null}>
-                <ApexCompanion docked={footerVisible || accessPanelVisible || location.pathname === "/user-settings" || location.pathname === "/study-zone" || location.pathname === "/saved-work" || location.pathname.startsWith("/myp") || location.pathname === "/ap" || location.pathname.startsWith("/ap/")} suspended={menuOpen || (shouldLoadGlobalChat && tutorOpen)}
+                <ApexCompanion docked={location.pathname === "/answer-reviewer" || location.pathname === "/chatbot" || footerVisible || accessPanelVisible || location.pathname === "/user-settings" || location.pathname === "/study-zone" || location.pathname === "/saved-work" || location.pathname.startsWith("/myp") || location.pathname === "/ap" || location.pathname.startsWith("/ap/")} suspended={menuOpen || (shouldLoadGlobalChat && tutorOpen)}
                   onOpenTutor={shouldLoadGlobalChat ? () => setTutorRequest((request) => request + 1) : undefined} />
               </Suspense>
             )}

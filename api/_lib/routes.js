@@ -116,6 +116,12 @@ export const ROUTES = {
     methods: ['GET', 'POST'],
     maxBodyBytes: 1024 * 1024,
   },
+  'revision-history': {
+    access: 'member',
+    loader: () => import('../_handlers/revision-history.js'),
+    methods: ['GET', 'POST'],
+    maxBodyBytes: 16 * 1024,
+  },
   transcribe: {
     access: 'member',
     loader: () => import('../_handlers/transcribe.js'),

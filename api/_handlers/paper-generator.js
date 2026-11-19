@@ -12,7 +12,7 @@ import { VERTEX_AGENTS } from '../_lib/vertexAgents.js';
 import { isBlockedImageHostname } from '../../src/lib/safeImageSrc.mjs';
 
 const OPENAI_URL = "https://api.openai.com/v1/chat/completions";
-const DEFAULT_MODEL = "gpt-4.1-mini";
+const DEFAULT_MODEL = "gpt-6-luna";
 const MAX_BASE64_BYTES = 3 * 1024 * 1024;
 const MAX_IMAGES = 10;
 const REQUEST_TIMEOUT_MS = 30_000;

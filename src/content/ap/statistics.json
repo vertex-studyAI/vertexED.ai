@@ -47,8 +47,125 @@
             "Explain how its habits may differ."
           ],
           "id": "unit-1-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "The frame is entrants at that gate during collection.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A survey asks every tenth student entering one school gate. Identify a sampling-frame limitation.",
+          "answer": "Students using other gates or arriving outside the survey period may be excluded.",
+          "checkpoints": [
+            "The frame is entrants at that gate during collection.",
+            "Not all pupils have a selection opportunity.",
+            "Generalisation to all pupils needs this limitation acknowledged."
+          ],
+          "hints": [
+            "The frame is entrants at that gate during collection.",
+            "Not all pupils have a selection opportunity."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Treatment is applied to an individual plant.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "Twenty pairs of similar plants each receive treatments A and B, randomly allocated within pairs. Identify the experimental unit and reason for pairing.",
+          "answer": "Each plant is an experimental unit; pairing controls some initial plant variation.",
+          "checkpoints": [
+            "Treatment is applied to an individual plant.",
+            "Similar plants are grouped before assignment.",
+            "Within-pair comparison reduces variation due to initial differences."
+          ],
+          "hints": [
+            "Treatment is applied to an individual plant.",
+            "Similar plants are grouped before assignment."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through design a comparison before collecting data",
+            "paragraphs": [
+              "Sampling and assignment answer different questions. Random sampling supports generalisation to the sampled population, whereas random assignment supports causal comparisons between experimental treatments. Blocking groups similar experimental units before randomising within groups to reduce irrelevant variation. A voluntary sample can still support a well-run randomised comparison among its participants, but it does not become representative merely through assignment. Confounding occurs when a competing explanation changes together with the explanatory variable. Replication reduces chance variation; it does not repair systematic selection bias or a consistently flawed measurement method."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "An experiment compares two fertilisers on plots in sunny and shaded areas. Design a block randomisation.",
+            "steps": [
+              "Separate plots into sunny and shaded blocks before assignment.",
+              "Randomly allocate each fertiliser within each block.",
+              "Compare treatment responses while accounting for block, using the same measurement procedure."
+            ],
+            "conclusion": "Each fertiliser is represented in both light conditions, reducing confounding by sunlight."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What does random assignment chiefly support?",
+            "back": "A causal comparison when the experiment is properly executed."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What does random sampling chiefly support?",
+            "back": "Generalisation to the population represented by the sampling frame."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Why block before randomising?",
+            "back": "To reduce variation from a known relevant characteristic."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Does a large biased sample remove selection bias?",
+            "back": "No."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Design a comparison before collecting data: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Eligible plots",
+                "detail": "Record sunlight before treatment."
+              },
+              {
+                "id": "n2",
+                "label": "Within-block assignment",
+                "detail": "Randomly allocate fertilisers in each sunlight group."
+              },
+              {
+                "id": "n3",
+                "label": "Treatment comparison",
+                "detail": "Separate the fertiliser contrast from the block effect."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "form comparable blocks"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "compare outcomes under the design"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-2",
@@ -90,8 +207,125 @@
             "Take the square root for standard deviation."
           ],
           "id": "unit-2-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Failure probability is 0.8.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "Five independent trials each have success probability 0.2. Find the probability of no successes.",
+          "answer": "0.8⁵=0.32768.",
+          "checkpoints": [
+            "Failure probability is 0.8.",
+            "All five trials must fail.",
+            "Multiply independent failure probabilities."
+          ],
+          "hints": [
+            "Failure probability is 0.8.",
+            "All five trials must fail."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Restrict the conditional denominator to 12.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "In 60 observations, 18 have A and 12 have B; 6 have both. Are A and B independent in this table?",
+          "answer": "No: P(A|B)=0.5 differs from P(A)=0.3.",
+          "checkpoints": [
+            "Restrict the conditional denominator to 12.",
+            "Compute 6/12=0.5.",
+            "Compare with 18/60=0.3."
+          ],
+          "hints": [
+            "Restrict the conditional denominator to 12.",
+            "Compute 6/12=0.5."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through conditional probability and repeated trials",
+            "paragraphs": [
+              "Conditional probability changes the reference group. P(A|B) uses only outcomes satisfying B in its denominator, while P(A and B) uses the whole sample space. Independence means conditioning on one event leaves the other’s probability unchanged; it is not the same as mutually exclusive events. A binomial model requires a fixed trial count, two outcomes, independent trials and constant success probability. Sampling without replacement can violate exact independence, although a small sampling fraction can justify an approximation. Expected count and standard deviation describe the distribution rather than the result of every repetition."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "In 100 records, 40 show A, 25 show B and 10 show both. Test independence.",
+            "steps": [
+              "P(A)=0.4 and P(B)=0.25.",
+              "P(A and B)=0.10 equals 0.4×0.25.",
+              "Equivalently, P(A|B)=10/25=0.4."
+            ],
+            "conclusion": "The empirical table satisfies the independence equality."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is P(A|B)?",
+            "back": "P(A and B)/P(B), when P(B)>0."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What equation characterises independence?",
+            "back": "P(A and B)=P(A)P(B)."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What is the binomial mean?",
+            "back": "np."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What is the binomial standard deviation?",
+            "back": "√[np(1−p)]."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Conditional probability and repeated trials: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Full sample space",
+                "detail": "Defines joint event probabilities."
+              },
+              {
+                "id": "n2",
+                "label": "Condition B",
+                "detail": "Restricts eligible outcomes to B."
+              },
+              {
+                "id": "n3",
+                "label": "Conditional proportion",
+                "detail": "Divide the A-and-B count by the B count."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "restrict the denominator"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "count successes within that group"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-3",
@@ -133,8 +367,125 @@
             "Rejection does not prove the alternative with certainty."
           ],
           "id": "unit-3-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "SE=√(0.4·0.6/400)=√0.0006.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "With p̂=0.4, n=400 and z*=2, calculate the approximate confidence interval.",
+          "answer": "0.4±√0.0024, approximately (0.351,0.449).",
+          "checkpoints": [
+            "SE=√(0.4·0.6/400)=√0.0006.",
+            "Multiply by 2 for the margin.",
+            "Add and subtract approximately 0.049."
+          ],
+          "hints": [
+            "SE=√(0.4·0.6/400)=√0.0006.",
+            "Multiply by 2 for the margin."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Compare 0.08 with 0.05.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "A two-sided test yields p=0.08 at α=0.05. State the decision and one conclusion it does not establish.",
+          "answer": "Fail to reject the null; this does not prove the null true.",
+          "checkpoints": [
+            "Compare 0.08 with 0.05.",
+            "The p-value exceeds the threshold.",
+            "Insufficient evidence against the null is not proof of equality."
+          ],
+          "hints": [
+            "Compare 0.08 with 0.05.",
+            "The p-value exceeds the threshold."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through estimating a population proportion",
+            "paragraphs": [
+              "A confidence interval estimates a fixed population proportion using a method with a stated long-run capture rate. After computing one interval, the frequentist confidence level is not a probability that the fixed parameter moves inside it. The normal approximation requires adequate success and failure counts and a design supporting independence. A test uses the null proportion in its standard error, whereas a common interval uses the sample proportion. A p-value measures compatibility with the null model under repeated sampling; it is neither the probability the null is true nor the effect’s practical importance."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A random sample has n=100 and 50 successes. Use z*=2 for an approximate interval, assuming independence.",
+            "steps": [
+              "p̂=0.5 and SE=√(0.5·0.5/100)=0.05.",
+              "The margin is 2(0.05)=0.10.",
+              "Both observed counts are 50, supporting the count condition."
+            ],
+            "conclusion": "The approximate interval is (0.40,0.60)."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What does a 95% confidence procedure describe?",
+            "back": "About 95% capture over repeated samples under its assumptions."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Which proportion enters a one-proportion null test standard error?",
+            "back": "The null proportion p₀."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Does a small p-value measure effect size?",
+            "back": "No."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "How does a fourfold sample increase affect the usual standard error?",
+            "back": "It halves it, holding the proportion fixed."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Estimating a population proportion: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Sampling design",
+                "detail": "Supports the population and independence assumptions."
+              },
+              {
+                "id": "n2",
+                "label": "Sample proportion",
+                "detail": "Provides an estimate and estimated uncertainty."
+              },
+              {
+                "id": "n3",
+                "label": "Confidence interval",
+                "detail": "Adds and subtracts a critical-value margin."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "compute from the observed counts"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "combine precision and confidence level"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-4",
@@ -176,8 +527,125 @@
             "Do not conclude every participant had zero change."
           ],
           "id": "unit-4-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "SE=5/5=1.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "For n=25, mean difference 2, s=5 and null difference 0, find t and degrees of freedom.",
+          "answer": "t=2; df=24.",
+          "checkpoints": [
+            "SE=5/5=1.",
+            "t=(2−0)/1=2.",
+            "df=25−1=24."
+          ],
+          "hints": [
+            "SE=5/5=1.",
+            "t=(2−0)/1=2."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Negate both endpoints.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "An interval for after-minus-before is (−4,−1). Give the corresponding interval for before-minus-after and interpret the sign.",
+          "answer": "(1,4); before is estimated higher on average.",
+          "checkpoints": [
+            "Negate both endpoints.",
+            "Reorder them from smaller to larger.",
+            "The entire reversed interval is positive."
+          ],
+          "hints": [
+            "Negate both endpoints.",
+            "Reorder them from smaller to larger."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through inference for a mean and paired change",
+            "paragraphs": [
+              "For paired data, define each difference in a consistent direction and analyse one sample of differences. The sample size is the number of complete pairs, not twice that number. A one-sample t statistic compares the sample mean with a null mean in units of estimated standard error s/√n. The t procedure accounts for estimating the population standard deviation, with n−1 degrees of freedom. Small-sample inference is sensitive to severe skewness or outliers. An interval containing zero permits no mean change as a plausible value, even when the observed mean difference is positive."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Sixteen independent paired differences have mean −3 and standard deviation 4. Use t*=2.131 for a confidence interval, assuming shape conditions.",
+            "steps": [
+              "The standard error is 4/√16=1.",
+              "The margin is 2.131.",
+              "Add and subtract it from −3."
+            ],
+            "conclusion": "The interval is (−5.131,−0.869), entirely below zero in the defined difference direction."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is the observational unit in paired inference?",
+            "back": "One complete pair represented by its difference."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What is the t standard error for a mean?",
+            "back": "s/√n."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What are the degrees of freedom?",
+            "back": "n−1."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why state the difference direction?",
+            "back": "Reversing it reverses every sign and the interpretation."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Inference for a mean and paired change: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Matched measurements",
+                "detail": "Observe before and after on each participant."
+              },
+              {
+                "id": "n2",
+                "label": "Difference sample",
+                "detail": "Subtract in one consistent direction."
+              },
+              {
+                "id": "n3",
+                "label": "Mean-change inference",
+                "detail": "Apply a one-sample procedure to the differences."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "retain the pairing"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "estimate uncertainty across independent pairs"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-5",
@@ -219,8 +687,125 @@
             "The relationship may change outside that range."
           ],
           "id": "unit-5-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Compute 4+1.5(6)=13.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "For ŷ=4+1.5x, find the prediction at x=6 and residual if y=11.",
+          "answer": "Prediction 13; residual −2.",
+          "checkpoints": [
+            "Compute 4+1.5(6)=13.",
+            "Use observed minus predicted.",
+            "Calculate 11−13=−2."
+          ],
+          "hints": [
+            "Compute 4+1.5(6)=13.",
+            "Use observed minus predicted."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Multiply response values by 100.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "A regression slope is 2 dollars per item. If response values are converted to cents, what is the new slope and does correlation change?",
+          "answer": "Slope 200 cents per item; correlation is unchanged.",
+          "checkpoints": [
+            "Multiply response values by 100.",
+            "The slope scales by the same positive factor.",
+            "A positive unit change leaves correlation unchanged."
+          ],
+          "hints": [
+            "Multiply response values by 100.",
+            "The slope scales by the same positive factor."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through regression predictions and residuals",
+            "paragraphs": [
+              "A least-squares line predicts the response from the explanatory variable within the context of the observed data. A residual is observed minus predicted response and retains the response’s units. A positive residual means the observation lies above the fitted line. Residual patterns can reveal curvature or changing spread that a single correlation coefficient hides. The slope describes predicted change per input unit, not automatically a causal effect. Extrapolation beyond the observed range adds model uncertainty. Correlation is unitless and linear; a strong nonlinear relationship can have a weak linear correlation."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A line predicts ŷ=50−2x. At x=8 the observed response is 30. Find and interpret the residual.",
+            "steps": [
+              "The prediction is 50−16=34.",
+              "Residual=30−34=−4.",
+              "The observation is four response units below the line."
+            ],
+            "conclusion": "The residual is −4 response units."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is a residual?",
+            "back": "Observed response minus predicted response."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What does a positive residual mean?",
+            "back": "The point is above the fitted line."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Does regression alone establish causation?",
+            "back": "No."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What can a curved residual pattern suggest?",
+            "back": "A straight-line model misses systematic structure."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Regression predictions and residuals: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Explanatory input",
+                "detail": "Insert x into the fitted equation."
+              },
+              {
+                "id": "n2",
+                "label": "Predicted response",
+                "detail": "ŷ is the modelled output."
+              },
+              {
+                "id": "n3",
+                "label": "Residual",
+                "detail": "Subtract ŷ from the observed response y."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "apply the regression equation"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "measure signed prediction error"
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

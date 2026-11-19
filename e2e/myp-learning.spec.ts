@@ -17,7 +17,7 @@ test('MYP hub and lesson remain usable across required viewports', async ({ page
     await expect(page.locator('.myp-coverage dl > div').filter({ has: page.getByText('Mapped topics', { exact: true }) }).locator('dd')).toHaveText('205');
     await expect(page.locator('.myp-subject-card').filter({ has: page.getByRole('heading', { name: 'Biology', exact: true }) })).toContainText('37 original practice questions');
     await expect(page.getByText('Every topic in this local map now has a detailed module.', { exact: false })).toBeVisible();
-    await expect(page.getByText('616', { exact: true })).toBeVisible();
+    await expect(page.getByText('1026', { exact: true })).toBeVisible();
     await expect(page.getByRole('group', { name: 'Filter by subject group' }).getByRole('button', { name: 'Personal Project', exact: true })).toBeVisible();
     await expect(page.getByRole('button', { name: 'Open Apex study shortcuts', exact: true })).toHaveAttribute('data-docked', 'true');
     await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);

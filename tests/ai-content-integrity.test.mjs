@@ -117,6 +117,26 @@ async function request(handler, body, output) {
 const sources = [{ id: 'course', title: 'Course notes', content: 'A checked course explanation.' }];
 const completion = content => ({ choices: [{ finish_reason: 'stop', message: { content } }] });
 
+test('topic notes validate complete structure, source references and request metadata before returning', async () => {
+  const lesson = { title: 'Equations', difficulty: 'foundation', objectives: ['Maintain equality'],
+    sections: [{ heading: 'Equality', explanation: 'Both sides represent the same value.', sourceIds: ['course'] }, { heading: 'Operations', explanation: 'Subtract the same amount from both sides.', sourceIds: ['course'] }],
+    workedExamples: [{ prompt: 'Solve x+2=5', steps: ['Subtract 2 from both sides.', 'Simplify to x=3.'], answer: '3', sourceIds: ['course'] }],
+    misconceptions: [{ misconception: 'Change one side only', correction: 'Apply the operation on both sides.', sourceIds: ['course'] }],
+    summary: ['Preserve equality.'], limitations: 'A focused original exercise.' };
+  const curriculum = { curriculum: 'SAT', board: 'College Board', syllabusVersion: '2026', subject: 'Math', unit: 'Algebra', topic: 'Equations', subtopic: '' };
+  const result = await request(notebookHandler, { mode: 'lesson', sources, curriculum }, completion(JSON.stringify(lesson)));
+  assert.equal(result.status, 200); assert.match(result.body.content, /Worked example 1/);
+  assert.equal(result.body.generation.factualStatus, 'unreviewed');
+  assert.deepEqual(result.body.generation.curriculum, curriculum);
+  assert.match(result.body.generation.requestKey, /^sha256:[a-f0-9]{64}$/);
+  const invalid = structuredClone(lesson); invalid.workedExamples[0].sourceIds = ['invented'];
+  assert.equal((await request(notebookHandler, { mode: 'lesson', sources }, completion(JSON.stringify(invalid)))).status, 502);
+  const inline = structuredClone(lesson); inline.sections[0].explanation += ' [Source: invented]';
+  assert.equal((await request(notebookHandler, { mode: 'lesson', sources }, completion(JSON.stringify(inline)))).status, 502);
+  const badCourse = await request(notebookHandler, { mode: 'lesson', sources, curriculum: { ...curriculum, syllabusVersion: '' } }, completion(JSON.stringify(lesson)));
+  assert.equal(badCourse.status, 400); assert.equal(badCourse.providerCalls, 0);
+});
+
 test('notebook retains full validated question, options, answer and explanation', async () => {
   const option = 'An option '.repeat(25);
   const question = { question: 'A detailed question '.repeat(35), type: 'mcq', options: [option, 'A different option'], answer: option, explanation: 'A detailed explanation '.repeat(40), marks: 2, sourceIds: ['course'] };

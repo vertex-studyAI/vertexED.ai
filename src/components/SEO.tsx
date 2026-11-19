@@ -1,3 +1,4 @@
+import { APP_ORIGIN } from '@/lib/appOrigin';
 import React from "react";
 import { Helmet } from "react-helmet-async";
 
@@ -24,7 +25,7 @@ function toJson(content?: object | object[]) {
   }
 }
 
-const DEFAULT_IMAGE = "https://www.vertexed.app/socialpreview.jpg";
+const DEFAULT_IMAGE = `${APP_ORIGIN}/socialpreview.jpg`;
 const SITE_NAME = "VertexED";
 
 export default function SEO({

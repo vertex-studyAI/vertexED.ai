@@ -1,3 +1,5 @@
+import type { StudyPack } from './studyPackTypes';
+
 export type MypContentSource = {
   id: string;
   title: string;
@@ -32,6 +34,7 @@ export type MypLesson = {
   workedExample: { prompt: string; steps: string[]; conclusion: string };
   misconceptions: Array<{ mistake: string; correction: string }>;
   practice: MypPracticeQuestion[];
+  studyPack?: StudyPack;
   checklist: string[];
   sourceIds: string[];
   contentStatus: 'original-editorial-draft';

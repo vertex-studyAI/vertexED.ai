@@ -1,0 +1,175 @@
+{
+  "schemaVersion": 1,
+  "checkedOn": "2026-10-21",
+  "revision": "2026-10-21.4",
+  "claim": "Local subject-resource expansion verified; not complete curricula, independent subject approval, live-account evidence or production deployment.",
+  "delivered": {
+    "newLessons": 17,
+    "newNoteWords": 4449,
+    "newQuestions": 68,
+    "newWorkedExamples": 34,
+    "newFlashcards": 85,
+    "newDiagrams": 17,
+    "totalSharedLessons": 59,
+    "totalSharedSubjects": 23,
+    "totalSharedNoteWords": 40370,
+    "totalSharedQuestions": 579,
+    "totalSharedWorkedExamples": 230,
+    "totalSharedFlashcards": 513,
+    "totalSharedDiagrams": 63,
+    "scopedSubjectEntries": 129,
+    "supplementalMypSubjects": 9,
+    "linkedDraftPathways": 138,
+    "priorityPlanningTargets": 30,
+    "completedCourses": 0
+  },
+  "checks": {
+    "focusedContent": {
+      "passed": 41,
+      "failed": 0
+    },
+    "coursePreservation": {
+      "passed": 13,
+      "failed": 0
+    },
+    "typecheck": "PASS: Node 22.22.0",
+    "scopedEslint": "PASS",
+    "copyLint": {
+      "files": 601,
+      "findings": 0
+    },
+    "contentAudit": "PASS; 245 legacy guides; 53 flagged; zero approved",
+    "generatedCoverageScopeEcosystemPathways": "PASS",
+    "gitDiffCheck": "PASS",
+    "productionModeBuild": {
+      "status": "PASS",
+      "viteSeconds": 10.71
+    },
+    "publication": {
+      "status": "PASS",
+      "javaScriptFiles": 144,
+      "checkedStrings": 50499,
+      "heldAdaptiveQuestions": 35,
+      "approvedStaticAssets": 0,
+      "heldLegacyModules": 29,
+      "heldTeachingSections": 10,
+      "checkedLegacyBodyStrings": 536,
+      "checkedCourseBodyStrings": 6853,
+      "violations": []
+    }
+  },
+  "browser": {
+    "runRelationship": "Two disjoint final runs: seven existing-foundation scenarios and three new-subject scenarios. Earlier attempts are not added to this count.",
+    "existingScenarios": 7,
+    "newSubjectScenarios": 3,
+    "sharedLessonsExercised": 59,
+    "widths": [
+      1440,
+      1024,
+      390
+    ],
+    "reducedMotion": true,
+    "keyboardNavigation": true,
+    "newAssetsHeld": 34,
+    "inspected": "Academic-writing and matrix notes/revision captures at all three widths, including conditions on matrix formulas.",
+    "correction": "Wait for the loaded heading before capture and frame the complete revision section below sticky navigation. No production UI change.",
+    "liveAccountOrProviderEvidence": false
+  },
+  "retainedNonPassingAttempts": [
+    {
+      "kind": "focused-tests",
+      "status": "40 passed / 1 failed before correction",
+      "cause": "MYP pathway metadata lacked sha256: prefix. Source bytes matched; the metadata representation was corrected.",
+      "evidence": "Initial command output in this chat; final TAP is linked separately."
+    },
+    {
+      "kind": "full-application-suite",
+      "status": "INTERRUPTED / exit 130",
+      "scope": "342 canonical test files; zero quarantined files",
+      "lastObserved": "202 completed top-level tests; then no progress in the existing access-control matrix after its auth-outage subtest.",
+      "evidence": "test-results/subject-expansion-20261021/app-tests.tap",
+      "claim": "Not a complete suite pass. No access-control implementation was changed."
+    },
+    {
+      "kind": "combined-browser",
+      "status": "INTERRUPTED / exit 130",
+      "observed": "One existing diagram scenario passed before progress stalled. No complete 10-scenario pass claimed.",
+      "evidence": "test-results/subject-expansion-20261021/browser",
+      "cleanup": "Identified localhost listener PID 73396 at port 14231 as the launched Vite server; stopped that exact process."
+    },
+    {
+      "kind": "browser-restart",
+      "status": "FAILED before tests",
+      "cause": "Port 14231 remained occupied by the interrupted test server.",
+      "evidence": "test-results/subject-expansion-20261021/browser-subject-result.json"
+    },
+    {
+      "kind": "initial-new-subject-captures",
+      "status": "3 interaction scenarios passed; visual correction required",
+      "cause": "One top-of-page capture showed loading. Revision guide captures did not show the complete guide.",
+      "evidence": "test-results/subject-expansion-20261021/browser-subject-final-result.json"
+    }
+  ],
+  "receipts": [
+    {
+      "path": "public/learning-library/manifest.json",
+      "sha256": "sha256:9ff95336ebb450b1e3b6862d89c8dcadec306497125029fd1d4d7c5179d0d690"
+    },
+    {
+      "path": "docs/evidence/subject-pathways-20261021.json",
+      "sha256": "sha256:19a3cb42a47d8da56eae746a9b70e366cf14b322dd94df304d3c7a9f673768db"
+    },
+    {
+      "path": "test-results/subject-expansion-20261021/focused-final.tap",
+      "sha256": "sha256:d4e8de83b798a03609ddf362ba7ed1fcb7a3f5f2ae52641fc777be545f072567"
+    },
+    {
+      "path": "test-results/subject-expansion-20261021/course-preservation.tap",
+      "sha256": "sha256:8e4fbd69f6f91d843c630255f6a94c3b0837764eb501ee6256ebf4cd58241a9a"
+    },
+    {
+      "path": "test-results/subject-expansion-20261021/browser-foundations-result.json",
+      "sha256": "sha256:10488b21415d189ed89be0e24adbe38a43f30f3345c0473542b0396234b91cdb",
+      "stats": {
+        "startTime": "2026-10-21T15:33:21.403Z",
+        "duration": 79883.00600000001,
+        "expected": 7,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "errors": []
+    },
+    {
+      "path": "test-results/subject-expansion-20261021/browser-corrected-result.json",
+      "sha256": "sha256:d13ba3b1ec28463daa657ac73f52df678321cfd7fb3a9b075ea617dac1554cc9",
+      "stats": {
+        "startTime": "2026-10-21T15:35:07.040Z",
+        "duration": 28361.229,
+        "expected": 3,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "errors": []
+    },
+    {
+      "path": "test-results/subject-expansion-20261021/app-tests.tap",
+      "sha256": "sha256:54584bfa055ca756e2d0b9b7cfc7770189567a5d92bb9c1e39004da52ec19818"
+    }
+  ],
+  "remaining": [
+    "Full versioned syllabus/topic denominators and all missing topic resources",
+    "Confirmed school board, tier, class, level, options and prescribed material",
+    "University institution/course selection",
+    "Independent subject and answer review",
+    "Exact-hash publication approval"
+  ],
+  "boundaries": {
+    "approvedAssets": 0,
+    "productionDeployment": false,
+    "databaseMutation": false,
+    "paidGeneration": false,
+    "unrelatedWorkPreserved": true
+  }
+}

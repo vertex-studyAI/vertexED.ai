@@ -6,7 +6,7 @@ export function accountStoragePrefixes(scope) {
   if (!scope || typeof scope !== 'string') throw new Error('An account is required.');
   return [userContentStorageKeys(scope).artifacts, plannerStorageKeys(scope).tasks, notebookStorageKeys(scope).notebooks]
     .map(key => key.slice(0, key.lastIndexOf(':') + 1))
-    .concat(`vertex_apex:${normalizeUserContentStorageScope(scope)}:`);
+    .concat(`vertex_apex:${normalizeUserContentStorageScope(scope)}:`, `vertex_foundation:${encodeURIComponent(scope)}:`);
 }
 
 export function collectAccountStorage(storage, scope) {

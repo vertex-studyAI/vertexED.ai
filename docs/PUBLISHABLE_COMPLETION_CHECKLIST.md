@@ -1,6 +1,8 @@
 # VertexED: complete-product publication checklist
 
-Updated 27 September 2026. Decision: **NO-GO until every required gate below is closed with evidence.**
+Updated 19 October 2026. Decision: **NO-GO until every required gate below is closed with evidence.**
+
+The latest repository-controlled implementation pass is recorded in [the 19 October finish report](FULL_SITE_FINISH_2026-10-19.md). It adds an evidence-state revision graph, closes the learner-attestation mastery-upgrade flaw, installs privacy-gated feedback-to-eval promotion, adds per-route bundle deltas, updates the default AI policy and removes unrelated research CI. These are material local implementations, not a production release receipt. Human content approval, isolated database replay/application, live-provider evaluation, deployment, operations and real learner journeys remain open and must not be checked off from local tests.
 
 This is the master checklist for completing the full Learning OS brief and publishing it. It supersedes the scope and completion rules of older finish/readiness lists, while preserving their historical receipts. It is not a certification that the work has been completed.
 

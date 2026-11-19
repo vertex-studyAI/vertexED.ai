@@ -3,6 +3,8 @@ import test from 'node:test';
 
 import {
   MEASURED_WEAKNESS_EVIDENCE,
+  LEARNER_ATTESTED_WEAKNESS_EVIDENCE,
+  normalizeLearnerAttestedWeaknessEntry,
   normalizeMeasuredWeaknessEntry,
   retainNewestWeaknessEntries,
   summarizeMeasuredWeakness,
@@ -16,7 +18,7 @@ const measured = (overrides = {}) => ({
   source: 'review',
   evidence: MEASURED_WEAKNESS_EVIDENCE,
   recordedAt: '2026-09-02T00:00:00.000Z',
-  verification: { method: 'official-mark-scheme', confirmedAt: '2026-09-02T00:00:00.000Z' },
+  verification: { method: 'validated-answer-key', confirmedAt: '2026-09-02T00:00:00.000Z' },
   ...overrides,
 });
 
@@ -47,7 +49,7 @@ test('legacy and heuristic-looking records are not treated as measured evidence'
   );
 });
 
-test('only valid measured-v2 scores with human or validated-key provenance enter mastery summaries', () => {
+test('only valid measured-v2 scores with validated-key provenance enter mastery summaries', () => {
   const normalized = normalizeMeasuredWeaknessEntry(measured());
   assert.equal(normalized?.score, 14);
   assert.equal(normalized?.maxScore, 20);
@@ -59,6 +61,22 @@ test('only valid measured-v2 scores with human or validated-key provenance enter
   assert.equal(normalizeMeasuredWeaknessEntry(measured({ score: Number.NaN })), null);
   assert.equal(normalizeMeasuredWeaknessEntry(measured({ verification: undefined })), null);
   assert.equal(normalizeMeasuredWeaknessEntry(measured({ verification: { method: 'ai-confidence', confirmedAt: '2026-09-02T00:00:00Z' } })), null);
+  assert.equal(normalizeMeasuredWeaknessEntry(measured({ verification: { method: 'teacher-confirmed', confirmedAt: '2026-09-02T00:00:00Z' } })), null);
+});
+
+test('learner attestations retain provenance but never enter measured mastery', () => {
+  const attested = {
+    ...measured(),
+    evidence: LEARNER_ATTESTED_WEAKNESS_EVIDENCE,
+    verification: {
+      method: 'learner-attested-teacher-check',
+      confirmedAt: '2026-09-02T00:00:00.000Z',
+      reference: 'Teacher checked paper 2',
+    },
+  };
+  assert.equal(normalizeLearnerAttestedWeaknessEntry(attested)?.evidence, LEARNER_ATTESTED_WEAKNESS_EVIDENCE);
+  assert.equal(normalizeMeasuredWeaknessEntry(attested), null);
+  assert.deepEqual(summarizeMeasuredWeakness([attested]), []);
 });
 
 test('measured summaries average attempts and ignore untrusted records', () => {

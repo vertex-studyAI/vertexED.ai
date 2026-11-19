@@ -5,7 +5,7 @@ import { countRecentAttempts, summarizeMeasuredSubjects } from '../src/lib/progr
 
 const measurement = (id, topic, score, recordedAt, extra = {}) => ({
   id, topic, score, maxScore: 100, subject: 'Biology', source: 'review', recordedAt,
-  evidence: 'measured-v2', verification: { method: 'teacher-confirmed', confirmedAt: recordedAt }, ...extra,
+  evidence: 'measured-v2', verification: { method: 'validated-answer-key', confirmedAt: recordedAt }, ...extra,
 });
 
 test('regeneration preserves other cards and the schedule of unchanged cards', () => {

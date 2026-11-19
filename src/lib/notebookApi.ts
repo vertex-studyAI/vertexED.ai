@@ -1,11 +1,13 @@
 import { authFetch } from '@/lib/apiAuth';
 import type { GroundedSourcePayload, NotebookOutputKind } from '@/lib/notebook';
+import type { CurriculumPath, GenerationRecord } from '../../contracts/notebookStudySet.js';
 
 export type NotebookGenerateRequest = {
   mode: NotebookOutputKind;
   sources: GroundedSourcePayload[];
   notebookTitle?: string;
   customPrompt?: string;
+  curriculum?: CurriculumPath | null;
 };
 
 export type NotebookGenerateResponse = {
@@ -20,6 +22,7 @@ export type NotebookGenerateResponse = {
   citations?: Array<{ id: string; title: string }>;
   sources?: Array<{ id: string; title: string }>;
   error?: string;
+  generation?: GenerationRecord;
 };
 
 export async function generateNotebookOutput(

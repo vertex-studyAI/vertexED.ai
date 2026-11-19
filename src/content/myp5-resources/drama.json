@@ -1,0 +1,1013 @@
+{
+  "subjectSlug": "drama",
+  "lessons": {
+    "myp5-drama-performance": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Performance analysis in context",
+            "paragraphs": [
+              "Performance analysis examines how voice, movement, space and timing shape relationships for an audience. Separate the spoken words from the action accompanying them: agreement in dialogue can be complicated by distance, gaze or pace. Use the supplied or observed details rather than inventing a performer’s inner state. Explain how a choice may support more than one interpretation. Where only a written moment is supplied, treat the analysis as a reading of that description. A strong account connects choices to dramatic meaning rather than listing techniques."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original fictional moment: a character says “Stay as long as you like” while moving a coat towards the door. Analyse the subtext.",
+            "steps": [
+              "The words offer an open invitation.",
+              "Moving the coat towards the exit introduces a physical suggestion of departure."
+            ],
+            "conclusion": "The mismatch may imply politeness concealing impatience, though the precise motive remains open."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is subtext in performance?",
+            "back": "Meaning implied beneath or alongside the literal dialogue."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "How can space communicate a relationship?",
+            "back": "Distance, orientation and position can suggest connection, avoidance or status."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Why avoid invented inner states?",
+            "back": "Analysis needs evidence from the performance or supplied material."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Can one gesture support several readings?",
+            "back": "Yes; context determines which interpretations are most defensible."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Performance analysis: relationships to explain",
+            "description": "Words → Action → Subtext. The contrast invites a reading beyond the literal words.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Words",
+                "detail": "Stay as long as you like."
+              },
+              {
+                "id": "node-2",
+                "label": "Action",
+                "detail": "The coat moves towards the door."
+              },
+              {
+                "id": "node-3",
+                "label": "Subtext",
+                "detail": "Invitation is complicated by a cue to leave."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "The action creates a contrast with the spoken offer."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "The contrast invites a reading beyond the literal words."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-drama-performance-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Original moment: a character says “I am listening” while turning away. Analyse a possible effect.",
+          "hints": [
+            "Compare words and orientation.",
+            "Keep the interpretation qualified."
+          ],
+          "solution": [
+            "The dialogue states attention.",
+            "Turning away may reduce visible engagement.",
+            "The mismatch can suggest distraction or avoidance, though the wider scene could supply another reason."
+          ],
+          "successCriteria": [
+            "The dialogue states attention.",
+            "Turning away may reduce visible engagement.",
+            "The mismatch can suggest distraction or avoidance, though the wider scene could supply another reason."
+          ]
+        },
+        {
+          "id": "extension-myp5-drama-performance-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A response lists “voice, gesture, levels” without examples. Explain three improvements.",
+          "hints": [
+            "Use a specific moment.",
+            "Connect each relevant choice to meaning."
+          ],
+          "solution": [
+            "Identify an observed vocal or physical choice.",
+            "Explain its relationship to the character interaction.",
+            "Use only techniques that contribute to the argument rather than listing every available term."
+          ],
+          "successCriteria": [
+            "Identify an observed vocal or physical choice.",
+            "Explain its relationship to the character interaction.",
+            "Use only techniques that contribute to the argument rather than listing every available term."
+          ]
+        }
+      ]
+    },
+    "myp5-drama-rehearsal-documentation": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Rehearsal documentation in context",
+            "paragraphs": [
+              "Rehearsal documentation makes a performance decision traceable. Record the scene or cue, the issue, the changed choice and what observers noticed. Distinguish a planned effect from a demonstrated response. A short video or blocking sketch can support memory, but annotate why the trial mattered. Keep unsuccessful versions when they explain a later decision. Clear records also help an ensemble reproduce timing and spacing consistently. Avoid treating a log as a list of hours; its value lies in showing how evidence informed the development of the scene."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original rehearsal: two characters interrupt simultaneously, making both lines unclear. A trial delays B’s entry until A finishes one key word. Document it.",
+            "steps": [
+              "Record the original overlap and the exact revised cue: B begins after A says “tomorrow”.",
+              "Note whether observers can now hear the key information and whether the intended urgency remains."
+            ],
+            "conclusion": "The record links an audible problem, a reproducible cue and two criteria for evaluating the change."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What makes a rehearsal cue reproducible?",
+            "back": "A clear word, action or timing reference shared by performers."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why record intended and observed effects separately?",
+            "back": "An intention is not evidence that the effect occurred."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What should accompany a rehearsal clip?",
+            "back": "The version, issue and reason for the trial."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why retain an unsuccessful version?",
+            "back": "It can explain what was learned and why a later choice was made."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Rehearsal documentation: relationships to explain",
+            "description": "Issue → Trial → Observation. The observation tests both communication and dramatic intention.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Issue",
+                "detail": "Simultaneous lines obscure information."
+              },
+              {
+                "id": "node-2",
+                "label": "Trial",
+                "detail": "B enters after a specified word."
+              },
+              {
+                "id": "node-3",
+                "label": "Observation",
+                "detail": "Check clarity and retained urgency."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "The issue determines the cue adjustment."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "The observation tests both communication and dramatic intention."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-drama-rehearsal-documentation-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A log says “We improved the scene”. Rewrite it for a fictional change in actor spacing.",
+          "hints": [
+            "State what moved.",
+            "Add observed effect and next check."
+          ],
+          "solution": [
+            "In this fictional log, Version 2 increased the gap between the speakers from one metre to two metres while keeping them oriented towards each other.",
+            "Observers reported that the disagreement was easier to follow visually.",
+            "Next, check that both voices remain audible from the side seats."
+          ],
+          "successCriteria": [
+            "In this fictional log, Version 2 increased the gap between the speakers from one metre to two metres while keeping them oriented towards each other.",
+            "Observers reported that the disagreement was easier to follow visually.",
+            "Next, check that both voices remain audible from the side seats."
+          ]
+        },
+        {
+          "id": "extension-myp5-drama-rehearsal-documentation-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Why should a record include a change that failed to build tension?",
+          "hints": [
+            "Failure is evidence.",
+            "Connect it to the next decision."
+          ],
+          "solution": [
+            "It shows which choice was tested.",
+            "It prevents the group from falsely presenting development as a straight path to success.",
+            "The observed limit can justify a different trial in timing, focus or spacing."
+          ],
+          "successCriteria": [
+            "It shows which choice was tested.",
+            "It prevents the group from falsely presenting development as a straight path to success.",
+            "The observed limit can justify a different trial in timing, focus or spacing."
+          ]
+        }
+      ]
+    },
+    "myp5-drama-creative-process": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Creative process in context",
+            "paragraphs": [
+              "Devising and developing drama involves exploring a question through playable choices. Begin with an intention or relationship, then test dialogue, action, space or timing that can make it visible. Keep constraints clear: a brief improvisation can reveal possibilities without becoming the final script. Compare versions using specific observations rather than choosing only the most entertaining rehearsal. Ensemble decisions should be shared and reproducible. When a choice involves movement, use the agreed classroom procedures and avoid introducing contact or risky actions without the appropriate preparation."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original dialogue: A asks “Did you keep it?” B replies “Of course.” Explore reassurance and concealment without changing the words.",
+            "steps": [
+              "For reassurance, B can answer promptly with steady attention towards A.",
+              "For concealment, B can pause and redirect attention to an unrelated object before replying."
+            ],
+            "conclusion": "The same dialogue permits contrasting readings through timing and focus; test which serves the intended scene."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What makes a dramatic idea playable?",
+            "back": "It can be expressed through actions, voice, space or timing."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why compare versions?",
+            "back": "The comparison reveals how choices change meaning."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Does an improvisation have to become the final scene?",
+            "back": "No; it can be an exploratory trial."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What supports ensemble consistency?",
+            "back": "Shared decisions, clear cues and repeatable blocking."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Creative process: relationships to explain",
+            "description": "Question → Trials → Selection. Observed differences guide development.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Question",
+                "detail": "Is B reassuring or concealing?"
+              },
+              {
+                "id": "node-2",
+                "label": "Trials",
+                "detail": "Prompt attention versus delayed redirected focus."
+              },
+              {
+                "id": "node-3",
+                "label": "Selection",
+                "detail": "Choose the reading that serves the scene."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "The relationship determines which choices to vary."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "Observed differences guide development."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-drama-creative-process-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A group wants to show a growing disagreement using unchanged dialogue. Propose two variables to explore and one comparison criterion.",
+          "hints": [
+            "Use timing or space.",
+            "Judge a visible relationship."
+          ],
+          "solution": [
+            "Explore longer interruptions or shorter response gaps.",
+            "Explore increasing distance or changing orientation.",
+            "Compare whether observers can identify the intended escalation without needing an explanation."
+          ],
+          "successCriteria": [
+            "Explore longer interruptions or shorter response gaps.",
+            "Explore increasing distance or changing orientation.",
+            "Compare whether observers can identify the intended escalation without needing an explanation."
+          ]
+        },
+        {
+          "id": "extension-myp5-drama-creative-process-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A group chooses a version only because it was funny in rehearsal, though the intention is uncertainty. Evaluate.",
+          "hints": [
+            "Compare reaction with intention.",
+            "Keep useful discoveries without assuming success."
+          ],
+          "solution": [
+            "Laughter is a real response but may not serve the intended uncertainty.",
+            "Identify which choice produced it and whether it supports or distracts from the scene.",
+            "Revise or change the intention explicitly rather than claiming the original aim was met automatically."
+          ],
+          "successCriteria": [
+            "Laughter is a real response but may not serve the intended uncertainty.",
+            "Identify which choice produced it and whether it supports or distracts from the scene.",
+            "Revise or change the intention explicitly rather than claiming the original aim was met automatically."
+          ]
+        }
+      ]
+    },
+    "myp5-drama-contextual-research": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Contextual research in context",
+            "paragraphs": [
+              "Dramatic context can include performance space, audience relationship, conventions and the circumstances described by reliable sources. Connect research to specific staging questions rather than copying a style as decoration. A production photograph shows one moment and angle, not the full performance. A programme may explain a stated intention but cannot establish how every audience responded. Distinguish historical evidence from a contemporary classroom adaptation. A useful research note identifies the source, the relevant feature and how it informs a choice in your own scene."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original fictional production note: a scene was performed in the round, with viewers on all sides. A rehearsal sketch places one actor motionless facing one direction. Identify a staging inquiry.",
+            "steps": [
+              "Viewers behind the actor may receive less facial information than those in front.",
+              "Test changes of orientation motivated by the interaction and gather observations from several sides."
+            ],
+            "conclusion": "The space creates a practical question about communication; it does not require constant turning without dramatic purpose."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What does in the round mean?",
+            "back": "The audience surrounds the performance area."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What limitation does a production photo have?",
+            "back": "It records one moment and viewpoint."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "How should a contextual influence be used?",
+            "back": "Connect a sourced feature to a specific choice and explain the adaptation."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Does a programme’s intention prove reception?",
+            "back": "No; audience response requires separate evidence."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Contextual research: relationships to explain",
+            "description": "Context → Communication issue → Rehearsal question. The issue directs a purposeful staging trial.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Context",
+                "detail": "Audience on all sides."
+              },
+              {
+                "id": "node-2",
+                "label": "Communication issue",
+                "detail": "One fixed facing privileges one viewpoint."
+              },
+              {
+                "id": "node-3",
+                "label": "Rehearsal question",
+                "detail": "How can motivated orientation share information?"
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "The spatial arrangement changes sightlines."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "The issue directs a purposeful staging trial."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-drama-contextual-research-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A fictional production uses a narrow doorway as the only entrance. Suggest a relevant rehearsal question.",
+          "hints": [
+            "Consider timing and visibility.",
+            "Do not invent historical symbolism."
+          ],
+          "solution": [
+            "Investigate how entrances affect the scene’s pace and focus.",
+            "Check whether performers and important actions remain visible.",
+            "Use the doorway’s supplied practical constraint before proposing any symbolic meaning."
+          ],
+          "successCriteria": [
+            "Investigate how entrances affect the scene’s pace and focus.",
+            "Check whether performers and important actions remain visible.",
+            "Use the doorway’s supplied practical constraint before proposing any symbolic meaning."
+          ]
+        },
+        {
+          "id": "extension-myp5-drama-contextual-research-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A learner claims one review proves every audience disliked a production. Evaluate.",
+          "hints": [
+            "Identify the source’s scope.",
+            "Separate one judgement from universal reception."
+          ],
+          "solution": [
+            "One review records one critic’s account.",
+            "It does not establish every audience member’s response.",
+            "Compare additional evidence and report the review as a particular perspective."
+          ],
+          "successCriteria": [
+            "One review records one critic’s account.",
+            "It does not establish every audience member’s response.",
+            "Compare additional evidence and report the review as a particular perspective."
+          ]
+        }
+      ]
+    },
+    "myp5-drama-experimentation": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Experimentation in context",
+            "paragraphs": [
+              "Dramatic experimentation compares choices in order to understand their effects. State what changes and what remains similar: the same line can be delivered with a different pause, pace or focus. Record the intended effect separately from observations by viewers. A trial with no audience feedback can still document the performers’ experience, but it cannot establish reception. Varying several elements at once may be artistically productive while limiting causal claims. Use a focused comparison when you need to know which choice made the difference."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original line: “You remembered.” Compare emphasis on “you” with emphasis on “remembered”.",
+            "steps": [
+              "Emphasising “you” can foreground surprise about who remembered.",
+              "Emphasising “remembered” can foreground the act of remembering rather than forgetting."
+            ],
+            "conclusion": "The stress changes the implied contrast; context and observation are needed to judge the final dramatic effect."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What does vocal stress do?",
+            "back": "It gives prominence to a word and can change the implied contrast."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why keep dialogue constant in a trial?",
+            "back": "It helps focus comparison on the performance choice being varied."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What can performer reflection establish?",
+            "back": "Their experience and observations, not every audience’s response."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "When are causal claims limited?",
+            "back": "When several relevant choices change at the same time."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Experimentation: relationships to explain",
+            "description": "Fixed line → Variable → Different implication. The implied contrast changes the possible subtext.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Fixed line",
+                "detail": "You remembered."
+              },
+              {
+                "id": "node-2",
+                "label": "Variable",
+                "detail": "Stress on “you” or “remembered”."
+              },
+              {
+                "id": "node-3",
+                "label": "Different implication",
+                "detail": "Unexpected person or unexpected action."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "Changing stress shifts the focus of contrast."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "The implied contrast changes the possible subtext."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-drama-experimentation-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Original line: “I thought you knew.” Compare a pause after “thought” with a pause after “you”.",
+          "hints": [
+            "Read each grouping aloud in rehearsal.",
+            "Explain a possible emphasis, not a guaranteed response."
+          ],
+          "solution": [
+            "A pause after “thought” can foreground uncertainty in the speaker’s assumption.",
+            "A pause after “you” can place emphasis on the other person before completing the claim.",
+            "These are possible readings to test in the scene, not fixed meanings of pauses."
+          ],
+          "successCriteria": [
+            "A pause after “thought” can foreground uncertainty in the speaker’s assumption.",
+            "A pause after “you” can place emphasis on the other person before completing the claim.",
+            "These are possible readings to test in the scene, not fixed meanings of pauses."
+          ]
+        },
+        {
+          "id": "extension-myp5-drama-experimentation-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A trial changes pace, volume and posture and observers report more tension. What is supported?",
+          "hints": [
+            "Keep the outcome and limit separate.",
+            "Identify a possible follow-up."
+          ],
+          "solution": [
+            "The combined version was perceived as more tense by those observers.",
+            "The evidence does not isolate which changed element caused the response.",
+            "A focused trial can vary one element if the group needs that distinction."
+          ],
+          "successCriteria": [
+            "The combined version was perceived as more tense by those observers.",
+            "The evidence does not isolate which changed element caused the response.",
+            "A focused trial can vary one element if the group needs that distinction."
+          ]
+        }
+      ]
+    },
+    "myp5-drama-artistic-intention": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Artistic intention in context",
+            "paragraphs": [
+              "A dramatic intention specifies a relationship, question or change that the scene will explore. Link it to visible or audible choices, such as who initiates movement, who controls a pause or how distance changes. Avoid relying on private backstory that the audience has no way to encounter. Intention is not a guarantee of interpretation; viewers may read the same moment differently. A clear intention helps rehearsal decisions because alternatives can be compared against it. If the scene develops in another direction, record and justify the revised aim."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original line: “Keep the key.” The speaker places it midway between two chairs. Propose an intention about shared responsibility.",
+            "steps": [
+              "The midpoint placement avoids assigning the key entirely to either person.",
+              "A pause before either reaches for it can make the question of responsibility visible."
+            ],
+            "conclusion": "The scene can explore an unsettled transfer of responsibility through position and timing without explanatory backstory."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What makes an intention theatrically useful?",
+            "back": "It connects a relationship or change to playable choices."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why is invisible backstory insufficient?",
+            "back": "The audience needs evidence in the performance to interpret it."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Can an intention evolve?",
+            "back": "Yes, when the development and reason are documented."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "How does intention guide rehearsal?",
+            "back": "It provides a basis for comparing alternative choices."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Artistic intention: relationships to explain",
+            "description": "Intention → Object placement → Timing. The pause allows the unresolved responsibility to become noticeable.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Intention",
+                "detail": "Explore shared responsibility."
+              },
+              {
+                "id": "node-2",
+                "label": "Object placement",
+                "detail": "The key lies between two chairs."
+              },
+              {
+                "id": "node-3",
+                "label": "Timing",
+                "detail": "Neither immediately takes it."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "The spatial choice makes ownership unresolved."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "The pause allows the unresolved responsibility to become noticeable."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-drama-artistic-intention-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Improve “Our scene is about friendship” using an intention about unequal listening.",
+          "hints": [
+            "Name the relationship being explored.",
+            "Connect it to a playable choice."
+          ],
+          "solution": [
+            "The scene aims to explore a friendship in which one person’s concerns receive less attention.",
+            "Repeated interruptions can make the imbalance visible.",
+            "A later uninterrupted response can test whether the relationship changes."
+          ],
+          "successCriteria": [
+            "The scene aims to explore a friendship in which one person’s concerns receive less attention.",
+            "Repeated interruptions can make the imbalance visible.",
+            "A later uninterrupted response can test whether the relationship changes."
+          ]
+        },
+        {
+          "id": "extension-myp5-drama-artistic-intention-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A group claims “Everyone will understand that the character is guilty” from one pause. Evaluate.",
+          "hints": [
+            "A pause can have several meanings.",
+            "Add or test supporting evidence."
+          ],
+          "solution": [
+            "A pause may suggest guilt, uncertainty, surprise or other states.",
+            "One cue cannot guarantee a universal interpretation.",
+            "Use the wider pattern of actions and dialogue, then gather feedback on the intended reading."
+          ],
+          "successCriteria": [
+            "A pause may suggest guilt, uncertainty, surprise or other states.",
+            "One cue cannot guarantee a universal interpretation.",
+            "Use the wider pattern of actions and dialogue, then gather feedback on the intended reading."
+          ]
+        }
+      ]
+    },
+    "myp5-drama-stage-performance": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Performance in context",
+            "paragraphs": [
+              "Stage performance requires choices that remain clear and repeatable under the actual spatial and timing conditions. Sightlines affect whether viewers can see an important action. Cues coordinate speech and movement, while transitions maintain the scene’s focus. A technically accurate cue can still hide a key object or draw attention to the wrong place. Check the scene from different audience positions and use agreed marks or reference points where helpful. All movement should follow the classroom’s established procedures; communication does not require unsafe proximity or contact."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original sequence: A places a folded note on a chair, steps aside, then B reads it. From one side, A’s bag hides the note. Propose a correction.",
+            "steps": [
+              "Move the bag to an agreed position that leaves the note visible without changing the intended action.",
+              "Rehearse the complete placement and reading sequence, checking from the obstructed side as well as the front."
+            ],
+            "conclusion": "The correction targets a sightline problem and verifies it within the actual sequence."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is a sightline?",
+            "back": "The line of view from an audience position to the action."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why rehearse transitions?",
+            "back": "Meaning and timing can break down between otherwise successful moments."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What is a cue?",
+            "back": "A shared signal for a performer’s next action or line."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why check more than the front view?",
+            "back": "Other audience positions may miss information visible from the centre."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Performance: relationships to explain",
+            "description": "Key action → Obstruction → Correction. The identified obstruction directs a specific change.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Key action",
+                "detail": "A note is placed on a chair."
+              },
+              {
+                "id": "node-2",
+                "label": "Obstruction",
+                "detail": "A bag blocks one side’s view."
+              },
+              {
+                "id": "node-3",
+                "label": "Correction",
+                "detail": "Reposition the bag and check the full sequence."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "The action’s meaning depends on visibility."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "The identified obstruction directs a specific change."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-drama-stage-performance-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A performer always hits the spoken cue, but turns away during the crucial line. What should rehearsal check?",
+          "hints": [
+            "Timing is not the only criterion.",
+            "Consider communication from audience positions."
+          ],
+          "solution": [
+            "Keep the accurate cue as a strength.",
+            "Check audibility and visibility when the performer turns.",
+            "Test a motivated orientation that preserves the scene while communicating the line clearly."
+          ],
+          "successCriteria": [
+            "Keep the accurate cue as a strength.",
+            "Check audibility and visibility when the performer turns.",
+            "Test a motivated orientation that preserves the scene while communicating the line clearly."
+          ]
+        },
+        {
+          "id": "extension-myp5-drama-stage-performance-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A scene works in a large rehearsal room but moves to a smaller marked area. Explain a necessary check.",
+          "hints": [
+            "Space changes relationships.",
+            "Rehearse the actual constraints."
+          ],
+          "solution": [
+            "Recheck paths, distances and object placement within the smaller area.",
+            "Confirm sightlines and cues from the new audience positions.",
+            "Do not assume the earlier blocking transfers unchanged."
+          ],
+          "successCriteria": [
+            "Recheck paths, distances and object placement within the smaller area.",
+            "Confirm sightlines and cues from the new audience positions.",
+            "Do not assume the earlier blocking transfers unchanged."
+          ]
+        }
+      ]
+    },
+    "myp5-drama-evaluation": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Evaluation in context",
+            "paragraphs": [
+              "Dramatic evaluation compares intention with evidence from the performed work. Describe particular moments and distinguish technical execution from communicated meaning. A cue may be accurate while a relationship remains unclear to viewers. Feedback should be reported with its scope: a few observers can offer useful evidence without representing every audience. Explain differences between responses and identify a justified next development. Avoid replacing the original intention after the performance simply to make every outcome look successful; any change of aim needs an honest account."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original feedback: a scene aims to show increasing cooperation. Four observers notice it after the shared task; two read the final silence as renewed conflict. The performers meet all timing cues. Evaluate.",
+            "steps": [
+              "The timing evidence supports technical consistency.",
+              "The mixed readings suggest cooperation is communicated to some observers, while the final silence creates ambiguity for others."
+            ],
+            "conclusion": "The next rehearsal could test the final focus or spacing while preserving the successful timing."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is the difference between execution and communication?",
+            "back": "Execution concerns carrying out choices; communication concerns how meaning is conveyed or received."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why report mixed feedback?",
+            "back": "It prevents an unsupported claim of unanimous success."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What should a proposed improvement target?",
+            "back": "A specific evidenced gap between intention and outcome."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Can timing accuracy alone establish dramatic success?",
+            "back": "No; meaning and relationships require separate evaluation."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Evaluation: relationships to explain",
+            "description": "Intention → Evidence → Judgement. The evidence supports separate judgements rather than one blanket verdict.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Intention",
+                "detail": "Show increasing cooperation."
+              },
+              {
+                "id": "node-2",
+                "label": "Evidence",
+                "detail": "Cues are accurate; final silence receives mixed readings."
+              },
+              {
+                "id": "node-3",
+                "label": "Judgement",
+                "detail": "Technical success with unresolved interpretive ambiguity."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "The intention frames which feedback matters."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "The evidence supports separate judgements rather than one blanket verdict."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-drama-evaluation-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A group evaluates only costume quality, though its aim concerns a change in trust. What should be added?",
+          "hints": [
+            "Return to the intended relationship.",
+            "Use performance evidence."
+          ],
+          "solution": [
+            "Analyse the moments intended to show trust changing.",
+            "Refer to voice, action, timing or space that made the change perceptible.",
+            "Use relevant audience observations rather than assuming costume quality establishes the relationship."
+          ],
+          "successCriteria": [
+            "Analyse the moments intended to show trust changing.",
+            "Refer to voice, action, timing or space that made the change perceptible.",
+            "Use relevant audience observations rather than assuming costume quality establishes the relationship."
+          ]
+        },
+        {
+          "id": "extension-myp5-drama-evaluation-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Two observers miss a key gesture. Suggest a revision and a way to evaluate it.",
+          "hints": [
+            "Identify whether visibility or meaning is the problem.",
+            "Test the same moment."
+          ],
+          "solution": [
+            "Check their viewing positions and what they could see.",
+            "Adjust placement, timing or focus if the gesture was obscured.",
+            "Repeat the scene and ask observers what changed in the relationship without telling them the intended answer first."
+          ],
+          "successCriteria": [
+            "Check their viewing positions and what they could see.",
+            "Adjust placement, timing or focus if the gesture was obscured.",
+            "Repeat the scene and ask observers what changed in the relationship without telling them the intended answer first."
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -62,7 +62,7 @@ export default function LearningCommandCenter({
                   <div><dt>03 / Next retry</dt><dd>{dueLabel(nextRetry.dueAt)}</dd><p>Return to this topic in Answer Reviewer</p></div>
                 </dl>
               </>
-            ) : <div className="measured-retry-empty"><h3>No measured retries scheduled yet.</h3><p>Confirm a review or complete a validated assessment before a retry appears here.</p><Link to="/paper-maker" className="text-link">Open Paper Maker <ArrowRight className="h-4 w-4" aria-hidden /></Link></div>}
+            ) : <div className="measured-retry-empty"><h3>No measured retries scheduled yet.</h3><p>Complete an independently validated assessment before a measured retry appears here.</p><Link to="/paper-maker" className="text-link">Open Paper Maker <ArrowRight className="h-4 w-4" aria-hidden /></Link></div>}
           </article>
 
           <article className="rounded-2xl border border-border/60 bg-background/45 p-4">

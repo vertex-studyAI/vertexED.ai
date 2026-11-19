@@ -2,11 +2,11 @@
 /**
  * Live deployment smoke tests.
  * Usage: node scripts/smoke-deploy.mjs
- *        SMOKE_BASE_URL=https://www.vertexed.app node scripts/smoke-deploy.mjs
+ *        SMOKE_BASE_URL=https://vertex-ed-ai.vercel.app node scripts/smoke-deploy.mjs
  *        EXPECTED_VERTEXED_REVISION=<git-sha> node scripts/smoke-deploy.mjs
  */
 
-const BASE_URL = (process.env.SMOKE_BASE_URL || 'https://www.vertexed.app').replace(/\/$/, '');
+const BASE_URL = (process.env.SMOKE_BASE_URL || 'https://vertex-ed-ai.vercel.app').replace(/\/$/, '');
 const TIMEOUT_MS = Number(process.env.SMOKE_TIMEOUT_MS || 20_000);
 const READINESS_TOKEN = (process.env.HEALTH_READINESS_TOKEN || '').trim();
 

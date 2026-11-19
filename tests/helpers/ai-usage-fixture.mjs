@@ -1,7 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import { runAiUsageContext } from '../../api/_lib/aiUsage.js';
 export const AI_USER = '11111111-1111-4111-8111-111111111111';
-export const AI_NOW = Date.parse('2026-10-16T12:00:00Z');
+export const AI_NOW = Date.parse('2026-10-19T12:00:00Z');
 export function usageFixture(overrides = {}) {
   const calls = [];
   const reservations = new Map();

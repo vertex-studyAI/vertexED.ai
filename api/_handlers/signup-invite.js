@@ -1,3 +1,4 @@
+import { resolveAppOrigin } from '../../contracts/appOrigin.js';
 import { readJsonBody, rejectOversizedJsonBody } from '../_lib/auth.js';
 import { getSupabaseAdmin } from '../_lib/supabaseAdmin.js';
 import { hasServerSupabaseConfig } from '../_lib/serverSupabase.js';
@@ -8,7 +9,7 @@ import { createApprovedWaitlistUser, createTeamInvitedUser } from '../_lib/waitl
 import { getClientIp, normalizeEmail, validatePassword } from '../_lib/security.js';
 
 function getTeamInviteRedirectUrl() {
-  const appUrl = process.env.APP_URL || process.env.SITE_URL || 'https://www.vertexed.app';
+  const appUrl = resolveAppOrigin(process.env);
   return `${appUrl.replace(/\/+$/, '')}/auth/callback?invite=1`;
 }
 

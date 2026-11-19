@@ -1,6 +1,7 @@
+import { resolveAppOrigin } from '../../contracts/appOrigin.js';
 import { fetchWithTimeout } from './fetchWithTimeout.js';
 
-const APP_URL = process.env.APP_URL || process.env.SITE_URL || 'https://www.vertexed.app';
+const APP_URL = resolveAppOrigin(process.env);
 
 /**
  * Send waitlist approval email via Resend when configured.
@@ -8,7 +9,7 @@ const APP_URL = process.env.APP_URL || process.env.SITE_URL || 'https://www.vert
  */
 export async function sendWaitlistApprovedEmail(email, inviteLink, signupMethod = "email") {
   const apiKey = process.env.RESEND_API_KEY;
-  const from = process.env.RESEND_FROM || 'VertexED <onboarding@vertexed.app>';
+  const from = process.env.RESEND_FROM;
   const signupUrl = inviteLink || `${APP_URL.replace(/\/$/, '')}/signup`;
 
   const subject = 'Your VertexED waitlist spot is ready';
@@ -20,6 +21,8 @@ export async function sendWaitlistApprovedEmail(email, inviteLink, signupMethod 
     console.info('[notify] Waitlist approval email not sent because RESEND_API_KEY is not configured.');
     return { sent: false, reason: 'RESEND_API_KEY not configured' };
   }
+
+  if (!from) return { sent: false, reason: 'RESEND_FROM not configured' };
 
   try {
     const response = await fetchWithTimeout('https://api.resend.com/emails', {

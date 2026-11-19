@@ -47,8 +47,125 @@
             "Name how the parameter varies."
           ],
           "id": "unit-1-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Another attempt requires used<5.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A rule allows at most five attempts. Give boundary tests for attempts already used 4,5,6 if another attempt is allowed only when fewer than five have been used.",
+          "answer": "Allow at 4; deny at 5 and 6.",
+          "checkpoints": [
+            "Another attempt requires used<5.",
+            "Four used leaves one available.",
+            "Five or six used meets or exceeds the limit."
+          ],
+          "hints": [
+            "Another attempt requires used<5.",
+            "Four used leaves one available."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "A one-element list would not expose the error.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "A total(prices) procedure incorrectly returns the first price. Give a smallest nonempty list that exposes the error and the expected output.",
+          "answer": "For [2,3], the expected total is 5, not 2.",
+          "checkpoints": [
+            "A one-element list would not expose the error.",
+            "Use two nonzero values.",
+            "Sum both entries to define the oracle."
+          ],
+          "hints": [
+            "A one-element list would not expose the error.",
+            "Use two nonzero values."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through iterative development with observable tests",
+            "paragraphs": [
+              "A requirement describes externally observable behaviour, while an implementation describes how that behaviour is produced. Tests become stronger when their expected outputs are decided from the requirement before running the code. Boundary cases expose ambiguity in phrases such as above, at least and no more than. Iteration uses test evidence to refine both code and requirements. A procedure can hide repeated details behind a meaningful interface, but its parameters and return value still need clear meanings. Passing a few tests supports those cases; it does not prove correctness for every possible input."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A delivery rule charges 4 units for baskets below 30 and zero otherwise. Design three tests.",
+            "steps": [
+              "Choose basket values 29,30,31 around the threshold.",
+              "Expected fees are 4,0,0 because 30 qualifies.",
+              "A failing test at 30 would expose use of > rather than ≥."
+            ],
+            "conclusion": "The tests distinguish the exact boundary rule."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What makes a test oracle useful?",
+            "back": "It specifies the expected result independently of the implementation."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why test the exact threshold?",
+            "back": "It distinguishes strict from inclusive comparisons."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What is procedural abstraction?",
+            "back": "Encapsulating details behind a named operation with an interface."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Do passing examples prove universal correctness?",
+            "back": "No."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Iterative development with observable tests: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Requirement",
+                "detail": "Defines fees and threshold meaning."
+              },
+              {
+                "id": "n2",
+                "label": "Test oracle",
+                "detail": "Lists expected outputs at representative boundaries."
+              },
+              {
+                "id": "n3",
+                "label": "Implementation revision",
+                "detail": "Use observed mismatches to repair behaviour."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "derive expectations before execution"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "compare actual results with the oracle"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-2",
@@ -90,8 +207,125 @@
             "Exact reconstruction is the deciding requirement."
           ],
           "id": "unit-2-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Four bits provide only 16 patterns.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "What is the minimum bit count for 17 distinct symbols?",
+          "answer": "5 bits.",
+          "checkpoints": [
+            "Four bits provide only 16 patterns.",
+            "Five bits provide 32 patterns.",
+            "Choose the smallest sufficient count."
+          ],
+          "hints": [
+            "Four bits provide only 16 patterns.",
+            "Five bits provide 32 patterns."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Pixel count is width times height.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "An image doubles both width and height at fixed bits per pixel. How does uncompressed pixel storage change?",
+          "answer": "It quadruples.",
+          "checkpoints": [
+            "Pixel count is width times height.",
+            "Each dimension contributes a factor of 2.",
+            "Bits per pixel remain unchanged, so total scales by 4."
+          ],
+          "hints": [
+            "Pixel count is width times height.",
+            "Each dimension contributes a factor of 2."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through bits, compression and meaningful data",
+            "paragraphs": [
+              "Bits represent patterns; meaning comes from the agreed encoding. The same pattern can represent a number, colour or character under different conventions. An n-bit unsigned integer has 2ⁿ possible patterns and a maximum value of 2ⁿ−1. Increasing precision or resolution usually increases storage requirements. Lossless compression reconstructs the original exactly, whereas lossy compression deliberately removes information according to a model of acceptable change. A smaller file is not automatically a better representation: scientific measurements and editable originals may require details that a viewing-focused format discards."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "An uncompressed image has 20×10 pixels and 3 bytes per pixel. Find its data size, ignoring metadata.",
+            "steps": [
+              "There are 200 pixels.",
+              "Each requires 3 bytes, so storage is 600 bytes.",
+              "Multiply by 8 to express the same size in bits."
+            ],
+            "conclusion": "The pixel data occupy 600 bytes or 4,800 bits."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "How many patterns do n bits support?",
+            "back": "2ⁿ."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What is the largest unsigned n-bit integer?",
+            "back": "2ⁿ−1."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What does lossless compression guarantee?",
+            "back": "Exact reconstruction of the original data."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why does interpretation need an encoding?",
+            "back": "The bits alone do not specify their meaning."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Bits, compression and meaningful data: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Bit pattern",
+                "detail": "A sequence of zeros and ones."
+              },
+              {
+                "id": "n2",
+                "label": "Encoding convention",
+                "detail": "Maps patterns to values or symbols."
+              },
+              {
+                "id": "n3",
+                "label": "Interpreted data",
+                "detail": "A number, text or pixel gains meaning from that mapping."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "apply an agreed representation"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "recover the intended value"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-3",
@@ -133,8 +367,125 @@
             "Strictly above 8 excludes 8."
           ],
           "id": "unit-3-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Both occurrences of 4 qualify.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "Trace count=0; for each x in [4,4,1,7], increment count when x≥4.",
+          "answer": "3.",
+          "checkpoints": [
+            "Both occurrences of 4 qualify.",
+            "1 fails and 7 qualifies.",
+            "Count occurrences rather than distinct values."
+          ],
+          "hints": [
+            "Both occurrences of 4 qualify.",
+            "1 fails and 7 qualifies."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Track sizes 32,16,8,4,2,1.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "An ordered list has 32 entries. Under repeated halving, how many halvings reduce a candidate interval of 32 to size 1?",
+          "answer": "5 halvings.",
+          "checkpoints": [
+            "Track sizes 32,16,8,4,2,1.",
+            "Each step divides the candidate count by 2.",
+            "There are five transitions."
+          ],
+          "hints": [
+            "Track sizes 32,16,8,4,2,1.",
+            "Each step divides the candidate count by 2."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through algorithms, lists and procedural abstraction",
+            "paragraphs": [
+              "An algorithm is a finite, unambiguous process expressed through sequencing, selection and iteration. A list can let one procedure handle many data items without a separate variable and instruction for each. Trace state changes after each element rather than jumping directly to an intuition about the final answer. Searching and sorting have different costs and requirements: binary search needs ordered data and repeatedly narrows an interval, while linear search works without that ordering. An abstraction reduces detail for its caller, but correctness still depends on preserving the procedure’s stated input and output behaviour."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Trace a procedure that starts result at 1 and multiplies it by each odd number in [2,3,4,5].",
+            "steps": [
+              "2 is even, so result stays 1.",
+              "3 is odd, so result becomes 3; 4 is skipped.",
+              "5 is odd, so result becomes 15."
+            ],
+            "conclusion": "The returned product is 15."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What are three basic algorithm control structures?",
+            "back": "Sequence, selection and iteration."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What precondition does binary search require?",
+            "back": "The searched data must be ordered consistently."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Why initialise a product to 1?",
+            "back": "One is the multiplicative identity."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What benefit does a list provide?",
+            "back": "A uniform way to process a variable number of related items."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Algorithms, lists and procedural abstraction: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Input list",
+                "detail": "Contains the values to process."
+              },
+              {
+                "id": "n2",
+                "label": "Selection condition",
+                "detail": "Decides which values contribute."
+              },
+              {
+                "id": "n3",
+                "label": "Accumulator",
+                "detail": "Combines selected values into the returned result."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "test each element"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "apply the specified update"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-4",
@@ -176,8 +527,125 @@
             "Mention reconstruction by the receiving protocol."
           ],
           "id": "unit-4-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Both routes start at A and end at D.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A network has paths A-B-D and A-C-D. Which single endpoint failure certainly prevents A communicating with D?",
+          "answer": "Failure of A or D.",
+          "checkpoints": [
+            "Both routes start at A and end at D.",
+            "Intermediate alternatives do not replace either endpoint.",
+            "Endpoint availability is required for communication."
+          ],
+          "hints": [
+            "Both routes start at A and end at D.",
+            "Intermediate alternatives do not replace either endpoint."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Write T(p)=5+15/p.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "A task has 5 seconds sequential work and 15 seconds ideally parallelisable work. Find the best possible limiting time as processor count grows without bound.",
+          "answer": "5 seconds in the ideal model.",
+          "checkpoints": [
+            "Write T(p)=5+15/p.",
+            "The parallel term tends to zero.",
+            "The sequential term remains 5."
+          ],
+          "hints": [
+            "Write T(p)=5+15/p.",
+            "The parallel term tends to zero."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through packets and redundant paths",
+            "paragraphs": [
+              "Packet switching divides messages into smaller units that can share links with other traffic. Packets may experience different delays and arrive out of order; higher-level protocols can handle sequencing and retransmission where required. Redundant routes improve resilience only when failures do not remove every path between endpoints. The internet’s routing function differs from a web application running over it. Parallel processing also has limits: work that must remain sequential sets a floor on total execution time, even if the parallel portion has ideal speedup and communication overhead is ignored."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A task takes 3 seconds sequentially and 12 seconds of perfectly parallel work. Find ideal time on 3 and 6 processors.",
+            "steps": [
+              "With 3 processors, the parallel portion takes 12/3=4 seconds, so total is 7.",
+              "With 6 processors it takes 2 seconds, so total is 5.",
+              "The sequential 3 seconds cannot be divided in this model."
+            ],
+            "conclusion": "Ideal totals are 7 and 5 seconds; doubling processors does not halve total time."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "Why can packet order change?",
+            "back": "Different routes and queue delays can produce different arrival times."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What does route redundancy provide?",
+            "back": "Alternative paths when some links fail."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What limits ideal parallel speedup?",
+            "back": "The portion that must remain sequential."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Is the web identical to the internet?",
+            "back": "No; it is a service using internet infrastructure."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Packets and redundant paths: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Message packets",
+                "detail": "Split traffic into independently forwarded units."
+              },
+              {
+                "id": "n2",
+                "label": "Network paths",
+                "detail": "Links and routers carry packets with varying delays."
+              },
+              {
+                "id": "n3",
+                "label": "Receiver processing",
+                "detail": "Reassembly restores message order where the protocol provides it."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "forward through available routes"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "reassemble using protocol information"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-5",
@@ -219,8 +687,125 @@
             "Do not claim it removes every threat."
           ],
           "id": "unit-5-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "The purpose requires neighbourhood-level totals.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A route app needs neighbourhood totals but stores precise home coordinates. Give a concrete data-minimisation change and its benefit.",
+          "answer": "Aggregate to neighbourhood counts and avoid retaining precise homes when unnecessary.",
+          "checkpoints": [
+            "The purpose requires neighbourhood-level totals.",
+            "Exact coordinates exceed that stated need.",
+            "Reducing retained precision lowers exposure of household locations."
+          ],
+          "hints": [
+            "The purpose requires neighbourhood-level totals.",
+            "Exact coordinates exceed that stated need."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "The current sample omits the deployment condition.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "A model is tested only on daytime images but will operate at night. Identify the evaluation gap and a direct test.",
+          "answer": "Nighttime performance is unknown; evaluate a labelled nighttime sample representative of intended use.",
+          "checkpoints": [
+            "The current sample omits the deployment condition.",
+            "Daytime success does not establish nighttime accuracy.",
+            "Measure errors on relevant nighttime cases."
+          ],
+          "hints": [
+            "The current sample omits the deployment condition.",
+            "Daytime success does not establish nighttime accuracy."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through computing impacts and biased samples",
+            "paragraphs": [
+              "A computing system can produce unequal outcomes because of its data, objective, design or deployment context. Measuring average accuracy alone can hide errors concentrated in a smaller group. Data minimisation asks whether each collected field is necessary for the stated purpose; removing names does not always prevent re-identification when detailed records can be linked. Evaluate a system with the people affected, and distinguish a measured disparity from an established explanation for it. A useful mitigation has a testable effect and acknowledged trade-offs rather than a claim that one technical change removes every social concern."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A classifier is correct for 90 of 100 group-A cases and 50 of 100 group-B cases. Calculate overall and group accuracies.",
+            "steps": [
+              "Group A accuracy is 90%; group B is 50%.",
+              "Across all cases, 140 of 200 are correct, giving 70%.",
+              "The average conceals a 40-percentage-point group gap."
+            ],
+            "conclusion": "Report both the 70% overall accuracy and the separate group results."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "Why inspect subgroup results?",
+            "back": "Overall averages can hide concentrated errors."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Does deleting names ensure anonymity?",
+            "back": "No; other fields can enable linkage."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What is data minimisation?",
+            "back": "Collecting only information needed for the stated purpose."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Does disparity alone prove its cause?",
+            "back": "No; causal explanation needs further evidence."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Computing impacts and biased samples: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Data and objective",
+                "detail": "Determine what the system learns and prioritises."
+              },
+              {
+                "id": "n2",
+                "label": "Unequal error patterns",
+                "detail": "Evaluate results across relevant groups."
+              },
+              {
+                "id": "n3",
+                "label": "Targeted revision",
+                "detail": "Change a justified cause and measure the outcome again."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "inspect disaggregated outcomes"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "test whether the change reduces the documented problem"
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

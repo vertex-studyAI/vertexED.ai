@@ -1,3 +1,4 @@
+import { APP_ORIGIN } from '@/lib/appOrigin';
 import React from "react";
 import Article from "@/components/Article";
 import SEO from "@/components/SEO";
@@ -9,7 +10,7 @@ export default function MemorizationTechniques() {
       <SEO
         title="Memory techniques for exam revision | VertexED"
         description="When to use a memory palace, spaced repetition, or teaching-back - three approaches that match how recall actually works under exam pressure."
-        canonical="https://www.vertexed.app/resources/how-to-memorize-anything-fast"
+        canonical={`${APP_ORIGIN}/resources/how-to-memorize-anything-fast`}
         keywords="how to memorize for exams, memory palace technique, method of loci, spaced repetition, active recall, mnemonics, VertexED, remembering facts"
         jsonLd={[
           {
@@ -20,14 +21,14 @@ export default function MemorizationTechniques() {
             author: {
               "@type": "Organization",
               name: "VertexED Team",
-              url: "https://www.vertexed.app"
+              url: `${APP_ORIGIN}`
             },
             publisher: {
               "@type": "Organization",
               name: "VertexED",
               logo: {
                 "@type": "ImageObject",
-                url: "https://www.vertexed.app/logo.png"
+                url: `${APP_ORIGIN}/logo.png`
               }
             },
             datePublished: "2025-12-24",

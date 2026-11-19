@@ -58,6 +58,7 @@ function createLearner() {
 async function installExternalServiceHarness(page: Page) {
   let learner = createLearner();
   const artifacts: Artifact[] = [];
+  const revisionEvents: Array<Record<string, unknown>> = [];
   const learnerState = new Map<string, Record<string, unknown>>();
   const observed = {
     inviteValidated: false,
@@ -171,10 +172,29 @@ async function installExternalServiceHarness(page: Page) {
         };
       });
       const savedTypes = new Set([...learnerState.values()].map((item) => item.stateType));
-      observed.learnerStateSaved ||= savedTypes.has('weakness') && savedTypes.has('retry');
+      observed.learnerStateSaved ||= savedTypes.has('weakness');
       return json(route, { contractVersion: 'vertexed.learner-state.v1', results });
     }
     return json(route, { error: 'Unsupported learner-state operation' }, 405);
+  });
+
+  await page.route('**/api/revision-history**', async (route) => {
+    const request = route.request();
+    if (request.headers().authorization === `Bearer ${accessToken()}`) observed.authHeaders += 1;
+    if (request.method() === 'GET') {
+      return json(route, {
+        contractVersion: 'vertexed.revision-history.v1',
+        events: [...revisionEvents].sort((a, b) => String(b.occurredAt).localeCompare(String(a.occurredAt))),
+        nextCursor: null,
+      });
+    }
+    if (request.method() === 'POST') {
+      const body = request.postDataJSON() as Record<string, unknown>;
+      const stored = { ...body, createdAt: new Date().toISOString() };
+      revisionEvents.unshift(stored);
+      return json(route, { contractVersion: 'vertexed.revision-history.v1', event: stored, idempotent: false }, 201);
+    }
+    return json(route, { error: 'Unsupported revision-history operation' }, 405);
   });
 
   await page.route('**/api/waitlist-status', async (route) => {
@@ -308,7 +328,7 @@ async function installExternalServiceHarness(page: Page) {
         humanReviewRequired: true,
         measurementEligible: false,
         evidenceState: 'MODEL_EVIDENCE_LINKED',
-        escalationReason: 'AI feedback requires human confirmation before it can update mastery.',
+        escalationReason: 'AI feedback stays provisional; only independently validated evidence can update mastery.',
         remediation: ['Practise interpreting a limiting-factor graph'],
       }],
       coverage: [{ objectiveId: 'IB_MYP_BIO_PHOTOSYNTHESIS_LIMITING_FACTORS', status: 'partial' }],
@@ -343,7 +363,7 @@ async function installExternalServiceHarness(page: Page) {
         humanReviewRequired: true,
         measurementEligible: false,
         evidenceState: 'MODEL_EVIDENCE_LINKED',
-        escalationReason: 'AI feedback requires confirmation against a teacher decision or official mark scheme before it can update mastery.',
+        escalationReason: 'AI feedback can be saved as learner-attested history, but only independently validated evidence can update mastery.',
         feedback: 'The answer identifies another limiting factor and explains the plateau.',
         includes: 'Carbon dioxide as the limiting factor.',
         criteria: [{
@@ -404,7 +424,7 @@ async function installExternalServiceHarness(page: Page) {
     });
   });
 
-  return { artifacts, learnerState, observed };
+  return { artifacts, learnerState, revisionEvents, observed };
 }
 
 test('approved learner completes the golden study journey and resumes saved work', async ({ page }) => {
@@ -536,11 +556,13 @@ test('approved learner completes the golden study journey and resumes saved work
   await expect(page.getByText('Evidence-linked AI review', { exact: true })).toBeVisible();
   await expect(page.getByText('94% confidence')).toBeVisible();
   await expect(page.locator('blockquote').filter({ hasText: 'Carbon dioxide becomes limiting' })).toBeVisible();
-  await page.getByLabel('Verification method').selectOption('official-mark-scheme');
-  await page.getByRole('button', { name: 'Confirm mark for mastery' }).click();
-  await expect(page.getByRole('button', { name: 'Added to measured progress' })).toBeDisabled();
+  await page.getByLabel('Verification method').selectOption('learner-attested-mark-scheme-check');
+  await page.getByRole('button', { name: 'Save checked mark' }).click();
+  await expect(page.getByRole('button', { name: 'Saved as learner-attested' })).toBeDisabled();
+  await expect(page.getByText(/does not change verified mastery/i)).toBeVisible();
   await expect.poll(() => harness.observed.answerReviewSaved).toBe(true);
   await expect.poll(() => harness.observed.learnerStateSaved).toBe(true);
+  await expect.poll(() => harness.revisionEvents.length).toBeGreaterThanOrEqual(2);
   await expect.poll(() => page.evaluate(() => new Promise<number>((resolve) => {
     const open = indexedDB.open('vertexed-recovery-v1', 1);
     open.onupgradeneeded = () => {
@@ -559,8 +581,8 @@ test('approved learner completes the golden study journey and resumes saved work
     };
   }))).toBe(0);
 
-  // Remove both device recovery layers. The dashboard must reconstruct the
-  // measured weakness and retry from the server-side learner-state contract.
+  // Remove both device recovery layers. The account can reconstruct the
+  // learner attestation, but it still must not manufacture measured mastery.
   await page.evaluate(async () => {
     for (const key of Object.keys(localStorage)) {
       if (/:weakness_heatmap$|:retry_queue$|:learner_state_outbox$/.test(key)) localStorage.removeItem(key);
@@ -574,20 +596,21 @@ test('approved learner completes the golden study journey and resumes saved work
   });
 
   await page.goto('/main');
-  const retryCard = page.locator('article').filter({ hasText: 'Retry queue' });
-  await expect(retryCard).toContainText('Scientific explanation');
-  await expect(retryCard).toContainText('Biology');
-  await expect(retryCard).toContainText('100%');
-  await expect(retryCard).toContainText('Recorded score, not a predicted grade');
-  for (const width of [390, 1024, 1440]) {
+  await expect(page.locator('article').filter({ hasText: 'Retry queue' })).toHaveCount(0);
+
+  await page.goto('/revision-history');
+  await expect(page.getByRole('heading', { name: 'See how your work changed.' })).toBeVisible();
+  await expect(page.getByText('learner attested', { exact: false })).toBeVisible();
+  await expect(page.getByText(/does not update verified mastery/i)).toBeVisible();
+  for (const width of [1440, 1024, 390]) {
     await page.setViewportSize({ width, height: 900 });
+    await page.emulateMedia({ reducedMotion: width === 390 ? 'reduce' : 'no-preference' });
+    const backLink = page.getByRole('link', { name: 'Back to dashboard' });
+    await backLink.focus();
+    await expect(backLink).toBeFocused();
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width + 1);
-    await retryCard.screenshot({ path: `test-results/retry-trace-${width}.png` });
+    await page.screenshot({ path: `test-results/revision-history-${width}.png`, fullPage: true });
   }
-  await expect(retryCard.getByRole('link', { name: 'Start retry' })).toHaveAttribute(
-    'href',
-    /\/answer-reviewer\?.*retry=retry%3Abiology%3Ascientific-explanation/,
-  );
 
   await page.goto('/paper-maker');
   await expect(page.getByRole('heading', { name: 'Paper Configuration' })).toBeVisible();
@@ -617,8 +640,8 @@ test('approved learner completes the golden study journey and resumes saved work
     source: 'review',
     score: 4,
     maxScore: 4,
-    evidence: 'measured-v2',
-    verification: { method: 'official-mark-scheme' },
+    evidence: 'learner-attested-v1',
+    verification: { method: 'learner-attested-mark-scheme-check' },
   });
 
   await page.goto('/exam-prep');
@@ -638,8 +661,7 @@ test('approved learner completes the golden study journey and resumes saved work
   await page.getByLabel('Session choice').selectOption('diagnostic');
   await expect(page.getByText(/not a validated diagnostic assessment/)).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Topic evidence and mistakes' })).toBeVisible();
-  await page.getByText('Scientific explanation (1 recorded attempts)', { exact: false }).click();
-  await expect(page.getByText('Recorded verification: official mark scheme')).toBeVisible();
+  await expect(page.getByText(/Scientific explanation \(1 recorded attempts\)/)).toHaveCount(0);
   for (const width of [1440, 1024, 390]) {
     await page.setViewportSize({ width, height: 900 });
     const layout = await page.evaluate((viewportWidth) => ({

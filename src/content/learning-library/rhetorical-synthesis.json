@@ -1,0 +1,515 @@
+{
+  "schemaVersion": 1,
+  "revision": "2026-10-21.2",
+  "editorialStatus": "unreviewed",
+  "origin": "original-authorship-review-pending",
+  "level": "secondary-extension",
+  "id": "rhetorical-synthesis",
+  "subject": "English",
+  "unit": "Purposeful revision",
+  "topic": "Selecting and combining notes for a rhetorical goal",
+  "scope": "Original practice for the digital SAT Expression of Ideas skill Rhetorical Synthesis, inspected in the official skills directory on 2026-10-19. All named studies, places and data in exercises are fictional teaching scenarios, not citations or reproduced test questions.",
+  "prerequisites": [
+    "Identify a sentence's main claim and supporting details.",
+    "Distinguish a comparison from a description or explanation."
+  ],
+  "objectives": [
+    "Translate a rhetorical goal into selection criteria.",
+    "Combine relevant details without adding unsupported claims.",
+    "Preserve comparisons, qualifiers and audience needs.",
+    "Explain why a factually true option may still fail the task."
+  ],
+  "notes": [
+    {
+      "heading": "The goal controls selection",
+      "paragraphs": [
+        "Rhetorical synthesis means selecting and combining information to serve a specific communication purpose. Begin by identifying the task's action and focus: introduce a person, compare two results, illustrate a limitation or emphasise a shared feature. These are not interchangeable goals. A sentence that accurately reports a date may still be unsuitable when the goal is to compare methods. Treat the requested goal as a constraint on relevance, not as a vague invitation to include every interesting detail.",
+        "A useful mental template is: the response must tell this audience this relationship about these subjects. Fill those slots before evaluating candidate sentences. If the task asks for a similarity, an option describing only a difference misses the requested relationship. If it asks to introduce unfamiliar work, an unexplained pronoun or technical label may leave out information the audience needs."
+      ]
+    },
+    {
+      "heading": "Relevance is not the same as truth",
+      "paragraphs": [
+        "A note may be true within the supplied material but unnecessary for the requested sentence. Separate factual accuracy from rhetorical usefulness. Including all available notes often produces a crowded response whose main point is hard to find. Select the smallest set of details that establishes the goal and gives necessary context. A concise answer is effective when it preserves the important relationship, not merely because it has fewer words.",
+        "The reverse error is selecting a polished sentence that invents a stronger connection than the notes support. Two events occurring in sequence do not automatically prove that one caused the other. Two designs using the same material do not automatically have identical performance. Keep the task goal within the evidence rather than forcing the evidence to fit an attractive statement."
+      ]
+    },
+    {
+      "heading": "Preserving comparisons and qualifiers",
+      "paragraphs": [
+        "A fair comparison identifies what is being compared and keeps units, conditions and categories compatible. If one note reports output per hour and another reports output per day, do not compare the numbers without conversion. If a trial used a small sample, avoid replacing its result with a universal claim. Words such as some, under these conditions, estimated and approximately may carry essential information; deleting them can change the meaning.",
+        "Parallel sentence structure can clarify a comparison: one clause describes the first subject using a chosen criterion, and a matching clause describes the second. A contrast word is useful only when the details actually oppose each other on that criterion. When the goal is a shared feature, make both subjects explicit and state the common property rather than listing unrelated achievements."
+      ]
+    },
+    {
+      "heading": "Audience and useful context",
+      "paragraphs": [
+        "A reader unfamiliar with a person or project may need a brief identifying phrase before a result makes sense. A reader already familiar with it may instead benefit from a focused update. Supply context from the notes, not from assumed outside knowledge. Names, categories and technical terms should clarify the relationship, not merely make the response sound sophisticated.",
+        "Pronouns must have identifiable referents. A sentence beginning This was more efficient can be unclear if no device or comparison basis has been named. Replace vague reference with the specific subject and outcome. Where the task requests a general introduction, avoid burying the identity under a narrow statistic; where it requests a result, avoid spending the whole sentence on biography."
+      ]
+    },
+    {
+      "heading": "A disciplined option-checking method",
+      "paragraphs": [
+        "For each candidate, ask three separate questions: does it accomplish the stated goal, is every claim supported by the notes, and is the relationship expressed clearly? Rejecting an option for one reason does not establish that its facts are false. An irrelevant but accurate option is a different failure from an option that reverses two results. Naming the failure helps you improve your own revisions.",
+        "Do not reward complexity automatically. A long option may combine more notes while obscuring the requested point. Conversely, the shortest option may omit the comparison altogether. Check nouns and quantities carefully when two subjects appear in several notes: swapping which design produced which result creates a factual error even if every number appears somewhere in the material."
+      ]
+    },
+    {
+      "heading": "Original examples and limits of this practice",
+      "paragraphs": [
+        "The examples below use fictional researchers and projects so their evidence can be evaluated entirely within the supplied notes. They are not claims about actual publications, institutions or scientific findings. Their purpose is to practise selection, faithful paraphrase and relationships. No external citation should be invented to make a fictional example appear authoritative.",
+        "The source crosswalk names the SAT synthesis skill, but this small bank does not cover every task, difficulty or passage structure. Extended written answers here make reasoning visible; they are teaching tasks, not a claim about the official test's response format or scoring. After reviewing a solution, restate why each included detail serves the goal and identify one omitted detail that is true but unnecessary."
+      ]
+    },
+    {
+      "heading": "Selecting notes for a comparison without adding causation",
+      "paragraphs": [
+        "When a writing task asks for a comparison, select facts that describe both objects on the same dimension. A statement can be factually consistent with the notes yet fail the requested goal by discussing an unrelated detail. Preserve qualifiers such as in this sample or during the trial, since removing them broadens the claim. Do not turn a difference into a causal explanation unless the notes supply evidence for the cause. Draft the smallest sentence that accomplishes the stated purpose, then check each assertion against a particular note. The exercise uses original fictional notes and does not describe a real product trial."
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "prompt": "Fictional notes: Mara designed a rain gauge; it uses recycled plastic; it was displayed in April. Goal: identify the designer and the material.",
+      "steps": [
+        "Select the designer and material notes.",
+        "The display date is true but not needed.",
+        "Combine without claiming an unreported performance benefit."
+      ],
+      "answer": "Mara designed a rain gauge made from recycled plastic."
+    },
+    {
+      "prompt": "Fictional notes: Model A weighs 2 kg and lasts 8 hours; Model B weighs 3 kg and lasts 12 hours. Goal: contrast operating time.",
+      "steps": [
+        "Identify duration as the comparison criterion.",
+        "Use 8 and 12 hours with the correct models.",
+        "Omit weight unless needed for the goal."
+      ],
+      "answer": "Model B operates for 12 hours, compared with Model A's 8 hours."
+    },
+    {
+      "prompt": "Fictional notes: both gardens used drip irrigation; only Garden N used shade cloth. Goal: state a shared method.",
+      "steps": [
+        "Find the property applying to both.",
+        "Do not turn the unique shade-cloth detail into a similarity.",
+        "Name both gardens or use an unambiguous collective subject."
+      ],
+      "answer": "Both gardens used drip irrigation."
+    },
+    {
+      "prompt": "Fictional notes: a pilot involved 18 volunteers; 12 preferred the new layout. Goal: report the pilot result faithfully.",
+      "steps": [
+        "Preserve the small-study boundary.",
+        "Report 12 of 18, not all users.",
+        "Avoid claiming the preference was caused by a particular design feature."
+      ],
+      "answer": "In the 18-volunteer pilot, 12 participants preferred the new layout."
+    },
+    {
+      "prompt": "Original notes: In a small trial, filter A removed 80% of the measured particles; filter B removed 92%; B weighed 2 kg; A was blue. Write one sentence comparing particle removal without inventing a cause.",
+      "answer": "In the small trial, filter B removed 92% of the measured particles, compared with 80% for filter A.",
+      "steps": [
+        "Select the removal percentages because they share the requested comparison dimension.",
+        "Retain the small-trial qualifier.",
+        "Exclude weight and colour because they do not establish why removal differed."
+      ]
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "The best synthesis includes all the notes.",
+      "correction": "It includes the details needed for the particular goal."
+    },
+    {
+      "claim": "A factually true sentence must be the right answer.",
+      "correction": "It may still fail the requested purpose or audience."
+    },
+    {
+      "claim": "A stronger claim is always more persuasive.",
+      "correction": "Strength must not exceed what the notes support."
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "goal",
+      "front": "What should be identified before selecting notes?",
+      "back": "The requested rhetorical goal, subject and audience."
+    },
+    {
+      "id": "truth",
+      "front": "Why can an accurate option be unsuitable?",
+      "back": "Its information may not accomplish the goal."
+    },
+    {
+      "id": "similarity",
+      "front": "What must a shared-feature sentence establish?",
+      "back": "The same relevant property applies to both named subjects."
+    },
+    {
+      "id": "contrast",
+      "front": "What makes a comparison coherent?",
+      "back": "A common criterion with compatible conditions and units."
+    },
+    {
+      "id": "qualifier",
+      "front": "Why retain a qualifier such as in the pilot?",
+      "back": "It limits the claim to the evidence actually supplied."
+    },
+    {
+      "id": "context",
+      "front": "When is a brief identification useful?",
+      "back": "When the intended audience does not know the subject."
+    },
+    {
+      "id": "causal",
+      "front": "Does a sequence of two events alone establish causation?",
+      "back": "No."
+    },
+    {
+      "id": "referent",
+      "front": "What is needed for a clear pronoun?",
+      "back": "An identifiable, unambiguous referent."
+    },
+    {
+      "id": "select",
+      "front": "What three checks help evaluate a synthesis?",
+      "back": "Goal fit, evidence support and clarity."
+    },
+    {
+      "id": "fiction",
+      "front": "How should the invented studies in this lesson be treated?",
+      "back": "As fictional evidence packets, not real research citations."
+    },
+    {
+      "id": "application-card-1",
+      "front": "What makes two facts useful for a comparison?",
+      "back": "They describe the compared objects on the same relevant dimension."
+    },
+    {
+      "id": "application-card-2",
+      "front": "Why preserve a trial qualifier in a synthesis?",
+      "back": "It prevents a bounded observation from becoming an unsupported universal claim."
+    }
+  ],
+  "questions": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "difficulty": "foundation",
+      "prompt": "Fictional notes: Sensor P records every 2 minutes; Sensor Q records every 5 minutes; both use batteries. Goal: state a shared feature. Which sentence fits?",
+      "answer": "Both sensors use batteries.",
+      "solution": [
+        "Identify the requested similarity.",
+        "Only the power source is a shared feature in these notes."
+      ],
+      "markingPoints": [
+        "Select the shared-feature sentence."
+      ],
+      "marks": 1,
+      "calculator": "not-applicable",
+      "options": [
+        "Sensor P records more frequently.",
+        "Sensor Q records every five minutes.",
+        "Both sensors use batteries.",
+        "Both sensors record every two minutes."
+      ]
+    },
+    {
+      "id": "q2",
+      "type": "short",
+      "difficulty": "standard",
+      "prompt": "Fictional notes: Jun built a folding bridge model from cardboard; it was photographed on Tuesday. Write one sentence identifying the creator and material.",
+      "answer": "Jun built a folding bridge model from cardboard.",
+      "solution": [
+        "Select creator, object and material.",
+        "Omit the date because it does not serve the goal."
+      ],
+      "markingPoints": [
+        "Include Jun and the bridge model.",
+        "Preserve cardboard as the material."
+      ],
+      "marks": 2,
+      "calculator": "not-applicable"
+    },
+    {
+      "id": "q3",
+      "type": "short",
+      "difficulty": "standard",
+      "prompt": "Fictional notes: Trial A produced 15 units per hour; Trial B produced 20 units per hour. Goal: compare output. Write a supported sentence.",
+      "answer": "Trial B produced 20 units per hour, compared with Trial A's 15.",
+      "solution": [
+        "Use the same output-rate criterion.",
+        "Keep each value attached to its trial."
+      ],
+      "markingPoints": [
+        "Compare both trials.",
+        "Preserve values and units."
+      ],
+      "marks": 2,
+      "calculator": "not-applicable"
+    },
+    {
+      "id": "q4",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "A fictional survey of 25 club members found 16 preferred a later meeting. Explain why Everyone in the city wants later meetings is not a faithful synthesis.",
+      "answer": "The claim extends a 25-member club sample to the entire city and changes a 16-person preference into unanimity.",
+      "solution": [
+        "Identify the sampled group.",
+        "Compare the stated count with everyone.",
+        "Limit the conclusion to the supplied evidence."
+      ],
+      "markingPoints": [
+        "Identify the population overreach.",
+        "Identify the unanimity error.",
+        "Give a suitably bounded interpretation."
+      ],
+      "marks": 3,
+      "calculator": "not-applicable"
+    },
+    {
+      "id": "q5",
+      "type": "short",
+      "difficulty": "standard",
+      "prompt": "Fictional notes: both buildings have roof gardens; only Building R collects rainwater. Goal: emphasise a difference. Which detail should the sentence focus on?",
+      "answer": "Building R collects rainwater, unlike the other building in the notes.",
+      "solution": [
+        "Locate the feature that differs.",
+        "Do not use the roof gardens as a contrast because both have them."
+      ],
+      "markingPoints": [
+        "Select rainwater collection.",
+        "Preserve the distinction."
+      ],
+      "marks": 2,
+      "calculator": "not-applicable"
+    },
+    {
+      "id": "q6",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "Fictional notes list a designer's birthplace, material choice and project cost. The goal asks only how the material differs from an earlier design. Explain an efficient selection strategy.",
+      "answer": "Choose the material information for both designs, identify their difference and omit birthplace or cost unless it is needed to understand that difference.",
+      "solution": [
+        "Translate the goal into a comparison criterion.",
+        "Select evidence for that criterion.",
+        "Remove unrelated information without calling it false."
+      ],
+      "markingPoints": [
+        "Identify the material criterion.",
+        "Require evidence for both sides.",
+        "Explain omission of irrelevant facts."
+      ],
+      "marks": 3,
+      "calculator": "not-applicable"
+    },
+    {
+      "id": "q7",
+      "type": "short",
+      "difficulty": "standard",
+      "prompt": "Fictional notes say output increased after a new manager arrived, but report no causal study. Why is The manager caused the increase stronger than the notes?",
+      "answer": "The notes establish sequence or association, not that the manager caused the change.",
+      "solution": [
+        "Identify what the chronology actually supports.",
+        "Distinguish it from a causal explanation."
+      ],
+      "markingPoints": [
+        "State the supported relationship.",
+        "Reject unsupported causation."
+      ],
+      "marks": 2,
+      "calculator": "not-applicable"
+    },
+    {
+      "id": "q8",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "A sentence says This method performed better without identifying either method or the performance measure. What information is needed for a useful comparison?",
+      "answer": "Name the compared methods and the criterion or measured outcome, preserving any relevant conditions or uncertainty from the notes.",
+      "solution": [
+        "Resolve the unclear subject.",
+        "Specify the basis of better.",
+        "Retain evidence limits rather than inventing details."
+      ],
+      "markingPoints": [
+        "Identify both methods.",
+        "State the comparison criterion.",
+        "Preserve support and qualifications."
+      ],
+      "marks": 3,
+      "calculator": "not-applicable"
+    },
+    {
+      "id": "application-check",
+      "type": "short",
+      "difficulty": "standard",
+      "prompt": "Original notes: In a small trial, filter A removed 80% of the measured particles; filter B removed 92%; B weighed 2 kg; A was blue. Write one sentence comparing particle removal without inventing a cause.",
+      "answer": "In the small trial, filter B removed 92% of the measured particles, compared with 80% for filter A.",
+      "solution": [
+        "Select the removal percentages because they share the requested comparison dimension.",
+        "Retain the small-trial qualifier.",
+        "Exclude weight and colour because they do not establish why removal differed."
+      ],
+      "markingPoints": [
+        "Select the removal percentages because they share the requested comparison dimension.",
+        "Retain the small-trial qualifier.",
+        "Exclude weight and colour because they do not establish why removal differed."
+      ],
+      "marks": 3,
+      "calculator": "not-applicable"
+    },
+    {
+      "id": "error-analysis",
+      "type": "short",
+      "difficulty": "extension",
+      "prompt": "A learner writes, “B removed more particles because its 2 kg mass made it superior in all conditions.” Identify two unsupported additions and repair the claim.",
+      "answer": "The notes establish neither mass as the cause nor superiority in all conditions. Limit the claim to the observed removal percentages in the small trial.",
+      "solution": [
+        "The notes do not test a causal link between mass and removal.",
+        "One small trial does not establish performance in every condition.",
+        "A corrected comparison reports 92% versus 80% within the stated trial."
+      ],
+      "markingPoints": [
+        "The notes do not test a causal link between mass and removal.",
+        "One small trial does not establish performance in every condition.",
+        "A corrected comparison reports 92% versus 80% within the stated trial."
+      ],
+      "marks": 3,
+      "calculator": "not-applicable"
+    }
+  ],
+  "revisionChecklist": [
+    "Restate the goal before selecting information.",
+    "Check every claim against the supplied notes.",
+    "Preserve quantities, subjects and qualifiers.",
+    "Explain why an omitted detail is unnecessary, not necessarily false.",
+    "Explain the reasoning in “Synthesize a bounded comparison” and correct the linked error-analysis response without copying its solution."
+  ],
+  "syllabusMappings": [
+    {
+      "sourceId": "sat-rw-20261019",
+      "point": "Expression of Ideas / Rhetorical Synthesis",
+      "tier": "Digital SAT Reading and Writing; selected skill practice",
+      "status": "source-checked-partial",
+      "noteHeadings": [
+        "The goal controls selection",
+        "Relevance is not the same as truth",
+        "Preserving comparisons and qualifiers"
+      ],
+      "questionIds": [
+        "q1",
+        "q2",
+        "q3",
+        "q4",
+        "q5",
+        "q6",
+        "q7",
+        "q8"
+      ],
+      "remaining": [
+        "Broader evidence packets, more multiple-choice distractor sets, difficulty calibration and independent editorial review."
+      ]
+    }
+  ],
+  "diagrams": [
+    {
+      "id": "application-trace",
+      "title": "Synthesize a bounded comparison",
+      "description": "Read the labelled relationships to follow this worked application. In the small trial, filter B removed 92% of the measured particles, compared with 80% for filter A. This is an explanatory process diagram, not a scale drawing or a record of a learner attempt.",
+      "steps": [
+        {
+          "label": "Identify the goal",
+          "detail": "Compare particle removal by two fictional filters."
+        },
+        {
+          "label": "Select parallel facts",
+          "detail": "Use 92% for B and 80% for A in the same small trial."
+        },
+        {
+          "label": "Retain the scope",
+          "detail": "Report the trial comparison without inventing a cause or universal ranking."
+        }
+      ],
+      "links": [
+        "match facts to the requested dimension",
+        "check each added claim"
+      ]
+    }
+  ],
+  "teachingSequence": [
+    {
+      "title": "Establish the idea",
+      "guidance": "Explain “The goal controls selection” in your own words. Work through the first example, then answer the linked questions before revealing their solutions.",
+      "noteHeadings": [
+        "The goal controls selection"
+      ],
+      "workedExampleNumbers": [
+        1
+      ],
+      "questionIds": [
+        "q1",
+        "q2",
+        "q3"
+      ]
+    },
+    {
+      "title": "Apply the method",
+      "guidance": "Use the remaining teaching sections to explain each step of the worked examples. Compare your reasoning with the marking points and record the specific step you would change.",
+      "noteHeadings": [
+        "Relevance is not the same as truth",
+        "Preserving comparisons and qualifiers",
+        "Audience and useful context",
+        "A disciplined option-checking method",
+        "Original examples and limits of this practice"
+      ],
+      "workedExampleNumbers": [
+        2,
+        3,
+        4
+      ],
+      "questionIds": [
+        "q4",
+        "q5",
+        "q6"
+      ]
+    },
+    {
+      "title": "Selecting notes for a comparison without adding causation",
+      "guidance": "Read the application diagram “Synthesize a bounded comparison”, then close the explanation and attempt both the application and error-analysis questions. Explain the correction aloud before retrying the mixed practice.",
+      "noteHeadings": [
+        "Selecting notes for a comparison without adding causation"
+      ],
+      "workedExampleNumbers": [
+        5
+      ],
+      "questionIds": [
+        "q7",
+        "q8",
+        "application-check",
+        "error-analysis"
+      ]
+    }
+  ],
+  "revisionGuide": {
+    "summary": "When a writing task asks for a comparison, select facts that describe both objects on the same dimension. A statement can be factually consistent with the notes yet fail the requested goal by discussing an unrelated detail. Preserve qualifiers such as in this sample or during the trial, since removing them broadens the claim. Do not turn a difference into a causal explanation unless the notes supply evidence for the cause. Draft the smallest sentence that accomplishes the stated purpose, then check each assertion against a particular note. The exercise uses original fictional notes and does not describe a real product trial.",
+    "keyIdeas": [
+      "Compare particle removal by two fictional filters.",
+      "Use 92% for B and 80% for A in the same small trial.",
+      "Report the trial comparison without inventing a cause or universal ranking.",
+      "It includes the details needed for the particular goal."
+    ],
+    "formulas": [],
+    "recallPrompts": [
+      "What makes two facts useful for a comparison?",
+      "Why preserve a trial qualifier in a synthesis?",
+      "What should be identified before selecting notes?"
+    ],
+    "practiceQuestionIds": [
+      "q1",
+      "application-check",
+      "error-analysis"
+    ],
+    "revisit": "After checking your answer, write the specific rule or assumption you missed. Retry the linked questions without the worked example in a later session. A checked answer or completed checklist is not a measurement of mastery."
+  }
+}

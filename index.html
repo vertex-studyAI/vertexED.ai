@@ -25,7 +25,7 @@
       "@context":"https://schema.org",
       "@type":"WebSite",
       "name":"VertexED — AI Study Toolkit",
-      "url":"https://www.vertexed.app/"
+      "url":"https://vertex-ed-ai.vercel.app/"
     }
     </script>
     <!-- JSON-LD: SoftwareApplication -->
@@ -36,15 +36,15 @@
     "name":"VertexED — AI Study Tools",
       "applicationCategory":"EducationalApplication",
       "operatingSystem":"Web",
-      "url":"https://www.vertexed.app/",
-      "image":"https://www.vertexed.app/socialpreview.jpg",
+      "url":"https://vertex-ed-ai.vercel.app/",
+      "image":"https://vertex-ed-ai.vercel.app/socialpreview.jpg",
       "isAccessibleForFree": true,
       "offers": {
         "@type": "Offer",
         "price": "0",
         "priceCurrency": "USD",
         "availability": "https://schema.org/InStock",
-        "url": "https://www.vertexed.app/"
+        "url": "https://vertex-ed-ai.vercel.app/"
       },
   "description":"AI-powered study tools for students: IB/IGCSE paper maker, study planner, notes, flashcards, quiz generator, answer reviewer, chatbot, and audio transcriber."
     }
@@ -55,8 +55,8 @@
       "@context": "https://schema.org",
       "@type": "Organization",
       "name": "VertexED",
-      "url": "https://www.vertexed.app/",
-      "logo": "https://www.vertexed.app/logo.png",
+      "url": "https://vertex-ed-ai.vercel.app/",
+      "logo": "https://vertex-ed-ai.vercel.app/logo.png",
       "sameAs": []
     }
     </script>
@@ -68,7 +68,7 @@
         try {
           var raw = localStorage.getItem('vertex_a11y_settings');
           var settings = raw ? JSON.parse(raw) : {};
-          var theme = settings.theme || 'system';
+          var theme = settings.theme || 'light';
           var dark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
           var root = document.documentElement;
           root.classList.add(dark ? 'dark' : 'light');

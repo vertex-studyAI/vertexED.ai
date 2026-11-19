@@ -1,3 +1,4 @@
+import { appendRevisionEvent } from '@/lib/revisionHistory';
 import { userContentStorageKeys, getUserContentStorageScope } from './userContentStorageScope.mjs';
 import { LEARNING_QUESTIONS, normalisePracticeAttempt, parseLearningRecords, mergeLearningRecord } from './learningModel.mjs';
 import { PRACTICE_CONTENT_REVISION } from './practiceHistory.mjs';
@@ -25,6 +26,19 @@ export function saveLearningRecord(type: 'practice_attempt' | 'practice_mistake'
   const merged = mergeLearningRecord(rows, nextRecord, type);
   localStorage.setItem(key, JSON.stringify(merged));
   queueLearnerStateWrite(type, nextRecord.id, nextRecord as unknown as Record<string, unknown>);
+  if (type === 'practice_attempt') {
+    const attempt = nextRecord as PracticeAttempt;
+    void appendRevisionEvent({
+      eventType: 'attempt',
+      occurredAt: attempt.at,
+      evidenceStatus: attempt.assessmentStatus === 'verified' ? 'learner-attested' : 'provisional',
+      sourceType: 'practice-attempt',
+      sourceKey: attempt.id,
+      sourceRevision: attempt.contentRevision || 'held-content',
+      parentEventIds: [],
+      payload: { label: 'Practice attempt', summary: `Saved ${attempt.mode} practice without copying the answer into the revision graph.`, route: '/learn', attemptId: attempt.id },
+    }).catch(() => undefined);
+  }
   window.dispatchEvent(new CustomEvent('vertexed:practice-changed'));
   window.dispatchEvent(new CustomEvent('vertexed:learner-state-changed'));
 }

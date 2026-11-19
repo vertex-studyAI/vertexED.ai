@@ -1,3 +1,4 @@
+import { APP_ORIGIN } from '@/lib/appOrigin';
 import Article from '@/components/Article';
 import SEO from '@/components/SEO';
 import BreadcrumbsJsonLd from '@/components/BreadcrumbsJsonLd';
@@ -6,7 +7,7 @@ import { Link } from 'react-router';
 export default function AIChatbotTutorGuide() {
   return (
     <>
-      <SEO title="Using Apex for study help | VertexED" description="Choose the kind of help you need. Bring an attempt, check the explanation, then try again." canonical="https://www.vertexed.app/resources/ai-chatbot-tutor" ogType="article" />
+      <SEO title="Using Apex for study help | VertexED" description="Choose the kind of help you need. Bring an attempt, check the explanation, then try again." canonical={`${APP_ORIGIN}/resources/ai-chatbot-tutor`} ogType="article" />
       <BreadcrumbsJsonLd />
       <Article title="Using Apex for study help" subtitle="Choose the kind of help you need. Bring an attempt, check the explanation, then try again." kicker="Study guide">
 

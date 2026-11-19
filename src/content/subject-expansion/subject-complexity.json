@@ -1,0 +1,260 @@
+{
+  "schemaVersion": 1,
+  "id": "subject-complexity",
+  "revision": "2026-10-21.4",
+  "subject": "Computer Science",
+  "unit": "Algorithms and data structures",
+  "topic": "Growth rates, nested loops and choosing a data structure",
+  "level": "secondary-extension",
+  "editorialStatus": "unreviewed",
+  "origin": "original-authorship-review-pending",
+  "scope": "Original shared study module on growth rates, nested loops and choosing a data structure. Numerical datasets and quoted passages are invented teaching examples. This is not a complete course, official examination material or verified board-specific alignment.",
+  "prerequisites": [
+    "Trace a loop and count iterations.",
+    "Use lists and zero-based indices."
+  ],
+  "objectives": [
+    "Count work in sequential and nested loops.",
+    "Distinguish asymptotic growth from measured runtime.",
+    "Match a data structure to required operations."
+  ],
+  "notes": [
+    {
+      "heading": "Count the operations that depend on input size",
+      "paragraphs": [
+        "Let n describe the input size and choose a basic operation such as a comparison. A loop with n iterations and constant work per iteration takes a number of operations proportional to n. Two consecutive such loops still have linear growth, because their counts add. A nested pair with n iterations each instead performs n squared combinations when the inner loop runs fully for every outer iteration. Read the bounds carefully: dependent inner bounds, early exits and changing step sizes can alter the count. State which case is being analysed."
+      ]
+    },
+    {
+      "heading": "Growth is not a stopwatch result",
+      "paragraphs": [
+        "Big-O describes an asymptotic upper bound on growth, not an exact number of seconds. Constants, hardware, implementation and input distribution can change measured runtime. A logarithmic search may require a sorted collection and an efficient way to access its middle element; the cost of preparing that collection belongs in the overall workflow when relevant. Distinguish worst-case, average-case and best-case claims. A test on one small input cannot establish an asymptotic result, although it may expose a bug in a proposed counting argument."
+      ]
+    },
+    {
+      "heading": "Select structures using required operations",
+      "paragraphs": [
+        "A stack offers last-in-first-out access, while a queue offers first-in-first-out access. Choosing between them depends on the behaviour required, not which name sounds faster. An array can support direct indexed access, but inserting at its beginning may require shifting many entries. A linked representation can change links efficiently when the relevant node is already known, yet finding that node may still require traversal. Include search, insertion, removal and memory constraints when comparing designs. State implementation assumptions rather than claiming that one structure is always faster."
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "prompt": "One loop performs 3n operations and a following loop performs 5n+2. Describe the total and its growth.",
+      "steps": [
+        "Sequential work adds to 8n+2.",
+        "For large n the fixed term does not change the linear order of growth."
+      ],
+      "answer": "8n+2 operations in this count; O(n) growth."
+    },
+    {
+      "prompt": "For each i from 1 through n, a loop performs i operations. Find the count when n=4 and its general form.",
+      "steps": [
+        "The count at four is 1+2+3+4=10.",
+        "In general the sum is n(n+1)/2, which has quadratic growth."
+      ],
+      "answer": "10 at n=4; n(n+1)/2 overall, O(n²)."
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Every pair of loops is quadratic.",
+      "correction": "Consecutive loops add; nesting and bounds determine multiplication."
+    },
+    {
+      "claim": "An O(n) algorithm always beats an O(n²) one for every n.",
+      "correction": "Constants and input size can affect finite runtime comparisons."
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "card-1",
+      "front": "How do sequential operation counts combine?",
+      "back": "Add them."
+    },
+    {
+      "id": "card-2",
+      "front": "What does a fully independent n-by-n nested loop count?",
+      "back": "n² inner operations."
+    },
+    {
+      "id": "card-3",
+      "front": "Is Big-O an exact runtime in seconds?",
+      "back": "No. It describes a growth bound under stated assumptions."
+    },
+    {
+      "id": "card-4",
+      "front": "Which access order does a stack provide?",
+      "back": "Last in, first out."
+    },
+    {
+      "id": "card-5",
+      "front": "Which access order does a queue provide?",
+      "back": "First in, first out."
+    }
+  ],
+  "questions": [
+    {
+      "id": "consecutive",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "A loop visits n items twice, followed by a fixed 7 operations. Give the exact count and order under this model.",
+      "answer": "2n+7; O(n).",
+      "solution": [
+        "Add the two visits per item and fixed work.",
+        "Retain the highest growth term for the asymptotic order."
+      ],
+      "markingPoints": [
+        "Give 2n+7.",
+        "Give O(n)."
+      ],
+      "marks": 2,
+      "calculator": "not-required"
+    },
+    {
+      "id": "triangle",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "For i=1,...,6, an inner loop executes i times. How many inner iterations occur?",
+      "answer": "21.",
+      "solution": [
+        "Add 1+2+3+4+5+6.",
+        "Alternatively use 6×7/2."
+      ],
+      "markingPoints": [
+        "Use the dependent loop bounds.",
+        "Find 21."
+      ],
+      "marks": 2,
+      "calculator": "not-required"
+    },
+    {
+      "id": "queue",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "Tasks A, B and C enter a queue in that order. After one removal, D joins. Give the remaining removal order.",
+      "answer": "B, C, D.",
+      "solution": [
+        "A leaves first by first-in-first-out behaviour.",
+        "D joins behind B and C."
+      ],
+      "markingPoints": [
+        "Remove A first.",
+        "Give B, C, D."
+      ],
+      "marks": 2,
+      "calculator": "not-required"
+    },
+    {
+      "id": "preparation",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "One search is required in an unsorted list. A learner ignores sorting cost and claims binary search is automatically the best whole workflow. Explain the missing consideration.",
+      "answer": "Sorting and access costs must be included; a single linear scan may be preferable.",
+      "solution": [
+        "Binary search's logarithmic comparison count assumes suitable sorted input.",
+        "Compare the total preparation-plus-search work for the actual number of searches."
+      ],
+      "markingPoints": [
+        "Identify the sorted-input prerequisite.",
+        "Compare total rather than isolated search cost."
+      ],
+      "marks": 2,
+      "calculator": "not-required"
+    }
+  ],
+  "revisionChecklist": [
+    "Check that you can count work in sequential and nested loops without copying the worked solution.",
+    "Check that you can distinguish asymptotic growth from measured runtime without copying the worked solution.",
+    "Check that you can match a data structure to required operations without copying the worked solution."
+  ],
+  "diagrams": [
+    {
+      "id": "reasoning-route",
+      "title": "Reasoning route: Algorithms and data structures",
+      "description": "Use the sequence to organise an explanation of growth rates, nested loops and choosing a data structure; it is not a measured mastery score.",
+      "steps": [
+        {
+          "label": "Define n and the operation",
+          "detail": "State the input measure and the case being counted."
+        },
+        {
+          "label": "Count the whole workflow",
+          "detail": "Include loops, preparation and structure-specific operations."
+        },
+        {
+          "label": "Choose and test",
+          "detail": "Compare growth bounds, constraints and finite-input behaviour."
+        }
+      ],
+      "links": [
+        "Use this definition to choose the method",
+        "Use the result to evaluate the conclusion"
+      ]
+    }
+  ],
+  "teachingSequence": [
+    {
+      "title": "Count the operations that depend on input size",
+      "guidance": "Write the operation count first. Distinguish consecutive loops from an inner loop whose length changes.",
+      "noteHeadings": [
+        "Count the operations that depend on input size"
+      ],
+      "workedExampleNumbers": [
+        1,
+        2
+      ],
+      "questionIds": [
+        "consecutive",
+        "triangle"
+      ]
+    },
+    {
+      "title": "Growth is not a stopwatch result",
+      "guidance": "Use the linear-growth example to explain why the whole workflow, including preparation, matters more than one operation's bound.",
+      "noteHeadings": [
+        "Growth is not a stopwatch result"
+      ],
+      "workedExampleNumbers": [
+        1
+      ],
+      "questionIds": [
+        "preparation"
+      ]
+    },
+    {
+      "title": "Select structures using required operations",
+      "guidance": "Contrast the counting problem in example 2 with a queue's removal rule. Explain why required behaviour must be specified before comparing efficiency.",
+      "noteHeadings": [
+        "Select structures using required operations"
+      ],
+      "workedExampleNumbers": [
+        2
+      ],
+      "questionIds": [
+        "queue"
+      ]
+    }
+  ],
+  "revisionGuide": {
+    "summary": "Review growth rates, nested loops and choosing a data structure by connecting definitions, the two worked examples and the limits of each conclusion. These questions use editorial self-review points, not an official examination rubric.",
+    "keyIdeas": [
+      "How do sequential operation counts combine? Add them.",
+      "What does a fully independent n-by-n nested loop count? n² inner operations.",
+      "Is Big-O an exact runtime in seconds? No. It describes a growth bound under stated assumptions."
+    ],
+    "formulas": [],
+    "recallPrompts": [
+      "How do sequential operation counts combine?",
+      "What does a fully independent n-by-n nested loop count?",
+      "Is Big-O an exact runtime in seconds?"
+    ],
+    "practiceQuestionIds": [
+      "consecutive",
+      "triangle",
+      "queue",
+      "preparation"
+    ],
+    "revisit": "Attempt the questions without the notes, compare your reasoning with the points, and retry any step you cannot yet explain. Self-review does not certify mastery."
+  }
+}

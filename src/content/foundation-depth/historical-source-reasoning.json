@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "lessonId": "historical-source-reasoning",
+  "revision": "2026-10-21.3",
+  "notes": [
+    {
+      "heading": "Define what independent corroboration would establish",
+      "paragraphs": [
+        "A source's value depends on the historical question being asked. A campaign speech can be strong evidence of public messaging while being weak evidence that its promises were fulfilled. A later copy can reveal transmission or reception even if it adds no independent witness. Check dates, audience, purpose and access to information before comparing claims. Numerical disagreement needs investigation of definitions and counting methods, not an automatic preference for the larger or earlier figure. Claims about causes usually require more than chronological order and should address plausible alternative explanations."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "depth-speech-outcome",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "In a fictional town, a candidate promises in a speech to build three bridges. A historian cites the speech as proof that three bridges were completed. Evaluate the use and name better outcome evidence.",
+      "answer": "The speech supports a claim about the promise, not completion. Construction records, dated maps or inspected surviving structures could address completion.",
+      "solution": [
+        "Separate an intended future action from evidence that it occurred.",
+        "Match the proposed evidence to the outcome question."
+      ],
+      "markingPoints": [
+        "Identify the promise as supported.",
+        "Reject completion as established by the speech.",
+        "Name relevant completion evidence."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-conflicting-counts",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "Two independent fictional reports give 300 and 450 people at a rally. One counted at noon; the other counted everyone who entered over three hours. Explain why the figures need not directly contradict each other.",
+      "answer": "They measure different populations: attendance at one moment versus cumulative entrants. People may arrive and leave, and repeat entry may also affect the cumulative count.",
+      "solution": [
+        "Compare time windows and counting definitions.",
+        "Investigate whether entrants were unique before reconciling totals."
+      ],
+      "markingPoints": [
+        "Distinguish snapshot and cumulative counts.",
+        "Explain arrival/departure effects.",
+        "Identify repeat-entry or method checks."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-retrospective-memory",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "A fictional participant writes a memoir forty years after a strike. Give one potential value and two limitations for reconstructing decisions made during the strike.",
+      "answer": "It may reveal the participant's recollections and later interpretation. Memory can change over time, and later outcomes or self-presentation may shape the account.",
+      "solution": [
+        "Identify the author's access as a participant without assuming perfect recall.",
+        "Compare relevant claims with contemporaneous and independent evidence."
+      ],
+      "markingPoints": [
+        "State a question the memoir can illuminate.",
+        "Explain a memory limitation.",
+        "Explain hindsight or self-presentation and propose comparison."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    }
+  ]
+}

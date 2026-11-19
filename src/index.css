@@ -105,82 +105,66 @@ All colors MUST be HSL.
   }
 
   .light {
-    color-scheme: dark;
-    --math-error-color: hsl(0 73.7% 41.8%);
-    --background: 219 56% 14%;
-    --foreground: 210 40% 98%;
-    --card: 218 48% 18%;
-    --card-foreground: 210 40% 98%;
-    --popover: 218 48% 18%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 215 92% 73%;
-    --primary-foreground: 222 68% 9%;
-    --secondary: 216 42% 23%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217 38% 21%;
-    --muted-foreground: 215 23% 78%;
-    --accent: 187 55% 42%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 68% 48%;
+    color-scheme: light;
+    --math-error-color: hsl(0 74% 38%);
+    --background: 216 60% 98%;
+    --foreground: 219 55% 15%;
+    --card: 0 0% 100%;
+    --card-foreground: 219 55% 15%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 219 55% 15%;
+    --primary: 216 75% 40%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 215 65% 94%;
+    --secondary-foreground: 219 55% 15%;
+    --muted: 215 35% 95%;
+    --muted-foreground: 216 22% 37%;
+    --accent: 214 75% 93%;
+    --accent-foreground: 219 55% 15%;
+    --destructive: 0 70% 42%;
     --destructive-foreground: 0 0% 100%;
-    --warning: 39 82% 54%;
-    --warning-foreground: 222 68% 9%;
-    --success: 151 54% 48%;
-    --border: 215 40% 31%;
-    --input: 216 40% 25%;
-    --ring: 215 92% 73%;
-    --sidebar-background: 219 56% 14%;
-    --sidebar-foreground: 210 40% 98%;
-    --sidebar-primary: 215 92% 73%;
-    --sidebar-primary-foreground: 222 68% 9%;
-    --sidebar-accent: 216 42% 23%;
-    --sidebar-accent-foreground: 210 40% 98%;
-    --sidebar-border: 215 40% 31%;
-    --sidebar-ring: 215 92% 73%;
-    --brand-1: 216 78% 52%;
-    --brand-2: 207 86% 68%;
-    --brand-cta-1: 215 92% 68%;
-    --brand-cta-2: 206 94% 80%;
-    --brand-tile-1: 217 43% 24%;
-    --brand-tile-2: 218 48% 18%;
-    --shadow-soft:
-      0 4px 20px hsl(222 70% 4% / 0.24),
-      0 12px 36px hsl(222 70% 4% / 0.28),
-      inset 0 1px 0 hsl(0 0% 100% / 0.12);
-    --shadow-pressed: inset 0 2px 10px hsl(222 70% 4% / 0.32);
-    --glow:
-      0 0 0 1px hsl(var(--primary) / 0.3),
-      0 12px 32px hsl(var(--primary) / 0.16),
-      inset 0 1px 0 hsl(0 0% 100% / 0.14);
-    --glass-fill: linear-gradient(
-      160deg,
-      hsl(0 0% 100% / 0.12) 0%,
-      hsl(215 70% 62% / 0.09) 40%,
-      hsl(219 48% 18% / 0.78) 100%
-    );
-    --glass-fill-strong: linear-gradient(
-      155deg,
-      hsl(0 0% 100% / 0.16) 0%,
-      hsl(215 80% 64% / 0.12) 35%,
-      hsl(218 48% 17% / 0.84) 100%
-    );
-    --glass-border: hsl(215 62% 75% / 0.2);
-    --glass-highlight: inset 0 1px 0 hsl(0 0% 100% / 0.15);
+    --warning: 38 80% 36%;
+    --warning-foreground: 38 80% 22%;
+    --success: 151 60% 30%;
+    --border: 215 30% 82%;
+    --input: 215 30% 82%;
+    --ring: 216 75% 40%;
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 219 55% 15%;
+    --sidebar-primary: 216 75% 40%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 214 75% 93%;
+    --sidebar-accent-foreground: 219 55% 15%;
+    --sidebar-border: 215 30% 82%;
+    --sidebar-ring: 216 75% 40%;
+    --brand-1: 216 75% 40%;
+    --brand-2: 209 75% 48%;
+    --brand-cta-1: 216 75% 40%;
+    --brand-cta-2: 209 75% 48%;
+    --brand-tile-1: 215 65% 94%;
+    --brand-tile-2: 0 0% 100%;
+    --shadow-soft: 0 8px 28px hsl(216 45% 28% / .08), inset 0 1px 0 hsl(0 0% 100%);
+    --shadow-pressed: inset 0 2px 8px hsl(216 45% 28% / .12);
+    --glow: 0 0 0 1px hsl(var(--primary) / .2), 0 10px 28px hsl(var(--primary) / .1);
+    --glass-fill: linear-gradient(150deg, hsl(0 0% 100% / .98), hsl(215 70% 96% / .94));
+    --glass-fill-strong: linear-gradient(150deg, hsl(0 0% 100%), hsl(215 70% 95%));
+    --glass-border: hsl(215 30% 82%);
+    --glass-highlight: inset 0 1px 0 hsl(0 0% 100%);
     --gradient-surface: var(--glass-fill);
     --gradient-hero: var(--glass-fill-strong);
-    --surface-light-1: 217 43% 24%;
-    --surface-light-2: 218 48% 18%;
-    --surface-light-border: 215 40% 34%;
-    --page-bg-base: #0a2147;
-    --page-bg-image: linear-gradient(180deg, #0b2858 0%, #0a2147 52%, #071a39 100%);
-    --nav-fg: 210 40% 98%;
-    --nav-muted: 215 23% 78%;
-    --nav-border: 215 40% 31%;
-    --nav-hover-bg: 215 74% 65% / 0.12;
-    --grid-line: 0 0% 100% / 0.035;
-    --scrollbar-thumb: 215 60% 74% / 0.28;
-    --scrollbar-thumb-hover: 215 70% 80% / 0.46;
-    --placeholder: 215 23% 78% / 0.72;
+    --surface-light-1: 215 65% 96%;
+    --surface-light-2: 0 0% 100%;
+    --surface-light-border: 215 30% 82%;
+    --page-bg-base: #f4f7fb;
+    --page-bg-image: none;
+    --nav-fg: 219 55% 15%;
+    --nav-muted: 216 22% 37%;
+    --nav-border: 215 30% 82%;
+    --nav-hover-bg: 215 70% 50% / .08;
+    --grid-line: 215 70% 40% / .03;
+    --scrollbar-thumb: 215 30% 50% / .45;
+    --scrollbar-thumb-hover: 215 40% 40% / .65;
+    --placeholder: 216 22% 37% / .85;
   }
 
   .prose-invert :where(p):not(:where(.not-prose *)) { margin-top: 1em; margin-bottom: 1em; }
@@ -662,7 +646,7 @@ All colors MUST be HSL.
   .diagonal-accent-left,
   .diagonal-accent-top { display: none !important; }
   .brand-ink-dark { color: hsl(var(--primary-foreground)); }
-  .light .brand-ink-dark { color: hsl(0 0% 100%); }
+  .light .brand-ink-dark { color: hsl(var(--primary-foreground)); }
 
   .neu-button {
     @apply inline-flex items-center justify-center rounded-full px-4 py-2 transition-all;
@@ -2540,6 +2524,10 @@ All colors MUST be HSL.
   }
   .notebook-output {
     font-family: inherit;
+    /* Formula errors and generated text need a stable contrast surface. */
+    background: hsl(var(--card));
+    border-radius: 0.75rem;
+    padding: 1rem;
   }
   .notebook-quiz-card {
     @apply bg-foreground/[0.02];
@@ -2572,7 +2560,7 @@ body.study-focus-mode {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+    transition: none !important;
     scroll-behavior: auto !important;
   }
 }

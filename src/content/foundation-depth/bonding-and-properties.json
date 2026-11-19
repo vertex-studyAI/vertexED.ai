@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "lessonId": "bonding-and-properties",
+  "revision": "2026-10-21.3",
+  "notes": [
+    {
+      "heading": "Separate structure, carriers and the bonds that change",
+      "paragraphs": [
+        "A property explanation needs a structure and a mechanism. High melting temperature suggests substantial attractions must be overcome, but it does not uniquely identify ionic bonding. Some giant covalent structures also require breaking many strong bonds. Electrical conduction needs mobile charged particles: metal electrons, molten ions, or other carriers specified by the structure. For a simple molecular substance, melting usually changes intermolecular organisation while covalent bonds within molecules remain. Similar appearances therefore do not imply the same particle model, and a single property should be combined with other evidence."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "depth-melting-molecules",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "An idealised sample of a simple molecular solid melts without chemical decomposition. A learner says all covalent bonds inside its molecules break. Correct the account.",
+      "answer": "The molecules remain intact; enough intermolecular attractions are overcome to allow molecular movement past one another.",
+      "solution": [
+        "Distinguish covalent bonds within a molecule from attractions between molecules.",
+        "Melting is a change of physical arrangement here, not decomposition into atoms."
+      ],
+      "markingPoints": [
+        "Identify intermolecular attractions.",
+        "State that molecules remain intact.",
+        "Distinguish melting from decomposition."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-graphite-diamond",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "Both diamond and graphite are giant covalent forms of carbon. Explain why the statement 'all giant covalent solids cannot conduct' is too broad.",
+      "answer": "Graphite has delocalised electrons that can move along its layers and conduct. Diamond lacks comparable mobile charge carriers in the simple model.",
+      "solution": [
+        "A structure category alone does not settle charge-carrier mobility.",
+        "Compare electron arrangements, not only whether covalent bonds exist."
+      ],
+      "markingPoints": [
+        "Identify graphite as a counterexample.",
+        "Name mobile delocalised electrons.",
+        "Contrast diamond's lack of mobile carriers."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-two-observations",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "Solid A and solid B both have high melting temperatures. A conducts when molten but not as a solid; B does not conduct in either tested state. What can you infer, and what remains uncertain?",
+      "answer": "A is consistent with an ionic model. B is compatible with some giant covalent structures, but these observations do not uniquely identify either substance.",
+      "solution": [
+        "Use the change in carrier mobility to explain A.",
+        "High melting temperature and nonconduction constrain models but do not provide a unique chemical identity."
+      ],
+      "markingPoints": [
+        "Explain A through mobile molten ions.",
+        "Offer a plausible nonconducting model for B.",
+        "State the limits of identification."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "contractVersion": "vertexed.feedback-review.v1",
+  "id": "learner-attestation-mastery-boundary",
+  "sourceFeedbackDigest": "7e242b796b234399105bce987b40b49c1bd533528ba0ecd3fd84c33a85219b0e",
+  "capability": "answer-review",
+  "privacy": {
+    "explicitConsentForEval": true,
+    "deidentifiedByReviewer": true,
+    "containsUserContent": false,
+    "freeTextIncluded": false,
+    "reviewerRole": "product-safety-reviewer",
+    "reviewedAt": "2026-10-19T03:30:00.000Z"
+  },
+  "regression": {
+    "inputClass": "learner-attested-review",
+    "assertion": "learner-attestation-does-not-create-measured-mastery",
+    "before": {
+      "candidateSha": "b398bf921dbef71ba98303b121e04944a2954cff",
+      "expected": "rejected",
+      "observed": "accepted",
+      "receiptSha256": "7e242b796b234399105bce987b40b49c1bd533528ba0ecd3fd84c33a85219b0e"
+    },
+    "after": {
+      "testPath": "tests/weakness-evidence-boundary.test.mjs",
+      "expected": "rejected",
+      "observed": "rejected",
+      "receiptSha256": "118331473412d2cfe40a193436536841aac1e929dfeb2b8c016413e50ae2137b"
+    }
+  }
+}

@@ -1,5 +1,6 @@
 import { test, expect, type Page, type TestInfo } from '@playwright/test';
 import { selectTheme } from './theme-controls';
+import { readFile } from 'node:fs/promises';
 
 const id = '01a142ca-34d6-4a10-9c2f-2b89b678dbeb';
 const key = (field: string) => `vertex_content:${id}:${field}`;
@@ -7,7 +8,7 @@ const manualTask = { id: 'manual-preserved', 'task name': 'Keep my manually plan
 
 async function harness(page: Page, complete = false) {
   let metadata: Record<string, unknown> = { username: 'persistencefixture', ...(complete ? { board: 'IB_DP', grade: 11, subjects: ['Physics'] } : {}) };
-  const state = { plannerUnavailable: false, plannerWrites: 0, metadataWrites: 0, profileWrites: 0, escapedExternalRequests: [] as string[] };
+  const state = { plannerUnavailable: false, revisionUnavailable: false, revisionWrites: [] as Record<string, unknown>[], plannerWrites: 0, metadataWrites: 0, profileWrites: 0, escapedExternalRequests: [] as string[] };
   const learnerState = new Map<string, Record<string, unknown>>();
   const learner = () => ({ id, aud: 'authenticated', role: 'authenticated', email: 'persistence@example.test', email_confirmed_at: '2026-10-01T00:00:00Z', created_at: '2026-10-01T00:00:00Z', app_metadata: { provider: 'email', providers: ['email'] }, user_metadata: metadata });
   const encode = (value: unknown) => Buffer.from(JSON.stringify(value)).toString('base64url');
@@ -41,6 +42,13 @@ async function harness(page: Page, complete = false) {
     const request = route.request();
     const url = new URL(request.url());
     if (url.pathname === '/api/waitlist-status') return route.fulfill({ json: { status: 'approved', access: true, applicationProfile: null } });
+    if (url.pathname === '/api/revision-history') {
+      if (state.revisionUnavailable) return route.fulfill({ status: 503, json: { error: 'Revision storage temporarily unavailable.' } });
+      if (request.method() === 'GET') return route.fulfill({ json: { events: state.revisionWrites, nextCursor: null } });
+      const event = request.postDataJSON();
+      if (!state.revisionWrites.some(item => item.id === event.id)) state.revisionWrites.push(event);
+      return route.fulfill({ status: 201, json: { event } });
+    }
     if (url.pathname === '/api/learner-state') {
       if (request.method() === 'GET') return route.fulfill({ json: { items: [...learnerState.values()], nextCursor: null } });
       const results = (request.postDataJSON().items ?? []).map((item: Record<string, unknown>) => {
@@ -66,6 +74,45 @@ async function login(page: Page, complete = false) {
   await page.getByRole('button', { name: 'Log in', exact: true }).click();
   await expect(page).toHaveURL(complete ? /\/main$/ : /\/onboarding$/);
 }
+
+for (const width of [1440, 1024, 390]) test(`pending revision survives reload, exports and retries at ${width}`, async ({ page }, info) => {
+  await page.setViewportSize({ width, height: 900 });
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  const state = await harness(page, true);
+  state.revisionUnavailable = true;
+  await login(page, true);
+  const event = {
+    id: '66666666-6666-4666-8666-666666666666', eventType: 'note', evidenceStatus: 'generated',
+    occurredAt: new Date().toISOString(), sourceType: 'study-artifact:note', sourceKey: 'fixture-note', sourceRevision: 'fixture-v1',
+    parentEventIds: [], payload: { label: 'Saved note', route: '/notetaker' },
+  };
+  const storageKey = key(`revision_history_outbox:${event.id}`);
+  await page.evaluate(({ storageKey, event }) => localStorage.setItem(storageKey, JSON.stringify(event)), { storageKey, event });
+  await page.reload();
+  const notice = page.getByRole('region', { name: 'Revision history save status' });
+  await expect(notice).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Today', exact: true })).toBeVisible();
+  await expect(notice).toContainText('1 entry has not finished syncing');
+  const retry = notice.getByRole('button', { name: 'Retry revision sync' });
+  await retry.focus(); await expect(retry).toBeFocused(); await page.keyboard.press(info.project.use.browserName === 'webkit' ? 'Alt+Tab' : 'Tab');
+  await expect(notice.getByRole('button', { name: 'Export pending entries' })).toBeFocused();
+  const downloadPromise = page.waitForEvent('download');
+  await page.keyboard.press('Enter');
+  const download = await downloadPromise;
+  const downloaded = await download.path();
+  expect(JSON.parse(await readFile(downloaded!, 'utf8')).pendingRevisionEvents).toEqual([event]);
+  for (const theme of ['light', 'dark'] as const) {
+    await selectTheme(page, theme);
+    await capture(page, info, `revision-pending-${theme}-${width}`, width);
+  }
+  state.revisionUnavailable = false;
+  await retry.click(); await expect(notice).toBeHidden();
+  expect(state.revisionWrites).toEqual([event]);
+  expect(await page.evaluate(storageKey => localStorage.getItem(storageKey), storageKey)).toBeNull();
+  await page.reload(); await expect(notice).toBeHidden();
+  expect(state.revisionWrites).toHaveLength(1);
+  expect(state.escapedExternalRequests).toEqual([]);
+});
 
 async function fillSetup(page: Page) {
   await page.getByLabel('Exam board', { exact: true }).selectOption('IB_DP');

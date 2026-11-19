@@ -1,0 +1,38 @@
+{
+  "checkedAt": "2026-10-21T05:35:44.565Z",
+  "results": [
+    {
+      "requested": "https://vertex-ed-ai.vercel.app/auth/callback",
+      "status": 303,
+      "redirectOrigin": "https://vertex-ed-ai.vercel.app",
+      "redirectPath": "/auth/callback",
+      "redirectQuery": "",
+      "errorCode": "otp_expired"
+    },
+    {
+      "requested": "https://vertex-ed-ai.vercel.app/auth/callback?recovery=1",
+      "status": 303,
+      "redirectOrigin": "https://www.vertexed.app",
+      "redirectPath": "/",
+      "redirectQuery": "",
+      "errorCode": "otp_expired"
+    },
+    {
+      "requested": "https://vertex-ed-ai.vercel.app/auth/callback?invite=1",
+      "status": 303,
+      "redirectOrigin": "https://www.vertexed.app",
+      "redirectPath": "/",
+      "redirectQuery": "",
+      "errorCode": "otp_expired"
+    },
+    {
+      "requested": "https://untrusted.example/auth/callback",
+      "status": 303,
+      "redirectOrigin": "https://www.vertexed.app",
+      "redirectPath": "/",
+      "redirectQuery": "",
+      "errorCode": "otp_expired"
+    }
+  ],
+  "boundary": "Invalid-token requests only; no accounts, emails, valid tokens or sessions."
+}

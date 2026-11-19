@@ -81,7 +81,7 @@ export default function SubjectMasteryCard({ mastery, focusSubject, className }:
 
         {mastery.some((m) => m.attempts === 0) && (
           <p className="text-xs text-muted-foreground mt-4">
-            Only verified attempts appear here. Add a teacher-confirmed, official-mark-scheme, or validated-answer-key result to expand the evidence.
+            Only independently validated attempts appear here. Learner-attested teacher or mark-scheme checks stay in revision history without changing mastery.
           </p>
         )}
       </div>

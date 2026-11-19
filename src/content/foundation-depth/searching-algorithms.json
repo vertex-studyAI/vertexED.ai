@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "lessonId": "searching-algorithms",
+  "revision": "2026-10-21.3",
+  "notes": [
+    {
+      "heading": "State whether the result is a match or an insertion position",
+      "paragraphs": [
+        "Search contracts determine how equality and boundaries should be handled. A routine that returns any matching index is different from one that returns the first matching index or the first value at least as large as a target. Half-open bounds [low,high) can simplify insertion-position searches: high may equal the list length without being read as an element. A loop must shrink the interval on every iteration. Trace absent targets and duplicates as well as successful matches, and retain original indices if sorting would otherwise lose them."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "depth-lower-bound",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "Find the first index with value at least 5 in sorted [1,3,3,7,9] using low=0, high=5, while low<high, mid=floor((low+high)/2), low=mid+1 if a[mid]<5, otherwise high=mid. Trace mid and return low.",
+      "answer": "Midpoints are 2,4,3; return index 3, containing 7.",
+      "solution": [
+        "At 2, value 3 moves low to 3; at 4, value 9 moves high to 4.",
+        "At 3, value 7 moves high to 3 and the interval becomes empty."
+      ],
+      "markingPoints": [
+        "Trace midpoints 2,4,3.",
+        "Apply the correct bound updates.",
+        "Return insertion/lower-bound index 3."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-missing-large",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "Using the same half-open lower-bound contract on [2,4,6] for target 9, what index is returned and why must it not be dereferenced?",
+      "answer": "Return 3, the list length. It represents insertion after all elements and is not a valid existing element index.",
+      "solution": [
+        "Every stored value is less than 9, so the lower bound is the end position.",
+        "Distinguish a valid insertion position from a valid array element."
+      ],
+      "markingPoints": [
+        "Return 3.",
+        "Explain insertion after the list.",
+        "Reject reading a[3]."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-preserve-index",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "An unsorted list is [30,10,20]. An application sorts it and finds 20 at sorted index 1, then reports original index 1. Explain and repair the error.",
+      "answer": "20 was originally at index 2. Store value-original-index pairs before sorting, or use linear search on the original list.",
+      "solution": [
+        "Sorting changes positions while leaving values intact.",
+        "Carry original indices through the transformation when the contract requires them."
+      ],
+      "markingPoints": [
+        "Identify original index 2.",
+        "Explain sorted versus original positions.",
+        "Give a valid preservation or search method."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    }
+  ]
+}

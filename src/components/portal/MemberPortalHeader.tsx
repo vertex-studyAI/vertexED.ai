@@ -38,7 +38,7 @@ export default function MemberPortalHeader({
       ? 'Cloud connection unavailable'
       : localSaveCount > 0
         ? `${localSaveCount} device save${localSaveCount === 1 ? '' : 's'} waiting to sync`
-        : 'No pending device saves';
+        : 'No pending saved-work uploads';
 
   return (
     <header className="member-portal-header" aria-labelledby="member-portal-title">
@@ -112,7 +112,7 @@ export default function MemberPortalHeader({
             <span>
               {cloudUnavailable || localSaveCount > 0
                 ? 'Device copies stay in place until account sync is confirmed.'
-                : 'No device-only work is waiting to sync.'}
+                : 'No notes, reviews or plans are waiting to upload.'}
             </span>
           </div>
         </div>

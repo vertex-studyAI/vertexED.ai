@@ -45,10 +45,126 @@
             "Recognise alternatives"
           ],
           "id": "english-literature-and-composition-unit-1-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Original invented line: 'The clerk called her by her number; she replied with her name.' Interpret the contrast.",
+          "hint": "Compare the forms of address.",
+          "hints": [
+            "Compare the forms of address.",
+            "Consider the character's response."
+          ],
+          "answer": "The number reduces her to an administrative identifier. Her name asserts individual identity. The contrast suggests resistance to impersonal treatment.",
+          "checkpoints": [
+            "The number reduces her to an administrative identifier.",
+            "Her name asserts individual identity.",
+            "The contrast suggests resistance to impersonal treatment."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "Why cannot the gate passage prove Eli fears the visitor?",
+          "hint": "Separate action from motive.",
+          "hints": [
+            "Separate action from motive.",
+            "Name another plausible explanation."
+          ],
+          "answer": "The obstruction supports hesitation or control. Fear is only one possible motive. Further speech or thought would distinguish it from caution or habit.",
+          "checkpoints": [
+            "The obstruction supports hesitation or control.",
+            "Fear is only one possible motive.",
+            "Further speech or thought would distinguish it from caution or habit."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "id": "english-literature-and-composition-unit-1",
-      "frameworkUnit": "Unit 1"
+      "frameworkUnit": "Unit 1",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Character, setting and narrative perspective in depth",
+            "paragraphs": [
+              "Characterisation emerges from choices, speech and the details a narrator selects. Setting can constrain action while also acquiring symbolic significance, but an object is not automatically a symbol. Distinguish what the text states from what a reader infers. Perspective controls access: an external narrator may describe a hand shaking without knowing its cause, whereas a character's thoughts can disclose a motive. An interpretation should account for conflicting details rather than select only those that fit a simple personality label."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Original invented passage: 'Eli unlocked the gate for the visitor but kept his foot across the threshold.' Interpret the action.",
+            "steps": [
+              "Unlocking permits entry; the foot physically obstructs it.",
+              "The paired gestures suggest hospitality qualified by hesitation or control."
+            ],
+            "conclusion": "The passage presents conflicting impulses without establishing their cause."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is indirect characterisation?",
+            "back": "Character inferred from actions or language."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What does limited perspective restrict?",
+            "back": "Access to some characters' knowledge."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Why examine setting?",
+            "back": "It shapes possibilities and social pressures."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Is inference certainty?",
+            "back": "No; textual support bounds it."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "A divided welcome",
+            "description": "Opposing gestures complicate character.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Unlocked gate",
+                "detail": "Access is offered."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Blocked threshold",
+                "detail": "Entry is restrained."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Ambivalence",
+                "detail": "Welcome coexists with control."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "is complicated by"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "suggests"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Poetic speaker, imagery and contrast",
@@ -88,10 +204,126 @@
             "Connect it to meaning"
           ],
           "id": "english-literature-and-composition-unit-2-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Original invented line: 'The kettle argued with the quiet room.' Explain personification and its effect.",
+          "hint": "Identify a human action.",
+          "hints": [
+            "Identify a human action.",
+            "Compare the sound with its setting."
+          ],
+          "answer": "'Argued' gives the kettle human conflict. Its noise opposes the room's quiet. The contrast makes domestic sound seem disruptive.",
+          "checkpoints": [
+            "'Argued' gives the kettle human conflict.",
+            "Its noise opposes the room's quiet.",
+            "The contrast makes domestic sound seem disruptive."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "A poem says 'I smiled' but describes 'tight hands beneath the table'. Offer a qualified interpretation.",
+          "hint": "Compare visible expression and concealed gesture.",
+          "hints": [
+            "Compare visible expression and concealed gesture.",
+            "Avoid assuming one precise cause."
+          ],
+          "answer": "The smile presents composure. Tight hidden hands suggest tension. The contrast may reveal controlled discomfort without proving its source.",
+          "checkpoints": [
+            "The smile presents composure.",
+            "Tight hidden hands suggest tension.",
+            "The contrast may reveal controlled discomfort without proving its source."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "id": "english-literature-and-composition-unit-2",
-      "frameworkUnit": "Unit 2"
+      "frameworkUnit": "Unit 2",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Poetic speaker, imagery and contrast in depth",
+            "paragraphs": [
+              "A poetic speaker is a constructed voice, not automatically the poet. Imagery creates sensory relationships that can develop an attitude without naming it directly. Contrast is especially useful when similar objects receive different treatment: a bright room and a dark window may organise an emotional division. Explain how the particular words establish the contrast and whether later lines alter it. A persuasive reading connects several details, while retaining uncertainty when the poem does not identify an event or emotion explicitly."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Original invented lines: 'My coat remembered rain; / the room offered only dust.' Analyse the imagery.",
+            "steps": [
+              "'Remembered' gives the coat a human capacity and associates it with earlier movement outdoors.",
+              "Rain contrasts with dust, suggesting a shift from activity to stasis."
+            ],
+            "conclusion": "The objects imply a changed experience without naming its cause."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "Who is a poetic speaker?",
+            "back": "The voice constructed within a poem."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What is sensory imagery?",
+            "back": "Language evoking perceived sensations."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What makes contrast meaningful?",
+            "back": "Its relationship to the developing idea."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why avoid equating poet and speaker?",
+            "back": "The voice may be fictional or dramatised."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Rain and dust",
+            "description": "Material details organise a contrast.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Rain",
+                "detail": "A trace of the outside world."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Dust",
+                "detail": "An enclosed, inactive present."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Changed experience",
+                "detail": "Movement gives way to stillness."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "contrasts with"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "suggests"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Developing conflict across a longer work",
@@ -131,10 +363,126 @@
             "Link technique to meaning"
           ],
           "id": "english-literature-and-composition-unit-3-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Invented play: a brother hides a debt in Act I and confesses in Act III, losing his office. Analyse the change.",
+          "hint": "Compare his choices.",
+          "hints": [
+            "Compare his choices.",
+            "Include the consequence."
+          ],
+          "answer": "Concealment initially protects his status. Confession prioritises disclosure over that protection. The lost office makes the cost of the change visible.",
+          "checkpoints": [
+            "Concealment initially protects his status.",
+            "Confession prioritises disclosure over that protection.",
+            "The lost office makes the cost of the change visible."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "Why might a quiet refusal be a turning point?",
+          "hint": "Focus on consequences, not volume.",
+          "hints": [
+            "Focus on consequences, not volume.",
+            "Identify what becomes impossible afterwards."
+          ],
+          "answer": "A refusal can close an available path. It may force new decisions or relationships. Its structural importance depends on those consequences, not dramatic noise.",
+          "checkpoints": [
+            "A refusal can close an available path.",
+            "It may force new decisions or relationships.",
+            "Its structural importance depends on those consequences, not dramatic noise."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "id": "english-literature-and-composition-unit-3",
-      "frameworkUnit": "Unit 3"
+      "frameworkUnit": "Unit 3",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Developing conflict across a longer work in depth",
+            "paragraphs": [
+              "Longer works build conflict through repeated choices and changing consequences. A recurring image matters because its context changes, not merely because it appears often. Track the protagonist's goal, the obstacle and the cost of each response. A turning point should alter the available choices or a character's understanding; it need not be the loudest event. Comparisons across early and late scenes support claims about development more convincingly than a single isolated statement about what a character is like."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Invented novel: a daughter first borrows her father's map, later draws her own, then returns to help him navigate. Explain the development.",
+            "steps": [
+              "Borrowing establishes dependence, while drawing a map signals independent judgement.",
+              "Returning with knowledge combines autonomy with renewed responsibility."
+            ],
+            "conclusion": "The sequence develops independence as a changed relationship rather than permanent separation."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is a turning point?",
+            "back": "An event changing choices or understanding."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What supports character development?",
+            "back": "Contrasting actions across the work."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Why track consequences?",
+            "back": "They reveal the costs of choices."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Is a motif a theme?",
+            "back": "A motif is recurring material that may develop a theme."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Maps and independence",
+            "description": "A recurring object changes relational meaning.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Borrowed map",
+                "detail": "Dependence on inherited guidance."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Drawn map",
+                "detail": "Independent judgement."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Shared navigation",
+                "detail": "Autonomy supports reciprocal care."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "develops into"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "enables"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Narrative distance and unreliable judgement",
@@ -174,10 +522,126 @@
             "Avoid overclaiming"
           ],
           "id": "english-literature-and-composition-unit-4-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Original invented narration: 'She certainly envied me; I had never spoken to her.' Identify the interpretive weakness.",
+          "hint": "Ask what the narrator can know.",
+          "hints": [
+            "Ask what the narrator can know.",
+            "Compare certainty with contact."
+          ],
+          "answer": "The narrator claims certainty about another person's emotion. No conversation supports that claim. The mismatch invites doubt about the narrator's judgement.",
+          "checkpoints": [
+            "The narrator claims certainty about another person's emotion.",
+            "No conversation supports that claim.",
+            "The mismatch invites doubt about the narrator's judgement."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "Give evidence that could distinguish deception from limited knowledge in that passage.",
+          "hint": "Consider awareness.",
+          "hints": [
+            "Consider awareness.",
+            "What would show knowingly hiding truth?"
+          ],
+          "answer": "A later admission of knowing her actual motive would support deception. Mistaken assumptions without such awareness could indicate limited knowledge. The original sentence alone cannot settle the distinction.",
+          "checkpoints": [
+            "A later admission of knowing her actual motive would support deception.",
+            "Mistaken assumptions without such awareness could indicate limited knowledge.",
+            "The original sentence alone cannot settle the distinction."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "id": "english-literature-and-composition-unit-4",
-      "frameworkUnit": "Unit 4"
+      "frameworkUnit": "Unit 4",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Narrative distance and unreliable judgement in depth",
+            "paragraphs": [
+              "Narrative distance describes how closely narration aligns with a character's experience or judgement. A narrator can report accurately yet interpret unfairly; unreliability is not limited to false facts. Compare evaluative language with observable events and notice information the narrator cannot know. Irony may emerge when readers recognise a gap the voice overlooks. Evidence of one contradiction supports a local doubt, not a licence to reject everything in the narrative. Assess the extent and kind of unreliability before making a claim about its effect."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Original invented narration: 'Everyone welcomed my advice. Two people left before I finished, but surely they had urgent errands.'",
+            "steps": [
+              "Leaving is observable; the explanation about errands is the narrator's assumption.",
+              "'Everyone' overstates the evidence and protects the narrator's self-image."
+            ],
+            "conclusion": "The passage invites doubt about the narrator's judgement of others' reactions."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "Can accurate events have unreliable interpretation?",
+            "back": "Yes; judgement may distort their meaning."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What is narrative distance?",
+            "back": "The degree of alignment with a character's experience."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What creates dramatic irony?",
+            "back": "Readers know or infer more than a character."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Does one contradiction invalidate every detail?",
+            "back": "No; assess its scope."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Self-protective interpretation",
+            "description": "The narrator supplies an unverified explanation.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "People leave",
+                "detail": "An observable reaction."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Urgent errands",
+                "detail": "A motive the narrator assumes."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Universal welcome",
+                "detail": "A judgement not established by the evidence."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "is explained as"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "protects"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Poetic structure and extended comparison",
@@ -217,10 +681,126 @@
             "Link to context"
           ],
           "id": "english-literature-and-composition-unit-5-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Original invented lines: 'The road was a ribbon, / frayed where the village ended.' Explain the developed comparison.",
+          "hint": "Connect both ribbon and fraying to the road.",
+          "hints": [
+            "Connect both ribbon and fraying to the road.",
+            "Consider what the boundary adds."
+          ],
+          "answer": "The ribbon presents the road as a narrow continuous strip. Fraying disrupts that continuity at the village edge. The comparison may suggest weakening connection beyond the settlement.",
+          "checkpoints": [
+            "The ribbon presents the road as a narrow continuous strip.",
+            "Fraying disrupts that continuity at the village edge.",
+            "The comparison may suggest weakening connection beyond the settlement."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "Why is 'enjambment makes the poem happy' insufficient?",
+          "hint": "A formal device has no fixed mood.",
+          "hints": [
+            "A formal device has no fixed mood.",
+            "Specify what the break actually changes."
+          ],
+          "answer": "Enjambment only identifies continued syntax. Its effect depends on words and context. Analysis must show a particular expectation, pace or emphasis created by the break.",
+          "checkpoints": [
+            "Enjambment only identifies continued syntax.",
+            "Its effect depends on words and context.",
+            "Analysis must show a particular expectation, pace or emphasis created by the break."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "id": "english-literature-and-composition-unit-5",
-      "frameworkUnit": "Unit 5"
+      "frameworkUnit": "Unit 5",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Poetic structure and extended comparison in depth",
+            "paragraphs": [
+              "Form shapes the order and pace of a poem's thinking. Enjambment carries syntax across a line break, while an end-stopped line aligns a grammatical pause with the boundary. Neither has a fixed emotional meaning. A break may briefly encourage one reading before the next line revises it. Extended comparison should also be tracked across its development: notice where two things resemble each other and where the poem stresses their difference. Relate structural choices to the poem's particular movement of thought."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Original invented lines: 'I carried all I needed / until the handle broke.' Analyse the turn.",
+            "steps": [
+              "The first line seems to assert sufficiency.",
+              "The second introduces failure, revising confidence into dependence on a fragile support."
+            ],
+            "conclusion": "The line break temporarily sustains assurance before undermining it."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is enjambment?",
+            "back": "Syntax continues across a line break."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What is end-stopping?",
+            "back": "A line ends with a grammatical pause."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What is a volta?",
+            "back": "A turn in thought or argument."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "How analyse extended metaphor?",
+            "back": "Track both developing likeness and limits."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Confidence revised",
+            "description": "Line sequence changes the apparent claim.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "'All I needed'",
+                "detail": "An assertion of sufficiency."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "'Until'",
+                "detail": "A temporal limit interrupts it."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Broken handle",
+                "detail": "Support fails despite apparent preparedness."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "is limited by"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "introduces"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Foils, motives and disrupted chronology",
@@ -260,10 +840,126 @@
             "Separate moral evaluation"
           ],
           "id": "english-literature-and-composition-unit-6-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Two invented characters miss the same train: one blames staff, the other checks their own timetable. Explain the foil relationship.",
+          "hint": "Keep the shared situation visible.",
+          "hints": [
+            "Keep the shared situation visible.",
+            "Compare responses."
+          ],
+          "answer": "Both face the same missed journey. One assigns external blame while the other examines personal error. The contrast highlights differing approaches to responsibility.",
+          "checkpoints": [
+            "Both face the same missed journey.",
+            "One assigns external blame while the other examines personal error.",
+            "The contrast highlights differing approaches to responsibility."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "A novel reveals childhood poverty after a character steals food. What can that flashback establish and not establish?",
+          "hint": "Separate explanation from moral verdict.",
+          "hints": [
+            "Separate explanation from moral verdict.",
+            "Keep the theft's consequences in view."
+          ],
+          "answer": "Poverty may explain fear of scarcity. It can complicate a reader's judgement of the theft. It does not alone prove the action justified or harmless.",
+          "checkpoints": [
+            "Poverty may explain fear of scarcity.",
+            "It can complicate a reader's judgement of the theft.",
+            "It does not alone prove the action justified or harmless."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "id": "english-literature-and-composition-unit-6",
-      "frameworkUnit": "Unit 6"
+      "frameworkUnit": "Unit 6",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Foils, motives and disrupted chronology in depth",
+            "paragraphs": [
+              "Foils reveal values through comparable situations and different responses. They need not be complete opposites; shared traits can make one difference more revealing. Disrupted chronology changes when readers learn a motive, so plot order and event order should be distinguished. A flashback can revise an earlier judgement without excusing an action. Ask why the narrative withholds a particular piece of information and what interpretation becomes possible when it arrives. Support motive claims with patterns of behaviour as well as explanation."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Invented story: Noor gives away a prize while her sister stores every certificate. Later, readers learn Noor's gift repays a debt.",
+            "steps": [
+              "The initial contrast suggests generosity against possessiveness.",
+              "The delayed debt changes Noor's apparent motive and complicates the simple opposition."
+            ],
+            "conclusion": "The sisters remain foils, but chronology prevents an uncomplicated moral ranking."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is a foil?",
+            "back": "A character whose contrast illuminates another."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What is analepsis?",
+            "back": "Narrative movement back to an earlier event."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Why distinguish plot and chronology?",
+            "back": "Disclosure order shapes reader judgement."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Does motive excuse conduct?",
+            "back": "Explanation and justification are different claims."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Delayed motive",
+            "description": "New information revises an earlier contrast.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Gift versus storage",
+                "detail": "Apparently opposed attitudes to reward."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Earlier debt",
+                "detail": "A previously withheld obligation."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Revised comparison",
+                "detail": "Giving may combine generosity and repayment."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "is reinterpreted through"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "supports"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Epiphany, pacing and social setting",
@@ -303,10 +999,126 @@
             "Require textual evidence"
           ],
           "id": "english-literature-and-composition-unit-7-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Original invented scene: 'She understood the rule was unfair. At the meeting she repeated it unchanged.' Analyse the tension.",
+          "hint": "Compare thought and public action.",
+          "hints": [
+            "Compare thought and public action.",
+            "Avoid treating understanding as automatic reform."
+          ],
+          "answer": "Her recognition challenges the rule privately. Her repetition maintains it publicly. The gap suggests that insight alone does not overcome pressure or habit.",
+          "checkpoints": [
+            "Her recognition challenges the rule privately.",
+            "Her repetition maintains it publicly.",
+            "The gap suggests that insight alone does not overcome pressure or habit."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "Why might a story describe a dinner seating plan in detail? Offer a bounded interpretation.",
+          "hint": "Consider social relationships.",
+          "hints": [
+            "Consider social relationships.",
+            "Require evidence from the scene."
+          ],
+          "answer": "Seating can display rank or exclusion. Detailed attention may make those relationships significant. The interpretation needs placement and reactions from the actual scene.",
+          "checkpoints": [
+            "Seating can display rank or exclusion.",
+            "Detailed attention may make those relationships significant.",
+            "The interpretation needs placement and reactions from the actual scene."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "id": "english-literature-and-composition-unit-7",
-      "frameworkUnit": "Unit 7"
+      "frameworkUnit": "Unit 7",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Epiphany, pacing and social setting in depth",
+            "paragraphs": [
+              "An epiphany is a moment of recognition, but recognition need not lead to changed behaviour. Compare the new understanding with later action and with the narrator's framing. Pacing allocates textual attention: a page about a second of hesitation can make that moment more significant than years summarised in a sentence. Social setting can explain the risks of speaking or remaining silent, yet context must be connected to details in the work. The strongest analysis shows how pace, situation and response interact."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Original invented scene: 'For ten years he passed the empty shop. Today he read the name scratched beneath the paint, and stayed until the streetlights came on.'",
+            "steps": [
+              "Ten years are compressed into one action, while one afternoon receives sustained attention.",
+              "Reading the name changes his response from passing to remaining."
+            ],
+            "conclusion": "The altered pace and behaviour suggest recognition, though its precise meaning remains unstated."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is epiphany?",
+            "back": "A moment of significant recognition."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What shows recognition changes behaviour?",
+            "back": "A contrasting subsequent choice."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What is narrative summary?",
+            "back": "Compressed presentation of events."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why slow a brief moment?",
+            "back": "To increase its perceived significance."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Attention and recognition",
+            "description": "Pacing makes an altered response visible.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Repeated passing",
+                "detail": "Ten years of brief contact."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Reading the name",
+                "detail": "A focused moment of attention."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Remaining until dark",
+                "detail": "An observable change in conduct."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "is interrupted by"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "leads to"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Ambiguity, paradox and multiple readings",
@@ -346,10 +1158,126 @@
             "Compare textual support"
           ],
           "id": "english-literature-and-composition-unit-8-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Original invented line: 'The empty chair kept the room crowded.' Explain the paradox.",
+          "hint": "Separate physical occupancy from emotional presence.",
+          "hints": [
+            "Separate physical occupancy from emotional presence.",
+            "Consider what absence recalls."
+          ],
+          "answer": "An empty chair lacks a physical occupant. It may evoke a missing person intensely. The paradox presents absence as an emotionally dominating presence.",
+          "checkpoints": [
+            "An empty chair lacks a physical occupant.",
+            "It may evoke a missing person intensely.",
+            "The paradox presents absence as an emotionally dominating presence."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "A reader says the empty chair certainly proves a death. Evaluate that claim.",
+          "hint": "Ask whether absence identifies its cause.",
+          "hints": [
+            "Ask whether absence identifies its cause.",
+            "Name a supported alternative."
+          ],
+          "answer": "The chair supports absence or memory. Travel, separation or death could explain it. Death requires additional textual evidence.",
+          "checkpoints": [
+            "The chair supports absence or memory.",
+            "Travel, separation or death could explain it.",
+            "Death requires additional textual evidence."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "id": "english-literature-and-composition-unit-8",
-      "frameworkUnit": "Unit 8"
+      "frameworkUnit": "Unit 8",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Ambiguity, paradox and multiple readings in depth",
+            "paragraphs": [
+              "Ambiguity permits more than one supported interpretation; it does not make every interpretation equally plausible. A paradox combines apparently incompatible terms whose relationship reveals a more complex idea. Read the surrounding language to test whether the tension concerns emotion, knowledge, power or another issue. Develop competing readings with the same evidence, then identify what each explains and overlooks. If the work leaves the issue unresolved, an essay can argue that the unresolved tension itself shapes the meaning rather than forcing a final answer."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Original invented line: 'The key made her a prisoner of the house.' Test two readings.",
+            "steps": [
+              "Possessing the key gives access and responsibility, which may bind her to care for the house.",
+              "Alternatively, attachment to ownership may prevent departure without any literal locked door."
+            ],
+            "conclusion": "Both readings connect possession with confinement; context would distinguish duty from emotional attachment."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is ambiguity?",
+            "back": "Language supporting more than one plausible reading."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What is paradox?",
+            "back": "An apparent contradiction that reveals a meaningful tension."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Are all readings equally strong?",
+            "back": "No; compare their textual support."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What can unresolved tension contribute?",
+            "back": "Complexity central to the work's meaning."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "A key's paradox",
+            "description": "The same object supports contrary implications.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Key",
+                "detail": "Access and control."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Responsibility or attachment",
+                "detail": "Ownership creates a bond."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Confinement",
+                "detail": "The bond limits departure."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "can create"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "can produce"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Resolution and the meaning of the whole work",
@@ -389,10 +1317,126 @@
             "Explain continuity or change"
           ],
           "id": "english-literature-and-composition-unit-9-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Invented ending: a ruler resigns, but the laws she imposed remain. Develop a thematic claim about power.",
+          "hint": "Distinguish the person from institutions.",
+          "hints": [
+            "Distinguish the person from institutions.",
+            "Include what persists."
+          ],
+          "answer": "Personal departure does not erase institutional influence. The continuing laws preserve the ruler's effects. The ending suggests power can outlast its individual holder.",
+          "checkpoints": [
+            "Personal departure does not erase institutional influence.",
+            "The continuing laws preserve the ruler's effects.",
+            "The ending suggests power can outlast its individual holder."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "Why is an ending's happy reunion insufficient to prove all conflict resolved?",
+          "hint": "Examine remaining consequences.",
+          "hints": [
+            "Examine remaining consequences.",
+            "Look beyond the final event's mood."
+          ],
+          "answer": "Reunion resolves separation. Earlier harm or unequal relations may persist. A whole-work interpretation must assess whether the text addresses those tensions.",
+          "checkpoints": [
+            "Reunion resolves separation.",
+            "Earlier harm or unequal relations may persist.",
+            "A whole-work interpretation must assess whether the text addresses those tensions."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "id": "english-literature-and-composition-unit-9",
-      "frameworkUnit": "Unit 9"
+      "frameworkUnit": "Unit 9",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Resolution and the meaning of the whole work in depth",
+            "paragraphs": [
+              "An ending invites readers to reassess earlier conflicts, but resolution need not mean that every tension disappears. A repeated image can acquire a new meaning through changed relationships or choices. A thematic claim should state what the work suggests about a topic under particular conditions, not merely name 'love' or 'power'. Evaluate a whole-work argument against inconvenient details, especially unresolved consequences. Open endings can require readers to judge a choice without being shown its result; that withheld certainty may be part of the work's design."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Invented novel: the opening shows a child hiding a broken bowl; the ending shows the adult displaying its repaired cracks.",
+            "steps": [
+              "Concealment initially associates damage with shame.",
+              "Displaying the repaired object acknowledges damage without erasing it."
+            ],
+            "conclusion": "The repeated bowl develops a claim that reconciliation may involve visible acknowledgement rather than restored perfection."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What distinguishes theme from topic?",
+            "back": "Theme states a developed claim about the topic."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Can resolution retain conflict?",
+            "back": "Yes; some consequences may remain unresolved."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Why compare opening and ending?",
+            "back": "Changed recurrence reveals development."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What must a whole-work argument accommodate?",
+            "back": "Both supporting details and significant complications."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "The bowl across the novel",
+            "description": "A repeated object changes the relation to damage.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Hidden break",
+                "detail": "Damage is concealed."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Repair",
+                "detail": "The object survives through intervention."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Displayed cracks",
+                "detail": "Damage becomes acknowledged history."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "is followed by"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "makes possible"
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

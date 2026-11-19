@@ -1,0 +1,671 @@
+{
+  "schemaVersion": 1,
+  "id": "scientific-investigation",
+  "revision": "2026-10-21.2",
+  "subject": "Sciences",
+  "unit": "Inquiry and evidence",
+  "topic": "Planning investigations and evaluating evidence",
+  "level": "secondary-foundation",
+  "editorialStatus": "unreviewed",
+  "origin": "original-authorship-review-pending",
+  "scope": "Original integrated-science inquiry lesson using explicitly invented classroom data. Partial MYP framework-skill links only. This is not a completed practical, a year-specific syllabus map or a laboratory safety procedure.",
+  "prerequisites": [
+    "Read a table and calculate an arithmetic mean.",
+    "Distinguish a measurement from an explanation of it."
+  ],
+  "objectives": [
+    "Turn a broad question into a measurable comparison with identified variables.",
+    "Plan controls, repetitions and recording that address plausible confounding factors.",
+    "Interpret data cautiously, distinguish uncertainty from mistakes and propose targeted improvements."
+  ],
+  "notes": [
+    {
+      "heading": "From curiosity to a testable question",
+      "paragraphs": [
+        "A scientific investigation begins with a question whose evidence could change our answer. 'Do ramps affect motion?' is too broad to specify what to measure. A more operational question is 'For the same toy car and surface, how does a change in ramp angle affect the distance travelled after leaving the ramp?' It identifies a changed quantity, an outcome and a comparison. It still needs a defined angle range, a distance reference point and an agreed release procedure. These details make the question reproducible rather than merely interesting.",
+        "A prediction states an expected pattern; an explanation proposes why that pattern might occur. Keep them separate so a surprising result can challenge the proposed explanation. For example, predicting greater travel distance at larger angles does not by itself establish which energy transfers are responsible. An investigation should allow a different outcome, rather than setting up a procedure designed only to confirm a belief. The ramp examples here use invented data for reasoning practice. Any real classroom activity needs a teacher-approved method and risk assessment; this lesson does not authorise a physical setup or certify its safety."
+      ]
+    },
+    {
+      "heading": "Variables, controls and fair comparisons",
+      "paragraphs": [
+        "The independent variable is deliberately varied in an experiment, while the dependent variable is the measured response. A control variable is kept as consistent as practicable because it could otherwise influence the outcome. In the ramp example, the car, release position, surface and distance reference are relevant. Changing both angle and surface at once makes interpretation difficult: either change, or their interaction, could explain the result. A confounding factor is an alternative influence that varies with the proposed cause and obscures which factor produced the difference.",
+        "Controls are chosen for reasons, not listed mechanically. Explain how each one could affect the measured outcome and how it will be kept consistent or recorded. Repeatedly measuring with the same incorrectly positioned start line does not remove that systematic problem. Randomising the order of conditions can reduce an association between angle and a time-related change, such as a surface becoming dusty; it does not guarantee that every confound is removed. Distinguish a control variable from a control group. Some investigations compare against a baseline group, but that is not the same as holding a measurement procedure constant."
+      ]
+    },
+    {
+      "heading": "Measurement, repeats and transparent records",
+      "paragraphs": [
+        "Define what is measured, its units and how the instrument is read before collecting results. A distance from the ramp end to the front of the car differs from a distance to its centre; both might be usable if consistently specified, but they must not be mixed. Instrument resolution is the smallest displayed increment, not a guarantee of accuracy. Accuracy concerns closeness to an accepted reference or true value; precision concerns how closely repeated measurements agree. Measurements can be tightly clustered yet all shifted by a calibration error.",
+        "Repeat observations to see variability, not to manufacture a preferred mean. Keep the raw readings, record changes in procedure and preserve unusual results with an explanation. An unexpected value is not automatically a mistake. Check transcription, equipment and relevant conditions before deciding whether exclusion is justified, and report any decision transparently. The mean provides one summary, but can hide spread or be influenced by an extreme value. Report a spread measure alongside it when appropriate. In this lesson half-range is a simple classroom spread estimate, not a universal confidence interval or a rule for instrument uncertainty."
+      ]
+    },
+    {
+      "heading": "Tables, graphs and comparisons",
+      "paragraphs": [
+        "A table should label both the changed quantity and the response with units. Preserve individual repeats as well as any summary, so another reader can inspect variation. For continuous variables, a scatter graph can display the relationship without pretending that every point lies exactly on a rule. The independent variable normally appears on the horizontal axis and the dependent variable on the vertical axis. Choose sensible scales and do not force a line through the origin merely because it looks tidy. A best-fit line or curve should reflect the pattern and the modelling assumptions.",
+        "Consider the invented repeated distances 42, 44 and 46 cm for one condition, and 53, 55 and 57 cm for another. Their means are 44 and 55 cm and each half-range is 2 cm. These data show a larger mean distance in the second condition in this small dataset. They do not, on their own, quantify a population effect, demonstrate statistical significance or prove a particular causal mechanism. The percentage increase relative to the first mean is (55 - 44)/44 × 100 = 25%. State the baseline explicitly because dividing by the second mean answers a different question."
+      ]
+    },
+    {
+      "heading": "Claims, evidence and alternative explanations",
+      "paragraphs": [
+        "A conclusion should answer the question at the strength supported by the evidence. State the observed pattern, cite relevant values and identify limits. 'The larger-angle condition had a greater mean distance in these trials' is narrower and more defensible than 'angle always determines distance'. A causal interpretation is stronger when the changed factor is isolated through the design, but controlled experiments still have assumptions and possible imperfections. An observational association, where the researcher did not assign conditions, usually leaves additional alternative explanations to consider.",
+        "Ask which plausible factors could generate the same pattern. Perhaps a release position shifted, a different car was used, or condition order coincided with a changing surface. Explain how each possibility would alter the measurement and propose evidence that could distinguish it from the original explanation. Do not list every imaginable factor without relevance. Agreement with a prediction supports a model under the tested conditions; it does not prove that the model is uniquely correct. Disagreement is informative too: it may challenge the model, reveal an unaccounted variable or expose a measurement problem. Preserve it rather than rewriting the prediction after seeing the results."
+      ]
+    },
+    {
+      "heading": "Evaluation that improves the investigation",
+      "paragraphs": [
+        "Useful evaluation links a specific weakness to its likely effect and then to a feasible improvement. 'Human error occurred' names neither the problem nor a repair. 'The start position was judged by eye and may have varied between trials; mark a fixed reference and use the same release procedure' gives an identifiable source of variation and a way to reduce it. More repeats can improve the description of random variation, but will not correct a consistently miscalibrated instrument or an inappropriate operational definition.",
+        "Separate improving internal validity from extending the scope. Better control of the car and surface helps isolate the comparison being tested. Investigating additional cars or surfaces examines how widely the result might generalise, which is a different next question. Choose further conditions because they test an assumption or clarify a pattern, not simply because more data always sounds better. A final report should retain the question, method, raw evidence, analysis, conclusion and limitations. Ethical reporting includes distinguishing real observations from simulated or invented teaching data, acknowledging sources and avoiding claims that exceed what was actually measured."
+      ]
+    },
+    {
+      "heading": "Keeping an anomalous reading visible while testing its cause",
+      "paragraphs": [
+        "An unusual reading should trigger investigation, not automatic deletion. Inspect the original record, measurement procedure and relevant conditions before deciding whether a documented error invalidates it. Report both the observation and any justified exclusion rule. With a small dataset, compare summaries with and without the reading to show sensitivity, but do not select the version that best supports a preferred conclusion. A repeated measurement can help test a suspected equipment or procedural problem; it cannot retrospectively prove that an unexplained value was impossible. These fictional values illustrate transparent analysis, not a completed experiment or a universal outlier-removal method."
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "prompt": "Improve the question 'Which ramp is best?' for an investigation.",
+      "steps": [
+        "Define the outcome: distance travelled after leaving a ramp.",
+        "Specify the comparison: different ramp angles with the same car and surface.",
+        "State that exact angle values, release reference and measurement method must be specified before a real trial."
+      ],
+      "answer": "How does ramp angle affect post-ramp travel distance for the same toy car and surface under a fixed release procedure?"
+    },
+    {
+      "prompt": "An investigator changes angle and floor material together. Identify the interpretation problem.",
+      "steps": [
+        "Both changes could affect the final distance.",
+        "The effects cannot be separated from this comparison.",
+        "Hold floor material constant while comparing angles, or use a planned design that independently varies both factors."
+      ],
+      "answer": "Floor material is confounded with angle."
+    },
+    {
+      "prompt": "Summarise the invented readings 18, 20 and 22 cm.",
+      "steps": [
+        "Mean = (18 + 20 + 22)/3 = 20 cm.",
+        "Range = 22 - 18 = 4 cm; half-range = 2 cm.",
+        "Report 20 cm with a classroom half-range spread of 2 cm, not as a certified confidence interval."
+      ],
+      "answer": "Mean 20 cm; range 4 cm; half-range 2 cm."
+    },
+    {
+      "prompt": "A ruler consistently reads 1 cm too high. Will twenty repeats remove this offset?",
+      "steps": [
+        "The same offset affects every reading.",
+        "Averaging reduces some random variation but retains the systematic offset.",
+        "Check against a reference and correct or replace the instrument using an appropriate procedure."
+      ],
+      "answer": "No. Address the calibration or zero-reference problem."
+    },
+    {
+      "prompt": "Use invented means 44 and 55 cm to write a bounded comparison.",
+      "steps": [
+        "The difference is 11 cm.",
+        "Relative to 44 cm, the increase is 11/44 × 100 = 25%.",
+        "Restrict the statement to these conditions and this dataset; no significance test or universal law follows."
+      ],
+      "answer": "The second condition's mean is 11 cm, or 25%, greater in this invented dataset."
+    },
+    {
+      "prompt": "Fictional repeated times are 8, 9, 9 and 18 seconds. Calculate the mean and median, then describe what their difference suggests investigating.",
+      "answer": "Mean 11 seconds; median 9 seconds. The high reading raises the mean and warrants checking the record and procedure.",
+      "steps": [
+        "The sum is 44, so the mean is 44/4 = 11.",
+        "The two middle ordered readings are 9 and 9, giving median 9.",
+        "The 18-second value pulls the mean upward, but the summaries alone do not prove it is erroneous."
+      ]
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Precise readings must be accurate.",
+      "correction": "Readings can cluster closely while sharing a systematic offset."
+    },
+    {
+      "claim": "An unexpected value should always be deleted.",
+      "correction": "Investigate it and preserve the original record; exclusion needs an explicit, defensible reason."
+    },
+    {
+      "claim": "More repeats fix every weakness.",
+      "correction": "Repeats do not automatically remove confounding, calibration error or a poorly defined measurement."
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "c1",
+      "front": "What makes a question operational?",
+      "back": "It identifies quantities and how the comparison and measurement will be defined."
+    },
+    {
+      "id": "c2",
+      "front": "Independent versus dependent variable?",
+      "back": "The independent variable is deliberately varied; the dependent variable is the measured response."
+    },
+    {
+      "id": "c3",
+      "front": "What is a confounding factor?",
+      "back": "Another influence changes with the proposed cause and makes their effects difficult to separate."
+    },
+    {
+      "id": "c4",
+      "front": "Why justify control variables?",
+      "back": "A useful control addresses a factor that could plausibly influence the response."
+    },
+    {
+      "id": "c5",
+      "front": "Accuracy versus precision?",
+      "back": "Accuracy is closeness to a reference or true value; precision is agreement among repeated measurements."
+    },
+    {
+      "id": "c6",
+      "front": "What does instrument resolution describe?",
+      "back": "The smallest displayed increment, not a guarantee of accuracy."
+    },
+    {
+      "id": "c7",
+      "front": "Why retain raw repeats?",
+      "back": "They reveal variability, unusual values and what a mean may conceal."
+    },
+    {
+      "id": "c8",
+      "front": "What is the half-range here?",
+      "back": "(Maximum - minimum)/2, used only as a simple classroom spread estimate."
+    },
+    {
+      "id": "c9",
+      "front": "What can randomising condition order help with?",
+      "back": "It can reduce an association between condition and time-related changes; it is not a guarantee against all bias."
+    },
+    {
+      "id": "c10",
+      "front": "What should happen to an unexpected result?",
+      "back": "Check it, retain the original record and explain any justified exclusion."
+    },
+    {
+      "id": "c11",
+      "front": "What makes an evaluation useful?",
+      "back": "Link a specific limitation to its likely effect and a targeted improvement."
+    },
+    {
+      "id": "c12",
+      "front": "Why label invented teaching data?",
+      "back": "So readers do not mistake a practice example for measured evidence."
+    },
+    {
+      "id": "application-card-1",
+      "front": "Does an unusual observation justify automatic deletion?",
+      "back": "No. Investigate and document the reason; preserve the original observation and any exclusion decision."
+    },
+    {
+      "id": "application-card-2",
+      "front": "What does a sensitivity comparison show?",
+      "back": "How a conclusion or summary changes under a stated alternative analysis, not proof that the alternative is correct."
+    }
+  ],
+  "questions": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "difficulty": "foundation",
+      "prompt": "In a planned comparison of ramp angles measuring travel distance, which is the dependent variable?",
+      "answer": "Travel distance",
+      "solution": [
+        "The measured response is distance.",
+        "Angle is deliberately changed, so it is independent."
+      ],
+      "markingPoints": [
+        "Distinguish changed and measured quantities.",
+        "Select travel distance."
+      ],
+      "marks": 2,
+      "calculator": "not-applicable",
+      "options": [
+        "Ramp angle",
+        "Travel distance",
+        "Car identity",
+        "Trial order"
+      ]
+    },
+    {
+      "id": "q2",
+      "type": "calculation",
+      "difficulty": "foundation",
+      "prompt": "Find the mean of these invented distances in cm: 31, 34 and 37.",
+      "answer": "34",
+      "solution": [
+        "Add the three observations to get 102.",
+        "Divide by three to obtain 34."
+      ],
+      "markingPoints": [
+        "Add all readings.",
+        "Divide by three."
+      ],
+      "marks": 2,
+      "calculator": "allowed",
+      "numericAnswer": {
+        "value": 34,
+        "tolerance": 0
+      }
+    },
+    {
+      "id": "q3",
+      "type": "calculation",
+      "difficulty": "standard",
+      "prompt": "Using half-range as a classroom spread estimate, find it for 31, 34 and 37 cm.",
+      "answer": "3",
+      "solution": [
+        "Range = 37 - 31 = 6 cm.",
+        "Half-range = 6/2 = 3 cm."
+      ],
+      "markingPoints": [
+        "Find the range.",
+        "Halve it."
+      ],
+      "marks": 2,
+      "calculator": "allowed",
+      "numericAnswer": {
+        "value": 3,
+        "tolerance": 0
+      }
+    },
+    {
+      "id": "q4",
+      "type": "short",
+      "difficulty": "standard",
+      "prompt": "Explain why using one car for low angles and a different car for high angles weakens a causal comparison, and suggest an improvement.",
+      "answer": "Car identity varies with angle, so differences in distance could be due to the car, angle or both. Use the same car, or independently vary car and angle in a planned comparison.",
+      "solution": [
+        "Properties of the car can affect motion.",
+        "Because identity and angle change together, their effects are not separated."
+      ],
+      "markingPoints": [
+        "Identify car identity as a possible influence.",
+        "Explain the confounding.",
+        "Propose using the same car or independently varying car and angle."
+      ],
+      "marks": 3,
+      "calculator": "not-applicable"
+    },
+    {
+      "id": "q5",
+      "type": "mcq",
+      "difficulty": "standard",
+      "prompt": "Which action most directly addresses a ruler that reads 1 cm too high every time?",
+      "answer": "Check and correct the zero reference against a suitable standard",
+      "solution": [
+        "A consistent offset is systematic.",
+        "Repeating or averaging the same offset does not remove it."
+      ],
+      "markingPoints": [
+        "Identify a systematic problem.",
+        "Select reference checking and correction."
+      ],
+      "marks": 2,
+      "calculator": "not-applicable",
+      "options": [
+        "Take more readings with no other change",
+        "Delete the largest reading",
+        "Check and correct the zero reference against a suitable standard",
+        "Round every reading to fewer digits"
+      ]
+    },
+    {
+      "id": "q6",
+      "type": "short",
+      "difficulty": "standard",
+      "prompt": "An invented dataset contains 40, 41 and 62 cm. Is deleting 62 automatically justified? Explain.",
+      "answer": "No. Investigate the value, retain the raw record and explain any defensible exclusion.",
+      "solution": [
+        "An unusual observation might be genuine variation or a procedural problem.",
+        "Exclusion requires evidence or a pre-specified rule, not a desire for a neat pattern."
+      ],
+      "markingPoints": [
+        "Reject automatic deletion.",
+        "Describe investigation and transparent reporting.",
+        "Distinguish unusual from proven erroneous."
+      ],
+      "marks": 3,
+      "calculator": "not-applicable"
+    },
+    {
+      "id": "q7",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "Write a cautious conclusion from invented means of 20 cm and 24 cm at two tested conditions; no uncertainty analysis or significance test is supplied.",
+      "answer": "The second condition had a mean 4 cm greater in this dataset; the evidence does not establish statistical significance or universal causation.",
+      "solution": [
+        "Compute the difference 24 - 20 = 4 cm.",
+        "Restrict the statement to the tested conditions.",
+        "Explain that variability, controls and further analysis are needed for stronger claims."
+      ],
+      "markingPoints": [
+        "State the observed difference.",
+        "Limit the claim to the dataset.",
+        "Avoid a significance claim.",
+        "Name relevant missing evidence."
+      ],
+      "marks": 4,
+      "calculator": "not-applicable"
+    },
+    {
+      "id": "q8",
+      "type": "short",
+      "difficulty": "standard",
+      "prompt": "Improve the evaluation 'human error made the results bad' for a changing start position.",
+      "answer": "A changing release position could alter travel distance; mark a fixed reference and use a consistent teacher-approved release procedure.",
+      "solution": [
+        "Identify the particular procedural variation.",
+        "Explain its influence and a targeted repair."
+      ],
+      "markingPoints": [
+        "Name changing release position.",
+        "Connect it to distance.",
+        "Specify a consistent reference and method."
+      ],
+      "marks": 3,
+      "calculator": "not-applicable"
+    },
+    {
+      "id": "q9",
+      "type": "calculation",
+      "difficulty": "standard",
+      "prompt": "Invented mean distance rises from 40 to 50 cm. Find the percentage increase relative to 40 cm.",
+      "answer": "25",
+      "solution": [
+        "The increase is 10 cm.",
+        "10/40 × 100 = 25%."
+      ],
+      "markingPoints": [
+        "Use the original mean as denominator.",
+        "Obtain 25%."
+      ],
+      "marks": 2,
+      "calculator": "allowed",
+      "numericAnswer": {
+        "value": 25,
+        "tolerance": 0
+      }
+    },
+    {
+      "id": "q10",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "Explain how randomising condition order and adding repeat measurements address different concerns, and name one problem neither necessarily fixes.",
+      "answer": "Randomisation reduces association with time-related changes; repeats reveal variability. Neither necessarily fixes a constant calibration offset.",
+      "solution": [
+        "If conditions always run in the same order, time trends may track the independent variable.",
+        "Repeats help describe within-condition spread.",
+        "A shared instrument offset can remain in both designs."
+      ],
+      "markingPoints": [
+        "Explain the purpose of randomised order.",
+        "Explain the purpose of repeats.",
+        "Give a valid remaining systematic problem.",
+        "Avoid claiming either method guarantees validity."
+      ],
+      "marks": 4,
+      "calculator": "not-applicable"
+    },
+    {
+      "id": "application-check",
+      "type": "short",
+      "difficulty": "standard",
+      "prompt": "Fictional repeated times are 8, 9, 9 and 18 seconds. Calculate the mean and median, then describe what their difference suggests investigating.",
+      "answer": "Mean 11 seconds; median 9 seconds. The high reading raises the mean and warrants checking the record and procedure.",
+      "solution": [
+        "The sum is 44, so the mean is 44/4 = 11.",
+        "The two middle ordered readings are 9 and 9, giving median 9.",
+        "The 18-second value pulls the mean upward, but the summaries alone do not prove it is erroneous."
+      ],
+      "markingPoints": [
+        "The sum is 44, so the mean is 44/4 = 11.",
+        "The two middle ordered readings are 9 and 9, giving median 9.",
+        "The 18-second value pulls the mean upward, but the summaries alone do not prove it is erroneous."
+      ],
+      "marks": 3,
+      "calculator": "allowed"
+    },
+    {
+      "id": "error-analysis",
+      "type": "short",
+      "difficulty": "extension",
+      "prompt": "A learner deletes 18 seconds solely because it weakens their expected pattern. Give a transparent alternative procedure and calculate the mean of the other three for a sensitivity comparison.",
+      "answer": "Keep and investigate the reading; report the full mean 11 and the conditional three-reading mean 26/3, approximately 8.67 seconds, without claiming a justified exclusion yet.",
+      "solution": [
+        "Record the unusual value and seek a documented measurement or transcription issue.",
+        "The other three sum to 26, giving 26/3 seconds.",
+        "Present the comparison as sensitivity analysis, retaining the full dataset unless an explicit defensible exclusion is established."
+      ],
+      "markingPoints": [
+        "Record the unusual value and seek a documented measurement or transcription issue.",
+        "The other three sum to 26, giving 26/3 seconds.",
+        "Present the comparison as sensitivity analysis, retaining the full dataset unless an explicit defensible exclusion is established."
+      ],
+      "marks": 3,
+      "calculator": "allowed"
+    }
+  ],
+  "revisionChecklist": [
+    "Define variables and explain the purpose of each control.",
+    "Distinguish precision, accuracy, resolution and spread.",
+    "Support a bounded conclusion with actual values.",
+    "Match each improvement to a specific limitation.",
+    "Explain the reasoning in “Investigate a surprising measurement” and correct the linked error-analysis response without copying its solution."
+  ],
+  "diagrams": [
+    {
+      "id": "inquiry-evidence",
+      "title": "An investigation as a chain of reasoning",
+      "description": "This is a planning and reporting pathway, not proof that an experiment has been completed. Unexpected evidence may require revising earlier choices.",
+      "steps": [
+        {
+          "label": "Operational question",
+          "detail": "Define the changed quantity, response, domain and measurement reference."
+        },
+        {
+          "label": "Comparison design",
+          "detail": "Choose controls, order, repeats and an approved method."
+        },
+        {
+          "label": "Transparent evidence",
+          "detail": "Retain raw readings, units, unusual values and changes in procedure."
+        },
+        {
+          "label": "Bounded conclusion",
+          "detail": "Compare the evidence with the prediction and address alternative explanations."
+        },
+        {
+          "label": "Targeted next test",
+          "detail": "Change the design to investigate one identified limitation."
+        }
+      ],
+      "links": [
+        "decide what evidence would answer it",
+        "collect or inspect data under the stated method",
+        "analyse without hiding disagreement",
+        "identify what the evidence still cannot distinguish"
+      ]
+    },
+    {
+      "id": "application-trace",
+      "title": "Investigate a surprising measurement",
+      "description": "Read the labelled relationships to follow this worked application. Mean 11 seconds; median 9 seconds. The high reading raises the mean and warrants checking the record and procedure. This is an explanatory process diagram, not a scale drawing or a record of a learner attempt.",
+      "steps": [
+        {
+          "label": "Preserve readings",
+          "detail": "Keep 8, 9, 9 and 18 seconds in the original record."
+        },
+        {
+          "label": "Compare summaries",
+          "detail": "Mean 11 and median 9 reveal sensitivity to the high value."
+        },
+        {
+          "label": "Investigate before excluding",
+          "detail": "Check records and procedure, and report any justified exclusion explicitly."
+        }
+      ],
+      "links": [
+        "summarise without deleting",
+        "seek evidence for a cause"
+      ]
+    }
+  ],
+  "teachingSequence": [
+    {
+      "title": "Specify the comparison",
+      "guidance": "Rewrite the broad question and justify each control using its possible effect on the response.",
+      "noteHeadings": [
+        "From curiosity to a testable question",
+        "Variables, controls and fair comparisons"
+      ],
+      "workedExampleNumbers": [
+        1,
+        2
+      ],
+      "questionIds": [
+        "q1",
+        "q4"
+      ]
+    },
+    {
+      "title": "Describe the evidence",
+      "guidance": "Retain the raw readings before calculating a mean and spread. Explain why extra repeats do not repair a fixed offset.",
+      "noteHeadings": [
+        "Measurement, repeats and transparent records",
+        "Tables, graphs and comparisons"
+      ],
+      "workedExampleNumbers": [
+        3,
+        4
+      ],
+      "questionIds": [
+        "q2",
+        "q3",
+        "q5",
+        "q6"
+      ]
+    },
+    {
+      "title": "Judge and improve",
+      "guidance": "Write a conclusion that names the tested conditions. Propose one improvement tied to a plausible alternative explanation.",
+      "noteHeadings": [
+        "Claims, evidence and alternative explanations",
+        "Evaluation that improves the investigation"
+      ],
+      "workedExampleNumbers": [
+        5
+      ],
+      "questionIds": [
+        "q7",
+        "q8",
+        "q9",
+        "q10"
+      ]
+    },
+    {
+      "title": "Keeping an anomalous reading visible while testing its cause",
+      "guidance": "Use the diagram “Investigate a surprising measurement” to explain the example, then attempt the application and diagnose the flawed reasoning without looking at the solution. Check each explanation against the practice marking points.",
+      "noteHeadings": [
+        "Keeping an anomalous reading visible while testing its cause"
+      ],
+      "workedExampleNumbers": [
+        6
+      ],
+      "questionIds": [
+        "application-check",
+        "error-analysis"
+      ]
+    }
+  ],
+  "revisionGuide": {
+    "summary": "A useful investigation connects a measurable question to a defensible comparison and transparent evidence. Conclusions must account for variability, controls and alternative explanations. Evaluation improves a named weakness rather than promising that more data fixes everything.",
+    "keyIdeas": [
+      "Define exactly what is changed, measured and kept consistent.",
+      "Precision, accuracy and resolution describe different things.",
+      "Unexpected results are evidence to examine, not obstacles to erase."
+    ],
+    "formulas": [
+      {
+        "expression": "Mean = sum of observations / number of observations",
+        "meaning": "A summary of the measured values.",
+        "conditions": "Use comparable quantities and retain the raw readings."
+      },
+      {
+        "expression": "Half-range = (maximum - minimum)/2",
+        "meaning": "The simple spread estimate chosen in this lesson.",
+        "conditions": "Not a universal measurement uncertainty or confidence interval."
+      },
+      {
+        "expression": "Percentage change = (new - original)/original × 100",
+        "meaning": "Relative change with an explicitly named baseline.",
+        "conditions": "Original value must be nonzero; interpret units and context."
+      }
+    ],
+    "recallPrompts": [
+      "Give a precise but inaccurate measurement example.",
+      "Explain a confound and how to separate its influence.",
+      "Rewrite a vague evaluation as weakness, effect and improvement."
+    ],
+    "practiceQuestionIds": [
+      "q4",
+      "q6",
+      "q7",
+      "q10",
+      "application-check",
+      "error-analysis"
+    ],
+    "revisit": "Later, explain the inquiry diagram without looking. Use a different harmless classroom context and check whether your controls and limitations remain relevant; do not conduct a new practical without appropriate approval."
+  },
+  "syllabusMappings": [
+    {
+      "sourceId": "ib-myp-sciences-20261019",
+      "point": "Research, observation and experimentation",
+      "tier": "Public integrated-sciences framework skill, not year-specific assessment criteria",
+      "status": "source-checked-partial",
+      "noteHeadings": [
+        "From curiosity to a testable question",
+        "Variables, controls and fair comparisons",
+        "Measurement, repeats and transparent records",
+        "Tables, graphs and comparisons"
+      ],
+      "questionIds": [
+        "q1",
+        "q2",
+        "q3",
+        "q4",
+        "q5",
+        "q9"
+      ],
+      "remaining": [
+        "School-selected units, full subject-guide criteria and practical performance remain unverified."
+      ]
+    },
+    {
+      "sourceId": "ib-myp-sciences-20261019",
+      "point": "Assumptions and alternative explanations",
+      "tier": "Public framework skill only",
+      "status": "source-checked-partial",
+      "noteHeadings": [
+        "Claims, evidence and alternative explanations",
+        "Evaluation that improves the investigation"
+      ],
+      "questionIds": [
+        "q6",
+        "q7",
+        "q8",
+        "q10"
+      ],
+      "remaining": [
+        "Independent subject review and authentic investigation evidence remain required."
+      ]
+    }
+  ]
+}

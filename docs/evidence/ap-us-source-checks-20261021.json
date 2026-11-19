@@ -1,0 +1,79 @@
+{
+  "checkedOn": "2026-10-21",
+  "purpose": "Editorial historical and constitutional fact checking; not independent curriculum approval",
+  "quotesCopied": false,
+  "fictionalExercisesLabelled": true,
+  "sources": [
+    {
+      "url": "https://www.archives.gov/founding-docs/constitution-transcript",
+      "supports": "Article I veto return/override; Article II nomination and Senate advice and consent; allocation of powers",
+      "status": "read"
+    },
+    {
+      "url": "https://www.archives.gov/founding-docs/bill-of-rights-transcript",
+      "supports": "First Amendment and Tenth Amendment text",
+      "status": "read"
+    },
+    {
+      "url": "https://www.archives.gov/founding-docs/amendments-11-27",
+      "supports": "Thirteenth, Fourteenth and Fifteenth Amendment text and ratification dates",
+      "status": "read"
+    },
+    {
+      "url": "https://www.govinfo.gov/content/pkg/CDOC-117sdoc12/pdf/CDOC-117sdoc12.pdf",
+      "supports": "Selective incorporation explanation",
+      "status": "primary-source search extract"
+    },
+    {
+      "url": "https://www.nps.gov/articles/000/archeology-this-month-native-american-heritage.htm",
+      "supports": "Pre-contact Indigenous urban and agricultural societies including Cahokia",
+      "status": "official-source search extract"
+    },
+    {
+      "url": "https://loc.gov/exhibits/african-american-odyssey/slavery-the-peculiar-institution.html",
+      "supports": "Atlantic slavery-linked trade and evolving colonial slavery laws",
+      "status": "official-source search extract"
+    },
+    {
+      "url": "https://www.archives.gov/milestone-documents/declaration-of-independence",
+      "supports": "1776 Declaration purpose and independence argument",
+      "status": "read"
+    },
+    {
+      "url": "https://www.loc.gov/resource/rbcmil.scrp4006702/?st=gallery",
+      "supports": "1848 Seneca Falls convention proceedings and Declaration of Sentiments identity",
+      "status": "primary-source search extract"
+    },
+    {
+      "url": "https://blogs.loc.gov/headlinesandheroes/2019/07/american-womens-declaration-newspaper-coverage-1848/",
+      "supports": "Declaration of Sentiments modelled on Declaration of Independence",
+      "status": "official-source search extract"
+    },
+    {
+      "url": "https://www.archives.gov/milestone-documents/dawes-act",
+      "supports": "1887 allotment policy, assimilation purpose, exclusions and landholding consequences",
+      "status": "read"
+    },
+    {
+      "url": "https://www.archives.gov/milestone-documents/social-security-act",
+      "supports": "1935 Social Security Act enduring old-age benefits and assistance arrangements; no precise signing day used due page inconsistency",
+      "status": "read"
+    },
+    {
+      "url": "https://www.archives.gov/milestone-documents/civil-rights-act",
+      "supports": "1964 Civil Rights Act historical federal antidiscrimination role",
+      "status": "read"
+    },
+    {
+      "url": "https://www.federalreservehistory.org/essays/great-recession-and-its-aftermath",
+      "supports": "2007-2009 housing and mortgage losses, financial strain and broader economic transmission",
+      "status": "read"
+    }
+  ],
+  "unavailable": [
+    "LOC colonial-settlement overview returned403",
+    "LOC national-expansion overview returned403",
+    "initial guessed NPS Cahokia article inaccessible",
+    "initial guessed Archives Seneca Falls article inaccessible"
+  ]
+}

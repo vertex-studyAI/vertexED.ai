@@ -45,10 +45,126 @@
             "State a limitation"
           ],
           "id": "united-states-history-unit-1-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Separate an example from a universal statement.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "Why would evidence of agriculture in one Indigenous region not justify saying every Indigenous society depended on the same crops?",
+          "answer": "Different environments and histories supported different food systems; one regional finding must be limited to its place, time and evidence before making a broader comparison.",
+          "checkpoints": [
+            "Identify regional environmental or historical variation.",
+            "Limit the initial evidence to its context.",
+            "Require comparative evidence for a continental claim."
+          ],
+          "hints": [
+            "Separate an example from a universal statement.",
+            "Consider coastal, plains and arid environments."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Trace what moves and how it changes life.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "A fictional contact timeline shows introduced livestock spreading gradually while a disease outbreak causes rapid mortality. Explain why one label, “exchange”, is insufficient to describe both effects.",
+          "answer": "The processes differ in mechanism, pace and consequences: livestock movement can change land use and livelihoods, while infection can cause rapid population loss. Their impacts also depend on the communities involved.",
+          "checkpoints": [
+            "Distinguish biological mechanisms.",
+            "Compare time scale or consequences.",
+            "Identify the need for local context and unequal effects."
+          ],
+          "hints": [
+            "Trace what moves and how it changes life.",
+            "A shared category does not imply equivalent benefits or harms."
+          ]
         }
       ],
       "id": "united-states-history-unit-1",
-      "frameworkUnit": "Unit 1"
+      "frameworkUnit": "Unit 1",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through 1491–1607: Diverse societies and Atlantic contact",
+            "paragraphs": [
+              "Indigenous North America contained varied political systems, settlement patterns and economies before sustained European colonisation. Earlier centres such as Cahokia demonstrate that urban settlement and complex social organisation were not introduced to the continent by Europeans. Farming, fishing, hunting and exchange were combined differently across regions, and communities adapted over time rather than remaining static. Archaeological evidence can establish materials, settlement patterns and food remains, but interpreting political authority or cultural meaning requires additional context. Atlantic contact introduced new biological and commercial connections while also bringing epidemic disease, coercion and dispossession. Avoid turning a continental process into one uniform local experience."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "In a fictional archaeological exercise, a coastal settlement contains shells from nearby waters and stone whose geological source lies far inland. What inference is supported and what remains uncertain?",
+            "steps": [
+              "The nonlocal stone supports movement of material across regions, possibly through exchange or travel.",
+              "It does not by itself identify a single direct trade route, the traders’ identities or the political meaning of the objects; additional dated evidence is needed."
+            ],
+            "conclusion": "The material supports a connection beyond the local area, with the precise exchange mechanism still uncertain."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "Why reject a single pre-contact Indigenous experience?",
+            "back": "Communities differed in environment, economy, politics and history."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What does Cahokia challenge?",
+            "back": "The idea that complex urban societies appeared only after European arrival."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What can nonlocal material indicate?",
+            "back": "Movement or exchange beyond its find location."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why date archaeological evidence?",
+            "back": "Connections and settlements changed over time."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "1491–1607: Diverse societies and Atlantic contact: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Regional environment and choices",
+                "detail": "Communities develop varied food systems and settlements."
+              },
+              {
+                "id": "n2",
+                "label": "Exchange and interaction",
+                "detail": "People and materials connect places without making societies identical."
+              },
+              {
+                "id": "n3",
+                "label": "Contact and unequal change",
+                "detail": "New links interact with disease, coercion and local responses."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "shape"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "are transformed by"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "1607–1754: Colonial economies and labour",
@@ -88,10 +204,126 @@
             "Identify what changes"
           ],
           "id": "united-states-history-unit-2-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Avoid turning regional emphasis into exclusive presence.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A student contrasts “southern slavery” with “northern freedom” as a complete account of colonial labour. Explain two problems with the contrast.",
+          "answer": "It ignores slavery and slavery-linked commerce in northern colonies, and it treats diverse southern and northern labour arrangements as uniform. A sound comparison specifies colony, period and labour status.",
+          "checkpoints": [
+            "Identify slavery beyond the southern plantation region.",
+            "Identify variation within regions.",
+            "Replace the binary with a specified comparison."
+          ],
+          "hints": [
+            "Avoid turning regional emphasis into exclusive presence.",
+            "Consider free, indentured and enslaved labour."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Follow the chronological shift in the same jurisdiction.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "A fictional archive shows more lifetime hereditary bondage provisions in later laws than in earlier records from the same colony. What change could this support, and what further evidence would test its lived effect?",
+          "answer": "It could support increasing legal entrenchment of hereditary slavery. Court cases, contracts and testimony could show how the rules were enforced and experienced rather than assuming law alone describes every practice.",
+          "checkpoints": [
+            "Identify the legal change indicated.",
+            "Distinguish legal provisions from implementation.",
+            "Name evidence of enforcement or experience."
+          ],
+          "hints": [
+            "Follow the chronological shift in the same jurisdiction.",
+            "Add sources showing what happened to people under the rules."
+          ]
         }
       ],
       "id": "united-states-history-unit-2",
-      "frameworkUnit": "Unit 2"
+      "frameworkUnit": "Unit 2",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through 1607–1754: Colonial economies and labour",
+            "paragraphs": [
+              "Colonial economies were connected to Atlantic markets while developing different regional patterns. Chesapeake tobacco exports encouraged plantation production, whereas many northern ports combined shipping, crafts and commerce with regional farming. These contrasts did not make slavery exclusively southern: enslaved labour and commerce linked to slavery also existed in northern colonies. Labour systems changed through laws, migration, resistance and owners’ decisions, so a later arrangement should not be projected unchanged onto the whole colonial period. To compare regions, choose the same dimension, such as production, labour status or access to land, and explain the mechanism connecting economic activity with institutions."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A fictional comparison table lists a port’s ship carpenters, merchants and dock labourers beside a plantation district’s export-crop acreage and bound labour contracts. Build a cautious regional comparison.",
+            "steps": [
+              "The port evidence supports occupational diversity linked to shipping, while the plantation evidence supports labour demand concentrated around export cultivation.",
+              "The table does not establish that either region lacked farming, trade or slavery; its categories and coverage limit the comparison."
+            ],
+            "conclusion": "The evidence supports different economic emphases without treating either regional economy as uniform."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "Why did export crops shape labour demand?",
+            "back": "Large-scale cultivation required sustained work connected to overseas markets."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Was slavery confined to plantation colonies?",
+            "back": "No; slavery and commerce tied to it also existed elsewhere."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What should a regional comparison hold constant?",
+            "back": "The dimension, period and scale being compared."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why examine laws alongside contracts?",
+            "back": "Legal rules shaped labour status and the enforceability of obligations."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "1607–1754: Colonial economies and labour: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Production and markets",
+                "detail": "Identify the goods and customers shaping a colonial economy."
+              },
+              {
+                "id": "n2",
+                "label": "Labour arrangements",
+                "detail": "Examine who performed work and under what legal conditions."
+              },
+              {
+                "id": "n3",
+                "label": "Institutions and conflict",
+                "detail": "Connect economic interests with law, resistance and political power."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "create demands within"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "shape"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "1754–1800: Revolution and constitutional settlement",
@@ -131,10 +363,126 @@
             "Connect to constitutional change"
           ],
           "id": "united-states-history-unit-3-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Match each claim to the document that performs it.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "Why is it inaccurate to say the Declaration itself created the three branches of the federal government?",
+          "answer": "The Declaration announced and justified independence; the later Constitution set out the national legislative, executive and judicial structure. The documents differ in date and purpose.",
+          "checkpoints": [
+            "Identify the Declaration’s purpose.",
+            "Attribute the branch structure to the Constitution.",
+            "Explain the chronological distinction."
+          ],
+          "hints": [
+            "Match each claim to the document that performs it.",
+            "Independence and institutional design are separate steps."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Compare a stated principle with an institution’s persistence.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "How can a historian use revolutionary rights language to study an abolitionist argument without claiming that independence immediately ended slavery?",
+          "answer": "The historian can show how rights principles supplied language to challenge slavery while documenting slavery’s continued legal and social existence. Influence on argument is distinct from immediate institutional abolition.",
+          "checkpoints": [
+            "Identify rights language as a resource for criticism.",
+            "Acknowledge continuing slavery.",
+            "Distinguish rhetorical possibilities from completed legal change."
+          ],
+          "hints": [
+            "Compare a stated principle with an institution’s persistence.",
+            "Avoid assuming ideals automatically transformed practice."
+          ]
         }
       ],
       "id": "united-states-history-unit-3",
-      "frameworkUnit": "Unit 3"
+      "frameworkUnit": "Unit 3",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through 1754–1800: Revolution and constitutional settlement",
+            "paragraphs": [
+              "The Revolution and constitutional settlement answered different political questions. The Declaration of Independence explained separation from Britain and justified political authority through rights and consent; the Constitution later established a governing structure for the new union. Revolutionary mobilisation drew on local grievances, imperial conflicts and competing interests, so neither document speaks for every person affected. Enslaved people, women, Indigenous nations and Loyalists faced different opportunities and exclusions. A historical argument can explain the force of universal language while also examining its limited application. Ratification debates then addressed how much national authority to create and how to guard against its abuse."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Compare the historical purposes of the Declaration of Independence in 1776 and the Constitution drafted in 1787 without treating them as interchangeable.",
+            "steps": [
+              "The Declaration justified political separation and stated principles supporting that claim.",
+              "The Constitution designed institutions and allocated powers for governing; its creation followed problems and debates after independence rather than simply repeating the Declaration."
+            ],
+            "conclusion": "The documents share a political context but address separation and governing structure through different purposes."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What did the Declaration primarily explain?",
+            "back": "Why the colonies claimed separation from Britain."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What did the Constitution establish?",
+            "back": "A framework of national institutions and powers."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Why compare ideals with social practice?",
+            "back": "Rights language could coexist with slavery and exclusion."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What was contested in ratification?",
+            "back": "The balance between effective national power and safeguards against abuse."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "1754–1800: Revolution and constitutional settlement: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Imperial conflict",
+                "detail": "Revenue, representation and authority become contested."
+              },
+              {
+                "id": "n2",
+                "label": "Independence and mobilisation",
+                "detail": "Arguments and conflict produce a break with Britain."
+              },
+              {
+                "id": "n3",
+                "label": "Constitutional settlement",
+                "detail": "Post-independence governing problems prompt debate over national institutions."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "contributes to"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "is followed by"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "1800–1848: Markets, reform and contested democracy",
@@ -174,10 +522,126 @@
             "Identify strategic disagreement"
           ],
           "id": "united-states-history-unit-4-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Compare organisation of work rather than assuming work disappears.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A fictional household shifts from making most clothing at home to buying cloth with factory wages. Identify one change and one continuing dependency.",
+          "answer": "Production and income become more connected to wage work and purchased goods; the household still depends on labour and resources, now also more directly on wages and market prices.",
+          "checkpoints": [
+            "Identify the shift towards wage and market relations.",
+            "Name a continuing need or dependency.",
+            "Explain how its form changes."
+          ],
+          "hints": [
+            "Compare organisation of work rather than assuming work disappears.",
+            "Continuity can persist through a changed mechanism."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Ask who is included in the evidence.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "Why should an account of expanding political participation before 1848 specify which groups gained access?",
+          "answer": "Expanded participation for many white men coexisted with exclusions affecting women, many Black people and Indigenous peoples. Naming groups prevents a partial expansion from being described as universal democracy.",
+          "checkpoints": [
+            "Identify a group whose participation expanded.",
+            "Identify groups still excluded or restricted.",
+            "Explain the limitation of a universal claim."
+          ],
+          "hints": [
+            "Ask who is included in the evidence.",
+            "A larger electorate need not include everyone."
+          ]
         }
       ],
       "id": "united-states-history-unit-4",
-      "frameworkUnit": "Unit 4"
+      "frameworkUnit": "Unit 4",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through 1800–1848: Markets, reform and contested democracy",
+            "paragraphs": [
+              "Market expansion changed how households obtained goods, earned income and depended on distant buyers. Transport networks reduced some barriers to exchange, while factories and wage labour altered the organisation of work. These changes could expand opportunities and also create insecurity when prices or employers’ decisions shifted. Reform movements responded to social conditions through religious, educational, abolitionist and women’s-rights organising. The 1848 Seneca Falls Declaration of Sentiments adapted the language of the Declaration of Independence to challenge women’s exclusion. Such arguments demonstrate the reuse of founding ideals, but a reform declaration did not itself remove the political and legal restrictions it criticised."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Explain how the 1848 Declaration of Sentiments could use the form of the Declaration of Independence to support a new reform claim.",
+            "steps": [
+              "Using a familiar statement of rights and grievances connected women’s claims to recognised founding principles.",
+              "Applying those principles to women exposed exclusions in existing practice and sought to persuade an audience; adoption of the declaration did not itself enact legal equality."
+            ],
+            "conclusion": "The reform document used continuity in political language to demand change in its application."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What did market expansion increase for many producers?",
+            "back": "Connections to and dependence on distant markets."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "How can wage labour change household work?",
+            "back": "Income and work schedules can become tied to an employer rather than household production alone."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What was Seneca Falls in 1848 associated with?",
+            "back": "Organised advocacy of women’s rights and the Declaration of Sentiments."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Does a reform declaration itself change every law?",
+            "back": "No; mobilisation and institutional change require further action."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "1800–1848: Markets, reform and contested democracy: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Economic and social change",
+                "detail": "Market links and work arrangements reshape daily life."
+              },
+              {
+                "id": "n2",
+                "label": "Reform diagnosis",
+                "detail": "Organisers identify injustice and propose changes."
+              },
+              {
+                "id": "n3",
+                "label": "Mobilisation and limits",
+                "detail": "Petitions, meetings and arguments seek change while facing disagreement and exclusion."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "can stimulate"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "motivates"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "1844–1877: Expansion, slavery and Reconstruction",
@@ -217,10 +681,126 @@
             "Explain added evidence"
           ],
           "id": "united-states-history-unit-5-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Read the grounds the amendment names.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "Why does the Fifteenth Amendment’s ratification not justify saying every adult immediately obtained equal voting access?",
+          "answer": "Its protection addressed specified race-related grounds, while other exclusions, intimidation and enforcement failures remained. Ratification and equal access are different historical claims.",
+          "checkpoints": [
+            "Identify the amendment’s specified protection.",
+            "Name a remaining barrier or limitation.",
+            "Distinguish formal change from universal access."
+          ],
+          "hints": [
+            "Read the grounds the amendment names.",
+            "Then investigate how elections operated."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Compare rules with daily practice.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "A historian compares a Reconstruction law with freedpeople’s accounts of labour contracts. What does the second source type add?",
+          "answer": "It can reveal how legal freedom was negotiated, constrained or exercised in work, including coercion and bargaining conditions that the law’s text alone may not show.",
+          "checkpoints": [
+            "Identify lived labour experience as the added evidence.",
+            "Connect it to implementation of legal freedom.",
+            "Acknowledge the need to assess each account’s context and scope."
+          ],
+          "hints": [
+            "Compare rules with daily practice.",
+            "Test a broad claim using people affected by the rules."
+          ]
         }
       ],
       "id": "united-states-history-unit-5",
-      "frameworkUnit": "Unit 5"
+      "frameworkUnit": "Unit 5",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through 1844–1877: Expansion, slavery and Reconstruction",
+            "paragraphs": [
+              "Reconstruction changed the constitutional framework after a war centrally rooted in slavery and its territorial future. The Thirteenth Amendment abolished slavery and involuntary servitude with its stated criminal-punishment exception. The Fourteenth established national citizenship conditions and protections against specified state actions, while the Fifteenth prohibited denying voting rights on grounds of race, colour or previous servitude. These distinct changes should be analysed alongside enforcement, violence and economic power. Freedpeople pursued education, family reunification, work autonomy and political participation, often against organised resistance. A legal milestone can therefore be transformative without proving that equal freedom was fully realised in daily life."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Construct a distinction between the Thirteenth, Fourteenth and Fifteenth Amendments using the problems each addressed, then state a limitation of studying their text alone.",
+            "steps": [
+              "The Thirteenth addressed slavery, the Fourteenth citizenship and protections including due process and equal protection, and the Fifteenth race-based denial of voting rights.",
+              "Text establishes constitutional changes, but records of enforcement, participation and resistance are needed to understand lived outcomes."
+            ],
+            "conclusion": "The amendments addressed related but different issues; implementation evidence is essential to evaluate Reconstruction."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What central institution did the Thirteenth Amendment address?",
+            "back": "Slavery and involuntary servitude, with its stated punishment exception."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What protections appear in the Fourteenth Amendment?",
+            "back": "Citizenship, due process and equal protection among its provisions."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What voting grounds does the Fifteenth forbid?",
+            "back": "Race, colour or previous condition of servitude."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why examine enforcement after ratification?",
+            "back": "Constitutional text and lived access can differ."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "1844–1877: Expansion, slavery and Reconstruction: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Emancipation and constitutional change",
+                "detail": "New rules redefine freedom, citizenship and voting protections."
+              },
+              {
+                "id": "n2",
+                "label": "Implementation and resistance",
+                "detail": "Officials, communities and organised opponents shape enforcement."
+              },
+              {
+                "id": "n3",
+                "label": "Lived outcomes",
+                "detail": "Examine education, work, safety and political participation through multiple sources."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "meet"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "shape"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "1865–1898: Industry, labour and western expansion",
@@ -260,10 +840,126 @@
             "Connect to economic power"
           ],
           "id": "united-states-history-unit-6-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Use percentage points for a share difference.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "In a fictional market, the four largest firms’ share rises from 45% to 75%. Calculate the percentage-point change and state one further source needed to assess its effect on workers.",
+          "answer": "Concentration rises 30 percentage points. Wage, hours, injury or employment records could test worker effects; market share alone does not supply them.",
+          "checkpoints": [
+            "Calculate the 30-point difference.",
+            "Distinguish concentration from worker outcomes.",
+            "Name a directly relevant labour source."
+          ],
+          "hints": [
+            "Use percentage points for a share difference.",
+            "Choose evidence about the people whose experience is claimed."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Ask who gained or lost control.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "Why should an interpretation of the Dawes Act examine land transfer records and Indigenous accounts as well as the law’s stated aims?",
+          "answer": "Official aims do not fully describe consequences. Transfers and Indigenous accounts help reveal changes in landholding, coercion, community effects and differences between policy justification and experience.",
+          "checkpoints": [
+            "Distinguish stated purpose from outcome.",
+            "Identify landholding evidence.",
+            "Include affected communities’ experiences with source context."
+          ],
+          "hints": [
+            "Ask who gained or lost control.",
+            "Read policy from more than the administrator’s perspective."
+          ]
         }
       ],
       "id": "united-states-history-unit-6",
-      "frameworkUnit": "Unit 6"
+      "frameworkUnit": "Unit 6",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through 1865–1898: Industry, labour and western expansion",
+            "paragraphs": [
+              "Industrialisation concentrated production, investment and employment in expanding firms and transport systems. Workers and owners could disagree over wages, hours, safety and who controlled decisions, while farmers faced dependence on credit and transport access. Western expansion was also an exercise of state power over Indigenous lands, not merely movement into empty space. The Dawes Act of 1887 authorised individual allotment of many reservation lands as part of an assimilation policy, with major consequences for collective landholding. Its provisions and reach changed across groups and later laws. Economic growth and dispossession can occur together and must be analysed through the experiences of different participants."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A fictional industry has ten firms each producing 10% of output; later, two firms each produce 40% and eight share the remaining 20%. What changed, and what is not proved?",
+            "steps": [
+              "The largest two firms’ combined share rises from 20% to 80%, showing much greater concentration.",
+              "This alone does not quantify prices, worker treatment or illegal conduct; those claims require additional records and the relevant historical legal context."
+            ],
+            "conclusion": "The figures establish increased concentration, which supplies a question about power rather than a complete verdict on every outcome."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is industrial concentration?",
+            "back": "A larger share of output controlled by fewer firms."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why did transport access matter to farmers?",
+            "back": "It affected the cost and possibility of reaching buyers."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What was the Dawes Act’s allotment approach?",
+            "back": "Dividing many collectively held reservation lands into individual allotments."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why reject the phrase empty western land?",
+            "back": "It erases Indigenous presence, land use and sovereignty."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "1865–1898: Industry, labour and western expansion: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Industrial and territorial expansion",
+                "detail": "Capital, transport and policy reorganise production and land."
+              },
+              {
+                "id": "n2",
+                "label": "Distribution of power",
+                "detail": "Control of firms, labour conditions and property is contested."
+              },
+              {
+                "id": "n3",
+                "label": "Organised responses",
+                "detail": "Workers, farmers and Indigenous communities respond through varied strategies."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "changes"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "provokes"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "1890–1945: Reform, crisis and expanding federal action",
@@ -303,10 +999,126 @@
             "Name a constraint"
           ],
           "id": "united-states-history-unit-7-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Identify who receives help first.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "Why can a New Deal programme contribute to both relief and recovery without making those terms identical?",
+          "answer": "Payments or jobs can relieve immediate hardship while also supporting demand and production. The same action can have multiple mechanisms, but immediate assistance and broader economic revival remain distinct purposes.",
+          "checkpoints": [
+            "Define the immediate-relief mechanism.",
+            "Define the recovery mechanism.",
+            "Explain overlap without collapsing the distinction."
+          ],
+          "hints": [
+            "Identify who receives help first.",
+            "Then trace possible wider economic effects."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "One source can show more than one historical pattern.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "A fictional wartime factory record shows more women hired but a separate wage scale for the same work. How does this support an argument about change and continuity?",
+          "answer": "Hiring shows expanded access to industrial work, while the separate wage scale indicates continuing gender inequality in the stated workplace. The evidence should not automatically be generalised to every factory.",
+          "checkpoints": [
+            "Identify expanded employment as change.",
+            "Identify unequal treatment as continuity.",
+            "Limit the claim to the evidence’s scope."
+          ],
+          "hints": [
+            "One source can show more than one historical pattern.",
+            "Compare access with conditions after entry."
+          ]
         }
       ],
       "id": "united-states-history-unit-7",
-      "frameworkUnit": "Unit 7"
+      "frameworkUnit": "Unit 7",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through 1890–1945: Reform, crisis and expanding federal action",
+            "paragraphs": [
+              "Federal action expanded through different mechanisms across the Progressive era, the Depression and wartime mobilisation. Regulation sought to change practices, relief addressed urgent hardship, and recovery measures aimed to revive activity; one programme could serve more than one purpose. The Social Security Act of 1935 created an enduring federal role in old-age benefits and related assistance arrangements, distinct from an immediate temporary work project. Implementation and coverage must be examined rather than assuming every resident benefited equally. During the Second World War, mobilisation expanded production and work opportunities while discrimination and coercive policies persisted, exposing tensions within the nation’s democratic claims."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Compare the Social Security Act of 1935 with a fictional short-term public works project that pays unemployed workers for repairing a bridge.",
+            "steps": [
+              "The act created continuing social-insurance and assistance arrangements, while the fictional project supplies immediate jobs and infrastructure work.",
+              "Both can respond to insecurity, but they differ in duration, delivery mechanism and eligibility; neither description establishes universal coverage."
+            ],
+            "conclusion": "The comparison distinguishes an enduring institution from a temporary employment intervention."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is relief aimed at?",
+            "back": "Immediate hardship and urgent needs."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What is reform aimed at?",
+            "back": "Changing institutions or rules to address recurring problems."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What did the 1935 Social Security Act establish?",
+            "back": "A federal system of old-age benefits and related assistance arrangements."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why check programme eligibility?",
+            "back": "Legal scope and actual coverage can differ across groups."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "1890–1945: Reform, crisis and expanding federal action: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Economic or social crisis",
+                "detail": "Identify the problem and affected groups."
+              },
+              {
+                "id": "n2",
+                "label": "Policy mechanism",
+                "detail": "Distinguish jobs, transfers, regulation and institutional redesign."
+              },
+              {
+                "id": "n3",
+                "label": "Implementation and outcomes",
+                "detail": "Examine coverage, administration and measured consequences over time."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "prompts"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "requires evaluation through"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "1945–1980: Cold War, prosperity and rights movements",
@@ -346,10 +1158,126 @@
             "Identify a domestic effect"
           ],
           "id": "united-states-history-unit-8-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Separate law from practice.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A fictional city records a new antidiscrimination rule but continued unequal access in later complaints. What two historical claims can the evidence support together?",
+          "answer": "The formal rule changed, and implementation remained contested or incomplete in the recorded cases. The later complaints do not erase the legal change, nor does the rule erase the complaints.",
+          "checkpoints": [
+            "Identify the formal change.",
+            "Identify continued barriers in the records.",
+            "Explain how both fit one historical account."
+          ],
+          "hints": [
+            "Separate law from practice.",
+            "A turning point need not eliminate every earlier problem."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Ask how roads and financing were supplied.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "Why would explaining all postwar suburban growth only through household preference be incomplete?",
+          "answer": "It omits public infrastructure, housing finance and discriminatory access rules that shaped which choices were available and to whom. Preferences operated within those conditions.",
+          "checkpoints": [
+            "Identify at least one public-policy mechanism.",
+            "Identify unequal access as a relevant condition.",
+            "Connect institutions with the options households faced."
+          ],
+          "hints": [
+            "Ask how roads and financing were supplied.",
+            "Choices are made within material and legal constraints."
+          ]
         }
       ],
       "id": "united-states-history-unit-8",
-      "frameworkUnit": "Unit 8"
+      "frameworkUnit": "Unit 8",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through 1945–1980: Cold War, prosperity and rights movements",
+            "paragraphs": [
+              "Cold War rivalry shaped foreign commitments and domestic arguments about security, but it did not explain every postwar change by itself. Economic expansion, public infrastructure and housing policies altered work and settlement patterns while distributing opportunities unevenly. Rights movements used litigation, grassroots organising, protest and legislative pressure in combinations that changed over time. The Civil Rights Act of 1964 addressed discrimination through federal law, including public accommodations and employment provisions. Its enactment was a major institutional change, while enforcement and continuing inequalities remained historical questions. Distinguish the achievement of a new rule from the process of making its protections effective."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Explain why a campaign combining local organising, public demonstrations and pressure for federal legislation can be more accurately described as interacting strategies than as one isolated event.",
+            "steps": [
+              "Local organisation can sustain participation and document grievances, while demonstrations can raise public attention and political pressure.",
+              "Legislation can change legal tools and obligations, but further organising and enforcement may be needed after enactment."
+            ],
+            "conclusion": "The strategies can reinforce one another across time; a single date does not capture the whole movement."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What did containment seek in Cold War policy?",
+            "back": "To limit expansion of Soviet influence, through varying strategies."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why examine housing policy in suburbanisation?",
+            "back": "Public decisions shaped access and development alongside private choices."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What makes the Civil Rights Act of 1964 a turning point?",
+            "back": "It created important federal legal protections against discrimination."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Does enactment equal complete implementation?",
+            "back": "No; enforcement and lived access require separate evidence."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "1945–1980: Cold War, prosperity and rights movements: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Grassroots mobilisation",
+                "detail": "People organise, document injustice and sustain collective action."
+              },
+              {
+                "id": "n2",
+                "label": "Institutional change",
+                "detail": "Courts, legislatures and executives can alter legal rules."
+              },
+              {
+                "id": "n3",
+                "label": "Implementation struggle",
+                "detail": "Communities and officials contest how protections operate in practice."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "can press for"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "is followed by"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "1980–present: Political realignment and a connected economy",
@@ -389,10 +1317,126 @@
             "Explain comparison"
           ],
           "id": "united-states-history-unit-9-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "One worker can produce a changing amount over time.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A fictional region’s manufacturing employment falls while its manufacturing output rises over a decade. Why does the job decline alone not prove production collapsed?",
+          "answer": "Employment and output measure different things. Productivity, technology, product mix or outsourcing can change their relationship, so output evidence must be examined separately from job counts.",
+          "checkpoints": [
+            "Distinguish employment from output.",
+            "Name a plausible mechanism separating them.",
+            "Limit the conclusion from employment alone."
+          ],
+          "hints": [
+            "One worker can produce a changing amount over time.",
+            "Use both series before making a production claim."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Replace an absolute slogan with dimensions that can be measured.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "A historian claims online political communication changed everything after 1995. Give a more testable continuity-and-change claim.",
+          "answer": "For a defined place and period, online tools could reduce communication time and widen potential reach, while organised persuasion and unequal access to resources continued. The claim should be tested with dated evidence of use, access and political activity.",
+          "checkpoints": [
+            "Specify a concrete communication change.",
+            "Identify a plausible continuity.",
+            "Require bounded dates and supporting evidence."
+          ],
+          "hints": [
+            "Replace an absolute slogan with dimensions that can be measured.",
+            "Compare what changed with what persisted."
+          ]
         }
       ],
       "id": "united-states-history-unit-9",
-      "frameworkUnit": "Unit 9"
+      "frameworkUnit": "Unit 9",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through 1980–present: Political realignment and a connected economy",
+            "paragraphs": [
+              "Recent history requires explicit dates and evidence because a statement true in one decade may not describe the present. Since 1980, changes in production, finance and communication have interacted with political debates over government and inequality, but effects have varied by region and group. The financial crisis of 2007–2009 illustrates a multistep causal problem: housing and mortgage developments affected financial assets, lending conditions and the wider economy. A credible explanation connects mechanisms without claiming one event alone caused everything. For digital change, compare access, speed, ownership and work patterns while also identifying continuities such as unequal resources and organised persuasion."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Build a historical causal chain for how falling housing values in the 2007–2009 crisis could affect businesses outside construction, without presenting it as the only cause.",
+            "steps": [
+              "Losses and uncertainty on mortgage-related assets strained financial institutions and credit markets.",
+              "Tighter credit and reduced household spending could then weaken sales, investment and employment in other sectors; additional causes and policy responses also mattered."
+            ],
+            "conclusion": "The chain explains a transmission mechanism from housing and finance to the broader economy rather than a complete single-cause account."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "Why date claims about recent history?",
+            "back": "Conditions and evidence change, so scope must be explicit."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What is a causal mechanism?",
+            "back": "The process linking one development to another."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Why distinguish globalisation’s regional effects?",
+            "back": "Industries and communities have different exposures and opportunities."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What can remain continuous amid digital change?",
+            "back": "Unequal access, persuasion and struggles over information control."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "1980–present: Political realignment and a connected economy: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Housing and mortgage stress",
+                "detail": "Falling values and repayment problems affect asset expectations."
+              },
+              {
+                "id": "n2",
+                "label": "Financial and credit strain",
+                "detail": "Institutions and lenders face losses and uncertainty."
+              },
+              {
+                "id": "n3",
+                "label": "Broader economic effects",
+                "detail": "Spending, investment and employment can weaken across connected sectors."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "can transmit through"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "can reduce activity through"
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

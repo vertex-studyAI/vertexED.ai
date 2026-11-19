@@ -1,3 +1,5 @@
+import StudyResourcePack from '@/components/StudyResourcePack';
+import { APP_ORIGIN } from '@/lib/appOrigin';
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router';
 import { ArrowLeft, ArrowRight, Check, FlaskConical, Lightbulb, TriangleAlert } from 'lucide-react';
@@ -59,7 +61,7 @@ export default function MYPSubject() {
       <SEO
         title={`${topic}: MYP 5 ${subject.name} | VertexED`}
         description={contentHeld ? `${topic}: MYP ${subject.name} directory. Lessons and practice are awaiting subject review.` : `Learn ${topic} with explanation, examples, original practice, criterion skills and a revision checklist.`}
-        canonical={`https://www.vertexed.app/myp/subjects/${subject.slug}/${topicSlug(topic)}`}
+        canonical={`${APP_ORIGIN}/myp/subjects/${subject.slug}/${topicSlug(topic)}`}
       />
       <div className="myp-page myp-subject-page" style={{ '--subject': subject.accent } as React.CSSProperties}>
         <header className="myp-subject-hero">
@@ -190,6 +192,8 @@ export default function MYPSubject() {
                     ))}
                   </div>
                 </section>
+
+                {detailedLesson.studyPack && <StudyResourcePack key={`resources-${detailedLesson.id}`} pack={detailedLesson.studyPack} />}
 
                 <MypPracticeWorkspace
                   key={detailedLesson.id}

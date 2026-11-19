@@ -45,10 +45,126 @@
             "Asks about the specified detail"
           ],
           "id": "spanish-language-and-culture-1-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Interpret « Se recomienda traer agua, pero no se permite comer en la sala ».",
+          "hint": "Separate advice from prohibition.",
+          "hints": [
+            "Separate advice from prohibition.",
+            "Keep the location."
+          ],
+          "answer": "Bringing water is recommended. Eating in the room is prohibited. The text does not say that water is compulsory.",
+          "checkpoints": [
+            "Bringing water is recommended.",
+            "Eating in the room is prohibited.",
+            "The text does not say that water is compulsory."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "Write a formal Spanish request asking whether materials are included.",
+          "hint": "Use the conditional.",
+          "hints": [
+            "Use the conditional.",
+            "Keep the request specific."
+          ],
+          "answer": "« ¿Podría decirme si el material está incluido? » Podría expresses a courteous request. The question clarifies what the participant must provide.",
+          "checkpoints": [
+            "« ¿Podría decirme si el material está incluido? »",
+            "Podría expresses a courteous request.",
+            "The question clarifies what the participant must provide."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "frameworkUnit": "Unit 1",
-      "id": "spanish-language-and-culture-1"
+      "id": "spanish-language-and-culture-1",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Read a community notice precisely in depth",
+            "paragraphs": [
+              "Spanish notices distinguish permission, recommendation and obligation. Se permite authorises an action, se recomienda advises it, and es obligatorio requires it. A deadline with antes del jueves differs from a start date with a partir del jueves. In a formal response, address the recipient consistently with usted and answer the requested practical details. A request such as ¿Podría confirmarme...? uses the conditional to soften the question. Successful comprehension includes the conditions attached to an invitation; recognising the event's general topic does not establish who may attend or what they must bring."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Original notice: « El taller empieza el viernes. Es obligatorio inscribirse antes del jueves. » Reply.",
+            "steps": [
+              "Separate Friday's event from the earlier registration requirement.",
+              "« Me gustaría inscribirme. ¿Podría confirmarme la hora de inicio? »"
+            ],
+            "conclusion": "The reply follows the notice and asks for an unspecified detail."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "¿Qué expresa se permite?",
+            "back": "Permiso."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "¿Qué expresa se recomienda?",
+            "back": "Consejo."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "¿Qué expresa es obligatorio?",
+            "back": "Una obligación."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "¿Qué significa a partir del jueves?",
+            "back": "From Thursday onwards."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Una invitación con condiciones",
+            "description": "El plazo no es la fecha del taller.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Antes del jueves",
+                "detail": "Inscripción obligatoria."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Viernes",
+                "detail": "Comienzo del taller."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Respuesta",
+                "detail": "Solicitud y pregunta sobre la hora."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "precede a"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "orienta"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Trace identity and language choices",
@@ -88,10 +204,126 @@
             "Avoids a universal stereotype"
           ],
           "id": "spanish-language-and-culture-2-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Identify the voices in « Para Luis es útil; yo lo considero confuso ».",
+          "hint": "Look for Luis and yo.",
+          "hints": [
+            "Look for Luis and yo.",
+            "Track lo."
+          ],
+          "answer": "Luis finds the item useful. The speaker finds it confusing. Lo refers to the discussed item, not automatically to Luis.",
+          "checkpoints": [
+            "Luis finds the item useful.",
+            "The speaker finds it confusing.",
+            "Lo refers to the discussed item, not automatically to Luis."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "Write a bounded Spanish observation about one student's messages.",
+          "hint": "Use en este ejemplo.",
+          "hints": [
+            "Use en este ejemplo.",
+            "Avoid todos."
+          ],
+          "answer": "« En este ejemplo, la estudiante usa abreviaturas con sus amigos. » La observación se limita a esos mensajes. No demuestra cómo escriben todos los jóvenes.",
+          "checkpoints": [
+            "« En este ejemplo, la estudiante usa abreviaturas con sus amigos. »",
+            "La observación se limita a esos mensajes.",
+            "No demuestra cómo escriben todos los jóvenes."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "frameworkUnit": "Unit 2",
-      "id": "spanish-language-and-culture-2"
+      "id": "spanish-language-and-culture-2",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Trace identity and language choices in depth",
+            "paragraphs": [
+              "Attribution prevents a summary from merging different voices. Según la entrevistada marks an interviewee's claim, while a mi parecer signals the current speaker's judgement. A concessive connector can acknowledge a point while maintaining another position: aunque is not interchangeable with porque. With an asserted factual concession, aunque commonly takes the indicative; with a hypothetical or unasserted condition it can take the subjunctive. Analyse the actual wording before generalising. A speaker who changes register between friends and a formal application is responding to relationships and purposes, not necessarily rejecting either identity."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Original text: « Aunque la palabra es popular, Ana prefiere otra en sus informes. »",
+            "steps": [
+              "The indicative es presents popularity as an accepted fact in the sentence.",
+              "The contrast concerns Ana's reports, not every context."
+            ],
+            "conclusion": "Popularity and individual register choice are compatible."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "¿Qué señala según la entrevistada?",
+            "back": "Atribución."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "¿Qué expresa aunque?",
+            "back": "Concesión."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "¿Qué expresa porque?",
+            "back": "Causa o razón."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "¿El cambio de registro prueba rechazo de una identidad?",
+            "back": "No, puede responder al contexto."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Uso y contexto",
+            "description": "La preferencia tiene un alcance limitado.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Palabra popular",
+                "detail": "Uso reconocido."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Informes de Ana",
+                "detail": "Contexto concreto."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Otra expresión",
+                "detail": "Elección dentro de ese contexto."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "se contrasta con"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "motiva"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Research music without inventing a culture",
@@ -131,10 +363,126 @@
             "Does not infer sound from text alone"
           ],
           "id": "spanish-language-and-culture-3-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Paraphrase « Cambiamos los instrumentos, pero conservamos la letra ».",
+          "hint": "Keep change and continuity distinct.",
+          "hints": [
+            "Keep change and continuity distinct.",
+            "Do not invent a new melody."
+          ],
+          "answer": "El grupo utiliza instrumentos distintos. La letra permanece igual. La frase no dice si la melodía cambió.",
+          "checkpoints": [
+            "El grupo utiliza instrumentos distintos.",
+            "La letra permanece igual.",
+            "La frase no dice si la melodía cambió."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "State in Spanish why a programme listing performers cannot alone explain an audience's interpretation.",
+          "hint": "Identify what the document contains.",
+          "hints": [
+            "Identify what the document contains.",
+            "Name additional evidence."
+          ],
+          "answer": "El programa identifica a los intérpretes. No recoge necesariamente las opiniones del público. Para estudiar esas interpretaciones harían falta testimonios pertinentes y atribuibles.",
+          "checkpoints": [
+            "El programa identifica a los intérpretes.",
+            "No recoge necesariamente las opiniones del público.",
+            "Para estudiar esas interpretaciones harían falta testimonios pertinentes y atribuibles."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "frameworkUnit": "Unit 3",
-      "id": "spanish-language-and-culture-3"
+      "id": "spanish-language-and-culture-3",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Research music without inventing a culture in depth",
+            "paragraphs": [
+              "Paraphrasing music research requires preserving who acts, how often and for what purpose. Para followed by an infinitive usually keeps the same acting subject; para que introduces another clause with the subjunctive. A stated aim is evidence of the participant's explanation, not proof that every listener experiences the same effect. Record creator, place, date and the relevant passage with a note. A rehearsal account may explain a practice, while a recording can support observations about rhythm or instrumentation. Combining them works when their different contributions remain visible."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Original invented statement: « Tocamos más despacio para que los principiantes puedan seguir el ritmo. »",
+            "steps": [
+              "Identify the adjustment: slower playing.",
+              "Paraphrase: « El grupo reduce el tempo para facilitar la participación de los principiantes. »"
+            ],
+            "conclusion": "The statement explains rehearsal access; it does not describe every performance."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "¿Qué modo sigue a para que?",
+            "back": "El subjuntivo."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "¿Qué significa más despacio?",
+            "back": "More slowly."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "¿Qué indica puedan aquí?",
+            "back": "Capacidad pretendida dentro de una finalidad."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "¿Qué debe conservar una paráfrasis?",
+            "back": "Agente, acción, alcance y sentido."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Tempo y participación",
+            "description": "Una adaptación responde a una necesidad concreta.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Tempo reducido",
+                "detail": "El grupo toca más despacio."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Principiantes",
+                "detail": "Pueden seguir el ritmo."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Participación",
+                "detail": "Finalidad declarada en el testimonio."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "facilita que"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "favorece"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Use data in a technology argument",
@@ -174,10 +522,126 @@
             "Includes a relevant limitation"
           ],
           "id": "spanish-language-and-culture-4-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Report 6 of 24 respondents having access difficulties in Spanish.",
+          "hint": "Compute 6/24.",
+          "hints": [
+            "Compute 6/24.",
+            "Retain the sample."
+          ],
+          "answer": "« El 25 % de las personas encuestadas tiene dificultades de acceso. » 6/24 equals one quarter. The finding does not automatically describe the whole population.",
+          "checkpoints": [
+            "« El 25 % de las personas encuestadas tiene dificultades de acceso. »",
+            "6/24 equals one quarter.",
+            "The finding does not automatically describe the whole population."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "Explain in Spanish why longer app use does not necessarily show better learning.",
+          "hint": "Separate duration from outcome.",
+          "hints": [
+            "Separate duration from outcome.",
+            "Offer a relevant measure."
+          ],
+          "answer": "Más tiempo de uso puede reflejar dificultad o distracción. La duración no mide directamente los conocimientos adquiridos. Una tarea comparable antes y después podría aportar evidencia sobre el aprendizaje.",
+          "checkpoints": [
+            "Más tiempo de uso puede reflejar dificultad o distracción.",
+            "La duración no mide directamente los conocimientos adquiridos.",
+            "Una tarea comparable antes y después podría aportar evidencia sobre el aprendizaje."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "frameworkUnit": "Unit 4",
-      "id": "spanish-language-and-culture-4"
+      "id": "spanish-language-and-culture-4",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Use data in a technology argument in depth",
+            "paragraphs": [
+              "Technology data need a measure that matches the claim. Descargas counts downloads; usuarios únicos counts distinct users; tiempo de uso measures duration. These indicators cannot substitute automatically for learning or satisfaction. A percentage also needs its denominator. If the number of respondents changes, the proportion can rise while the number of users stays constant. Use entre las personas encuestadas to preserve scope, and podría to describe an untested benefit. A persuasive interpretation states what the chart supports and identifies the additional observation needed for a broader claim."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Invented data: 15 of 30 respondents used a tool in March; 15 of 25 did in April.",
+            "steps": [
+              "Calculate 50% and 60%. The count remains fifteen.",
+              "« La proporción aumentó diez puntos porcentuales, pero el número observado de usuarios no cambió. »"
+            ],
+            "conclusion": "A smaller denominator explains the percentage change."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "¿Qué cuentan las descargas?",
+            "back": "Eventos de descarga."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "¿Qué significa usuarios únicos?",
+            "back": "Personas o identificadores distintos según el método."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "¿50 % a 60 % son cuántos puntos?",
+            "back": "Diez."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "¿Qué limita entre los encuestados?",
+            "back": "La población a la que se refiere el dato."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Dos denominadores",
+            "description": "Un porcentaje mayor no implica más usuarios observados.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Marzo",
+                "detail": "15 de 30: 50 %."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Abril",
+                "detail": "15 de 25: 60 %."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Conclusión",
+                "detail": "Mismo número, distinta proporción."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "se compara con"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "permite"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Explain a changed routine",
@@ -217,10 +681,126 @@
             "Adds a bounded arrival"
           ],
           "id": "spanish-language-and-culture-5-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Complete « Yo ___ (estudiar) cuando ___ (llegar) mis amigos ».",
+          "hint": "Identify background and arrival.",
+          "hints": [
+            "Identify background and arrival.",
+            "Agree llegar with plural amigos."
+          ],
+          "answer": "« Yo estudiaba cuando llegaron mis amigos. » Estudiaba gives the ongoing background. Llegaron presents the plural arrival as a bounded event.",
+          "checkpoints": [
+            "« Yo estudiaba cuando llegaron mis amigos. »",
+            "Estudiaba gives the ongoing background.",
+            "Llegaron presents the plural arrival as a bounded event."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "Write a Spanish sentence showing a completed three-year residence.",
+          "hint": "Treat the period as finished.",
+          "hints": [
+            "Treat the period as finished.",
+            "Use vivir in the preterite."
+          ],
+          "answer": "« Viví en esa ciudad tres años y después me mudé. » Viví presents a bounded period. The later move makes the completed sequence explicit.",
+          "checkpoints": [
+            "« Viví en esa ciudad tres años y después me mudé. »",
+            "Viví presents a bounded period.",
+            "The later move makes the completed sequence explicit."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "frameworkUnit": "Unit 5",
-      "id": "spanish-language-and-culture-5"
+      "id": "spanish-language-and-culture-5",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Explain a changed routine in depth",
+            "paragraphs": [
+              "The imperfect presents an activity or state without focusing on its boundaries, while the preterite presents a bounded event or period. A long event can therefore use the preterite if the speaker treats it as complete: viví allí tres años. Habitual iba and a single fui organise a narrative differently. Desde entonces connects a change to a subsequent pattern; mientras establishes simultaneous background. Keep the people and times clear before explaining consequences. A personal account of changing routines supplies evidence about that narrator, not a statistical description of a whole community."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Narrate a fictional change in exercise routine.",
+            "steps": [
+              "« Antes, corría en el parque todas las tardes. » establishes a habit.",
+              "« El parque cerró en mayo y, desde entonces, hago ejercicio en casa. » gives the event and present consequence."
+            ],
+            "conclusion": "The tense sequence distinguishes habit, change and continuing result."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "¿Qué presenta corría como rutina?",
+            "back": "El imperfecto."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "¿Qué presenta cerró?",
+            "back": "Un acontecimiento delimitado."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "¿Qué conecta desde entonces?",
+            "back": "Un cambio con la situación posterior."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "¿Un periodo largo exige imperfecto?",
+            "back": "No, puede presentarse como completo."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Cambio de rutina",
+            "description": "La secuencia temporal explica el presente.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Antes",
+                "detail": "Carreras habituales en el parque."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "En mayo",
+                "detail": "Cierre del parque."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Desde entonces",
+                "detail": "Ejercicio en casa."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "cambia con"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "conduce a"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Defend a feasible local proposal",
@@ -260,10 +840,126 @@
             "Includes implementation evidence"
           ],
           "id": "spanish-language-and-culture-6-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Complete « Es importante que los vecinos ___ (poder) participar ». Explain.",
+          "hint": "The opening evaluates participation.",
+          "hints": [
+            "The opening evaluates participation.",
+            "Use the present subjunctive plural."
+          ],
+          "answer": "« Es importante que los vecinos puedan participar. » Puedan is the required subjunctive form. The statement recommends access rather than proving participation occurred.",
+          "checkpoints": [
+            "« Es importante que los vecinos puedan participar. »",
+            "Puedan is the required subjunctive form.",
+            "The statement recommends access rather than proving participation occurred."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "Defend a shared bicycle scheme with one limitation in Spanish.",
+          "hint": "Use podría for a possible outcome.",
+          "hints": [
+            "Use podría for a possible outcome.",
+            "Name maintenance."
+          ],
+          "answer": "« Un sistema de bicicletas compartidas podría sustituir algunos viajes cortos en coche. » « Sin embargo, requiere mantenimiento y lugares seguros de devolución. » La reducción real de viajes debe evaluarse durante una prueba.",
+          "checkpoints": [
+            "« Un sistema de bicicletas compartidas podría sustituir algunos viajes cortos en coche. »",
+            "« Sin embargo, requiere mantenimiento y lugares seguros de devolución. »",
+            "La reducción real de viajes debe evaluarse durante una prueba."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "frameworkUnit": "Unit 6",
-      "id": "spanish-language-and-culture-6"
+      "id": "spanish-language-and-culture-6",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Defend a feasible local proposal in depth",
+            "paragraphs": [
+              "A recommendation needs both a mechanism and conditions. Es necesario que normally introduces a subjunctive clause because it evaluates an action rather than simply reports an accomplished fact. A conditional such as sería útil avoids presenting a proposal as an achieved result. Specify the group affected and the criterion for judging success. A repair initiative might extend an object's useful life, but attendance alone cannot show fewer replacements were purchased. Comparing alternatives through cost, access and durable outcomes makes the trade-off visible and keeps the conclusion proportional to the evidence."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Propose a fictional school repair service.",
+            "steps": [
+              "« Sería útil organizar un taller para reparar mochilas. »",
+              "« Es necesario que las herramientas sean adecuadas y que haya supervisión. »"
+            ],
+            "conclusion": "Count durable repairs and subsequent use to test the proposed benefit."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "¿Qué modo sigue a es necesario que?",
+            "back": "El subjuntivo."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "¿Qué expresa sería útil?",
+            "back": "Una valoración hipotética."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "¿La asistencia prueba menos compras?",
+            "back": "No."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "¿Qué hace viable una propuesta?",
+            "back": "Recursos, acceso y condiciones concretas."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Reparar y reutilizar",
+            "description": "El efecto depende de que la reparación dure.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Mochila dañada",
+                "detail": "Un objeto que podría seguir usándose."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Reparación segura",
+                "detail": "Intervención con herramientas y supervisión."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Uso prolongado",
+                "detail": "Resultado que debe comprobarse."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "recibe"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "puede permitir"
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

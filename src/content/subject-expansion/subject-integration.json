@@ -1,0 +1,270 @@
+{
+  "schemaVersion": 1,
+  "id": "subject-integration",
+  "revision": "2026-10-21.4",
+  "subject": "Mathematics",
+  "unit": "Calculus",
+  "topic": "Antiderivatives, signed accumulation and total change",
+  "level": "secondary-extension",
+  "editorialStatus": "unreviewed",
+  "origin": "original-authorship-review-pending",
+  "scope": "Original shared study module on antiderivatives, signed accumulation and total change. Numerical datasets and quoted passages are invented teaching examples. This is not a complete course, official examination material or verified board-specific alignment.",
+  "prerequisites": [
+    "Differentiate integer powers of x.",
+    "Interpret positive and negative function values on a graph."
+  ],
+  "objectives": [
+    "Find an antiderivative with its constant.",
+    "Evaluate a definite integral using endpoints.",
+    "Distinguish signed change from total accumulated magnitude."
+  ],
+  "notes": [
+    {
+      "heading": "Reverse differentiation with a family",
+      "paragraphs": [
+        "An antiderivative F of f satisfies F′=f on an interval. For a power x raised to n, with n not equal to minus one, increase the exponent by one and divide by the new exponent. Add an arbitrary constant because differentiation removes constants. An indefinite integral therefore represents a family, not one unique function. A supplied value such as F(0)=3 can determine the constant. Always differentiate the proposed answer to check its coefficients, powers and any domain restrictions rather than relying on visual resemblance."
+      ]
+    },
+    {
+      "heading": "Evaluate a definite integral",
+      "paragraphs": [
+        "For a continuous function on a closed interval, an antiderivative gives its definite integral by F(b)-F(a). Both endpoint substitutions are required; putting a lower limit of zero does not automatically make every term at that endpoint zero. Reversing the limits reverses the sign. Splitting the interval at an intermediate point leaves the signed total unchanged. Geometrically, parts below the horizontal axis contribute negatively. The result has the units of the integrand multiplied by the units of the integration variable."
+      ]
+    },
+    {
+      "heading": "Interpret net change and total distance",
+      "paragraphs": [
+        "Integrating a rate gives a change in the underlying quantity. To recover the final quantity, add the starting value; the definite integral is not automatically the final amount. Velocity is a signed rate, so its integral gives displacement. Total distance instead integrates speed, the absolute value of velocity. Locate sign changes and split the interval before taking magnitudes. Similarly, positive and negative flow can cancel in a net budget while both contribute to total throughput. These are different questions, so decide which quantity is requested before calculating."
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "prompt": "Find an antiderivative of 6x²-4x with F(0)=5.",
+      "steps": [
+        "Integrate term by term to obtain 2x³-2x²+C.",
+        "Substitute zero into F to obtain C=5."
+      ],
+      "answer": "F(x)=2x³-2x²+5."
+    },
+    {
+      "prompt": "An object's velocity is v(t)=2t-2 m/s for 0≤t≤3. Find displacement and distance.",
+      "steps": [
+        "An antiderivative is t²-2t, giving net displacement 3 m.",
+        "Velocity changes sign at t=1. Displacements on [0,1] and [1,3] are -1 and 4 m; sum their magnitudes."
+      ],
+      "answer": "Displacement 3 m; distance 5 m."
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "A definite integral is always positive area.",
+      "correction": "It is signed; intervals below the axis contribute negatively."
+    },
+    {
+      "claim": "Integrating a rate directly gives the final quantity.",
+      "correction": "It gives the change; include the initial value."
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "card-1",
+      "front": "Why add C in an indefinite integral?",
+      "back": "All constant offsets have the same derivative."
+    },
+    {
+      "id": "card-2",
+      "front": "Which power is excluded from the ordinary power rule?",
+      "back": "x⁻¹; its antiderivative is logarithmic on an appropriate domain."
+    },
+    {
+      "id": "card-3",
+      "front": "What is the endpoint rule?",
+      "back": "Evaluate F(b)-F(a) when its hypotheses hold."
+    },
+    {
+      "id": "card-4",
+      "front": "What does the integral of velocity measure?",
+      "back": "Signed displacement."
+    },
+    {
+      "id": "card-5",
+      "front": "How do you recover a final quantity from its rate?",
+      "back": "Add the integral of the rate to the starting quantity."
+    }
+  ],
+  "questions": [
+    {
+      "id": "family",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "Find the family of antiderivatives of 8x³+3 and check by differentiation.",
+      "answer": "F(x)=2x⁴+3x+C.",
+      "solution": [
+        "Raise the power of x³ and divide by four.",
+        "Differentiate the result to recover 8x³+3."
+      ],
+      "markingPoints": [
+        "Obtain both integrated terms and C.",
+        "Verify by differentiation."
+      ],
+      "marks": 2,
+      "calculator": "not-required"
+    },
+    {
+      "id": "definite",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "Evaluate the integral of 3x² from x=1 to x=3.",
+      "answer": "26.",
+      "solution": [
+        "Use antiderivative x³.",
+        "Subtract 1³ from 3³."
+      ],
+      "markingPoints": [
+        "Find an antiderivative.",
+        "Evaluate both limits to get 26."
+      ],
+      "marks": 2,
+      "calculator": "not-required"
+    },
+    {
+      "id": "initial",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "A fictional tank starts with 10 L and has net inflow 4t L/min for 0≤t≤2 minutes. Find the final volume.",
+      "answer": "18 L.",
+      "solution": [
+        "Integrate 4t to find the increase [2t²] from 0 to 2, which is 8 L.",
+        "Add the initial 10 L."
+      ],
+      "markingPoints": [
+        "Find the increase 8 L.",
+        "Find final volume 18 L."
+      ],
+      "marks": 2,
+      "calculator": "not-required"
+    },
+    {
+      "id": "cancellation",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "Velocity is v(t)=t-2 m/s for 0≤t≤4. Find displacement and total distance.",
+      "answer": "Displacement 0 m; distance 4 m.",
+      "solution": [
+        "Split at t=2, where velocity changes sign.",
+        "Each triangular speed area is 2 m; signed areas cancel while magnitudes add."
+      ],
+      "markingPoints": [
+        "Find zero signed displacement.",
+        "Find total distance 4 m."
+      ],
+      "marks": 2,
+      "calculator": "not-required"
+    }
+  ],
+  "revisionChecklist": [
+    "Check that you can find an antiderivative with its constant without copying the worked solution.",
+    "Check that you can evaluate a definite integral using endpoints without copying the worked solution.",
+    "Check that you can distinguish signed change from total accumulated magnitude without copying the worked solution."
+  ],
+  "diagrams": [
+    {
+      "id": "reasoning-route",
+      "title": "Reasoning route: Calculus",
+      "description": "Use the sequence to organise an explanation of antiderivatives, signed accumulation and total change; it is not a measured mastery score.",
+      "steps": [
+        {
+          "label": "Rate and domain",
+          "detail": "Identify the rate, units, interval and initial condition."
+        },
+        {
+          "label": "Accumulate",
+          "detail": "Use an antiderivative and split where the required magnitude changes sign."
+        },
+        {
+          "label": "Report the quantity",
+          "detail": "Distinguish change, final amount and total magnitude."
+        }
+      ],
+      "links": [
+        "Use this definition to choose the method",
+        "Use the result to evaluate the conclusion"
+      ]
+    }
+  ],
+  "teachingSequence": [
+    {
+      "title": "Reverse differentiation with a family",
+      "guidance": "Differentiate the proposed antiderivative and explain why the arbitrary constant disappears.",
+      "noteHeadings": [
+        "Reverse differentiation with a family"
+      ],
+      "workedExampleNumbers": [
+        1
+      ],
+      "questionIds": [
+        "family"
+      ]
+    },
+    {
+      "title": "Evaluate a definite integral",
+      "guidance": "Inspect the endpoint subtraction in example 2, then use the same signed rule for a new integrand.",
+      "noteHeadings": [
+        "Evaluate a definite integral"
+      ],
+      "workedExampleNumbers": [
+        2
+      ],
+      "questionIds": [
+        "definite"
+      ]
+    },
+    {
+      "title": "Interpret net change and total distance",
+      "guidance": "Split at a sign change for distance, and add the initial value when asked for a final amount.",
+      "noteHeadings": [
+        "Interpret net change and total distance"
+      ],
+      "workedExampleNumbers": [
+        2
+      ],
+      "questionIds": [
+        "initial",
+        "cancellation"
+      ]
+    }
+  ],
+  "revisionGuide": {
+    "summary": "Review antiderivatives, signed accumulation and total change by connecting definitions, the two worked examples and the limits of each conclusion. These questions use editorial self-review points, not an official examination rubric.",
+    "keyIdeas": [
+      "Why add C in an indefinite integral? All constant offsets have the same derivative.",
+      "Which power is excluded from the ordinary power rule? x⁻¹; its antiderivative is logarithmic on an appropriate domain.",
+      "What is the endpoint rule? Evaluate F(b)-F(a) when its hypotheses hold."
+    ],
+    "formulas": [
+      {
+        "expression": "∫xⁿ dx=xⁿ⁺¹/(n+1)+C",
+        "meaning": "An antiderivative of a power.",
+        "conditions": "n≠−1; use an interval where the real-valued functions and derivative are defined."
+      },
+      {
+        "expression": "∫ₐᵇ f(x) dx=F(b)−F(a)",
+        "meaning": "Evaluate signed accumulation using an antiderivative F.",
+        "conditions": "For this lesson, f is continuous on [a,b] and F′=f; total magnitude requires splitting at sign changes."
+      }
+    ],
+    "recallPrompts": [
+      "Why add C in an indefinite integral?",
+      "Which power is excluded from the ordinary power rule?",
+      "What is the endpoint rule?"
+    ],
+    "practiceQuestionIds": [
+      "family",
+      "definite",
+      "initial",
+      "cancellation"
+    ],
+    "revisit": "Attempt the questions without the notes, compare your reasoning with the points, and retry any step you cannot yet explain. Self-review does not certify mastery."
+  }
+}

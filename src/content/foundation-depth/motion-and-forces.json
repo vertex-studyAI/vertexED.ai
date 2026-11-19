@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "lessonId": "motion-and-forces",
+  "revision": "2026-10-21.3",
+  "notes": [
+    {
+      "heading": "Separate signed displacement from total distance",
+      "paragraphs": [
+        "The area under a velocity-time graph is signed displacement. Motion in the opposite direction contributes negative area, while distance adds the magnitudes of all segments. A zero final displacement can therefore accompany substantial travel. Average speed divides total distance by elapsed time; average velocity divides displacement by the same interval. Force determines acceleration in the constant-mass Newtonian model, not the direction of velocity itself. A nonzero velocity can persist with zero resultant force, and a force opposing velocity can slow an object without immediately reversing it."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "depth-return-journey",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "An idealised trolley moves at +3 m/s for 4 s, then at -2 m/s for 6 s. Ignore the brief change of velocity. Find displacement, distance and average speed.",
+      "answer": "Displacement 0 m, distance 24 m, average speed 2.4 m/s.",
+      "solution": [
+        "Signed displacements are +12 m and -12 m.",
+        "Add magnitudes for distance and divide by total time 10 s."
+      ],
+      "markingPoints": [
+        "Find zero displacement.",
+        "Find distance 24 m.",
+        "Find average speed 2.4 m/s."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-force-balance",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "A 5 kg object moves right at constant velocity on a horizontal surface. A 12 N rightward force acts. Assuming only one other horizontal force, find it and explain your reasoning.",
+      "answer": "The other horizontal force is 12 N leftward.",
+      "solution": [
+        "Constant velocity means zero acceleration.",
+        "Newton's second law therefore requires zero resultant horizontal force."
+      ],
+      "markingPoints": [
+        "State zero acceleration.",
+        "Use zero resultant force.",
+        "Give 12 N leftward."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-velocity-crossing",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "An object starts at velocity +4 m/s and maintains acceleration -2 m/s² for 4 s. Find when it reverses direction, its displacement and total distance.",
+      "answer": "It reverses after 2 s; displacement is 0 m and distance is 8 m.",
+      "solution": [
+        "Use v=4-2t to locate v=0 at t=2 s.",
+        "The velocity-time graph gives equal signed triangle areas +4 and -4 m."
+      ],
+      "markingPoints": [
+        "Find reversal at 2 s.",
+        "Find displacement 0 m.",
+        "Add triangle magnitudes to obtain distance 8 m."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    }
+  ]
+}

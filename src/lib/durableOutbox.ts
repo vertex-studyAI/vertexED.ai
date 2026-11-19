@@ -1,6 +1,6 @@
 export type DurableOutboxRecord<T = unknown> = {
   id: string;
-  channel: 'artifact' | 'learner-state';
+  channel: 'artifact' | 'learner-state' | 'revision-event';
   scope: string;
   logicalKey: string;
   revision: string;

@@ -1,0 +1,700 @@
+{
+  "date": "2026-10-21",
+  "branch": "codex/liquid-glass-polish",
+  "status": "bounded-local-verification-passed",
+  "scope": "All current AP/MYP modules have authored resources; no independent curriculum approval or deployment.",
+  "focusedChecks": {
+    "passed": 99,
+    "failed": 0,
+    "skipped": 0
+  },
+  "browser": {
+    "passedScenarios": 61,
+    "apCourses": 42,
+    "apModules": 274,
+    "mypSubjects": 17,
+    "mypLessons": 205,
+    "additionalScenarios": 2,
+    "runBoundary": "Successful cases combined from three runs after bounded corrections and one external interruption; initial failed cases retained.",
+    "scenarios": [
+      {
+        "scenario": "AP resources: AP 2-D Art and Design",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/ap-passed-myp-selector-failed.log",
+        "runGroup": "AP"
+      },
+      {
+        "scenario": "AP resources: AP 3-D Art and Design",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/ap-passed-myp-selector-failed.log",
+        "runGroup": "AP"
+      },
+      {
+        "scenario": "AP resources: AP African American Studies",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/ap-passed-myp-selector-failed.log",
+        "runGroup": "AP"
+      },
+      {
+        "scenario": "AP resources: AP Art History",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/ap-passed-myp-selector-failed.log",
+        "runGroup": "AP"
+      },
+      {
+        "scenario": "AP resources: AP Biology",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/ap-passed-myp-selector-failed.log",
+        "runGroup": "AP"
+      },
+      {
+        "scenario": "AP resources: AP Business with Personal Finance",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/ap-passed-myp-selector-failed.log",
+        "runGroup": "AP"
+      },
+      {
+        "scenario": "AP resources: AP Calculus AB",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/ap-passed-myp-selector-failed.log",
+        "runGroup": "AP"
+      },
+      {
+        "scenario": "AP resources: AP Calculus BC",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/ap-passed-myp-selector-failed.log",
+        "runGroup": "AP"
+      },
+      {
+        "scenario": "AP resources: AP Chemistry",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/ap-passed-myp-selector-failed.log",
+        "runGroup": "AP"
+      },
+      {
+        "scenario": "AP resources: AP Chinese Language and Culture",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/ap-passed-myp-selector-failed.log",
+        "runGroup": "AP"
+      },
+      {
+        "scenario": "AP resources: AP Comparative Government and Politics",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/ap-passed-myp-selector-failed.log",
+        "runGroup": "AP"
+      },
+      {
+        "scenario": "AP resources: AP Computer Science A",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/ap-passed-myp-selector-failed.log",
+        "runGroup": "AP"
+      },
+      {
+        "scenario": "AP resources: AP Computer Science Principles",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/ap-passed-myp-selector-failed.log",
+        "runGroup": "AP"
+      },
+      {
+        "scenario": "AP resources: AP Cybersecurity",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/ap-passed-myp-selector-failed.log",
+        "runGroup": "AP"
+      },
+      {
+        "scenario": "AP resources: AP Drawing",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/ap-passed-myp-selector-failed.log",
+        "runGroup": "AP"
+      },
+      {
+        "scenario": "AP resources: AP English Language and Composition",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/ap-passed-myp-selector-failed.log",
+        "runGroup": "AP"
+      },
+      {
+        "scenario": "AP resources: AP English Literature and Composition",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/ap-passed-myp-selector-failed.log",
+        "runGroup": "AP"
+      },
+      {
+        "scenario": "AP resources: AP Environmental Science",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/ap-passed-myp-selector-failed.log",
+        "runGroup": "AP"
+      },
+      {
+        "scenario": "AP resources: AP European History",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/ap-passed-myp-selector-failed.log",
+        "runGroup": "AP"
+      },
+      {
+        "scenario": "AP resources: AP French Language and Culture",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/ap-passed-myp-selector-failed.log",
+        "runGroup": "AP"
+      },
+      {
+        "scenario": "AP resources: AP German Language and Culture",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/ap-passed-myp-selector-failed.log",
+        "runGroup": "AP"
+      },
+      {
+        "scenario": "AP resources: AP Human Geography",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/ap-passed-myp-selector-failed.log",
+        "runGroup": "AP"
+      },
+      {
+        "scenario": "AP resources: AP Italian Language and Culture",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/ap-passed-myp-selector-failed.log",
+        "runGroup": "AP"
+      },
+      {
+        "scenario": "AP resources: AP Japanese Language and Culture",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/ap-passed-myp-selector-failed.log",
+        "runGroup": "AP"
+      },
+      {
+        "scenario": "AP resources: AP Latin",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/ap-passed-myp-selector-failed.log",
+        "runGroup": "AP"
+      },
+      {
+        "scenario": "AP resources: AP Macroeconomics",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/ap-passed-myp-selector-failed.log",
+        "runGroup": "AP"
+      },
+      {
+        "scenario": "AP resources: AP Microeconomics",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/ap-passed-myp-selector-failed.log",
+        "runGroup": "AP"
+      },
+      {
+        "scenario": "AP resources: AP Music Theory",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/ap-passed-myp-selector-failed.log",
+        "runGroup": "AP"
+      },
+      {
+        "scenario": "AP resources: AP Physics 1: Algebra-Based",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/ap-passed-myp-selector-failed.log",
+        "runGroup": "AP"
+      },
+      {
+        "scenario": "AP resources: AP Physics 2: Algebra-Based",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/ap-passed-myp-selector-failed.log",
+        "runGroup": "AP"
+      },
+      {
+        "scenario": "AP resources: AP Physics C: Electricity and Magnetism",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/ap-passed-myp-selector-failed.log",
+        "runGroup": "AP"
+      },
+      {
+        "scenario": "AP resources: AP Physics C: Mechanics",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/ap-passed-myp-selector-failed.log",
+        "runGroup": "AP"
+      },
+      {
+        "scenario": "AP resources: AP Precalculus",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/ap-passed-myp-selector-failed.log",
+        "runGroup": "AP"
+      },
+      {
+        "scenario": "AP resources: AP Psychology",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/ap-passed-myp-selector-failed.log",
+        "runGroup": "AP"
+      },
+      {
+        "scenario": "AP resources: AP Research",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/ap-passed-myp-selector-failed.log",
+        "runGroup": "AP"
+      },
+      {
+        "scenario": "AP resources: AP Seminar",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/ap-passed-myp-selector-failed.log",
+        "runGroup": "AP"
+      },
+      {
+        "scenario": "AP resources: AP Spanish Language and Culture",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/ap-passed-myp-selector-failed.log",
+        "runGroup": "AP"
+      },
+      {
+        "scenario": "AP resources: AP Spanish Literature and Culture",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/ap-passed-myp-selector-failed.log",
+        "runGroup": "AP"
+      },
+      {
+        "scenario": "AP resources: AP Statistics",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/ap-passed-myp-selector-failed.log",
+        "runGroup": "AP"
+      },
+      {
+        "scenario": "AP resources: AP United States Government and Politics",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/ap-passed-myp-selector-failed.log",
+        "runGroup": "AP"
+      },
+      {
+        "scenario": "AP resources: AP United States History",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/ap-passed-myp-selector-failed.log",
+        "runGroup": "AP"
+      },
+      {
+        "scenario": "AP resources: AP World History: Modern",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/ap-passed-myp-selector-failed.log",
+        "runGroup": "AP"
+      },
+      {
+        "scenario": "MYP resources: biology",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/myp-browser-final-interrupted.log",
+        "runGroup": "MYP"
+      },
+      {
+        "scenario": "MYP resources: chemistry",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/myp-browser-final-interrupted.log",
+        "runGroup": "MYP"
+      },
+      {
+        "scenario": "MYP resources: design",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/myp-browser-final-interrupted.log",
+        "runGroup": "MYP"
+      },
+      {
+        "scenario": "MYP resources: drama",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/myp-browser-final-interrupted.log",
+        "runGroup": "MYP"
+      },
+      {
+        "scenario": "MYP resources: economics",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/myp-browser-final-interrupted.log",
+        "runGroup": "MYP"
+      },
+      {
+        "scenario": "MYP resources: english-language-literature",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/myp-browser-final-interrupted.log",
+        "runGroup": "MYP"
+      },
+      {
+        "scenario": "MYP resources: geography",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/myp-browser-final-interrupted.log",
+        "runGroup": "MYP"
+      },
+      {
+        "scenario": "MYP resources: history",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/myp-browser-final-interrupted.log",
+        "runGroup": "MYP"
+      },
+      {
+        "scenario": "MYP resources: integrated-humanities",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/myp-browser-final-interrupted.log",
+        "runGroup": "MYP"
+      },
+      {
+        "scenario": "MYP resources: integrated-sciences",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/myp-browser-final-interrupted.log",
+        "runGroup": "MYP"
+      },
+      {
+        "scenario": "MYP resources: mathematics",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/myp-browser-final-interrupted.log",
+        "runGroup": "MYP"
+      },
+      {
+        "scenario": "MYP resources: music",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/myp-browser-final-interrupted.log",
+        "runGroup": "MYP"
+      },
+      {
+        "scenario": "MYP resources: personal-project",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/myp-browser-final-interrupted.log",
+        "runGroup": "MYP"
+      },
+      {
+        "scenario": "MYP resources: physical-health-education",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/myp-browser-final-interrupted.log",
+        "runGroup": "MYP"
+      },
+      {
+        "scenario": "MYP resources: physics",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/browser-completion.log",
+        "runGroup": "completion"
+      },
+      {
+        "scenario": "MYP resources: spanish",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/browser-completion.log",
+        "runGroup": "completion"
+      },
+      {
+        "scenario": "MYP resources: visual-arts",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/browser-completion.log",
+        "runGroup": "completion"
+      },
+      {
+        "scenario": "responsive resource diagrams, keyboard cards and reduced motion",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/browser-completion.log",
+        "runGroup": "completion"
+      },
+      {
+        "scenario": "new MYP question drafts remain distinct across lessons",
+        "status": "passed",
+        "receipt": "test-results/ap-myp-expansion-20261021/browser-completion.log",
+        "runGroup": "completion"
+      }
+    ]
+  },
+  "visual": {
+    "captured": 36,
+    "inspected": 13,
+    "viewportWidths": [
+      1440,
+      1024,
+      390
+    ],
+    "themes": [
+      "Blue",
+      "Midnight"
+    ],
+    "reducedMotion": true,
+    "keyboard": "Enter and Space toggles passed",
+    "screenshots": [
+      {
+        "path": "test-results/ap-myp-expansion-20261021/browser/ap-myp-resources-responsiv-be1fe-rd-cards-and-reduced-motion/ap-calculus-1024-dark.png",
+        "sha256": "74c80a18daf1d2703e56d56dad132f40e05f76abdf1d8a77c9897dd1784f298c",
+        "visuallyInspected": false
+      },
+      {
+        "path": "test-results/ap-myp-expansion-20261021/browser/ap-myp-resources-responsiv-be1fe-rd-cards-and-reduced-motion/ap-calculus-1024-light.png",
+        "sha256": "8d7c1920070d2750609cdea0a8b52bdf7dae9ff169e2a8effb916ba8f7401665",
+        "visuallyInspected": false
+      },
+      {
+        "path": "test-results/ap-myp-expansion-20261021/browser/ap-myp-resources-responsiv-be1fe-rd-cards-and-reduced-motion/ap-calculus-1440-dark.png",
+        "sha256": "a824fb2267e003529fd922be5f91de4f8509c68ff3a22336e5b4259c62fa462a",
+        "visuallyInspected": false
+      },
+      {
+        "path": "test-results/ap-myp-expansion-20261021/browser/ap-myp-resources-responsiv-be1fe-rd-cards-and-reduced-motion/ap-calculus-1440-light.png",
+        "sha256": "cb917ecd3d2914b555703e4330be5f69c88ac727343cc0bc9c2eb050ae927bc6",
+        "visuallyInspected": true
+      },
+      {
+        "path": "test-results/ap-myp-expansion-20261021/browser/ap-myp-resources-responsiv-be1fe-rd-cards-and-reduced-motion/ap-calculus-390-dark.png",
+        "sha256": "957c335dd8310a79e21307c0ada6293adfbd13b9ea662debc51eed09d9e86ee8",
+        "visuallyInspected": true
+      },
+      {
+        "path": "test-results/ap-myp-expansion-20261021/browser/ap-myp-resources-responsiv-be1fe-rd-cards-and-reduced-motion/ap-calculus-390-light.png",
+        "sha256": "f6ba82ce6e254402a86e7083e659b4ca8eaa90d83600fa20f19647c575fcade2",
+        "visuallyInspected": false
+      },
+      {
+        "path": "test-results/ap-myp-expansion-20261021/browser/ap-myp-resources-responsiv-be1fe-rd-cards-and-reduced-motion/ap-calculus-card-1024-dark.png",
+        "sha256": "2b257a259c813a38a539da6297f7134eaaebf0fe2281e5e26a7fca717535106c",
+        "visuallyInspected": false
+      },
+      {
+        "path": "test-results/ap-myp-expansion-20261021/browser/ap-myp-resources-responsiv-be1fe-rd-cards-and-reduced-motion/ap-calculus-card-1024-light.png",
+        "sha256": "256d41d3c6950d660763c41e391959b2a8e36b1daa84403389231c99498ff9f7",
+        "visuallyInspected": false
+      },
+      {
+        "path": "test-results/ap-myp-expansion-20261021/browser/ap-myp-resources-responsiv-be1fe-rd-cards-and-reduced-motion/ap-calculus-card-1440-dark.png",
+        "sha256": "0a366dd9af36e357a7ff9af7bb6e59265f353223e3a0fce9efc47a3ab3502739",
+        "visuallyInspected": false
+      },
+      {
+        "path": "test-results/ap-myp-expansion-20261021/browser/ap-myp-resources-responsiv-be1fe-rd-cards-and-reduced-motion/ap-calculus-card-1440-light.png",
+        "sha256": "6af2a2c1ce6b4e0c14d72d64a4a8984ac35bf4ff279360203cafcef349633a62",
+        "visuallyInspected": true
+      },
+      {
+        "path": "test-results/ap-myp-expansion-20261021/browser/ap-myp-resources-responsiv-be1fe-rd-cards-and-reduced-motion/ap-calculus-card-390-dark.png",
+        "sha256": "3941358c1d4d076ee86fc7e135eef788a18dc0907f0eb1147b28c641c7f49ad6",
+        "visuallyInspected": true
+      },
+      {
+        "path": "test-results/ap-myp-expansion-20261021/browser/ap-myp-resources-responsiv-be1fe-rd-cards-and-reduced-motion/ap-calculus-card-390-light.png",
+        "sha256": "c270057bd42febd801217565dcd2523ce8f8c8dbe86947de1fbcaa56c8eb7a0b",
+        "visuallyInspected": false
+      },
+      {
+        "path": "test-results/ap-myp-expansion-20261021/browser/ap-myp-resources-responsiv-be1fe-rd-cards-and-reduced-motion/ap-japanese-1024-dark.png",
+        "sha256": "e19b1684ba007e658174d3f4a87cbaf3074e151b92dddac34c3afddd9af2c749",
+        "visuallyInspected": true
+      },
+      {
+        "path": "test-results/ap-myp-expansion-20261021/browser/ap-myp-resources-responsiv-be1fe-rd-cards-and-reduced-motion/ap-japanese-1024-light.png",
+        "sha256": "1148c3a7e7be25ea0fd40b933b856dde67a558d009e5a2c5664cfb3f0b4ba901",
+        "visuallyInspected": false
+      },
+      {
+        "path": "test-results/ap-myp-expansion-20261021/browser/ap-myp-resources-responsiv-be1fe-rd-cards-and-reduced-motion/ap-japanese-1440-dark.png",
+        "sha256": "0530031c7a79b3705084044fa337e21d72122ae9ae1c30d2cac2bec5c1b4ae18",
+        "visuallyInspected": false
+      },
+      {
+        "path": "test-results/ap-myp-expansion-20261021/browser/ap-myp-resources-responsiv-be1fe-rd-cards-and-reduced-motion/ap-japanese-1440-light.png",
+        "sha256": "2e0a47651906d64d98fabb5951b13fe09198de91c555b322c68c2d76755135ff",
+        "visuallyInspected": false
+      },
+      {
+        "path": "test-results/ap-myp-expansion-20261021/browser/ap-myp-resources-responsiv-be1fe-rd-cards-and-reduced-motion/ap-japanese-390-dark.png",
+        "sha256": "0303d1d83b91f8bf69ff7f537e359b6193f895b2b595e04ccdc9b7fc7e257655",
+        "visuallyInspected": false
+      },
+      {
+        "path": "test-results/ap-myp-expansion-20261021/browser/ap-myp-resources-responsiv-be1fe-rd-cards-and-reduced-motion/ap-japanese-390-light.png",
+        "sha256": "eea927947bd2e73316c0ac97a0e5bbb3cf5bd720e3e99f8cbeb3498e3c09ac76",
+        "visuallyInspected": true
+      },
+      {
+        "path": "test-results/ap-myp-expansion-20261021/browser/ap-myp-resources-responsiv-be1fe-rd-cards-and-reduced-motion/ap-japanese-card-1024-dark.png",
+        "sha256": "c05b9053e2a23aa1a28953bc20c2e117587238e029e99a0fdfda5bbf1d3dd58c",
+        "visuallyInspected": true
+      },
+      {
+        "path": "test-results/ap-myp-expansion-20261021/browser/ap-myp-resources-responsiv-be1fe-rd-cards-and-reduced-motion/ap-japanese-card-1024-light.png",
+        "sha256": "0c81f780ebba776740cd55f48fa0ce00db75b77f14d38b4e8b014957285806c8",
+        "visuallyInspected": false
+      },
+      {
+        "path": "test-results/ap-myp-expansion-20261021/browser/ap-myp-resources-responsiv-be1fe-rd-cards-and-reduced-motion/ap-japanese-card-1440-dark.png",
+        "sha256": "fa38cde1cf418d6f0593cfe26079fcd5c3c1596b38c5f4fb1cce02f8ae5c27eb",
+        "visuallyInspected": false
+      },
+      {
+        "path": "test-results/ap-myp-expansion-20261021/browser/ap-myp-resources-responsiv-be1fe-rd-cards-and-reduced-motion/ap-japanese-card-1440-light.png",
+        "sha256": "58df6f4df641ecac472168219f6ee09455393028f4a47ea986197070893ff115",
+        "visuallyInspected": false
+      },
+      {
+        "path": "test-results/ap-myp-expansion-20261021/browser/ap-myp-resources-responsiv-be1fe-rd-cards-and-reduced-motion/ap-japanese-card-390-dark.png",
+        "sha256": "c6b46ee09320c9fe7cf625b8459fb32904d682b130687eb4b958014893fe1607",
+        "visuallyInspected": false
+      },
+      {
+        "path": "test-results/ap-myp-expansion-20261021/browser/ap-myp-resources-responsiv-be1fe-rd-cards-and-reduced-motion/ap-japanese-card-390-light.png",
+        "sha256": "2860c09217252752a36ed6375f862b9310772eec0b9e187dba57ac5d75592d16",
+        "visuallyInspected": true
+      },
+      {
+        "path": "test-results/ap-myp-expansion-20261021/browser/ap-myp-resources-responsiv-be1fe-rd-cards-and-reduced-motion/myp-design-1024-dark.png",
+        "sha256": "045fb3def27bddeee183d88f910e726de36f7cd83bbf205f6613425df3916f5a",
+        "visuallyInspected": false
+      },
+      {
+        "path": "test-results/ap-myp-expansion-20261021/browser/ap-myp-resources-responsiv-be1fe-rd-cards-and-reduced-motion/myp-design-1024-light.png",
+        "sha256": "0d47f01d38a09f941da2073a18839fc4f9e1a66b5f4e41d9aca28975201c3a8e",
+        "visuallyInspected": true
+      },
+      {
+        "path": "test-results/ap-myp-expansion-20261021/browser/ap-myp-resources-responsiv-be1fe-rd-cards-and-reduced-motion/myp-design-1440-dark.png",
+        "sha256": "c93d3567aeb191f8c2d87aca57a8eb223adcd70dbbf8f05b5abf67dbb82e574f",
+        "visuallyInspected": true
+      },
+      {
+        "path": "test-results/ap-myp-expansion-20261021/browser/ap-myp-resources-responsiv-be1fe-rd-cards-and-reduced-motion/myp-design-1440-light.png",
+        "sha256": "a0ceccf25f568c1d74502deba0b5a14f59538a7a92520376d8112e0ebd53aed7",
+        "visuallyInspected": false
+      },
+      {
+        "path": "test-results/ap-myp-expansion-20261021/browser/ap-myp-resources-responsiv-be1fe-rd-cards-and-reduced-motion/myp-design-390-dark.png",
+        "sha256": "c4a74771ec5879af6c7147ca527fd414955a7548173a7903b07ba4f096bb741a",
+        "visuallyInspected": true
+      },
+      {
+        "path": "test-results/ap-myp-expansion-20261021/browser/ap-myp-resources-responsiv-be1fe-rd-cards-and-reduced-motion/myp-design-390-light.png",
+        "sha256": "47dfe8862c59e1d13c8e382a2a979aabf03529c4378292abadc9c4b7f636a327",
+        "visuallyInspected": false
+      },
+      {
+        "path": "test-results/ap-myp-expansion-20261021/browser/ap-myp-resources-responsiv-be1fe-rd-cards-and-reduced-motion/myp-design-card-1024-dark.png",
+        "sha256": "78528e3657f4201bcb311b30d9a221d2f256492595bda8d061ecf6a10b504cfc",
+        "visuallyInspected": false
+      },
+      {
+        "path": "test-results/ap-myp-expansion-20261021/browser/ap-myp-resources-responsiv-be1fe-rd-cards-and-reduced-motion/myp-design-card-1024-light.png",
+        "sha256": "511ccc20cc248f1af47b6ce4c11ad9b75a1fa375f11c2f5d4678a46c16410a97",
+        "visuallyInspected": true
+      },
+      {
+        "path": "test-results/ap-myp-expansion-20261021/browser/ap-myp-resources-responsiv-be1fe-rd-cards-and-reduced-motion/myp-design-card-1440-dark.png",
+        "sha256": "d02ab05e1bab88a441b1963eacdd04f0ae15d0d07b5c40a34a9218ab12691ca9",
+        "visuallyInspected": false
+      },
+      {
+        "path": "test-results/ap-myp-expansion-20261021/browser/ap-myp-resources-responsiv-be1fe-rd-cards-and-reduced-motion/myp-design-card-1440-light.png",
+        "sha256": "505980ea2dceae153938f886a289cae5fc99486f27412c827e00a26dee0477a0",
+        "visuallyInspected": false
+      },
+      {
+        "path": "test-results/ap-myp-expansion-20261021/browser/ap-myp-resources-responsiv-be1fe-rd-cards-and-reduced-motion/myp-design-card-390-dark.png",
+        "sha256": "0fc675a23de2bf1fe87aba59499df1a238030a9d668ba37fb3d4aa588e92da53",
+        "visuallyInspected": true
+      },
+      {
+        "path": "test-results/ap-myp-expansion-20261021/browser/ap-myp-resources-responsiv-be1fe-rd-cards-and-reduced-motion/myp-design-card-390-light.png",
+        "sha256": "ac058a93bc1a199d7eb89e33e5b723f33a538cdeeebbf0aa82f1ab30995b2c6b",
+        "visuallyInspected": false
+      }
+    ]
+  },
+  "publicationBuild": {
+    "status": "PASS",
+    "javaScriptFiles": 144,
+    "checkedStrings": 50499,
+    "heldAdaptiveQuestions": 35,
+    "approvedStaticAssets": 0,
+    "heldLegacyModules": 29,
+    "heldTeachingSections": 10,
+    "checkedLegacyBodyStrings": 536,
+    "checkedCourseBodyStrings": 6853,
+    "violations": []
+  },
+  "buildSeconds": 33.75,
+  "typecheck": "passed",
+  "scopedEslint": "passed",
+  "copyLint": {
+    "files": 542,
+    "findings": 0
+  },
+  "freshness": "AP, MYP, resource report, coverage, ecosystem, shared library, scope and crosswalk checks passed",
+  "legacyGuides": {
+    "files": 245,
+    "flagged": 53,
+    "approved": 0
+  },
+  "receipts": [
+    {
+      "path": "docs/evidence/AP_MYP_RESOURCE_EXPANSION_20261021.md",
+      "sha256": "847fd0354871aecc78e9055d5367afa888d315a9bd2a8b26f7b79baa2f428fe5"
+    },
+    {
+      "path": "docs/evidence/ap-myp-resource-expansion-20261021.json",
+      "sha256": "898ee606910a2141283059aa7a69d21d5887bca84da8502867d4c9c4538b08f8"
+    },
+    {
+      "path": "docs/evidence/ap-myp-original-content-hashes-20261021.json",
+      "sha256": "2dcb197ad0d27636b52198df0415dca257c77fbbc87dbf76bdfa923644cdf3a3"
+    },
+    {
+      "path": "docs/evidence/ap-stem-crosscheck-20261021.json",
+      "sha256": "babd1245b036463fd3e9fedccfcf61bd5b3fe2199a283c4d9e6bdb5d5139d6d7"
+    },
+    {
+      "path": "docs/evidence/ap-stem-numeric-checks-20261021.json",
+      "sha256": "f9d910b7b525429ac54349fd2c5ca9ef4b10a8aebcb711ca540df3b566d46544"
+    },
+    {
+      "path": "docs/evidence/myp-language-arts-crosscheck-20261021.json",
+      "sha256": "e92115fb0b4334b1f575fc8022b04d46c411a043539010b2dc5eb45640cdcf13"
+    },
+    {
+      "path": "docs/evidence/myp-stem-crosscheck-20261021.json",
+      "sha256": "b3a6a4191e466866ac7e040f033bb843087cfdb689aecd1f28d62fee2c814a57"
+    },
+    {
+      "path": "docs/evidence/ap-us-source-checks-20261021.json",
+      "sha256": "e3b02b18f3816aed4af9bc67b211f65b498d0a74cdba2ee1a91630e8726d632f"
+    },
+    {
+      "path": "test-results/ap-myp-expansion-20261021/final-content-tests.log",
+      "sha256": "6e6dd9f8fc1837f52001f87bd5a87e35592569e3268b4c396b6c06fc898a969d"
+    },
+    {
+      "path": "test-results/ap-myp-expansion-20261021/ap-passed-myp-selector-failed.log",
+      "sha256": "b6fcce9528161783f90dcb5bac929064c4637679da0ddab9c8cb2c05812c7caa"
+    },
+    {
+      "path": "test-results/ap-myp-expansion-20261021/myp-browser-final-interrupted.log",
+      "sha256": "62a8c3fc61f51dd3d112458bc373675f9239b499b60d1109dc68e3bc77b91f28"
+    },
+    {
+      "path": "test-results/ap-myp-expansion-20261021/browser-completion.log",
+      "sha256": "7a1da9df7e4777167d00fb9d212a08493a1eee16e42a95c18a1a5049ad9761c5"
+    },
+    {
+      "path": "test-results/ap-myp-expansion-20261021/build-final.log",
+      "sha256": "74d97e66f96dcf09f1a8a11e66c0e363d1056a929bc51a88ff7f92110855e150"
+    },
+    {
+      "path": "test-results/ap-myp-expansion-20261021/publication-final.log",
+      "sha256": "c253de99f57714209138afffdf0c9a08f288a3346cd32ab26180b4acba3f6eb3"
+    },
+    {
+      "path": "test-results/ap-myp-expansion-20261021/typecheck-final.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "test-results/ap-myp-expansion-20261021/eslint-final.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "test-results/ap-myp-expansion-20261021/copy-final.log",
+      "sha256": "74e4a31e4b79c52220e94b63fc7b719775500ac87cfd8fa72a78d5bbac70d1b8"
+    },
+    {
+      "path": "test-results/ap-myp-expansion-20261021/freshness-final-0.log",
+      "sha256": "a6c89e6e6868ed105bc58e0ec9d9e4c4bc50be75d155498c5da669758c7ac8d1"
+    },
+    {
+      "path": "test-results/ap-myp-expansion-20261021/freshness-final-1.log",
+      "sha256": "59f478f6a9d6445fccaabf5772254f0c834ca028ccc801b54f61e3d5c14647fc"
+    },
+    {
+      "path": "test-results/ap-myp-expansion-20261021/freshness-final-2.log",
+      "sha256": "bbdc647ff6d2b2ec60321cf0f643991e5720da30fceb0c83348c13b9b65a8050"
+    },
+    {
+      "path": "test-results/ap-myp-expansion-20261021/freshness-final-3.log",
+      "sha256": "71f82ea08391abbd237028c00cae1e740ab694bc1683ad406c6d6500a2e7caaf"
+    },
+    {
+      "path": "test-results/ap-myp-expansion-20261021/freshness-final-4.log",
+      "sha256": "0be63011a1424b69c814f6c40f8367cdb6cf8975624c6d521ddca2a42f42597c"
+    }
+  ]
+}

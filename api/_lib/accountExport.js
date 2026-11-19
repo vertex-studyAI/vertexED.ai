@@ -32,7 +32,7 @@ export async function listAllOwnedRows(queryFactory, options = {}) {
   return rows;
 }
 
-export function buildAccountExport({ user, profile, waitlist, studyArtifacts, learnerState, aiUsageOperations = [], aiUsage = null, exportedAt }) {
+export function buildAccountExport({ user, profile, waitlist, studyArtifacts, learnerState, revisionEvents = [], aiUsageOperations = [], aiUsage = null, exportedAt }) {
   const providers = Array.from(new Set(
     (Array.isArray(user?.identities) ? user.identities : [])
       .map((identity) => identity?.provider)
@@ -55,11 +55,13 @@ export function buildAccountExport({ user, profile, waitlist, studyArtifacts, le
     waitlist: waitlist ?? null,
     studyArtifacts,
     learnerState,
+    revisionEvents,
     aiUsageOperations,
     aiUsage,
     counts: {
       studyArtifacts: studyArtifacts.length,
       learnerState: learnerState.length,
+      revisionEvents: revisionEvents.length,
       aiUsageOperations: aiUsageOperations.length,
     },
     exclusions: [

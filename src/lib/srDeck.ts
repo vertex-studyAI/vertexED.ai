@@ -21,10 +21,11 @@ export function loadSrDeck(): SrCard[] {
 }
 
 export function saveSrDeck(cards: SrCard[]) {
-  if (typeof window === "undefined") return;
+  if (typeof window === "undefined") return false;
   const storage = resolveLocalStorage(window);
-  if (!safeStorageSet(storage, deckKey(), JSON.stringify(cards))) return;
+  if (!safeStorageSet(storage, deckKey(), JSON.stringify(cards))) return false;
   window.dispatchEvent(new CustomEvent('vertexed:storage-changed', { detail: deckKey() }));
+  return true;
 }
 
 export function getDueFlashcardCount(): number {
@@ -49,6 +50,6 @@ export function mergeFlashcardsIntoDeck(
 ): number {
   const existing = loadSrDeck();
   const merged = mergeReviewCards(existing, flashcards, deckPrefix);
-  saveSrDeck(merged);
+  if (!saveSrDeck(merged)) throw new Error('Flashcards could not be saved. Check available browser storage and try again.');
   return merged.length - existing.length;
 }

@@ -1,0 +1,1286 @@
+{
+  "subjectSlug": "physical-health-education",
+  "lessons": {
+    "myp5-phe-fitness": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Fitness in context",
+            "paragraphs": [
+              "Fitness is specific to the demands being considered. A short acceleration task, a sustained activity and a balance task provide evidence about different capacities. One result cannot stand in for a complete judgement about a person’s health, effort or worth. Interpret a performance measure alongside its method, conditions and repeatability. Comparisons are more meaningful when the same task and procedure are used. In these exercises, evaluate fictional records rather than treating classroom numbers as a diagnosis or as a reason to prescribe an individual training load."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Fictional records: a learner improves a 20 m sprint from 4.5 s to 4.2 s. What does this support, and what does it not establish?",
+            "steps": [
+              "The recorded time decreases by 0.3 s on that task.",
+              "If conditions and timing were comparable, this supports improved performance on the short sprint, not a conclusion about sustained endurance."
+            ],
+            "conclusion": "The finding is task-specific and should be interpreted with the measurement conditions."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "Why is fitness task-specific?",
+            "back": "Different activities require different physical capacities."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What does a faster short sprint directly show?",
+            "back": "Better recorded performance on that sprint under the stated conditions."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Why standardise a test?",
+            "back": "It makes results more comparable."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Can one performance score diagnose health?",
+            "back": "No; a classroom task is not a comprehensive health assessment."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Fitness: relationships to explain",
+            "description": "Task → Measure → Bounded interpretation. The result supports a specific, conditional conclusion.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Task",
+                "detail": "A 20 m sprint."
+              },
+              {
+                "id": "node-2",
+                "label": "Measure",
+                "detail": "Time falls from 4.5 s to 4.2 s."
+              },
+              {
+                "id": "node-3",
+                "label": "Bounded interpretation",
+                "detail": "Improved recorded sprint performance."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "The task determines what the number measures."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "The result supports a specific, conditional conclusion."
+              }
+            ]
+          }
+        ],
+        "references": [
+          {
+            "title": "Physical activity ; WHO",
+            "url": "https://www.who.int/news-room/fact-sheets/detail/physical-activity",
+            "note": "Background reference on physical activity and wellbeing; checked 21 October 2026. These practice tasks interpret fictional performance records and do not prescribe exercise."
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-phe-fitness-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A fictional balance score improves, and a report claims endurance improved. Evaluate.",
+          "hints": [
+            "Identify what was measured.",
+            "Keep capacities distinct."
+          ],
+          "solution": [
+            "The record measures balance performance.",
+            "It does not directly measure endurance.",
+            "A conclusion about endurance requires a relevant task and suitable evidence."
+          ],
+          "successCriteria": [
+            "The record measures balance performance.",
+            "It does not directly measure endurance.",
+            "A conclusion about endurance requires a relevant task and suitable evidence."
+          ]
+        },
+        {
+          "id": "extension-myp5-phe-fitness-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Two sprint trials use different distances. Can the raw times be compared as the same test?",
+          "hints": [
+            "Check the task conditions.",
+            "Identify what must be standardised."
+          ],
+          "solution": [
+            "Different distances create different tasks.",
+            "A shorter time may reflect the shorter course rather than improved performance.",
+            "Use the same distance and comparable timing conditions for a direct comparison."
+          ],
+          "successCriteria": [
+            "Different distances create different tasks.",
+            "A shorter time may reflect the shorter course rather than improved performance.",
+            "Use the same distance and comparable timing conditions for a direct comparison."
+          ]
+        }
+      ]
+    },
+    "myp5-phe-training-principles": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Training principles in context",
+            "paragraphs": [
+              "Training principles help explain why an activity plan should relate to a goal and be reviewed. Specificity connects practice to the capacity or skill being developed. Progression concerns changing demands over time, while recovery recognises that adaptation does not occur simply by adding more work without limit. FITT records frequency, intensity, time and type; it is a description framework, not an individual prescription. A useful classroom analysis identifies missing information and checks whether the proposed activity matches the stated goal and the learner’s context."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Fictional worksheet: three weekly sessions, each 20 minutes of easy swimming. Identify the FITT information and one uncertainty.",
+            "steps": [
+              "Frequency is three times weekly, time is 20 minutes and type is swimming.",
+              "Intensity is described only as easy, so the worksheet does not specify how that description was determined."
+            ],
+            "conclusion": "The plan can be described with FITT, but its suitability for an individual is not established by these details alone."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What does FITT stand for?",
+            "back": "Frequency, intensity, time and type."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What does specificity connect?",
+            "back": "The practice undertaken with the capacity or skill targeted."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Why is progression not simply “more is always better”?",
+            "back": "Changes in demand need context, response and recovery to be considered."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What can a classroom plan analysis establish?",
+            "back": "Whether information and reasoning are coherent, not an individual exercise prescription."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Training principles: relationships to explain",
+            "description": "Goal → FITT description → Review. Recorded response informs whether the plan needs revision.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Goal",
+                "detail": "State the capacity or skill sought."
+              },
+              {
+                "id": "node-2",
+                "label": "FITT description",
+                "detail": "Record schedule, demand, duration and activity."
+              },
+              {
+                "id": "node-3",
+                "label": "Review",
+                "detail": "Check alignment and the learner’s response."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "The goal should guide the activity description."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "Recorded response informs whether the plan needs revision."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-phe-training-principles-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A fictional plan targets passing decisions but contains only straight-line running. Identify a specificity issue.",
+          "hints": [
+            "Compare activity with the goal.",
+            "Separate general capacity from decisions."
+          ],
+          "solution": [
+            "Running may address some physical demands.",
+            "It does not directly rehearse recognising passing options.",
+            "A justified plan would include suitable decision practice under the teacher’s guidance."
+          ],
+          "successCriteria": [
+            "Running may address some physical demands.",
+            "It does not directly rehearse recognising passing options.",
+            "A justified plan would include suitable decision practice under the teacher’s guidance."
+          ]
+        },
+        {
+          "id": "extension-myp5-phe-training-principles-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A worksheet lists “twice weekly, cycling, 15 minutes” but omits one FITT element. Identify it and explain why it matters.",
+          "hints": [
+            "Check all four letters.",
+            "Distinguish duration from demand."
+          ],
+          "solution": [
+            "Intensity is missing.",
+            "Fifteen minutes states time, not how demanding the activity is.",
+            "Without intensity information the description of the sessions is incomplete."
+          ],
+          "successCriteria": [
+            "Intensity is missing.",
+            "Fifteen minutes states time, not how demanding the activity is.",
+            "Without intensity information the description of the sessions is incomplete."
+          ]
+        }
+      ]
+    },
+    "myp5-physical-health-education-physiology": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Physiology in context",
+            "paragraphs": [
+              "Physiology connects body structures and processes with their functions. Heart rate counts beats per minute, while stroke volume describes blood moved by a ventricle per beat. In a simplified calculation, cardiac output is their product, with units of volume per minute. Keep units visible so a numerical answer has meaning. A pulse count over a short interval is an estimate that can be affected by counting or timing error. Fictional values in a worksheet illustrate a relationship; they are not diagnostic thresholds or targets for a learner."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Fictional model values: heart rate 70 beats/min and stroke volume 60 mL/beat. Calculate cardiac output.",
+            "steps": [
+              "Multiply 70 beats/min × 60 mL/beat = 4200 mL/min; beats cancel.",
+              "Convert 4200 mL to 4.2 L."
+            ],
+            "conclusion": "The model cardiac output is 4.2 L/min; this calculation alone does not evaluate anyone’s health."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is heart rate?",
+            "back": "The number of heartbeats per unit time, commonly beats per minute."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What is stroke volume?",
+            "back": "The volume of blood ejected by a ventricle per beat."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "How is cardiac output calculated in this model?",
+            "back": "Heart rate multiplied by stroke volume."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why keep units in a physiological calculation?",
+            "back": "They identify the quantity and expose conversion mistakes."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Physiology: relationships to explain",
+            "description": "Rate → Volume per beat → Output. Multiplication gives volume moved per minute.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Rate",
+                "detail": "70 beats each minute."
+              },
+              {
+                "id": "node-2",
+                "label": "Volume per beat",
+                "detail": "60 mL."
+              },
+              {
+                "id": "node-3",
+                "label": "Output",
+                "detail": "4200 mL/min = 4.2 L/min."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "Rate combines with volume per event."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "Multiplication gives volume moved per minute."
+              }
+            ]
+          }
+        ],
+        "references": [
+          {
+            "title": "Cardiac physiology ; OpenStax",
+            "url": "https://openstax.org/books/anatomy-and-physiology/pages/19-4-cardiac-physiology",
+            "note": "Concept reference for cardiac output as heart rate × stroke volume; checked 21 October 2026. The numerical examples are original fictional exercises."
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-physical-health-education-physiology-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "In a fictional arithmetic exercise, 22 beats are counted in 20 seconds. Estimate beats per minute.",
+          "hints": [
+            "A minute contains three 20-second intervals.",
+            "State the estimate and its limit."
+          ],
+          "solution": [
+            "Multiply 22 by 3.",
+            "The estimate is 66 beats per minute.",
+            "It assumes the counted interval represents the minute and is subject to timing and counting error."
+          ],
+          "successCriteria": [
+            "Multiply 22 by 3.",
+            "The estimate is 66 beats per minute.",
+            "It assumes the counted interval represents the minute and is subject to timing and counting error."
+          ]
+        },
+        {
+          "id": "extension-myp5-physical-health-education-physiology-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Model values are 80 beats/min and 50 mL/beat. Calculate output in litres per minute.",
+          "hints": [
+            "Multiply before converting.",
+            "There are 1000 mL in one litre."
+          ],
+          "solution": [
+            "80 × 50 = 4000 mL/min.",
+            "4000 ÷ 1000 = 4 L/min.",
+            "The result describes the supplied model values, not a clinical judgement."
+          ],
+          "successCriteria": [
+            "80 × 50 = 4000 mL/min.",
+            "4000 ÷ 1000 = 4 L/min.",
+            "The result describes the supplied model values, not a clinical judgement."
+          ]
+        }
+      ]
+    },
+    "myp5-physical-health-education-movement": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Movement in context",
+            "paragraphs": [
+              "Movement analysis considers forces, joints and the task being performed. Muscles can produce force while shortening, lengthening or maintaining approximately the same length. Therefore, the absence of visible movement does not mean the absence of muscular work in the everyday physiological sense. In a static balance model, opposing forces or moments can cancel even though each remains present. Describe the observed position and external load before naming an action. Classroom examples are simplified models and should not be used to infer an injury or prescribe a technique for an individual."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Fictional static model: a forearm holds an object still. Its weight creates a turning effect about the elbow. Explain why a muscle force is still needed.",
+            "steps": [
+              "The object’s weight produces a moment tending to rotate the forearm.",
+              "A balancing muscle moment can keep the forearm stationary, so zero angular acceleration does not imply zero force."
+            ],
+            "conclusion": "The held position can involve an isometric contraction while the external moments balance."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is an isometric contraction?",
+            "back": "Muscle force is produced while its length remains approximately constant."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Does no movement mean no force?",
+            "back": "No; forces or moments can balance."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What is a moment?",
+            "back": "The turning effect of a force about a point or axis."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why describe the external load first?",
+            "back": "It clarifies what forces and turning effects the model must explain."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Movement: relationships to explain",
+            "description": "External load → Muscle action → Static outcome. Balanced moments permit no angular acceleration.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "External load",
+                "detail": "Weight tends to rotate the forearm."
+              },
+              {
+                "id": "node-2",
+                "label": "Muscle action",
+                "detail": "A counteracting moment is produced."
+              },
+              {
+                "id": "node-3",
+                "label": "Static outcome",
+                "detail": "Moments balance and position remains steady."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "The load creates a need for an opposing turning effect."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "Balanced moments permit no angular acceleration."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-physical-health-education-movement-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A person holds a light bag still. A learner claims gravity has stopped acting. Explain the error.",
+          "hints": [
+            "Stationary does not mean force-free.",
+            "Identify the balancing support."
+          ],
+          "solution": [
+            "Gravity continues to act on the bag.",
+            "An upward support force balances its weight in the static model.",
+            "Zero acceleration results from balanced forces, not from gravity disappearing."
+          ],
+          "successCriteria": [
+            "Gravity continues to act on the bag.",
+            "An upward support force balances its weight in the static model.",
+            "Zero acceleration results from balanced forces, not from gravity disappearing."
+          ]
+        },
+        {
+          "id": "extension-myp5-physical-health-education-movement-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Why should a movement analysis distinguish observation from an inferred muscle action?",
+          "hints": [
+            "What can be seen directly?",
+            "What requires anatomical reasoning?"
+          ],
+          "solution": [
+            "Joint position and motion can be observed.",
+            "The contribution of particular muscles is inferred using anatomical and mechanical knowledge.",
+            "State the inference and model limits rather than presenting an unseen internal action as directly measured."
+          ],
+          "successCriteria": [
+            "Joint position and motion can be observed.",
+            "The contribution of particular muscles is inferred using anatomical and mechanical knowledge.",
+            "State the inference and model limits rather than presenting an unseen internal action as directly measured."
+          ]
+        }
+      ]
+    },
+    "myp5-physical-health-education-nutrition": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Nutrition in context",
+            "paragraphs": [
+              "Nutrition labels describe quantities in a stated amount of food, often per 100 g and sometimes per portion. Compare like bases before comparing foods, and distinguish the mass of the food from the mass of a nutrient within it. A label calculation does not establish whether a food or portion meets an individual’s needs. Overall dietary balance concerns patterns across foods and time, rather than judging a person from one item. Use fictional labels here to practise proportional reasoning without turning the exercise into a personalised diet plan."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Fictional label: 8 g protein per 100 g of food. Calculate protein in a 75 g portion.",
+            "steps": [
+              "The portion is 75/100 = 0.75 of the labelled base amount.",
+              "Protein is 8 × 0.75 = 6 g."
+            ],
+            "conclusion": "The portion contains 6 g protein according to the fictional label; the calculation does not determine personal requirements."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "Why compare the same label basis?",
+            "back": "Different portion sizes can make raw nutrient totals misleading."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "How is a per-100 g value scaled?",
+            "back": "Multiply it by portion mass divided by 100 g."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Is food mass the same as nutrient mass?",
+            "back": "No; a nutrient is one component of the food."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Can one label determine a person’s dietary needs?",
+            "back": "No; individual needs and overall dietary patterns require broader context."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Nutrition: relationships to explain",
+            "description": "Label basis → Portion factor → Portion amount. The same factor scales the nutrient amount.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Label basis",
+                "detail": "8 g protein per 100 g food."
+              },
+              {
+                "id": "node-2",
+                "label": "Portion factor",
+                "detail": "75/100 = 0.75."
+              },
+              {
+                "id": "node-3",
+                "label": "Portion amount",
+                "detail": "8 × 0.75 = 6 g protein."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "The portion is expressed relative to the label basis."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "The same factor scales the nutrient amount."
+              }
+            ]
+          }
+        ],
+        "references": [
+          {
+            "title": "The Eatwell Guide ; NHS",
+            "url": "https://www.nhs.uk/live-well/eat-well/food-guidelines-and-food-labels/the-eatwell-guide/",
+            "note": "Concept reference for overall dietary balance; checked 21 October 2026. Label values and arithmetic exercises are fictional."
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-physical-health-education-nutrition-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Fictional food has 12 g protein per 100 g. Find protein in 25 g.",
+          "hints": [
+            "The portion is one quarter of 100 g.",
+            "Scale the nutrient by the same factor."
+          ],
+          "solution": [
+            "25/100 = 0.25.",
+            "12 × 0.25 = 3 g.",
+            "The 25 g portion contains 3 g protein according to the label."
+          ],
+          "successCriteria": [
+            "25/100 = 0.25.",
+            "12 × 0.25 = 3 g.",
+            "The 25 g portion contains 3 g protein according to the label."
+          ]
+        },
+        {
+          "id": "extension-myp5-physical-health-education-nutrition-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A has 4 g of a nutrient per 50 g portion; B has 6 g per 100 g. Compare on a per-100 g basis.",
+          "hints": [
+            "Convert A to the same base.",
+            "Avoid comparing 4 and 6 directly."
+          ],
+          "solution": [
+            "A has 8 g per 100 g because its portion is doubled.",
+            "B has 6 g per 100 g as stated.",
+            "A has the higher concentration of that nutrient, without this alone deciding which food suits an individual."
+          ],
+          "successCriteria": [
+            "A has 8 g per 100 g because its portion is doubled.",
+            "B has 6 g per 100 g as stated.",
+            "A has the higher concentration of that nutrient, without this alone deciding which food suits an individual."
+          ]
+        }
+      ]
+    },
+    "myp5-physical-health-education-wellbeing": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Wellbeing in context",
+            "paragraphs": [
+              "Wellbeing includes physical, social and emotional dimensions, and a single observation does not explain the whole of someone’s experience. In a fictional classroom case, distinguish what is observed from an assumed cause or diagnosis. A supportive response can listen, respect the person’s choices and help them approach a trusted adult when they want support. Avoid public speculation or sharing private information as gossip. Evaluate whether a proposed school activity offers accessible participation and social connection, while recognising that the same activity may be experienced differently by different people."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Fictional case: a classmate stops joining lunchtime games and says the week has felt difficult. Propose a supportive response.",
+            "steps": [
+              "Ask privately whether they would like to talk or prefer another way to spend the break.",
+              "Listen without deciding a diagnosis, and offer help approaching a trusted adult if they would like support."
+            ],
+            "conclusion": "The response attends to the stated experience and preserves the classmate’s agency."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is the difference between observation and diagnosis?",
+            "back": "An observation records what is seen or said; a diagnosis requires appropriate assessment."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why ask privately?",
+            "back": "It can protect dignity and reduce unwanted attention."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What does supportive listening avoid?",
+            "back": "Assuming the cause, dismissing feelings or forcing disclosure."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why offer more than one participation option?",
+            "back": "People can have different access needs, interests and comfort levels."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Wellbeing: relationships to explain",
+            "description": "Observation → Response → Support pathway. Listening helps identify an appropriate next step.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Observation",
+                "detail": "A classmate withdraws and describes a difficult week."
+              },
+              {
+                "id": "node-2",
+                "label": "Response",
+                "detail": "Listen privately and ask what support is wanted."
+              },
+              {
+                "id": "node-3",
+                "label": "Support pathway",
+                "detail": "Offer help connecting with a trusted adult."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "The observation invites care without establishing a diagnosis."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "Listening helps identify an appropriate next step."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-physical-health-education-wellbeing-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A learner says one quiet afternoon proves a classmate has a mental health condition. Evaluate.",
+          "hints": [
+            "Check the amount and kind of evidence.",
+            "Suggest a non-diagnostic response."
+          ],
+          "solution": [
+            "One quiet afternoon has many possible explanations.",
+            "It does not establish a diagnosis.",
+            "A considerate private check-in is more appropriate than labelling the classmate."
+          ],
+          "successCriteria": [
+            "One quiet afternoon has many possible explanations.",
+            "It does not establish a diagnosis.",
+            "A considerate private check-in is more appropriate than labelling the classmate."
+          ]
+        },
+        {
+          "id": "extension-myp5-physical-health-education-wellbeing-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A school activity permits only one competitive format. Suggest a way to evaluate inclusion.",
+          "hints": [
+            "Ask whose participation is limited.",
+            "Use feedback rather than assumptions."
+          ],
+          "solution": [
+            "Gather voluntary feedback about barriers and preferences.",
+            "Consider alternative roles or formats that preserve meaningful participation.",
+            "Evaluate whether more students can take part comfortably rather than assuming one format suits everyone."
+          ],
+          "successCriteria": [
+            "Gather voluntary feedback about barriers and preferences.",
+            "Consider alternative roles or formats that preserve meaningful participation.",
+            "Evaluate whether more students can take part comfortably rather than assuming one format suits everyone."
+          ]
+        }
+      ]
+    },
+    "myp5-physical-health-education-strategy": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Strategy in context",
+            "paragraphs": [
+              "A strategy links a goal with decisions about space, timing and cooperation. In a game, a successful outcome may depend on opponents and chance as well as the chosen plan. Describe the intended mechanism: spreading out can create passing options because defenders cannot cover the same space as easily. Define what evidence will indicate whether the strategy helps, such as available options or successful passes per attempt. Keep rules and conditions comparable when evaluating a change. A plan should remain adaptable when the situation changes."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Fictional non-contact passing game: two teammates always stand together, allowing one defender to cover both. Propose a strategy.",
+            "steps": [
+              "Move to distinct available spaces within the rules so the passer has separate options.",
+              "Track available passing options and completed passes over comparable phases of play."
+            ],
+            "conclusion": "The strategy aims to reduce redundant positioning; its success must be checked against actual play."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What connects a strategy to a goal?",
+            "back": "An explained mechanism for how the decisions should help."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why compare passes per attempt rather than totals alone?",
+            "back": "Different numbers of attempts change the opportunity for success."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Why keep a strategy adaptable?",
+            "back": "Opponents and game conditions can change."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Does one successful play prove a strategy always works?",
+            "back": "No; repeated and contextual evidence is needed."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Strategy: relationships to explain",
+            "description": "Problem → Adjustment → Evaluation. The change is evaluated through the mechanism it is meant to improve.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Problem",
+                "detail": "Two teammates occupy similar space."
+              },
+              {
+                "id": "node-2",
+                "label": "Adjustment",
+                "detail": "Create distinct passing options."
+              },
+              {
+                "id": "node-3",
+                "label": "Evaluation",
+                "detail": "Observe options and completion rates."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "Shared coverage suggests a spacing change."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "The change is evaluated through the mechanism it is meant to improve."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-physical-health-education-strategy-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A team completes 8 of 10 passes before a change and 12 of 20 after. Compare rates.",
+          "hints": [
+            "Use the number of attempts.",
+            "Do not rank by totals alone."
+          ],
+          "solution": [
+            "Before: 8/10 = 80%.",
+            "After: 12/20 = 60%.",
+            "The later total is larger but the completion rate is lower under the supplied figures."
+          ],
+          "successCriteria": [
+            "Before: 8/10 = 80%.",
+            "After: 12/20 = 60%.",
+            "The later total is larger but the completion rate is lower under the supplied figures."
+          ]
+        },
+        {
+          "id": "extension-myp5-physical-health-education-strategy-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A strategy works against one defensive arrangement but fails when defenders spread out. What should evaluation consider?",
+          "hints": [
+            "The opponent’s arrangement changed.",
+            "Relate adaptation to the mechanism."
+          ],
+          "solution": [
+            "The strategy’s effectiveness depends on the space available.",
+            "The changed defensive arrangement may remove its advantage.",
+            "Review new passing options and adapt rather than treating the original success as universal proof."
+          ],
+          "successCriteria": [
+            "The strategy’s effectiveness depends on the space available.",
+            "The changed defensive arrangement may remove its advantage.",
+            "Review new passing options and adapt rather than treating the original success as universal proof."
+          ]
+        }
+      ]
+    },
+    "myp5-physical-health-education-performance-analysis": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Performance analysis in context",
+            "paragraphs": [
+              "Performance analysis uses observations and measures to answer a defined question. Select measures that match the skill or decision of interest, and record the denominator for rates. Distinguish outcome measures, such as successful passes, from process observations, such as whether a player looked for an open teammate. Different opponents, task difficulty or recording methods can limit comparisons. A numerical change does not explain its cause automatically. Combine appropriately gathered data with specific observations and report uncertainty rather than using one score as a judgement of the whole performer."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Fictional logs: A completes 18 of 30 passes and B completes 14 of 20. Compare success rates without ranking overall ability.",
+            "steps": [
+              "A: 18/30 = 60%. B: 14/20 = 70%.",
+              "B has the higher recorded rate, but task difficulty and conditions are not specified."
+            ],
+            "conclusion": "The data compare these rates only; they do not establish overall ability or explain the difference."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "Why include a denominator?",
+            "back": "It shows the number of opportunities behind a success count."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What is a process observation?",
+            "back": "Evidence about how an action or decision was carried out."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What can confound a comparison?",
+            "back": "Differences in opponents, tasks, conditions or measurement."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Does a changed score establish its cause?",
+            "back": "No; other explanations must be considered."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Performance analysis: relationships to explain",
+            "description": "Counts → Rates → Interpretation. Unknown conditions limit broader conclusions.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Counts",
+                "detail": "18/30 and 14/20."
+              },
+              {
+                "id": "node-2",
+                "label": "Rates",
+                "detail": "60% and 70%."
+              },
+              {
+                "id": "node-3",
+                "label": "Interpretation",
+                "detail": "B has a higher rate in these records, with context unresolved."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "Dividing by attempts makes the proportions comparable."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "Unknown conditions limit broader conclusions."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-physical-health-education-performance-analysis-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A record shows 9 successful attempts out of 15. Calculate the percentage and name one missing contextual detail.",
+          "hints": [
+            "Divide successes by attempts.",
+            "Consider task conditions."
+          ],
+          "solution": [
+            "9/15 = 0.6.",
+            "The success rate is 60%.",
+            "A relevant missing detail is the difficulty or conditions of the attempts."
+          ],
+          "successCriteria": [
+            "9/15 = 0.6.",
+            "The success rate is 60%.",
+            "A relevant missing detail is the difficulty or conditions of the attempts."
+          ]
+        },
+        {
+          "id": "extension-myp5-physical-health-education-performance-analysis-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "An observer records only successful actions and forgets failures. Explain the bias.",
+          "hints": [
+            "The denominator is incomplete.",
+            "Consider how the rate changes."
+          ],
+          "solution": [
+            "The record overrepresents success.",
+            "Without failed attempts, a valid success rate cannot be calculated.",
+            "Record every eligible attempt using a consistent rule before comparing performance."
+          ],
+          "successCriteria": [
+            "The record overrepresents success.",
+            "Without failed attempts, a valid success rate cannot be calculated.",
+            "Record every eligible attempt using a consistent rule before comparing performance."
+          ]
+        }
+      ]
+    },
+    "myp5-physical-health-education-training-plans": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Training plans in context",
+            "paragraphs": [
+              "A training plan should connect a stated goal, starting information, activities, recovery and review. Its format is not evidence that it suits a particular person. For a school exercise, evaluate whether the activities address the goal and whether the plan explains how progress will be observed. Avoid treating fixed increases as automatically appropriate for everyone. A plan should include opportunities to respond to feedback and changing circumstances, with actual participation following the teacher’s guidance. Distinguish a conceptual planning task from an individual exercise recommendation."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Fictional goal: improve choosing an open passing option. A draft contains only repeated unopposed passes and no review point. Critique it.",
+            "steps": [
+              "Unopposed passing may practise execution but removes the choice between changing options.",
+              "A review should observe decisions in an appropriate supervised task and use the findings to revise the plan."
+            ],
+            "conclusion": "The plan needs better alignment with the decision goal and a defined review process."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What should a plan begin with?",
+            "back": "A clear goal and relevant starting information."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why include review points?",
+            "back": "The plan may need adjustment based on response and evidence."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What is the limit of a neat schedule?",
+            "back": "Presentation alone does not establish suitability or effectiveness."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "How does a decision goal affect practice choice?",
+            "back": "Practice needs opportunities to recognise and choose between relevant options."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Training plans: relationships to explain",
+            "description": "Goal → Practice requirement → Review. Observed performance guides later changes.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Goal",
+                "detail": "Choose an open passing option."
+              },
+              {
+                "id": "node-2",
+                "label": "Practice requirement",
+                "detail": "Include suitable changing choices."
+              },
+              {
+                "id": "node-3",
+                "label": "Review",
+                "detail": "Observe decisions and revise the plan."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "The goal determines what must be practised."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "Observed performance guides later changes."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-physical-health-education-training-plans-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A plan says “increase every activity every week regardless of response”. Evaluate the reasoning.",
+          "hints": [
+            "Look for individual context and review.",
+            "Do not replace it with a personal prescription."
+          ],
+          "solution": [
+            "The rule ignores starting information and response.",
+            "Increasing all demands automatically is not a justified universal principle.",
+            "A suitable planning process includes review and teacher-guided adjustment rather than an inflexible increase."
+          ],
+          "successCriteria": [
+            "The rule ignores starting information and response.",
+            "Increasing all demands automatically is not a justified universal principle.",
+            "A suitable planning process includes review and teacher-guided adjustment rather than an inflexible increase."
+          ]
+        },
+        {
+          "id": "extension-myp5-physical-health-education-training-plans-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A learner’s goal is better cooperation, but the only measure is sprint time. Suggest better evidence.",
+          "hints": [
+            "Match the measure to the goal.",
+            "Make the behaviour observable."
+          ],
+          "solution": [
+            "Sprint time does not directly measure cooperation.",
+            "Observe behaviours such as sharing options, responding to teammates or involving group members.",
+            "Use a clear observation rule and feedback to evaluate whether cooperation changes."
+          ],
+          "successCriteria": [
+            "Sprint time does not directly measure cooperation.",
+            "Observe behaviours such as sharing options, responding to teammates or involving group members.",
+            "Use a clear observation rule and feedback to evaluate whether cooperation changes."
+          ]
+        }
+      ]
+    },
+    "myp5-physical-health-education-reflection": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reflection in context",
+            "paragraphs": [
+              "Reflection explains how evidence changes understanding and future action. Separate what happened from why it may have happened. A group may improve after a rule change, but a different opponent or teacher prompt could also contribute. Identify a specific learning point rather than judging the whole session as good or bad. A useful next step follows from the uncertainty: repeat comparable conditions, gather a missing observation or test a targeted adjustment. Reflection should respect participants and avoid turning limited performance data into personal labels."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Fictional group goal: involve more teammates in decisions. Suggestions come from three of six people before a new discussion rule and five of six afterwards, with the same task.",
+            "steps": [
+              "The recorded participation count rises from three to five.",
+              "The similar task helps comparison, but other factors such as confidence or facilitation may still contribute."
+            ],
+            "conclusion": "The result supports further use and evaluation of the rule, with attention to whose participation remains limited."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What distinguishes reflection from a result summary?",
+            "back": "It explains learning and a justified next action."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why separate observation from cause?",
+            "back": "Several factors can produce the same outcome."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What makes a next step specific?",
+            "back": "It addresses an identified uncertainty or difficulty."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why avoid personal labels from performance data?",
+            "back": "Limited observations do not define a person’s ability or worth."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Reflection: relationships to explain",
+            "description": "Evidence → Interpretation → Next step. The uncertainty directs further observation.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Evidence",
+                "detail": "More group members offer suggestions."
+              },
+              {
+                "id": "node-2",
+                "label": "Interpretation",
+                "detail": "The rule may support participation."
+              },
+              {
+                "id": "node-3",
+                "label": "Next step",
+                "detail": "Check consistency and remaining barriers."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "The observed change supports a tentative explanation."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "The uncertainty directs further observation."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-physical-health-education-reflection-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A reflection says “Our opponents were weak, so nothing can be learned”. Improve it.",
+          "hints": [
+            "A limitation does not erase all evidence.",
+            "Identify a bounded learning point."
+          ],
+          "solution": [
+            "Acknowledge that opponent difficulty limits generalisation.",
+            "Still analyse specific choices or cooperation observed in the session.",
+            "Test whether those behaviours transfer to a different appropriate task or opponent."
+          ],
+          "successCriteria": [
+            "Acknowledge that opponent difficulty limits generalisation.",
+            "Still analyse specific choices or cooperation observed in the session.",
+            "Test whether those behaviours transfer to a different appropriate task or opponent."
+          ]
+        },
+        {
+          "id": "extension-myp5-physical-health-education-reflection-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A group claims its new rule caused improvement, but the teacher also gave more prompts. Evaluate.",
+          "hints": [
+            "Identify the competing explanation.",
+            "Suggest a fairer comparison."
+          ],
+          "solution": [
+            "Teacher prompting changed alongside the rule.",
+            "Either factor or their combination could influence improvement.",
+            "Use more comparable facilitation or record prompts explicitly in a follow-up before making a strong causal claim."
+          ],
+          "successCriteria": [
+            "Teacher prompting changed alongside the rule.",
+            "Either factor or their combination could influence improvement.",
+            "Use more comparable facilitation or record prompts explicitly in a follow-up before making a strong causal claim."
+          ]
+        }
+      ]
+    }
+  }
+}

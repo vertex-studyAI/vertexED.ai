@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "lessonId": "evidence-and-inference",
+  "revision": "2026-10-21.3",
+  "notes": [
+    {
+      "heading": "Test a conclusion against the size and selection of the evidence",
+      "paragraphs": [
+        "An inference should be no broader than the observations that support it. Counts need denominators, percentages need comparable groups, and a change over time needs a plausible comparison before being called an effect. An absent detail can reflect a text's purpose rather than the absence of an event. In literary reading, a gesture may support several motives; choose a qualified interpretation and cite the relevant wording. In an argument, separate the observed association, the proposed explanation and the extra evidence needed to choose between competing explanations."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "depth-survey-denominator",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "Original fictional report: 'Forty students liked the new timetable.' Group A surveyed 50 students; group B surveyed 200. Explain why the same count supports different statements about approval in the two surveyed groups.",
+      "answer": "Approval is 80% in A and 20% in B. Forty approvals alone omit the denominator.",
+      "solution": [
+        "Calculate 40/50 and 40/200.",
+        "Limit each percentage to its surveyed group; representativeness is a separate question."
+      ],
+      "markingPoints": [
+        "Find 80%.",
+        "Find 20%.",
+        "Explain the denominator and sample limitation."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-absence-purpose",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "Original fictional passage: 'The visitor's diary describes the town's paintings in detail but never mentions its factories.' Evaluate the claim that the town had no factories.",
+      "answer": "The diary's focus on art may explain the omission. It does not establish that factories were absent.",
+      "solution": [
+        "Identify the author's stated subject and possible selection of observations.",
+        "Seek an industrial directory, map or another independent source relevant to factories."
+      ],
+      "markingPoints": [
+        "Identify selective attention to art.",
+        "Reject absence as established fact.",
+        "Propose relevant additional evidence."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-competing-motives",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "Original fictional sentence: 'When the results arrived, Omar smiled, then checked the name on the envelope again.' Give two plausible interpretations and identify what the text actually shows.",
+      "answer": "He may be pleasantly surprised and checking that the result is his, or uncertain about a possible delivery error. The text directly establishes smiling and rechecking the name.",
+      "solution": [
+        "Separate observable actions from inferred motives.",
+        "Use may or might because neither motive is stated."
+      ],
+      "markingPoints": [
+        "Cite the actions.",
+        "Offer two plausible motives.",
+        "Qualify both interpretations."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    }
+  ]
+}

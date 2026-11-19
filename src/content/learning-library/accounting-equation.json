@@ -1,0 +1,385 @@
+{
+  "schemaVersion": 1,
+  "id": "accounting-equation",
+  "revision": "2026-10-21.2",
+  "subject": "Accountancy",
+  "unit": "Recording transactions",
+  "topic": "Accounting equation and double-entry foundations",
+  "level": "secondary-foundation",
+  "editorialStatus": "unreviewed",
+  "origin": "original-authorship-review-pending",
+  "scope": "Introductory sole-trader examples without tax or jurisdiction-specific reporting rules.",
+  "prerequisites": [
+    "Add and subtract signed changes.",
+    "Distinguish a business from its owner."
+  ],
+  "objectives": [
+    "Apply assets = liabilities + equity.",
+    "Analyse both sides of common transactions.",
+    "Distinguish profit, capital contributions and drawings."
+  ],
+  "notes": [
+    {
+      "heading": "The business as a separate accounting entity",
+      "paragraphs": [
+        "Accounting records the business's transactions separately from the owner's personal transactions, even when the owner is legally responsible for the business. Assets are economic resources controlled by the business as a result of past events. Liabilities are present obligations to transfer economic resources. Equity is the residual interest after liabilities are deducted from assets. The accounting equation is assets = liabilities + equity. It is a statement of relationships, not a claim that all assets are cash or that an asset could necessarily be sold for its recorded amount. An owner's contribution increases business assets and equity; it is not sales revenue."
+      ]
+    },
+    {
+      "heading": "Two effects and the debit-credit convention",
+      "paragraphs": [
+        "Every recorded transaction preserves the accounting equation. Buying equipment for cash exchanges one asset for another: equipment increases while cash decreases. Buying equipment on credit increases an asset and a liability. Paying a supplier reduces cash and the payable together. Double entry records equal total debits and credits, but debit does not mean bad and credit does not mean good. Asset and expense accounts normally increase with debits; liability, equity and revenue accounts normally increase with credits. Their decreases use the opposite side. Start by identifying the accounts and whether each increases or decreases before assigning debit or credit. Equal totals alone do not prove that the correct accounts or amounts were used."
+      ]
+    },
+    {
+      "heading": "Performance is not the cash balance",
+      "paragraphs": [
+        "Profit is revenue less expenses for the accounting period under the applicable recognition rules. Cash can rise because the owner contributes funds or the business borrows, neither of which is revenue. Cash can fall when equipment is purchased or a loan is repaid without the entire payment being a current expense. In a simple sole-trader model, closing equity equals opening equity plus capital introduced plus profit minus drawings, assuming no other equity changes. Drawings are resources withdrawn by the owner for personal use, not a business operating expense. Distinguish revenue earned from customer cash collected: a credit sale may create a receivable before the customer pays. These distinctions explain why a statement of financial position and an income statement answer different questions."
+      ]
+    },
+    {
+      "heading": "Errors, evidence and the limits of balancing",
+      "paragraphs": [
+        "A balanced accounting equation or trial balance is a useful arithmetic check, but it does not establish complete or accurate records. A transaction omitted entirely changes neither side of a trial balance. An expense posted to the wrong expense account can preserve equality. Recording the same incorrect amount on both sides can also leave totals balanced. Verification therefore requires evidence about what happened, which accounts were affected and when the transaction belongs in the records.",
+        "Source documents such as invoices and receipts support entries, but their meaning must be interpreted. An invoice may establish an obligation or a credit sale; a later payment settles a balance rather than necessarily creating a new expense or revenue item. Reconcile movements in cash and balances with supporting records, and distinguish a correction from a new transaction. Keep the business-entity assumption visible when reviewing owner-related payments. A payment for the owner's personal use should not be treated as an operating cost merely because it passed through the business bank account. This lesson uses simplified examples and does not substitute for jurisdiction-specific accounting standards."
+      ]
+    },
+    {
+      "heading": "Credit purchases, cash payments and expense recognition",
+      "paragraphs": [
+        "A transaction can change the composition of assets without changing their total. Buying equipment for cash exchanges one asset for another; it is not automatically an expense of the whole purchase price on that date. Buying equipment on credit increases both assets and liabilities. Paying that supplier later reduces cash and the liability, without creating a second equipment purchase. Separate these events by date and identify the account affected before deciding which side is debited. The accounting equation is a consistency check, not proof that the correct accounts were used: a balanced entry can still misclassify an asset as an expense. Depreciation and tax treatment are outside this example."
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "prompt": "An owner contributes 5000 cash and the business then borrows 2000. Show the accounting equation.",
+      "steps": [
+        "The contribution creates cash assets of 5000 and equity of 5000.",
+        "Borrowing adds 2000 cash and a 2000 liability.",
+        "Assets are now 7000 = liabilities 2000 + equity 5000."
+      ],
+      "answer": "7000 = 2000 + 5000; neither receipt is sales revenue."
+    },
+    {
+      "prompt": "The business buys equipment costing 1200 for cash. Record the two account effects.",
+      "steps": [
+        "Equipment, an asset, increases by 1200: debit equipment.",
+        "Cash, another asset, decreases by 1200: credit cash.",
+        "Total assets and the accounting equation are unchanged at the transaction date."
+      ],
+      "answer": "Debit equipment 1200; credit cash 1200."
+    },
+    {
+      "prompt": "An owner withdraws 200 cash for personal use. Explain the effect in the simplified sole-trader model.",
+      "steps": [
+        "Cash, an asset, decreases by 200.",
+        "Drawings reduce equity rather than operating profit.",
+        "The accounting equation remains balanced with assets and equity both lower."
+      ],
+      "answer": "Assets and equity fall by 200; the withdrawal is not an operating expense."
+    },
+    {
+      "prompt": "A business starts with cash of 9,000 and capital of 9,000. It buys equipment for 2,400 on credit, then pays the supplier 900. State final cash, equipment, liabilities and capital, and check the accounting equation.",
+      "answer": "Cash 8,100; equipment 2,400; liabilities 1,500; capital 9,000. Assets 10,500 = 1,500 + 9,000.",
+      "steps": [
+        "The credit purchase adds equipment 2,400 and a payable 2,400.",
+        "The payment reduces cash to 8,100 and the payable to 1,500.",
+        "Total assets are 10,500, equal to liabilities plus unchanged capital."
+      ]
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Every cash receipt is revenue.",
+      "correction": "Borrowing and owner contributions increase cash without being sales revenue."
+    },
+    {
+      "claim": "A balanced trial balance proves there are no errors.",
+      "correction": "Omissions, incorrect accounts and equal errors on both sides can leave totals balanced."
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "equation",
+      "front": "State the accounting equation.",
+      "back": "Assets = liabilities + equity."
+    },
+    {
+      "id": "credit-purchase",
+      "front": "What happens when equipment is bought on credit?",
+      "back": "Equipment assets and liabilities both increase by the transaction amount."
+    },
+    {
+      "id": "drawings",
+      "front": "Why are owner drawings not an operating expense?",
+      "back": "They distribute resources to the owner rather than measure resources consumed to earn business revenue."
+    },
+    {
+      "id": "debit",
+      "front": "Which side normally records an increase in an asset?",
+      "back": "A debit; a decrease in an asset is normally a credit."
+    },
+    {
+      "id": "profit-cash",
+      "front": "Why is the cash balance not a measure of profit?",
+      "back": "Cash movements include financing and asset exchanges, while revenue and expense recognition can occur before or after cash settlement."
+    },
+    {
+      "id": "deeper-recall",
+      "front": "What does agreement of trial-balance totals establish?",
+      "back": "Only that recorded debit and credit totals agree; omissions and several types of misclassification can remain."
+    },
+    {
+      "id": "application-card-1",
+      "front": "Does settling a supplier payable create another purchase?",
+      "back": "No. It reduces cash and the existing liability."
+    },
+    {
+      "id": "application-card-2",
+      "front": "Why can a balanced entry still be wrong?",
+      "back": "Equal debits and credits do not prove that the chosen accounts or recognition date are correct."
+    }
+  ],
+  "questions": [
+    {
+      "id": "q1",
+      "type": "calculation",
+      "difficulty": "foundation",
+      "prompt": "A business has assets of 18000 and liabilities of 6500. Calculate equity.",
+      "answer": "11500 currency units.",
+      "solution": [
+        "Rearrange the equation to equity = assets − liabilities.",
+        "Calculate 18000 − 6500."
+      ],
+      "markingPoints": [
+        "Use assets minus liabilities.",
+        "Calculate 11500."
+      ],
+      "marks": 2,
+      "calculator": "allowed",
+      "numericAnswer": {
+        "value": 11500,
+        "tolerance": 0
+      }
+    },
+    {
+      "id": "q2",
+      "type": "mcq",
+      "difficulty": "foundation",
+      "prompt": "Which transaction increases cash and liabilities but does not directly increase revenue?",
+      "options": [
+        "Receiving a bank loan",
+        "Receiving cash for a new cash sale",
+        "The owner taking cash drawings",
+        "Buying equipment for cash"
+      ],
+      "answer": "Receiving a bank loan",
+      "solution": [
+        "A loan provides cash.",
+        "The obligation to repay is a liability, not sales revenue."
+      ],
+      "markingPoints": [
+        "Select receiving a bank loan."
+      ],
+      "marks": 1,
+      "calculator": "not-applicable"
+    },
+    {
+      "id": "q3",
+      "type": "short",
+      "difficulty": "standard",
+      "prompt": "Identify the debit and credit when an existing supplier payable of 300 is settled in cash.",
+      "answer": "Debit trade payables 300; credit cash 300.",
+      "solution": [
+        "The liability decreases, requiring a debit to trade payables.",
+        "Cash decreases, requiring a credit to cash."
+      ],
+      "markingPoints": [
+        "Debit trade payables 300.",
+        "Credit cash 300."
+      ],
+      "marks": 2,
+      "calculator": "not-applicable"
+    },
+    {
+      "id": "q4",
+      "type": "calculation",
+      "difficulty": "extension",
+      "prompt": "Opening equity is 8000, new capital is 1500, profit is 2200 and drawings are 700. With no other equity changes, find closing equity.",
+      "answer": "11000 currency units.",
+      "solution": [
+        "Add new capital and profit to opening equity: 8000 + 1500 + 2200 = 11700.",
+        "Subtract drawings of 700."
+      ],
+      "markingPoints": [
+        "Add capital and profit.",
+        "Subtract drawings.",
+        "Calculate 11000."
+      ],
+      "marks": 3,
+      "calculator": "allowed",
+      "numericAnswer": {
+        "value": 11000,
+        "tolerance": 0
+      }
+    },
+    {
+      "id": "q5",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "A trial balance agrees, but a purchase transaction was never recorded. Explain why the agreement did not detect this omission.",
+      "answer": "Omitting both the debit and credit leaves total debits equal to total credits. The records are nevertheless incomplete, so checking source documents and transaction completeness is necessary.",
+      "solution": [
+        "Identify that both sides of the transaction are absent.",
+        "Explain why equality is preserved.",
+        "Name an evidence-based completeness check beyond arithmetic balancing."
+      ],
+      "markingPoints": [
+        "Identify that both sides of the transaction are absent.",
+        "Explain why equality is preserved.",
+        "Name an evidence-based completeness check beyond arithmetic balancing."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "application-check",
+      "type": "short",
+      "difficulty": "standard",
+      "prompt": "A business starts with cash of 9,000 and capital of 9,000. It buys equipment for 2,400 on credit, then pays the supplier 900. State final cash, equipment, liabilities and capital, and check the accounting equation.",
+      "answer": "Cash 8,100; equipment 2,400; liabilities 1,500; capital 9,000. Assets 10,500 = 1,500 + 9,000.",
+      "solution": [
+        "The credit purchase adds equipment 2,400 and a payable 2,400.",
+        "The payment reduces cash to 8,100 and the payable to 1,500.",
+        "Total assets are 10,500, equal to liabilities plus unchanged capital."
+      ],
+      "markingPoints": [
+        "The credit purchase adds equipment 2,400 and a payable 2,400.",
+        "The payment reduces cash to 8,100 and the payable to 1,500.",
+        "Total assets are 10,500, equal to liabilities plus unchanged capital."
+      ],
+      "marks": 3,
+      "calculator": "allowed"
+    },
+    {
+      "id": "error-analysis",
+      "type": "short",
+      "difficulty": "extension",
+      "prompt": "A learner records that 900 supplier payment as a new equipment expense. Identify the error and give the correct debit and credit.",
+      "answer": "The payment settles an existing payable: debit the supplier payable 900 and credit cash 900.",
+      "solution": [
+        "The equipment was already recognised at purchase.",
+        "Debit the payable to reduce the liability.",
+        "Credit cash to record the cash outflow; do not recognise the purchase twice."
+      ],
+      "markingPoints": [
+        "The equipment was already recognised at purchase.",
+        "Debit the payable to reduce the liability.",
+        "Credit cash to record the cash outflow; do not recognise the purchase twice."
+      ],
+      "marks": 3,
+      "calculator": "allowed"
+    }
+  ],
+  "revisionChecklist": [
+    "Separate owner transactions from operating performance.",
+    "Identify accounts before choosing debit or credit.",
+    "Check both the equation and the meaning of each entry.",
+    "Explain the reasoning in “Follow a credit purchase” and correct the linked error-analysis response without copying its solution."
+  ],
+  "diagrams": [
+    {
+      "id": "application-trace",
+      "title": "Follow a credit purchase",
+      "description": "Read the labelled relationships to follow this worked application. Cash 8,100; equipment 2,400; liabilities 1,500; capital 9,000. Assets 10,500 = 1,500 + 9,000. This is an explanatory process diagram, not a scale drawing or a record of a learner attempt.",
+      "steps": [
+        {
+          "label": "Recognise equipment",
+          "detail": "Equipment and the supplier payable both increase by 2,400."
+        },
+        {
+          "label": "Settle part of the debt",
+          "detail": "Cash and the payable both decrease by 900."
+        },
+        {
+          "label": "Reconcile balances",
+          "detail": "Assets 10,500 equal liabilities 1,500 plus capital 9,000."
+        }
+      ],
+      "links": [
+        "then pay the supplier",
+        "then check the equation"
+      ]
+    }
+  ],
+  "teachingSequence": [
+    {
+      "title": "Establish the idea",
+      "guidance": "Explain “The business as a separate accounting entity” in your own words. Work through the first example, then answer the linked questions before revealing their solutions.",
+      "noteHeadings": [
+        "The business as a separate accounting entity"
+      ],
+      "workedExampleNumbers": [
+        1
+      ],
+      "questionIds": [
+        "q1",
+        "q2"
+      ]
+    },
+    {
+      "title": "Apply the method",
+      "guidance": "Use the remaining teaching sections to explain each step of the worked examples. Compare your reasoning with the marking points and record the specific step you would change.",
+      "noteHeadings": [
+        "Two effects and the debit-credit convention",
+        "Performance is not the cash balance",
+        "Errors, evidence and the limits of balancing"
+      ],
+      "workedExampleNumbers": [
+        2,
+        3
+      ],
+      "questionIds": [
+        "q3",
+        "q4"
+      ]
+    },
+    {
+      "title": "Credit purchases, cash payments and expense recognition",
+      "guidance": "Read the application diagram “Follow a credit purchase”, then close the explanation and attempt both the application and error-analysis questions. Explain the correction aloud before retrying the mixed practice.",
+      "noteHeadings": [
+        "Credit purchases, cash payments and expense recognition"
+      ],
+      "workedExampleNumbers": [
+        4
+      ],
+      "questionIds": [
+        "q5",
+        "application-check",
+        "error-analysis"
+      ]
+    }
+  ],
+  "revisionGuide": {
+    "summary": "A transaction can change the composition of assets without changing their total. Buying equipment for cash exchanges one asset for another; it is not automatically an expense of the whole purchase price on that date. Buying equipment on credit increases both assets and liabilities. Paying that supplier later reduces cash and the liability, without creating a second equipment purchase. Separate these events by date and identify the account affected before deciding which side is debited. The accounting equation is a consistency check, not proof that the correct accounts were used: a balanced entry can still misclassify an asset as an expense. Depreciation and tax treatment are outside this example.",
+    "keyIdeas": [
+      "Equipment and the supplier payable both increase by 2,400.",
+      "Cash and the payable both decrease by 900.",
+      "Assets 10,500 equal liabilities 1,500 plus capital 9,000.",
+      "Borrowing and owner contributions increase cash without being sales revenue."
+    ],
+    "formulas": [],
+    "recallPrompts": [
+      "Does settling a supplier payable create another purchase?",
+      "Why can a balanced entry still be wrong?",
+      "State the accounting equation."
+    ],
+    "practiceQuestionIds": [
+      "q1",
+      "application-check",
+      "error-analysis"
+    ],
+    "revisit": "After checking your answer, write the specific rule or assumption you missed. Retry the linked questions without the worked example in a later session. A checked answer or completed checklist is not a measurement of mastery."
+  }
+}

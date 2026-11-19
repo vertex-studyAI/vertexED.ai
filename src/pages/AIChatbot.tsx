@@ -1,3 +1,4 @@
+import '@/styles/apex-workspace.css';
 import ConversationStatus from '@/components/chat/ConversationStatus';
 import { useEffect, useRef, useState } from "react";
 import { Link, useSearchParams } from "react-router";
@@ -73,19 +74,19 @@ export default function AIChatbot() {
     <>
       <SEO title="AI Tutor | VertexED" description="Talk through concepts, practice questions, and feedback step by step." />
 
-      <PageSection>
+      <PageSection className="apex-workspace">
         <div className="mb-6">
           <Link to="/main" className="neu-button px-4 py-2 text-sm">
             ← Back to Dashboard
           </Link>
         </div>
 
-        <div className="neu-card p-6 md:p-8">
+        <div className="apex-workspace-sheet">
           <div className="flex flex-wrap items-start justify-between gap-4 mb-6">
             <div className="flex items-start gap-3">
               <ApexAvatar className="shrink-0" />
               <div>
-                <h1 className="text-2xl md:text-3xl font-bold text-foreground">AI Tutor</h1>
+                <p className="apex-eyebrow">Your study conversation</p><h1 className="text-2xl md:text-3xl font-semibold text-foreground">Apex AI Tutor</h1>
                 <p className="text-sm text-muted-foreground max-w-2xl mt-1">{APEX_TAGLINE}</p>
                 <p className="text-xs text-primary/80 mt-2">
                   Discussion-first · step-by-step · board-aware when you mention yours
@@ -124,7 +125,7 @@ export default function AIChatbot() {
             )}
           </div>
 
-          <details className="mb-4 space-y-2">
+          <div className="apex-workspace-grid"><aside className="apex-history" aria-label="Your conversations"><details open className="space-y-3">
             <summary className="cursor-pointer py-2 text-sm font-medium">Conversation history ({persistence.snapshot.threads.length})</summary>
             <label className="block text-sm" htmlFor="conversation-search">Search your conversations</label>
             <input id="conversation-search" className="w-full rounded border border-border bg-background p-2 text-base" type="search" maxLength={160} value={historyQuery} onChange={event => setHistorySearch({ scope: user?.id, text: event.target.value })} />
@@ -135,7 +136,7 @@ export default function AIChatbot() {
             </select>
             <button type="button" className="btn-glass text-sm" disabled={historyDisabled || loading} onClick={() => setSearchParams({ thread: `conversation-${crypto.randomUUID()}` })}>New conversation</button>
             <p className="text-xs text-muted-foreground">Private account history, up to 24 conversations and 200 messages each within the storage limit. Export before clearing old work. AI replies are not verified answers.</p>
-          </details>
+          </details></aside>
           <Tabs defaultValue="chat" className="w-full">
             <TabsList className="mb-6 w-full flex-wrap justify-start gap-2 rounded-xl border border-border/50 bg-foreground/[0.03] p-1 h-auto shadow-none">
               <TabsTrigger value="chat" className="data-[state=active]:bg-primary/15 data-[state=active]:text-primary">
@@ -154,7 +155,7 @@ export default function AIChatbot() {
 
             <TabsContent value="chat" className="mt-0">
               <ConversationStatus store={store} persistence={persistence} recoveryText={recoveryText} />
-              <div className="h-[min(68vh,640px)] flex flex-col gap-3">
+              <div className="apex-conversation flex flex-col gap-3">
                 {messages.length === 0 && !loading && (
                   <ApexPromptChips context={studyContext} onSelect={(text) => void sendMessage(text)} disabled={loading} />
                 )}
@@ -174,8 +175,9 @@ export default function AIChatbot() {
                   onSend={send}
                   onCancel={cancelMessage}
                   loading={loading}
-                  placeholder="Ask about a concept, essay structure, or what to do in your next 25-minute block…"
+                  placeholder="Bring a question, a step in your working or a passage to discuss…"
                 />
+                <p className="text-xs text-muted-foreground">Enter to send · Shift + Enter for a new line. Check AI explanations against your course materials.</p>
               </div>
             </TabsContent>
 
@@ -214,7 +216,7 @@ export default function AIChatbot() {
             <TabsContent value="agents" className="mt-0">
               <AgentNetworkPanel />
             </TabsContent>
-          </Tabs>
+          </Tabs></div>
         </div>
       </PageSection>
     </>

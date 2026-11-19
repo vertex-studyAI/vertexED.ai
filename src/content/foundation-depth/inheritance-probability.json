@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "lessonId": "inheritance-probability",
+  "revision": "2026-10-21.3",
+  "notes": [
+    {
+      "heading": "Condition on the information actually observed",
+      "paragraphs": [
+        "A probability changes when the question restricts which offspring are being considered. In an Aa×Aa cross with complete dominance, the whole sample has genotype ratio 1:2:1. Among only the dominant-phenotype offspring, aa is excluded, so the denominator contains AA and Aa alone. Independence across offspring means a previous result does not change the model for the next offspring when parental genotypes are fixed. Expected proportions describe a probability model, not a requirement that each small family reproduces the exact ratio. These are simplified single-gene teaching models."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "depth-conditional-genotype",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "In Aa×Aa with complete dominance and equal segregation, an offspring is known to show the dominant phenotype. Find the probability it is heterozygous.",
+      "answer": "2/3.",
+      "solution": [
+        "The possible genotypes have probabilities AA=1/4, Aa=1/2, aa=1/4.",
+        "Condition on AA or Aa: (1/2)/(3/4)=2/3."
+      ],
+      "markingPoints": [
+        "State the original genotype probabilities.",
+        "Exclude aa and use denominator 3/4.",
+        "Find 2/3."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-exactly-one",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "For Aa×aa under complete dominance, three offspring are independent. Find the probability that exactly one is aa.",
+      "answer": "3/8.",
+      "solution": [
+        "Each specified sequence with one aa and two Aa has probability (1/2)³=1/8.",
+        "There are three possible positions for the aa offspring."
+      ],
+      "markingPoints": [
+        "Find probability 1/8 for a specified sequence.",
+        "Count three positions.",
+        "Find total 3/8."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-small-family",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "A fixed Aa×aa model gives P(aa)=1/2. The first four offspring are all Aa. What is P(aa) for the fifth, and why is aa not now guaranteed?",
+      "answer": "It remains 1/2 under independence. The model does not force outcomes to compensate for an earlier streak.",
+      "solution": [
+        "The parental genotypes and segregation probabilities have not changed.",
+        "Independence means the fifth event is not determined by the first four."
+      ],
+      "markingPoints": [
+        "Give 1/2.",
+        "Retain the fixed parental model.",
+        "Explain independence rather than compensation."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    }
+  ]
+}

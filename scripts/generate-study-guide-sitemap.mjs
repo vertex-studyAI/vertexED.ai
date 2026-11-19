@@ -1,9 +1,10 @@
+import { resolveAppOrigin } from '../contracts/appOrigin.js';
 import { writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { approvedStaticPaths, readPublicationApprovals } from './content-publication.mjs';
 import { readLegacyPublication } from './legacy-content-publication.mjs';
 
-const siteUrl = "https://www.vertexed.app";
+const siteUrl = resolveAppOrigin(process.env);
 const projectRoot = resolve(import.meta.dirname, "..");
 const sitemapPath = resolve(projectRoot, "public/sitemap.xml");
 // Keep the sitemap limited to pages a search visitor can actually read. Account-only
@@ -25,7 +26,6 @@ const publicPages = [
   ["/archives-history", "monthly", "0.7"],
   ["/archives-geography", "monthly", "0.7"],
   ["/about", "monthly", "0.5"],
-  ["/projects", "monthly", "0.5"],
   ["/vertex-ed", "monthly", "0.4"],
   ["/privacy", "yearly", "0.2"],
   ["/terms", "yearly", "0.2"],

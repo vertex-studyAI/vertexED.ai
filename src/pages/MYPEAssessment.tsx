@@ -1,3 +1,4 @@
+import { APP_ORIGIN } from '@/lib/appOrigin';
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router';
 import { ArrowLeft, ArrowRight, SlidersHorizontal } from 'lucide-react';
@@ -78,7 +79,7 @@ export default function MYPEAssessment() {
       <SEO
         title="MYP 5 eAssessment practice hub | VertexED"
         description={contentHeld ? 'MYP 5 assessment overview. Original practice questions are awaiting subject review and are not available yet.' : 'Original MYP 5 eAssessment-style practice with command terms, timing, data response, source analysis and review strategies.'}
-        canonical="https://www.vertexed.app/myp/eassessment"
+        canonical={`${APP_ORIGIN}/myp/eassessment`}
       />
       <div className="myp-page assessment-page">
         <header className="assessment-hero">

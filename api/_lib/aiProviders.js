@@ -3,7 +3,7 @@ import { fetchPaidProviderResponse } from './aiUsage.js';
 
 const DEFAULT_OPENAI_BASE_URL = 'https://api.openai.com/v1';
 const DEFAULT_NVIDIA_BASE_URL = 'https://integrate.api.nvidia.com/v1';
-export const DEFAULT_OPENAI_PRIMARY_MODEL = 'gpt-4.1-mini';
+export const DEFAULT_OPENAI_PRIMARY_MODEL = 'gpt-6-luna';
 export const DEFAULT_OPENAI_FALLBACK_MODEL = 'gpt-4o-mini';
 
 function normalizeBaseUrl(value, fallback) {

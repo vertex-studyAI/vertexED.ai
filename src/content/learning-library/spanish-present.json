@@ -1,0 +1,378 @@
+{
+  "schemaVersion": 1,
+  "id": "spanish-present",
+  "revision": "2026-10-21.2",
+  "subject": "Spanish",
+  "unit": "Communicating routines",
+  "topic": "Regular present-tense verbs and subject agreement",
+  "level": "secondary-foundation",
+  "editorialStatus": "unreviewed",
+  "origin": "original-authorship-review-pending",
+  "scope": "Original beginner examples of regular Spanish verbs; regional usage and irregular verbs require further lessons.",
+  "prerequisites": [
+    "Recognise the subject of a sentence.",
+    "Recognise infinitives ending in -ar, -er and -ir."
+  ],
+  "objectives": [
+    "Form regular present-tense verbs for different subjects.",
+    "Interpret routine statements using context.",
+    "Write a short connected account with agreement."
+  ],
+  "notes": [
+    {
+      "heading": "Finding the stem and selecting an ending",
+      "paragraphs": [
+        "A Spanish infinitive names an action without specifying the subject: hablar means to speak, comer means to eat and vivir means to live. For these regular verbs, remove -ar, -er or -ir to find the stem, then add the ending for the subject. Hablar becomes hablo, hablas, habla, hablamos, habláis and hablan for yo, tú, él/ella/usted, nosotros/nosotras, vosotros/vosotras and ellos/ellas/ustedes. Comer uses como, comes, come, comemos, coméis and comen. Vivir uses vivo, vives, vive, vivimos, vivís and viven. Written accents in forms such as habláis are part of correct spelling. These patterns describe regular verbs only: they do not justify forms such as yo sabo for the irregular verb saber."
+      ]
+    },
+    {
+      "heading": "Subject, audience and meaning",
+      "paragraphs": [
+        "A verb ending often identifies enough about the subject that an explicit subject pronoun is unnecessary. Hablo español can mean I speak Spanish without adding yo. Include a pronoun when it clarifies a contrast or removes ambiguity. Usted refers to the person being addressed politely but takes the same verb form as él or ella. Ustedes takes the ellos/ellas form and is the usual plural you across much of the Spanish-speaking world; vosotros/vosotras is widely used for familiar plural address in Spain. The present tense can express a habit or a present situation, and sometimes a scheduled future event with suitable context. An isolated form does not automatically determine every nuance of its English translation."
+      ]
+    },
+    {
+      "heading": "Building and checking a short account",
+      "paragraphs": [
+        "Start with a clear subject, choose the appropriate verb and then add details of time, place or frequency. Estudio por la tarde means I study in the afternoon; normalmente estudio por la tarde adds frequency. Put no before the conjugated verb for a simple negative: no estudio aquí. Connect related statements with y or contrast them with pero, making sure each verb still agrees with its own subject. Mi hermana estudia y yo trabajo has two subjects and therefore two different endings. When checking your writing, underline each subject and match it to its verb before checking spelling and accents. Do not translate English word order mechanically: learn useful phrases in context and distinguish a language's normal expression from a word-for-word gloss."
+      ]
+    },
+    {
+      "heading": "From isolated forms to purposeful communication",
+      "paragraphs": [
+        "A successful beginner response communicates the requested information in a controlled grammatical form. Before writing, identify who performs each action, whether the statement is positive or negative, and which time or frequency detail is needed. A phrase such as todos los días expresses a repeated routine; hoy can place a statement in the current day. Time expressions help interpretation but do not by themselves conjugate the verb. Keep subject agreement consistent when connecting two clauses.",
+        "An explicit pronoun can clarify contrast: yo estudio, pero mi hermano trabaja. If the subject changes, do not continue using the first verb ending automatically. Read the finished paragraph once for meaning and once for grammar, checking whether every requested detail is present. For unfamiliar vocabulary, avoid constructing a phrase only by translating each English word separately. Some useful expressions require an article or preposition that differs from English. When correcting work, preserve the original intended meaning and explain the particular ending or word-order change. More elaborate vocabulary does not compensate for an unclear subject or an omitted negative."
+      ]
+    },
+    {
+      "heading": "Maintaining agreement when an explicit subject returns",
+      "paragraphs": [
+        "Spanish often omits a subject pronoun when the verb ending and context make the subject clear. That omission does not remove the need for agreement. In a connected description, an explicit new subject can shift the verb form even when the topic remains the same. For regular present-tense verbs, first distinguish -ar, -er and -ir infinitives, then choose the ending for the intended subject. Negation normally places no before the conjugated verb in these simple examples. Keep time meaning separate from habitual context: the present form can describe a routine without being a progressive construction. Irregular forms and regional address conventions require separate treatment."
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "prompt": "Complete: Nosotros ___ en Madrid. Use vivir.",
+      "steps": [
+        "Remove -ir to obtain viv-.",
+        "Choose the nosotros ending -imos for a regular -ir verb.",
+        "Combine them as vivimos."
+      ],
+      "answer": "Nosotros vivimos en Madrid."
+    },
+    {
+      "prompt": "Change Hablo francés into a negative statement and then make the subject mi amiga.",
+      "steps": [
+        "Place no before the conjugated verb: No hablo francés.",
+        "Mi amiga requires the third-person singular ending.",
+        "Use habla while retaining no before the verb."
+      ],
+      "answer": "Mi amiga no habla francés."
+    },
+    {
+      "prompt": "Combine 'I study in the morning' and 'my sister works in the afternoon' with a contrast.",
+      "steps": [
+        "Use estudio for the first-person singular.",
+        "Use trabaja for the third-person singular subject mi hermana.",
+        "Connect the two statements with pero and retain the different time phrases."
+      ],
+      "answer": "Estudio por la mañana, pero mi hermana trabaja por la tarde."
+    },
+    {
+      "prompt": "Translate using estudiar and vivir: “We study at home, but Elena does not live here.”",
+      "answer": "Estudiamos en casa, pero Elena no vive aquí.",
+      "steps": [
+        "Nosotros or nosotras takes estudiamos for the regular -ar verb estudiar; the pronoun can be omitted here.",
+        "Elena requires third-person singular vive for vivir.",
+        "Place no before vive and retain the accent in aquí."
+      ]
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Usted takes the tú verb ending because both refer to you.",
+      "correction": "Usted uses the third-person singular form, such as usted habla."
+    },
+    {
+      "claim": "Every Spanish verb follows the regular pattern.",
+      "correction": "Many frequent verbs have irregular forms or stem changes and must be learned separately."
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "stem",
+      "front": "How do you obtain the regular stem of estudiar?",
+      "back": "Remove -ar to obtain estudi-."
+    },
+    {
+      "id": "nosotros",
+      "front": "Give the nosotros forms of hablar, comer and vivir.",
+      "back": "Hablamos, comemos and vivimos."
+    },
+    {
+      "id": "usted",
+      "front": "Complete: Usted ___ español. (hablar)",
+      "back": "Habla: usted takes the third-person singular verb form."
+    },
+    {
+      "id": "negative",
+      "front": "Where does no go in a simple negative present-tense sentence?",
+      "back": "Before the conjugated verb: No vivo aquí."
+    },
+    {
+      "id": "omission",
+      "front": "Why can Hablo español be complete without yo?",
+      "back": "The first-person singular ending identifies the speaker; the pronoun can be included for emphasis or contrast."
+    },
+    {
+      "id": "deeper-recall",
+      "front": "What should be checked when the subject changes between connected clauses?",
+      "back": "Choose a new verb ending for the new subject instead of carrying the previous agreement across automatically."
+    },
+    {
+      "id": "application-card-1",
+      "front": "Does an omitted Spanish subject remove verb agreement?",
+      "back": "No. The ending still agrees with the intended subject."
+    },
+    {
+      "id": "application-card-2",
+      "front": "Where does no go in a simple negative present clause?",
+      "back": "Before the conjugated verb, as in Elena no vive aquí."
+    }
+  ],
+  "questions": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "difficulty": "foundation",
+      "prompt": "Choose the regular present-tense form: Ellas ___ en Valencia. (vivir)",
+      "options": [
+        "vives",
+        "viven",
+        "vivo",
+        "vivimos"
+      ],
+      "answer": "viven",
+      "solution": [
+        "Ellas is third-person plural.",
+        "A regular -ir verb takes -en in that form."
+      ],
+      "markingPoints": [
+        "Select viven."
+      ],
+      "marks": 1,
+      "calculator": "not-applicable"
+    },
+    {
+      "id": "q2",
+      "type": "short",
+      "difficulty": "foundation",
+      "prompt": "Write the regular present-tense yo form of comer and translate it.",
+      "answer": "Como: I eat, or I am eating when the context supports that reading.",
+      "solution": [
+        "Remove -er to obtain com-.",
+        "Add the yo ending -o and interpret the subject as I."
+      ],
+      "markingPoints": [
+        "Write como.",
+        "Give an appropriate first-person present translation."
+      ],
+      "marks": 2,
+      "calculator": "not-applicable"
+    },
+    {
+      "id": "q3",
+      "type": "short",
+      "difficulty": "standard",
+      "prompt": "Correct the subject-verb agreement in Mi hermano y yo estudia inglés and explain your change.",
+      "answer": "Mi hermano y yo estudiamos inglés. The combined subject is equivalent to nosotros.",
+      "solution": [
+        "The speaker is part of a plural subject.",
+        "Use the first-person plural ending -amos for estudiar."
+      ],
+      "markingPoints": [
+        "Write estudiamos.",
+        "Explain first-person plural agreement."
+      ],
+      "marks": 2,
+      "calculator": "not-applicable"
+    },
+    {
+      "id": "q4",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "Write two connected Spanish sentences saying that you live in Lima, study in the afternoon and do not work on Sundays. Use regular present-tense forms.",
+      "answer": "Vivo en Lima y estudio por la tarde. No trabajo los domingos. Equivalent accurate wording is acceptable.",
+      "solution": [
+        "Use vivo, estudio and trabajo for the first-person singular.",
+        "Place no before trabajo.",
+        "Connect the information and use an appropriate expression for on Sundays."
+      ],
+      "markingPoints": [
+        "Use accurate first-person forms for living and studying.",
+        "Express not working with no and the correct verb form.",
+        "Include the stated place and time details in connected sentences."
+      ],
+      "marks": 3,
+      "calculator": "not-applicable"
+    },
+    {
+      "id": "q5",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "Correct 'Yo estudia y mis amigos trabaja' and explain both agreement changes.",
+      "answer": "Yo estudio y mis amigos trabajan. Yo takes the first-person singular ending -o, while mis amigos is third-person plural and takes -an for trabajar.",
+      "solution": [
+        "Identify yo as first-person singular and use estudio.",
+        "Identify mis amigos as third-person plural and use trabajan.",
+        "Keep the two subjects and their intended actions distinct."
+      ],
+      "markingPoints": [
+        "Identify yo as first-person singular and use estudio.",
+        "Identify mis amigos as third-person plural and use trabajan.",
+        "Keep the two subjects and their intended actions distinct."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "application-check",
+      "type": "short",
+      "difficulty": "standard",
+      "prompt": "Translate using estudiar and vivir: “We study at home, but Elena does not live here.”",
+      "answer": "Estudiamos en casa, pero Elena no vive aquí.",
+      "solution": [
+        "Nosotros or nosotras takes estudiamos for the regular -ar verb estudiar; the pronoun can be omitted here.",
+        "Elena requires third-person singular vive for vivir.",
+        "Place no before vive and retain the accent in aquí."
+      ],
+      "markingPoints": [
+        "Nosotros or nosotras takes estudiamos for the regular -ar verb estudiar; the pronoun can be omitted here.",
+        "Elena requires third-person singular vive for vivir.",
+        "Place no before vive and retain the accent in aquí."
+      ],
+      "marks": 3,
+      "calculator": "not-applicable"
+    },
+    {
+      "id": "error-analysis",
+      "type": "short",
+      "difficulty": "extension",
+      "prompt": "Correct “Estudiamos en casa, pero Elena no vivimos aquí” and explain why repeating the plural ending is wrong.",
+      "answer": "Estudiamos en casa, pero Elena no vive aquí.",
+      "solution": [
+        "The first clause has an implied we subject.",
+        "The second explicitly introduces Elena as a singular third-person subject.",
+        "Use vive, not the first-person plural vivimos, while keeping no before the verb."
+      ],
+      "markingPoints": [
+        "The first clause has an implied we subject.",
+        "The second explicitly introduces Elena as a singular third-person subject.",
+        "Use vive, not the first-person plural vivimos, while keeping no before the verb."
+      ],
+      "marks": 3,
+      "calculator": "not-applicable"
+    }
+  ],
+  "revisionChecklist": [
+    "Identify each subject before selecting an ending.",
+    "Check written accents and negative placement.",
+    "Do not apply regular patterns to unlearned irregular verbs.",
+    "Explain the reasoning in “Track a Spanish subject change” and correct the linked error-analysis response without copying its solution."
+  ],
+  "diagrams": [
+    {
+      "id": "application-trace",
+      "title": "Track a Spanish subject change",
+      "description": "Read the labelled relationships to follow this worked application. Estudiamos en casa, pero Elena no vive aquí. This is an explanatory process diagram, not a scale drawing or a record of a learner attempt.",
+      "steps": [
+        {
+          "label": "First subject",
+          "detail": "An implied we gives estudiamos."
+        },
+        {
+          "label": "New explicit subject",
+          "detail": "Elena changes the agreement to third-person singular."
+        },
+        {
+          "label": "Negative predicate",
+          "detail": "No vive aquí places negation before the correctly conjugated verb."
+        }
+      ],
+      "links": [
+        "notice the subject transition",
+        "choose agreement before adding negation"
+      ]
+    }
+  ],
+  "teachingSequence": [
+    {
+      "title": "Establish the idea",
+      "guidance": "Explain “Finding the stem and selecting an ending” in your own words. Work through the first example, then answer the linked questions before revealing their solutions.",
+      "noteHeadings": [
+        "Finding the stem and selecting an ending"
+      ],
+      "workedExampleNumbers": [
+        1
+      ],
+      "questionIds": [
+        "q1",
+        "q2"
+      ]
+    },
+    {
+      "title": "Apply the method",
+      "guidance": "Use the remaining teaching sections to explain each step of the worked examples. Compare your reasoning with the marking points and record the specific step you would change.",
+      "noteHeadings": [
+        "Subject, audience and meaning",
+        "Building and checking a short account",
+        "From isolated forms to purposeful communication"
+      ],
+      "workedExampleNumbers": [
+        2,
+        3
+      ],
+      "questionIds": [
+        "q3",
+        "q4"
+      ]
+    },
+    {
+      "title": "Maintaining agreement when an explicit subject returns",
+      "guidance": "Read the application diagram “Track a Spanish subject change”, then close the explanation and attempt both the application and error-analysis questions. Explain the correction aloud before retrying the mixed practice.",
+      "noteHeadings": [
+        "Maintaining agreement when an explicit subject returns"
+      ],
+      "workedExampleNumbers": [
+        4
+      ],
+      "questionIds": [
+        "q5",
+        "application-check",
+        "error-analysis"
+      ]
+    }
+  ],
+  "revisionGuide": {
+    "summary": "Spanish often omits a subject pronoun when the verb ending and context make the subject clear. That omission does not remove the need for agreement. In a connected description, an explicit new subject can shift the verb form even when the topic remains the same. For regular present-tense verbs, first distinguish -ar, -er and -ir infinitives, then choose the ending for the intended subject. Negation normally places no before the conjugated verb in these simple examples. Keep time meaning separate from habitual context: the present form can describe a routine without being a progressive construction. Irregular forms and regional address conventions require separate treatment.",
+    "keyIdeas": [
+      "An implied we gives estudiamos.",
+      "Elena changes the agreement to third-person singular.",
+      "No vive aquí places negation before the correctly conjugated verb.",
+      "Usted uses the third-person singular form, such as usted habla."
+    ],
+    "formulas": [],
+    "recallPrompts": [
+      "Does an omitted Spanish subject remove verb agreement?",
+      "Where does no go in a simple negative present clause?",
+      "How do you obtain the regular stem of estudiar?"
+    ],
+    "practiceQuestionIds": [
+      "q1",
+      "application-check",
+      "error-analysis"
+    ],
+    "revisit": "After checking your answer, write the specific rule or assumption you missed. Retry the linked questions without the worked example in a later session. A checked answer or completed checklist is not a measurement of mastery."
+  }
+}

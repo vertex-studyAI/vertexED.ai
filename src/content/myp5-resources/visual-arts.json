@@ -1,0 +1,1013 @@
+{
+  "subjectSlug": "visual-arts",
+  "lessons": {
+    "myp5-visual-arts-analysis": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Artwork analysis in context",
+            "paragraphs": [
+              "Visual analysis separates description from interpretation while connecting them through evidence. Begin with relationships that can be observed: scale, placement, contrast, edge, texture and negative space. Explain how those relationships guide attention before proposing a meaning. A central figure is not automatically powerful, and a dark area is not automatically sad; surrounding choices and context matter. When only a written artwork description is supplied, analyse that description without inventing colours or materials. A supported interpretation can remain provisional and acknowledge another plausible reading."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original imagined collage: a small pale circle sits inside a dense ring of torn dark paper, with one gap in the ring. Analyse the composition.",
+            "steps": [
+              "The value contrast and enclosing ring draw attention to the small circle.",
+              "The gap interrupts enclosure and offers a possible route between the centre and surrounding space."
+            ],
+            "conclusion": "The composition can suggest vulnerability with a possibility of connection; the description does not establish a single intended meaning."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is negative space?",
+            "back": "Space around or between the main forms."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why separate description and interpretation?",
+            "back": "It makes clear which observations support a proposed meaning."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What can contrast do?",
+            "back": "Create emphasis or distinguish relationships between forms."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Can a composition have more than one supported reading?",
+            "back": "Yes, when different readings account for the supplied visual evidence."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Artwork analysis: relationships to explain",
+            "description": "Observed forms → Visual relationship → Interpretation. The gap complicates a simple reading of complete enclosure.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Observed forms",
+                "detail": "Small pale circle within a dark ring."
+              },
+              {
+                "id": "node-2",
+                "label": "Visual relationship",
+                "detail": "Enclosure is interrupted by a gap."
+              },
+              {
+                "id": "node-3",
+                "label": "Interpretation",
+                "detail": "Protection, confinement or possible connection."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "Contrast and placement establish the relationship."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "The gap complicates a simple reading of complete enclosure."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-visual-arts-analysis-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Original imagined drawing: one sharp line crosses many faint lines. Explain a possible hierarchy.",
+          "hints": [
+            "Compare visual weight.",
+            "Do not invent a story."
+          ],
+          "solution": [
+            "The sharper line has greater visual prominence.",
+            "It can guide attention across the fainter marks.",
+            "This establishes hierarchy, though its symbolic meaning requires more context."
+          ],
+          "successCriteria": [
+            "The sharper line has greater visual prominence.",
+            "It can guide attention across the fainter marks.",
+            "This establishes hierarchy, though its symbolic meaning requires more context."
+          ]
+        },
+        {
+          "id": "extension-myp5-visual-arts-analysis-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A supplied description identifies smooth surfaces only. A response analyses rough texture. Evaluate.",
+          "hints": [
+            "Check the evidence.",
+            "Replace invented detail."
+          ],
+          "solution": [
+            "Roughness is not supplied and cannot support the interpretation.",
+            "Use the observed smooth surfaces and their relationships instead.",
+            "Any proposal to add roughness should be labelled as a new artistic choice, not analysis of the existing work."
+          ],
+          "successCriteria": [
+            "Roughness is not supplied and cannot support the interpretation.",
+            "Use the observed smooth surfaces and their relationships instead.",
+            "Any proposal to add roughness should be labelled as a new artistic choice, not analysis of the existing work."
+          ]
+        }
+      ]
+    },
+    "myp5-visual-arts-creative-process": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Creative process in context",
+            "paragraphs": [
+              "A creative process develops an intention through trials, decisions and reflection. An initial idea is a starting point rather than a promise that every later choice must follow. Try alternatives that test a specific visual question, such as whether overlap communicates crowding more clearly than repetition alone. Record what changed and what you observed so development is visible. Technical finish and expressive success are separate considerations. A polished study may still communicate the wrong relationship, while an unfinished trial can reveal a valuable direction."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original proposal: communicate a crowded journey using paper shapes. Compare evenly spaced rectangles with overlapping rectangles.",
+            "steps": [
+              "Keep the number and size of rectangles constant so spacing and overlap are the main changes.",
+              "Observe whether overlap creates a stronger sense of compression or obscures the intended route through the image."
+            ],
+            "conclusion": "Select or revise the arrangement based on the intended relationship, keeping the two studies as evidence of development."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What gives an experiment a purpose?",
+            "back": "A specific question connected to artistic intention."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why keep earlier studies?",
+            "back": "They make decisions and development traceable."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Does polished finish guarantee expressive success?",
+            "back": "No; technique and communication need separate evaluation."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "When may an intention change?",
+            "back": "When experimentation reveals a more meaningful or feasible direction, with the change explained."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Creative process: relationships to explain",
+            "description": "Intention → Trials → Decision. Observed differences guide development.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Intention",
+                "detail": "Communicate a crowded journey."
+              },
+              {
+                "id": "node-2",
+                "label": "Trials",
+                "detail": "Even spacing versus overlap."
+              },
+              {
+                "id": "node-3",
+                "label": "Decision",
+                "detail": "Choose the arrangement that best supports the intended compression."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "The intention determines the visual question."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "Observed differences guide development."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-visual-arts-creative-process-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A learner changes every material and shape at once, then says overlap caused the stronger effect. Evaluate.",
+          "hints": [
+            "Identify multiple changes.",
+            "Separate an overall judgement from a causal claim."
+          ],
+          "solution": [
+            "The revised study may create a stronger effect overall.",
+            "Several changes prevent isolating overlap as the cause.",
+            "A focused comparison can keep other features similar while varying overlap."
+          ],
+          "successCriteria": [
+            "The revised study may create a stronger effect overall.",
+            "Several changes prevent isolating overlap as the cause.",
+            "A focused comparison can keep other features similar while varying overlap."
+          ]
+        },
+        {
+          "id": "extension-myp5-visual-arts-creative-process-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A trial communicates calm instead of the intended tension. Suggest a constructive next step.",
+          "hints": [
+            "Use the mismatch as evidence.",
+            "Choose one relationship to test."
+          ],
+          "solution": [
+            "Record which features contributed to calm.",
+            "Test a targeted change such as tighter spacing or sharper directional contrast.",
+            "Compare the new result with the intention rather than discarding the trial without analysis."
+          ],
+          "successCriteria": [
+            "Record which features contributed to calm.",
+            "Test a targeted change such as tighter spacing or sharper directional contrast.",
+            "Compare the new result with the intention rather than discarding the trial without analysis."
+          ]
+        }
+      ]
+    },
+    "myp5-visual-arts-contextual-research": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Contextual research in context",
+            "paragraphs": [
+              "Contextual research connects an artwork with reliable information about its production, use or reception. Keep the artwork’s observable features distinct from claims in a source. A catalogue can establish a stated date or display setting, but an interpretation of the maker’s motives needs evidence. Compare sources and note when they repeat the same account rather than independently corroborating it. In your own work, explain which principle you are adapting and how your context differs. Research should inform decisions without turning imitation into a claim of original invention."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original fictional catalogue: a paper lantern was made for an indoor evening gathering. Its description mentions cut openings and a translucent lining. Make a supported connection.",
+            "steps": [
+              "The stated evening setting makes the passage of light relevant to the object’s use.",
+              "The openings and lining could shape how light is distributed, but the packet does not establish the maker’s personal beliefs."
+            ],
+            "conclusion": "The design can be connected to its supplied setting while keeping claims about intention limited."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is provenance in research?",
+            "back": "Information about a source or object’s origin and history."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why distinguish description from contextual claims?",
+            "back": "They come from different kinds of evidence."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Do two sources always provide independent corroboration?",
+            "back": "No; they may repeat the same original account."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "How should an artistic influence be acknowledged?",
+            "back": "Name the source and explain the principle adapted and the changes made."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Contextual research: relationships to explain",
+            "description": "Source context → Object features → Supported connection. The features explain a plausible functional relationship.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Source context",
+                "detail": "Indoor evening gathering."
+              },
+              {
+                "id": "node-2",
+                "label": "Object features",
+                "detail": "Cut openings and translucent lining."
+              },
+              {
+                "id": "node-3",
+                "label": "Supported connection",
+                "detail": "The object shapes transmitted light in that setting."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "The setting makes illumination a relevant function."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "The features explain a plausible functional relationship."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-visual-arts-contextual-research-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A fictional source says a mural was displayed in a train station. What can be inferred cautiously about viewing conditions?",
+          "hints": [
+            "Consider the setting without inventing measurements.",
+            "State what needs checking."
+          ],
+          "solution": [
+            "Viewers may encounter it while moving through a public space.",
+            "Large forms or clear contrasts could therefore be relevant to visibility.",
+            "Actual distance, crowd flow and viewing time need evidence before stronger claims."
+          ],
+          "successCriteria": [
+            "Viewers may encounter it while moving through a public space.",
+            "Large forms or clear contrasts could therefore be relevant to visibility.",
+            "Actual distance, crowd flow and viewing time need evidence before stronger claims."
+          ]
+        },
+        {
+          "id": "extension-myp5-visual-arts-contextual-research-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A learner copies an artist’s composition and calls it entirely original. Explain a better research response.",
+          "hints": [
+            "Acknowledge the influence.",
+            "Distinguish adaptation from invention."
+          ],
+          "solution": [
+            "Identify the source composition accurately.",
+            "Explain what was learned from its arrangement.",
+            "Develop and document meaningful changes for a different intention rather than claiming the borrowed arrangement was independently invented."
+          ],
+          "successCriteria": [
+            "Identify the source composition accurately.",
+            "Explain what was learned from its arrangement.",
+            "Develop and document meaningful changes for a different intention rather than claiming the borrowed arrangement was independently invented."
+          ]
+        }
+      ]
+    },
+    "myp5-visual-arts-experimentation": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Experimentation in context",
+            "paragraphs": [
+              "Experimentation compares material or formal choices to learn what they make possible. State the variable you change and what you keep sufficiently similar for comparison. In visual art, this is a practical inquiry rather than a claim that every response is objectively measurable. Record both technical behaviour and expressive possibilities: a wash may spread unpredictably and also support an intention of instability. Use observations rather than unsupported preferences to choose the next step. Keep failed or unexpected samples when they reveal a useful limit."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original trial: apply the same blue wash to dry paper and to damp paper using the same brush. The dry sample has a crisp edge; the damp sample spreads. Choose for an intention of dissolving boundaries.",
+            "steps": [
+              "The supplied observations link damp paper with a less controlled edge.",
+              "That spreading better supports dissolving boundaries, while dry paper would suit a clearer separation."
+            ],
+            "conclusion": "Choose the damp-paper direction provisionally and test how much spread remains readable in the final composition."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What should an experiment change deliberately?",
+            "back": "A material, technique or formal relationship relevant to a question."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why keep samples?",
+            "back": "They preserve evidence for comparison and later decisions."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "How can an unexpected result be useful?",
+            "back": "It reveals a property or expressive possibility not anticipated."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What separates observation from preference?",
+            "back": "Observation describes what occurred; preference states what the maker favours."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Experimentation: relationships to explain",
+            "description": "Variable → Observation → Artistic decision. The observed behaviour is compared with the intention.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Variable",
+                "detail": "Dry versus damp paper."
+              },
+              {
+                "id": "node-2",
+                "label": "Observation",
+                "detail": "Crisp edge versus spreading wash."
+              },
+              {
+                "id": "node-3",
+                "label": "Artistic decision",
+                "detail": "Spreading supports dissolving boundaries."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "Paper condition changes the wash’s behaviour."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "The observed behaviour is compared with the intention."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-visual-arts-experimentation-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Two prints use different inks and different papers. Can a sharper edge be attributed only to the paper?",
+          "hints": [
+            "Count the changed variables.",
+            "Propose a focused comparison."
+          ],
+          "solution": [
+            "Both ink and paper changed.",
+            "Either or their interaction could affect the edge.",
+            "Use the same ink on the two papers to investigate the paper’s contribution more clearly."
+          ],
+          "successCriteria": [
+            "Both ink and paper changed.",
+            "Either or their interaction could affect the edge.",
+            "Use the same ink on the two papers to investigate the paper’s contribution more clearly."
+          ]
+        },
+        {
+          "id": "extension-myp5-visual-arts-experimentation-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A material trial tears unexpectedly. Explain two things worth recording and one possible next step.",
+          "hints": [
+            "Record conditions and effect.",
+            "Do not treat failure as useless."
+          ],
+          "solution": [
+            "Record the material and action that produced the tear.",
+            "Describe how the torn edge affects the intended image.",
+            "Test a gentler method or deliberately use the edge if it supports the artistic intention."
+          ],
+          "successCriteria": [
+            "Record the material and action that produced the tear.",
+            "Describe how the torn edge affects the intended image.",
+            "Test a gentler method or deliberately use the edge if it supports the artistic intention."
+          ]
+        }
+      ]
+    },
+    "myp5-visual-arts-artistic-intention": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Artistic intention in context",
+            "paragraphs": [
+              "An artistic intention states what a maker aims to explore or communicate and links it to choices that can be developed. It is more useful than a broad topic such as friendship or change when it specifies a relationship or question. Avoid promising a single emotion in every viewer. Explain how composition, material and process may invite a response while leaving interpretation open. An intention can evolve through research and experiments, but record why it changed. Evaluation should then refer to the final stated intention rather than a convenient new one invented after feedback."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original proposal: make a collage about unequal participation using six paper shapes, one partly hidden beneath the others. Refine the intention.",
+            "steps": [
+              "Name the relationship: explore how a group can appear unified while one contribution is obscured.",
+              "Link the overlap and visibility of the sixth shape to that relationship."
+            ],
+            "conclusion": "The intention connects a specific social question with a visual choice without claiming that all viewers will interpret it identically."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "How does an intention differ from a topic?",
+            "back": "It specifies a relationship or question the work aims to explore."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why connect intention to material choices?",
+            "back": "It makes the proposed meaning actionable and later evaluation possible."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Can viewers respond differently?",
+            "back": "Yes; an intention guides making but cannot guarantee a uniform response."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "How should a changed intention be documented?",
+            "back": "Explain the evidence or discovery that prompted the revision."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Artistic intention: relationships to explain",
+            "description": "Question → Visual choice → Intended reading. The relationship offers viewers evidence for interpretation.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Question",
+                "detail": "Can apparent unity hide exclusion?"
+              },
+              {
+                "id": "node-2",
+                "label": "Visual choice",
+                "detail": "One shape is partly covered by five others."
+              },
+              {
+                "id": "node-3",
+                "label": "Intended reading",
+                "detail": "Visibility becomes a way to explore participation."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "The question directs the compositional relationship."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "The relationship offers viewers evidence for interpretation."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-visual-arts-artistic-intention-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Improve “My artwork is about time” using repeated fading marks.",
+          "hints": [
+            "Name a particular aspect of time.",
+            "Connect it to the marks."
+          ],
+          "solution": [
+            "A possible intention is to explore how repeated experiences become less distinct in memory.",
+            "Repeated marks establish continuity.",
+            "Progressively fading marks make loss of distinction visible."
+          ],
+          "successCriteria": [
+            "A possible intention is to explore how repeated experiences become less distinct in memory.",
+            "Repeated marks establish continuity.",
+            "Progressively fading marks make loss of distinction visible."
+          ]
+        },
+        {
+          "id": "extension-myp5-visual-arts-artistic-intention-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A maker says “Everyone will feel hopeful”. Revise the claim into a defensible intention.",
+          "hints": [
+            "Use an aim rather than a guaranteed outcome.",
+            "Name a relevant choice."
+          ],
+          "solution": [
+            "State an aim to invite a hopeful reading.",
+            "Explain the choice intended to support it, such as an opening in an enclosing form.",
+            "Acknowledge that viewers may interpret that opening differently."
+          ],
+          "successCriteria": [
+            "State an aim to invite a hopeful reading.",
+            "Explain the choice intended to support it, such as an opening in an enclosing form.",
+            "Acknowledge that viewers may interpret that opening differently."
+          ]
+        }
+      ]
+    },
+    "myp5-visual-arts-process-documentation": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Process documentation in context",
+            "paragraphs": [
+              "Process documentation records thinking as well as activity. A useful entry identifies the version, change, reason, observation and next decision. A photograph without annotation may show appearance but not explain why the work developed. Record unsuccessful trials and unresolved questions so the sequence remains honest. Use comparable photographs where visual comparison matters, noting major changes in lighting or scale. The record should distinguish what you intended, what you actually made and what feedback or observation supports your judgement."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original log evidence: v3 adds a dark border; viewed from two metres, the border draws attention away from the central text. Write a decision entry.",
+            "steps": [
+              "Model entry: “Version 3: I added a dark border. From two metres, it drew attention away from the central text.”",
+              "Next decision: “I will reduce the border’s weight, keep the text size constant and compare the versions from the same two-metre viewing position.”"
+            ],
+            "conclusion": "The entry links a visible problem to a specific next experiment and preserves the reason for the decision."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What should a process entry explain?",
+            "back": "What changed, why, what was observed and what follows."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why annotate photographs?",
+            "back": "Images alone may not reveal decisions or conditions."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Should failed trials be removed?",
+            "back": "No; they can explain development and limits."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why note viewing conditions?",
+            "back": "Lighting, distance and scale affect comparisons."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Process documentation: relationships to explain",
+            "description": "Version change → Observation → Next trial. The observation justifies a focused revision.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Version change",
+                "detail": "A dark border is added."
+              },
+              {
+                "id": "node-2",
+                "label": "Observation",
+                "detail": "It competes with the central text at two metres."
+              },
+              {
+                "id": "node-3",
+                "label": "Next trial",
+                "detail": "Reduce border weight under comparable viewing conditions."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "The record ties the observation to a particular version."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "The observation justifies a focused revision."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-visual-arts-process-documentation-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A log says only “I worked hard today”. Replace it with a useful fictional entry about changing spacing.",
+          "hints": [
+            "Name a visible change.",
+            "Add observation and next step."
+          ],
+          "solution": [
+            "In this fictional log, Version 2 increased the gap between the central shapes from 5 mm to 15 mm while keeping their sizes constant.",
+            "At display distance, the shapes were easier to distinguish.",
+            "Next, test whether the wider gap weakens the intended sense of crowding."
+          ],
+          "successCriteria": [
+            "In this fictional log, Version 2 increased the gap between the central shapes from 5 mm to 15 mm while keeping their sizes constant.",
+            "At display distance, the shapes were easier to distinguish.",
+            "Next, test whether the wider gap weakens the intended sense of crowding."
+          ]
+        },
+        {
+          "id": "extension-myp5-visual-arts-process-documentation-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Two progress photos use very different lighting. Explain a limitation and a repair.",
+          "hints": [
+            "Consider colour and value appearance.",
+            "Make comparisons more consistent."
+          ],
+          "solution": [
+            "Lighting differences can change apparent colour and contrast.",
+            "The photos alone may not establish that the artwork itself changed in those ways.",
+            "Retake comparable views or clearly label the lighting difference when interpreting them."
+          ],
+          "successCriteria": [
+            "Lighting differences can change apparent colour and contrast.",
+            "The photos alone may not establish that the artwork itself changed in those ways.",
+            "Retake comparable views or clearly label the lighting difference when interpreting them."
+          ]
+        }
+      ]
+    },
+    "myp5-visual-arts-reflection": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reflection in context",
+            "paragraphs": [
+              "Reflection examines what an experience changed in your understanding and future decisions. It goes beyond stating whether you liked the result. Identify a significant observation, explain how it challenged or confirmed an assumption, and propose a justified adjustment. Feedback is evidence of particular viewers’ responses, not a universal verdict. Compare it with your intention and direct observations of the work. Reflection can recognise a productive surprise as well as a weakness; the important point is to show what you learned and how it affects the next choice."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original feedback: a maker expected scale to draw attention, but three viewers first noticed a small bright shape. Reflect on the result.",
+            "steps": [
+              "The feedback challenges the assumption that size would dominate the composition.",
+              "The next trial could reduce the bright shape’s contrast while preserving sizes to explore the role of contrast."
+            ],
+            "conclusion": "The reflection identifies a changed understanding of visual hierarchy and turns it into a focused experiment."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What makes reflection more than description?",
+            "back": "It explains learning and its effect on a future decision."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What does viewer feedback establish?",
+            "back": "Those viewers’ responses in the stated conditions."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "How can a surprise be productive?",
+            "back": "It can reveal a relationship the maker had not considered."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What should a next step follow from?",
+            "back": "A specific observation or revised understanding."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Reflection: relationships to explain",
+            "description": "Assumption → Feedback → Learning. The mismatch suggests a new visual relationship to test.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Assumption",
+                "detail": "The largest shape will dominate."
+              },
+              {
+                "id": "node-2",
+                "label": "Feedback",
+                "detail": "Viewers notice a small bright shape first."
+              },
+              {
+                "id": "node-3",
+                "label": "Learning",
+                "detail": "Contrast can outweigh size in this arrangement."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "The response provides evidence against the assumption."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "The mismatch suggests a new visual relationship to test."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-visual-arts-reflection-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A reflection says “I need to improve everything”. Make it more useful after feedback that the focal point is unclear.",
+          "hints": [
+            "Identify one evidenced problem.",
+            "Choose a focused action."
+          ],
+          "solution": [
+            "Name the unclear focal point as the priority.",
+            "Test a change in contrast, placement or spacing that could establish hierarchy.",
+            "Compare the revision with the original before deciding on wider changes."
+          ],
+          "successCriteria": [
+            "Name the unclear focal point as the priority.",
+            "Test a change in contrast, placement or spacing that could establish hierarchy.",
+            "Compare the revision with the original before deciding on wider changes."
+          ]
+        },
+        {
+          "id": "extension-myp5-visual-arts-reflection-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Two viewers disagree about a work’s meaning. Must one be wrong? Explain.",
+          "hints": [
+            "Check whether each reading uses evidence.",
+            "Distinguish openness from unsupported claims."
+          ],
+          "solution": [
+            "Different readings can both be defensible if they account for the work’s features.",
+            "Compare the evidence each viewer uses.",
+            "Reflect on whether the ambiguity supports the intention or whether clearer cues are needed."
+          ],
+          "successCriteria": [
+            "Different readings can both be defensible if they account for the work’s features.",
+            "Compare the evidence each viewer uses.",
+            "Reflect on whether the ambiguity supports the intention or whether clearer cues are needed."
+          ]
+        }
+      ]
+    },
+    "myp5-visual-arts-evaluation": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Evaluation in context",
+            "paragraphs": [
+              "Evaluation judges the completed work in relation to intention, development and evidence. Discuss strengths and limits with specific reference to visual choices rather than relying on effort or personal liking. Technical control may support an intention, but perfection of finish is not always the aim. Use viewer responses carefully and record what remains unknown. Distinguish an improvement that serves the intention from one that merely changes the style. A balanced evaluation can conclude that some aspects succeeded while another relationship needs further development."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original evidence: a collage aims to lead attention from a crowded lower edge to an open upper area. Four viewers follow that path; two stop at a bright side shape. Evaluate.",
+            "steps": [
+              "Four responses support the intended directional movement, while two reveal competing emphasis.",
+              "The bright side shape is a specific candidate for revision, but the sample does not establish every viewer’s route."
+            ],
+            "conclusion": "The intended movement is partly supported; reducing the side shape’s prominence is a justified trial, not a guaranteed solution."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What anchors an evaluation?",
+            "back": "The stated intention and evidence from the work and its reception."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why discuss specific choices?",
+            "back": "They explain how success or difficulty arose."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Can a work succeed in some respects only?",
+            "back": "Yes; evaluate distinct relationships rather than forcing one overall label."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What makes a proposed revision relevant?",
+            "back": "It addresses an evidenced limit in relation to the intention."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Evaluation: relationships to explain",
+            "description": "Intention → Evidence → Judgement. Mixed evidence supports a qualified conclusion.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Intention",
+                "detail": "Move attention from crowding to openness."
+              },
+              {
+                "id": "node-2",
+                "label": "Evidence",
+                "detail": "Four follow the route; two stop elsewhere."
+              },
+              {
+                "id": "node-3",
+                "label": "Judgement",
+                "detail": "Partial success with competing emphasis."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "Viewer routes provide evidence about the intended movement."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "Mixed evidence supports a qualified conclusion."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-visual-arts-evaluation-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A maker evaluates only the hours spent. Explain what evidence is still needed.",
+          "hints": [
+            "Effort is not the same as communication.",
+            "Refer to actual choices and outcomes."
+          ],
+          "solution": [
+            "Time spent records effort.",
+            "Evaluation also needs analysis of how material and composition serve the intention.",
+            "Observations or feedback can support a judgement about the resulting communication."
+          ],
+          "successCriteria": [
+            "Time spent records effort.",
+            "Evaluation also needs analysis of how material and composition serve the intention.",
+            "Observations or feedback can support a judgement about the resulting communication."
+          ]
+        },
+        {
+          "id": "extension-myp5-visual-arts-evaluation-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A painting intends roughness and instability. A reviewer says all uneven edges must be removed. Evaluate the advice.",
+          "hints": [
+            "Use the intention as a criterion.",
+            "Distinguish deliberate effect from accidental weakness."
+          ],
+          "solution": [
+            "Uneven edges may support the intended instability.",
+            "Check whether they are purposeful and effective in the composition.",
+            "Revise edges that undermine the intention rather than assuming smoothness is always superior."
+          ],
+          "successCriteria": [
+            "Uneven edges may support the intended instability.",
+            "Check whether they are purposeful and effective in the composition.",
+            "Revise edges that undermine the intention rather than assuming smoothness is always superior."
+          ]
+        }
+      ]
+    }
+  }
+}

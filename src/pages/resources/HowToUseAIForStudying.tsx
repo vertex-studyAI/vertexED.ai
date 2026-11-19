@@ -1,3 +1,4 @@
+import { APP_ORIGIN } from '@/lib/appOrigin';
 import React from "react";
 import Article from "@/components/Article";
 import SEO from "@/components/SEO";
@@ -9,7 +10,7 @@ export default function HowToUseAIForStudying() {
       <SEO
         title="How to use AI for studying - a revision-week framework | VertexED"
         description="Where AI helps in exam prep - planning, Socratic explanations, mocks, rubric feedback, and flashcards - and where it crosses into work you cannot defend in the hall."
-        canonical="https://www.vertexed.app/resources/how-to-use-ai-for-studying"
+        canonical={`${APP_ORIGIN}/resources/how-to-use-ai-for-studying`}
         keywords="how to use AI for studying, exam prep, Socratic tutoring, rubric feedback, active recall, VertexED"
       />
       <Article

@@ -145,8 +145,9 @@ where auth_user_id is not null
 -- Dashboard-only checks that SQL cannot certify:
 -- * Email/password authentication enabled.
 -- * Google provider enabled with the intended client credentials.
--- * Site URL is https://www.vertexed.app.
--- * Redirect allow list includes https://www.vertexed.app/auth/callback and the
---   intentionally supported preview/local callback URLs only.
+-- * Site URL is https://vertex-ed-ai.vercel.app (verify the saved dashboard value).
+-- * Redirect allow list includes https://vertex-ed-ai.vercel.app/auth/callback
+--   and exact recovery/invitation variants plus intentionally supported local URLs.
+-- * Expired custom-domain callbacks have been removed.
 -- * Production backups/PITR match the current Supabase plan.
 -- * No service-role key appears in browser-accessible configuration.

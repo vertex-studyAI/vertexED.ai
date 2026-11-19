@@ -38,7 +38,7 @@ Remove `VITE_GEMINI_API_KEY` if still set — Gemini is server-only.
 4. Confirm `/api/health?readiness=1` reports `databaseConnection`, `atomicRateLimitRpc`, `learnerStateStorage`, `batchLearnerStateSync`, `examSessionStorage`, `observabilityStorage`, and `singletonIntegrity` as `true`.
    - If it reports historical singleton duplicates, stop and reconcile those learner-owned rows explicitly; the migration intentionally deletes nothing.
 5. Enable Email + Google OAuth, but disable direct signup in Auth settings so private-beta account creation remains server-gated.
-6. Supabase Site URL: `https://www.vertexed.app`. Allow the application callback `https://www.vertexed.app/auth/callback` and its recovery/invitation query variants, plus explicitly trusted development origins. Google Cloud's redirect URI is the Supabase `/auth/v1/callback`, not this application callback. Enable manual linking for Connect Google.
+6. Required Supabase Site URL: `https://vertex-ed-ai.vercel.app`. Allow the exact application callback `https://vertex-ed-ai.vercel.app/auth/callback` and its recovery/invitation query variants, plus explicitly trusted development origins. Remove expired custom-domain callbacks. Google Cloud's redirect URI is the Supabase `/auth/v1/callback`, not this application callback. Verify manual linking for Connect Google separately. On 21 October the dashboard still showed the expired Site URL; consult `docs/PRODUCT_FINALIZATION_20261021.md` for the latest configuration receipt rather than treating this checklist as proof of the saved setting.
 
 ## Post-deploy verification (15 min)
 
@@ -46,7 +46,7 @@ Remove `VITE_GEMINI_API_KEY` if still set — Gemini is server-only.
 2. `/signup` — join waitlist with a test email
 3. `/admin/waitlist` — approve the test entry (as `ADMIN_EMAILS` user)
 4. `/signup` → create account with approved email (no invite code required)
-5. Log in → complete mock → evidence-linked review → confirm against an official mark scheme → dashboard retry; confirm device-save recovery and planner/learner-state sync.
+5. Log in → complete validated-answer-key practice → dashboard retry; then save an AI-review mark-scheme check and confirm it appears only as learner-attested revision history, with no mastery/retry upgrade. Confirm device-save recovery and planner/learner-state sync.
 6. Test chatbot, notetaker, paper maker, and planner AI; confirm feedback controls emit no study content.
 7. Export account data → confirm cloud artifacts, learner state, and device data are present without invite/session secrets.
 8. Delete a disposable account → confirm refresh-session revocation, Auth deletion, content cascade, linked waitlist-email deletion, and subsequent API denial.

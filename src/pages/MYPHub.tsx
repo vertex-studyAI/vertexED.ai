@@ -1,3 +1,4 @@
+import { APP_ORIGIN } from '@/lib/appOrigin';
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router';
 import { ArrowRight, BookOpen, Search } from 'lucide-react';
@@ -17,7 +18,7 @@ export default function MYPHub() {
   }), [group, query]);
 
   return <>
-    <SEO title="IB MYP 5 learning hub | VertexED" description="Explore structured MYP 5 topics, practice, revision and criterion-linked study guidance across every major subject group." canonical="https://www.vertexed.app/myp" />
+    <SEO title="IB MYP 5 learning hub | VertexED" description="Explore structured MYP 5 topics, practice, revision and criterion-linked study guidance across every major subject group." canonical={`${APP_ORIGIN}/myp`} />
     <div className="myp-page">
       <header className="myp-masthead">
         <p className="myp-kicker">VertexED curriculum / IB MYP Year 5</p>

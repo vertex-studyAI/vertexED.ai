@@ -1,3 +1,4 @@
+import { APP_ORIGIN } from '@/lib/appOrigin';
 import React from "react";
 import Article from "@/components/Article";
 import SEO from "@/components/SEO";
@@ -9,7 +10,7 @@ export default function IBTOKGuide() {
       <SEO
         title="Using AI for IB TOK essays and exhibitions | VertexED"
         description="Brainstorm real-life situations, knowledge questions, and counter-claims - then write the analysis yourself so it sounds like TOK, not a Wikipedia summary."
-        canonical="https://www.vertexed.app/resources/ib-tok-guide-ai"
+        canonical={`${APP_ORIGIN}/resources/ib-tok-guide-ai`}
         keywords="IB TOK, Theory of Knowledge, TOK Essay AI, TOK Exhibition AI, Real Life Situations RLS, Knowledge Questions, Areas of Knowledge, Ways of Knowing, IB Diploma, VertexED"
         jsonLd={[
           {
@@ -20,14 +21,14 @@ export default function IBTOKGuide() {
             author: {
               "@type": "Organization",
               name: "VertexED Team",
-              url: "https://www.vertexed.app"
+              url: `${APP_ORIGIN}`
             },
             publisher: {
               "@type": "Organization",
               name: "VertexED",
               logo: {
                 "@type": "ImageObject",
-                url: "https://www.vertexed.app/logo.png"
+                url: `${APP_ORIGIN}/logo.png`
               }
             },
             datePublished: "2025-12-24",

@@ -45,10 +45,126 @@
             "Explain negotiation"
           ],
           "id": "united-states-government-and-politics-unit-1-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Ask which institutions are involved.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A President nominates a Supreme Court justice and the Senate declines consent. Explain the check and why it is not primarily an example of federalism.",
+          "answer": "The Senate checks a presidential appointment through advice and consent. Both are national institutions, so the example concerns branches rather than national-state division.",
+          "checkpoints": [
+            "Identify presidential nomination.",
+            "Identify Senate consent as the check.",
+            "Distinguish branch interaction from federalism."
+          ],
+          "hints": [
+            "Ask which institutions are involved.",
+            "A state government is not one of the actors here."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Read both limiting clauses.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "A student says the Tenth Amendment gives states every power they want. Correct the statement using the amendment’s conditions.",
+          "answer": "It reserves powers not delegated to the United States and not prohibited to the states, to the states or the people; it does not remove constitutional prohibitions or create unlimited state power.",
+          "checkpoints": [
+            "Identify the not-delegated condition.",
+            "Identify the not-prohibited condition.",
+            "Reject unlimited state power and include the people."
+          ],
+          "hints": [
+            "Read both limiting clauses.",
+            "Reservation is not exemption from the Constitution."
+          ]
         }
       ],
       "id": "united-states-government-and-politics-unit-1",
-      "frameworkUnit": "Unit 1"
+      "frameworkUnit": "Unit 1",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through constitutional design and divided authority",
+            "paragraphs": [
+              "Constitutional design distributes authority in more than one direction. Federalism concerns national and state governments, while separation of powers concerns legislative, executive and judicial institutions. Checks and balances require identifying the specific power one institution uses to constrain another, not simply saying that power is shared. The supremacy of valid federal law does not mean the national government has unlimited authority; constitutional powers and limits still matter. Likewise, the Tenth Amendment reserves powers not delegated to the United States or prohibited to the states. A strong analysis names the actors, the relevant provision and the kind of institutional relationship involved."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "In a fictional dispute, a state and the national government disagree about regulatory authority, while the Senate separately considers a presidential Supreme Court nominee. Classify the two relationships.",
+            "steps": [
+              "The national-state dispute concerns federalism because it involves authority across levels of government.",
+              "The nomination process involves checks and balances: the President nominates and the Senate provides advice and consent under Article II."
+            ],
+            "conclusion": "The first relationship is federalism; the second is an interbranch check within the national government."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What does federalism divide?",
+            "back": "Authority between national and state governments."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What does separation of powers divide?",
+            "back": "Governmental functions among branches."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What does a checks-and-balances explanation need?",
+            "back": "A named institution and a specific power constraining another."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Does federal supremacy remove constitutional limits?",
+            "back": "No; federal law must rest on constitutional authority."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Constitutional design and divided authority: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Constitutional allocation",
+                "detail": "Identify the granted power and institutional actor."
+              },
+              {
+                "id": "n2",
+                "label": "Institutional relationship",
+                "detail": "Distinguish national-state division from interbranch interaction."
+              },
+              {
+                "id": "n3",
+                "label": "Constraint and consequence",
+                "detail": "Explain how the relevant rule permits or limits action."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "defines"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "produces"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Branches, implementation and accountability",
@@ -88,10 +204,126 @@
             "Explain delegated authority"
           ],
           "id": "united-states-government-and-politics-unit-2-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "A fractional affirmative vote cannot be cast.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "In a fictional returned-veto vote, all 100 senators vote and 66 support override. Is the Senate threshold met? Explain without confusing it with an ordinary majority.",
+          "answer": "No. Two-thirds of 100 is 66⅔, so at least 67 affirmative votes are needed when all 100 vote.",
+          "checkpoints": [
+            "Identify the two-thirds rule.",
+            "Calculate the fractional threshold.",
+            "Round up to the required whole number 67."
+          ],
+          "hints": [
+            "A fractional affirmative vote cannot be cast.",
+            "More than half is not enough for this vote."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Ask which law authorises the action.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "A fictional agency creates a programme requirement and calls it a regulation. Why does the label alone not prove it is legally authorised?",
+          "answer": "The rule still needs a valid statutory or other legal basis and must comply with applicable limits and procedures; calling it a regulation does not establish those conditions.",
+          "checkpoints": [
+            "Distinguish the rule from its source of authority.",
+            "Identify legal limits or procedures.",
+            "Explain why the label is insufficient evidence."
+          ],
+          "hints": [
+            "Ask which law authorises the action.",
+            "Implementation discretion is not unlimited power."
+          ]
         }
       ],
       "id": "united-states-government-and-politics-unit-2",
-      "frameworkUnit": "Unit 2"
+      "frameworkUnit": "Unit 2",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through branches, implementation and accountability",
+            "paragraphs": [
+              "Institutional accountability follows the policy process from legal authority to implementation and review. A statute is enacted through the legislative process, whereas an agency rule is issued under an asserted delegation and must remain within applicable law. Congress can use appropriations and oversight to examine implementation; the executive manages administration; courts decide legal disputes within their jurisdiction. Political disagreement alone does not tell you whether an act is unlawful, and a policy’s popularity does not establish its legality. In the ordinary returned-veto process, an override requires two-thirds support in each chamber, illustrating why a majority in one institution may not be enough."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "In a fictional returned-veto vote with a quorum in each chamber, 300 of 435 House members voting support override, but only 60 of 100 senators voting do. Does the override succeed?",
+            "steps": [
+              "The House support exceeds two-thirds because 300 exceeds 290.",
+              "The Senate needs at least 67 of 100 votes; 60 is insufficient, so the required support in both chambers is absent."
+            ],
+            "conclusion": "The override fails despite the House vote meeting its threshold."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What distinguishes a statute from an agency rule?",
+            "back": "A statute is legislated; a rule is issued under legal authority delegated to an agency."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What is legislative oversight?",
+            "back": "Examination of how laws and programmes are administered."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What support does a returned-veto override require?",
+            "back": "Two-thirds in each chamber under the applicable voting rules."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Does policy popularity establish legality?",
+            "back": "No; legal authority and constraints require separate analysis."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Branches, implementation and accountability: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Legislative authority",
+                "detail": "A statute establishes a programme and its legal boundaries."
+              },
+              {
+                "id": "n2",
+                "label": "Administration",
+                "detail": "Officials implement it using authorised resources and discretion."
+              },
+              {
+                "id": "n3",
+                "label": "Accountability review",
+                "detail": "Oversight and legal proceedings examine implementation and authority."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "guides"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "is examined through"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Liberties, equality and constitutional claims",
@@ -131,10 +363,126 @@
             "Connect facts to reasoning"
           ],
           "id": "united-states-government-and-politics-unit-3-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Start with who acted.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "Why is a private friend disagreeing with a person’s opinion not automatically the same constitutional issue as a government penalty for that opinion?",
+          "answer": "The actors and actions differ. Constitutional speech restrictions generally concern government action; private disagreement alone is not the same as a government-imposed penalty.",
+          "checkpoints": [
+            "Identify the private versus governmental actor.",
+            "Distinguish disagreement from a coercive penalty.",
+            "Limit the conclusion rather than claiming every private dispute is legally irrelevant."
+          ],
+          "hints": [
+            "Start with who acted.",
+            "A constitutional issue is not established merely because speech is involved."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "The issue concerns procedure rather than only unequal treatment.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "A claim alleges a state denied a person a fair procedure before depriving them of a protected interest. Which Fourteenth Amendment concept is most directly raised, and what more is needed?",
+          "answer": "Due process is raised. Analysis needs the specific protected interest, state action and procedures provided before assessing whether the constitutional requirements were met.",
+          "checkpoints": [
+            "Identify due process.",
+            "Identify the protected interest and state action as factual needs.",
+            "Ask what procedures were actually supplied."
+          ],
+          "hints": [
+            "The issue concerns procedure rather than only unequal treatment.",
+            "Naming the clause begins rather than completes the analysis."
+          ]
         }
       ],
       "id": "united-states-government-and-politics-unit-3",
-      "frameworkUnit": "Unit 3"
+      "frameworkUnit": "Unit 3",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through liberties, equality and constitutional claims",
+            "paragraphs": [
+              "Rights analysis begins with the government action and the particular constitutional protection claimed. Freedom of expression and procedural safeguards concern limits on government interference, while equal-protection analysis asks about governmental distinctions between people. The Fourteenth Amendment addresses state action through provisions including due process and equal protection. Many Bill of Rights protections apply to states through selective incorporation, which developed provision by provision rather than as a claim that every guarantee had identical application from the start. An answer should distinguish identifying a plausible constitutional issue from deciding the result of litigation, which depends on facts, doctrine and the remedy requested."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "In a fictional public-school dispute, one claim challenges punishment for an opinion and another challenges unequal access based on a student classification. Identify the issues without predicting a court outcome.",
+            "steps": [
+              "The opinion claim raises freedom-of-expression questions, requiring the school context and nature of the speech.",
+              "The access claim raises equal-protection questions about the classification and government justification; different legal reasoning may apply to the two claims."
+            ],
+            "conclusion": "The scenario presents distinct expression and equality issues whose outcomes require more facts and legal analysis."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is a civil-liberties claim often about?",
+            "back": "Limits on government interference with protected freedom."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What does equal protection examine?",
+            "back": "Governmental distinctions and treatment under the law."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What is selective incorporation?",
+            "back": "Application of particular Bill of Rights protections to states through constitutional doctrine."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why identify the government actor?",
+            "back": "Constitutional restrictions and legal pathways depend on who acted."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Liberties, equality and constitutional claims: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Government action",
+                "detail": "Specify the actor, conduct and affected person."
+              },
+              {
+                "id": "n2",
+                "label": "Relevant protection",
+                "detail": "Identify expression, procedure, equality or another particular guarantee."
+              },
+              {
+                "id": "n3",
+                "label": "Fact-sensitive reasoning",
+                "detail": "Apply the appropriate doctrine without treating a slogan as a complete outcome."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "raises"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "requires"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Political beliefs and public-opinion evidence",
@@ -174,10 +522,126 @@
             "Recognise variation"
           ],
           "id": "united-states-government-and-politics-unit-4-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Use percentage points, not three percent of 47.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A fictional poll estimates support at 47% with ±3 percentage points sampling error. Give the interval and one uncertainty it does not include.",
+          "answer": "The interval is 44% to 50%. It does not by itself include systematic nonresponse, coverage or question-wording bias.",
+          "checkpoints": [
+            "Subtract three percentage points.",
+            "Add three percentage points.",
+            "Name a nonsampling limitation."
+          ],
+          "hints": [
+            "Use percentage points, not three percent of 47.",
+            "Separate random sampling uncertainty from systematic errors."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Check who is included before comparing percentages.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "One poll surveys all adults and another only likely voters. Why can a difference in support fail to demonstrate opinion change over time?",
+          "answer": "They estimate different populations, so composition can explain the difference. Comparable populations and methods are needed before attributing the difference to changing views.",
+          "checkpoints": [
+            "Identify the population mismatch.",
+            "Explain composition as an alternative cause.",
+            "State the need for comparable measurement."
+          ],
+          "hints": [
+            "Check who is included before comparing percentages.",
+            "Different denominators can represent different political groups."
+          ]
         }
       ],
       "id": "united-states-government-and-politics-unit-4",
-      "frameworkUnit": "Unit 4"
+      "frameworkUnit": "Unit 4",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through political beliefs and public-opinion evidence",
+            "paragraphs": [
+              "Public opinion is measured through particular questions asked of particular people at particular times. Before interpreting a poll, identify the target population, sampling frame, response process and exact wording. Random sampling can support estimates of sampling uncertainty, but a reported margin does not cover systematic nonresponse, misleading wording or exclusions from the frame. Political socialisation can shape beliefs through family, schools, peers and experience without making every member of a group identical. A change between two polls is interpretable only when their methods and populations are sufficiently comparable. Party attachment, ideological labels and individual issue preferences are related but distinct measures."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A fictional probability-based poll reports support at 52% with a margin of sampling error ±4 percentage points. A headline says a clear majority is proven. Evaluate the headline.",
+            "steps": [
+              "The stated sampling interval runs from 48% to 56%, crossing 50%, so the reported result alone does not establish support above half with that uncertainty measure.",
+              "The margin also does not address every potential wording or nonresponse bias."
+            ],
+            "conclusion": "The headline overstates what the poll and its reported uncertainty support."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is a poll’s target population?",
+            "back": "The group whose views the study aims to estimate."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Does sample size eliminate selection bias?",
+            "back": "No."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What does a sampling-error margin omit?",
+            "back": "Other errors such as wording and systematic nonresponse."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why keep party identification separate from issue opinion?",
+            "back": "People may disagree with their party on particular policies."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Political beliefs and public-opinion evidence: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Target population and sampling",
+                "detail": "Specify whose opinion is represented and how respondents are selected."
+              },
+              {
+                "id": "n2",
+                "label": "Question and response",
+                "detail": "Record wording, timing and nonresponse."
+              },
+              {
+                "id": "n3",
+                "label": "Qualified estimate",
+                "detail": "Interpret percentages with sampling uncertainty and design limitations."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "shape"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "supports"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Participation, elections and political influence",
@@ -217,10 +681,126 @@
             "Distinguish salience from persuasion"
           ],
           "id": "united-states-government-and-politics-unit-5-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Use the same ballot count with each specified base.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A fictional district has 1200 eligible voters, 1000 registered voters and 720 ballots. Calculate both turnout rates and explain why neither should be reported without its denominator.",
+          "answer": "Turnout is 60% of eligible voters and 72% of registered voters. The percentages answer different questions about participation and can mislead if the population is omitted.",
+          "checkpoints": [
+            "Calculate 720/1200=60%.",
+            "Calculate 720/1000=72%.",
+            "Explain the different populations."
+          ],
+          "hints": [
+            "Use the same ballot count with each specified base.",
+            "Label what each percentage represents."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Ask whether people think about the issue more.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "An issue receives much more news coverage, but a survey finds little change in people’s preferred policy. Can this still be consistent with agenda-setting?",
+          "answer": "Yes. Agenda-setting concerns the prominence or perceived importance of an issue, which can increase without a change in the preferred policy position.",
+          "checkpoints": [
+            "Define agenda-setting as issue attention.",
+            "Distinguish salience from policy preference.",
+            "Explain why unchanged preference does not rule it out."
+          ],
+          "hints": [
+            "Ask whether people think about the issue more.",
+            "Attention and persuasion are different outcomes."
+          ]
         }
       ],
       "id": "united-states-government-and-politics-unit-5",
-      "frameworkUnit": "Unit 5"
+      "frameworkUnit": "Unit 5",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through participation, elections and political influence",
+            "paragraphs": [
+              "Participation is broader than voting and can affect policy through information, organisation, protest and sustained contact with officials. Turnout comparisons need a declared denominator and time period, because eligible, registered and voting-age populations differ. Representation also depends on electoral rules: vote totals are translated into offices through district or state arrangements rather than through one universal national formula. Interest groups can supply expertise and organise shared concerns, but unequal resources can affect access. Media agenda-setting changes the prominence of issues without necessarily changing every person’s opinion. An analysis should connect the participation mechanism to an observable political outcome instead of assuming activity guarantees influence."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A fictional community has 2000 eligible voters, 1500 registered voters and 900 ballots cast. An organisation also submits a documented policy proposal. Compare the participation measures.",
+            "steps": [
+              "Turnout is 900/2000=45% among eligible voters and 900/1500=60% among registered voters.",
+              "Submitting the proposal is another form of participation, but its existence alone does not show that officials adopted it or changed policy."
+            ],
+            "conclusion": "The two turnout rates use different denominators, and policy advocacy requires a separate influence measure."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is turnout’s essential denominator question?",
+            "back": "Whether the rate uses eligible, registered or another defined population."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "How can interest groups participate?",
+            "back": "By organising, providing information and seeking policy influence."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What is agenda-setting?",
+            "back": "Influencing which issues receive attention."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Does participation guarantee policy success?",
+            "back": "No; influence must be assessed through evidence."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Participation, elections and political influence: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Participation activity",
+                "detail": "Voting, organising or contacting institutions expresses preferences."
+              },
+              {
+                "id": "n2",
+                "label": "Institutional channel",
+                "detail": "Electoral rules and decision procedures shape how activity is received."
+              },
+              {
+                "id": "n3",
+                "label": "Observable outcome",
+                "detail": "Assess representation, attention or policy change without assuming automatic success."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "passes through"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "helps shape"
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

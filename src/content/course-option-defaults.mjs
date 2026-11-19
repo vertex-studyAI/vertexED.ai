@@ -1,0 +1,83 @@
+// User authorised appropriate defaults, not a claim about any learner's entry.
+// Selection does not count as authored teaching, review or course completion.
+const selected = data => ({ ...data, targetExamYear: 2027, checkedOn: '2026-10-21',
+  status: 'selected-authoring-default-not-school-entry', complete: false,
+  teachingStatus: 'topic-specific-authoring-in-progress',
+  boundary: 'Chosen for this content project under the user’s instruction. A learner must match their actual entry. These choices do not supply the lessons or confer independent review.' });
+
+export const courseOptionDefaults = [
+  selected({ programme: 'GCSE', subject: 'English Literature', qualificationCode: '8702', board: 'AQA',
+    selections: [
+      { component: 'Shakespeare', text: 'Macbeth', author: 'William Shakespeare' },
+      { component: '19th-century novel', text: 'A Christmas Carol', author: 'Charles Dickens' },
+      { component: 'Modern text', text: 'An Inspector Calls', author: 'J. B. Priestley' },
+      { component: 'Poetry anthology', text: 'Power and Conflict', scope: 'All 15 poems, not a representative subset' },
+      { component: 'Unseen poetry', scope: 'Unseen analysis and comparison; no fixed text shortcut' },
+    ],
+    rationale: 'A coherent dramatic, narrative and comparative-poetry route from the current permitted lists. Whole texts and all anthology poems remain required.',
+    sources: [
+      'https://www.aqa.org.uk/subjects/english/gcse/english-8702/specification/subject-content/shakespeare-and-the-19th-century-novel',
+      'https://www.aqa.org.uk/subjects/english/gcse/english-8702/specification/subject-content/modern-texts-and-poetry',
+    ],
+  }),
+  selected({ programme: 'GCSE', subject: 'History', qualificationCode: '8145', board: 'AQA',
+    selections: [
+      { component: 'Paper 1 period study', code: 'AB', topic: 'Germany, 1890–1945: Democracy and dictatorship' },
+      { component: 'Paper 1 wider-world depth', code: 'BB', topic: 'Conflict and tension: the inter-war years, 1918–1939' },
+      { component: 'Paper 2 thematic study', code: 'AA', topic: 'Britain: Health and the people, c1000 to the present day' },
+      { component: 'Paper 2 British depth', code: 'BC', topic: 'Elizabethan England, c1568–1603' },
+      { component: '2027 historic environment', topic: 'The Spanish Armada', caution: '2027 requirement; do not substitute Kenilworth Castle, which is listed for 2028.' },
+    ],
+    rationale: 'Combines modern European depth with long-term British change and an early-modern British study. Annual environment content is explicitly bound to 2027.',
+    sources: [
+      'https://www.aqa.org.uk/subjects/history/gcse/history-8145/specification/subject-content/understanding-the-modern-world',
+      'https://www.aqa.org.uk/subjects/history/gcse/history-8145/specification/subject-content/shaping-the-nation',
+      'https://www.aqa.org.uk/news/gcse-history-historic-environment-sites-2026-2028',
+    ],
+  }),
+  selected({ programme: 'IGCSE', subject: 'History', qualificationCode: '0470', board: 'Cambridge International',
+    syllabusWindow: '2027–2028, version 1, September 2024',
+    selections: [
+      { component: 'Core', code: 'Option B', topic: 'Twentieth-century international relations since 1919', scope: 'All six core key questions, not just the Paper 2 prescribed topic' },
+      { component: 'Depth', code: 'B', topic: 'Germany, 1918–1945' },
+      { component: 'Assessment route', papers: [1,2,4], scope: 'Alternative to Coursework, rather than Component 3 coursework' },
+    ],
+    prescribedPaper2: { '2027-March-India': 'Treaty of Versailles', '2027-June': 'Soviet control over Eastern Europe, 1948–c1989', '2027-November': 'Treaty of Versailles' },
+    rationale: 'Uses an all-exam route and distinguishes broad core study from the source-paper topic for each series. No single series is silently imposed.',
+    sources: ['https://www.cambridgeinternational.org/Images/721327-2027-2028-syllabus.pdf'],
+    sourceEvidence: { documentHash: 'sha256:d5592566b8f3bcdc502675d39f6d987b1100e77f26ed35c6a2bebdbe12e3b925',
+      inspected: 'Overview and route on pages 8–9; 2027 prescribed-topic table on page 30, text extracted and page 30 rendered and visually checked. Not a full-syllabus inspection.' },
+  }),
+  selected({ programme: 'A_LEVELS', subject: 'English Literature', qualificationCode: '7712', board: 'AQA',
+    selections: [
+      { component: 'Love through the ages: Shakespeare', text: 'Othello', author: 'William Shakespeare' },
+      { component: 'Love through the ages: prose', text: 'The Great Gatsby', author: 'F. Scott Fitzgerald' },
+      { component: 'Love through the ages: poetry', text: 'AQA Anthology of Love Poetry through the Ages: Pre-1900', fulfils: 'Pre-1900 requirement' },
+      { component: 'Texts in shared contexts', option: '2B: Modern times, literature from 1945 to the present day' },
+      { component: '2B Section A core prose', text: 'The Handmaid’s Tale', author: 'Margaret Atwood' },
+      { component: '2B Section B comparative drama', text: 'A Streetcar Named Desire', author: 'Tennessee Williams' },
+      { component: '2B Section B comparative poetry', text: 'Feminine Gospels', author: 'Carol Ann Duffy', fulfils: 'Post-2000 requirement' },
+      { component: 'Independent critical study: suggested reading pair', texts: ['Frankenstein: Mary Shelley', 'Never Let Me Go: Kazuo Ishiguro'],
+        scope: 'A provisional non-exam reading pair outside the inspected exam set lists, with a pre-1900 text and different authors. The learner develops their own question and obtains centre approval; no ready-to-submit NEA is supplied.' },
+    ],
+    rationale: 'Literature A is selected. Exam choices meet the prose/poetry/drama, pre-1900 and post-2000 constraints without reusing the Section A text in Section B. Unseen poems and unseen prose remain part of the authoring scope.',
+    sources: [
+      'https://www.aqa.org.uk/subjects/english/a-level/english-7712/specification/subject-content/love-through-the-ages',
+      'https://www.aqa.org.uk/subjects/english/a-level/english-7712/specification/subject-content/texts-in-shared-contexts',
+      'https://www.aqa.org.uk/subjects/english/a-level/english-7712/specification/subject-content/independent-critical-study-texts-across-time',
+    ],
+  }),
+  selected({ programme: 'A_LEVELS', subject: 'History', qualificationCode: '7042', board: 'AQA',
+    selections: [
+      { component: '1 breadth', code: '1C', topic: 'The Tudors: England, 1485–1603' },
+      { component: '2 depth', code: '2O', topic: 'Democracy and Nazism: Germany, 1918–1945' },
+      { component: '3 investigation: suggested research context', topic: 'African-American civil rights in the United States, 1865–1965',
+        scope: 'An approximately 100-year context distinct from the two examined topics. The individual learner’s question and evidence selection require centre approval; the app must not substitute a finished assessed submission.' },
+    ],
+    rationale: 'The examined pair includes British and non-British history, spans over 200 years and is not one of the prohibited pairings. Topic content and source/interpretation practice still require authoring.',
+    sources: [
+      'https://www.aqa.org.uk/subjects/history/a-level/history-7042/specification/specification-at-a-glance',
+      'https://www.aqa.org.uk/subjects/history/a-level/history-7042/specification/subject-content/introduction',
+    ],
+  }),
+];

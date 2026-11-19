@@ -1,3 +1,4 @@
+import { APP_ORIGIN } from '@/lib/appOrigin';
 import { useLocation, Link } from "react-router";
 import { useEffect } from "react";
 import PageSection from "@/components/PageSection";
@@ -26,7 +27,7 @@ const NotFound = () => {
       <Helmet>
         <title>404 - Page Not Found | VertexED</title>
         <meta name="robots" content="noindex, nofollow" />
-        <link rel="canonical" href={`https://www.vertexed.app${location.pathname}`} />
+        <link rel="canonical" href={`${APP_ORIGIN}${location.pathname}`} />
       </Helmet>
       <PageSection className="flex items-center justify-center min-h-[60vh]">
         <div className="text-center glass-panel p-10 max-w-lg w-full mx-auto animate-fade-in">

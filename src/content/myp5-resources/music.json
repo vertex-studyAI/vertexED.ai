@@ -1,0 +1,1013 @@
+{
+  "subjectSlug": "music",
+  "lessons": {
+    "myp5-music-analysis": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Musical analysis in context",
+            "paragraphs": [
+              "Musical analysis explains relationships among rhythm, pitch, dynamics, timbre, texture and structure. Identify what changes and what stays constant before attaching an expressive label. A crescendo changes loudness, not tempo; a higher register changes pitch range, not necessarily volume. When a task supplies a written description, analyse only those features and do not claim to have heard a recording. Explain how several elements interact, while allowing that listeners may respond differently. Evidence such as an entry, repeated pattern or contrast makes the interpretation more precise."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original written description: a melody repeats unchanged while a low sustained note enters and the accompaniment becomes quieter. Analyse the relationship.",
+            "steps": [
+              "The repeated melody preserves recognisable material.",
+              "The new low note adds a sustained layer while the quieter accompaniment may make the melody easier to distinguish."
+            ],
+            "conclusion": "The change concerns texture, register and balance; the description supplies no evidence of a faster tempo."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What does crescendo change?",
+            "back": "Loudness increases gradually."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What is texture?",
+            "back": "The arrangement and interaction of musical layers."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What is register?",
+            "back": "The relative high or low range in which a part sounds."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why separate tempo and dynamics?",
+            "back": "Speed and loudness are independent musical dimensions."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Musical analysis: relationships to explain",
+            "description": "Stable material → Changed layers → Changed balance. Reduced accompaniment level can change prominence.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Stable material",
+                "detail": "The melody repeats unchanged."
+              },
+              {
+                "id": "node-2",
+                "label": "Changed layers",
+                "detail": "A low sustained note enters."
+              },
+              {
+                "id": "node-3",
+                "label": "Changed balance",
+                "detail": "The accompaniment becomes quieter."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "A new layer alters the texture around familiar material."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "Reduced accompaniment level can change prominence."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-music-analysis-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Written description: the pulse stays constant while notes become shorter and more numerous. Explain what changes.",
+          "hints": [
+            "Do not confuse note density with pulse.",
+            "Name the rhythmic effect."
+          ],
+          "solution": [
+            "The tempo remains constant according to the description.",
+            "More short notes increase rhythmic activity or density.",
+            "The passage may feel busier without a faster underlying pulse."
+          ],
+          "successCriteria": [
+            "The tempo remains constant according to the description.",
+            "More short notes increase rhythmic activity or density.",
+            "The passage may feel busier without a faster underlying pulse."
+          ]
+        },
+        {
+          "id": "extension-myp5-music-analysis-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Written description: a solo line is joined by three parts on the same rhythm but different pitches. Describe the texture cautiously.",
+          "hints": [
+            "Count the layers.",
+            "Notice rhythmic alignment."
+          ],
+          "solution": [
+            "The texture becomes fuller than the solo line.",
+            "The parts move together rhythmically at different pitches.",
+            "This supports a chordal or homorhythmic description, without enough information to name the harmony."
+          ],
+          "successCriteria": [
+            "The texture becomes fuller than the solo line.",
+            "The parts move together rhythmically at different pitches.",
+            "This supports a chordal or homorhythmic description, without enough information to name the harmony."
+          ]
+        }
+      ]
+    },
+    "myp5-music-composition": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Composition in context",
+            "paragraphs": [
+              "Composition develops relationships rather than merely adding more notes. A motif can be varied through rhythm, pitch direction, repetition, fragmentation or placement. Retaining one recognisable feature helps listeners connect a variation to its source. Contrast gains meaning when it changes something established earlier. State the intended structural role, such as an opening, transition or return, before choosing a technique. Written plans can explore these choices, but sounding the material is needed to evaluate the actual result and practical performance demands."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original motif in quarter-note beat units: C–D–G with durations 1, 1, 2. Make a contrasting answer that preserves rhythm.",
+            "steps": [
+              "Keep the duration pattern 1, 1, 2 so the answer remains related.",
+              "Choose descending pitches G–F–C to contrast the original upward direction."
+            ],
+            "conclusion": "The two four-beat motifs share rhythm while their contours contrast; listening would help judge the intended musical relationship."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is a motif?",
+            "back": "A short recognisable musical idea that can be developed."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What can stay constant in a variation?",
+            "back": "A rhythm, contour, interval pattern or other identifying feature."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Why establish material before contrasting it?",
+            "back": "The contrast becomes perceptible in relation to a known pattern."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What does a written plan not fully establish?",
+            "back": "The sounded effect and practical performance outcome."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Composition: relationships to explain",
+            "description": "Motif → Retained feature → Variation. Changing contour creates contrast within that connection.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Motif",
+                "detail": "C–D–G, durations 1–1–2."
+              },
+              {
+                "id": "node-2",
+                "label": "Retained feature",
+                "detail": "The four-beat rhythm."
+              },
+              {
+                "id": "node-3",
+                "label": "Variation",
+                "detail": "G–F–C reverses the broad direction."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "Keeping rhythm preserves a connection."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "Changing contour creates contrast within that connection."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-music-composition-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A motif lasts 2, 1, 1 beats. Propose a four-beat rhythmic variation with the long note last.",
+          "hints": [
+            "Keep the total at four.",
+            "Move the two-beat duration."
+          ],
+          "solution": [
+            "Use durations 1, 1, 2.",
+            "The total remains four beats.",
+            "Moving the long note to the end changes emphasis while retaining the same duration values."
+          ],
+          "successCriteria": [
+            "Use durations 1, 1, 2.",
+            "The total remains four beats.",
+            "Moving the long note to the end changes emphasis while retaining the same duration values."
+          ]
+        },
+        {
+          "id": "extension-myp5-music-composition-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A composer changes pitch, rhythm, timbre and length, then claims the variation is clearly recognisable. Evaluate.",
+          "hints": [
+            "Identify what remains shared.",
+            "Distinguish intention from listener evidence."
+          ],
+          "solution": [
+            "Changing every stated feature may weaken recognisability.",
+            "The claim needs a retained relationship or listening evidence.",
+            "Try preserving one distinctive feature if recognisable development is the aim."
+          ],
+          "successCriteria": [
+            "Changing every stated feature may weaken recognisability.",
+            "The claim needs a retained relationship or listening evidence.",
+            "Try preserving one distinctive feature if recognisable development is the aim."
+          ]
+        }
+      ]
+    },
+    "myp5-music-creative-process": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Creative process in context",
+            "paragraphs": [
+              "A musical creative process moves between intention, making, listening and revision. Record enough detail to reproduce a trial: pitches or contour, durations, tempo assumptions, instrumentation and the feature being tested. A recording or notation can reveal differences that memory overlooks. Change one central relationship when you want to understand its effect, and keep earlier versions for comparison. Unexpected results can suggest a new direction. A decision should explain why a revision serves the musical intention rather than simply stating that the latest version is better."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original plan: a four-beat phrase uses durations 1, 1, 1, 1. Test whether a longer final note creates a clearer ending without changing the total length.",
+            "steps": [
+              "One option is durations 0.5, 0.5, 1, 2, still totalling four beats.",
+              "Compare both versions at the same pulse and with the same pitches to focus on duration and closure."
+            ],
+            "conclusion": "The trial tests the ending through rhythmic redistribution; its expressive success requires listening or performance evidence."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What makes a musical trial reproducible?",
+            "back": "A record of material, conditions and the feature varied."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why preserve versions?",
+            "back": "They allow development and decisions to be compared."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What does keeping pulse constant help isolate?",
+            "back": "Changes in rhythm rather than changes in tempo."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "How should a revision be justified?",
+            "back": "By its observed relationship to the intended effect or function."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Creative process: relationships to explain",
+            "description": "Intention → Trial → Comparison. Comparable conditions make the rhythmic change easier to evaluate.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Intention",
+                "detail": "Create a clearer phrase ending."
+              },
+              {
+                "id": "node-2",
+                "label": "Trial",
+                "detail": "Redistribute four beats towards a long final note."
+              },
+              {
+                "id": "node-3",
+                "label": "Comparison",
+                "detail": "Listen under the same pitch and pulse conditions."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "The intention selects duration as a variable."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "Comparable conditions make the rhythmic change easier to evaluate."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-music-creative-process-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A learner cannot remember how an earlier melody differed. What should future process records include?",
+          "hints": [
+            "Preserve the actual material.",
+            "Add conditions and reasoning."
+          ],
+          "solution": [
+            "Save notation, a recording or a precise pitch-and-rhythm description.",
+            "Label the version and relevant tempo or instrumentation.",
+            "Record the reason for each change and the observation that informed it."
+          ],
+          "successCriteria": [
+            "Save notation, a recording or a precise pitch-and-rhythm description.",
+            "Label the version and relevant tempo or instrumentation.",
+            "Record the reason for each change and the observation that informed it."
+          ]
+        },
+        {
+          "id": "extension-myp5-music-creative-process-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A new version sounds calmer but is also slower and quieter. Can calmness be attributed only to dynamics?",
+          "hints": [
+            "Identify both changed elements.",
+            "Propose a focused trial."
+          ],
+          "solution": [
+            "Both tempo and dynamics changed.",
+            "Either or their interaction may affect the perceived calmness.",
+            "Compare loudness changes at a constant tempo if the aim is to investigate dynamics specifically."
+          ],
+          "successCriteria": [
+            "Both tempo and dynamics changed.",
+            "Either or their interaction may affect the perceived calmness.",
+            "Compare loudness changes at a constant tempo if the aim is to investigate dynamics specifically."
+          ]
+        }
+      ]
+    },
+    "myp5-music-contextual-research": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Contextual research in context",
+            "paragraphs": [
+              "Musical context includes who makes or uses music, where it is encountered and what reliable sources say about its function. Connect contextual information to audible or described features, but do not infer a community’s beliefs from one rhythm or instrument. A programme note is evidence of a stated use, while a score or recording offers different evidence about musical material. Attribute information and distinguish a contemporary adaptation from a historical practice. In classroom composition, explain what principle you learned and how you transformed it for your own purpose."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original fictional programme: a short melody marks the start of a weekly community meeting. The supplied description says it is repeated twice before speech begins. Make a supported connection.",
+            "steps": [
+              "The programme identifies a signalling function at the start of the meeting.",
+              "Repetition before speech could make the signal recognisable and give attendees time to attend."
+            ],
+            "conclusion": "The described structure is consistent with a gathering signal, without proving a universal meaning of the melody."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What can a programme note establish?",
+            "back": "A stated context or intended function, subject to source reliability."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why also inspect musical material?",
+            "back": "Context alone does not describe the actual sound or structure."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Can one instrument identify an entire culture’s beliefs?",
+            "back": "No; such a claim requires much more specific evidence."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "How should an adapted influence be described?",
+            "back": "Name the source, the principle borrowed and the changes made."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Contextual research: relationships to explain",
+            "description": "Stated use → Musical feature → Connection. The feature offers a plausible way to serve that role.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Stated use",
+                "detail": "Signal the beginning of a meeting."
+              },
+              {
+                "id": "node-2",
+                "label": "Musical feature",
+                "detail": "The melody repeats twice."
+              },
+              {
+                "id": "node-3",
+                "label": "Connection",
+                "detail": "Repetition can help recognition before speech."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "The context gives the repeated material a practical role."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "The feature offers a plausible way to serve that role."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-music-contextual-research-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A fictional source calls a piece “music for a walking procession”. What musical question would be relevant to investigate?",
+          "hints": [
+            "Connect function to a feature without assuming the answer.",
+            "Keep it a question."
+          ],
+          "solution": [
+            "Investigate how the pulse and phrase lengths relate to walking.",
+            "Check the actual score or recording rather than assuming a fixed tempo.",
+            "Compare the findings with the source’s stated processional use."
+          ],
+          "successCriteria": [
+            "Investigate how the pulse and phrase lengths relate to walking.",
+            "Check the actual score or recording rather than assuming a fixed tempo.",
+            "Compare the findings with the source’s stated processional use."
+          ]
+        },
+        {
+          "id": "extension-myp5-music-contextual-research-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Two websites repeat the same unattributed story about a song. Does agreement establish reliability?",
+          "hints": [
+            "Trace the origin.",
+            "Distinguish repetition from corroboration."
+          ],
+          "solution": [
+            "Agreement may result from copying one account.",
+            "Find the original source and its evidence.",
+            "Treat the story as unverified until independent or traceable support is available."
+          ],
+          "successCriteria": [
+            "Agreement may result from copying one account.",
+            "Find the original source and its evidence.",
+            "Treat the story as unverified until independent or traceable support is available."
+          ]
+        }
+      ]
+    },
+    "myp5-music-performance": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Performance in context",
+            "paragraphs": [
+              "Performance preparation connects technical control with musical communication. Identify the passage and the specific issue: inaccurate entries, unclear articulation, unstable pulse or imbalance between parts. Practise a manageable segment, then restore the surrounding context so the skill transfers to the full phrase. A successful isolated repetition does not establish a reliable entry after a difficult preceding passage. Use recordings or focused peer observations where appropriate. State what changed and how it was checked rather than judging a rehearsal only by how hard it felt."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original rehearsal note: a melody is clear alone but disappears when the accompaniment enters at bar 3. Plan a focused rehearsal.",
+            "steps": [
+              "Keep the melody’s intended phrasing and test a quieter accompaniment at the entry.",
+              "Record the combined passage from bar 2 through bar 4 so the transition, not only bar 3 in isolation, is heard."
+            ],
+            "conclusion": "The rehearsal targets balance at the entry and checks it in context."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is musical balance?",
+            "back": "The relative prominence of parts in an ensemble or texture."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why practise the lead-in to an entry?",
+            "back": "The difficulty may arise from the transition rather than the entry alone."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What makes feedback actionable?",
+            "back": "It identifies a passage, issue and observable adjustment."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Does effort alone measure performance quality?",
+            "back": "No; evaluate accuracy, control and communication through evidence."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Performance: relationships to explain",
+            "description": "Issue → Adjustment → Check. Contextual playback tests whether the change solves the actual problem.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Issue",
+                "detail": "Melody is masked at bar 3."
+              },
+              {
+                "id": "node-2",
+                "label": "Adjustment",
+                "detail": "Reduce accompaniment prominence at the entry."
+              },
+              {
+                "id": "node-3",
+                "label": "Check",
+                "detail": "Hear the transition from the preceding bar."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "The issue suggests a balance change."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "Contextual playback tests whether the change solves the actual problem."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-music-performance-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A group practises a late entry perfectly alone, but it remains late in the piece. Suggest the next rehearsal step.",
+          "hints": [
+            "Include what precedes the entry.",
+            "Establish a shared cue."
+          ],
+          "solution": [
+            "Start before the entry and identify the cue each performer uses.",
+            "Practise the transition at a manageable pace.",
+            "Restore the intended pace and check whether the entry stays together."
+          ],
+          "successCriteria": [
+            "Start before the entry and identify the cue each performer uses.",
+            "Practise the transition at a manageable pace.",
+            "Restore the intended pace and check whether the entry stays together."
+          ]
+        },
+        {
+          "id": "extension-myp5-music-performance-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A performance is louder after rehearsal. Is that enough to show improvement?",
+          "hints": [
+            "Identify the intended criterion.",
+            "Consider possible costs."
+          ],
+          "solution": [
+            "Loudness is one changed feature.",
+            "Improvement depends on whether the change serves the musical intention and balance.",
+            "Check that increased volume has not reduced clarity, control or the prominence of another required part."
+          ],
+          "successCriteria": [
+            "Loudness is one changed feature.",
+            "Improvement depends on whether the change serves the musical intention and balance.",
+            "Check that increased volume has not reduced clarity, control or the prominence of another required part."
+          ]
+        }
+      ]
+    },
+    "myp5-music-experimentation": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Experimentation in context",
+            "paragraphs": [
+              "Musical experimentation explores the effect of a controlled change while preserving enough context for comparison. Augmentation lengthens durations by a common factor; diminution shortens them. If the pulse remains constant, these operations change the time occupied by the material. Changing tempo as well may complicate the comparison. Record the original pattern, operation and result, and check arithmetic before interpreting the effect. A rhythmic transformation can create expansion or compression, but its perceived character also depends on pitch, articulation and surrounding music."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original durations are 0.5, 0.5, 1 beat. Augment every duration by a factor of three at the same pulse.",
+            "steps": [
+              "Multiply each duration: 1.5, 1.5, 3 beats.",
+              "The original total is 2 beats; the transformed total is 6 beats."
+            ],
+            "conclusion": "The transformed pattern occupies three times as long at the unchanged pulse."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is augmentation?",
+            "back": "Multiplying note durations by a common factor greater than one."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What is diminution?",
+            "back": "Reducing durations by a common factor."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Why state whether the pulse changes?",
+            "back": "Duration values and tempo jointly determine elapsed time."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What should be checked before interpretation?",
+            "back": "The transformed values and their total duration."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Experimentation: relationships to explain",
+            "description": "Original → Operation → Result. The total expands by the same factor.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Original",
+                "detail": "0.5 + 0.5 + 1 = 2 beats."
+              },
+              {
+                "id": "node-2",
+                "label": "Operation",
+                "detail": "Multiply every duration by 3."
+              },
+              {
+                "id": "node-3",
+                "label": "Result",
+                "detail": "1.5 + 1.5 + 3 = 6 beats."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "A common factor preserves rhythmic proportions."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "The total expands by the same factor."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-music-experimentation-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Halve durations 2, 1, 1 at a constant pulse. State the new pattern and total.",
+          "hints": [
+            "Apply the same factor to every value.",
+            "Add the result."
+          ],
+          "solution": [
+            "The new durations are 1, 0.5, 0.5.",
+            "Their total is 2 beats.",
+            "The original four-beat pattern now occupies half the time at the same pulse."
+          ],
+          "successCriteria": [
+            "The new durations are 1, 0.5, 0.5.",
+            "Their total is 2 beats.",
+            "The original four-beat pattern now occupies half the time at the same pulse."
+          ]
+        },
+        {
+          "id": "extension-myp5-music-experimentation-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A trial doubles note durations and doubles the pulse rate. Does the passage necessarily last twice as many seconds?",
+          "hints": [
+            "Separate beats from seconds.",
+            "Consider the two factors together."
+          ],
+          "solution": [
+            "The number of beats doubles.",
+            "Each beat lasts half as many seconds when the pulse rate doubles.",
+            "The two factors cancel, so the elapsed duration remains the same under these assumptions."
+          ],
+          "successCriteria": [
+            "The number of beats doubles.",
+            "Each beat lasts half as many seconds when the pulse rate doubles.",
+            "The two factors cancel, so the elapsed duration remains the same under these assumptions."
+          ]
+        }
+      ]
+    },
+    "myp5-music-artistic-intention": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Artistic intention in context",
+            "paragraphs": [
+              "A musical intention connects a desired structural or expressive relationship with choices a listener can encounter. “Make exciting music” is less useful than an intention to build tension by increasing rhythmic density before a sudden silence. Identify the features you will vary and those you will retain. Do not promise that every listener will feel the same emotion. Describe a plausible invitation and test it through listening, feedback or performance. If the intention changes during development, record the reason so evaluation remains tied to an honest account of the work."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original proposal: begin with a sparse two-note pattern, gradually add notes at the same pulse, then return to the opening pattern. Refine the intention.",
+            "steps": [
+              "The unchanged pulse makes increasing note density the main source of growing activity.",
+              "Returning to the sparse opening creates a contrast and a recognisable structural return."
+            ],
+            "conclusion": "The intention is to explore accumulation and release through density, without requiring a faster tempo."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "How can tension be proposed without changing tempo?",
+            "back": "Vary density, harmony, register, dynamics or other relevant relationships."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why identify a structural role?",
+            "back": "It clarifies whether material functions as an opening, build, contrast or return."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Can an intention guarantee emotion?",
+            "back": "No; it guides choices that may invite a response."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What should evaluation compare?",
+            "back": "The intended relationship with the realised material and response evidence."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Artistic intention: relationships to explain",
+            "description": "Opening → Development → Return. The return makes the accumulated activity perceptibly recede.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Opening",
+                "detail": "Sparse two-note pattern."
+              },
+              {
+                "id": "node-2",
+                "label": "Development",
+                "detail": "More notes at the same pulse."
+              },
+              {
+                "id": "node-3",
+                "label": "Return",
+                "detail": "The sparse pattern reappears."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "Increasing density creates accumulation."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "The return makes the accumulated activity perceptibly recede."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-music-artistic-intention-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A plan aims for contrast but repeats the same material at the same level throughout. What needs clarification?",
+          "hints": [
+            "Compare intention with chosen features.",
+            "Suggest one specific variable."
+          ],
+          "solution": [
+            "The plan does not identify what will create contrast.",
+            "Choose a relevant change, such as texture or register, while retaining enough connection.",
+            "Explain how the changed section will differ from the established material."
+          ],
+          "successCriteria": [
+            "The plan does not identify what will create contrast.",
+            "Choose a relevant change, such as texture or register, while retaining enough connection.",
+            "Explain how the changed section will differ from the established material."
+          ]
+        },
+        {
+          "id": "extension-myp5-music-artistic-intention-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Rewrite “Everyone will be surprised by my rest” as a supported intention.",
+          "hints": [
+            "Avoid universal response claims.",
+            "Explain the expectation being interrupted."
+          ],
+          "solution": [
+            "Establish a regular pattern first.",
+            "Insert a rest where continuation is expected to invite a sense of interruption.",
+            "Recognise that listener responses may vary and evaluate the effect through evidence."
+          ],
+          "successCriteria": [
+            "Establish a regular pattern first.",
+            "Insert a rest where continuation is expected to invite a sense of interruption.",
+            "Recognise that listener responses may vary and evaluate the effect through evidence."
+          ]
+        }
+      ]
+    },
+    "myp5-music-reflection": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reflection in context",
+            "paragraphs": [
+              "Musical reflection relates an observed result to a prior expectation and a future action. Be specific about the passage, conditions and evidence. A recording may show that a change in articulation improved clarity while reducing the smoothness originally intended. That is a useful trade-off, not a reason to label the whole performance a failure. Peer comments are particular perspectives, and disagreement can reveal different priorities. Explain what you learned about the interaction of elements and choose a next trial that tests the most important uncertainty."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Original rehearsal evidence: shorter articulation makes a fast passage clearer, but two listeners describe the phrase as fragmented. Reflect.",
+            "steps": [
+              "The change appears to improve note separation while weakening perceived continuity.",
+              "Test a middle degree of articulation and listen to the whole phrase, retaining the same tempo."
+            ],
+            "conclusion": "The reflection identifies a trade-off between clarity and continuity and proposes a focused next trial."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What makes reflection evidence-based?",
+            "back": "It refers to a specific observation, recording or feedback."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "How should a trade-off be treated?",
+            "back": "Explain both the benefit and the cost in relation to intention."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Why keep conditions similar in a follow-up?",
+            "back": "It makes the effect of the chosen adjustment easier to interpret."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What can disagreement in feedback reveal?",
+            "back": "Different listening priorities or an ambiguity worth investigating."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Reflection: relationships to explain",
+            "description": "Change → Mixed result → Next trial. The trade-off directs a more precise experiment.",
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Change",
+                "detail": "Shorter articulation."
+              },
+              {
+                "id": "node-2",
+                "label": "Mixed result",
+                "detail": "Clearer notes but a fragmented phrase."
+              },
+              {
+                "id": "node-3",
+                "label": "Next trial",
+                "detail": "Adjust articulation between the two extremes."
+              }
+            ],
+            "edges": [
+              {
+                "from": "node-1",
+                "to": "node-2",
+                "label": "The observation reveals a benefit and a cost."
+              },
+              {
+                "from": "node-2",
+                "to": "node-3",
+                "label": "The trade-off directs a more precise experiment."
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-music-reflection-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A reflection says “It sounded bad”. Improve it for a passage where the final note begins late.",
+          "hints": [
+            "Name the specific issue.",
+            "Link a next step to it."
+          ],
+          "solution": [
+            "Identify the final-note entry as late relative to the shared pulse.",
+            "Practise the lead-in with a clear cue.",
+            "Check the full phrase at the intended tempo to see whether the entry improves."
+          ],
+          "successCriteria": [
+            "Identify the final-note entry as late relative to the shared pulse.",
+            "Practise the lead-in with a clear cue.",
+            "Check the full phrase at the intended tempo to see whether the entry improves."
+          ]
+        },
+        {
+          "id": "extension-myp5-music-reflection-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A performer changes tempo after feedback but keeps no earlier recording. What comparison is limited?",
+          "hints": [
+            "Consider the baseline.",
+            "Suggest future documentation."
+          ],
+          "solution": [
+            "The performer cannot reliably compare the sounded versions from memory alone.",
+            "A claim of improvement is therefore less well supported.",
+            "Keep labelled recordings and note the intended change in future trials."
+          ],
+          "successCriteria": [
+            "The performer cannot reliably compare the sounded versions from memory alone.",
+            "A claim of improvement is therefore less well supported.",
+            "Keep labelled recordings and note the intended change in future trials."
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -52,7 +52,7 @@ The database supplies `id`, `user_id`, and timestamps. Clients cannot set owners
 
 ## Grading and learning evidence
 
-Each awarded criterion carries exact character spans copied from the submitted answer. A positive criterion score without an exact span remains provisional. Exact spans plus the structural checks produce `EVIDENCE_LINKED` guidance, never a self-verified grade. Only a teacher-confirmed mark, an official-mark-scheme confirmation, or a validated deterministic answer key creates `MEASURED` mastery evidence. Error codes route to a bounded remediation taxonomy instead of unconstrained generation.
+Each awarded criterion carries exact character spans copied from the submitted answer. A positive criterion score without an exact span remains provisional. Exact spans plus the structural checks produce `EVIDENCE_LINKED` guidance, never a self-verified grade. A learner report that a teacher or mark scheme was checked is stored as `learner-attested-v1` and cannot update mastery or complete a retry. Only a validated deterministic answer key currently creates `MEASURED` mastery evidence. A future teacher-confirmation path must authenticate the authority server-side and preserve revocation before it can create measured evidence. Error codes route to a bounded remediation taxonomy instead of unconstrained generation.
 
 Generated quiz artifacts identify their board, subject, source, generator/version, model where applicable, and objective IDs. If the provider is missing or fails, VertexED returns deterministic retrieval prompts derived from the learner's notes with a SHA-256 source digest; it never fabricates a successful AI run.
 

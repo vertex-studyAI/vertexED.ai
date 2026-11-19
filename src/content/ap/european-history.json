@@ -45,10 +45,126 @@
             "Connect to intended image"
           ],
           "id": "european-history-unit-1-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Distinguish a navigational technique from a commercial motive for overseas expansion.",
+          "hint": "Ask whether it enables or motivates.",
+          "hints": [
+            "Ask whether it enables or motivates.",
+            "Connect the two without merging them."
+          ],
+          "answer": "Navigation can make a voyage more practicable. Expected commercial gain can motivate funding. Neither alone explains the full decision to expand.",
+          "checkpoints": [
+            "Navigation can make a voyage more practicable.",
+            "Expected commercial gain can motivate funding.",
+            "Neither alone explains the full decision to expand."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "Why is a religious subject in Renaissance art not evidence that humanist change was absent?",
+          "hint": "Change can coexist with continuity.",
+          "hints": [
+            "Change can coexist with continuity.",
+            "Consider treatment and sources."
+          ],
+          "answer": "Humanists could remain religious. Classical forms or textual methods could reshape religious work. Subject matter alone cannot settle the presence of intellectual change.",
+          "checkpoints": [
+            "Humanists could remain religious.",
+            "Classical forms or textual methods could reshape religious work.",
+            "Subject matter alone cannot settle the presence of intellectual change."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "id": "european-history-unit-1",
-      "frameworkUnit": "Unit 1"
+      "frameworkUnit": "Unit 1",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Renaissance learning and overseas expansion in depth",
+            "paragraphs": [
+              "Renaissance humanism used the study of classical language and texts to investigate ethics, politics and human activity. It did not necessarily reject Christianity. Patronage connected learning and art to civic competition, family reputation and courtly power, so a commission can reveal both intellectual interests and social ambitions. Overseas expansion requires a different but related causal analysis: demand for trade and political advantage supplied motives, while navigational practices and state resources enabled voyages. Subsequent conquest and extraction were consequences shaped by choices and unequal power. Keeping these categories separate prevents technology from becoming a complete explanation."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Analyse a hypothetical merchant family commissioning a civic fresco with classical imagery.",
+            "steps": [
+              "The classical subject provides evidence of engagement with ancient models.",
+              "The public commission also makes the family's resources and civic claims visible."
+            ],
+            "conclusion": "Humanist interests and social ambition can operate together without making the work simply secular."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What was humanism's central scholarly practice?",
+            "back": "Study of classical texts and languages."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Did humanism necessarily reject religion?",
+            "back": "No."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What is an enabling condition?",
+            "back": "A circumstance making an action possible."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "How does a motive differ from a consequence?",
+            "back": "A motive helps explain intent; a consequence follows the action."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Commission and civic identity",
+            "description": "Intellectual interests and patronage meet in a public work.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Classical learning",
+                "detail": "Provides subjects and models."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Wealthy patron",
+                "detail": "Funds a visible commission."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Civic reputation",
+                "detail": "The work can project the patron's place in the city."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "is selected by"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "can strengthen"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Reformation, authority and religious conflict",
@@ -88,10 +204,126 @@
             "Explain local variation"
           ],
           "id": "european-history-unit-2-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Why is explaining a ruler's reform solely as greed incomplete?",
+          "hint": "Consider belief and institutions.",
+          "hints": [
+            "Consider belief and institutions.",
+            "Avoid reducing every actor to one motive."
+          ],
+          "answer": "Material interests could matter. Religious convictions and political authority could also matter. A supported explanation weighs evidence for the particular ruler and setting.",
+          "checkpoints": [
+            "Material interests could matter.",
+            "Religious convictions and political authority could also matter.",
+            "A supported explanation weighs evidence for the particular ruler and setting."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "A village retains an older festival after official reform. What does this suggest?",
+          "hint": "Compare policy and practice.",
+          "hints": [
+            "Compare policy and practice.",
+            "Keep the inference bounded."
+          ],
+          "answer": "Institutional change did not instantly replace all local customs. Continuity may coexist with new worship rules. The example does not prove reform had no effect elsewhere.",
+          "checkpoints": [
+            "Institutional change did not instantly replace all local customs.",
+            "Continuity may coexist with new worship rules.",
+            "The example does not prove reform had no effect elsewhere."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "id": "european-history-unit-2",
-      "frameworkUnit": "Unit 2"
+      "frameworkUnit": "Unit 2",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reformation, authority and religious conflict in depth",
+            "paragraphs": [
+              "Reformation change involved disputes over salvation, scripture and church authority alongside struggles over institutions and property. Print increased the circulation of arguments but did not ensure that readers interpreted them identically. A ruler might see an opportunity to redirect church resources while a reformer pursued doctrinal change; cooperation did not require identical aims. Catholic reform included renewed religious orders, education and the Council of Trent's clarification of doctrine. Compare particular regions and phases. A change in official religion could alter public worship without immediately replacing every household practice or ending political conflict."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Analyse a hypothetical town where printed sermons circulate before the council changes worship rules.",
+            "steps": [
+              "The sermons provide a channel for religious argument.",
+              "The council's decision adds institutional authority and enforcement."
+            ],
+            "conclusion": "Circulation and official change are connected mechanisms, but their sequence alone does not prove every resident agreed."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What did print change?",
+            "back": "The reach and speed of circulating arguments."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Did circulation guarantee agreement?",
+            "back": "No."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What did the Council of Trent do broadly?",
+            "back": "Reaffirm Catholic doctrine and address reform."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why distinguish ruler and reformer motives?",
+            "back": "Their alliance could join different goals."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Argument and institution",
+            "description": "Religious change crosses several levels.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Printed debate",
+                "detail": "Ideas become available to more readers."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Council decision",
+                "detail": "Authorities alter public rules."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Local practice",
+                "detail": "Implementation meets varied responses."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "can influence"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "must be enacted through"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Monarchical authority and constitutional limits",
@@ -131,10 +363,126 @@
             "Distinguish claim from practice"
           ],
           "id": "european-history-unit-3-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Explain one way court patronage could strengthen and limit royal authority.",
+          "hint": "Consider nobles' incentives.",
+          "hints": [
+            "Consider nobles' incentives.",
+            "Include the cost."
+          ],
+          "answer": "Access to offices and honours can attract noble cooperation. Maintaining the court requires resources and bargaining. The arrangement strengthens influence without eliminating dependence on elites.",
+          "checkpoints": [
+            "Access to offices and honours can attract noble cooperation.",
+            "Maintaining the court requires resources and bargaining.",
+            "The arrangement strengthens influence without eliminating dependence on elites."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "Why should a royal proclamation not be used alone to measure actual state power?",
+          "hint": "Distinguish command from compliance.",
+          "hints": [
+            "Distinguish command from compliance.",
+            "Identify implementation evidence."
+          ],
+          "answer": "The proclamation states an intended rule. Compliance may vary across regions. Tax records, administration and resistance evidence help assess practical reach.",
+          "checkpoints": [
+            "The proclamation states an intended rule.",
+            "Compliance may vary across regions.",
+            "Tax records, administration and resistance evidence help assess practical reach."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "id": "european-history-unit-3",
-      "frameworkUnit": "Unit 3"
+      "frameworkUnit": "Unit 3",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Monarchical authority and constitutional limits in depth",
+            "paragraphs": [
+              "Centralised monarchy required resources and cooperation as well as ideological claims. Permanent armies and officials could extend a ruler's reach, yet taxes needed collection and provincial elites retained influence. Court life could draw nobles towards the monarch while creating costly expectations. Constitutional limits likewise did not create modern universal democracy: parliamentary influence could restrain a ruler while representation remained narrow. Compare the allocation of taxing, military and lawmaking powers. A ruler's assertion of absolute authority is evidence of a political claim, not proof that every command was implemented without negotiation."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Compare two hypothetical systems: one ruler raises taxes through appointed officials; another must secure an assembly's grant.",
+            "steps": [
+              "The first concentrates formal initiative in the crown but still needs administrative cooperation.",
+              "The second creates an institutional bargaining point before revenue is authorised."
+            ],
+            "conclusion": "The difference concerns fiscal authority, not a simple division between total control and universal freedom."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What does centralisation seek?",
+            "back": "More coordinated authority under the centre."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why does taxation matter to armies?",
+            "back": "Sustained forces require revenue."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Does parliamentary power imply universal suffrage?",
+            "back": "No."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What is a constitutional constraint?",
+            "back": "A rule or institution limiting governmental power."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Revenue and governing reach",
+            "description": "A monarchy's capacity depends on a practical chain.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Tax claims",
+                "detail": "The crown seeks resources."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Collection and cooperation",
+                "detail": "Officials and local actors implement demands."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Army and administration",
+                "detail": "Revenue sustains governing capacity."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "require"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "fund"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Scientific inquiry and Enlightenment argument",
@@ -174,10 +522,126 @@
             "Connect principle to practice"
           ],
           "id": "european-history-unit-4-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Why is a scientific explanation not established merely because it rejects an ancient authority?",
+          "hint": "Rejection and evidence differ.",
+          "hints": [
+            "Rejection and evidence differ.",
+            "Require a positive basis."
+          ],
+          "answer": "An older claim can be challenged without proving the alternative. The new account needs relevant observation and reasoning. Its limits and competing explanations still require examination.",
+          "checkpoints": [
+            "An older claim can be challenged without proving the alternative.",
+            "The new account needs relevant observation and reasoning.",
+            "Its limits and competing explanations still require examination."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "An eighteenth-century argument praises equality but excludes women from political participation. Analyse the tension.",
+          "hint": "Separate principle and application.",
+          "hints": [
+            "Separate principle and application.",
+            "Name the excluded group."
+          ],
+          "answer": "The language presents a broad principle. Its political application is restricted by gender. The tension reveals limits within that particular equality claim.",
+          "checkpoints": [
+            "The language presents a broad principle.",
+            "Its political application is restricted by gender.",
+            "The tension reveals limits within that particular equality claim."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "id": "european-history-unit-4",
-      "frameworkUnit": "Unit 4"
+      "frameworkUnit": "Unit 4",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Scientific inquiry and Enlightenment argument in depth",
+            "paragraphs": [
+              "Scientific inquiry changed through new observations, mathematical models and shared procedures, while many investigators continued to work within religious commitments. Instruments expanded what could be observed but required interpretation and trust. Learned societies and publications made claims available for criticism and replication. Enlightenment arguments extended scrutiny to law, education and government, yet thinkers disagreed about how far equality and toleration should reach. Universal language can coexist with exclusions in practice. Analyse who is included in a stated principle and what institution is meant to carry it out."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Compare a hypothetical scholar citing an ancient account of motion with another describing repeated timed trials.",
+            "steps": [
+              "The first relies chiefly on inherited authority.",
+              "The second offers observations and a procedure that others could inspect, though measurement errors remain possible."
+            ],
+            "conclusion": "The comparison concerns the basis of justification, not a guarantee that every new claim is correct."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What does replication test?",
+            "back": "Whether a procedure yields comparable findings."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Does an instrument interpret itself?",
+            "back": "No."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What is toleration in this historical context?",
+            "back": "Allowing some differing beliefs or practices within political limits."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why inspect the scope of universal language?",
+            "back": "Its application may exclude groups."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Knowledge made criticisable",
+            "description": "A claim gains an inspectable basis.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Observation and measure",
+                "detail": "Recorded evidence about a phenomenon."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Published procedure",
+                "detail": "Others can examine how it was obtained."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Critical comparison",
+                "detail": "Agreement or disagreement can revise the claim."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "is made traceable through"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "enables"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Revolution, rights and reaction",
@@ -217,10 +681,126 @@
             "Explain contested scope"
           ],
           "id": "european-history-unit-5-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Why is abolishing inherited privilege not identical to achieving equal political participation?",
+          "hint": "Compare legal categories and voting access.",
+          "hints": [
+            "Compare legal categories and voting access.",
+            "Identify possible exclusions."
+          ],
+          "answer": "Privilege can be removed from a former estate. Participation may still depend on gender, property or other restrictions. The two outcomes need separate evidence.",
+          "checkpoints": [
+            "Privilege can be removed from a former estate.",
+            "Participation may still depend on gender, property or other restrictions.",
+            "The two outcomes need separate evidence."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "Assess the claim that Napoleon simply reversed the Revolution.",
+          "hint": "Identify continuity and change.",
+          "hints": [
+            "Identify continuity and change.",
+            "Avoid a single-direction judgement."
+          ],
+          "answer": "Some legal and administrative reforms continued. Political power became concentrated. A defensible judgement specifies which revolutionary goals were preserved or restricted.",
+          "checkpoints": [
+            "Some legal and administrative reforms continued.",
+            "Political power became concentrated.",
+            "A defensible judgement specifies which revolutionary goals were preserved or restricted."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "id": "european-history-unit-5",
-      "frameworkUnit": "Unit 5"
+      "frameworkUnit": "Unit 5",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Revolution, rights and reaction in depth",
+            "paragraphs": [
+              "Revolutionary causation changes over time. France's fiscal crisis helped open a struggle over representation, but later war, food pressures and competing political organisations transformed the decisions available. A factor that explains 1789 may not fully explain a later radical phase. Rights declarations challenged inherited privilege while questions about women, colonial slavery and political participation remained contested. Napoleon consolidated legal and administrative changes while concentrating executive authority. Restoration after his defeat sought political stability but operated in societies already altered by revolution and war; it was not a complete return to an unchanged past."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Explain a hypothetical sequence from debt crisis to emergency wartime government.",
+            "steps": [
+              "Debt creates pressure for revenue and a dispute over who may authorise it.",
+              "War later raises security fears and strengthens demands for mobilisation and emergency powers."
+            ],
+            "conclusion": "The sequence needs changing causes rather than treating the initial debt as sufficient for every later outcome."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is a fiscal crisis?",
+            "back": "A serious problem financing state obligations."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why periodise a revolution?",
+            "back": "Different phases have different actors and pressures."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Did Napoleon preserve every revolutionary liberty?",
+            "back": "No; reform coexisted with concentrated power."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Can restoration erase all prior changes?",
+            "back": "Not automatically."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Changing revolutionary pressures",
+            "description": "The dominant problem changes across phases.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Debt and representation",
+                "detail": "A dispute over resources opens political conflict."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "War and mobilisation",
+                "detail": "External danger changes priorities."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Emergency authority",
+                "detail": "New powers are justified through security claims."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "is transformed by"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "can strengthen demands for"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Industrialisation and social responses",
@@ -260,10 +840,126 @@
             "Explain the limitation of output"
           ],
           "id": "european-history-unit-6-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Why could a factory owner favour regular clock-based hours?",
+          "hint": "Consider coordinated machinery and tasks.",
+          "hints": [
+            "Consider coordinated machinery and tasks.",
+            "Explain the organisational mechanism."
+          ],
+          "answer": "Workers' tasks may depend on one another. Fixed hours coordinate labour with machine operation. This can increase control over production time.",
+          "checkpoints": [
+            "Workers' tasks may depend on one another.",
+            "Fixed hours coordinate labour with machine operation.",
+            "This can increase control over production time."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "A factory law limits child working hours but inspectors rarely visit. How should its effect be assessed?",
+          "hint": "Separate enactment and enforcement.",
+          "hints": [
+            "Separate enactment and enforcement.",
+            "Seek workplace evidence."
+          ],
+          "answer": "The law establishes a formal limit. Weak inspection may permit violations. Actual hours and enforcement records are needed to assess change.",
+          "checkpoints": [
+            "The law establishes a formal limit.",
+            "Weak inspection may permit violations.",
+            "Actual hours and enforcement records are needed to assess change."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "id": "european-history-unit-6",
-      "frameworkUnit": "Unit 6"
+      "frameworkUnit": "Unit 6",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Industrialisation and social responses in depth",
+            "paragraphs": [
+              "Factory production concentrated machinery and workers around capital and energy sources, changing both output and the organisation of time. Tasks could be divided into specialised operations, making production more coordinated while reducing some workers' control over pace. Industrialisation developed unevenly and coexisted with agriculture and domestic manufacture. Rising aggregate output does not establish improved conditions for every household. Wages, prices, hours, housing and health must be examined together. Worker associations, social criticism and legislation responded to these conditions, but their effectiveness depended on organisation and enforcement rather than promises alone."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Invented teaching data: weekly wages rise from 10 to 12 units while a basic household basket rises from 8 to 11.",
+            "steps": [
+              "Nominal wages rise by two units.",
+              "Money left after this basket falls from two units to one."
+            ],
+            "conclusion": "The example shows why wage growth alone cannot establish improved purchasing conditions; the invented basket is not a complete living-standard measure."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is division of labour?",
+            "back": "Splitting production into specialised tasks."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What are nominal wages?",
+            "back": "Wages measured in money amounts."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Why compare wages with prices?",
+            "back": "Purchasing power depends on both."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Did factories immediately replace all older production?",
+            "back": "No."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Output and household experience",
+            "description": "Industrial gains must be traced through distribution.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Factory productivity",
+                "detail": "More output may be produced."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Wages, prices and hours",
+                "detail": "Conditions determine household effects."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Living standards",
+                "detail": "Benefits vary rather than following automatically."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "is mediated by"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "shape"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Nationalism, ideologies and imperial power",
@@ -303,10 +999,126 @@
             "Explain its significance"
           ],
           "id": "european-history-unit-7-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Why should imperial expansion not be explained only by a search for raw materials?",
+          "hint": "List other mechanisms.",
+          "hints": [
+            "List other mechanisms.",
+            "Require evidence for the case."
+          ],
+          "answer": "Strategic and political competition could matter. Racial ideologies could justify coercion. Economic motives must be weighed alongside these factors in the specific setting.",
+          "checkpoints": [
+            "Strategic and political competition could matter.",
+            "Racial ideologies could justify coercion.",
+            "Economic motives must be weighed alongside these factors in the specific setting."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "A colonised elite adopts an imperial language to petition for rights. Explain why this is not simply passive acceptance.",
+          "hint": "Consider the purpose of appropriation.",
+          "hints": [
+            "Consider the purpose of appropriation.",
+            "Keep unequal power visible."
+          ],
+          "answer": "The language can become a tool for making claims. The petition may challenge exclusion using the empire's stated principles. This agency operates within, rather than erases, unequal authority.",
+          "checkpoints": [
+            "The language can become a tool for making claims.",
+            "The petition may challenge exclusion using the empire's stated principles.",
+            "This agency operates within, rather than erases, unequal authority."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "id": "european-history-unit-7",
-      "frameworkUnit": "Unit 7"
+      "frameworkUnit": "Unit 7",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Nationalism, ideologies and imperial power in depth",
+            "paragraphs": [
+              "Nationalism can connect people to a claimed political community without specifying a single territorial outcome. It supported unification where speakers sought one state and separatism where groups challenged existing empires. Liberal, conservative and socialist ideas could combine with nationalism in different coalitions. Imperial expansion likewise involved multiple mechanisms: strategic routes, commercial interests and racial hierarchies could reinforce one another. Colonised communities were active participants in history, using resistance, negotiation and adaptation under unequal constraints. Explaining their choices does not remove the coercive structure within which those choices occurred."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Compare a hypothetical language movement seeking to unite small states with another seeking autonomy inside a large empire.",
+            "steps": [
+              "Both connect language to political belonging.",
+              "The first changes boundaries by consolidation; the second challenges authority through separation or self-government."
+            ],
+            "conclusion": "A shared nationalist claim can support different political projects."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What can nationalism seek besides unification?",
+            "back": "Autonomy, separation or expansion."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Are ideological coalitions fixed?",
+            "back": "No; they change by context."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What is strategic imperial interest?",
+            "back": "Control of routes, territory or security positions."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Does colonised agency imply equal power?",
+            "back": "No."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Belonging and territorial projects",
+            "description": "A common language claim can lead to different aims.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Claimed national community",
+                "detail": "People are described as belonging together."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Existing borders",
+                "detail": "The community is divided or ruled within an empire."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Political project",
+                "detail": "Unification or autonomy follows the situation."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "is compared with"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "helps shape"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "War, mass politics and authoritarianism",
@@ -346,10 +1158,126 @@
             "Identify relevant differences"
           ],
           "id": "european-history-unit-8-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Why is an alliance map insufficient to explain the outbreak of the First World War?",
+          "hint": "Distinguish structure from decisions.",
+          "hints": [
+            "Distinguish structure from decisions.",
+            "Consider the immediate crisis."
+          ],
+          "answer": "Alliances show commitments and possible alignments. Leaders still made choices during escalation. A full explanation connects those decisions with longer-term tensions.",
+          "checkpoints": [
+            "Alliances show commitments and possible alignments.",
+            "Leaders still made choices during escalation.",
+            "A full explanation connects those decisions with longer-term tensions."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "Explain why studying victims' testimony matters alongside perpetrators' administrative records.",
+          "hint": "Compare perspectives and purposes.",
+          "hints": [
+            "Compare perspectives and purposes.",
+            "Avoid reducing people to categories."
+          ],
+          "answer": "Administrative records reveal mechanisms of persecution. Testimony can illuminate lived experience and survival. Together they support analysis that does not let perpetrators' classifications define the whole history.",
+          "checkpoints": [
+            "Administrative records reveal mechanisms of persecution.",
+            "Testimony can illuminate lived experience and survival.",
+            "Together they support analysis that does not let perpetrators' classifications define the whole history."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "id": "european-history-unit-8",
-      "frameworkUnit": "Unit 8"
+      "frameworkUnit": "Unit 8",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "War, mass politics and authoritarianism in depth",
+            "paragraphs": [
+              "The First World War's mobilisation drew civilian labour, food and finance into military strategy, widening state intervention and exposing civilians to new pressures. Long-term rivalry created conditions for conflict, while decisions during the 1914 crisis shaped escalation. Interwar authoritarian movements then operated amid different national crises; economic distress did not produce identical outcomes everywhere. Nazi antisemitism, state institutions, war and deliberate decisions shaped the Holocaust. Its systematic genocide should be studied through perpetrators' actions, victims' experiences and forms of resistance, avoiding explanations that portray mass murder as an inevitable by-product of modernisation."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Analyse a hypothetical wartime government directing factories to produce ammunition and rationing food.",
+            "steps": [
+              "Industrial direction links civilian production to military supply.",
+              "Rationing makes distribution a state concern affecting households."
+            ],
+            "conclusion": "The measures show expanded wartime intervention, while their implementation and burdens still vary."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is total-war mobilisation?",
+            "back": "Extensive coordination of military and civilian resources."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Does economic crisis guarantee dictatorship?",
+            "back": "No."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Why distinguish fascism and Stalinism?",
+            "back": "Their ideologies, institutions and histories differ."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why analyse decisions in genocide?",
+            "back": "Violence was organised through human choices and institutions."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Civilian economy and war",
+            "description": "Military demand changes the state's relationship with society.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Military supply needs",
+                "detail": "Weapons and provisions are required."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "State coordination",
+                "detail": "Factories, finance and food are directed."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Civilian consequences",
+                "detail": "Work and consumption are altered."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "drive"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "reshapes"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Cold War divisions and European integration",
@@ -389,10 +1317,126 @@
             "Explain unequal outcomes"
           ],
           "id": "european-history-unit-9-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Why should eastern Europe during the Cold War not be treated as politically identical in every country?",
+          "hint": "Consider institutions and local history.",
+          "hints": [
+            "Consider institutions and local history.",
+            "Distinguish bloc influence from uniformity."
+          ],
+          "answer": "Soviet influence shaped a broad regional framework. National leaders, societies and crises differed. Comparison needs country-specific evidence.",
+          "checkpoints": [
+            "Soviet influence shaped a broad regional framework.",
+            "National leaders, societies and crises differed.",
+            "Comparison needs country-specific evidence."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "Explain how decolonisation could affect Europe beyond the loss of formal colonies.",
+          "hint": "Consider economic and human connections.",
+          "hints": [
+            "Consider economic and human connections.",
+            "Name a continuing relationship."
+          ],
+          "answer": "Trade and diplomatic relationships changed. Migration connected former colonies and European cities. Political independence did not end all economic or cultural ties.",
+          "checkpoints": [
+            "Trade and diplomatic relationships changed.",
+            "Migration connected former colonies and European cities.",
+            "Political independence did not end all economic or cultural ties."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "id": "european-history-unit-9",
-      "frameworkUnit": "Unit 9"
+      "frameworkUnit": "Unit 9",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Cold War divisions and European integration in depth",
+            "paragraphs": [
+              "Post-war reconstruction and Cold War division developed together. Aid, security alliances and economic institutions connected recovery to political choices, while eastern and western societies retained important internal differences. European integration pooled selected decisions through negotiated institutions; it did not abolish national politics. Supporters could emphasise cooperation and interdependence, while critics questioned sovereignty or unequal effects. Decolonisation also changed Europe's global position and migration patterns. The upheavals of 1989 and the Soviet Union's dissolution in 1991 transformed political structures, but transition paths differed and did not guarantee immediate prosperity or the disappearance of conflict."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Assess a hypothetical agreement pooling coal and steel decisions between former rivals.",
+            "steps": [
+              "Shared rules can make industrial cooperation more predictable and increase mutual dependence.",
+              "The same arrangement limits unilateral choices in the pooled sectors."
+            ],
+            "conclusion": "Support for peace and concern about sovereignty can therefore arise from the same institutional change."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is economic interdependence?",
+            "back": "Mutual reliance through economic connections."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Does integration remove every national power?",
+            "back": "No; powers are pooled selectively."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What changed in eastern Europe in 1989?",
+            "back": "Communist regimes fell or lost power across much of the region."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Did political transition guarantee equal prosperity?",
+            "back": "No."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Pooling decisions",
+            "description": "One institutional mechanism creates both cooperation and debate.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Shared industrial rules",
+                "detail": "Some decisions are negotiated jointly."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Mutual dependence",
+                "detail": "States have interests in continuing cooperation."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Sovereignty debate",
+                "detail": "Joint rules restrict unilateral action in those areas."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "can strengthen"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "also creates"
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

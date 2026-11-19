@@ -1,3 +1,4 @@
+import { APP_ORIGIN } from '@/lib/appOrigin';
 import React from "react";
 import Article from "@/components/Article";
 import SEO from "@/components/SEO";
@@ -9,7 +10,7 @@ export default function BestAIPromptsForStudents() {
       <SEO
         title="AI prompts that actually help with revision | VertexED"
         description="Copy-paste prompts for Socratic tutoring, rubric feedback, quiz generation, and essay critique - structured so AI asks first instead of handing you finished answers."
-        canonical="https://www.vertexed.app/resources/best-ai-prompts-for-students"
+        canonical={`${APP_ORIGIN}/resources/best-ai-prompts-for-students`}
         keywords="AI prompts for students, ChatGPT study prompts, Socratic tutoring prompts, essay feedback prompts, exam revision, VertexED"
         jsonLd={[
           {
@@ -20,14 +21,14 @@ export default function BestAIPromptsForStudents() {
             author: {
               "@type": "Organization",
               name: "VertexED Team",
-              url: "https://www.vertexed.app"
+              url: `${APP_ORIGIN}`
             },
             publisher: {
               "@type": "Organization",
               name: "VertexED",
               logo: {
                 "@type": "ImageObject",
-                url: "https://www.vertexed.app/logo.png"
+                url: `${APP_ORIGIN}/logo.png`
               }
             },
             datePublished: "2025-12-24",

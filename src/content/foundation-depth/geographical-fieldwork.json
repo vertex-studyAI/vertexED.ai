@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "lessonId": "geographical-fieldwork",
+  "revision": "2026-10-21.3",
+  "notes": [
+    {
+      "heading": "Compare rates and distributions before drawing a spatial conclusion",
+      "paragraphs": [
+        "Fieldwork observations often differ in their duration, area or number of people exposed. Standardise those denominators before comparing totals. A mean can be affected strongly by a single extreme observation, so describe spread and inspect the raw values as well. Spatial sampling and time sampling answer different questions: distributing sites across neighbourhoods does not remove a morning-only bias. A defensible conclusion names the sampled places and times, notes the limits of the design and proposes a targeted improvement rather than merely asking for more data."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "depth-unequal-duration",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "Fictional pedestrian counts are 90 people in 15 minutes at A and 80 in 10 minutes at B. Compare rates and explain why the larger total is not the higher rate.",
+      "answer": "A averages 6 people per minute and B averages 8; B has the higher rate.",
+      "solution": [
+        "Divide each count by its own observation duration.",
+        "Compare rates after standardising the unit."
+      ],
+      "markingPoints": [
+        "Find A=6 per minute.",
+        "Find B=8 per minute.",
+        "Explain the unequal-duration issue."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-outlier-distribution",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "Fictional litter counts at five equal-area sites are 2,3,3,4,28. Find the mean and median, then explain what reporting only the mean could hide.",
+      "answer": "Mean 8 and median 3; the site with 28 strongly raises the mean and the sites are uneven.",
+      "solution": [
+        "Sum to 40 and divide by 5; the middle ordered value is 3.",
+        "Report the outlier and range or raw values alongside the mean."
+      ],
+      "markingPoints": [
+        "Find mean 8.",
+        "Find median 3.",
+        "Explain the exceptional site and uneven distribution."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-time-coverage",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "A fictional study samples streets in every neighbourhood but counts traffic only from 08:00 to 08:15 on one weekday. What is improved by the spatial coverage, and what conclusion still cannot be supported?",
+      "answer": "It improves representation across sampled neighbourhoods. It does not establish typical daily or weekend traffic because time coverage is narrow.",
+      "solution": [
+        "Separate the geographical sampling frame from the time frame.",
+        "Repeat at planned time periods and days before making a whole-week claim."
+      ],
+      "markingPoints": [
+        "Recognise improved spatial coverage.",
+        "Identify the narrow time limitation.",
+        "Propose sampling additional periods and days."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    }
+  ]
+}

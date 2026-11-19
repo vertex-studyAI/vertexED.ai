@@ -19,7 +19,7 @@ test('every mapped mathematics topic opens a complete lesson and working practic
     await expect(page.getByRole('heading', { level: 1, name: title, exact: true })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Build the concept', exact: true })).toBeAttached();
     await expect(page.getByRole('heading', { name: 'Make the reasoning visible', exact: true })).toBeAttached();
-    await expect(page.getByRole('group', { name: 'Choose practice question' }).getByRole('button')).toHaveCount(3);
+    await expect(page.getByRole('group', { name: 'Choose practice question' }).getByRole('button')).toHaveCount(5);
     await expect(page.getByText('This topic has a structured outline, not a finished lesson yet.')).toHaveCount(0);
     await expect(page.getByLabel('Question 1 of 3')).toBeVisible();
     await page.getByRole('button', { name: 'Compare with the worked solution' }).click();

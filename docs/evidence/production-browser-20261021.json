@@ -1,0 +1,109 @@
+{
+  "checkedAt": "2026-10-21T04:25:21.291Z",
+  "base": "https://vertex-ed-ai.vercel.app",
+  "results": [
+    {
+      "page": "landing",
+      "width": 1440,
+      "status": "PASS",
+      "modules": [
+        "/resources",
+        "/exam-prep",
+        "/paper-maker",
+        "/answer-reviewer",
+        "/chatbot",
+        "/planner",
+        "/study-zone",
+        "/study-notebook",
+        "/notetaker"
+      ]
+    },
+    {
+      "page": "landing",
+      "width": 1024,
+      "status": "PASS",
+      "modules": [
+        "/resources",
+        "/exam-prep",
+        "/paper-maker",
+        "/answer-reviewer",
+        "/chatbot",
+        "/planner",
+        "/study-zone",
+        "/study-notebook",
+        "/notetaker"
+      ]
+    },
+    {
+      "page": "landing",
+      "width": 390,
+      "status": "PASS",
+      "modules": [
+        "/resources",
+        "/exam-prep",
+        "/paper-maker",
+        "/answer-reviewer",
+        "/chatbot",
+        "/planner",
+        "/study-zone",
+        "/study-notebook",
+        "/notetaker"
+      ]
+    },
+    {
+      "path": "/chatbot",
+      "url": "https://vertex-ed-ai.vercel.app/login",
+      "status": "PASS",
+      "boundary": "Unauthenticated route redirects to login; no account was used."
+    },
+    {
+      "path": "/answer-reviewer",
+      "url": "https://vertex-ed-ai.vercel.app/login",
+      "status": "PASS",
+      "boundary": "Unauthenticated route redirects to login; no account was used."
+    },
+    {
+      "path": "/planner",
+      "url": "https://vertex-ed-ai.vercel.app/login",
+      "status": "PASS",
+      "boundary": "Unauthenticated route redirects to login; no account was used."
+    },
+    {
+      "path": "/study-zone",
+      "url": "https://vertex-ed-ai.vercel.app/login",
+      "status": "PASS",
+      "boundary": "Unauthenticated route redirects to login; no account was used."
+    },
+    {
+      "path": "/study-notebook",
+      "url": "https://vertex-ed-ai.vercel.app/login",
+      "status": "PASS",
+      "boundary": "Unauthenticated route redirects to login; no account was used."
+    },
+    {
+      "path": "/notetaker",
+      "url": "https://vertex-ed-ai.vercel.app/login",
+      "status": "PASS",
+      "boundary": "Unauthenticated route redirects to login; no account was used."
+    },
+    {
+      "path": "/paper-maker",
+      "url": "https://vertex-ed-ai.vercel.app/login",
+      "status": "PASS",
+      "boundary": "Unauthenticated route redirects to login; no account was used."
+    },
+    {
+      "path": "/exam-prep",
+      "url": "https://vertex-ed-ai.vercel.app/login",
+      "status": "PASS",
+      "boundary": "Unauthenticated route redirects to login; no account was used."
+    },
+    {
+      "path": "/resources",
+      "url": "https://vertex-ed-ai.vercel.app/resources",
+      "status": "PASS"
+    }
+  ],
+  "errors": [],
+  "boundary": "Real anonymous production browser. No mocked API responses, real account sign-in, AI calls or persistence writes."
+}

@@ -1,3 +1,4 @@
+import { APP_ORIGIN } from '@/lib/appOrigin';
 import React from "react";
 import Article from "@/components/Article";
 import SEO from "@/components/SEO";
@@ -9,7 +10,7 @@ export default function AcademicBurnoutGuide() {
       <SEO
         title="Academic burnout: signs and recovery | VertexED"
         description="Tired after a weekend off is normal; cynical and ineffective after rest may be burnout. Minimum viable studying, lower planner intensity, and when to seek help."
-        canonical="https://www.vertexed.app/resources/academic-burnout-guide"
+        canonical={`${APP_ORIGIN}/resources/academic-burnout-guide`}
         keywords="academic burnout, student burnout, study motivation, mental health for students, recovering from burnout, minimum viable studying, VertexED, exam stress"
         jsonLd={[
           {
@@ -20,14 +21,14 @@ export default function AcademicBurnoutGuide() {
             author: {
               "@type": "Organization",
               name: "VertexED Team",
-              url: "https://www.vertexed.app"
+              url: `${APP_ORIGIN}`
             },
             publisher: {
               "@type": "Organization",
               name: "VertexED",
               logo: {
                 "@type": "ImageObject",
-                url: "https://www.vertexed.app/logo.png"
+                url: `${APP_ORIGIN}/logo.png`
               }
             },
             datePublished: "2025-12-24",

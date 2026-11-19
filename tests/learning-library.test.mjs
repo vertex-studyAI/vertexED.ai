@@ -42,3 +42,10 @@ test('every editorial guide registry route remains mounted', () => {
     assert.match(routes, new RegExp(`path=["']${article.to.slice(1).replaceAll('/', '\\/')}["']`), `${article.to} must stay routed`);
   }
 });
+
+test('anonymous foundation learners are sent to the mounted login route before device saving', () => {
+  const reader = fs.readFileSync('src/pages/resources/FoundationLessons.tsx', 'utf8');
+  const routes = fs.readFileSync('src/app/App.tsx', 'utf8');
+  assert.match(reader, /<Link to="\/login">Sign in<\/Link> to save on this device/);
+  assert.match(routes, /<Route path="login" element=\{<Login \/>\} \/>/);
+});

@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "lessonId": "quadratic-structure",
+  "revision": "2026-10-21.3",
+  "notes": [
+    {
+      "heading": "Use roots and coefficients to check a constructed quadratic",
+      "paragraphs": [
+        "For ax²+bx+c with a≠0, the roots' sum is -b/a and their product is c/a when counted with multiplicity. These relations follow by expanding a(x-r)(x-s). They provide useful checks and let you construct a quadratic from roots, but do not determine the leading coefficient unless additional information is given. The discriminant describes real-root count, not whether a polynomial or graph exists. A repeated root is both a solution and the point where a quadratic touches the axis."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "depth-construct-roots",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "Construct a quadratic with roots -2 and 5 and leading coefficient 3, and expand it.",
+      "answer": "3(x+2)(x-5)=3x²-9x-30.",
+      "solution": [
+        "Each root supplies a factor that vanishes there.",
+        "Multiply the factors, then apply leading coefficient 3."
+      ],
+      "markingPoints": [
+        "Use factors x+2 and x-5.",
+        "Apply factor 3.",
+        "Expand to 3x²-9x-30."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-root-relations",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "The roots of 2x²-7x+3 are r and s. Find r+s, rs and r²+s² without solving separately for both roots.",
+      "answer": "r+s=7/2, rs=3/2 and r²+s²=37/4.",
+      "solution": [
+        "Read sum and product from the coefficients.",
+        "Use r²+s²=(r+s)²-2rs=49/4-3."
+      ],
+      "markingPoints": [
+        "Find sum 7/2.",
+        "Find product 3/2.",
+        "Find 37/4 using the identity."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-parameter-discriminant",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "For which real values of k does x²+kx+9=0 have two distinct real roots?",
+      "answer": "k<-6 or k>6.",
+      "solution": [
+        "Require discriminant k²-36>0 for distinct real roots.",
+        "Solve k²>36, retaining both positive and negative branches."
+      ],
+      "markingPoints": [
+        "Use strict positive discriminant.",
+        "Obtain k²>36.",
+        "State both intervals."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    }
+  ]
+}

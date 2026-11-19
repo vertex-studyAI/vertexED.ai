@@ -4,7 +4,7 @@ import { resolve, relative, sep } from 'node:path';
 import { hasExactContentApproval } from '../contracts/contentPublication.js';
 
 const projectRoot = resolve(import.meta.dirname, '..');
-const publicDirectories = ['study-guides/myp', 'ap-content', 'myp5-content'];
+const publicDirectories = ['study-guides/myp', 'ap-content', 'myp5-content', 'learning-library'];
 export const contentHash = (body) => `sha256:${createHash('sha256').update(body).digest('hex')}`;
 // Preview responses must match the build bytes hashed by the offline worker.
 const serializePublicationJson = (body) => `${JSON.stringify(body)}\n`;
@@ -58,6 +58,11 @@ export async function publicationResponse(rawUrl, { root = projectRoot, approval
   if (!isControlledContentPath(rawUrl)) return null;
   const path = new URL(decodeURIComponent(new URL(rawUrl, 'http://localhost').pathname), 'http://localhost').pathname;
   const allowed = await approvedStaticPaths({ root, approvals });
+  if (path === '/learning-library/manifest.json') {
+    const manifest = JSON.parse(await readFile(resolve(root, 'public', path.slice(1)), 'utf8'));
+    return { status: 200, body: { ...manifest, entries: manifest.entries.filter(entry => allowed.has(entry.json))
+      .map(entry => ({ ...entry, markdown: allowed.has(entry.markdown) ? entry.markdown : null })) } };
+  }
   if (allowed.has(path)) return null;
   if (path === '/study-guides/myp/manifest.json') {
     const manifest = JSON.parse(await readFile(resolve(root, 'public', path.slice(1)), 'utf8'));
@@ -95,12 +100,12 @@ export async function enforcePublishedContent(outputDirectory, { root = projectR
   for (const directory of publicDirectories) {
     for (const name of await filesBelow(outputRoot, directory)) {
       const path = `/${name}`;
-      if (allowed.has(path)) {
+      if (allowed.has(path) && path !== '/learning-library/manifest.json') {
         const expected = await readFile(resolve(root, 'public', name));
         const actual = await readFile(resolve(outputRoot, name));
         if (contentHash(actual) === contentHash(expected)) continue;
       }
-      if (['/study-guides/myp/manifest.json', '/study-guides/myp/provenance-ledger.json', '/myp5-content/manifest.json'].includes(path)) {
+      if (['/study-guides/myp/manifest.json', '/study-guides/myp/provenance-ledger.json', '/myp5-content/manifest.json', '/learning-library/manifest.json'].includes(path)) {
         const response = await publicationResponse(path, { root, approvals });
         await writeFile(resolve(outputRoot, name), serializePublicationJson(response.body));
       } else {

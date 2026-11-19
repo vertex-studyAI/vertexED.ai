@@ -47,8 +47,124 @@
             "Add their magnitudes for distance."
           ],
           "id": "unit-1-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Each integration needs its own constant.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A particle has a(t)=4t m/s², v(0)=1 m/s and x(0)=0. Find v(2) and x(2).",
+          "answer": "v(t)=1+2t², so v(2)=9 m/s. x(t)=t+(2/3)t³, so x(2)=22/3 m.",
+          "checkpoints": [
+            "Integrate acceleration and apply v(0).",
+            "Integrate velocity and apply x(0).",
+            "Evaluate 9 m/s and 22/3 m."
+          ],
+          "hints": [
+            "Each integration needs its own constant.",
+            "Use both given initial conditions."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "A return to the initial position gives zero average velocity.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "For x(t)=t²−4t metres, compare average velocity on [0,4] s with instantaneous velocity at t=3 s.",
+          "answer": "Average velocity is [x(4)−x(0)]/4=0. Instantaneous velocity is 2t−4, giving 2 m/s at 3 s.",
+          "checkpoints": [
+            "Use endpoint displacement for the average.",
+            "Differentiate x(t).",
+            "Report the distinct values 0 and 2 m/s."
+          ],
+          "hints": [
+            "A return to the initial position gives zero average velocity.",
+            "Instantaneous velocity is a local derivative."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through integrating a changing acceleration",
+            "paragraphs": [
+              "Differentiation and integration connect position, velocity and acceleration, but each operation answers a different question. Differentiating x(t) gives instantaneous velocity and differentiating again gives acceleration. Integrating acceleration gives velocity change, so an initial velocity is still needed to obtain absolute velocity. Integrating velocity gives signed displacement; split the interval at velocity zeros before summing distance. Always check dimensions and initial conditions. A polynomial formula may describe only a stated time interval, and extending it indefinitely can produce motion outside the intended physical model even when the algebra remains defined."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A particle has v(t)=3t²−6t m/s for 0≤t≤3 s and x(0)=1 m. Find x(3) and distance travelled.",
+            "steps": [
+              "Integrate: x(t)=1+t³−3t². Thus x(3)=1 m and the net displacement is zero.",
+              "Velocity changes sign at t=2 s. Positions are x(0)=1, x(2)=−3 and x(3)=1 m, so distance is 4+4=8 m."
+            ],
+            "conclusion": "The final position is 1 m and the distance travelled is 8 m."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What initial datum is needed after integrating acceleration?",
+            "back": "Initial velocity."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "How is instantaneous acceleration obtained from position?",
+            "back": "Take the second time derivative."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Why split a distance integral at velocity zeros?",
+            "back": "The sign of velocity may change."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What does ∫v dt give?",
+            "back": "Signed displacement."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Integrating a changing acceleration: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Acceleration function",
+                "detail": "Integrate over time to find velocity change."
+              },
+              {
+                "id": "n2",
+                "label": "Velocity function",
+                "detail": "Apply initial velocity, then locate any sign changes."
+              },
+              {
+                "id": "n3",
+                "label": "Position and distance",
+                "detail": "Integrate with signs for displacement or absolute values for distance."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "integrates to"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "integrates into"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-2",
@@ -90,8 +206,124 @@
             "Cancel m and solve for v."
           ],
           "id": "unit-2-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Divide mass by drag coefficient.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "For horizontal linear drag with m=3 kg and b=1.5 kg/s, find the time constant and speed fraction after 4 s.",
+          "answer": "τ=m/b=2 s; v/v₀=e^(−4/2)=e⁻²≈0.135.",
+          "checkpoints": [
+            "Calculate τ=2 s.",
+            "Use the exponential decay law.",
+            "Find e⁻²≈0.135."
+          ],
+          "hints": [
+            "Divide mass by drag coefficient.",
+            "Express elapsed time in time constants."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Compare drag with weight.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "For downward-positive falling motion m dv/dt=mg−bv, show that vterminal=mg/b is a stable limiting speed.",
+          "answer": "At v=mg/b the net force is zero. Below it mg−bv>0 accelerates the object downward; above it mg−bv<0 reduces downward speed.",
+          "checkpoints": [
+            "Set acceleration to zero for the terminal value.",
+            "Analyse the force sign below it.",
+            "Analyse the force sign above it."
+          ],
+          "hints": [
+            "Compare drag with weight.",
+            "A stable value is approached from either side."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through a resistive force as a differential equation",
+            "paragraphs": [
+              "A velocity-dependent force turns Newton’s second law into a differential equation. For horizontal linear drag, m dv/dt=−bv, so speed decays exponentially rather than decreasing by equal amounts in equal times. The ratio m/b is a time constant with units of time; after one time constant the velocity is 1/e of its initial value. For vertical falling motion, gravity adds a constant term and the speed approaches a terminal value where net force vanishes. Terminal motion is a dynamic balance of forces, not an absence of either gravity or drag."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A 2 kg object has horizontal initial speed 8 m/s and linear drag coefficient b=1 kg/s. Find v(t) and displacement by t=2 s.",
+            "steps": [
+              "The equation dv/dt=−v/2 gives v(t)=8e^(−t/2) m/s.",
+              "Integrate from 0 to 2: Δx=16(1−e⁻¹) m≈10.1 m."
+            ],
+            "conclusion": "v(t)=8e^(−t/2) m/s and displacement after 2 s is about 10.1 m."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is the linear-drag time constant?",
+            "back": "m/b."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What fraction of initial horizontal speed remains after one time constant?",
+            "back": "1/e."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What balances gravity at terminal fall speed?",
+            "back": "The upward drag force."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Does drag cause constant acceleration?",
+            "back": "Not when drag depends on changing velocity."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "A resistive force as a differential equation: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Force model",
+                "detail": "Specify drag proportional to velocity and its opposing sign."
+              },
+              {
+                "id": "n2",
+                "label": "Differential equation",
+                "detail": "Apply m dv/dt to the net force."
+              },
+              {
+                "id": "n3",
+                "label": "Solution and limit",
+                "detail": "Use the initial condition and inspect exponential decay or terminal motion."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "produces"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "determines"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-3",
@@ -133,8 +365,124 @@
             "Final kinetic energy is 25 J, so v²=25."
           ],
           "id": "unit-3-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Force varies with position, so use an integral.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A force F(x)=6x² N acts from x=1 to x=2 m. Find its work.",
+          "answer": "W=∫₁²6x² dx=[2x³]₁²=14 J.",
+          "checkpoints": [
+            "Set the definite work integral.",
+            "Integrate to 2x³.",
+            "Evaluate 16−2=14 J."
+          ],
+          "hints": [
+            "Force varies with position, so use an integral.",
+            "Subtract the lower-limit antiderivative."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Kinetic energy cannot be negative.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "A particle has total mechanical energy 10 J in a conservative potential with U=12 J at a proposed location. Can it reach that location classically?",
+          "answer": "No. K=E−U would be −2 J, which is impossible for classical kinetic energy; it must turn before entering that region.",
+          "checkpoints": [
+            "Use K=E−U.",
+            "Identify the negative result.",
+            "State the accessible-region condition U≤E."
+          ],
+          "hints": [
+            "Kinetic energy cannot be negative.",
+            "Compare potential energy with the fixed total."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through variable-force work and potential energy",
+            "paragraphs": [
+              "Work by a variable force is an integral along displacement. In one dimension, a conservative force satisfies F=−dU/dx, so the slope of the potential-energy curve determines force direction. Equilibrium occurs where that slope is zero. A local minimum is stable because small displacements produce forces back towards the minimum; a local maximum is unstable. Adding a constant to U changes its reference without changing forces or energy differences. When using an energy diagram, kinetic energy is E−U, so classically accessible positions require U≤E and turning points occur where kinetic energy becomes zero."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A particle has potential U(x)=2x²−8x+10 J, with x in metres. Find equilibrium, its stability and work from x=0 to x=3 m.",
+            "steps": [
+              "F=−dU/dx=8−4x N, so equilibrium is x=2 m. U″=4>0 makes it stable.",
+              "U(0)=10 J and U(3)=4 J, so conservative work is 10−4=6 J."
+            ],
+            "conclusion": "The stable equilibrium is at 2 m and the force does +6 J of work."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "How is force obtained from U(x)?",
+            "back": "F=−dU/dx."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What shape of U gives stable equilibrium?",
+            "back": "A local minimum."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What does E−U represent?",
+            "back": "Kinetic energy."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Does adding a constant to U change force?",
+            "back": "No; its derivative is unchanged."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Variable-force work and potential energy: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Potential curve",
+                "detail": "Read slope and energy height at each position."
+              },
+              {
+                "id": "n2",
+                "label": "Force and kinetic energy",
+                "detail": "Use F=−U′ and K=E−U."
+              },
+              {
+                "id": "n3",
+                "label": "Motion constraints",
+                "detail": "Identify equilibrium, accessible regions and turning points."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "determines"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "constrain"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-4",
@@ -176,8 +524,124 @@
             "The second must have -6 kg m/s."
           ],
           "id": "unit-4-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Retain the negative velocity.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "Masses 2 kg and 4 kg have velocities +3 m/s and −1 m/s. Find total momentum and centre-of-mass velocity.",
+          "answer": "P=6−4=2 kg m/s; vcm=2/6=1/3 m/s.",
+          "checkpoints": [
+            "Sum signed momenta.",
+            "Use total mass 6 kg.",
+            "Find +1/3 m/s."
+          ],
+          "hints": [
+            "Retain the negative velocity.",
+            "Divide total momentum by total mass."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Separate overall translation from relative motion.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "An isolated initially stationary pair of masses is pushed apart by an internal spring. Must their centre of mass remain at rest even if their kinetic energy increases?",
+          "answer": "Yes. External impulse is zero, so total momentum remains zero and vcm=0; spring potential energy can become kinetic energy of relative motion.",
+          "checkpoints": [
+            "Apply momentum conservation.",
+            "Use vcm=P/M to obtain zero.",
+            "Identify spring energy as the kinetic-energy source."
+          ],
+          "hints": [
+            "Separate overall translation from relative motion.",
+            "Internal energy conversion does not require external impulse."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through force-time integration and centre of mass",
+            "paragraphs": [
+              "The impulse-momentum theorem applies to time-varying forces by integration. Integrate the external force on the selected system over the interaction interval to find total momentum change. Internal forces can strongly affect individual objects while leaving system momentum unchanged. The centre of mass follows M acm=Fexternal for a constant-mass system, even when its parts move relative to one another. In one dimension, xcm=Σmixi/M and vcm=P/M. These relations help distinguish redistribution inside a system from translation of the system as a whole; kinetic energy can change without changing total momentum."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A 2 kg particle initially moves at 1 m/s. A net force F(t)=3t² N acts from 0 to 2 s. Find final velocity.",
+            "steps": [
+              "Impulse is ∫₀²3t² dt=[t³]₀²=8 N s.",
+              "Initial momentum is 2 kg m/s; final momentum is 10 kg m/s, so vf=10/2=5 m/s."
+            ],
+            "conclusion": "The final velocity is +5 m/s."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What force belongs in a system impulse integral?",
+            "back": "The net external force."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "How is centre-of-mass velocity related to momentum?",
+            "back": "vcm=Ptotal/M."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Can internal forces change total system momentum?",
+            "back": "Not by themselves."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What does equal and opposite internal impulse conserve?",
+            "back": "The system’s total momentum."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Force-time integration and centre of mass: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "External force history",
+                "detail": "Record force with sign over time."
+              },
+              {
+                "id": "n2",
+                "label": "Impulse integral",
+                "detail": "Area under force-time gives ΔP."
+              },
+              {
+                "id": "n3",
+                "label": "Centre-of-mass motion",
+                "detail": "Use P/M and external-force balance for the whole system."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "integrates to"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "changes"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-5",
@@ -219,8 +683,124 @@
             "Add to Icm."
           ],
           "id": "unit-5-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Use the centre of mass as the starting axis.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A uniform rod has M=6 kg and L=2 m. Use Icm=ML²/12 to find inertia about a parallel axis 1 m from its centre.",
+          "answer": "Icm=6×4/12=2 kg m²; I=2+6(1²)=8 kg m².",
+          "checkpoints": [
+            "Calculate the centre inertia.",
+            "Apply the parallel-axis term Md².",
+            "Find 8 kg m²."
+          ],
+          "hints": [
+            "Use the centre of mass as the starting axis.",
+            "Add rather than subtract the shift term."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "All ring mass lies at its radius.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "Two thin rings have equal mass but radii R and 3R. Compare their central-axis inertias and angular accelerations under equal torque.",
+          "answer": "Ring inertia is MR², so the larger ring has nine times the inertia and one ninth the angular acceleration.",
+          "checkpoints": [
+            "Use the thin-ring inertia model.",
+            "Square the radius factor to obtain nine.",
+            "Apply α=τ/I for the inverse acceleration factor."
+          ],
+          "hints": [
+            "All ring mass lies at its radius.",
+            "Keep torque fixed while changing inertia."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through moment of inertia from a mass distribution",
+            "paragraphs": [
+              "Moment of inertia is an integral over a mass distribution: I=∫r⊥² dm. The distance is perpendicular to the chosen axis, so changing the axis can change I even for the same object. Choose a mass element suited to the geometry and express dm using a linear, area or volume density. The parallel-axis theorem I=Icm+Md² applies to an axis parallel to one through the centre of mass. It does not replace the need to identify the centre-of-mass axis correctly. Dimensional checks should give mass times length squared, and distant mass contributes disproportionately."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Derive the inertia of a uniform thin rod of length L and mass M about a perpendicular axis through its centre.",
+            "steps": [
+              "Use x along the rod, dm=(M/L)dx, with limits −L/2 to L/2.",
+              "I=(M/L)∫x² dx=(M/L)[x³/3]₋L/₂^L/₂=ML²/12."
+            ],
+            "conclusion": "The centre-axis moment of inertia is ML²/12."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What distance appears in I=∫r²dm?",
+            "back": "Perpendicular distance to the rotation axis."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What is dm for a uniform rod element dx?",
+            "back": "(M/L)dx."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "When can the parallel-axis theorem be used?",
+            "back": "Between parallel axes, one through the centre of mass."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why does distant mass matter more?",
+            "back": "Its contribution scales with squared distance."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Moment of inertia from a mass distribution: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Geometry and axis",
+                "detail": "Choose coordinates and perpendicular radius."
+              },
+              {
+                "id": "n2",
+                "label": "Mass element",
+                "detail": "Relate dm to density and geometric differential."
+              },
+              {
+                "id": "n3",
+                "label": "Inertia integral",
+                "detail": "Integrate r²dm over the complete object."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "define"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "enters"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-6",
@@ -262,8 +842,124 @@
             "Distinguish static from sliding friction."
           ],
           "id": "unit-6-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Use circular orbit assumptions.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "For a circular orbit, radius increases from r to 4r around the same central mass. Compare speed and period.",
+          "answer": "Speed becomes one half because v∝r⁻¹/²; period becomes eight times because T=2πr/v∝r³/².",
+          "checkpoints": [
+            "Apply the inverse square-root speed scaling.",
+            "Use circumference divided by speed.",
+            "Calculate the period factor eight."
+          ],
+          "hints": [
+            "Use circular orbit assumptions.",
+            "The path length grows fourfold while speed halves."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Use the circular force balance.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "A satellite in a circular orbit has kinetic energy K. Express its gravitational potential energy and total energy using K.",
+          "answer": "Since K=GMm/(2r), U=−GMm/r=−2K and E=K+U=−K.",
+          "checkpoints": [
+            "Relate circular kinetic energy to GMm/r.",
+            "Obtain U=−2K.",
+            "Add to obtain E=−K."
+          ],
+          "hints": [
+            "Use the circular force balance.",
+            "Keep the negative potential-energy sign."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through orbital energy and angular momentum",
+            "paragraphs": [
+              "A central force exerts zero torque about its force centre, so angular momentum about that centre is conserved. This explains why an orbiting body moves faster near periapsis without requiring constant speed along an elliptical path. For a circular gravitational orbit, inward acceleration gives v²=GM/r, while potential energy with zero at infinity is −GMm/r. Total orbital energy is −GMm/(2r). These circular formulas should not be substituted locally into an elliptical orbit; use energy and angular-momentum conservation with the appropriate orbital conditions instead. A bound orbit has negative total energy in this reference."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "At two points of an orbit, velocity is perpendicular to the radius. At the first r=2R and v=3v₀; at the second r=3R. Find the second speed.",
+            "steps": [
+              "Zero gravitational torque about the central mass conserves L=mrv at these perpendicular points.",
+              "m(2R)(3v₀)=m(3R)v₂, so v₂=2v₀."
+            ],
+            "conclusion": "The second speed is 2v₀."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "Why does gravity conserve angular momentum about the central mass?",
+            "back": "Its force is radial, so torque there is zero."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What is circular orbital energy?",
+            "back": "−GMm/(2r), with zero potential at infinity."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Can circular-speed formulas be used at every point in an ellipse?",
+            "back": "No."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What does negative orbital energy indicate in this model?",
+            "back": "A gravitationally bound orbit."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Orbital energy and angular momentum: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Central gravitational force",
+                "detail": "Acts along the radius."
+              },
+              {
+                "id": "n2",
+                "label": "Zero central torque",
+                "detail": "Conserves angular momentum about the force centre."
+              },
+              {
+                "id": "n3",
+                "label": "Orbital speed variation",
+                "detail": "A smaller perpendicular radius requires larger tangential speed for fixed L."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "produces"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "constrains"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-7",
@@ -305,8 +1001,124 @@
             "Recognise a turning-point initial condition."
           ],
           "id": "unit-7-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Each derivative introduces a factor of two.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "For x(t)=0.30 cos2t m, find v(t), a(t) and maximum speed.",
+          "answer": "v=−0.60 sin2t m/s; a=−1.20 cos2t m/s²; maximum speed is 0.60 m/s.",
+          "checkpoints": [
+            "Differentiate once with the chain rule.",
+            "Differentiate again.",
+            "Identify the velocity amplitude."
+          ],
+          "hints": [
+            "Each derivative introduces a factor of two.",
+            "The sine magnitude cannot exceed one."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Check the equation directly.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "A proposed oscillator solution is x=Ce^(−ωt) for positive ω and nonzero C. Does it solve x″+ω²x=0?",
+          "answer": "No. Its second derivative is +ω²x, so substitution gives 2ω²x, not zero; it instead solves x″−ω²x=0.",
+          "checkpoints": [
+            "Differentiate the exponential twice.",
+            "Substitute into the stated equation.",
+            "Identify the sign mismatch."
+          ],
+          "hints": [
+            "Check the equation directly.",
+            "Two differentiations remove the negative exponent coefficient sign."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through differential equations for oscillation",
+            "paragraphs": [
+              "The equation x″+ω²x=0 describes an ideal linear oscillator, with solutions built from sine and cosine. Initial displacement and initial velocity determine the two integration constants or equivalently the amplitude and phase. Differentiating a proposed solution is the most direct way to verify both the differential equation and the initial conditions. Energy offers a second check: (1/2)mv²+(1/2)kx² should stay constant when damping and external driving are absent. Linear drag changes the equation and gradually removes mechanical energy, so an undamped sinusoid is then only an approximation over an appropriately short interval."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A mass-spring system has ω=3 rad/s, x(0)=0 and v(0)=0.60 m/s. Find x(t), v(t) and amplitude.",
+            "steps": [
+              "Write x=A cos3t+B sin3t. Initial displacement gives A=0; initial velocity gives 3B=0.60, so B=0.20 m.",
+              "Thus x=0.20 sin3t and v=0.60 cos3t; differentiating twice gives x″=−9x."
+            ],
+            "conclusion": "Amplitude is 0.20 m, with x(t)=0.20 sin3t m and v(t)=0.60 cos3t m/s."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "How many initial conditions does x″+ω²x=0 need?",
+            "back": "Two, usually position and velocity."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What equation must acceleration satisfy?",
+            "back": "a=−ω²x."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What is the amplitude when x(0)=0 and v(0)=v₀?",
+            "back": "|v₀|/ω."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What does damping do to mechanical energy?",
+            "back": "It transfers energy out of the oscillator’s mechanical store."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Differential equations for oscillation: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Differential equation",
+                "detail": "Restoring force gives x″+ω²x=0."
+              },
+              {
+                "id": "n2",
+                "label": "Initial conditions",
+                "detail": "Fix the sine and cosine coefficients."
+              },
+              {
+                "id": "n3",
+                "label": "Verified motion",
+                "detail": "Differentiate the solution and check both initial values and conserved energy."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "has solutions constrained by"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "select"
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

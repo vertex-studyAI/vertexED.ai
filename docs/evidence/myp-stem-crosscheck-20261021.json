@@ -1,0 +1,3304 @@
+{
+  "checkedOn": "2026-10-21",
+  "kind": "bounded internal mathematical and numerical cross-check",
+  "qualifiedIndependentReview": false,
+  "scope": {
+    "subjectFiles": 5,
+    "lessons": 64,
+    "exampleAndQuestionRecordsScreened": 192,
+    "numericalRecordsIndependentlyCalculated": 130,
+    "formalProofRecordsChecked": 3,
+    "conceptualOrDesignRecordsScreenedWithoutNumericalRecalculation": 59,
+    "excluded": "Notes, flashcards, diagrams, baseline lessons and full syllabus coverage were not systematically reviewed in this pass. Conceptual/design item screening is not a comprehensive subject-accuracy review."
+  },
+  "sourceFiles": [
+    {
+      "path": "src/content/myp5-resources/mathematics.json",
+      "sha256": "56ccd64666d7830d4e619b6fa06fb1803e8b89ee905ae440a337de077b7c8541",
+      "lessons": 15,
+      "numericalChecks": 42
+    },
+    {
+      "path": "src/content/myp5-resources/physics.json",
+      "sha256": "192e670d5e6f2b91c325c37ca1b1b98046abe9594b8b46fa3b62917ca2e24fcb",
+      "lessons": 16,
+      "numericalChecks": 34
+    },
+    {
+      "path": "src/content/myp5-resources/chemistry.json",
+      "sha256": "1d2237618ec3386dcb9eafb268a0e7d186a4c762c6caa65d9d2c1494869867ef",
+      "lessons": 13,
+      "numericalChecks": 26
+    },
+    {
+      "path": "src/content/myp5-resources/biology.json",
+      "sha256": "6b2ec5d8408a68aa0a5ab30fce3f6418fc21d6211c01f844bc9fb2f33c49e2e4",
+      "lessons": 12,
+      "numericalChecks": 14
+    },
+    {
+      "path": "src/content/myp5-resources/integrated-sciences.json",
+      "sha256": "3863d1f4334882fac9fc2076f946da2a11a70f541684c5a266a9f50e4b094f82",
+      "lessons": 8,
+      "numericalChecks": 14
+    }
+  ],
+  "numericalChecks": [
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-number",
+      "itemId": "extension-number-worked",
+      "field": "studyPack.workedExamples[0]",
+      "method": "SI conversion and scientific notation",
+      "computed": [
+        3.6e-05,
+        36.0
+      ],
+      "sourceAnswerExpected": [
+        3.6e-05,
+        36
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-number",
+      "itemId": "extension-myp5-mathematics-number-practice-1",
+      "field": "additionalPractice[0]",
+      "method": "Independent coefficient/power division",
+      "computed": 3000000.0,
+      "sourceAnswerExpected": 3000000.0,
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-number",
+      "itemId": "extension-myp5-mathematics-number-practice-2",
+      "field": "additionalPractice[1]",
+      "method": "Kilograms to grams and inverse power",
+      "computed": [
+        4.8,
+        0.0048
+      ],
+      "sourceAnswerExpected": [
+        4.8,
+        0.0048
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-algebra",
+      "itemId": "extension-algebra-worked",
+      "field": "studyPack.workedExamples[0]",
+      "method": "Substitution into both equations",
+      "computed": [
+        13,
+        2
+      ],
+      "sourceAnswerExpected": [
+        13,
+        2
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-algebra",
+      "itemId": "extension-myp5-mathematics-algebra-practice-1",
+      "field": "additionalPractice[0]",
+      "method": "Boundary and representative solution-side checks",
+      "computed": [
+        19,
+        true,
+        false
+      ],
+      "sourceAnswerExpected": [
+        19,
+        true,
+        false
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-algebra",
+      "itemId": "extension-myp5-mathematics-algebra-practice-2",
+      "field": "additionalPractice[1]",
+      "method": "Elimination followed by substitution",
+      "computed": [
+        4.0,
+        17,
+        9
+      ],
+      "sourceAnswerExpected": [
+        4,
+        17,
+        9
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-functions",
+      "itemId": "extension-functions-worked",
+      "field": "studyPack.workedExamples[0]",
+      "method": "Vertex square bound and both root substitutions",
+      "computed": [
+        1,
+        10,
+        10
+      ],
+      "sourceAnswerExpected": [
+        1,
+        10,
+        10
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-functions",
+      "itemId": "extension-myp5-mathematics-functions-practice-1",
+      "field": "additionalPractice[0]",
+      "method": "Vertex and direct evaluation",
+      "computed": [
+        -4,
+        0
+      ],
+      "sourceAnswerExpected": [
+        -4,
+        0
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-functions",
+      "itemId": "extension-myp5-mathematics-functions-practice-2",
+      "field": "additionalPractice[1]",
+      "method": "Repeated-output counterexample; nonnegative inverse branch checked algebraically",
+      "computed": [
+        9,
+        9,
+        3.0
+      ],
+      "sourceAnswerExpected": [
+        9,
+        9,
+        3
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-geometry",
+      "itemId": "extension-geometry-worked",
+      "field": "studyPack.workedExamples[0]",
+      "method": "Independent area and volume scale powers",
+      "computed": [
+        216,
+        270
+      ],
+      "sourceAnswerExpected": [
+        216,
+        270
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-geometry",
+      "itemId": "extension-myp5-mathematics-geometry-practice-1",
+      "field": "additionalPractice[0]",
+      "method": "Positive square root of corresponding-area ratio",
+      "computed": 2.0,
+      "sourceAnswerExpected": 2,
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-geometry",
+      "itemId": "extension-myp5-mathematics-geometry-practice-2",
+      "field": "additionalPractice[1]",
+      "method": "Direct cube volumes and ratio",
+      "computed": [
+        8,
+        64,
+        8.0
+      ],
+      "sourceAnswerExpected": [
+        8,
+        64,
+        8
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-coordinate-geometry",
+      "itemId": "extension-coordinate-geometry-worked",
+      "field": "studyPack.workedExamples[0]",
+      "method": "Opposite edge vectors and adjacent dot products",
+      "computed": [
+        [
+          4,
+          0
+        ],
+        [
+          0,
+          3
+        ],
+        0,
+        4.0,
+        3.0
+      ],
+      "sourceAnswerExpected": [
+        [
+          4,
+          0
+        ],
+        [
+          0,
+          3
+        ],
+        0,
+        4,
+        3
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-coordinate-geometry",
+      "itemId": "extension-myp5-mathematics-coordinate-geometry-practice-1",
+      "field": "additionalPractice[0]",
+      "method": "Negative reciprocal and intercept substitution",
+      "computed": [
+        -0.5,
+        8.0
+      ],
+      "sourceAnswerExpected": [
+        -0.5,
+        8
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-coordinate-geometry",
+      "itemId": "extension-myp5-mathematics-coordinate-geometry-practice-2",
+      "field": "additionalPractice[1]",
+      "method": "All squared side lengths and four adjacent dot products",
+      "computed": [
+        [
+          8,
+          8,
+          8,
+          8
+        ],
+        [
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "sourceAnswerExpected": [
+        [
+          8,
+          8,
+          8,
+          8
+        ],
+        [
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-trigonometry",
+      "itemId": "extension-trigonometry-worked",
+      "field": "studyPack.workedExamples[0]",
+      "method": "Degree-mode cosine and independent hypotenuse",
+      "computed": 9.13785102532595,
+      "sourceAnswerExpected": 9.1379,
+      "absoluteAndRelativeTolerance": 5e-05,
+      "result": "pass"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-trigonometry",
+      "itemId": "extension-myp5-mathematics-trigonometry-practice-1",
+      "field": "additionalPractice[0]",
+      "method": "Degree-mode arctangent rounded to one decimal",
+      "computed": 36.9,
+      "sourceAnswerExpected": 36.9,
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-trigonometry",
+      "itemId": "extension-myp5-mathematics-trigonometry-practice-2",
+      "field": "additionalPractice[1]",
+      "method": "Degree-mode inverse side relation; prompt unit ambiguity separately reported",
+      "computed": [
+        11.83,
+        2.11
+      ],
+      "sourceAnswerExpected": [
+        11.83,
+        2.11
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-statistics",
+      "itemId": "extension-statistics-worked",
+      "field": "studyPack.workedExamples[0]",
+      "method": "Expanded frequency-weighted sum",
+      "computed": 3.8,
+      "sourceAnswerExpected": 3.8,
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-statistics",
+      "itemId": "extension-myp5-mathematics-statistics-practice-1",
+      "field": "additionalPractice[0]",
+      "method": "Expanded score distribution mean",
+      "computed": 3.5,
+      "sourceAnswerExpected": 3.5,
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-statistics",
+      "itemId": "extension-myp5-mathematics-statistics-practice-2",
+      "field": "additionalPractice[1]",
+      "method": "Group totals divided by total sample size",
+      "computed": 6.8,
+      "sourceAnswerExpected": 6.8,
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-probability",
+      "itemId": "extension-probability-worked",
+      "field": "studyPack.workedExamples[0]",
+      "method": "Joint and restricted-denominator fractions",
+      "computed": [
+        0.3,
+        0.6666666666666666
+      ],
+      "sourceAnswerExpected": [
+        0.3,
+        0.6666666666666666
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-probability",
+      "itemId": "extension-myp5-mathematics-probability-practice-1",
+      "field": "additionalPractice[0]",
+      "method": "Conditional sample-space count",
+      "computed": 0.4,
+      "sourceAnswerExpected": 0.4,
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-probability",
+      "itemId": "extension-myp5-mathematics-probability-practice-2",
+      "field": "additionalPractice[1]",
+      "method": "Joint-product identity and conditional probability",
+      "computed": [
+        0.2,
+        0.5
+      ],
+      "sourceAnswerExpected": [
+        0.2,
+        0.5
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-sequences",
+      "itemId": "extension-sequences-worked",
+      "field": "studyPack.workedExamples[0]",
+      "method": "Enumerate all twelve arithmetic terms",
+      "computed": [
+        38,
+        258
+      ],
+      "sourceAnswerExpected": [
+        38,
+        258
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-sequences",
+      "itemId": "extension-myp5-mathematics-sequences-practice-1",
+      "field": "additionalPractice[0]",
+      "method": "Enumerate ten decreasing terms",
+      "computed": [
+        2,
+        110
+      ],
+      "sourceAnswerExpected": [
+        2,
+        110
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-sequences",
+      "itemId": "extension-myp5-mathematics-sequences-practice-2",
+      "field": "additionalPractice[1]",
+      "method": "Finite search of first strict threshold",
+      "computed": [
+        21,
+        104
+      ],
+      "sourceAnswerExpected": [
+        21,
+        104
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-patterns",
+      "itemId": "extension-patterns-worked",
+      "field": "studyPack.workedExamples[0]",
+      "method": "Count perimeter cells directly for n=5; expansion reviewed symbolically",
+      "computed": 16,
+      "sourceAnswerExpected": 16,
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-patterns",
+      "itemId": "extension-myp5-mathematics-patterns-practice-1",
+      "field": "additionalPractice[0]",
+      "method": "Count perimeter cells directly for n=10",
+      "computed": 36,
+      "sourceAnswerExpected": 36,
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-modelling",
+      "itemId": "extension-modelling-worked",
+      "field": "studyPack.workedExamples[0]",
+      "method": "Piecewise tariff substitution",
+      "computed": 18.0,
+      "sourceAnswerExpected": 18,
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-modelling",
+      "itemId": "extension-myp5-mathematics-modelling-practice-1",
+      "field": "additionalPractice[0]",
+      "method": "Excess-mass tariff substitution",
+      "computed": 8.0,
+      "sourceAnswerExpected": 8,
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-modelling",
+      "itemId": "extension-myp5-mathematics-modelling-practice-2",
+      "field": "additionalPractice[1]",
+      "method": "Observation-minus-prediction residuals",
+      "computed": [
+        2,
+        4,
+        6
+      ],
+      "sourceAnswerExpected": [
+        2,
+        4,
+        6
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-financial",
+      "itemId": "extension-financial-worked",
+      "field": "studyPack.workedExamples[0]",
+      "method": "Cost equality and both substitutions",
+      "computed": [
+        4.0,
+        26,
+        26
+      ],
+      "sourceAnswerExpected": [
+        4,
+        26,
+        26
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-financial",
+      "itemId": "extension-myp5-mathematics-financial-practice-1",
+      "field": "additionalPractice[0]",
+      "method": "Reverse percentage",
+      "computed": 74.99999999999999,
+      "sourceAnswerExpected": 75,
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-financial",
+      "itemId": "extension-myp5-mathematics-financial-practice-2",
+      "field": "additionalPractice[1]",
+      "method": "Both complete cost rules at each use count",
+      "computed": [
+        [
+          38,
+          34
+        ],
+        [
+          42,
+          46
+        ]
+      ],
+      "sourceAnswerExpected": [
+        [
+          38,
+          34
+        ],
+        [
+          42,
+          46
+        ]
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-problem-solving",
+      "itemId": "extension-problem-solving-worked",
+      "field": "studyPack.workedExamples[0]",
+      "method": "Exhaustive nonnegative integer search",
+      "computed": [
+        [
+          1,
+          3
+        ]
+      ],
+      "sourceAnswerExpected": [
+        [
+          1,
+          3
+        ]
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-problem-solving",
+      "itemId": "extension-myp5-mathematics-problem-solving-practice-1",
+      "field": "additionalPractice[0]",
+      "method": "Inverse operations and original equation",
+      "computed": [
+        13.0,
+        35
+      ],
+      "sourceAnswerExpected": [
+        13,
+        35
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-problem-solving",
+      "itemId": "extension-myp5-mathematics-problem-solving-practice-2",
+      "field": "additionalPractice[1]",
+      "method": "Exhaustive nonnegative integer search",
+      "computed": [
+        [
+          2,
+          2
+        ]
+      ],
+      "sourceAnswerExpected": [
+        [
+          2,
+          2
+        ]
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-communication",
+      "itemId": "extension-myp5-mathematics-communication-practice-1",
+      "field": "additionalPractice[0]",
+      "method": "Rectangle area versus sum and perimeter",
+      "computed": [
+        15,
+        8,
+        16
+      ],
+      "sourceAnswerExpected": [
+        15,
+        8,
+        16
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-investigation",
+      "itemId": "extension-investigation-worked",
+      "field": "studyPack.workedExamples[0]",
+      "method": "Enumerate unordered pairs for six people",
+      "computed": 15,
+      "sourceAnswerExpected": 15,
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-investigation",
+      "itemId": "extension-myp5-mathematics-investigation-practice-1",
+      "field": "additionalPractice[0]",
+      "method": "Enumerate unordered team pairs",
+      "computed": 36,
+      "sourceAnswerExpected": 36,
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-investigation",
+      "itemId": "extension-myp5-mathematics-investigation-practice-2",
+      "field": "additionalPractice[1]",
+      "method": "Compare pair counts for four and five people",
+      "computed": [
+        6,
+        10,
+        4
+      ],
+      "sourceAnswerExpected": [
+        6,
+        10,
+        4
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-motion",
+      "itemId": "extension-motion-worked",
+      "field": "studyPack.workedExamples[0]",
+      "method": "Constant-acceleration equation and mean velocity",
+      "computed": [
+        -1.5,
+        24.0
+      ],
+      "sourceAnswerExpected": [
+        -1.5,
+        24
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-motion",
+      "itemId": "extension-myp5-physics-motion-practice-1",
+      "field": "additionalPractice[0]",
+      "method": "Distance and signed displacement per time",
+      "computed": [
+        2.0,
+        1.0
+      ],
+      "sourceAnswerExpected": [
+        2,
+        1
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-motion",
+      "itemId": "extension-myp5-physics-motion-practice-2",
+      "field": "additionalPractice[1]",
+      "method": "Constant-acceleration displacement",
+      "computed": 25.0,
+      "sourceAnswerExpected": 25,
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-forces",
+      "itemId": "extension-forces-worked",
+      "field": "studyPack.workedExamples[0]",
+      "method": "Weight and equilibrium magnitude",
+      "computed": 20,
+      "sourceAnswerExpected": 20,
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-forces",
+      "itemId": "extension-myp5-physics-forces-practice-1",
+      "field": "additionalPractice[0]",
+      "method": "Net force plus opposing drag",
+      "computed": 10,
+      "sourceAnswerExpected": 10,
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-forces",
+      "itemId": "extension-myp5-physics-forces-practice-2",
+      "field": "additionalPractice[1]",
+      "method": "Equal-force acceleration ratio",
+      "computed": 2.0,
+      "sourceAnswerExpected": 2,
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-energy",
+      "itemId": "extension-energy-worked",
+      "field": "studyPack.workedExamples[0]",
+      "method": "Spring energy and energy-derived speed",
+      "computed": [
+        1.0000000000000002,
+        2.0
+      ],
+      "sourceAnswerExpected": [
+        1,
+        2
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-energy",
+      "itemId": "extension-myp5-physics-energy-practice-1",
+      "field": "additionalPractice[0]",
+      "method": "Spring energy",
+      "computed": 0.8999999999999999,
+      "sourceAnswerExpected": 0.9,
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-energy",
+      "itemId": "extension-myp5-physics-energy-practice-2",
+      "field": "additionalPractice[1]",
+      "method": "Energy balance and useful fraction",
+      "computed": [
+        3,
+        0.75
+      ],
+      "sourceAnswerExpected": [
+        3,
+        0.75
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-work-power",
+      "itemId": "extension-work-power-worked",
+      "field": "studyPack.workedExamples[0]",
+      "method": "Energy/time and useful/input",
+      "computed": [
+        150.0,
+        105.0,
+        0.7,
+        45.0
+      ],
+      "sourceAnswerExpected": [
+        150,
+        105,
+        0.7,
+        45
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-work-power",
+      "itemId": "extension-myp5-physics-work-power-practice-1",
+      "field": "additionalPractice[0]",
+      "method": "Kilojoule conversion then average power",
+      "computed": 300.0,
+      "sourceAnswerExpected": 300,
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-work-power",
+      "itemId": "extension-myp5-physics-work-power-practice-2",
+      "field": "additionalPractice[1]",
+      "method": "Fixed-efficiency input scaling using arbitrary reference unit",
+      "computed": 2.0,
+      "sourceAnswerExpected": 2,
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-momentum",
+      "itemId": "extension-momentum-worked",
+      "field": "studyPack.workedExamples[0]",
+      "method": "Signed momentum difference and average force",
+      "computed": [
+        -1.2000000000000002,
+        -20.000000000000004
+      ],
+      "sourceAnswerExpected": [
+        -1.2,
+        -20
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-momentum",
+      "itemId": "extension-myp5-physics-momentum-practice-1",
+      "field": "additionalPractice[0]",
+      "method": "Signed velocity difference",
+      "computed": 3.0,
+      "sourceAnswerExpected": 3,
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-momentum",
+      "itemId": "extension-myp5-physics-momentum-practice-2",
+      "field": "additionalPractice[1]",
+      "method": "Impulse divided by each stopping time",
+      "computed": [
+        300.0,
+        60.0,
+        0.2
+      ],
+      "sourceAnswerExpected": [
+        300,
+        60,
+        0.2
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-waves",
+      "itemId": "extension-waves-worked",
+      "field": "studyPack.workedExamples[0]",
+      "method": "Half peak-to-peak displacement and wave relation",
+      "computed": [
+        0.03,
+        4.0
+      ],
+      "sourceAnswerExpected": [
+        0.03,
+        4
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-waves",
+      "itemId": "extension-myp5-physics-waves-practice-1",
+      "field": "additionalPractice[0]",
+      "method": "Cycles/time then wavelength multiplication",
+      "computed": [
+        4.0,
+        2.0
+      ],
+      "sourceAnswerExpected": [
+        4,
+        2
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-waves",
+      "itemId": "extension-myp5-physics-waves-practice-2",
+      "field": "additionalPractice[1]",
+      "method": "Reciprocal period",
+      "computed": 4.0,
+      "sourceAnswerExpected": 4,
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-light",
+      "itemId": "extension-light-worked",
+      "field": "studyPack.workedExamples[0]",
+      "method": "Infer refractive-index ratio and apply reverse Snell relation",
+      "computed": 39.99999999999999,
+      "sourceAnswerExpected": 40,
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-light",
+      "itemId": "extension-myp5-physics-light-practice-2",
+      "field": "additionalPractice[1]",
+      "method": "Complement to surface angle",
+      "computed": 58,
+      "sourceAnswerExpected": 58,
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-sound",
+      "itemId": "extension-sound-worked",
+      "field": "studyPack.workedExamples[0]",
+      "method": "Reciprocal periods",
+      "computed": [
+        250.0,
+        500.0
+      ],
+      "sourceAnswerExpected": [
+        250,
+        500
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-sound",
+      "itemId": "extension-myp5-physics-sound-practice-1",
+      "field": "additionalPractice[0]",
+      "method": "Cycle count per second",
+      "computed": 500.0,
+      "sourceAnswerExpected": 500,
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-electricity",
+      "itemId": "extension-electricity-worked",
+      "field": "studyPack.workedExamples[0]",
+      "method": "Charge, energy and independent power-time equivalence",
+      "computed": [
+        6.0,
+        54.0,
+        1.8
+      ],
+      "sourceAnswerExpected": [
+        6,
+        54,
+        1.8
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-electricity",
+      "itemId": "extension-myp5-physics-electricity-practice-1",
+      "field": "additionalPractice[0]",
+      "method": "Energy/time and power/voltage",
+      "computed": [
+        2.5,
+        0.5
+      ],
+      "sourceAnswerExpected": [
+        2.5,
+        0.5
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-atomic-nuclear",
+      "itemId": "extension-atomic-nuclear-worked",
+      "field": "studyPack.workedExamples[0]",
+      "method": "Subtract background, halve source, restore background",
+      "computed": 120.0,
+      "sourceAnswerExpected": 120,
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-atomic-nuclear",
+      "itemId": "extension-myp5-physics-atomic-nuclear-practice-1",
+      "field": "additionalPractice[0]",
+      "method": "Subtract background, quarter source, restore background",
+      "computed": 50.0,
+      "sourceAnswerExpected": 50,
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-data-analysis",
+      "itemId": "extension-data-analysis-worked",
+      "field": "studyPack.workedExamples[0]",
+      "method": "Difference quotient with force/extension units",
+      "computed": 200.0,
+      "sourceAnswerExpected": 200,
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-data-analysis",
+      "itemId": "extension-myp5-physics-data-analysis-practice-1",
+      "field": "additionalPractice[0]",
+      "method": "Signed observed-minus-predicted residuals",
+      "computed": [
+        0.20000000000000018,
+        -0.20000000000000018,
+        0.09999999999999964
+      ],
+      "sourceAnswerExpected": [
+        0.2,
+        -0.2,
+        0.1
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-uncertainty",
+      "itemId": "extension-uncertainty-worked",
+      "field": "studyPack.workedExamples[0]",
+      "method": "Conservative endpoint difference bounds",
+      "computed": [
+        5,
+        4.800000000000001,
+        5.199999999999999
+      ],
+      "sourceAnswerExpected": [
+        5,
+        4.8,
+        5.2
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-uncertainty",
+      "itemId": "extension-myp5-physics-uncertainty-practice-1",
+      "field": "additionalPractice[0]",
+      "method": "Relative bound as percentage",
+      "computed": 10.0,
+      "sourceAnswerExpected": 10,
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-uncertainty",
+      "itemId": "extension-myp5-physics-uncertainty-practice-2",
+      "field": "additionalPractice[1]",
+      "method": "Construct and intersect bounded intervals",
+      "computed": [
+        [
+          11.8,
+          12.2
+        ],
+        [
+          12.100000000000001,
+          12.5
+        ],
+        [
+          12.100000000000001,
+          12.2
+        ]
+      ],
+      "sourceAnswerExpected": [
+        [
+          11.8,
+          12.2
+        ],
+        [
+          12.1,
+          12.5
+        ],
+        [
+          12.1,
+          12.2
+        ]
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-graph-interpretation",
+      "itemId": "extension-graph-interpretation-worked",
+      "field": "studyPack.workedExamples[0]",
+      "method": "Triangular force-time area",
+      "computed": 20.0,
+      "sourceAnswerExpected": 20,
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-graph-interpretation",
+      "itemId": "extension-myp5-physics-graph-interpretation-practice-1",
+      "field": "additionalPractice[0]",
+      "method": "Rectangular force-time area",
+      "computed": 18,
+      "sourceAnswerExpected": 18,
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-graph-interpretation",
+      "itemId": "extension-myp5-physics-graph-interpretation-practice-2",
+      "field": "additionalPractice[1]",
+      "method": "Triangular force-displacement area",
+      "computed": 10.0,
+      "sourceAnswerExpected": 10,
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-atomic-structure",
+      "itemId": "extension-atomic-structure-worked",
+      "field": "studyPack.workedExamples[0]",
+      "method": "Abundance-weighted mass and nucleon subtraction",
+      "computed": [
+        20.8,
+        10,
+        12
+      ],
+      "sourceAnswerExpected": [
+        20.8,
+        10,
+        12
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-atomic-structure",
+      "itemId": "extension-myp5-chemistry-atomic-structure-practice-1",
+      "field": "additionalPractice[0]",
+      "method": "Ion particle counts",
+      "computed": [
+        8,
+        10,
+        10
+      ],
+      "sourceAnswerExpected": [
+        8,
+        10,
+        10
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-atomic-structure",
+      "itemId": "extension-myp5-chemistry-atomic-structure-practice-2",
+      "field": "additionalPractice[1]",
+      "method": "Abundance-weighted classroom mass estimate",
+      "computed": 24.400000000000002,
+      "sourceAnswerExpected": 24.4,
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-periodic-trends",
+      "itemId": "extension-periodic-trends-worked",
+      "field": "studyPack.workedExamples[0]",
+      "method": "Occupied shell counts and atomic electron totals",
+      "computed": [
+        2,
+        3,
+        2,
+        10
+      ],
+      "sourceAnswerExpected": [
+        2,
+        3,
+        2,
+        10
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-periodic-trends",
+      "itemId": "extension-myp5-chemistry-periodic-trends-practice-1",
+      "field": "additionalPractice[0]",
+      "method": "Occupied-shell count and loss of outer-shell electrons",
+      "computed": [
+        3,
+        2
+      ],
+      "sourceAnswerExpected": [
+        3,
+        2
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-reactions",
+      "itemId": "extension-reactions-worked",
+      "field": "studyPack.workedExamples[0]",
+      "method": "Independent atom-count balance",
+      "computed": [
+        4,
+        6,
+        4,
+        6
+      ],
+      "sourceAnswerExpected": [
+        4,
+        6,
+        4,
+        6
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-reactions",
+      "itemId": "extension-myp5-chemistry-reactions-practice-1",
+      "field": "additionalPractice[0]",
+      "method": "Independent nitrogen and hydrogen counts",
+      "computed": [
+        2,
+        6,
+        2,
+        6
+      ],
+      "sourceAnswerExpected": [
+        2,
+        6,
+        2,
+        6
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-reactions",
+      "itemId": "extension-myp5-chemistry-reactions-practice-2",
+      "field": "additionalPractice[1]",
+      "method": "Original carbon dioxide equation atom balance",
+      "computed": [
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          2
+        ]
+      ],
+      "sourceAnswerExpected": [
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          2
+        ]
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-stoichiometry",
+      "itemId": "extension-stoichiometry-worked",
+      "field": "studyPack.workedExamples[0]",
+      "method": "Moles conserved during dilution",
+      "computed": [
+        0.03,
+        0.05
+      ],
+      "sourceAnswerExpected": [
+        0.03,
+        0.05
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-stoichiometry",
+      "itemId": "extension-myp5-chemistry-stoichiometry-practice-1",
+      "field": "additionalPractice[0]",
+      "method": "Millilitre conversion and n=cV",
+      "computed": 0.1,
+      "sourceAnswerExpected": 0.1,
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-stoichiometry",
+      "itemId": "extension-myp5-chemistry-stoichiometry-practice-2",
+      "field": "additionalPractice[1]",
+      "method": "Required total volume and increment",
+      "computed": [
+        0.6,
+        0.3
+      ],
+      "sourceAnswerExpected": [
+        0.6,
+        0.3
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-acids-bases",
+      "itemId": "extension-acids-bases-worked",
+      "field": "studyPack.workedExamples[0]",
+      "method": "One-to-one limiting-ion neutralisation",
+      "computed": [
+        0.015,
+        0.005000000000000001
+      ],
+      "sourceAnswerExpected": [
+        0.015,
+        0.005
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-acids-bases",
+      "itemId": "extension-myp5-chemistry-acids-bases-practice-1",
+      "field": "additionalPractice[0]",
+      "method": "One-to-one neutralisation excess",
+      "computed": 0.002,
+      "sourceAnswerExpected": 0.002,
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-energetics",
+      "itemId": "extension-energetics-worked",
+      "field": "studyPack.workedExamples[0]",
+      "method": "Peak-minus-reactant and product-minus-reactant",
+      "computed": [
+        90,
+        -30
+      ],
+      "sourceAnswerExpected": [
+        90,
+        -30
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-energetics",
+      "itemId": "extension-myp5-chemistry-energetics-practice-1",
+      "field": "additionalPractice[0]",
+      "method": "Product-minus-reactant energy",
+      "computed": 45,
+      "sourceAnswerExpected": 45,
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-energetics",
+      "itemId": "extension-myp5-chemistry-energetics-practice-2",
+      "field": "additionalPractice[1]",
+      "method": "Two barriers and fixed endpoint difference",
+      "computed": [
+        80,
+        45,
+        -15
+      ],
+      "sourceAnswerExpected": [
+        80,
+        45,
+        -15
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-rates",
+      "itemId": "extension-rates-worked",
+      "field": "studyPack.workedExamples[0]",
+      "method": "Independent interval rates and ratio",
+      "computed": [
+        1.8,
+        3.0,
+        1.6666666666666665
+      ],
+      "sourceAnswerExpected": [
+        1.8,
+        3,
+        1.6666666666666667
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-rates",
+      "itemId": "extension-myp5-chemistry-rates-practice-1",
+      "field": "additionalPractice[0]",
+      "method": "Difference quotient over stated interval",
+      "computed": 2.0,
+      "sourceAnswerExpected": 2,
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-organic",
+      "itemId": "extension-organic-worked",
+      "field": "studyPack.workedExamples[0]",
+      "method": "Hydrogen-count sums in supplied condensed structures",
+      "computed": [
+        8,
+        6
+      ],
+      "sourceAnswerExpected": [
+        8,
+        6
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-organic",
+      "itemId": "extension-myp5-chemistry-organic-practice-1",
+      "field": "additionalPractice[0]",
+      "method": "Acyclic alkane hydrogen formula",
+      "computed": 16,
+      "sourceAnswerExpected": 16,
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-organic",
+      "itemId": "extension-myp5-chemistry-organic-practice-2",
+      "field": "additionalPractice[1]",
+      "method": "Hydrogen counts including hydroxyl H",
+      "computed": [
+        8,
+        8
+      ],
+      "sourceAnswerExpected": [
+        8,
+        8
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-environment",
+      "itemId": "extension-environment-worked",
+      "field": "studyPack.workedExamples[0]",
+      "method": "Concentration times volume flow",
+      "computed": [
+        60,
+        40
+      ],
+      "sourceAnswerExpected": [
+        60,
+        40
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-environment",
+      "itemId": "extension-myp5-chemistry-environment-practice-1",
+      "field": "additionalPractice[0]",
+      "method": "Load rate then elapsed-time mass",
+      "computed": [
+        36,
+        360
+      ],
+      "sourceAnswerExpected": [
+        36,
+        360
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-environment",
+      "itemId": "extension-myp5-chemistry-environment-practice-2",
+      "field": "additionalPractice[1]",
+      "method": "Combined concentration/flow factor",
+      "computed": 1.5,
+      "sourceAnswerExpected": 1.5,
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-data",
+      "itemId": "extension-data-worked",
+      "field": "studyPack.workedExamples[0]",
+      "method": "Invert affine calibration",
+      "computed": 5.0,
+      "sourceAnswerExpected": 5,
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-data",
+      "itemId": "extension-myp5-chemistry-data-practice-1",
+      "field": "additionalPractice[0]",
+      "method": "Invert affine calibration and range check",
+      "computed": [
+        5.0,
+        true
+      ],
+      "sourceAnswerExpected": [
+        5,
+        true
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "biology",
+      "lessonId": "myp5-biology-cells",
+      "itemId": "extension-myp5-biology-cells-practice-2",
+      "field": "additionalPractice[1]",
+      "method": "Image/magnification followed by mm-to-micrometre conversion",
+      "computed": [
+        0.03,
+        30.0
+      ],
+      "sourceAnswerExpected": [
+        0.03,
+        30
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "biology",
+      "lessonId": "myp5-biology-genetics",
+      "itemId": "extension-genetics-worked",
+      "field": "studyPack.workedExamples[0]",
+      "method": "Independent Mendelian probabilities",
+      "computed": 0.25,
+      "sourceAnswerExpected": 0.25,
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "biology",
+      "lessonId": "myp5-biology-genetics",
+      "itemId": "extension-myp5-biology-genetics-practice-1",
+      "field": "additionalPractice[0]",
+      "method": "Enumerate parental allele pairs",
+      "computed": [
+        "Aa",
+        "Aa",
+        "Aa",
+        "Aa"
+      ],
+      "sourceAnswerExpected": [
+        "Aa",
+        "Aa",
+        "Aa",
+        "Aa"
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "biology",
+      "lessonId": "myp5-biology-genetics",
+      "itemId": "extension-myp5-biology-genetics-practice-2",
+      "field": "additionalPractice[1]",
+      "method": "Enumerate Bb cross and retain independent fourth probability",
+      "computed": 0.25,
+      "sourceAnswerExpected": 0.25,
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "biology",
+      "lessonId": "myp5-biology-ecology",
+      "itemId": "extension-myp5-biology-ecology-practice-1",
+      "field": "additionalPractice[0]",
+      "method": "Representative quadrat average and area expansion",
+      "computed": [
+        8.0,
+        400.0
+      ],
+      "sourceAnswerExpected": [
+        8,
+        400
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "biology",
+      "lessonId": "myp5-biology-reproduction",
+      "itemId": "extension-reproduction-worked",
+      "field": "studyPack.workedExamples[0]",
+      "method": "Diploid preservation, meiotic halving and fertilisation addition",
+      "computed": [
+        18,
+        9.0,
+        18
+      ],
+      "sourceAnswerExpected": [
+        18,
+        9,
+        18
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "biology",
+      "lessonId": "myp5-biology-reproduction",
+      "itemId": "extension-myp5-biology-reproduction-practice-1",
+      "field": "additionalPractice[0]",
+      "method": "Gamete fusion and body-cell count",
+      "computed": [
+        14,
+        14
+      ],
+      "sourceAnswerExpected": [
+        14,
+        14
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "biology",
+      "lessonId": "myp5-biology-biotechnology",
+      "itemId": "extension-biotechnology-worked",
+      "field": "studyPack.workedExamples[0]",
+      "method": "Gas volumes per respective durations",
+      "computed": [
+        4.0,
+        3.0
+      ],
+      "sourceAnswerExpected": [
+        4,
+        3
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "biology",
+      "lessonId": "myp5-biology-biotechnology",
+      "itemId": "extension-myp5-biology-biotechnology-practice-1",
+      "field": "additionalPractice[0]",
+      "method": "Gas volume divided by time",
+      "computed": 6.0,
+      "sourceAnswerExpected": 6,
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "biology",
+      "lessonId": "myp5-biology-ecosystems",
+      "itemId": "extension-myp5-biology-ecosystems-practice-1",
+      "field": "additionalPractice[0]",
+      "method": "Adjacent-level production efficiency",
+      "computed": 12.5,
+      "sourceAnswerExpected": 12.5,
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "biology",
+      "lessonId": "myp5-biology-human-impact",
+      "itemId": "extension-human-impact-worked",
+      "field": "studyPack.workedExamples[0]",
+      "method": "Normalise crossings by observation effort",
+      "computed": [
+        2.0,
+        2.0
+      ],
+      "sourceAnswerExpected": [
+        2,
+        2
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "biology",
+      "lessonId": "myp5-biology-human-impact",
+      "itemId": "extension-myp5-biology-human-impact-practice-1",
+      "field": "additionalPractice[0]",
+      "method": "Normalise sightings by observation time",
+      "computed": [
+        5.0,
+        4.0
+      ],
+      "sourceAnswerExpected": [
+        5,
+        4
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "biology",
+      "lessonId": "myp5-biology-scientific-evaluation",
+      "itemId": "extension-scientific-evaluation-worked",
+      "field": "studyPack.workedExamples[0]",
+      "method": "Absolute difference and baseline-relative percentage",
+      "computed": [
+        3,
+        25.0
+      ],
+      "sourceAnswerExpected": [
+        3,
+        25
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "biology",
+      "lessonId": "myp5-biology-scientific-evaluation",
+      "itemId": "extension-myp5-biology-scientific-evaluation-practice-1",
+      "field": "additionalPractice[0]",
+      "method": "Percentage-point and relative-percentage increases",
+      "computed": [
+        15,
+        25.0
+      ],
+      "sourceAnswerExpected": [
+        15,
+        25
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "integrated-sciences",
+      "lessonId": "myp5-integrated-sciences-systems",
+      "itemId": "extension-systems-worked",
+      "field": "studyPack.workedExamples[0]",
+      "method": "Energy balance for both stated boundaries",
+      "computed": [
+        0,
+        70
+      ],
+      "sourceAnswerExpected": [
+        0,
+        70
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "integrated-sciences",
+      "lessonId": "myp5-integrated-sciences-matter-energy",
+      "itemId": "extension-matter-energy-worked",
+      "field": "studyPack.workedExamples[0]",
+      "method": "Mass times latent heat",
+      "computed": 66.8,
+      "sourceAnswerExpected": 66.8,
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "integrated-sciences",
+      "lessonId": "myp5-integrated-sciences-matter-energy",
+      "itemId": "extension-myp5-integrated-sciences-matter-energy-practice-1",
+      "field": "additionalPractice[0]",
+      "method": "Mass times latent heat",
+      "computed": 60.0,
+      "sourceAnswerExpected": 60,
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "integrated-sciences",
+      "lessonId": "myp5-integrated-sciences-forces-change",
+      "itemId": "extension-forces-change-worked",
+      "field": "studyPack.workedExamples[0]",
+      "method": "Kinetic energy divided by constant braking force",
+      "computed": [
+        16.0,
+        2.0
+      ],
+      "sourceAnswerExpected": [
+        16,
+        2
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "integrated-sciences",
+      "lessonId": "myp5-integrated-sciences-forces-change",
+      "itemId": "extension-myp5-integrated-sciences-forces-change-practice-1",
+      "field": "additionalPractice[0]",
+      "method": "Kinetic energy and constant-force stopping distance",
+      "computed": [
+        18.0,
+        6.0
+      ],
+      "sourceAnswerExpected": [
+        18,
+        6
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "integrated-sciences",
+      "lessonId": "myp5-integrated-sciences-forces-change",
+      "itemId": "extension-myp5-integrated-sciences-forces-change-practice-2",
+      "field": "additionalPractice[1]",
+      "method": "Squared speed ratio for equal mass and force",
+      "computed": 4.0,
+      "sourceAnswerExpected": 4,
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "integrated-sciences",
+      "lessonId": "myp5-integrated-sciences-living-systems",
+      "itemId": "extension-myp5-integrated-sciences-living-systems-practice-2",
+      "field": "additionalPractice[1]",
+      "method": "Complete input-minus-output mass balance",
+      "computed": 3,
+      "sourceAnswerExpected": 3,
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "integrated-sciences",
+      "lessonId": "myp5-integrated-sciences-earth-environment",
+      "itemId": "extension-earth-environment-worked",
+      "field": "studyPack.workedExamples[0]",
+      "method": "Reflection fractions and residual absorption",
+      "computed": [
+        120.0,
+        80.0,
+        60.0,
+        140.0
+      ],
+      "sourceAnswerExpected": [
+        120,
+        80,
+        60,
+        140
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "integrated-sciences",
+      "lessonId": "myp5-integrated-sciences-earth-environment",
+      "itemId": "extension-myp5-integrated-sciences-earth-environment-practice-1",
+      "field": "additionalPractice[0]",
+      "method": "Reflected and absorbed energy with no transmission",
+      "computed": [
+        100.0,
+        300.0
+      ],
+      "sourceAnswerExpected": [
+        100,
+        300
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "integrated-sciences",
+      "lessonId": "myp5-integrated-sciences-data-uncertainty",
+      "itemId": "extension-data-uncertainty-worked",
+      "field": "studyPack.workedExamples[0]",
+      "method": "Positive ratio bounds: smallest numerator/largest denominator and reverse",
+      "computed": [
+        5.0,
+        4.67,
+        5.37
+      ],
+      "sourceAnswerExpected": [
+        5,
+        4.67,
+        5.37
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "integrated-sciences",
+      "lessonId": "myp5-integrated-sciences-data-uncertainty",
+      "itemId": "extension-myp5-integrated-sciences-data-uncertainty-practice-1",
+      "field": "additionalPractice[0]",
+      "method": "Total volume change per elapsed time",
+      "computed": 5.0,
+      "sourceAnswerExpected": 5,
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "integrated-sciences",
+      "lessonId": "myp5-integrated-sciences-data-uncertainty",
+      "itemId": "extension-myp5-integrated-sciences-data-uncertainty-practice-2",
+      "field": "additionalPractice[1]",
+      "method": "Conservative positive density ratio bounds",
+      "computed": [
+        3.6,
+        5.5
+      ],
+      "sourceAnswerExpected": [
+        3.6,
+        5.5
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "integrated-sciences",
+      "lessonId": "myp5-integrated-sciences-scientific-evaluation",
+      "itemId": "extension-scientific-evaluation-worked",
+      "field": "studyPack.workedExamples[0]",
+      "method": "Residual mass after each removal fraction",
+      "computed": [
+        19.999999999999996,
+        10.000000000000009,
+        10.0
+      ],
+      "sourceAnswerExpected": [
+        20,
+        10,
+        10
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    },
+    {
+      "subject": "integrated-sciences",
+      "lessonId": "myp5-integrated-sciences-scientific-evaluation",
+      "itemId": "extension-myp5-integrated-sciences-scientific-evaluation-practice-1",
+      "field": "additionalPractice[0]",
+      "method": "Removed and remaining mass",
+      "computed": [
+        120.0,
+        29.999999999999993
+      ],
+      "sourceAnswerExpected": [
+        120,
+        30
+      ],
+      "absoluteAndRelativeTolerance": 1e-09,
+      "result": "pass"
+    }
+  ],
+  "formalChecks": [
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-patterns",
+      "itemId": "extension-myp5-mathematics-patterns-practice-2",
+      "method": "Expand (n+1)^2-n^2=2n+1; integer parity argument",
+      "result": "pass"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-communication",
+      "itemId": "extension-communication-worked",
+      "method": "Factor (2a+1)+(2b+1)=2(a+b+1), with integer closure",
+      "result": "pass"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-communication",
+      "itemId": "extension-myp5-mathematics-communication-practice-2",
+      "method": "Factor (2k)m=2(km), with integer closure",
+      "result": "pass"
+    }
+  ],
+  "screenedRecords": [
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-number",
+      "itemId": "extension-number-worked",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-number",
+      "itemId": "extension-myp5-mathematics-number-practice-1",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-number",
+      "itemId": "extension-myp5-mathematics-number-practice-2",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-algebra",
+      "itemId": "extension-algebra-worked",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-algebra",
+      "itemId": "extension-myp5-mathematics-algebra-practice-1",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-algebra",
+      "itemId": "extension-myp5-mathematics-algebra-practice-2",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-functions",
+      "itemId": "extension-functions-worked",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-functions",
+      "itemId": "extension-myp5-mathematics-functions-practice-1",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-functions",
+      "itemId": "extension-myp5-mathematics-functions-practice-2",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-geometry",
+      "itemId": "extension-geometry-worked",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-geometry",
+      "itemId": "extension-myp5-mathematics-geometry-practice-1",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-geometry",
+      "itemId": "extension-myp5-mathematics-geometry-practice-2",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-coordinate-geometry",
+      "itemId": "extension-coordinate-geometry-worked",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-coordinate-geometry",
+      "itemId": "extension-myp5-mathematics-coordinate-geometry-practice-1",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-coordinate-geometry",
+      "itemId": "extension-myp5-mathematics-coordinate-geometry-practice-2",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-trigonometry",
+      "itemId": "extension-trigonometry-worked",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-trigonometry",
+      "itemId": "extension-myp5-mathematics-trigonometry-practice-1",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-trigonometry",
+      "itemId": "extension-myp5-mathematics-trigonometry-practice-2",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-statistics",
+      "itemId": "extension-statistics-worked",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-statistics",
+      "itemId": "extension-myp5-mathematics-statistics-practice-1",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-statistics",
+      "itemId": "extension-myp5-mathematics-statistics-practice-2",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-probability",
+      "itemId": "extension-probability-worked",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-probability",
+      "itemId": "extension-myp5-mathematics-probability-practice-1",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-probability",
+      "itemId": "extension-myp5-mathematics-probability-practice-2",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-sequences",
+      "itemId": "extension-sequences-worked",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-sequences",
+      "itemId": "extension-myp5-mathematics-sequences-practice-1",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-sequences",
+      "itemId": "extension-myp5-mathematics-sequences-practice-2",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-patterns",
+      "itemId": "extension-patterns-worked",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-patterns",
+      "itemId": "extension-myp5-mathematics-patterns-practice-1",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-patterns",
+      "itemId": "extension-myp5-mathematics-patterns-practice-2",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-modelling",
+      "itemId": "extension-modelling-worked",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-modelling",
+      "itemId": "extension-myp5-mathematics-modelling-practice-1",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-modelling",
+      "itemId": "extension-myp5-mathematics-modelling-practice-2",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-financial",
+      "itemId": "extension-financial-worked",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-financial",
+      "itemId": "extension-myp5-mathematics-financial-practice-1",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-financial",
+      "itemId": "extension-myp5-mathematics-financial-practice-2",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-problem-solving",
+      "itemId": "extension-problem-solving-worked",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-problem-solving",
+      "itemId": "extension-myp5-mathematics-problem-solving-practice-1",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-problem-solving",
+      "itemId": "extension-myp5-mathematics-problem-solving-practice-2",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-communication",
+      "itemId": "extension-communication-worked",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-communication",
+      "itemId": "extension-myp5-mathematics-communication-practice-1",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-communication",
+      "itemId": "extension-myp5-mathematics-communication-practice-2",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-investigation",
+      "itemId": "extension-investigation-worked",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-investigation",
+      "itemId": "extension-myp5-mathematics-investigation-practice-1",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "mathematics",
+      "lessonId": "myp5-mathematics-investigation",
+      "itemId": "extension-myp5-mathematics-investigation-practice-2",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-motion",
+      "itemId": "extension-motion-worked",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-motion",
+      "itemId": "extension-myp5-physics-motion-practice-1",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-motion",
+      "itemId": "extension-myp5-physics-motion-practice-2",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-forces",
+      "itemId": "extension-forces-worked",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-forces",
+      "itemId": "extension-myp5-physics-forces-practice-1",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-forces",
+      "itemId": "extension-myp5-physics-forces-practice-2",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-energy",
+      "itemId": "extension-energy-worked",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-energy",
+      "itemId": "extension-myp5-physics-energy-practice-1",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-energy",
+      "itemId": "extension-myp5-physics-energy-practice-2",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-work-power",
+      "itemId": "extension-work-power-worked",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-work-power",
+      "itemId": "extension-myp5-physics-work-power-practice-1",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-work-power",
+      "itemId": "extension-myp5-physics-work-power-practice-2",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-momentum",
+      "itemId": "extension-momentum-worked",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-momentum",
+      "itemId": "extension-myp5-physics-momentum-practice-1",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-momentum",
+      "itemId": "extension-myp5-physics-momentum-practice-2",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-waves",
+      "itemId": "extension-waves-worked",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-waves",
+      "itemId": "extension-myp5-physics-waves-practice-1",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-waves",
+      "itemId": "extension-myp5-physics-waves-practice-2",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-light",
+      "itemId": "extension-light-worked",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-light",
+      "itemId": "extension-myp5-physics-light-practice-1",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-light",
+      "itemId": "extension-myp5-physics-light-practice-2",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-sound",
+      "itemId": "extension-sound-worked",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-sound",
+      "itemId": "extension-myp5-physics-sound-practice-1",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-sound",
+      "itemId": "extension-myp5-physics-sound-practice-2",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-electricity",
+      "itemId": "extension-electricity-worked",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-electricity",
+      "itemId": "extension-myp5-physics-electricity-practice-1",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-electricity",
+      "itemId": "extension-myp5-physics-electricity-practice-2",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-magnetism",
+      "itemId": "extension-magnetism-worked",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-magnetism",
+      "itemId": "extension-myp5-physics-magnetism-practice-1",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-magnetism",
+      "itemId": "extension-myp5-physics-magnetism-practice-2",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-thermal",
+      "itemId": "extension-thermal-worked",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-thermal",
+      "itemId": "extension-myp5-physics-thermal-practice-1",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-thermal",
+      "itemId": "extension-myp5-physics-thermal-practice-2",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-atomic-nuclear",
+      "itemId": "extension-atomic-nuclear-worked",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-atomic-nuclear",
+      "itemId": "extension-myp5-physics-atomic-nuclear-practice-1",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-atomic-nuclear",
+      "itemId": "extension-myp5-physics-atomic-nuclear-practice-2",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-experimental-design",
+      "itemId": "extension-experimental-design-worked",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-experimental-design",
+      "itemId": "extension-myp5-physics-experimental-design-practice-1",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-experimental-design",
+      "itemId": "extension-myp5-physics-experimental-design-practice-2",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-data-analysis",
+      "itemId": "extension-data-analysis-worked",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-data-analysis",
+      "itemId": "extension-myp5-physics-data-analysis-practice-1",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-data-analysis",
+      "itemId": "extension-myp5-physics-data-analysis-practice-2",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-uncertainty",
+      "itemId": "extension-uncertainty-worked",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-uncertainty",
+      "itemId": "extension-myp5-physics-uncertainty-practice-1",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-uncertainty",
+      "itemId": "extension-myp5-physics-uncertainty-practice-2",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-graph-interpretation",
+      "itemId": "extension-graph-interpretation-worked",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-graph-interpretation",
+      "itemId": "extension-myp5-physics-graph-interpretation-practice-1",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "physics",
+      "lessonId": "myp5-physics-graph-interpretation",
+      "itemId": "extension-myp5-physics-graph-interpretation-practice-2",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-atomic-structure",
+      "itemId": "extension-atomic-structure-worked",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-atomic-structure",
+      "itemId": "extension-myp5-chemistry-atomic-structure-practice-1",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-atomic-structure",
+      "itemId": "extension-myp5-chemistry-atomic-structure-practice-2",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-bonding",
+      "itemId": "extension-bonding-worked",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-bonding",
+      "itemId": "extension-myp5-chemistry-bonding-practice-1",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-bonding",
+      "itemId": "extension-myp5-chemistry-bonding-practice-2",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-periodic-trends",
+      "itemId": "extension-periodic-trends-worked",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-periodic-trends",
+      "itemId": "extension-myp5-chemistry-periodic-trends-practice-1",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-periodic-trends",
+      "itemId": "extension-myp5-chemistry-periodic-trends-practice-2",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-reactions",
+      "itemId": "extension-reactions-worked",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-reactions",
+      "itemId": "extension-myp5-chemistry-reactions-practice-1",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-reactions",
+      "itemId": "extension-myp5-chemistry-reactions-practice-2",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-stoichiometry",
+      "itemId": "extension-stoichiometry-worked",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-stoichiometry",
+      "itemId": "extension-myp5-chemistry-stoichiometry-practice-1",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-stoichiometry",
+      "itemId": "extension-myp5-chemistry-stoichiometry-practice-2",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-acids-bases",
+      "itemId": "extension-acids-bases-worked",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-acids-bases",
+      "itemId": "extension-myp5-chemistry-acids-bases-practice-1",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-acids-bases",
+      "itemId": "extension-myp5-chemistry-acids-bases-practice-2",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-energetics",
+      "itemId": "extension-energetics-worked",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-energetics",
+      "itemId": "extension-myp5-chemistry-energetics-practice-1",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-energetics",
+      "itemId": "extension-myp5-chemistry-energetics-practice-2",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-rates",
+      "itemId": "extension-rates-worked",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-rates",
+      "itemId": "extension-myp5-chemistry-rates-practice-1",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-rates",
+      "itemId": "extension-myp5-chemistry-rates-practice-2",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-equilibrium",
+      "itemId": "extension-equilibrium-worked",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-equilibrium",
+      "itemId": "extension-myp5-chemistry-equilibrium-practice-1",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-equilibrium",
+      "itemId": "extension-myp5-chemistry-equilibrium-practice-2",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-organic",
+      "itemId": "extension-organic-worked",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-organic",
+      "itemId": "extension-myp5-chemistry-organic-practice-1",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-organic",
+      "itemId": "extension-myp5-chemistry-organic-practice-2",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-environment",
+      "itemId": "extension-environment-worked",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-environment",
+      "itemId": "extension-myp5-chemistry-environment-practice-1",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-environment",
+      "itemId": "extension-myp5-chemistry-environment-practice-2",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-experimental",
+      "itemId": "extension-experimental-worked",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-experimental",
+      "itemId": "extension-myp5-chemistry-experimental-practice-1",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-experimental",
+      "itemId": "extension-myp5-chemistry-experimental-practice-2",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-data",
+      "itemId": "extension-data-worked",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-data",
+      "itemId": "extension-myp5-chemistry-data-practice-1",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "chemistry",
+      "lessonId": "myp5-chemistry-data",
+      "itemId": "extension-myp5-chemistry-data-practice-2",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "biology",
+      "lessonId": "myp5-biology-cells",
+      "itemId": "extension-cells-worked",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "biology",
+      "lessonId": "myp5-biology-cells",
+      "itemId": "extension-myp5-biology-cells-practice-1",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "biology",
+      "lessonId": "myp5-biology-cells",
+      "itemId": "extension-myp5-biology-cells-practice-2",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "biology",
+      "lessonId": "myp5-biology-genetics",
+      "itemId": "extension-genetics-worked",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "biology",
+      "lessonId": "myp5-biology-genetics",
+      "itemId": "extension-myp5-biology-genetics-practice-1",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "biology",
+      "lessonId": "myp5-biology-genetics",
+      "itemId": "extension-myp5-biology-genetics-practice-2",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "biology",
+      "lessonId": "myp5-biology-evolution",
+      "itemId": "extension-evolution-worked",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "biology",
+      "lessonId": "myp5-biology-evolution",
+      "itemId": "extension-myp5-biology-evolution-practice-1",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "biology",
+      "lessonId": "myp5-biology-evolution",
+      "itemId": "extension-myp5-biology-evolution-practice-2",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "biology",
+      "lessonId": "myp5-biology-ecology",
+      "itemId": "extension-ecology-worked",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "biology",
+      "lessonId": "myp5-biology-ecology",
+      "itemId": "extension-myp5-biology-ecology-practice-1",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "biology",
+      "lessonId": "myp5-biology-ecology",
+      "itemId": "extension-myp5-biology-ecology-practice-2",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "biology",
+      "lessonId": "myp5-biology-physiology",
+      "itemId": "extension-physiology-worked",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "biology",
+      "lessonId": "myp5-biology-physiology",
+      "itemId": "extension-myp5-biology-physiology-practice-1",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "biology",
+      "lessonId": "myp5-biology-physiology",
+      "itemId": "extension-myp5-biology-physiology-practice-2",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "biology",
+      "lessonId": "myp5-biology-homeostasis",
+      "itemId": "extension-homeostasis-worked",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "biology",
+      "lessonId": "myp5-biology-homeostasis",
+      "itemId": "extension-myp5-biology-homeostasis-practice-1",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "biology",
+      "lessonId": "myp5-biology-homeostasis",
+      "itemId": "extension-myp5-biology-homeostasis-practice-2",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "biology",
+      "lessonId": "myp5-biology-reproduction",
+      "itemId": "extension-reproduction-worked",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "biology",
+      "lessonId": "myp5-biology-reproduction",
+      "itemId": "extension-myp5-biology-reproduction-practice-1",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "biology",
+      "lessonId": "myp5-biology-reproduction",
+      "itemId": "extension-myp5-biology-reproduction-practice-2",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "biology",
+      "lessonId": "myp5-biology-biotechnology",
+      "itemId": "extension-biotechnology-worked",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "biology",
+      "lessonId": "myp5-biology-biotechnology",
+      "itemId": "extension-myp5-biology-biotechnology-practice-1",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "biology",
+      "lessonId": "myp5-biology-biotechnology",
+      "itemId": "extension-myp5-biology-biotechnology-practice-2",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "biology",
+      "lessonId": "myp5-biology-ecosystems",
+      "itemId": "extension-ecosystems-worked",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "biology",
+      "lessonId": "myp5-biology-ecosystems",
+      "itemId": "extension-myp5-biology-ecosystems-practice-1",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "biology",
+      "lessonId": "myp5-biology-ecosystems",
+      "itemId": "extension-myp5-biology-ecosystems-practice-2",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "biology",
+      "lessonId": "myp5-biology-human-impact",
+      "itemId": "extension-human-impact-worked",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "biology",
+      "lessonId": "myp5-biology-human-impact",
+      "itemId": "extension-myp5-biology-human-impact-practice-1",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "biology",
+      "lessonId": "myp5-biology-human-impact",
+      "itemId": "extension-myp5-biology-human-impact-practice-2",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "biology",
+      "lessonId": "myp5-biology-experimental-design",
+      "itemId": "extension-experimental-design-worked",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "biology",
+      "lessonId": "myp5-biology-experimental-design",
+      "itemId": "extension-myp5-biology-experimental-design-practice-1",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "biology",
+      "lessonId": "myp5-biology-experimental-design",
+      "itemId": "extension-myp5-biology-experimental-design-practice-2",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "biology",
+      "lessonId": "myp5-biology-scientific-evaluation",
+      "itemId": "extension-scientific-evaluation-worked",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "biology",
+      "lessonId": "myp5-biology-scientific-evaluation",
+      "itemId": "extension-myp5-biology-scientific-evaluation-practice-1",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "biology",
+      "lessonId": "myp5-biology-scientific-evaluation",
+      "itemId": "extension-myp5-biology-scientific-evaluation-practice-2",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "integrated-sciences",
+      "lessonId": "myp5-integrated-sciences-systems",
+      "itemId": "extension-systems-worked",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "integrated-sciences",
+      "lessonId": "myp5-integrated-sciences-systems",
+      "itemId": "extension-myp5-integrated-sciences-systems-practice-1",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "integrated-sciences",
+      "lessonId": "myp5-integrated-sciences-systems",
+      "itemId": "extension-myp5-integrated-sciences-systems-practice-2",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "integrated-sciences",
+      "lessonId": "myp5-integrated-sciences-matter-energy",
+      "itemId": "extension-matter-energy-worked",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "integrated-sciences",
+      "lessonId": "myp5-integrated-sciences-matter-energy",
+      "itemId": "extension-myp5-integrated-sciences-matter-energy-practice-1",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "integrated-sciences",
+      "lessonId": "myp5-integrated-sciences-matter-energy",
+      "itemId": "extension-myp5-integrated-sciences-matter-energy-practice-2",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "integrated-sciences",
+      "lessonId": "myp5-integrated-sciences-forces-change",
+      "itemId": "extension-forces-change-worked",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "integrated-sciences",
+      "lessonId": "myp5-integrated-sciences-forces-change",
+      "itemId": "extension-myp5-integrated-sciences-forces-change-practice-1",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "integrated-sciences",
+      "lessonId": "myp5-integrated-sciences-forces-change",
+      "itemId": "extension-myp5-integrated-sciences-forces-change-practice-2",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "integrated-sciences",
+      "lessonId": "myp5-integrated-sciences-living-systems",
+      "itemId": "extension-living-systems-worked",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "integrated-sciences",
+      "lessonId": "myp5-integrated-sciences-living-systems",
+      "itemId": "extension-myp5-integrated-sciences-living-systems-practice-1",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "integrated-sciences",
+      "lessonId": "myp5-integrated-sciences-living-systems",
+      "itemId": "extension-myp5-integrated-sciences-living-systems-practice-2",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "integrated-sciences",
+      "lessonId": "myp5-integrated-sciences-earth-environment",
+      "itemId": "extension-earth-environment-worked",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "integrated-sciences",
+      "lessonId": "myp5-integrated-sciences-earth-environment",
+      "itemId": "extension-myp5-integrated-sciences-earth-environment-practice-1",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "integrated-sciences",
+      "lessonId": "myp5-integrated-sciences-earth-environment",
+      "itemId": "extension-myp5-integrated-sciences-earth-environment-practice-2",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "integrated-sciences",
+      "lessonId": "myp5-integrated-sciences-experimental-design",
+      "itemId": "extension-experimental-design-worked",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "integrated-sciences",
+      "lessonId": "myp5-integrated-sciences-experimental-design",
+      "itemId": "extension-myp5-integrated-sciences-experimental-design-practice-1",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "integrated-sciences",
+      "lessonId": "myp5-integrated-sciences-experimental-design",
+      "itemId": "extension-myp5-integrated-sciences-experimental-design-practice-2",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    },
+    {
+      "subject": "integrated-sciences",
+      "lessonId": "myp5-integrated-sciences-data-uncertainty",
+      "itemId": "extension-data-uncertainty-worked",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "integrated-sciences",
+      "lessonId": "myp5-integrated-sciences-data-uncertainty",
+      "itemId": "extension-myp5-integrated-sciences-data-uncertainty-practice-1",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "integrated-sciences",
+      "lessonId": "myp5-integrated-sciences-data-uncertainty",
+      "itemId": "extension-myp5-integrated-sciences-data-uncertainty-practice-2",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "integrated-sciences",
+      "lessonId": "myp5-integrated-sciences-scientific-evaluation",
+      "itemId": "extension-scientific-evaluation-worked",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "integrated-sciences",
+      "lessonId": "myp5-integrated-sciences-scientific-evaluation",
+      "itemId": "extension-myp5-integrated-sciences-scientific-evaluation-practice-1",
+      "scope": "numerical/algebraic result checked"
+    },
+    {
+      "subject": "integrated-sciences",
+      "lessonId": "myp5-integrated-sciences-scientific-evaluation",
+      "itemId": "extension-myp5-integrated-sciences-scientific-evaluation-practice-2",
+      "scope": "screened; conceptual/design item without a new numerical result to calculate"
+    }
+  ],
+  "findings": [
+    {
+      "severity": "low",
+      "file": "src/content/myp5-resources/mathematics.json",
+      "lessonId": "myp5-mathematics-trigonometry",
+      "field": "lessons.myp5-mathematics-trigonometry.additionalPractice[1].prompt",
+      "issue": "Prompt gives sin25°=5/h without a length unit, but hints and solution state centimetres. Numerical result 11.83 is correct.",
+      "suggestedReplacement": "A right triangle has opposite side 5 cm and hypotenuse h cm, so sin 25° = 5/h. A learner writes h = 5 sin 25°. Correct the rearrangement and estimate h.",
+      "status": "Applied by parent; read-back verified explicit 5 cm opposite side and h cm hypotenuse. No source edits made by checker.",
+      "verifiedCurrentPrompt": "A right triangle has opposite side 5 cm and hypotenuse h cm, so sin 25° = 5/h. A learner writes h = 5 sin 25°. Correct the rearrangement and estimate h."
+    }
+  ],
+  "sourceEditsByChecker": false,
+  "summary": {
+    "numericalErrorsFound": 0,
+    "wordingIssuesFound": 1,
+    "wordingIssuesCorrectedByParentAndVerified": 1,
+    "unresolvedFindings": 0,
+    "all130NumericalChecks": "pass",
+    "all3FormalProofChecks": "pass"
+  }
+}

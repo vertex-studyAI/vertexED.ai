@@ -47,8 +47,125 @@
             "Avoid claiming every substitution destroys function."
           ],
           "id": "unit-1-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Identify oxygen as partially negative.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A solute has several charged groups. Predict how water molecules orient near a positive group.",
+          "answer": "Water’s partially negative oxygen ends tend to face the positive group.",
+          "checkpoints": [
+            "Identify oxygen as partially negative.",
+            "Opposite charges attract.",
+            "Describe orientation rather than claiming a new covalent bond."
+          ],
+          "hints": [
+            "Identify oxygen as partially negative.",
+            "Opposite charges attract."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Some molecules gain enough energy to escape.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "Why does evaporation cool the remaining water?",
+          "answer": "Escaping molecules carry energy away, reducing average kinetic energy in the remaining liquid when energy is not fully replaced.",
+          "checkpoints": [
+            "Some molecules gain enough energy to escape.",
+            "Escape removes energy from the liquid.",
+            "Lower average kinetic energy corresponds to lower temperature."
+          ],
+          "hints": [
+            "Some molecules gain enough energy to escape.",
+            "Escape removes energy from the liquid."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through water polarity and molecular interactions",
+            "paragraphs": [
+              "Water’s bent geometry and polar covalent bonds create partial charges that permit hydrogen bonding between molecules. These intermolecular attractions explain cohesion and contribute to high specific heat; they are not the covalent bonds holding each water molecule together. Charged and polar solutes interact favourably with water, whereas nonpolar surfaces tend to aggregate in aqueous environments. Biological macromolecules combine many interactions, so a change in one residue can alter folding without necessarily destroying the entire structure. Connect a molecular property to a specific interaction before predicting a cellular consequence."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Explain why a drop of water can form a curved surface on a waxy leaf.",
+            "steps": [
+              "Water molecules attract one another through hydrogen bonding, producing cohesion.",
+              "The waxy surface is largely nonpolar, giving less favourable adhesion than a strongly polar surface.",
+              "Cohesion can therefore maintain a rounded droplet."
+            ],
+            "conclusion": "The shape reflects the balance between water-water cohesion and water-surface adhesion."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "Are hydrogen bonds the O–H covalent bonds inside water?",
+            "back": "No; intermolecular hydrogen bonds are different interactions."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why is water polar?",
+            "back": "Polar bonds and bent geometry produce unequal charge distribution."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What is cohesion?",
+            "back": "Attraction between molecules of the same substance."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why do nonpolar surfaces aggregate in water?",
+            "back": "Aggregation reduces their exposed contact with water."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Water polarity and molecular interactions: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Molecular geometry",
+                "detail": "Bent water molecules have partial charges."
+              },
+              {
+                "id": "n2",
+                "label": "Hydrogen bonding",
+                "detail": "Neighbouring molecules form directional attractions."
+              },
+              {
+                "id": "n3",
+                "label": "Bulk behaviour",
+                "detail": "Cohesion and heat capacity arise from many molecular interactions."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "permits intermolecular attraction"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "produces collective material properties"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-2",
@@ -90,8 +207,125 @@
             "Connect coupling to the energy requirement."
           ],
           "id": "unit-2-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Area is 6(3²)=54 µm².",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A cube has side 3 µm. Calculate surface-area-to-volume ratio.",
+          "answer": "2 µm⁻¹.",
+          "checkpoints": [
+            "Area is 6(3²)=54 µm².",
+            "Volume is 3³=27 µm³.",
+            "Divide 54 by 27."
+          ],
+          "hints": [
+            "Area is 6(3²)=54 µm².",
+            "Volume is 3³=27 µm³."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Glucose moves uphill in concentration.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "A transporter moves glucose into a cell against its concentration gradient by allowing sodium downhill. Classify the glucose movement.",
+          "answer": "Secondary active transport.",
+          "checkpoints": [
+            "Glucose moves uphill in concentration.",
+            "Sodium movement supplies energy through its gradient.",
+            "The coupling makes glucose transport active without direct ATP use by that transporter."
+          ],
+          "hints": [
+            "Glucose moves uphill in concentration.",
+            "Sodium movement supplies energy through its gradient."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through membranes, gradients and surface area",
+            "paragraphs": [
+              "A membrane’s selective permeability separates concentration gradients from actual transport rates. Small nonpolar molecules can cross the lipid bilayer readily, while ions usually need transport proteins. Passive transport moves down the relevant electrochemical gradient without direct energy input; active transport couples uphill movement to an energy source. Osmosis depends on water potential, which includes solute and pressure contributions. Cell size matters because surface area grows with length squared while volume grows with length cubed. Larger cells therefore have less exchange surface per unit volume unless shape or internal organisation compensates."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A cube-shaped cell increases its side from 2 to 4 µm. Compare its surface area and volume changes.",
+            "steps": [
+              "Area scales by the square of the length factor: 2²=4.",
+              "Volume scales by its cube: 2³=8.",
+              "Thus area per volume is halved."
+            ],
+            "conclusion": "The larger cell has four times the area but eight times the volume."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What gradient controls passive ion movement?",
+            "back": "The electrochemical gradient, combining concentration and electrical effects."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why do ions need membrane proteins?",
+            "back": "Their charge makes crossing the hydrophobic bilayer unfavourable."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "How does doubling a cube’s length change volume?",
+            "back": "It increases eightfold."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Can pressure affect osmosis?",
+            "back": "Yes; water potential includes pressure as well as solute effects."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Membranes, gradients and surface area: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Selective membrane",
+                "detail": "Different substances cross at different rates."
+              },
+              {
+                "id": "n2",
+                "label": "Electrochemical gradient",
+                "detail": "Concentration and charge differences provide a driving force."
+              },
+              {
+                "id": "n3",
+                "label": "Transport outcome",
+                "detail": "Passive movement follows the gradient; uphill movement requires coupling."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "separates inside from outside"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "determines direction under the transport mechanism"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-3",
@@ -133,8 +367,125 @@
             "Do not assume all enzymes share one temperature optimum."
           ],
           "id": "unit-3-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Add the two free-energy changes.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A coupled process has ΔG values +12 and −20 kJ/mol. Find the combined ΔG and its thermodynamic implication.",
+          "answer": "−8 kJ/mol; the coupled overall process is favourable under the stated conditions.",
+          "checkpoints": [
+            "Add the two free-energy changes.",
+            "Compute 12−20=−8.",
+            "Interpret the negative result without assuming a fast rate."
+          ],
+          "hints": [
+            "Add the two free-energy changes.",
+            "Compute 12−20=−8."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Pumping initially continues adding separated protons.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "ATP synthase is inhibited while the respiratory chain initially continues pumping protons. Predict the immediate tendency of the gradient and ATP synthesis.",
+          "answer": "The gradient tends to build initially, while ATP synthesis through ATP synthase falls.",
+          "checkpoints": [
+            "Pumping initially continues adding separated protons.",
+            "The return path through ATP synthase is reduced.",
+            "ATP production through that pathway decreases."
+          ],
+          "hints": [
+            "Pumping initially continues adding separated protons.",
+            "The return path through ATP synthase is reduced."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through enzymes and coupled energy transfer",
+            "paragraphs": [
+              "Enzymes lower activation energy by providing a favourable reaction pathway, but they do not alter the reaction’s free-energy difference or equilibrium constant. A saturated enzyme population cannot increase its rate indefinitely as substrate concentration rises. Inhibition and temperature changes can affect activity through different mechanisms, so a rate decrease alone does not identify the cause. Cells couple energetically unfavourable processes to favourable ones through shared intermediates or machinery. In chemiosmosis, membrane separation stores electrochemical potential, and proton movement through ATP synthase can drive ATP formation under appropriate conditions."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "An enzyme reaction approaches the same maximum rate with and without a competitive inhibitor, but needs more substrate with the inhibitor. Explain.",
+            "steps": [
+              "A competitive inhibitor competes for the active site.",
+              "Increasing substrate concentration can reduce the inhibitor’s relative occupancy.",
+              "At high enough substrate, the same limiting catalytic capacity can be approached."
+            ],
+            "conclusion": "The pattern is consistent with competitive inhibition; it does not by itself prove a unique mechanism."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "Does a catalyst change ΔG?",
+            "back": "No; it changes the pathway’s activation barrier."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What causes saturation?",
+            "back": "Most catalytic sites are occupied, limiting further rate increase."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What powers ATP synthase?",
+            "back": "A proton electrochemical gradient."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why does coupling require a mechanism?",
+            "back": "Favourable and unfavourable processes must be linked to transfer usable energy."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Enzymes and coupled energy transfer: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Activation barrier",
+                "detail": "Reactants need access to a transition pathway."
+              },
+              {
+                "id": "n2",
+                "label": "Enzyme pathway",
+                "detail": "Binding and catalytic interactions lower that barrier."
+              },
+              {
+                "id": "n3",
+                "label": "Faster equilibrium approach",
+                "detail": "Forward and reverse processes speed up without changing equilibrium."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "provide an alternative pathway"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "change kinetics rather than equilibrium"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-4",
@@ -176,8 +527,125 @@
             "Link the pause to genome integrity."
           ],
           "id": "unit-4-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Subtract the baseline in each condition.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A ligand raises a response from 2 to 10 units. With inhibitor X it rises only from 2 to 3. What comparison supports X reducing ligand-dependent signalling?",
+          "answer": "The ligand-associated increase falls from 8 to 1 unit with X.",
+          "checkpoints": [
+            "Subtract the baseline in each condition.",
+            "Compare 10−2=8 with 3−2=1.",
+            "The result supports inhibition but does not locate its exact target."
+          ],
+          "hints": [
+            "Subtract the baseline in each condition.",
+            "Compare 10−2=8 with 3−2=1."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Recognise attachment as necessary for accurate segregation.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "Why could failed chromosome attachment trigger a pause before chromosome separation?",
+          "answer": "A pause allows attachment correction before unequal chromosome segregation occurs.",
+          "checkpoints": [
+            "Recognise attachment as necessary for accurate segregation.",
+            "Identify premature separation as the risk.",
+            "Connect delay to an opportunity for correction."
+          ],
+          "hints": [
+            "Recognise attachment as necessary for accurate segregation.",
+            "Identify premature separation as the risk."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through signals and cell-cycle checkpoints",
+            "paragraphs": [
+              "Cell signalling separates reception, transduction and response. A ligand binds an appropriate receptor, intracellular steps relay or amplify the signal, and target activity changes. The same external signal can produce different responses in cells expressing different receptors or downstream proteins. A pathway diagram represents causal hypotheses; disrupting one component tests only the branches that depend on it. Cell-cycle checkpoints can delay progression when replication or chromosome attachment is incomplete. Loss of checkpoint control increases the chance of propagating errors but does not make every affected cell develop into a tumour."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A pathway is receptor→A→B→response. A drug blocks the receptor, but an engineered permanently active B restores the response. What does this support?",
+            "steps": [
+              "Receptor blockade normally prevents downstream activation.",
+              "Active B bypasses the blocked upstream steps.",
+              "Restoration supports B acting downstream of the receptor in this pathway."
+            ],
+            "conclusion": "The result supports the proposed order while leaving alternative bypass mechanisms possible."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What are the three broad signalling stages?",
+            "back": "Reception, transduction and response."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What is signal amplification?",
+            "back": "One activated component activates many downstream components."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Why can one ligand affect cell types differently?",
+            "back": "Their receptors and downstream machinery can differ."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What is a checkpoint’s role?",
+            "back": "Delay progression until specified conditions are satisfied."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Signals and cell-cycle checkpoints: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Reception",
+                "detail": "A compatible receptor detects the ligand."
+              },
+              {
+                "id": "n2",
+                "label": "Transduction",
+                "detail": "Intracellular components relay or amplify activation."
+              },
+              {
+                "id": "n3",
+                "label": "Response",
+                "detail": "Gene expression or protein activity changes."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "activate the intracellular pathway"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "alter the target process"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-5",
@@ -219,8 +687,125 @@
             "Connect recombination frequency to separation."
           ],
           "id": "unit-5-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "The Aa parent produces A and a with equal probability.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "For Aa×aa under complete dominance, find the genotype ratio and dominant-phenotype probability.",
+          "answer": "Aa:aa=1:1; dominant phenotype probability 1/2.",
+          "checkpoints": [
+            "The Aa parent produces A and a with equal probability.",
+            "The aa parent contributes only a.",
+            "Half the offspring are Aa and half aa."
+          ],
+          "hints": [
+            "The Aa parent produces A and a with equal probability.",
+            "The aa parent contributes only a."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "P(aa)=1/4.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "For unlinked AaBb×AaBb, find P(aa and dominant B phenotype).",
+          "answer": "3/16.",
+          "checkpoints": [
+            "P(aa)=1/4.",
+            "P(B_)=3/4.",
+            "Independence permits multiplication to give 3/16."
+          ],
+          "hints": [
+            "P(aa)=1/4.",
+            "P(B_)=3/4."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through inheritance probabilities and independent events",
+            "paragraphs": [
+              "Inheritance probabilities rely on explicit assumptions about alleles, segregation, dominance and linkage. A Punnett square lists possible gamete combinations rather than guaranteeing the composition of every small family. For independent events, multiply probabilities; for mutually exclusive ways to reach an outcome, add them. Dominance concerns phenotype expression in a heterozygote and does not make an allele more frequent or beneficial. Linked loci may produce non-independent gametes, with recombination modifying their frequencies. Sex-linked problems additionally require tracking the chromosome carrying each allele and the relevant parental transmission."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "For Aa×Aa, find the probability that exactly one of two offspring is aa, assuming independent births.",
+            "steps": [
+              "Each offspring has P(aa)=1/4 and P(not aa)=3/4.",
+              "There are two mutually exclusive orders: aa then not aa, or the reverse.",
+              "Add 2(1/4)(3/4)."
+            ],
+            "conclusion": "The probability is 3/8."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "When are probabilities multiplied?",
+            "back": "For a sequence of independent events, or using appropriate conditional probabilities."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "When are probabilities added?",
+            "back": "For mutually exclusive ways to obtain the outcome."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Does dominant mean common?",
+            "back": "No."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why can linked loci violate independent assortment predictions?",
+            "back": "Their alleles can be transmitted together more often than independent gamete models predict."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Inheritance probabilities and independent events: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Parental alleles",
+                "detail": "Determine possible gametes."
+              },
+              {
+                "id": "n2",
+                "label": "Gamete probabilities",
+                "detail": "Depend on segregation and any linkage."
+              },
+              {
+                "id": "n3",
+                "label": "Offspring outcomes",
+                "detail": "Combine gametes and translate genotypes into phenotypes."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "model parental transmission"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "multiply and combine valid outcomes"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-6",
@@ -262,8 +847,125 @@
             "Connect regulation to cell function."
           ],
           "id": "unit-6-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Use the coding rather than template convention.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A coding strand is 5′-GCT TTT-3′. Write its mRNA counterpart.",
+          "answer": "5′-GCU UUU-3′.",
+          "checkpoints": [
+            "Use the coding rather than template convention.",
+            "Retain order and direction.",
+            "Replace every T with U."
+          ],
+          "hints": [
+            "Use the coding rather than template convention.",
+            "Retain order and direction."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Codons are read in groups of three.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "Compare deletion of one coding nucleotide with deletion of three adjacent coding nucleotides.",
+          "answer": "One usually shifts the downstream frame; three preserve the downstream frame while altering or removing amino-acid information.",
+          "checkpoints": [
+            "Codons are read in groups of three.",
+            "A one-base change disrupts that grouping downstream.",
+            "Three bases leave the later frame intact, though the protein can still be affected."
+          ],
+          "hints": [
+            "Codons are read in groups of three.",
+            "A one-base change disrupts that grouping downstream."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through from a DNA sequence to a regulated protein",
+            "paragraphs": [
+              "Transcription copies information from a DNA template into RNA using complementary base pairing and antiparallel orientation. The coding strand matches the RNA sequence except for T versus U, but it is not the strand read as the template. Translation reads mRNA codons in a specified frame and joins amino acids according to the genetic code. A substitution may be silent, missense or nonsense depending on its position and resulting codon. Insertions or deletions not divisible by three can shift the downstream frame. Gene regulation changes when and how much a product is made without necessarily changing DNA sequence."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Transcribe template DNA 3′-TAC CTT-5′ and identify the first mRNA codon.",
+            "steps": [
+              "Pair T with A, A with U, C with G and T with A.",
+              "Write the RNA antiparallel as 5′-AUG GAA-3′.",
+              "The first codon is AUG."
+            ],
+            "conclusion": "The mRNA is 5′-AUG GAA-3′; AUG is a start codon in the usual translation context."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "Which strand matches mRNA apart from T/U?",
+            "back": "The coding DNA strand, written in the same direction."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Which direction is RNA synthesised?",
+            "back": "5′ to 3′."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What insertion can cause a frameshift?",
+            "back": "A coding insertion whose length is not divisible by three."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Can expression differ with identical DNA?",
+            "back": "Yes, through regulatory and cellular differences."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "From a DNA sequence to a regulated protein: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "DNA template",
+                "detail": "Provides complementary information in antiparallel orientation."
+              },
+              {
+                "id": "n2",
+                "label": "mRNA",
+                "detail": "Carries codons written 5′ to 3′."
+              },
+              {
+                "id": "n3",
+                "label": "Protein synthesis",
+                "detail": "The ribosome interprets codons in a reading frame."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "transcribe complementary RNA"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "translate the codon sequence"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-7",
@@ -305,8 +1007,125 @@
             "Distinguish it from trait-dependent selection."
           ],
           "id": "unit-7-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "p=1−0.4=0.6.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "Under Hardy-Weinberg equilibrium q=0.4. Find p² and 2pq.",
+          "answer": "p²=0.36 and 2pq=0.48.",
+          "checkpoints": [
+            "p=1−0.4=0.6.",
+            "Square 0.6 to obtain 0.36.",
+            "Compute 2(0.6)(0.4)=0.48."
+          ],
+          "hints": [
+            "p=1−0.4=0.6.",
+            "Square 0.6 to obtain 0.36."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Small populations experience sampling variation in transmission.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "Two alleles are initially equally frequent in several small isolated populations. Their frequencies diverge without consistent environmental differences. What mechanism is consistent with this pattern?",
+          "answer": "Genetic drift is consistent with random divergence across small populations.",
+          "checkpoints": [
+            "Small populations experience sampling variation in transmission.",
+            "Isolation limits homogenising gene flow.",
+            "The pattern supports a drift explanation without proving selection absent."
+          ],
+          "hints": [
+            "Small populations experience sampling variation in transmission.",
+            "Isolation limits homogenising gene flow."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through allele frequencies and selection",
+            "paragraphs": [
+              "Allele frequency counts gene copies, whereas genotype frequency counts individuals. In a diploid population each individual contributes two copies at an autosomal locus. Hardy-Weinberg proportions are a null-model prediction under specified conditions, not a statement that real populations never evolve. Selection requires heritable variation associated with reproductive success; individuals do not acquire useful alleles because they need them. Drift can shift frequencies by chance, especially in small populations. A phenotype-frequency change alone may reflect environment, so genetic evidence is needed before concluding that allele frequencies changed."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A population contains 20 AA, 30 Aa and 50 aa individuals. Find p, the A frequency.",
+            "steps": [
+              "There are 200 allele copies among 100 diploid individuals.",
+              "A copies total 2(20)+30=70.",
+              "Divide 70 by 200."
+            ],
+            "conclusion": "p=0.35 and q=0.65; these counts need not satisfy equilibrium proportions."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "How many autosomal allele copies does a diploid individual contribute?",
+            "back": "Two."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What is heterozygote frequency under Hardy-Weinberg assumptions?",
+            "back": "2pq."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Does selection create alleles because they are needed?",
+            "back": "No."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Where is random drift often strongest?",
+            "back": "In small populations."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Allele frequencies and selection: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Genotype counts",
+                "detail": "Count AA, Aa and aa individuals."
+              },
+              {
+                "id": "n2",
+                "label": "Allele counts",
+                "detail": "Weight homozygotes twice and heterozygotes once."
+              },
+              {
+                "id": "n3",
+                "label": "Frequency model",
+                "detail": "Compare observed frequencies with specified equilibrium expectations."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "convert individuals into gene copies"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "normalise and test the model"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-8",
@@ -348,8 +1167,125 @@
             "This does not imply all births and deaths stop."
           ],
           "id": "unit-8-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Herbivores receive 0.12(8000)=960 kJ.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "Producers store 8,000 kJ; herbivores receive 12% and carnivores receive 20% of herbivore energy. Find carnivore energy.",
+          "answer": "192 kJ.",
+          "checkpoints": [
+            "Herbivores receive 0.12(8000)=960 kJ.",
+            "Carnivores receive 0.20(960).",
+            "The result is 192 kJ."
+          ],
+          "hints": [
+            "Herbivores receive 0.12(8000)=960 kJ.",
+            "Carnivores receive 0.20(960)."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "At 250 the limiting factor is 0.5.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "For dN/dt=0.2N(1−N/500), find growth at N=250 and N=500.",
+          "answer": "25 individuals per time unit and 0 respectively.",
+          "checkpoints": [
+            "At 250 the limiting factor is 0.5.",
+            "Compute 0.2(250)(0.5)=25.",
+            "At capacity the limiting factor is zero."
+          ],
+          "hints": [
+            "At 250 the limiting factor is 0.5.",
+            "Compute 0.2(250)(0.5)=25."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through population growth and ecosystem energy",
+            "paragraphs": [
+              "Population size changes through births, deaths, immigration and emigration, while population growth rate also depends on the time interval. Exponential growth assumes a constant per-capita rate; logistic growth introduces a density-dependent limiting factor. Carrying capacity is a model parameter that can change with resources and conditions rather than a permanent species property. Ecosystem energy flows through trophic transfers and ultimately dissipates as heat, whereas matter cycles through organisms and physical reservoirs. Transfer efficiency is a measured or assumed fraction for a particular transfer, not a universal law fixing every ecosystem at ten per cent."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A population of 200 has 30 births, 20 deaths, 8 immigrants and 3 emigrants in one year. Find final size and percentage net change.",
+            "steps": [
+              "Net change is 30−20+8−3=15.",
+              "Final size is 215.",
+              "Relative change is 15/200=0.075."
+            ],
+            "conclusion": "The population increases by 7.5% over that year."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What four flows change population size?",
+            "back": "Births, deaths, immigration and emigration."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What is the logistic limiting factor?",
+            "back": "1−N/K."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Does energy cycle like matter?",
+            "back": "No; energy flows and dissipates, while matter cycles."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Is trophic transfer always 10%?",
+            "back": "No; efficiency varies and must be measured or stated."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Population growth and ecosystem energy: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Producer biomass",
+                "detail": "Stores part of captured energy."
+              },
+              {
+                "id": "n2",
+                "label": "Consumer biomass",
+                "detail": "Receives only a fraction through feeding and assimilation."
+              },
+              {
+                "id": "n3",
+                "label": "Heat and losses",
+                "detail": "Respiration and unassimilated material limit onward energy transfer."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "transfer through consumption"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "account for energy not retained in new biomass"
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

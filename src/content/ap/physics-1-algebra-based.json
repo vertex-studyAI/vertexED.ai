@@ -47,8 +47,124 @@
             "Square the time."
           ],
           "id": "unit-1-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Acceleration uses final minus initial velocity.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A cart slows uniformly from +10 m/s to +4 m/s in 3 s. Find acceleration and displacement.",
+          "answer": "Acceleration is −2 m/s²; displacement is [(10+4)/2]×3=21 m.",
+          "checkpoints": [
+            "Calculate velocity change −6 m/s.",
+            "Divide by 3 s to obtain −2 m/s².",
+            "Use average velocity 7 m/s to obtain 21 m."
+          ],
+          "hints": [
+            "Acceleration uses final minus initial velocity.",
+            "For constant acceleration, average the endpoints."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Distinguish the slope of position from the slope of velocity.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "A ball is thrown upwards. Ignore air resistance. At its highest point, are velocity and acceleration both zero? Use upward as positive.",
+          "answer": "Velocity is momentarily zero but acceleration remains −g because gravity still acts; velocity then becomes negative.",
+          "checkpoints": [
+            "State zero instantaneous velocity.",
+            "State downward acceleration −g.",
+            "Connect the acceleration to the subsequent reversal."
+          ],
+          "hints": [
+            "Distinguish the slope of position from the slope of velocity.",
+            "The gravitational force remains present at the top."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through position, velocity and constant acceleration",
+            "paragraphs": [
+              "A motion graph encodes different quantities through height, slope and area. The slope of a position-time graph gives velocity, while the slope of a velocity-time graph gives acceleration. Signed area under a velocity-time graph gives displacement; distance instead adds the magnitudes of the positive and negative areas. Choose one positive direction and keep it throughout the calculation. Constant-acceleration equations apply only over intervals where acceleration is constant. An object can have negative velocity and positive acceleration: it then moves in the negative direction while its speed initially decreases."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A cart has velocity −6 m/s and constant acceleration +2 m/s² for 4 s. Find displacement and distance.",
+            "steps": [
+              "It reverses at t=3 s. Displacement is (−6)(4)+(1/2)(2)(4²)=−8 m.",
+              "The first triangle of the velocity graph has area magnitude 9 m; the last has 1 m. Distance is 10 m."
+            ],
+            "conclusion": "Displacement is −8 m; distance travelled is 10 m."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is the slope of x against t?",
+            "back": "Velocity."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What is signed area under v against t?",
+            "back": "Displacement."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "When can distance exceed displacement magnitude?",
+            "back": "When direction reverses."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Does positive acceleration always mean speeding up?",
+            "back": "No; it can reduce a negative velocity magnitude."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Position, velocity and constant acceleration: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Velocity graph",
+                "detail": "Record positive and negative velocities consistently."
+              },
+              {
+                "id": "n2",
+                "label": "Signed area",
+                "detail": "Add areas with signs to obtain displacement."
+              },
+              {
+                "id": "n3",
+                "label": "Absolute area",
+                "detail": "Add area magnitudes to obtain total distance."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "integrates to"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "contrasts with"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-2",
@@ -90,8 +206,124 @@
             "Distinguish equilibrium from a third-law pair."
           ],
           "id": "unit-2-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Velocity direction changes around the circle.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A 2 kg object moves at constant speed in a horizontal circle of radius 2 m at 4 m/s. Find the inward net force.",
+          "answer": "F=mv²/r=2×16/2=16 N towards the centre.",
+          "checkpoints": [
+            "Recognise acceleration despite constant speed.",
+            "Use mv²/r.",
+            "Report 16 N inward."
+          ],
+          "hints": [
+            "Velocity direction changes around the circle.",
+            "Use the radius and squared speed."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Upward acceleration requires upward net force.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "An elevator accelerates upwards at 2 m/s² carrying a 60 kg person. Use g=10 m/s². Find the floor force on the person.",
+          "answer": "N−600=60×2, so N=720 N upwards.",
+          "checkpoints": [
+            "Draw weight and normal force on the person.",
+            "Write N−mg=ma.",
+            "Solve for 720 N."
+          ],
+          "hints": [
+            "Upward acceleration requires upward net force.",
+            "The normal force must exceed the weight."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through free-body diagrams and net force",
+            "paragraphs": [
+              "A free-body diagram contains forces exerted on one selected object. Do not include the forces that object exerts on other bodies, and do not add a separate force labelled motion. Resolve forces along useful axes before applying ΣF=ma. A normal force is perpendicular to the contact surface and need not equal weight when other forces or acceleration have perpendicular components. Newton’s third-law partners act on different objects, whereas forces that balance in one free-body diagram act on the same object. Circular motion requires an inward net force assembled from actual interactions."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A 5 kg crate is pulled horizontally with 30 N against 10 N friction on a level floor. Use g=10 m/s². Find acceleration and normal force.",
+            "steps": [
+              "Horizontal net force is 30−10=20 N, so a=20/5=4 m/s².",
+              "Vertical acceleration is zero, so N−mg=0 and N=50 N."
+            ],
+            "conclusion": "The crate accelerates at 4 m/s² horizontally and the normal force is 50 N."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What belongs on one free-body diagram?",
+            "back": "Forces acting on the selected object."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Do third-law partners cancel on one object?",
+            "back": "No; they act on different objects."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Is centripetal force an additional interaction?",
+            "back": "No; it names the inward net force."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "When is N=mg on a horizontal surface?",
+            "back": "When vertical acceleration and other vertical force components are zero."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Free-body diagrams and net force: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Object boundary",
+                "detail": "Select the body whose acceleration is sought."
+              },
+              {
+                "id": "n2",
+                "label": "External interactions",
+                "detail": "Draw each real force acting on that body."
+              },
+              {
+                "id": "n3",
+                "label": "Net-force equation",
+                "detail": "Resolve components and apply ΣF=ma separately by axis."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "identifies"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "combine into"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-3",
@@ -133,8 +365,124 @@
             "Use J/s or W."
           ],
           "id": "unit-3-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Only the force component along displacement transfers energy by work.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A 20 N force acts at 60° to a 4 m displacement. Find its work.",
+          "answer": "W=Fd cos60°=20×4×0.5=40 J.",
+          "checkpoints": [
+            "Select the parallel force component.",
+            "Use cos60°=0.5.",
+            "Calculate positive work of 40 J."
+          ],
+          "hints": [
+            "Only the force component along displacement transfers energy by work.",
+            "Multiply that component by 4 m."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "The forces have equal parallel magnitudes and opposite directions.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "Two equal and opposite horizontal forces each act on a moving cart. Over 3 m one does +15 J. What work does the other do, and what happens to kinetic energy?",
+          "answer": "The other does −15 J. Their net work is zero, so the cart’s kinetic energy is unchanged if these are the only forces doing work.",
+          "checkpoints": [
+            "Identify the opposite work sign.",
+            "Sum the two works to zero.",
+            "Apply the work-energy theorem with the stated assumption."
+          ],
+          "hints": [
+            "The forces have equal parallel magnitudes and opposite directions.",
+            "Kinetic energy responds to net work."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through work and kinetic energy",
+            "paragraphs": [
+              "Work measures energy transferred by a force through displacement, using the component parallel to that displacement. Net work changes kinetic energy. Potential energy is a system quantity that lets conservative interactions such as gravity or an ideal spring be accounted for without calculating their work separately. Choose one accounting method and avoid counting the same interaction both as external work and as a potential-energy change. Friction can convert organised mechanical energy into thermal energy. A zero net work result establishes unchanged speed between endpoints, but does not imply every individual force did zero work."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A 3 kg object drops 2 m from rest. Air resistance transfers 12 J to thermal energy. Use g=10 m/s². Find its final speed.",
+            "steps": [
+              "Gravitational potential energy decreases by mgh=3×10×2=60 J; 48 J remains as kinetic energy.",
+              "Set (1/2)(3)v²=48, so v²=32 and v≈5.66 m/s."
+            ],
+            "conclusion": "The final speed is approximately 5.7 m/s."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "Which force component does work?",
+            "back": "The component parallel to displacement."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What does net work equal?",
+            "back": "Change in kinetic energy."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Can friction conserve total energy?",
+            "back": "Yes; mechanical energy can become thermal energy."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What is average power?",
+            "back": "Energy transferred divided by elapsed time."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Work and kinetic energy: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Initial energy",
+                "detail": "Include kinetic and chosen potential energies."
+              },
+              {
+                "id": "n2",
+                "label": "Transfers and conversions",
+                "detail": "Account for external work and thermal energy without double counting."
+              },
+              {
+                "id": "n3",
+                "label": "Final kinetic energy",
+                "detail": "Use the energy balance to determine speed."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "adjusted by"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "determines"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-4",
@@ -176,8 +524,124 @@
             "Recognise N s equals kg m/s."
           ],
           "id": "unit-4-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Use area, not peak force times duration.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A triangular net-force pulse rises from zero to 20 N and returns to zero over 0.40 s. Find impulse and velocity change for a 2 kg cart.",
+          "answer": "Impulse is (1/2)(0.40)(20)=4 N s; Δv=4/2=2 m/s in the force direction.",
+          "checkpoints": [
+            "Use triangular area.",
+            "Find 4 N s impulse.",
+            "Divide by mass to obtain 2 m/s."
+          ],
+          "hints": [
+            "Use area, not peak force times duration.",
+            "Impulse equals mass times velocity change."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "A reversal changes momentum even when speed is unchanged.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "A 0.20 kg ball changes velocity from +5 to −5 m/s over 0.10 s. Find average net force.",
+          "answer": "Δp=0.20(−5−5)=−2 kg m/s; average force is −2/0.10=−20 N.",
+          "checkpoints": [
+            "Retain signs when subtracting velocities.",
+            "Calculate impulse −2 N s.",
+            "Calculate average force −20 N."
+          ],
+          "hints": [
+            "A reversal changes momentum even when speed is unchanged.",
+            "Divide the momentum change by contact time."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through impulse and a sticking collision",
+            "paragraphs": [
+              "Momentum is a signed vector quantity, so choose the system and positive direction before using conservation. Internal forces exchange momentum between members but cancel in the system’s total force balance. Total momentum is conserved when external impulse is negligible during the interval, even if kinetic energy decreases. Impulse is the area under a force-time graph and equals momentum change; the same change delivered over a longer time has a smaller average force. In an inelastic collision, missing kinetic energy is transformed into deformation, sound or thermal energy rather than disappearing from total energy."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A 1 kg cart at +6 m/s sticks to a 2 kg cart at −1 m/s. Find common velocity and kinetic energy lost.",
+            "steps": [
+              "Initial momentum is 6−2=4 kg m/s, so the 3 kg combination moves at +4/3 m/s.",
+              "Initial kinetic energy is 18+1=19 J; final energy is (1/2)(3)(4/3)²=8/3 J, so loss is 49/3 J."
+            ],
+            "conclusion": "Common velocity is +1.33 m/s and about 16.3 J becomes other energy forms."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What condition supports momentum conservation?",
+            "back": "Negligible external impulse on the chosen system."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What is impulse graphically?",
+            "back": "Signed area under force versus time."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Is kinetic energy conserved when carts stick?",
+            "back": "Generally no."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "How does longer stopping time affect average force for the same impulse?",
+            "back": "Its magnitude decreases."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Impulse and a sticking collision: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "System momentum",
+                "detail": "Sum signed mv for all selected objects."
+              },
+              {
+                "id": "n2",
+                "label": "External impulse",
+                "detail": "Integrate or average the external force over the interval."
+              },
+              {
+                "id": "n3",
+                "label": "Final momentum",
+                "detail": "Initial total plus external impulse."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "changes through"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "determines"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-5",
@@ -219,8 +683,124 @@
             "Square the radius factor."
           ],
           "id": "unit-5-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Find net torque first.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A wheel has I=0.50 kg m² and experiences torques +3 N m and −1 N m. Find angular acceleration.",
+          "answer": "Net torque is +2 N m, so α=2/0.50=+4 rad/s².",
+          "checkpoints": [
+            "Combine torques with signs.",
+            "Use the given axis inertia.",
+            "Calculate +4 rad/s²."
+          ],
+          "hints": [
+            "Find net torque first.",
+            "Apply τnet=Iα."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Square each distance separately.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "Two 1 kg masses lie 0.20 m and 0.40 m from an axis. Treat them as particles. Find total inertia and the fraction from the outer mass.",
+          "answer": "I=1(0.20²)+1(0.40²)=0.20 kg m². The outer mass contributes 0.16/0.20=80%.",
+          "checkpoints": [
+            "Use I=Σmr².",
+            "Calculate 0.20 kg m².",
+            "Calculate the outer contribution of 80%."
+          ],
+          "hints": [
+            "Square each distance separately.",
+            "Compare 0.16 with the total."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through torque and angular acceleration",
+            "paragraphs": [
+              "Torque measures a force’s tendency to change rotation about a chosen axis. Its magnitude is force multiplied by perpendicular lever arm, or rF sinθ. The sign depends on the chosen rotational direction. Forces applied farther from an axle can create more torque, but the body’s moment of inertia also matters for angular acceleration. Moment of inertia depends on both total mass and its distance distribution about that axis. For a fixed axis and constant inertia, net torque equals Iα. Translational balance and rotational balance are separate requirements for static equilibrium."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A horizontal light beam pivots at its centre. A 12 N downward force acts 0.50 m left of the pivot. What downward force 0.30 m right balances it?",
+            "steps": [
+              "The left force produces counterclockwise torque 12×0.50=6 N m.",
+              "The right force must produce 6 N m clockwise, so F=6/0.30=20 N."
+            ],
+            "conclusion": "A 20 N downward force at the right point balances the torque."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is the lever arm?",
+            "back": "Perpendicular distance from axis to force line of action."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What makes torque zero?",
+            "back": "A force whose line of action passes through the axis."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What determines inertia about an axis?",
+            "back": "Mass and its squared distances from that axis."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What are both conditions for static equilibrium?",
+            "back": "Zero net force and zero net torque."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Torque and angular acceleration: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Force geometry",
+                "detail": "Find direction and perpendicular lever arm."
+              },
+              {
+                "id": "n2",
+                "label": "Signed net torque",
+                "detail": "Add clockwise and counterclockwise contributions."
+              },
+              {
+                "id": "n3",
+                "label": "Angular acceleration",
+                "detail": "Divide net torque by the inertia about the same axis."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "determines"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "produces"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-6",
@@ -262,8 +842,124 @@
             "Multiply by half the inertia."
           ],
           "id": "unit-6-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Express both energies using v.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A ring has I=mR² and rolls at speed v. What fraction of its total kinetic energy is rotational?",
+          "answer": "Rotational energy is (1/2)mR²(v/R)²=(1/2)mv², equal to translational energy, so the fraction is one half.",
+          "checkpoints": [
+            "Substitute ω=v/R.",
+            "Show the two energies are equal.",
+            "Identify rotational fraction 1/2."
+          ],
+          "hints": [
+            "Express both energies using v.",
+            "Compare one term with their sum."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Keep angular momentum fixed.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "A rotating system halves its inertia with negligible external torque. By what factor do angular speed and rotational energy change?",
+          "answer": "Angular speed doubles. Since K=L²/(2I) with L fixed, rotational kinetic energy also doubles; internal work supplies the increase.",
+          "checkpoints": [
+            "Use Iω conservation to double speed.",
+            "Use K=L²/(2I) to double energy.",
+            "Identify internal work as the energy source."
+          ],
+          "hints": [
+            "Keep angular momentum fixed.",
+            "Substitute the new inertia and speed into rotational energy."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through angular momentum and rolling energy",
+            "paragraphs": [
+              "Angular momentum conservation requires negligible external torque about the specified axis. If inertia changes, angular speed can change even while angular momentum stays fixed; rotational kinetic energy need not stay fixed because internal work can transfer energy. Rolling without slipping links translation and rotation through vcm=ωR. Its kinetic energy contains both centre-of-mass motion and rotation about the centre of mass. For ideal rolling on a stationary surface, the contact point is instantaneously at rest, so static friction can enforce the constraint without doing net work at that contact. Real rolling losses require additional modelling."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A solid cylinder of mass 2 kg and radius 0.50 m rolls without slipping at 3 m/s. Use I=(1/2)mR². Find total kinetic energy.",
+            "steps": [
+              "Its angular speed is ω=3/0.50=6 rad/s and I=0.25 kg m².",
+              "Translational energy is 9 J and rotational energy is (1/2)(0.25)(36)=4.5 J."
+            ],
+            "conclusion": "Total kinetic energy is 13.5 J."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "When is angular momentum conserved?",
+            "back": "When external torque is negligible about the selected axis."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What is the no-slip rolling relation?",
+            "back": "vcm=ωR."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Does constant angular momentum guarantee constant kinetic energy?",
+            "back": "No; changing inertia can involve internal work."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What are the two parts of rolling kinetic energy?",
+            "back": "Centre-of-mass translation and rotation about the centre."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Angular momentum and rolling energy: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "No-slip constraint",
+                "detail": "Relate centre speed to angular speed by v=ωR."
+              },
+              {
+                "id": "n2",
+                "label": "Two energy terms",
+                "detail": "Add (1/2)mv² and (1/2)Iω²."
+              },
+              {
+                "id": "n3",
+                "label": "Energy prediction",
+                "detail": "Combine with a valid energy balance to find the motion."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "connects"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "enter"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-7",
@@ -305,8 +1001,124 @@
             "Multiply by 50."
           ],
           "id": "unit-7-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Hooke’s law opposes displacement.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A spring oscillator has k=25 N/m and m=1 kg. At x=+0.08 m, find force and acceleration.",
+          "answer": "F=−kx=−2.0 N and a=F/m=−2.0 m/s².",
+          "checkpoints": [
+            "Use displacement relative to equilibrium.",
+            "Apply the negative restoring sign.",
+            "Calculate force and acceleration."
+          ],
+          "hints": [
+            "Hooke’s law opposes displacement.",
+            "Divide force by mass."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Separate amplitude from angular frequency.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "An ideal oscillator’s amplitude triples without changing m or k. Compare period, maximum speed and energy.",
+          "answer": "Period is unchanged; maximum speed triples; total energy increases by a factor of nine.",
+          "checkpoints": [
+            "Use period dependence on m/k only.",
+            "Use vmax=ωA.",
+            "Use E=(1/2)kA²."
+          ],
+          "hints": [
+            "Separate amplitude from angular frequency.",
+            "Track linear and squared amplitude factors."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through spring oscillations and restoring force",
+            "paragraphs": [
+              "Simple harmonic motion arises when the net restoring force is proportional to displacement from equilibrium and points towards equilibrium. For an ideal mass-spring system, ω²=k/m and a=−ω²x. Displacement, velocity and acceleration are not largest at the same point: speed is greatest at equilibrium, while acceleration magnitude is greatest at either extreme. The total mechanical energy is fixed in the undamped ideal model and alternates between kinetic and spring potential energy. Increasing amplitude raises energy and maximum speed but does not change the period while the spring remains in its linear range."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A 0.50 kg mass on a 32 N/m spring has amplitude 0.10 m. Find maximum speed and acceleration magnitude at an endpoint.",
+            "steps": [
+              "ω=√(32/0.50)=8 rad/s, so vmax=ωA=0.80 m/s.",
+              "At x=±A, |a|=ω²A=64×0.10=6.4 m/s², directed towards equilibrium."
+            ],
+            "conclusion": "Maximum speed is 0.80 m/s; endpoint acceleration magnitude is 6.4 m/s²."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "Where is spring-oscillator speed largest?",
+            "back": "At equilibrium."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Where is acceleration magnitude largest?",
+            "back": "At the displacement extremes."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "How does doubling amplitude change ideal energy?",
+            "back": "It quadruples energy."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What does the minus sign in a=−ω²x mean?",
+            "back": "Acceleration points towards equilibrium."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Spring oscillations and restoring force: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Extreme displacement",
+                "detail": "Spring energy is largest and speed is zero."
+              },
+              {
+                "id": "n2",
+                "label": "Equilibrium crossing",
+                "detail": "Kinetic energy and speed are largest."
+              },
+              {
+                "id": "n3",
+                "label": "Opposite extreme",
+                "detail": "Energy returns to spring storage and motion reverses."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "converts stored energy towards"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "returns kinetic energy towards"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-8",
@@ -348,8 +1160,124 @@
             "Use the inverse area relationship."
           ],
           "id": "unit-8-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "The same volume crosses each section each second.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "Water flows through a 0.004 m² section at 2 m/s, then a 0.001 m² section. Find volume flow rate and second speed.",
+          "answer": "Flow rate is 0.004×2=0.008 m³/s; second speed is 0.008/0.001=8 m/s.",
+          "checkpoints": [
+            "Use continuity for incompressible flow.",
+            "Calculate 0.008 m³/s.",
+            "Calculate 8 m/s."
+          ],
+          "hints": [
+            "The same volume crosses each section each second.",
+            "Divide the flow rate by the smaller area."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Buoyancy depends on displaced volume.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "An object of volume 0.002 m³ has gravitational weight 30 N and is fully submerged in water. Use water density 1000 kg/m³ and g=10 m/s². What additional upward support force holds it at rest?",
+          "answer": "Buoyant force is 20 N, so an additional upward support force of 10 N balances the 30 N weight.",
+          "checkpoints": [
+            "Calculate displaced-fluid weight 20 N.",
+            "Write vertical force balance.",
+            "Find 10 N upward support."
+          ],
+          "hints": [
+            "Buoyancy depends on displaced volume.",
+            "Subtract buoyancy from weight."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through pressure, buoyancy and fluid continuity",
+            "paragraphs": [
+              "Fluid pressure acts in all directions, while the net buoyant force comes from pressure increasing with depth. The buoyant force equals the weight of displaced fluid, not necessarily the object’s weight; they are equal only when vertical forces balance appropriately, such as free floating at rest. Gauge pressure excludes atmospheric pressure. For steady incompressible flow, volume conservation gives A₁v₁=A₂v₂. Bernoulli’s relation additionally assumes an appropriate ideal-flow model; viscosity, pumps and dissipative losses need separate terms. A narrow section can increase speed without increasing the volume flow rate."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A 600 kg/m³ block floats in water of density 1000 kg/m³. Find the fraction of its volume submerged.",
+            "steps": [
+              "At rest, buoyancy balances weight: ρwater gVsub=ρblock gVtotal.",
+              "Cancel g and divide by ρwater Vtotal to obtain Vsub/Vtotal=600/1000=0.60."
+            ],
+            "conclusion": "60% of the block’s volume is submerged."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What does buoyant force equal?",
+            "back": "Weight of displaced fluid."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What is gauge pressure?",
+            "back": "Pressure measured relative to atmospheric pressure."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What does Av represent?",
+            "back": "Volume flow rate."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "When does buoyancy equal an object’s weight?",
+            "back": "When its vertical force balance requires it, such as free floating at rest."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Pressure, buoyancy and fluid continuity: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Immersed volume",
+                "detail": "Determine how much fluid the object displaces."
+              },
+              {
+                "id": "n2",
+                "label": "Buoyant force",
+                "detail": "Multiply displaced volume by fluid density and g."
+              },
+              {
+                "id": "n3",
+                "label": "Vertical balance",
+                "detail": "Compare buoyancy with weight and other forces."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "determines"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "enters"
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

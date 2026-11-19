@@ -2,6 +2,7 @@ import { getUserContentStorageScope, userContentStorageKeys } from '@/lib/userCo
 import { collectAccountStorage, clearAccountStorage } from '@/lib/deviceAccountData.mjs';
 import { listDurableOutboxRecords, clearDurableAccountData } from '@/lib/durableOutbox';
 import { resolveLocalStorage, resolveSessionStorage } from '@/lib/browserStorage.mjs';
+import { pendingRevisionEvents, forgetRevisionEvents } from '@/lib/revisionSync';
 
 function browserOwner() {
   return typeof window === 'undefined' ? null : window;
@@ -32,9 +33,11 @@ function collectRequiredAccountStorage(storage: Storage, scope: string, kind: 'l
 }
 
 export async function collectCompleteDeviceStudyData(scope: string) {
-  const [artifacts, learnerState] = await Promise.all([
+  const [artifacts, learnerState, revisionEvents, pendingRevisions] = await Promise.all([
     listDurableOutboxRecords('artifact', scope, true),
     listDurableOutboxRecords('learner-state', scope, true),
+    listDurableOutboxRecords('revision-event', scope, true),
+    pendingRevisionEvents(scope),
   ]);
   if (getUserContentStorageScope() !== scope) throw new Error('Account changed during export.');
 
@@ -48,11 +51,13 @@ export async function collectCompleteDeviceStudyData(scope: string) {
     schemaVersion: 2,
     accountStorage: collectRequiredAccountStorage(localStorage, scope, 'local'),
     sessionStorage: collectRequiredAccountStorage(sessionStorage, scope, 'session'),
-    durableOutbox: [...artifacts, ...learnerState],
+    durableOutbox: [...artifacts, ...learnerState, ...revisionEvents],
+    pendingRevisionEvents: pendingRevisions,
   };
 }
 
 export async function clearDeviceAccountData(scope: string) {
+  forgetRevisionEvents(scope);
   const owner = browserOwner();
   const localStorage = resolveLocalStorage(owner);
   const sessionStorage = resolveSessionStorage(owner);

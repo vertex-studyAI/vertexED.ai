@@ -1,0 +1,42 @@
+{
+  "checkedAt": "2026-10-21T04:24:58.518Z",
+  "base": "https://vertex-ed-ai.vercel.app",
+  "revision": "200c0b17f61a53de0dff5ae62e088d274d4b9ac3",
+  "status": "PASS",
+  "livenessPass": true,
+  "readinessPass": true,
+  "authBoundaryPass": true,
+  "health": {
+    "httpStatus": 200,
+    "json": {
+      "ok": true,
+      "service": "vertexed",
+      "apiVersion": "1",
+      "healthContract": "3",
+      "status": "alive",
+      "timestamp": "2026-10-21T04:24:56.840Z",
+      "revision": "200c0b17f61a53de0dff5ae62e088d274d4b9ac3"
+    }
+  },
+  "readiness": {
+    "httpStatus": 200,
+    "json": {
+      "ok": true,
+      "service": "vertexed",
+      "apiVersion": "1",
+      "healthContract": "3",
+      "status": "ready",
+      "timestamp": "2026-10-21T04:24:58.397Z",
+      "revision": "200c0b17f61a53de0dff5ae62e088d274d4b9ac3",
+      "detail": "redacted"
+    }
+  },
+  "agents": {
+    "httpStatus": 401,
+    "json": {
+      "code": "AUTH_REQUIRED",
+      "error": "Authentication required. Please log in."
+    }
+  },
+  "boundary": "Read-only service checks. Real sign-in, cross-account RLS, provider responses and browser journeys require separate evidence."
+}

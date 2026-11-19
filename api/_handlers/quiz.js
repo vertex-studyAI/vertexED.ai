@@ -152,7 +152,7 @@ NOTES:
 ${String(notes).slice(0, 12000)}`;
 
   try {
-    const route = routeAiRequest({ capability: 'quiz', text: String(notes).slice(0, 12000), defaultModel: process.env.OPENAI_MODEL || 'gpt-4o-mini', maxTokens: 3000 });
+    const route = routeAiRequest({ capability: 'quiz', text: String(notes).slice(0, 12000), defaultModel: process.env.OPENAI_MODEL || 'gpt-6-luna', maxTokens: 3000 });
     const raw = await callOpenAI(apiKey, [
       { role: 'system', content: VERTEX_AGENTS.quizBuilder.instructions },
       { role: 'user', content: prompt },
@@ -217,7 +217,7 @@ async function handleGrade(body, apiKey, res) {
     return res.status(200).json({ grades: [], coverage: [], contractVersion: GRADING_CONTRACT_VERSION });
   }
 
-  const route = routeAiRequest({ capability: 'grading', defaultModel: process.env.OPENAI_MODEL || 'gpt-4o-mini', maxTokens: 2000 });
+  const route = routeAiRequest({ capability: 'grading', defaultModel: process.env.OPENAI_MODEL || 'gpt-6-luna', maxTokens: 2000 });
   const model = route.model;
   if (!apiKey) {
     const normalized = normalizeGradeAudits({ questions: toGrade, userAnswers, rawGrades: [], model: 'unavailable' });

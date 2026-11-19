@@ -1,0 +1,378 @@
+{
+  "schemaVersion": 1,
+  "id": "bonding-and-properties",
+  "revision": "2026-10-21.2",
+  "subject": "Chemistry",
+  "unit": "Structure and bonding",
+  "topic": "Bonding, structure and explanations of material properties",
+  "level": "secondary-foundation",
+  "editorialStatus": "unreviewed",
+  "origin": "original-authorship-review-pending",
+  "scope": "Foundational bonding models. Detailed orbital theory and quantitative lattice energetics require later lessons.",
+  "prerequisites": [
+    "Distinguish protons, neutrons and electrons.",
+    "Recognise atoms, ions and molecules."
+  ],
+  "objectives": [
+    "Describe ionic, covalent and metallic bonding models.",
+    "Connect electrical conduction to mobile charged particles.",
+    "Explain melting behaviour by distinguishing bonds from intermolecular attractions."
+  ],
+  "notes": [
+    {
+      "heading": "Attraction and structure",
+      "paragraphs": [
+        "Bonding models explain how electrostatic attractions can stabilise a collection of particles. An ionic solid consists of oppositely charged ions in an extended lattice; it is not a collection of isolated molecule-sized ion pairs. A covalent bond involves shared electron density attracted to nuclei. Covalent substances can consist of separate molecules or extended networks, so the word covalent alone does not predict a low melting point. A metallic model describes positive ion cores with delocalised electrons. Each description is a simplified model useful for explaining selected properties, not a literal photograph of static particles."
+      ]
+    },
+    {
+      "heading": "Charge carriers and conductivity",
+      "paragraphs": [
+        "Electrical conduction requires charged particles able to move through the material. In a solid ionic lattice, ions are constrained around lattice positions and cannot carry a sustained current through the bulk. When the ionic substance melts, ions become mobile and can conduct. Dissolution can also produce mobile ions when the substance dissolves and dissociates. Metals have mobile delocalised electrons in the solid state. Many molecular substances lack mobile charges and conduct poorly. Graphite is an important counterexample to the claim that all covalent substances are insulators: its bonding permits mobile electrons within layers. State both the charge carrier and its mobility rather than merely naming a bond type."
+      ]
+    },
+    {
+      "heading": "Melting and mechanical properties",
+      "paragraphs": [
+        "Melting a simple molecular substance primarily overcomes attractions between molecules rather than breaking all covalent bonds within each molecule. The size and nature of intermolecular attractions help explain differences in boiling and melting behaviour. Melting an ionic solid requires substantial disruption of strong attractions throughout its lattice, although numerical melting points depend on the particular substance. Diamond is a covalent network with strong bonds extending through three dimensions, explaining its high hardness. Ionic crystals can fracture when a displaced layer brings like charges next to each other, creating repulsion. A good explanation links a specified structure to a mechanism and then to the observed property; a label such as strong bonds by itself is incomplete."
+      ]
+    },
+    {
+      "heading": "Explaining exceptions and comparing evidence",
+      "paragraphs": [
+        "A structure-property explanation should compare specific substances under stated conditions. Saying that one substance has stronger bonds can be inadequate if the process being discussed does not break those bonds. For example, differences between molecular boiling points usually require discussion of intermolecular attractions, molecular shape and opportunities for close contact, rather than the strength of a covalent bond inside an isolated molecule.",
+        "Macroscopic evidence often supports a family of models rather than uniquely identifying a substance. Conductivity depends on charge-carrier concentration and mobility; melting behaviour also depends on the type and extent of structure. Graphite and diamond illustrate why the same element can have different properties when its atoms are arranged and bonded differently. Do not treat a useful classroom model as a universal exception-free rule: some materials have intermediate or temperature-dependent behaviour. A strong response identifies the observed property, names the relevant particles, describes their arrangement or movement, and links that microscopic mechanism to the observation. Additional tests should be chosen because they distinguish competing explanations, not merely because they produce more data."
+      ]
+    },
+    {
+      "heading": "Testing a structure explanation against two states",
+      "paragraphs": [
+        "A conductivity claim needs both a charged carrier and a reason that carrier can move. An ionic solid contains charged ions, yet its lattice prevents the ions from moving freely through the material. Melting changes that mobility without turning the ions into neutral atoms. The same evidence should be checked against an alternative model: a typical simple molecular substance has no mobile charged particles even when molten. Conductivity alone is not a unique fingerprint, so combine observations with melting behaviour and composition when available. In an exam explanation, connect the observed property to the particle model explicitly rather than stopping at the label ionic or covalent. Do not describe an ionic lattice as separate molecules."
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "prompt": "Explain why solid sodium chloride conducts poorly but molten sodium chloride conducts.",
+      "steps": [
+        "Identify ions as the charged particles.",
+        "In the solid, lattice positions restrict their motion through the sample.",
+        "In the melt, the ions can move and transport charge."
+      ],
+      "answer": "The change in ion mobility explains the change in conductivity."
+    },
+    {
+      "prompt": "Why is the statement 'covalent substances melt easily' unreliable?",
+      "steps": [
+        "Separate molecular structures from extended covalent networks.",
+        "Molecular melting can overcome intermolecular attractions without breaking internal covalent bonds.",
+        "Network substances such as diamond have strong bonding extending throughout the structure."
+      ],
+      "answer": "The type and extent of structure, not the word covalent alone, determine melting behaviour."
+    },
+    {
+      "prompt": "Compare diamond and graphite as evidence that elemental identity alone does not determine conductivity.",
+      "steps": [
+        "Both are forms of carbon, so a difference in elemental identity cannot explain the contrast.",
+        "Diamond's extended bonding localises electrons; graphite has delocalised electrons associated with its layered structure.",
+        "Relate the availability of mobile electrons to graphite's conduction within layers."
+      ],
+      "answer": "Different bonding and structures can produce different electrical behaviour in forms of the same element."
+    },
+    {
+      "prompt": "An idealised substance does not conduct as a solid but does conduct when molten. Explain how an ionic model accounts for both observations.",
+      "answer": "Its ions are fixed in the solid lattice but mobile in the liquid, where they carry charge.",
+      "steps": [
+        "The ionic model supplies charged positive and negative ions in both states.",
+        "In the solid, the ions cannot migrate through the lattice to carry a current.",
+        "When molten, mobile ions carry charge through the liquid."
+      ]
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Molten ionic compounds conduct because they release free electrons like metals.",
+      "correction": "Their mobile ions carry charge; metallic conduction is explained by delocalised electrons."
+    },
+    {
+      "claim": "Boiling water breaks water molecules into hydrogen and oxygen.",
+      "correction": "Ordinary boiling separates molecules from one another; it is not that chemical decomposition."
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "ionic",
+      "front": "What holds an ionic lattice together?",
+      "back": "Electrostatic attraction between oppositely charged ions throughout an extended structure."
+    },
+    {
+      "id": "covalent",
+      "front": "Why distinguish molecular from network covalent structures?",
+      "back": "They have different extents of bonding and therefore different property explanations."
+    },
+    {
+      "id": "mobile",
+      "front": "What two conditions are required for electrical conduction?",
+      "back": "Charged particles must be present and able to move through the material."
+    },
+    {
+      "id": "metal",
+      "front": "What carries current in a metal?",
+      "back": "Delocalised electrons."
+    },
+    {
+      "id": "boiling",
+      "front": "What attractions are mainly overcome when a simple molecular liquid boils?",
+      "back": "Intermolecular attractions, not the internal covalent bonds in every molecule."
+    },
+    {
+      "id": "deeper-recall",
+      "front": "What should a structure-property explanation connect?",
+      "back": "The observation, the particles and their arrangement or mobility, and a mechanism linking that structure to the property."
+    },
+    {
+      "id": "application-card-1",
+      "front": "What two conditions are needed for electrical conduction?",
+      "back": "Charged particles must be present and able to move through the material."
+    },
+    {
+      "id": "application-card-2",
+      "front": "What changes when an ionic lattice melts?",
+      "back": "The ions become mobile; melting does not require them to become neutral atoms."
+    }
+  ],
+  "questions": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "difficulty": "foundation",
+      "prompt": "Which particles carry current in molten sodium chloride?",
+      "options": [
+        "Stationary ions",
+        "Only protons leaving nuclei",
+        "Mobile ions",
+        "Only neutral atoms"
+      ],
+      "answer": "Mobile ions",
+      "solution": [
+        "The compound contains positive and negative ions.",
+        "Melting allows those ions to move through the liquid."
+      ],
+      "markingPoints": [
+        "Select mobile ions."
+      ],
+      "marks": 1,
+      "calculator": "not-applicable"
+    },
+    {
+      "id": "q2",
+      "type": "short",
+      "difficulty": "standard",
+      "prompt": "Explain why a solid metal can conduct electricity.",
+      "answer": "It contains delocalised electrons that can move through the structure and carry charge.",
+      "solution": [
+        "Identify electrons as the charge carriers.",
+        "Explain their mobility rather than implying the metal ions flow through the solid."
+      ],
+      "markingPoints": [
+        "Identify delocalised electrons.",
+        "Connect their motion to charge transport."
+      ],
+      "marks": 2,
+      "calculator": "not-applicable"
+    },
+    {
+      "id": "q3",
+      "type": "short",
+      "difficulty": "standard",
+      "prompt": "A learner calls sodium chloride a molecule with one sodium atom bonded to one chlorine atom. Correct the description for the solid.",
+      "answer": "Solid sodium chloride is an extended ionic lattice of sodium and chloride ions. The formula gives the simplest 1:1 ion ratio, not an isolated molecule.",
+      "solution": [
+        "Replace atoms with oppositely charged ions.",
+        "Explain that the formula describes the ratio in a lattice."
+      ],
+      "markingPoints": [
+        "Identify ions in an extended lattice.",
+        "Explain the 1:1 ratio without inventing isolated molecules."
+      ],
+      "marks": 2,
+      "calculator": "not-applicable"
+    },
+    {
+      "id": "q4",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "A solid has a high melting point and conducts when molten but not when solid. Explain why an ionic model is plausible and why these observations alone are not a complete identification.",
+      "answer": "Strong lattice attractions explain the high melting point; fixed ions explain poor solid conduction and mobile molten ions explain liquid conduction. These observations support a model but do not uniquely identify the substance or rule out all alternatives.",
+      "solution": [
+        "Link strong attractions to melting behaviour.",
+        "Compare ion mobility in the two states.",
+        "Separate a supported structural inference from a unique chemical identity."
+      ],
+      "markingPoints": [
+        "Explain melting through lattice attractions.",
+        "Explain the conductivity change through mobile ions.",
+        "State the limit of the identification claim."
+      ],
+      "marks": 3,
+      "calculator": "not-applicable"
+    },
+    {
+      "id": "q5",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "Why does identifying a substance as molecular not by itself let you rank its boiling point against every other molecular substance?",
+      "answer": "Molecular substances differ in intermolecular attractions, size, shape and packing-related effects. The label establishes that separate molecules are present, not a single universal attraction strength or boiling point.",
+      "solution": [
+        "Distinguish the structural category from a numerical property.",
+        "Name relevant differences between molecules and their attractions.",
+        "State that a comparison needs specific substances and conditions."
+      ],
+      "markingPoints": [
+        "Distinguish the structural category from a numerical property.",
+        "Name relevant differences between molecules and their attractions.",
+        "State that a comparison needs specific substances and conditions."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "application-check",
+      "type": "short",
+      "difficulty": "standard",
+      "prompt": "An idealised substance does not conduct as a solid but does conduct when molten. Explain how an ionic model accounts for both observations.",
+      "answer": "Its ions are fixed in the solid lattice but mobile in the liquid, where they carry charge.",
+      "solution": [
+        "The ionic model supplies charged positive and negative ions in both states.",
+        "In the solid, the ions cannot migrate through the lattice to carry a current.",
+        "When molten, mobile ions carry charge through the liquid."
+      ],
+      "markingPoints": [
+        "The ionic model supplies charged positive and negative ions in both states.",
+        "In the solid, the ions cannot migrate through the lattice to carry a current.",
+        "When molten, mobile ions carry charge through the liquid."
+      ],
+      "marks": 3,
+      "calculator": "allowed"
+    },
+    {
+      "id": "error-analysis",
+      "type": "short",
+      "difficulty": "extension",
+      "prompt": "A learner says molten ionic compounds conduct because melting releases electrons from each ion. Identify the carrier error and explain why the observation alone is not a complete identification.",
+      "answer": "The mobile carriers in this model are ions, not released electrons. Other evidence is needed to establish the structure.",
+      "solution": [
+        "Melting permits ions to move without requiring electron release from each ion.",
+        "Moving charged ions explain the liquid-state conductivity.",
+        "A property pattern supports a model but does not uniquely identify a substance without further evidence."
+      ],
+      "markingPoints": [
+        "Melting permits ions to move without requiring electron release from each ion.",
+        "Moving charged ions explain the liquid-state conductivity.",
+        "A property pattern supports a model but does not uniquely identify a substance without further evidence."
+      ],
+      "marks": 3,
+      "calculator": "allowed"
+    }
+  ],
+  "revisionChecklist": [
+    "Identify the actual particles and structure.",
+    "Name the charge carrier and explain mobility.",
+    "Distinguish intermolecular attractions from internal covalent bonds.",
+    "Explain the reasoning in “Connect state to conductivity” and correct the linked error-analysis response without copying its solution."
+  ],
+  "diagrams": [
+    {
+      "id": "application-trace",
+      "title": "Connect state to conductivity",
+      "description": "Read the labelled relationships to follow this worked application. Its ions are fixed in the solid lattice but mobile in the liquid, where they carry charge. This is an explanatory process diagram, not a scale drawing or a record of a learner attempt.",
+      "steps": [
+        {
+          "label": "Solid lattice",
+          "detail": "Charged ions occupy fixed lattice positions."
+        },
+        {
+          "label": "Molten state",
+          "detail": "The ions can move through the liquid."
+        },
+        {
+          "label": "Observed current",
+          "detail": "Mobile ions transport charge between regions of the liquid."
+        }
+      ],
+      "links": [
+        "melting changes mobility",
+        "mobile charge permits conduction"
+      ]
+    }
+  ],
+  "teachingSequence": [
+    {
+      "title": "Establish the idea",
+      "guidance": "Explain “Attraction and structure” in your own words. Work through the first example, then answer the linked questions before revealing their solutions.",
+      "noteHeadings": [
+        "Attraction and structure"
+      ],
+      "workedExampleNumbers": [
+        1
+      ],
+      "questionIds": [
+        "q1",
+        "q2"
+      ]
+    },
+    {
+      "title": "Apply the method",
+      "guidance": "Use the remaining teaching sections to explain each step of the worked examples. Compare your reasoning with the marking points and record the specific step you would change.",
+      "noteHeadings": [
+        "Charge carriers and conductivity",
+        "Melting and mechanical properties",
+        "Explaining exceptions and comparing evidence"
+      ],
+      "workedExampleNumbers": [
+        2,
+        3
+      ],
+      "questionIds": [
+        "q3",
+        "q4"
+      ]
+    },
+    {
+      "title": "Testing a structure explanation against two states",
+      "guidance": "Read the application diagram “Connect state to conductivity”, then close the explanation and attempt both the application and error-analysis questions. Explain the correction aloud before retrying the mixed practice.",
+      "noteHeadings": [
+        "Testing a structure explanation against two states"
+      ],
+      "workedExampleNumbers": [
+        4
+      ],
+      "questionIds": [
+        "q5",
+        "application-check",
+        "error-analysis"
+      ]
+    }
+  ],
+  "revisionGuide": {
+    "summary": "A conductivity claim needs both a charged carrier and a reason that carrier can move. An ionic solid contains charged ions, yet its lattice prevents the ions from moving freely through the material. Melting changes that mobility without turning the ions into neutral atoms. The same evidence should be checked against an alternative model: a typical simple molecular substance has no mobile charged particles even when molten. Conductivity alone is not a unique fingerprint, so combine observations with melting behaviour and composition when available. In an exam explanation, connect the observed property to the particle model explicitly rather than stopping at the label ionic or covalent. Do not describe an ionic lattice as separate molecules.",
+    "keyIdeas": [
+      "Charged ions occupy fixed lattice positions.",
+      "The ions can move through the liquid.",
+      "Mobile ions transport charge between regions of the liquid.",
+      "Their mobile ions carry charge; metallic conduction is explained by delocalised electrons."
+    ],
+    "formulas": [],
+    "recallPrompts": [
+      "What two conditions are needed for electrical conduction?",
+      "What changes when an ionic lattice melts?",
+      "What holds an ionic lattice together?"
+    ],
+    "practiceQuestionIds": [
+      "q1",
+      "application-check",
+      "error-analysis"
+    ],
+    "revisit": "After checking your answer, write the specific rule or assumption you missed. Retry the linked questions without the worked example in a later session. A checked answer or completed checklist is not a measurement of mastery."
+  }
+}

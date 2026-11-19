@@ -1,6 +1,24 @@
 import { selectTheme } from './theme-controls';
 import { expect, test, type Page } from '@playwright/test';
 
+test('theme checks finish when animation-frame callbacks are paused', async ({ page }) => {
+  await page.setContent(`<html class="light"><head><style>
+    :root { --foreground: 220 50% 15%; --page-bg-base: rgb(248, 250, 255); }
+    :root.dark { --foreground: 220 20% 90%; --page-bg-base: rgb(7, 15, 31); }
+    html, body { background-color: var(--page-bg-base); color: hsl(var(--foreground)); }
+  </style></head><body><button type="button" aria-label="Theme: Blue. Click to switch.">Theme</button>
+  <script>
+    window.requestAnimationFrame = () => 0;
+    document.querySelector('button').onclick = event => {
+      const dark = document.documentElement.className !== 'dark';
+      document.documentElement.className = dark ? 'dark' : 'light';
+      event.currentTarget.setAttribute('aria-label', 'Theme: ' + (dark ? 'Midnight' : 'Blue') + '. Click to switch.');
+    };
+  </script></body></html>`);
+  await selectTheme(page, 'dark');
+  await selectTheme(page, 'light');
+});
+
 // Local browser fixtures only. These do not certify live account access or cloud sync.
 async function signIn(page: Page, id = 'f40db66b-1b55-4ab8-88d0-14a9ba476c16') {
   const user = { id, aud: 'authenticated', role: 'authenticated', email: 'learner@example.test', app_metadata: { provider: 'email' }, user_metadata: { username: 'alexlearner', full_name: 'Alex', board: 'IB_MYP', grade: 10, subjects: ['Physics'] }, created_at: '2026-09-21T00:00:00Z', identities: [] };
@@ -40,14 +58,15 @@ for (const width of [1440, 1024, 390]) {
     page.on('pageerror', error => errors.push(error.message));
     await signIn(page);
     const toolbox = page.getByRole('region', { name: 'A place for every next step.' });
-    await expect(toolbox.locator('article')).toHaveCount(11);
+    await expect(toolbox.locator('article')).toHaveCount(12);
+    await expect(toolbox.getByRole('link', { name: 'Revision history', exact: true })).toHaveAttribute('href', '/revision-history');
     await page.getByLabel('Time available today').selectOption('10');
     await expect(page.locator('.desk-budget-summary')).toContainText('suggested');
     const stage = toolbox.getByRole('button', { name: 'Review', exact: true });
     await stage.focus(); await page.keyboard.press('Enter');
     await expect(stage).toHaveAttribute('aria-pressed', 'true');
     await expect(stage).toBeFocused();
-    await expect(toolbox.locator('article')).toHaveCount(2);
+    await expect(toolbox.locator('article')).toHaveCount(3);
     const input = page.getByRole('searchbox', { name: 'Find a study tool' });
     await input.fill('mistake');
     await expect(toolbox.locator('article')).toHaveCount(1);
@@ -64,7 +83,7 @@ for (const width of [1440, 1024, 390]) {
     await input.fill('no-such-tool');
     await expect(toolbox.getByText('No tools match these filters.')).toBeVisible();
     await toolbox.getByRole('button', { name: 'Show all tools' }).click();
-    await expect(toolbox.locator('article')).toHaveCount(11);
+    await expect(toolbox.locator('article')).toHaveCount(12);
     for (const theme of ['light', 'dark']) {
       await selectTheme(page, theme as 'light' | 'dark');
       await page.evaluate(() => window.scrollTo(0, 0));
@@ -93,7 +112,7 @@ test('member portal keeps self-reported confidence explicit and links the accoun
   await signIn(page);
 
   await expect(page.getByText('Approved private beta access', { exact: true })).toBeVisible();
-  await expect(page.getByRole('complementary', { name: 'Member workspace summary' })).toContainText('No pending device saves');
+  await expect(page.getByRole('complementary', { name: 'Member workspace summary' })).toContainText('No pending saved-work uploads');
 
   const portalNav = page.getByRole('navigation', { name: 'Member portal sections' });
   await portalNav.getByRole('link', { name: 'Check in', exact: true }).focus();

@@ -1,3 +1,4 @@
+import { APP_ORIGIN } from '@/lib/appOrigin';
 import React from "react";
 import Article from "@/components/Article";
 import SEO from "@/components/SEO";
@@ -9,7 +10,7 @@ export default function IsUsingAICheating() {
       <SEO
         title="Is using AI cheating? A student guide to academic integrity | VertexED"
         description="Where AI crosses into plagiarism - finished essays, exam use, fake citations - and where it stays on the right side: brainstorming, Socratic help, and rubric feedback."
-        canonical="https://www.vertexed.app/resources/is-using-ai-cheating"
+        canonical={`${APP_ORIGIN}/resources/is-using-ai-cheating`}
         keywords="is using AI cheating, AI plagiarism, Turnitin AI detection, academic integrity AI, ChatGPT in schools, ethical AI use for students, university AI policies, VertexED"
         jsonLd={[
           {
@@ -20,14 +21,14 @@ export default function IsUsingAICheating() {
             author: {
               "@type": "Organization",
               name: "VertexED Team",
-              url: "https://www.vertexed.app"
+              url: `${APP_ORIGIN}`
             },
             publisher: {
               "@type": "Organization",
               name: "VertexED",
               logo: {
                 "@type": "ImageObject",
-                url: "https://www.vertexed.app/logo.png"
+                url: `${APP_ORIGIN}/logo.png`
               }
             },
             datePublished: "2025-12-24",

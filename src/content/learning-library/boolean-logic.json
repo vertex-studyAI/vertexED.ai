@@ -1,0 +1,273 @@
+{
+  "schemaVersion": 1,
+  "id": "boolean-logic",
+  "revision": "2026-10-25.1",
+  "subject": "Computer Science",
+  "unit": "Logic and decision making",
+  "topic": "Boolean logic: truth values, operators and conditions",
+  "level": "secondary-foundation",
+  "editorialStatus": "unreviewed",
+  "origin": "original-authorship-review-pending",
+  "scope": "Language-independent introduction to Boolean values, NOT, AND and OR. It supports tracing simple decisions but does not claim a complete programming, digital-logic or examination-course curriculum.",
+  "prerequisites": [
+    "Read a comparison such as score >= 50 as a statement that can be true or false.",
+    "Follow a one-step conditional instruction."
+  ],
+  "objectives": [
+    "Determine the result of NOT, AND and OR for stated Boolean inputs.",
+    "Trace a condition by naming its comparison results before combining them.",
+    "Write a test case that distinguishes two similar-looking conditions."
+  ],
+  "notes": [
+    {
+      "heading": "Boolean expressions have one of two truth values",
+      "paragraphs": [
+        "A Boolean expression evaluates to true or false. A comparison such as attempts >= 3 is true only when the current value meets that condition. The expression does not store a mark or make a decision by itself. It supplies one input to a decision. Write down the values being compared and the comparison operator before deciding the result.",
+        "A condition can be built from smaller Boolean expressions. For example, a learner may open a revision prompt only when signedIn AND hasSelectedTopic is true. Treat each name as a value supplied by the situation, not as a prediction about a learner. A trace is easier to check when each named input is evaluated separately before the final condition."
+      ]
+    },
+    {
+      "heading": "NOT, AND and OR have different jobs",
+      "paragraphs": [
+        "NOT reverses one Boolean value: NOT true is false, and NOT false is true. AND is true only when both inputs are true. OR is true when at least one input is true. In inclusive OR, both inputs being true still gives true. Unless a question explicitly says exclusive OR, do not assume that exactly one input must be true.",
+        "Parentheses state which operation to evaluate first. In a condition such as hasNotes AND (hasQuestion OR hasAnswer), first decide the bracketed OR result, then combine it with hasNotes. Adding parentheses makes the intended rule visible and avoids relying on a language's precedence conventions."
+      ]
+    },
+    {
+      "heading": "Test decisions at the boundaries that matter",
+      "paragraphs": [
+        "A condition can look plausible while still using the wrong operator or comparison boundary. If a pass rule is score >= 50, then 50 is an essential test input: score > 50 incorrectly rejects it. For an AND condition, test each input being false in turn as well as both being true. For an OR condition, test each input being true in turn and both being false.",
+        "Truth tables are a compact way to check every possible combination for a small number of Boolean inputs. They do not prove that names, data types or surrounding program steps are correct. State what each input means, calculate the result for each row, and choose test cases that would expose a changed operator."
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "prompt": "Evaluate ready = hasNotes AND hasQuestion when hasNotes is true and hasQuestion is false.",
+      "steps": [
+        "Write the two given inputs: true and false.",
+        "AND needs both inputs to be true.",
+        "One input is false, so the combined result is false."
+      ],
+      "answer": "ready is false."
+    },
+    {
+      "prompt": "Evaluate showHint = NOT submitted OR needsHelp when submitted is true and needsHelp is false.",
+      "steps": [
+        "NOT submitted is NOT true, which is false.",
+        "The expression is now false OR false.",
+        "Neither input to OR is true."
+      ],
+      "answer": "showHint is false."
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "OR means exactly one input must be true.",
+      "correction": "Ordinary inclusive OR is true when one or both inputs are true. Exactly-one behaviour needs a separately defined exclusive OR rule."
+    },
+    {
+      "claim": "NOT makes a number negative.",
+      "correction": "NOT reverses a Boolean truth value. It is not arithmetic negation."
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "boolean-value",
+      "front": "What values can a Boolean expression produce?",
+      "back": "True or false."
+    },
+    {
+      "id": "not",
+      "front": "What is NOT false?",
+      "back": "True."
+    },
+    {
+      "id": "and",
+      "front": "When is A AND B true?",
+      "back": "Only when both A and B are true."
+    },
+    {
+      "id": "or",
+      "front": "When is inclusive A OR B false?",
+      "back": "Only when both A and B are false."
+    },
+    {
+      "id": "boundary",
+      "front": "Why test the boundary in score >= 50?",
+      "back": "It distinguishes >= from > because 50 must be accepted by the stated rule."
+    }
+  ],
+  "questions": [
+    {
+      "id": "q1",
+      "type": "short",
+      "difficulty": "foundation",
+      "prompt": "State the result of false OR true and explain the rule used.",
+      "answer": "True. Inclusive OR is true when at least one input is true.",
+      "solution": [
+        "Identify the two inputs as false and true.",
+        "Apply the inclusive OR rule."
+      ],
+      "markingPoints": [
+        "States true.",
+        "Explains that at least one true input is sufficient."
+      ],
+      "marks": 2,
+      "calculator": "not-applicable"
+    },
+    {
+      "id": "q2",
+      "type": "short",
+      "difficulty": "foundation",
+      "prompt": "A resource opens when signedIn AND acceptedTerms is true. Give one input pair that opens the resource and one that does not.",
+      "answer": "It opens for true and true. Any pair containing false does not open it, for example true and false.",
+      "solution": [
+        "AND needs both named inputs to be true.",
+        "Choose one pair with two true values and one pair containing false."
+      ],
+      "markingPoints": [
+        "Gives true, true as an opening pair.",
+        "Gives a non-opening pair containing false."
+      ],
+      "marks": 2,
+      "calculator": "not-applicable"
+    },
+    {
+      "id": "q3",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "Explain why score > 50 does not implement a rule that says a learner passes at 50 or above. Name a test case that exposes the defect.",
+      "answer": "The operator > excludes 50, while the stated rule includes it. Testing score 50 exposes the defect because the intended result is true but score > 50 is false.",
+      "solution": [
+        "Compare the meanings of > and >=.",
+        "Use the boundary value 50.",
+        "State the expected and actual Boolean results."
+      ],
+      "markingPoints": [
+        "Identifies that > excludes equality.",
+        "Names 50 as the boundary test.",
+        "Explains the expected true versus actual false result."
+      ],
+      "marks": 3,
+      "calculator": "not-applicable"
+    },
+    {
+      "id": "q4",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "For visible = hasSource AND (hasQuestion OR hasAnswer), trace the result when hasSource is true, hasQuestion is false and hasAnswer is true.",
+      "answer": "hasQuestion OR hasAnswer is true. Then true AND true is true, so visible is true.",
+      "solution": [
+        "Evaluate the bracketed OR expression first.",
+        "Combine that result with hasSource using AND.",
+        "State the final value."
+      ],
+      "markingPoints": [
+        "Evaluates false OR true as true.",
+        "Evaluates true AND true as true.",
+        "States that visible is true."
+      ],
+      "marks": 3,
+      "calculator": "not-applicable"
+    }
+  ],
+  "revisionChecklist": [
+    "Name each Boolean input before combining it.",
+    "Use parentheses to show the intended grouping.",
+    "Test every meaningful boundary and false case.",
+    "Distinguish inclusive OR from an explicitly defined exclusive OR."
+  ],
+  "teachingSequence": [
+    {
+      "title": "Name the inputs before evaluating",
+      "guidance": "Read the Boolean values and comparison results separately. Then trace the first worked example before attempting the direct operator questions.",
+      "noteHeadings": [
+        "Boolean expressions have one of two truth values"
+      ],
+      "workedExampleNumbers": [
+        1
+      ],
+      "questionIds": [
+        "q1",
+        "q2"
+      ]
+    },
+    {
+      "title": "Trace grouping and boundary cases",
+      "guidance": "Evaluate the brackets before the surrounding operation, then use the score boundary to test whether the condition matches the stated rule.",
+      "noteHeadings": [
+        "NOT, AND and OR have different jobs",
+        "Test decisions at the boundaries that matter"
+      ],
+      "workedExampleNumbers": [
+        2
+      ],
+      "questionIds": [
+        "q3",
+        "q4"
+      ]
+    },
+    {
+      "title": "Review the condition before trusting it",
+      "guidance": "Use the misconception checks to distinguish inclusive OR from exactly-one logic. Revisit the boundary question and state the test that would reveal a changed operator.",
+      "noteHeadings": [
+        "Test decisions at the boundaries that matter"
+      ],
+      "workedExampleNumbers": [
+        1
+      ],
+      "questionIds": [
+        "q1",
+        "q3"
+      ]
+    }
+  ],
+  "diagrams": [
+    {
+      "id": "application-trace",
+      "title": "Trace a grouped Boolean condition",
+      "description": "An explanatory trace of visible = hasSource AND (hasQuestion OR hasAnswer), with hasSource=true, hasQuestion=false and hasAnswer=true. This diagram does not represent an actual account permission or learner result.",
+      "steps": [
+        {
+          "label": "Read the inputs",
+          "detail": "hasSource is true, hasQuestion is false and hasAnswer is true."
+        },
+        {
+          "label": "Evaluate the brackets",
+          "detail": "false OR true is true because inclusive OR needs at least one true input."
+        },
+        {
+          "label": "Apply the outer AND",
+          "detail": "true AND true is true, so visible is true."
+        }
+      ],
+      "links": [
+        "evaluate the grouped expression first",
+        "combine its result with the remaining input"
+      ]
+    }
+  ],
+  "revisionGuide": {
+    "summary": "Evaluate each Boolean input, then follow the stated grouping. A trace explains one case; a truth table compares every input combination. Test comparison boundaries separately so equality is not accidentally excluded. A correct Boolean expression does not prove that the underlying account or service state is accurate.",
+    "keyIdeas": [
+      "NOT reverses a Boolean value.",
+      "AND needs both operands to be true.",
+      "Inclusive OR permits either or both operands to be true.",
+      "A rule that includes a threshold needs an equality case."
+    ],
+    "formulas": [],
+    "recallPrompts": [
+      "Which inputs distinguish AND from inclusive OR?",
+      "Why does testing 50 distinguish > 50 from >= 50?",
+      "What should be evaluated first inside visible = hasSource AND (hasQuestion OR hasAnswer)?"
+    ],
+    "practiceQuestionIds": [
+      "q1",
+      "q2",
+      "q3",
+      "q4"
+    ],
+    "revisit": "Explain any changed operator or missed boundary, then retry the linked questions without the worked example. Self-review does not establish independently verified mastery."
+  }
+}

@@ -131,7 +131,7 @@ Creation reuses an idempotency key for safe retries. Identical replays return th
 
 ### Learner state
 
-`learner_state_items` stores typed weakness, retry, mock-draft, exam-session and related adaptive records. Server code batches/synchronises state through bounded queries/RPCs. Only teacher, official-mark-scheme or validated deterministic confirmation can promote evidence to measured status.
+`learner_state_items` stores typed weakness, retry, mock-draft, exam-session and related adaptive records. Server code batches/synchronises state through bounded queries/RPCs. A learner report that a teacher or mark scheme was checked is retained as learner-attested provenance and cannot promote mastery. Only a validated deterministic answer key currently creates measured status; an authenticated authority workflow would need a separate server-verified contract.
 
 ### Observability and rate limits
 

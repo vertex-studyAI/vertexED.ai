@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "lessonId": "linear-equations",
+  "revision": "2026-10-21.3",
+  "notes": [
+    {
+      "heading": "Split parameter cases before dividing",
+      "paragraphs": [
+        "An equation containing a parameter may describe several different solution patterns. In ax=b, divide by a only when a is nonzero. If a=0, the equation instead says 0=b, which is either always true or impossible. The same caution applies to a parameter multiplying an expression. Rational equations also carry original domain restrictions: clearing a denominator can produce a candidate that was never permitted. State these restrictions first and test every candidate in the original equation. A graph or substitution can check an answer but does not repair an invalid division."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "depth-parameter-cases",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "Solve (k-2)x=6 for real x, distinguishing all real values of k.",
+      "answer": "For k≠2, x=6/(k-2). For k=2, there is no solution because 0=6 is false.",
+      "solution": [
+        "Identify when the coefficient of x vanishes.",
+        "Divide only in the nonzero case and inspect the zero case separately."
+      ],
+      "markingPoints": [
+        "State k≠2 for division.",
+        "Give 6/(k-2).",
+        "Explain no solution at k=2."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-rational-restriction",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "Solve (x+1)/(x-2)=2 over the reals, stating the domain restriction and checking the solution.",
+      "answer": "x≠2; the solution is x=5, which gives 6/3=2.",
+      "solution": [
+        "Record x≠2 before multiplying by x-2.",
+        "Solve x+1=2x-4 and substitute back."
+      ],
+      "markingPoints": [
+        "State x≠2.",
+        "Find x=5.",
+        "Check the original equation."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-compound-bound",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "Solve -3≤2x+1<9 and list all integer solutions.",
+      "answer": "-2≤x<4; integers -2,-1,0,1,2,3.",
+      "solution": [
+        "Subtract 1 from all three parts.",
+        "Divide by positive 2, retaining closed and open endpoints."
+      ],
+      "markingPoints": [
+        "Obtain -2≤x<4.",
+        "Keep endpoint inclusion correct.",
+        "List all six integers."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    }
+  ]
+}

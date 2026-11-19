@@ -1,0 +1,265 @@
+{
+  "schemaVersion": 1,
+  "id": "subject-market-failure",
+  "revision": "2026-10-21.4",
+  "subject": "Economics",
+  "unit": "Markets and policy",
+  "topic": "External effects, incentives and evaluating an intervention",
+  "level": "secondary-foundation",
+  "editorialStatus": "unreviewed",
+  "origin": "original-authorship-review-pending",
+  "scope": "Original shared study module on external effects, incentives and evaluating an intervention. Numerical datasets and quoted passages are invented teaching examples. This is not a complete course, official examination material or verified board-specific alignment.",
+  "prerequisites": [
+    "Distinguish costs from benefits.",
+    "Read a simple quantity-dependent relationship."
+  ],
+  "objectives": [
+    "Distinguish private and external costs.",
+    "Explain a market-failure mechanism under stated assumptions.",
+    "Evaluate intervention benefits and implementation limits."
+  ],
+  "notes": [
+    {
+      "heading": "Define the boundary of the decision",
+      "paragraphs": [
+        "A private cost is borne by the decision-maker; an external cost falls on others and is not fully reflected in that decision's market price or compensation. The distinction depends on the boundary and the activity, not whether a cost is large or morally undesirable. In a simplified model, marginal social cost is marginal private cost plus marginal external cost. Marginal means the effect of one additional unit, not the total across all units. Identify who gains and who bears a cost before applying a diagram or policy label."
+      ]
+    },
+    {
+      "heading": "Explain the allocation problem",
+      "paragraphs": [
+        "If buyers and sellers consider only private costs and benefits, their chosen quantity may differ from the quantity that balances marginal social benefit and cost. A negative production externality can lead to excessive output relative to that model's social optimum. State the assumptions: the relevant external effect is omitted from the private decision, and other market conditions are being held fixed. An unequal outcome alone is not the same claim as inefficient allocation. Distinguish the efficiency argument from a separate distributional judgement about who should receive income or bear costs."
+      ]
+    },
+    {
+      "heading": "Evaluate a policy as a mechanism",
+      "paragraphs": [
+        "A tax, subsidy, regulation or information measure works through a specific incentive or constraint. Explain that channel before claiming it solves the problem. An ideally calibrated tax can align private incentives with marginal external cost, but estimating damage, enforcing rules and anticipating responses can be difficult. Consider administrative costs, substitution, distribution and unintended consequences. Compare the policy with a realistic alternative rather than with a perfect world. The numerical cases in this lesson are invented teaching models, not estimates of real external damages or advice about a particular government's policy."
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "prompt": "In an invented model, marginal private cost is 8 and marginal external cost is 3 units at the relevant output. Find marginal social cost.",
+      "steps": [
+        "Apply MSC=MPC+MEC.",
+        "Add 8 and 3, keeping all quantities marginal."
+      ],
+      "answer": "11 units per additional unit of output."
+    },
+    {
+      "prompt": "An invented activity imposes a constant unpriced external cost of 2 units per item. Explain the role of an ideal per-item tax of 2.",
+      "steps": [
+        "The tax raises the decision-maker's marginal cost by 2.",
+        "Under the stated model it internalises that external cost, though actual behavioural and administrative effects still need assessment."
+      ],
+      "answer": "It can align the private marginal incentive with the specified social cost."
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Any cost paid by a business is an external cost.",
+      "correction": "A cost borne by the business is normally private to that decision."
+    },
+    {
+      "claim": "Any intervention necessarily improves welfare.",
+      "correction": "Its effectiveness and costs must be compared with feasible alternatives."
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "card-1",
+      "front": "Who bears an external cost?",
+      "back": "Others outside the private decision, without the cost being fully reflected or compensated."
+    },
+    {
+      "id": "card-2",
+      "front": "What does marginal mean?",
+      "back": "The effect of one additional unit."
+    },
+    {
+      "id": "card-3",
+      "front": "How is marginal social cost expressed in the simple model?",
+      "back": "MPC+MEC."
+    },
+    {
+      "id": "card-4",
+      "front": "Does inequality alone prove allocative inefficiency?",
+      "back": "No. Distribution and efficiency are distinct questions."
+    },
+    {
+      "id": "card-5",
+      "front": "Why might an ideal corrective tax be difficult to implement?",
+      "back": "Damage estimates, enforcement, behavioural responses and distributional effects can be uncertain."
+    }
+  ],
+  "questions": [
+    {
+      "id": "social-cost",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "In a hypothetical model, MPC=12 and MEC=5 per additional unit. Calculate MSC.",
+      "answer": "17 per additional unit.",
+      "solution": [
+        "Use the marginal cost identity.",
+        "Add 12+5."
+      ],
+      "markingPoints": [
+        "Apply MSC=MPC+MEC.",
+        "Find 17 with a marginal interpretation."
+      ],
+      "marks": 2,
+      "calculator": "not-required"
+    },
+    {
+      "id": "boundary",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "A factory pays its own electricity bill but uncompensated noise affects neighbours. Identify the private and external costs in this description.",
+      "answer": "The electricity bill is private; uncompensated neighbour noise is external.",
+      "solution": [
+        "Identify who bears each cost.",
+        "Check whether the effect is included in the decision-maker's payment."
+      ],
+      "markingPoints": [
+        "Classify the bill.",
+        "Classify the noise effect."
+      ],
+      "marks": 2,
+      "calculator": "not-required"
+    },
+    {
+      "id": "tax",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "An invented external cost is estimated at 4 per item, but a tax is set at 1. Explain why the tax may not fully internalise the specified cost.",
+      "answer": "The private incentive rises by only 1, leaving 3 of the stated marginal external cost unpriced in this simplified model.",
+      "solution": [
+        "Compare the tax with the estimated marginal damage.",
+        "Avoid claiming the resulting quantity without demand and supply information."
+      ],
+      "markingPoints": [
+        "Identify the remaining gap.",
+        "Respect the model's information limit."
+      ],
+      "marks": 2,
+      "calculator": "not-required"
+    },
+    {
+      "id": "evaluation",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "A proposed emissions rule may reduce pollution but is costly to monitor. Give a balanced criterion for evaluating it.",
+      "answer": "Compare expected reductions in external harm with monitoring, compliance and other consequences, including who bears them.",
+      "solution": [
+        "Name benefits and costs rather than listing only one side.",
+        "Compare with feasible alternatives and acknowledge uncertainty."
+      ],
+      "markingPoints": [
+        "Include both benefits and implementation costs.",
+        "Give a comparative, qualified judgement criterion."
+      ],
+      "marks": 2,
+      "calculator": "not-required"
+    }
+  ],
+  "revisionChecklist": [
+    "Check that you can distinguish private and external costs without copying the worked solution.",
+    "Check that you can explain a market-failure mechanism under stated assumptions without copying the worked solution.",
+    "Check that you can evaluate intervention benefits and implementation limits without copying the worked solution."
+  ],
+  "diagrams": [
+    {
+      "id": "reasoning-route",
+      "title": "Reasoning route: Markets and policy",
+      "description": "Use the sequence to organise an explanation of external effects, incentives and evaluating an intervention; it is not a measured mastery score.",
+      "steps": [
+        {
+          "label": "Identify affected parties",
+          "detail": "Separate private effects from uncompensated external effects."
+        },
+        {
+          "label": "Explain the incentive gap",
+          "detail": "Compare marginal private and social consequences."
+        },
+        {
+          "label": "Evaluate intervention",
+          "detail": "Trace the mechanism, costs, distribution and alternatives."
+        }
+      ],
+      "links": [
+        "Use this definition to choose the method",
+        "Use the result to evaluate the conclusion"
+      ]
+    }
+  ],
+  "teachingSequence": [
+    {
+      "title": "Define the boundary of the decision",
+      "guidance": "Identify whose costs are included before combining private and external marginal costs.",
+      "noteHeadings": [
+        "Define the boundary of the decision"
+      ],
+      "workedExampleNumbers": [
+        1
+      ],
+      "questionIds": [
+        "social-cost",
+        "boundary"
+      ]
+    },
+    {
+      "title": "Explain the allocation problem",
+      "guidance": "Explain how an unpriced marginal cost changes the decision-maker's incentive and why a smaller tax leaves a gap.",
+      "noteHeadings": [
+        "Explain the allocation problem"
+      ],
+      "workedExampleNumbers": [
+        2
+      ],
+      "questionIds": [
+        "tax"
+      ]
+    },
+    {
+      "title": "Evaluate a policy as a mechanism",
+      "guidance": "Contrast the ideal tax model with measurement, enforcement and distributional limits.",
+      "noteHeadings": [
+        "Evaluate a policy as a mechanism"
+      ],
+      "workedExampleNumbers": [
+        2
+      ],
+      "questionIds": [
+        "evaluation"
+      ]
+    }
+  ],
+  "revisionGuide": {
+    "summary": "Review external effects, incentives and evaluating an intervention by connecting definitions, the two worked examples and the limits of each conclusion. These questions use editorial self-review points, not an official examination rubric.",
+    "keyIdeas": [
+      "Who bears an external cost? Others outside the private decision, without the cost being fully reflected or compensated.",
+      "What does marginal mean? The effect of one additional unit.",
+      "How is marginal social cost expressed in the simple model? MPC+MEC."
+    ],
+    "formulas": [
+      {
+        "expression": "MSC=MPC+MEC",
+        "meaning": "Marginal social cost combines private and external costs.",
+        "conditions": "All terms refer to the same additional unit and the same cost boundary."
+      }
+    ],
+    "recallPrompts": [
+      "Who bears an external cost?",
+      "What does marginal mean?",
+      "How is marginal social cost expressed in the simple model?"
+    ],
+    "practiceQuestionIds": [
+      "social-cost",
+      "boundary",
+      "tax",
+      "evaluation"
+    ],
+    "revisit": "Attempt the questions without the notes, compare your reasoning with the points, and retry any step you cannot yet explain. Self-review does not certify mastery."
+  }
+}

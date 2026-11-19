@@ -1,3 +1,4 @@
+import { APP_ORIGIN } from '@/lib/appOrigin';
 import Article from '@/components/Article';
 import SEO from '@/components/SEO';
 import BreadcrumbsJsonLd from '@/components/BreadcrumbsJsonLd';
@@ -6,7 +7,7 @@ import { Link } from 'react-router';
 export default function AutomatedNoteTakingGuide() {
   return (
     <>
-      <SEO title="Automated note taking: capture, then review | VertexED" description="Keep the original material beside the draft. Check it before turning it into practice." canonical="https://www.vertexed.app/resources/automated-note-taking-guide" ogType="article" />
+      <SEO title="Automated note taking: capture, then review | VertexED" description="Keep the original material beside the draft. Check it before turning it into practice." canonical={`${APP_ORIGIN}/resources/automated-note-taking-guide`} ogType="article" />
       <BreadcrumbsJsonLd />
       <Article title="Automated note taking: capture, then review" subtitle="Keep the original material beside the draft. Check it before turning it into practice." kicker="Study guide">
 

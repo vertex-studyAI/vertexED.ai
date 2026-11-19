@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "lessonId": "arithmetic-sequences",
+  "revision": "2026-10-21.3",
+  "notes": [
+    {
+      "heading": "Recover a rule from cumulative totals",
+      "paragraphs": [
+        "A cumulative sum and an individual term are different objects. If S_n is the total through term n, subtract S_(n-1) to recover the nth term. This difference can reveal a constant step even when the total itself is quadratic. Conversely, consecutive term differences must be constant for an arithmetic sequence; a few increasing values alone are insufficient. When a sequence crosses a threshold, solve for its index and then apply the positive-integer domain. A first crossing should be checked against the preceding term, especially when the inequality is strict."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "depth-cumulative-rule",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "A sequence has cumulative sum S_n=2n²+3n for positive integer n, with S_0=0. Find u_n and show that the sequence is arithmetic.",
+      "answer": "u_n=S_n-S_(n-1)=4n+1, so the first term is 5 and the common difference is 4.",
+      "solution": [
+        "Expand S_(n-1)=2n²-n-1.",
+        "Subtract to obtain 4n+1 and compare consecutive terms."
+      ],
+      "markingPoints": [
+        "Use the difference of cumulative sums.",
+        "Obtain 4n+1.",
+        "Identify first term 5 and difference 4."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-strict-crossing",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "For u_n=47-3(n-1), n≥1 an integer, find the first negative term and its index.",
+      "answer": "u_17=-1 is the first negative term; u_16=2.",
+      "solution": [
+        "Solve 50-3n<0 to get n>50/3.",
+        "Choose n=17 and check both it and n=16."
+      ],
+      "markingPoints": [
+        "Use a strict negative inequality.",
+        "Find index 17 and term -1.",
+        "Check preceding term 2."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-equal-sums",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "An arithmetic sequence has u_2+u_8=30. Find u_5 and S_9 without determining the common difference.",
+      "answer": "u_5=15 and S_9=135.",
+      "solution": [
+        "The pair u_2 and u_8 is symmetric about u_5, so their sum equals 2u_5.",
+        "The mean of the first nine arithmetic terms is the middle term, giving 9×15."
+      ],
+      "markingPoints": [
+        "Explain symmetry of the given pair.",
+        "Find u_5=15.",
+        "Find S_9=135."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    }
+  ]
+}

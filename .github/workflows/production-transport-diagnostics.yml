@@ -50,7 +50,7 @@ jobs:
 
       - name: Capture DNS, TCP, TLS, and HTTPS evidence
         env:
-          TRANSPORT_DIAGNOSTIC_URL: https://www.vertexed.app
+          TRANSPORT_DIAGNOSTIC_URL: https://vertex-ed-ai.vercel.app
           TRANSPORT_DIAGNOSTIC_TIMEOUT_MS: '10000'
           TRANSPORT_DIAGNOSTIC_OUTPUT: artifacts/production-transport/transport.json
         run: |

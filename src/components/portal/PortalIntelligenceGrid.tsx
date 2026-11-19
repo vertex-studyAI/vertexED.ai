@@ -88,7 +88,7 @@ export default function PortalIntelligenceGrid({ intel, profile, stats }: Props)
           </ul>
         ) : (
           <p className="text-xs text-muted-foreground mt-3">
-            Confirm an answer against a teacher or official mark scheme to start a subject-level practice average.
+            Complete practice with an independently validated answer key to start a subject-level practice average.
           </p>
         )}
         <Link

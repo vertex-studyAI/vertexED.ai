@@ -47,8 +47,124 @@
             "Use the stated work convention."
           ],
           "id": "unit-9-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Track the chosen convention.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A gas loses 80 J of heat while 30 J of work is done on it. Find ΔU using work by the gas.",
+          "answer": "Q=−80 J and W=−30 J, so ΔU=−80−(−30)=−50 J.",
+          "checkpoints": [
+            "Assign negative heat input.",
+            "Convert work on the gas to negative work by it.",
+            "Calculate −50 J."
+          ],
+          "hints": [
+            "Track the chosen convention.",
+            "Compression work adds energy to the gas."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "A cycle ends at its starting state.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "An ideal-gas engine returns to its original state after a cycle and receives net heat 240 J. Find net work and explain why internal energy does not accumulate.",
+          "answer": "Net work done by the gas is 240 J. The initial and final states match, so the state function U has zero change.",
+          "checkpoints": [
+            "Identify ΔUcycle=0.",
+            "Apply Qnet=Wnet.",
+            "Explain state-function reasoning."
+          ],
+          "hints": [
+            "A cycle ends at its starting state.",
+            "Apply the first law to the whole cycle."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through thermodynamic energy accounting",
+            "paragraphs": [
+              "State the work convention before applying the first law. With W defined as work done by the gas, ΔU=Q−W: heat entering is positive and expansion work is positive. Internal energy is a state function, while heat and work depend on the path between states. For an ideal gas, internal energy depends on temperature; an isothermal process can therefore transfer heat and do work while ΔU remains zero. On a pressure-volume graph, the area under a quasistatic path represents work done by the gas. A complete cycle returns internal energy to its starting value."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A gas expands at constant pressure 200 kPa from 0.010 to 0.013 m³ while absorbing 900 J. Find work and internal-energy change.",
+            "steps": [
+              "W=PΔV=(200,000)(0.003)=600 J done by the gas.",
+              "ΔU=Q−W=900−600=300 J."
+            ],
+            "conclusion": "The gas does 600 J of work and gains 300 J internal energy."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What work convention gives ΔU=Q−W?",
+            "back": "W is work done by the gas."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Which is a state function: heat or internal energy?",
+            "back": "Internal energy."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What is ΔU for an ideal gas in an isothermal process?",
+            "back": "Zero."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What does area under a P-V path give?",
+            "back": "Quasistatic work done by the gas."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Thermodynamic energy accounting: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Heat input Q",
+                "detail": "Energy crosses because of a temperature difference."
+              },
+              {
+                "id": "n2",
+                "label": "Expansion work W",
+                "detail": "Energy leaves through mechanical work under the stated convention."
+              },
+              {
+                "id": "n3",
+                "label": "Internal energy change",
+                "detail": "The balance is Q−W."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "is offset by"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "leaves"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-10",
@@ -92,8 +208,124 @@
             "Square the distance factor."
           ],
           "id": "unit-10-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Use final minus initial potential.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A +4 μC charge moves from 10 V to 60 V. Find ΔU and electric-field work.",
+          "answer": "ΔU=(4×10⁻⁶)(50)=2×10⁻⁴ J; field work is −ΔU=−2×10⁻⁴ J.",
+          "checkpoints": [
+            "Calculate ΔV=50 V.",
+            "Calculate positive energy change.",
+            "Give field work with the opposite sign."
+          ],
+          "hints": [
+            "Use final minus initial potential.",
+            "Conservative field work is the negative potential-energy change."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Draw the two field directions.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "At the midpoint between equal positive charges, describe the electric field and potential using zero potential at infinity.",
+          "answer": "The equal opposing fields cancel, so E=0. Each charge contributes positive potential, so the total potential is positive.",
+          "checkpoints": [
+            "Use symmetry for vector field cancellation.",
+            "Add positive scalar potentials.",
+            "Distinguish zero field from zero potential."
+          ],
+          "hints": [
+            "Draw the two field directions.",
+            "Potentials do not carry direction arrows."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through electric fields and potential differences",
+            "paragraphs": [
+              "Electric field describes force per positive test charge, while electric potential describes potential energy per charge. They are related but not interchangeable: a charge can sit at zero potential while experiencing a nonzero field, depending on the reference and geometry. Potential differences determine energy changes through ΔU=qΔV; the charge sign matters. Electric field points towards decreasing potential. In a uniform field, the potential change along the field is −Ed. Superposition adds fields as vectors and potentials as scalars, so cancellation conditions can differ even for the same arrangement of source charges."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A uniform field is 500 N/C to the right. A −2 μC charge moves 0.20 m right. Find ΔV and ΔU.",
+            "steps": [
+              "Potential decreases along the field: ΔV=−Ed=−100 V.",
+              "ΔU=qΔV=(−2×10⁻⁶)(−100)=+2×10⁻⁴ J."
+            ],
+            "conclusion": "Potential falls by 100 V, but the negative charge gains 2×10⁻⁴ J of potential energy."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What direction defines electric field?",
+            "back": "Force direction on a positive test charge."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "How is energy change related to potential change?",
+            "back": "ΔU=qΔV."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Do field and potential add the same way?",
+            "back": "No; fields add vectorially and potentials algebraically."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Which way does potential decrease?",
+            "back": "Along the electric-field direction."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Electric fields and potential differences: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Electric field",
+                "detail": "Specifies force per positive charge and a direction."
+              },
+              {
+                "id": "n2",
+                "label": "Potential difference",
+                "detail": "Along a uniform field, use ΔV=−Ed."
+              },
+              {
+                "id": "n3",
+                "label": "Charge energy",
+                "detail": "Multiply potential difference by signed charge."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "determines spatial change in"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "changes"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-11",
@@ -135,8 +367,124 @@
             "Do not use the parallel reciprocal rule."
           ],
           "id": "unit-11-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Parallel branches have the same source voltage.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "Two equal 8 Ω resistors are connected in parallel to 8 V. Find each current and total power.",
+          "answer": "Each current is 1 A. Each resistor dissipates 8 W, so total power is 16 W.",
+          "checkpoints": [
+            "Use 8 V across each branch.",
+            "Find 1 A per resistor.",
+            "Add powers to obtain 16 W."
+          ],
+          "hints": [
+            "Parallel branches have the same source voltage.",
+            "Add the two separate IV values."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Keep the ideal-source assumption explicit.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "One branch of an ideal parallel circuit is disconnected. The battery voltage is fixed. What happens to current in an unchanged remaining branch and total battery current?",
+          "answer": "The remaining branch current stays the same because its voltage and resistance are unchanged; total battery current decreases because one branch current is removed.",
+          "checkpoints": [
+            "Apply fixed branch voltage.",
+            "Use unchanged I=V/R for the remaining branch.",
+            "Explain the decrease in summed source current."
+          ],
+          "hints": [
+            "Keep the ideal-source assumption explicit.",
+            "Use the junction current sum."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through circuits and conserved current",
+            "paragraphs": [
+              "A circuit node conserves charge: in steady state, total current entering equals total current leaving. A loop equation conserves energy per charge, so voltage rises and drops sum to zero around a closed path. Series components share current, whereas parallel branches share their end-to-end potential difference. Resistance combinations follow from those constraints rather than from a visual rule about how components are drawn. A resistor converts electrical energy at rate P=IV; using V²/R or I²R is valid when V and I refer to that particular resistor. Ideal meters and sources simplify the model."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A 2 Ω resistor is in series with a parallel combination of 6 Ω and 3 Ω across an ideal 12 V battery. Find battery current and branch currents.",
+            "steps": [
+              "The parallel resistance is 2 Ω, so total resistance is 4 Ω and battery current is 3 A.",
+              "The parallel section has 6 V across it; currents are 6/6=1 A and 6/3=2 A, summing to 3 A."
+            ],
+            "conclusion": "The battery supplies 3 A; the branches carry 1 A and 2 A."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is conserved at a steady circuit junction?",
+            "back": "Charge, so entering and leaving currents balance."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What do parallel branches share?",
+            "back": "Potential difference."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What do series components share?",
+            "back": "Current."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Which voltage belongs in V²/R?",
+            "back": "The voltage across the resistor being analysed."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Circuits and conserved current: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Equivalent network",
+                "detail": "Reduce series and parallel groups using their constraints."
+              },
+              {
+                "id": "n2",
+                "label": "Source current",
+                "detail": "Use total resistance with the source voltage."
+              },
+              {
+                "id": "n3",
+                "label": "Branch quantities",
+                "detail": "Recover each group voltage and branch current, checking junction sums."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "determines"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "distributes into"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-12",
@@ -178,8 +526,124 @@
             "Use Lenz’s law."
           ],
           "id": "unit-12-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "The sine factor is one.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A charge of magnitude 3 μC moves at 2×10⁴ m/s perpendicular to a 0.50 T field. Find magnetic-force magnitude.",
+          "answer": "F=|q|vB=(3×10⁻⁶)(2×10⁴)(0.50)=0.030 N.",
+          "checkpoints": [
+            "Use the perpendicular-force expression.",
+            "Convert microcoulombs correctly.",
+            "Calculate 0.030 N."
+          ],
+          "hints": [
+            "The sine factor is one.",
+            "Track powers of ten."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Ask for the component along motion.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "A charged particle moves in a circle under a magnetic force alone. Does its kinetic energy change? Explain.",
+          "answer": "No. The force is perpendicular to velocity, so its power F·v is zero; direction changes while speed and kinetic energy remain constant.",
+          "checkpoints": [
+            "Identify perpendicular force.",
+            "Infer zero work or power.",
+            "Distinguish direction change from speed change."
+          ],
+          "hints": [
+            "Ask for the component along motion.",
+            "Centripetal acceleration can occur at constant speed."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through magnetic force and changing flux",
+            "paragraphs": [
+              "The magnetic force on a moving charge is perpendicular to both velocity and magnetic field. Its magnitude is |q|vB sinθ; a negative charge reverses the direction found for a positive one. This force changes direction but does no work on a point charge, because it is perpendicular to the instantaneous velocity. Electromagnetic induction instead concerns changing magnetic flux through a loop, including changes in field, area or orientation. Lenz’s law sets the induced current direction so its field opposes the flux change. Opposing a change is different from always opposing the original magnetic field."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A loop of area 0.020 m² has a perpendicular field into the page that decreases from 0.50 T to 0.10 T in 0.20 s. Find average emf magnitude and current direction.",
+            "steps": [
+              "Flux magnitude changes by 0.020×0.40=0.0080 Wb, so |emf|=0.0080/0.20=0.040 V.",
+              "The induced field must reinforce the decreasing into-page flux; a clockwise current produces an into-page field."
+            ],
+            "conclusion": "The average emf magnitude is 0.040 V and induced current is clockwise."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "When is magnetic force on a moving charge zero?",
+            "back": "When velocity is parallel to the field, or speed or charge is zero."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Does the magnetic force do work on a point charge?",
+            "back": "No; it is perpendicular to velocity."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What changes can induce emf?",
+            "back": "Changes in field, loop area or orientation that change flux."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What does Lenz’s law oppose?",
+            "back": "The change in magnetic flux."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Magnetic force and changing flux: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Flux change",
+                "detail": "Identify whether signed flux increases or decreases."
+              },
+              {
+                "id": "n2",
+                "label": "Induced field",
+                "detail": "Choose a field opposing that change."
+              },
+              {
+                "id": "n3",
+                "label": "Current direction",
+                "detail": "Use the loop right-hand rule to obtain the required field."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "determines"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "requires"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-13",
@@ -221,8 +685,124 @@
             "Measure angles from the normal."
           ],
           "id": "unit-13-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Use the same sign convention throughout.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A diverging lens has f=−10 cm and do=10 cm. Find di and m.",
+          "answer": "1/di=−1/10−1/10=−1/5, so di=−5 cm and m=+0.5.",
+          "checkpoints": [
+            "Use negative focal length.",
+            "Solve di=−5 cm.",
+            "Find m=+0.5 and an upright reduced virtual image."
+          ],
+          "hints": [
+            "Use the same sign convention throughout.",
+            "Substitute di into −di/do."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Orientation determines the magnification sign.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "A real image is twice the object height and inverted. If do=15 cm, find di and f.",
+          "answer": "m=−2 gives di=30 cm; 1/f=1/15+1/30=1/10, so f=10 cm.",
+          "checkpoints": [
+            "Translate inverted twice-height to m=−2.",
+            "Calculate di=30 cm.",
+            "Use the lens equation to obtain f=10 cm."
+          ],
+          "hints": [
+            "Orientation determines the magnification sign.",
+            "Solve the magnification relation before the lens equation."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through thin lenses and image signs",
+            "paragraphs": [
+              "A thin-lens model relates focal length, object distance and image distance through 1/f=1/do+1/di. State the sign convention: a converging lens has positive f, a real image has positive di, and a virtual image has negative di in the usual real-is-positive convention. Magnification m=−di/do identifies both size ratio and orientation. Algebra should agree with a ray diagram using principal rays. When an object lies inside the focal length of a converging lens, refracted rays diverge and their backward extensions meet on the object side, producing an upright virtual image."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A converging lens has f=12 cm and an object 8 cm from it. Find image distance and magnification.",
+            "steps": [
+              "1/di=1/12−1/8=−1/24 cm⁻¹, so di=−24 cm.",
+              "m=−(−24)/8=+3, indicating an upright image three times the object height."
+            ],
+            "conclusion": "The virtual image lies 24 cm on the object side and is upright with magnification +3."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What does negative image distance mean here?",
+            "back": "A virtual image on the object side."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What does positive magnification mean?",
+            "back": "An upright image."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What is f for a diverging lens in this convention?",
+            "back": "Negative."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Can a virtual image be projected onto a screen at its apparent location?",
+            "back": "No; rays do not actually converge there."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Thin lenses and image signs: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Object and focal length",
+                "detail": "Locate the object relative to the focal point."
+              },
+              {
+                "id": "n2",
+                "label": "Ray convergence",
+                "detail": "Determine whether actual rays or backward extensions meet."
+              },
+              {
+                "id": "n3",
+                "label": "Image properties",
+                "detail": "Use distance and magnification signs to describe location and orientation."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "determine"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "establishes"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-14",
@@ -264,8 +844,124 @@
             "Use v/λ."
           ],
           "id": "unit-14-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "A stationary boundary does not create a new source frequency.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A wave of frequency 50 Hz enters a medium where its speed is 100 m/s. Find its frequency and wavelength there.",
+          "answer": "Frequency remains 50 Hz; wavelength is 100/50=2 m.",
+          "checkpoints": [
+            "Preserve source frequency.",
+            "Use λ=v/f.",
+            "Calculate 2 m."
+          ],
+          "hints": [
+            "A stationary boundary does not create a new source frequency.",
+            "Use the speed in the second medium."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Integer wavelengths reproduce phase.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "Two coherent in-phase sources reach a point with path difference 2.5λ. What phase difference modulo one cycle occurs, and what interference follows for equal amplitudes?",
+          "answer": "The extra half-cycle gives phase difference π radians modulo 2π, so equal-amplitude displacements cancel destructively.",
+          "checkpoints": [
+            "Remove the integer two-cycle part.",
+            "Identify a half-cycle phase difference.",
+            "Conclude destructive cancellation for equal amplitudes."
+          ],
+          "hints": [
+            "Integer wavelengths reproduce phase.",
+            "The remaining half wavelength reverses displacement."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through wave speed and interference",
+            "paragraphs": [
+              "A wave transfers energy through a travelling disturbance; the medium’s particles need not travel with the disturbance. In one medium, wave speed is set by material conditions, and v=fλ relates speed, frequency and wavelength. At a stationary boundary, the frequency remains set by the source while speed and wavelength can change. Interference follows superposition: displacement contributions add, giving reinforcement or cancellation depending on phase. Standing waves are patterns formed by counterpropagating waves. Nodes remain at zero displacement, but the spacing between adjacent nodes is half a wavelength rather than one full wavelength."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A string fixed at both ends is 1.2 m long with wave speed 60 m/s. Find the third-harmonic wavelength and frequency.",
+            "steps": [
+              "For fixed ends, L=nλ/2. With n=3, λ=2(1.2)/3=0.80 m.",
+              "f=v/λ=60/0.80=75 Hz."
+            ],
+            "conclusion": "The third harmonic has wavelength 0.80 m and frequency 75 Hz."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What stays fixed when a wave crosses a stationary boundary?",
+            "back": "Frequency."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "How far apart are adjacent standing-wave nodes?",
+            "back": "Half a wavelength."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What path difference gives constructive interference for in-phase sources?",
+            "back": "An integer number of wavelengths."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "How are displacements combined in linear superposition?",
+            "back": "Algebraically at each position and time."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Wave speed and interference: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Source frequency",
+                "detail": "Sets oscillations per second."
+              },
+              {
+                "id": "n2",
+                "label": "Medium speed",
+                "detail": "Depends on the propagation conditions."
+              },
+              {
+                "id": "n3",
+                "label": "Wavelength",
+                "detail": "Adjusts through λ=v/f and boundary constraints."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "combines with"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "determines"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-15",
@@ -307,8 +1003,124 @@
             "Distinguish photon energy from beam intensity."
           ],
           "id": "unit-15-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Track the remaining population.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A sample initially contains 1600 undecayed nuclei. What expected number remains after four half-lives, and how many have decayed?",
+          "answer": "100 remain and 1500 have decayed, using 1600/16.",
+          "checkpoints": [
+            "Apply four factors of one half.",
+            "Calculate 100 remaining.",
+            "Subtract from 1600 to obtain 1500 decayed."
+          ],
+          "hints": [
+            "Track the remaining population.",
+            "Decayed and remaining counts add to the initial total."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Intensity is not energy per photon at fixed frequency.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "Above threshold, light intensity doubles while frequency stays fixed. In the simple photoelectric model, compare maximum electron energy and emission rate.",
+          "answer": "Maximum kinetic energy is unchanged because hf−φ is unchanged; emission rate can increase as more photons arrive, subject to collection and material conditions.",
+          "checkpoints": [
+            "Keep photon energy fixed.",
+            "Keep Kmax fixed.",
+            "Connect increased photon arrival rate to increased possible emission rate."
+          ],
+          "hints": [
+            "Intensity is not energy per photon at fixed frequency.",
+            "Separate electron count rate from each electron’s maximum energy."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through photons and radioactive half-life",
+            "paragraphs": [
+              "Photon energy is hf, so frequency sets the energy of each photon while beam intensity also depends on the number arriving per second. In the photoelectric model, emission requires photon energy at least as large as the material’s work function; increasing intensity below threshold does not supply individual photons with enough energy. Above threshold, maximum electron kinetic energy is hf−φ. Radioactive decay follows a different probabilistic process. A half-life describes the expected fraction remaining in a large population, not a timetable for one nucleus. Independent nuclei can decay at unpredictable individual times."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A material has work function 2.5 eV. Photons of 4.0 eV eject electrons. Find maximum kinetic energy and stopping-potential magnitude.",
+            "steps": [
+              "Kmax=4.0−2.5=1.5 eV.",
+              "A stopping potential removes eVstop of energy, so Vstop=1.5 V."
+            ],
+            "conclusion": "Maximum electron kinetic energy is 1.5 eV and the stopping-potential magnitude is 1.5 V."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What sets energy per photon?",
+            "back": "Frequency through E=hf."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What is the photoelectric threshold?",
+            "back": "Photon energy equal to the work function."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Can a half-life predict one nucleus’s exact decay time?",
+            "back": "No; decay is probabilistic."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What fraction remains after n half-lives on average?",
+            "back": "(1/2)ⁿ."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Photons and radioactive half-life: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Incident photon",
+                "detail": "Supplies energy hf to an electron."
+              },
+              {
+                "id": "n2",
+                "label": "Work function",
+                "detail": "Energy φ is required to leave the material."
+              },
+              {
+                "id": "n3",
+                "label": "Electron kinetic energy",
+                "detail": "At most hf−φ remains when emission is possible."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "must overcome"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "leaves"
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

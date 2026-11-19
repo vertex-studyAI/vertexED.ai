@@ -1,3 +1,4 @@
+import { APP_ORIGIN } from '@/lib/appOrigin';
 import Article from '@/components/Article';
 import SEO from '@/components/SEO';
 import BreadcrumbsJsonLd from '@/components/BreadcrumbsJsonLd';
@@ -6,7 +7,7 @@ import { Link } from 'react-router';
 export default function PaperMakerGuide() {
   return (
     <>
-      <SEO title="IB and IGCSE Paper Maker | VertexED" description="Create original practice around a topic, then check the questions and marking guidance." canonical="https://www.vertexed.app/resources/ib-igcse-paper-maker" ogType="article" />
+      <SEO title="IB and IGCSE Paper Maker | VertexED" description="Create original practice around a topic, then check the questions and marking guidance." canonical={`${APP_ORIGIN}/resources/ib-igcse-paper-maker`} ogType="article" />
       <BreadcrumbsJsonLd />
       <Article title="IB and IGCSE Paper Maker" subtitle="Create original practice around a topic, then check the questions and marking guidance." kicker="Study guide">
 

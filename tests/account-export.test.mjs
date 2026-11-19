@@ -16,10 +16,13 @@ test('account export includes owned study data but excludes auth secrets and inv
     waitlist: { id: 'wait-1', status: 'approved' },
     studyArtifacts: [{ id: 'artifact-1' }],
     learnerState: [{ state_key: 'algebra' }],
+    revisionEvents: [{ id: 'revision-1', parent_event_ids: [] }],
     exportedAt: '2026-09-06T00:00:00.000Z',
   });
   assert.equal(result.complete, true);
   assert.equal(result.counts.studyArtifacts, 1);
+  assert.equal(result.counts.revisionEvents, 1);
+  assert.deepEqual(result.revisionEvents, [{ id: 'revision-1', parent_event_ids: [] }]);
   assert.deepEqual(result.account.providers, ['email']);
   assert.equal('appMetadata' in result.account, false);
   assert.equal(JSON.stringify(result).includes('"token":"secret"'), false);

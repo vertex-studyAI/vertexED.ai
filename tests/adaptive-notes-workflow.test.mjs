@@ -44,12 +44,14 @@ test('timed mocks never manufacture a mastery score from answer completion', () 
   assert.match(source, /onClick=\{handleComplete\}/);
 });
 
-test('answer reviews update mastery only after an explicit human verification method', () => {
+test('answer-review learner attestations cannot update measured mastery', () => {
   const source = fs.readFileSync('src/pages/AnswerReviewer.tsx', 'utf8');
   assert.match(source, /audit\.scoreStatus !== "EVIDENCE_LINKED"/);
   assert.match(source, /confirmationMethod/);
-  assert.match(source, /evidence: MEASURED_WEAKNESS_EVIDENCE/);
-  assert.match(source, /Confirm mark for mastery/);
+  assert.match(source, /evidence: LEARNER_ATTESTED_WEAKNESS_EVIDENCE/);
+  assert.match(source, /Save checked mark/);
+  assert.doesNotMatch(source, /recordWeakness/);
+  assert.doesNotMatch(source, /completeRetry/);
   assert.doesNotMatch(source, /scoreMatch/);
 });
 

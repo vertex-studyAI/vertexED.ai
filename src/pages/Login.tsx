@@ -1,3 +1,4 @@
+import { APP_ORIGIN } from '@/lib/appOrigin';
 import { Helmet } from "react-helmet-async";
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
@@ -90,7 +91,7 @@ export default function Login() {
           name="description"
           content="Sign in to VertexED - planner, mocks, flashcards, and Apex where you left them."
         />
-        <link rel="canonical" href="https://www.vertexed.app/login" />
+        <link rel="canonical" href={`${APP_ORIGIN}/login`} />
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
 

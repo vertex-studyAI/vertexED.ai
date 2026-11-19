@@ -14,7 +14,7 @@ test('OpenAI remains the default provider with a generally available model', () 
   assert.equal(config.name, 'openai');
   assert.equal(config.apiKey, 'legacy-key');
   assert.equal(config.baseUrl, 'https://api.openai.com/v1');
-  assert.equal(config.primaryModel, 'gpt-4.1-mini');
+  assert.equal(config.primaryModel, 'gpt-6-luna');
   assert.equal(config.fallbackModel, 'gpt-4o-mini');
 });
 
@@ -75,13 +75,14 @@ test('OpenAI chat requests use the Responses API with output token limits', asyn
     safetyIdentifier: 'hashed-user',
     fetchImpl: async (url, options) => {
       captured = { url, payload: JSON.parse(options.body), headers: options.headers };
-      return paidResponse({ output_text: 'ok' });
+      return paidResponse({ output_text: 'ok', model: 'gpt-6-luna' });
     },
   }));
 
   assert.match(captured.url, /\/responses$/);
   assert.equal(captured.payload.max_output_tokens, 1200);
   assert.equal(captured.payload.store, false);
+  assert.deepEqual(captured.payload.reasoning, { effort: 'none' });
   assert.equal(captured.payload.safety_identifier, 'hashed-user');
   assert.deepEqual(captured.payload.metadata, { product: 'vertexed', capability: 'chatbot' });
   assert.deepEqual(captured.payload.input, [{ role: 'user', content: 'hello' }]);

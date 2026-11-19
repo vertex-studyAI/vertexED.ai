@@ -1,3 +1,4 @@
+import { APP_ORIGIN } from '@/lib/appOrigin';
 import SEO from "@/components/SEO";
 import PageSection from "@/components/PageSection";
 import { Link } from "react-router";
@@ -8,12 +9,12 @@ export default function Brand() {
       <SEO
         title="What is VertexED (aka Vertex ED)? | Official Brand Page"
         description="VertexED (also written Vertex ED) is a study workspace for exam students - planner, Study Zone, board-shaped mocks, rubric feedback, notes, flashcards, and Apex."
-        canonical="https://www.vertexed.app/vertex-ed"
+        canonical={`${APP_ORIGIN}/vertex-ed`}
         jsonLd={{
           "@context": "https://schema.org",
           "@type": "AboutPage",
           name: "VertexED (Vertex ED) Brand",
-          url: "https://www.vertexed.app/vertex-ed",
+          url: `${APP_ORIGIN}/vertex-ed`,
           description: "VertexED, sometimes called Vertex ED, is the official brand for our AI study tools platform.",
         }}
       />
@@ -25,7 +26,7 @@ export default function Brand() {
         </p>
         <p className="text-muted-foreground leading-relaxed mb-4">
           If you searched for &ldquo;vertexed&rdquo; or &ldquo;vertex ed&rdquo;, this is the official product site at
-          <a className="underline ml-1" href="https://www.vertexed.app/">https://www.vertexed.app/</a>.
+          <a className="underline ml-1" href={`${APP_ORIGIN}/`}>{APP_ORIGIN}/</a>.
           We are not affiliated with Google Vertex AI or other unrelated &ldquo;Vertex&rdquo; products.
         </p>
         <div className="flex gap-3 mt-6">

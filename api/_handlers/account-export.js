@@ -8,6 +8,7 @@ const PROFILE_FIELDS = 'id, email, full_name, avatar_url, school_name, board, gr
 const WAITLIST_FIELDS = 'id, email, status, signup_method, school_id, application_profile, profile_collected_at, created_at, updated_at';
 const ARTIFACT_FIELDS = 'id, kind, title, payload, idempotency_key, created_at, updated_at';
 const STATE_FIELDS = 'state_type, state_key, payload, client_revision, client_updated_at, created_at, updated_at';
+const REVISION_FIELDS = 'id, event_type, source_type, source_key, source_revision, parent_event_ids, evidence_status, payload, payload_sha256, occurred_at, created_at';
 const USAGE_FIELDS = 'id, operation_hash, request_fingerprint, capability, provider, model, policy_version, usage_day, reserved_microusd, charged_microusd, state, reserved_at, expires_at, dispatched_at, settled_at';
 
 export default async function handler(req, res) {
@@ -19,21 +20,23 @@ export default async function handler(req, res) {
 
   try {
     const supabase = getSupabaseAdmin();
-    const [profileResult, waitlistResult, studyArtifacts, learnerState, aiUsageOperations, aiUsage] = await Promise.all([
+    const [profileResult, waitlistResult, studyArtifacts, learnerState, aiUsageOperations, aiUsage, revisionEvents] = await Promise.all([
       supabase.from('profiles').select(PROFILE_FIELDS).eq('id', user.id).maybeSingle(),
       supabase.from('waitlist').select(WAITLIST_FIELDS).eq('auth_user_id', user.id).maybeSingle(),
       listAllOwnedRows(() => supabase
         .from('user_study_artifacts')
         .select(ARTIFACT_FIELDS)
         .eq('user_id', user.id)
-        .order('updated_at', { ascending: false })),
+        .order('updated_at', { ascending: false }).order('id', { ascending: false })),
       listAllOwnedRows(() => supabase
         .from('learner_state_items')
         .select(STATE_FIELDS)
         .eq('user_id', user.id)
-        .order('updated_at', { ascending: false })),
-      listAllOwnedRows(() => supabase.from('ai_usage_reservations').select(USAGE_FIELDS).eq('user_id', user.id).order('reserved_at', { ascending: false })),
+        .order('updated_at', { ascending: false }).order('state_type').order('state_key')),
+      listAllOwnedRows(() => supabase.from('ai_usage_reservations').select(USAGE_FIELDS).eq('user_id', user.id).order('reserved_at', { ascending: false }).order('id', { ascending: false })),
       readAccountAiUsage(user.id),
+      listAllOwnedRows(() => supabase.from('revision_events').select(REVISION_FIELDS).eq('user_id', user.id)
+        .order('occurred_at', { ascending: false }).order('id', { ascending: false })),
     ]);
 
     if (profileResult.error) throw profileResult.error;
@@ -45,6 +48,7 @@ export default async function handler(req, res) {
       waitlist: waitlistResult.data,
       studyArtifacts,
       learnerState,
+      revisionEvents,
       aiUsageOperations,
       aiUsage,
       exportedAt: new Date().toISOString(),

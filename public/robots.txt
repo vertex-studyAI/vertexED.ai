@@ -5,4 +5,4 @@ User-agent: *
 Allow: /
 
 # XML Sitemaps
-Sitemap: https://www.vertexed.app/sitemap.xml
+Sitemap: https://vertex-ed-ai.vercel.app/sitemap.xml

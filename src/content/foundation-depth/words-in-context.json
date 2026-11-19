@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "lessonId": "words-in-context",
+  "revision": "2026-10-21.3",
+  "notes": [
+    {
+      "heading": "Distinguish degree, stance and logical role",
+      "paragraphs": [
+        "Near-synonyms can differ in strength, attitude or logical role. A result described as consistent with a proposal supports compatibility but need not prove it. A practical solution may be feasible without being desirable, and a restrained tone may be measured without being indifferent. Use nearby explanations, contrasts and consequences to decide which sense is intended. Test a replacement by rereading the whole sentence and checking that it preserves the author's degree of confidence. A familiar dictionary meaning is only a candidate until the context supports it."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "depth-measured-tone",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "Original fictional sentence: 'Rather than celebrating immediately, the editor offered a measured response, noting both strengths and weaknesses.' Does measured mean physically quantified, restrained or exhausted? Explain.",
+      "answer": "Restrained: the balanced assessment and delayed celebration indicate a careful, controlled response.",
+      "solution": [
+        "Use the contrast with immediate celebration.",
+        "The mention of strengths and weaknesses supports a balanced tone rather than physical measurement."
+      ],
+      "markingPoints": [
+        "Choose restrained.",
+        "Cite the celebration contrast.",
+        "Use the balanced evaluation as support."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-feasible-desirable",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "Original fictional sentence: 'Although the plan was technically feasible, its disruption made residents oppose it.' Explain why desirable cannot replace feasible without changing the meaning.",
+      "answer": "Feasible means possible to carry out. Desirable means wanted or advantageous; the sentence separates technical possibility from residents' approval.",
+      "solution": [
+        "Identify the technical-possibility meaning.",
+        "Use the opposition clause to show that possibility does not imply desirability."
+      ],
+      "markingPoints": [
+        "Define feasible in context.",
+        "Distinguish desirable.",
+        "Explain the contrast preserved by the original word."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-consistent-evidence",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "Original fictional sentence: 'The observations were consistent with the migration hypothesis, though another explanation could fit them too.' Assess replacing consistent with with conclusive proof of.",
+      "answer": "The replacement overstates the evidence. The original says compatible with and explicitly allows another explanation.",
+      "solution": [
+        "Use the qualifying clause to identify the strength of support.",
+        "Conclusive proof would remove the uncertainty that the sentence retains."
+      ],
+      "markingPoints": [
+        "Identify compatibility as the intended meaning.",
+        "Cite the alternative explanation.",
+        "Explain the stronger unsupported claim in the replacement."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    }
+  ]
+}

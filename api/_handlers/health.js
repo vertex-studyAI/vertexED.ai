@@ -93,6 +93,10 @@ export async function getDeepReadinessSnapshot(env = process.env) {
     examSessionStorage: false,
     observabilityStorage: false,
     singletonIntegrity: false,
+    revisionHistoryStorage: false,
+    aiUsageStorage: false,
+    conversationStorage: false,
+    practiceStateStorage: false,
   };
   let databaseError = null;
 
@@ -109,6 +113,10 @@ export async function getDeepReadinessSnapshot(env = process.env) {
       databaseChecks.examSessionStorage = snapshot?.examSessionStorage === true;
       databaseChecks.observabilityStorage = snapshot?.observabilityStorage === true;
       databaseChecks.singletonIntegrity = snapshot?.singletonIntegrity === true;
+      databaseChecks.revisionHistoryStorage = snapshot?.revisionHistoryStorage === true;
+      databaseChecks.aiUsageStorage = snapshot?.aiUsageStorage === true;
+      databaseChecks.conversationStorage = snapshot?.conversationStorage === true;
+      databaseChecks.practiceStateStorage = snapshot?.practiceStateStorage === true;
     } catch (error) {
       databaseError = classifyDatabaseReadinessError(error);
     }

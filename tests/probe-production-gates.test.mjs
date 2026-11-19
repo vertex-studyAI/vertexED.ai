@@ -13,20 +13,14 @@ import {
 
 const source = readFileSync(new URL("../scripts/probe-production-gates.mjs", import.meta.url), "utf8");
 
-test("production gate probe covers custom-domain revision, readiness, and agents deployment", () => {
-  assert.match(source, /www\.vertexed\.app/);
-  assert.match(source, /wwwAppHealth/);
+test("production gate probe uses the configured app without expired-domain redirects", () => {
+  assert.match(source, /resolveAppOrigin/);
+  assert.doesNotMatch(source, /www\.vertexed\.app/);
   assert.match(source, /readiness=1/);
-  assert.match(source, /readiness_rpc_missing/);
   assert.match(source, /\/api\/agents/);
-  assert.match(source, /WAITLIST_RATE_LIMIT_SALT/);
-  assert.match(source, /digCname/);
-  assert.match(source, /provider_candidates/);
-  assert.match(source, /mkdtempSync/);
-  assert.doesNotMatch(source, /\/tmp\/vertexed-gate-probe-body\.txt/);
-  assert.match(source, /if \(follow\) args\.push\('-L'\)/);
-  // Fail closed while any gate remains blocked.
-  assert.match(source, /process\.exit\(failed \? 2 : 0\)/);
+  assert.match(source, /redirect: 'manual'/);
+  assert.match(source, /readinessPass.*authBoundaryPass/);
+  assert.match(source, /process.exitCode = pass \? 0 : 2/);
 });
 
 test("authenticated agents route is live only when unauthenticated access fails closed", () => {

@@ -1,0 +1,20 @@
+.apex-workspace { max-width: 1440px; }
+.apex-workspace-sheet { border: 1px solid hsl(var(--border)); border-radius: 24px; padding: clamp(16px, 3vw, 32px); background: hsl(var(--background)); box-shadow: 0 12px 36px hsl(var(--primary) / .05); }
+.apex-eyebrow { color: hsl(var(--primary)); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 8px; }
+.apex-workspace-grid { display: grid; grid-template-columns: minmax(210px, 260px) minmax(0, 1fr); gap: 32px; border-top: 1px solid hsl(var(--border)); padding-top: 24px; }
+.apex-history { padding-right: 24px; border-right: 1px solid hsl(var(--border)); min-width: 0; }
+.apex-history summary { font-size: 16px; }
+.apex-history button { min-height: 44px; width: 100%; }
+.apex-history select { min-height: 44px; }
+.apex-conversation { min-height: 480px; height: min(72vh, 760px); }
+.apex-workspace .apex-chat-input-row { align-items: flex-end; border: 1px solid hsl(var(--border)); border-radius: 12px; padding: 8px; background: hsl(var(--background)); }
+.apex-workspace .apex-chat-input-row:focus-within { outline: 2px solid hsl(var(--primary)); outline-offset: 2px; }
+.apex-workspace .apex-chat-input-row textarea { border: 0; box-shadow: none; background: transparent; }
+.apex-workspace .apex-chat-input-row button { min-height: 44px; }
+@media (max-width: 900px) {
+  .apex-workspace-grid { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  .apex-history { border-right: 0; border-bottom: 1px solid hsl(var(--border)); padding: 0 0 24px; }
+  .apex-conversation { height: auto; min-height: 520px; }
+  .apex-workspace .apex-chat-surface { min-height: 240px; max-height: 60vh; }
+}
+@media (prefers-reduced-motion: reduce) { .apex-workspace * { scroll-behavior: auto !important; } }

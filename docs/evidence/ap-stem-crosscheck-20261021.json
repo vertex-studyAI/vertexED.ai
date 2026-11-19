@@ -1,0 +1,1882 @@
+{
+  "version": "ap-stem-crosscheck-20261021.1",
+  "date": "2026-10-21",
+  "reviewType": "bounded internal editorial cross-check by a second content author; not qualified independent subject review",
+  "scope": {
+    "courseCount": 9,
+    "moduleCount": 27,
+    "workedExamplesRead": 27,
+    "extensionQuestionsRead": 54,
+    "numericChecks": 99,
+    "modules": [
+      {
+        "course": "calculus-ab",
+        "moduleId": "unit-3",
+        "moduleTitle": "Implicit curves and the chain rule",
+        "workedExampleIds": [
+          "extension-worked-example"
+        ],
+        "extensionQuestionIds": [
+          "extension-1",
+          "extension-2"
+        ],
+        "readingCompleted": true
+      },
+      {
+        "course": "calculus-ab",
+        "moduleId": "unit-5",
+        "moduleTitle": "Finding an absolute extremum",
+        "workedExampleIds": [
+          "extension-worked-example"
+        ],
+        "extensionQuestionIds": [
+          "extension-1",
+          "extension-2"
+        ],
+        "readingCompleted": true
+      },
+      {
+        "course": "calculus-ab",
+        "moduleId": "unit-8",
+        "moduleTitle": "Area between two curves",
+        "workedExampleIds": [
+          "extension-worked-example"
+        ],
+        "extensionQuestionIds": [
+          "extension-1",
+          "extension-2"
+        ],
+        "readingCompleted": true
+      },
+      {
+        "course": "calculus-bc",
+        "moduleId": "unit-3",
+        "moduleTitle": "Differentiating inverse relationships",
+        "workedExampleIds": [
+          "extension-worked-example"
+        ],
+        "extensionQuestionIds": [
+          "extension-1",
+          "extension-2"
+        ],
+        "readingCompleted": true
+      },
+      {
+        "course": "calculus-bc",
+        "moduleId": "unit-7",
+        "moduleTitle": "Logistic growth and Euler steps",
+        "workedExampleIds": [
+          "extension-worked-example"
+        ],
+        "extensionQuestionIds": [
+          "extension-1",
+          "extension-2"
+        ],
+        "readingCompleted": true
+      },
+      {
+        "course": "calculus-bc",
+        "moduleId": "unit-10",
+        "moduleTitle": "Series convergence and error bounds",
+        "workedExampleIds": [
+          "extension-worked-example"
+        ],
+        "extensionQuestionIds": [
+          "extension-1",
+          "extension-2"
+        ],
+        "readingCompleted": true
+      },
+      {
+        "course": "chemistry",
+        "moduleId": "unit-4",
+        "moduleTitle": "Stoichiometry and limiting reactants",
+        "workedExampleIds": [
+          "extension-worked-example"
+        ],
+        "extensionQuestionIds": [
+          "extension-1",
+          "extension-2"
+        ],
+        "readingCompleted": true
+      },
+      {
+        "course": "chemistry",
+        "moduleId": "unit-7",
+        "moduleTitle": "Equilibrium quotients and reaction direction",
+        "workedExampleIds": [
+          "extension-worked-example"
+        ],
+        "extensionQuestionIds": [
+          "extension-1",
+          "extension-2"
+        ],
+        "readingCompleted": true
+      },
+      {
+        "course": "chemistry",
+        "moduleId": "unit-8",
+        "moduleTitle": "Acids, bases and buffer ratios",
+        "workedExampleIds": [
+          "extension-worked-example"
+        ],
+        "extensionQuestionIds": [
+          "extension-1",
+          "extension-2"
+        ],
+        "readingCompleted": true
+      },
+      {
+        "course": "biology",
+        "moduleId": "unit-3",
+        "moduleTitle": "Enzymes and coupled energy transfer",
+        "workedExampleIds": [
+          "extension-worked-example"
+        ],
+        "extensionQuestionIds": [
+          "extension-1",
+          "extension-2"
+        ],
+        "readingCompleted": true
+      },
+      {
+        "course": "biology",
+        "moduleId": "unit-5",
+        "moduleTitle": "Inheritance probabilities and independent events",
+        "workedExampleIds": [
+          "extension-worked-example"
+        ],
+        "extensionQuestionIds": [
+          "extension-1",
+          "extension-2"
+        ],
+        "readingCompleted": true
+      },
+      {
+        "course": "biology",
+        "moduleId": "unit-7",
+        "moduleTitle": "Allele frequencies and selection",
+        "workedExampleIds": [
+          "extension-worked-example"
+        ],
+        "extensionQuestionIds": [
+          "extension-1",
+          "extension-2"
+        ],
+        "readingCompleted": true
+      },
+      {
+        "course": "physics-1-algebra-based",
+        "moduleId": "unit-1",
+        "moduleTitle": "Position, velocity and constant acceleration",
+        "workedExampleIds": [
+          "extension-worked-example"
+        ],
+        "extensionQuestionIds": [
+          "extension-1",
+          "extension-2"
+        ],
+        "readingCompleted": true
+      },
+      {
+        "course": "physics-1-algebra-based",
+        "moduleId": "unit-4",
+        "moduleTitle": "Impulse and a sticking collision",
+        "workedExampleIds": [
+          "extension-worked-example"
+        ],
+        "extensionQuestionIds": [
+          "extension-1",
+          "extension-2"
+        ],
+        "readingCompleted": true
+      },
+      {
+        "course": "physics-1-algebra-based",
+        "moduleId": "unit-8",
+        "moduleTitle": "Pressure, buoyancy and fluid continuity",
+        "workedExampleIds": [
+          "extension-worked-example"
+        ],
+        "extensionQuestionIds": [
+          "extension-1",
+          "extension-2"
+        ],
+        "readingCompleted": true
+      },
+      {
+        "course": "physics-2-algebra-based",
+        "moduleId": "unit-10",
+        "moduleTitle": "Electric fields and potential differences",
+        "workedExampleIds": [
+          "extension-worked-example"
+        ],
+        "extensionQuestionIds": [
+          "extension-1",
+          "extension-2"
+        ],
+        "readingCompleted": true
+      },
+      {
+        "course": "physics-2-algebra-based",
+        "moduleId": "unit-12",
+        "moduleTitle": "Magnetic force and changing flux",
+        "workedExampleIds": [
+          "extension-worked-example"
+        ],
+        "extensionQuestionIds": [
+          "extension-1",
+          "extension-2"
+        ],
+        "readingCompleted": true
+      },
+      {
+        "course": "physics-2-algebra-based",
+        "moduleId": "unit-13",
+        "moduleTitle": "Thin lenses and image signs",
+        "workedExampleIds": [
+          "extension-worked-example"
+        ],
+        "extensionQuestionIds": [
+          "extension-1",
+          "extension-2"
+        ],
+        "readingCompleted": true
+      },
+      {
+        "course": "physics-c-mechanics",
+        "moduleId": "unit-1",
+        "moduleTitle": "Integrating a changing acceleration",
+        "workedExampleIds": [
+          "extension-worked-example"
+        ],
+        "extensionQuestionIds": [
+          "extension-1",
+          "extension-2"
+        ],
+        "readingCompleted": true
+      },
+      {
+        "course": "physics-c-mechanics",
+        "moduleId": "unit-2",
+        "moduleTitle": "A resistive force as a differential equation",
+        "workedExampleIds": [
+          "extension-worked-example"
+        ],
+        "extensionQuestionIds": [
+          "extension-1",
+          "extension-2"
+        ],
+        "readingCompleted": true
+      },
+      {
+        "course": "physics-c-mechanics",
+        "moduleId": "unit-3",
+        "moduleTitle": "Variable-force work and potential energy",
+        "workedExampleIds": [
+          "extension-worked-example"
+        ],
+        "extensionQuestionIds": [
+          "extension-1",
+          "extension-2"
+        ],
+        "readingCompleted": true
+      },
+      {
+        "course": "physics-c-electricity-and-magnetism",
+        "moduleId": "unit-8",
+        "moduleTitle": "Gauss’s law with cylindrical symmetry",
+        "workedExampleIds": [
+          "extension-worked-example"
+        ],
+        "extensionQuestionIds": [
+          "extension-1",
+          "extension-2"
+        ],
+        "readingCompleted": true
+      },
+      {
+        "course": "physics-c-electricity-and-magnetism",
+        "moduleId": "unit-10",
+        "moduleTitle": "Capacitors with an isolated charge",
+        "workedExampleIds": [
+          "extension-worked-example"
+        ],
+        "extensionQuestionIds": [
+          "extension-1",
+          "extension-2"
+        ],
+        "readingCompleted": true
+      },
+      {
+        "course": "physics-c-electricity-and-magnetism",
+        "moduleId": "unit-13",
+        "moduleTitle": "Induction and an inductor’s response",
+        "workedExampleIds": [
+          "extension-worked-example"
+        ],
+        "extensionQuestionIds": [
+          "extension-1",
+          "extension-2"
+        ],
+        "readingCompleted": true
+      },
+      {
+        "course": "environmental-science",
+        "moduleId": "unit-1",
+        "moduleTitle": "Productivity and trophic transfers",
+        "workedExampleIds": [
+          "extension-worked-example"
+        ],
+        "extensionQuestionIds": [
+          "extension-1",
+          "extension-2"
+        ],
+        "readingCompleted": true
+      },
+      {
+        "course": "environmental-science",
+        "moduleId": "unit-5",
+        "moduleTitle": "Irrigation and resource trade-offs",
+        "workedExampleIds": [
+          "extension-worked-example"
+        ],
+        "extensionQuestionIds": [
+          "extension-1",
+          "extension-2"
+        ],
+        "readingCompleted": true
+      },
+      {
+        "course": "environmental-science",
+        "moduleId": "unit-8",
+        "moduleTitle": "Nutrient pollution and oxygen demand",
+        "workedExampleIds": [
+          "extension-worked-example"
+        ],
+        "extensionQuestionIds": [
+          "extension-1",
+          "extension-2"
+        ],
+        "readingCompleted": true
+      }
+    ]
+  },
+  "numericalChecks": [
+    {
+      "course": "calculus-ab",
+      "moduleId": "unit-3",
+      "item": "worked",
+      "quantity": "implicit slope",
+      "independentCalculation": "-2/(1+2*2)",
+      "computed": -0.4,
+      "authoredValue": -0.4,
+      "units": "",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "calculus-ab",
+      "moduleId": "unit-3",
+      "item": "extension-1",
+      "quantity": "derivative at zero",
+      "independentCalculation": "2*0*cos(0**2)",
+      "computed": 0,
+      "authoredValue": 0,
+      "units": "",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "calculus-ab",
+      "moduleId": "unit-3",
+      "item": "extension-2",
+      "quantity": "tangent slope",
+      "independentCalculation": "-2/(4*2)",
+      "computed": -0.25,
+      "authoredValue": -0.25,
+      "units": "",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "calculus-ab",
+      "moduleId": "unit-5",
+      "item": "worked",
+      "quantity": "interior value",
+      "independentCalculation": "(sqrt(2))**3 - 6*sqrt(2)",
+      "computed": -5.656854249492381,
+      "authoredValue": -5.656854249492381,
+      "units": "",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "calculus-ab",
+      "moduleId": "unit-5",
+      "item": "worked",
+      "quantity": "right endpoint",
+      "independentCalculation": "3**3-6*3",
+      "computed": 9,
+      "authoredValue": 9,
+      "units": "",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "calculus-ab",
+      "moduleId": "unit-5",
+      "item": "extension-1",
+      "quantity": "maximum endpoint",
+      "independentCalculation": "(4-1)**2",
+      "computed": 9,
+      "authoredValue": 9,
+      "units": "",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "calculus-ab",
+      "moduleId": "unit-8",
+      "item": "worked",
+      "quantity": "split absolute area",
+      "independentCalculation": "integral(-2*x,-2,0)+integral(2*x,0,2)",
+      "computed": 8,
+      "authoredValue": 8,
+      "units": "square units",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "calculus-ab",
+      "moduleId": "unit-8",
+      "item": "extension-1",
+      "quantity": "area",
+      "independentCalculation": "[x**2-x**3/3] at 0 and 2",
+      "computed": 1.3333333333333335,
+      "authoredValue": 1.3333333333333333,
+      "units": "square units",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "calculus-ab",
+      "moduleId": "unit-8",
+      "item": "extension-2",
+      "quantity": "volume",
+      "independentCalculation": "pi*[x**3/3] at 0 and 3",
+      "computed": 28.274333882308138,
+      "authoredValue": 28.274333882308138,
+      "units": "cubic units",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "calculus-bc",
+      "moduleId": "unit-3",
+      "item": "worked",
+      "quantity": "inverse derivative",
+      "independentCalculation": "1/(2*exp(2))",
+      "computed": 0.06766764161830635,
+      "authoredValue": 0.06766764161830635,
+      "units": "",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "calculus-bc",
+      "moduleId": "unit-3",
+      "item": "extension-1",
+      "quantity": "local inverse derivative",
+      "independentCalculation": "1/(-2)",
+      "computed": -0.5,
+      "authoredValue": -0.5,
+      "units": "",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "calculus-bc",
+      "moduleId": "unit-7",
+      "item": "worked",
+      "quantity": "Euler second step",
+      "independentCalculation": "y1=4+0.1*4*(1-4/20); y2=y1+0.1*y1*(1-y1/20)",
+      "computed": 4.658688000000001,
+      "authoredValue": 4.658688,
+      "units": "",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "calculus-bc",
+      "moduleId": "unit-7",
+      "item": "extension-1",
+      "quantity": "maximum logistic rate",
+      "independentCalculation": "0.6*(80/2)*(1-(80/2)/80)",
+      "computed": 12,
+      "authoredValue": 12,
+      "units": "units/time",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "calculus-bc",
+      "moduleId": "unit-7",
+      "item": "extension-2",
+      "quantity": "above-capacity rate",
+      "independentCalculation": "0.6*100*(1-100/80)",
+      "computed": -15,
+      "authoredValue": -15,
+      "units": "units/time",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "calculus-bc",
+      "moduleId": "unit-10",
+      "item": "extension-1",
+      "quantity": "geometric series sum",
+      "independentCalculation": "2/(1-(-1/3))",
+      "computed": 1.5,
+      "authoredValue": 1.5,
+      "units": "",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "calculus-bc",
+      "moduleId": "unit-10",
+      "item": "extension-2",
+      "quantity": "two-term sum",
+      "independentCalculation": "1-1/4",
+      "computed": 0.75,
+      "authoredValue": 0.75,
+      "units": "",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "calculus-bc",
+      "moduleId": "unit-10",
+      "item": "extension-2",
+      "quantity": "alternating error bound",
+      "independentCalculation": "next magnitude 1/3**2",
+      "computed": 0.1111111111111111,
+      "authoredValue": 0.1111111111111111,
+      "units": "",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "chemistry",
+      "moduleId": "unit-4",
+      "item": "worked",
+      "quantity": "limiting reaction extent",
+      "independentCalculation": "min(0.60/2,0.60/3)",
+      "computed": 0.19999999999999998,
+      "authoredValue": 0.2,
+      "units": "mol reaction units",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "chemistry",
+      "moduleId": "unit-4",
+      "item": "worked",
+      "quantity": "product",
+      "independentCalculation": "2*min(0.60/2,0.60/3)",
+      "computed": 0.4,
+      "authoredValue": 0.4,
+      "units": "mol AlCl3",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "chemistry",
+      "moduleId": "unit-4",
+      "item": "worked",
+      "quantity": "excess aluminium",
+      "independentCalculation": "0.60-2*0.20",
+      "computed": 0.19999999999999996,
+      "authoredValue": 0.2,
+      "units": "mol Al",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "chemistry",
+      "moduleId": "unit-4",
+      "item": "extension-1",
+      "quantity": "remaining oxygen",
+      "independentCalculation": "2.0-(3.0/2)",
+      "computed": 0.5,
+      "authoredValue": 0.5,
+      "units": "mol O2",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "chemistry",
+      "moduleId": "unit-4",
+      "item": "extension-2",
+      "quantity": "percentage yield",
+      "independentCalculation": "9.0/12.0*100",
+      "computed": 75,
+      "authoredValue": 75,
+      "units": "%",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "chemistry",
+      "moduleId": "unit-7",
+      "item": "worked",
+      "quantity": "quotient at proposed equilibrium",
+      "independentCalculation": "1.0**2/(0.50*0.50)",
+      "computed": 4,
+      "authoredValue": 4,
+      "units": "",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "chemistry",
+      "moduleId": "unit-7",
+      "item": "extension-1",
+      "quantity": "reaction quotient",
+      "independentCalculation": "0.60/0.20",
+      "computed": 2.9999999999999996,
+      "authoredValue": 3,
+      "units": "",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "chemistry",
+      "moduleId": "unit-7",
+      "item": "extension-2",
+      "quantity": "compression quotient factor",
+      "independentCalculation": "2**2/(2*2**3)",
+      "computed": 0.25,
+      "authoredValue": 0.25,
+      "units": "",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "chemistry",
+      "moduleId": "unit-8",
+      "item": "worked",
+      "quantity": "buffer pH after stoichiometry",
+      "independentCalculation": "5+log10((0.30-0.10)/(0.20+0.10))",
+      "computed": 4.823908740944319,
+      "authoredValue": 4.82,
+      "units": "pH",
+      "matches": true,
+      "tolerance": 0.005,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "chemistry",
+      "moduleId": "unit-8",
+      "item": "extension-1",
+      "quantity": "buffer pH",
+      "independentCalculation": "6+log10(0.10)",
+      "computed": 5,
+      "authoredValue": 5,
+      "units": "pH",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "biology",
+      "moduleId": "unit-3",
+      "item": "extension-1",
+      "quantity": "coupled free-energy change",
+      "independentCalculation": "12+(-20)",
+      "computed": -8,
+      "authoredValue": -8,
+      "units": "kJ/mol",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "biology",
+      "moduleId": "unit-5",
+      "item": "worked",
+      "quantity": "exactly one recessive among two births",
+      "independentCalculation": "2*(1/4)*(3/4)",
+      "computed": 0.375,
+      "authoredValue": 0.375,
+      "units": "probability",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "biology",
+      "moduleId": "unit-5",
+      "item": "extension-1",
+      "quantity": "dominant probability",
+      "independentCalculation": "one Aa outcome of two equally likely outcomes",
+      "computed": 0.5,
+      "authoredValue": 0.5,
+      "units": "probability",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "biology",
+      "moduleId": "unit-5",
+      "item": "extension-2",
+      "quantity": "unlinked joint phenotype",
+      "independentCalculation": "(1/4)*(3/4)",
+      "computed": 0.1875,
+      "authoredValue": 0.1875,
+      "units": "probability",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "biology",
+      "moduleId": "unit-7",
+      "item": "worked",
+      "quantity": "A allele frequency",
+      "independentCalculation": "(2*20+30)/(2*(20+30+50))",
+      "computed": 0.35,
+      "authoredValue": 0.35,
+      "units": "",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "biology",
+      "moduleId": "unit-7",
+      "item": "extension-1",
+      "quantity": "AA equilibrium frequency",
+      "independentCalculation": "(1-0.4)**2",
+      "computed": 0.36,
+      "authoredValue": 0.36,
+      "units": "",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "biology",
+      "moduleId": "unit-7",
+      "item": "extension-1",
+      "quantity": "heterozygote equilibrium frequency",
+      "independentCalculation": "2*(1-0.4)*0.4",
+      "computed": 0.48,
+      "authoredValue": 0.48,
+      "units": "",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "physics-1-algebra-based",
+      "moduleId": "unit-1",
+      "item": "worked",
+      "quantity": "displacement",
+      "independentCalculation": "-6*4+0.5*2*4**2",
+      "computed": -8,
+      "authoredValue": -8,
+      "units": "m",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "physics-1-algebra-based",
+      "moduleId": "unit-1",
+      "item": "worked",
+      "quantity": "distance with reversal",
+      "independentCalculation": "0.5*3*6+0.5*1*2",
+      "computed": 10,
+      "authoredValue": 10,
+      "units": "m",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "physics-1-algebra-based",
+      "moduleId": "unit-1",
+      "item": "extension-1",
+      "quantity": "acceleration",
+      "independentCalculation": "(4-10)/3",
+      "computed": -2,
+      "authoredValue": -2,
+      "units": "m/s^2",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "physics-1-algebra-based",
+      "moduleId": "unit-1",
+      "item": "extension-1",
+      "quantity": "displacement",
+      "independentCalculation": "(10+4)/2*3",
+      "computed": 21,
+      "authoredValue": 21,
+      "units": "m",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "physics-1-algebra-based",
+      "moduleId": "unit-4",
+      "item": "worked",
+      "quantity": "common velocity",
+      "independentCalculation": "(1*6+2*(-1))/(1+2)",
+      "computed": 1.3333333333333333,
+      "authoredValue": 1.3333333333333333,
+      "units": "m/s",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "physics-1-algebra-based",
+      "moduleId": "unit-4",
+      "item": "worked",
+      "quantity": "kinetic energy loss",
+      "independentCalculation": "0.5*1*6**2+0.5*2*(-1)**2-0.5*3*(4/3)**2",
+      "computed": 16.333333333333332,
+      "authoredValue": 16.333333333333332,
+      "units": "J",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "physics-1-algebra-based",
+      "moduleId": "unit-4",
+      "item": "extension-1",
+      "quantity": "impulse",
+      "independentCalculation": "0.5*0.40*20",
+      "computed": 4,
+      "authoredValue": 4,
+      "units": "N s",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "physics-1-algebra-based",
+      "moduleId": "unit-4",
+      "item": "extension-1",
+      "quantity": "velocity change",
+      "independentCalculation": "4/2",
+      "computed": 2,
+      "authoredValue": 2,
+      "units": "m/s",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "physics-1-algebra-based",
+      "moduleId": "unit-4",
+      "item": "extension-2",
+      "quantity": "average force",
+      "independentCalculation": "0.20*(-5-5)/0.10",
+      "computed": -20,
+      "authoredValue": -20,
+      "units": "N",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "physics-1-algebra-based",
+      "moduleId": "unit-8",
+      "item": "worked",
+      "quantity": "submerged fraction",
+      "independentCalculation": "600/1000",
+      "computed": 0.6,
+      "authoredValue": 0.6,
+      "units": "",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "physics-1-algebra-based",
+      "moduleId": "unit-8",
+      "item": "extension-1",
+      "quantity": "volume flow",
+      "independentCalculation": "0.004*2",
+      "computed": 0.008,
+      "authoredValue": 0.008,
+      "units": "m^3/s",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "physics-1-algebra-based",
+      "moduleId": "unit-8",
+      "item": "extension-1",
+      "quantity": "second speed",
+      "independentCalculation": "0.008/0.001",
+      "computed": 8,
+      "authoredValue": 8,
+      "units": "m/s",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "physics-1-algebra-based",
+      "moduleId": "unit-8",
+      "item": "extension-2",
+      "quantity": "support force",
+      "independentCalculation": "30-1000*10*0.002",
+      "computed": 10,
+      "authoredValue": 10,
+      "units": "N upward",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "physics-2-algebra-based",
+      "moduleId": "unit-10",
+      "item": "worked",
+      "quantity": "potential change",
+      "independentCalculation": "-500*0.20",
+      "computed": -100,
+      "authoredValue": -100,
+      "units": "V",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "physics-2-algebra-based",
+      "moduleId": "unit-10",
+      "item": "worked",
+      "quantity": "potential-energy change",
+      "independentCalculation": "(-2e-6)*(-100)",
+      "computed": 0.0002,
+      "authoredValue": 0.0002,
+      "units": "J",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "physics-2-algebra-based",
+      "moduleId": "unit-10",
+      "item": "extension-1",
+      "quantity": "potential-energy change",
+      "independentCalculation": "4e-6*(60-10)",
+      "computed": 0.00019999999999999998,
+      "authoredValue": 0.0002,
+      "units": "J",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "physics-2-algebra-based",
+      "moduleId": "unit-10",
+      "item": "extension-1",
+      "quantity": "field work",
+      "independentCalculation": "-4e-6*(60-10)",
+      "computed": -0.00019999999999999998,
+      "authoredValue": -0.0002,
+      "units": "J",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "physics-2-algebra-based",
+      "moduleId": "unit-12",
+      "item": "worked",
+      "quantity": "emf magnitude",
+      "independentCalculation": "0.020*(0.50-0.10)/0.20",
+      "computed": 0.04,
+      "authoredValue": 0.04,
+      "units": "V",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "physics-2-algebra-based",
+      "moduleId": "unit-12",
+      "item": "extension-1",
+      "quantity": "magnetic force",
+      "independentCalculation": "3e-6*2e4*0.50",
+      "computed": 0.030000000000000002,
+      "authoredValue": 0.03,
+      "units": "N",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "physics-2-algebra-based",
+      "moduleId": "unit-13",
+      "item": "worked",
+      "quantity": "image distance",
+      "independentCalculation": "1/(1/12-1/8)",
+      "computed": -23.999999999999996,
+      "authoredValue": -24,
+      "units": "cm",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "physics-2-algebra-based",
+      "moduleId": "unit-13",
+      "item": "worked",
+      "quantity": "magnification",
+      "independentCalculation": "-(-24)/8",
+      "computed": 3,
+      "authoredValue": 3,
+      "units": "",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "physics-2-algebra-based",
+      "moduleId": "unit-13",
+      "item": "extension-1",
+      "quantity": "diverging image distance",
+      "independentCalculation": "1/(-1/10-1/10)",
+      "computed": -5,
+      "authoredValue": -5,
+      "units": "cm",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "physics-2-algebra-based",
+      "moduleId": "unit-13",
+      "item": "extension-1",
+      "quantity": "magnification",
+      "independentCalculation": "-(-5)/10",
+      "computed": 0.5,
+      "authoredValue": 0.5,
+      "units": "",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "physics-2-algebra-based",
+      "moduleId": "unit-13",
+      "item": "extension-2",
+      "quantity": "focal length",
+      "independentCalculation": "1/(1/15+1/30)",
+      "computed": 10,
+      "authoredValue": 10,
+      "units": "cm",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "physics-c-mechanics",
+      "moduleId": "unit-1",
+      "item": "worked",
+      "quantity": "final position",
+      "independentCalculation": "1+3**3-3*3**2",
+      "computed": 1,
+      "authoredValue": 1,
+      "units": "m",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "physics-c-mechanics",
+      "moduleId": "unit-1",
+      "item": "worked",
+      "quantity": "distance with sign change",
+      "independentCalculation": "abs((-3)-1)+abs(1-(-3))",
+      "computed": 8,
+      "authoredValue": 8,
+      "units": "m",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "physics-c-mechanics",
+      "moduleId": "unit-1",
+      "item": "extension-1",
+      "quantity": "final velocity",
+      "independentCalculation": "1+2*2**2",
+      "computed": 9,
+      "authoredValue": 9,
+      "units": "m/s",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "physics-c-mechanics",
+      "moduleId": "unit-1",
+      "item": "extension-1",
+      "quantity": "final position",
+      "independentCalculation": "2+(2/3)*2**3",
+      "computed": 7.333333333333333,
+      "authoredValue": 7.333333333333333,
+      "units": "m",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "physics-c-mechanics",
+      "moduleId": "unit-1",
+      "item": "extension-2",
+      "quantity": "average velocity",
+      "independentCalculation": "((4**2-4*4)-0)/4",
+      "computed": 0,
+      "authoredValue": 0,
+      "units": "m/s",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "physics-c-mechanics",
+      "moduleId": "unit-1",
+      "item": "extension-2",
+      "quantity": "instantaneous velocity",
+      "independentCalculation": "2*3-4",
+      "computed": 2,
+      "authoredValue": 2,
+      "units": "m/s",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "physics-c-mechanics",
+      "moduleId": "unit-2",
+      "item": "worked",
+      "quantity": "drag displacement",
+      "independentCalculation": "integral(8*exp(-t/2),0,2)=16*(1-exp(-1))",
+      "computed": 10.113928941256923,
+      "authoredValue": 10.1,
+      "units": "m",
+      "matches": true,
+      "tolerance": 0.05,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "physics-c-mechanics",
+      "moduleId": "unit-2",
+      "item": "extension-1",
+      "quantity": "time constant",
+      "independentCalculation": "3/1.5",
+      "computed": 2,
+      "authoredValue": 2,
+      "units": "s",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "physics-c-mechanics",
+      "moduleId": "unit-2",
+      "item": "extension-1",
+      "quantity": "remaining speed fraction",
+      "independentCalculation": "exp(-4/2)",
+      "computed": 0.1353352832366127,
+      "authoredValue": 0.135,
+      "units": "fraction",
+      "matches": true,
+      "tolerance": 0.0005,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "physics-c-mechanics",
+      "moduleId": "unit-3",
+      "item": "worked",
+      "quantity": "equilibrium position",
+      "independentCalculation": "solve 8-4*x=0",
+      "computed": 2,
+      "authoredValue": 2,
+      "units": "m",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "physics-c-mechanics",
+      "moduleId": "unit-3",
+      "item": "worked",
+      "quantity": "conservative work",
+      "independentCalculation": "U(0)-U(3)=10-(2*9-8*3+10)",
+      "computed": 6,
+      "authoredValue": 6,
+      "units": "J",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "physics-c-mechanics",
+      "moduleId": "unit-3",
+      "item": "extension-1",
+      "quantity": "variable-force work",
+      "independentCalculation": "[2*x**3] from 1 to 2",
+      "computed": 14,
+      "authoredValue": 14,
+      "units": "J",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "physics-c-mechanics",
+      "moduleId": "unit-3",
+      "item": "extension-2",
+      "quantity": "hypothetical kinetic energy",
+      "independentCalculation": "10-12",
+      "computed": -2,
+      "authoredValue": -2,
+      "units": "J; impossible classically",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "physics-c-electricity-and-magnetism",
+      "moduleId": "unit-8",
+      "item": "extension-2",
+      "quantity": "interior field ratio",
+      "independentCalculation": "(R/2)/(R/4)",
+      "computed": 2,
+      "authoredValue": 2,
+      "units": "ratio",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "physics-c-electricity-and-magnetism",
+      "moduleId": "unit-10",
+      "item": "worked",
+      "quantity": "initial charge",
+      "independentCalculation": "3e-6*4",
+      "computed": 1.2e-05,
+      "authoredValue": 1.2e-05,
+      "units": "C",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "physics-c-electricity-and-magnetism",
+      "moduleId": "unit-10",
+      "item": "worked",
+      "quantity": "final charge",
+      "independentCalculation": "6e-6*4",
+      "computed": 2.4e-05,
+      "authoredValue": 2.4e-05,
+      "units": "C",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "physics-c-electricity-and-magnetism",
+      "moduleId": "unit-10",
+      "item": "worked",
+      "quantity": "initial energy",
+      "independentCalculation": "0.5*3e-6*4**2",
+      "computed": 2.4e-05,
+      "authoredValue": 2.4e-05,
+      "units": "J",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "physics-c-electricity-and-magnetism",
+      "moduleId": "unit-10",
+      "item": "worked",
+      "quantity": "final energy",
+      "independentCalculation": "0.5*6e-6*4**2",
+      "computed": 4.8e-05,
+      "authoredValue": 4.8e-05,
+      "units": "J",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "physics-c-electricity-and-magnetism",
+      "moduleId": "unit-10",
+      "item": "extension-2",
+      "quantity": "series capacitance",
+      "independentCalculation": "1/(1/2+1/6)",
+      "computed": 1.5,
+      "authoredValue": 1.5,
+      "units": "microfarads",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "physics-c-electricity-and-magnetism",
+      "moduleId": "unit-10",
+      "item": "extension-2",
+      "quantity": "series charge",
+      "independentCalculation": "1.5*12",
+      "computed": 18,
+      "authoredValue": 18,
+      "units": "microcoulombs",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "physics-c-electricity-and-magnetism",
+      "moduleId": "unit-10",
+      "item": "extension-2",
+      "quantity": "voltage on 2 microfarad",
+      "independentCalculation": "18/2",
+      "computed": 9,
+      "authoredValue": 9,
+      "units": "V",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "physics-c-electricity-and-magnetism",
+      "moduleId": "unit-10",
+      "item": "extension-2",
+      "quantity": "voltage on 6 microfarad",
+      "independentCalculation": "18/6",
+      "computed": 3,
+      "authoredValue": 3,
+      "units": "V",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "physics-c-electricity-and-magnetism",
+      "moduleId": "unit-13",
+      "item": "worked",
+      "quantity": "RL time constant",
+      "independentCalculation": "3/6",
+      "computed": 0.5,
+      "authoredValue": 0.5,
+      "units": "s",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "physics-c-electricity-and-magnetism",
+      "moduleId": "unit-13",
+      "item": "worked",
+      "quantity": "current after one time constant",
+      "independentCalculation": "(12/6)*(1-exp(-1))",
+      "computed": 1.2642411176571153,
+      "authoredValue": 1.26,
+      "units": "A",
+      "matches": true,
+      "tolerance": 0.005,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "physics-c-electricity-and-magnetism",
+      "moduleId": "unit-13",
+      "item": "extension-1",
+      "quantity": "induced emf magnitude",
+      "independentCalculation": "0.20*(4-1)/0.30",
+      "computed": 2.0000000000000004,
+      "authoredValue": 2,
+      "units": "V",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "physics-c-electricity-and-magnetism",
+      "moduleId": "unit-13",
+      "item": "extension-1",
+      "quantity": "energy change",
+      "independentCalculation": "0.5*0.20*(4**2-1**2)",
+      "computed": 1.5,
+      "authoredValue": 1.5,
+      "units": "J",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "environmental-science",
+      "moduleId": "unit-1",
+      "item": "worked",
+      "quantity": "NPP",
+      "independentCalculation": "2000-800",
+      "computed": 1200,
+      "authoredValue": 1200,
+      "units": "kJ/(m^2 year)",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "environmental-science",
+      "moduleId": "unit-1",
+      "item": "worked",
+      "quantity": "transfer efficiency",
+      "independentCalculation": "180/(2000-800)*100",
+      "computed": 15,
+      "authoredValue": 15,
+      "units": "%",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "environmental-science",
+      "moduleId": "unit-1",
+      "item": "extension-1",
+      "quantity": "GPP",
+      "independentCalculation": "900+400",
+      "computed": 1300,
+      "authoredValue": 1300,
+      "units": "energy units",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "environmental-science",
+      "moduleId": "unit-1",
+      "item": "extension-1",
+      "quantity": "NPP fraction",
+      "independentCalculation": "900/1300*100",
+      "computed": 69.23076923076923,
+      "authoredValue": 69.2,
+      "units": "%",
+      "matches": true,
+      "tolerance": 0.05,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "environmental-science",
+      "moduleId": "unit-1",
+      "item": "extension-2",
+      "quantity": "transfer efficiency",
+      "independentCalculation": "36/240*100",
+      "computed": 15,
+      "authoredValue": 15,
+      "units": "%",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "environmental-science",
+      "moduleId": "unit-5",
+      "item": "worked",
+      "quantity": "initial withdrawal",
+      "independentCalculation": "1200/0.60",
+      "computed": 2000,
+      "authoredValue": 2000,
+      "units": "m^3",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "environmental-science",
+      "moduleId": "unit-5",
+      "item": "worked",
+      "quantity": "final withdrawal",
+      "independentCalculation": "1200/0.80",
+      "computed": 1500,
+      "authoredValue": 1500,
+      "units": "m^3",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "environmental-science",
+      "moduleId": "unit-5",
+      "item": "worked",
+      "quantity": "withdrawal reduction",
+      "independentCalculation": "(2000-1500)/2000*100",
+      "computed": 25,
+      "authoredValue": 25,
+      "units": "%",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "environmental-science",
+      "moduleId": "unit-5",
+      "item": "extension-1",
+      "quantity": "initial efficiency",
+      "independentCalculation": "1750/2500*100",
+      "computed": 70,
+      "authoredValue": 70,
+      "units": "%",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "environmental-science",
+      "moduleId": "unit-5",
+      "item": "extension-1",
+      "quantity": "new withdrawal",
+      "independentCalculation": "1750/0.875",
+      "computed": 2000,
+      "authoredValue": 2000,
+      "units": "L",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "environmental-science",
+      "moduleId": "unit-8",
+      "item": "worked",
+      "quantity": "initial load",
+      "independentCalculation": "4*200",
+      "computed": 800,
+      "authoredValue": 800,
+      "units": "mg/min",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "environmental-science",
+      "moduleId": "unit-8",
+      "item": "worked",
+      "quantity": "final load",
+      "independentCalculation": "2*600",
+      "computed": 1200,
+      "authoredValue": 1200,
+      "units": "mg/min",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "environmental-science",
+      "moduleId": "unit-8",
+      "item": "worked",
+      "quantity": "load increase",
+      "independentCalculation": "(1200-800)/800*100",
+      "computed": 50,
+      "authoredValue": 50,
+      "units": "%",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "environmental-science",
+      "moduleId": "unit-8",
+      "item": "extension-1",
+      "quantity": "load",
+      "independentCalculation": "5*400/1000",
+      "computed": 2,
+      "authoredValue": 2,
+      "units": "g/min",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    },
+    {
+      "course": "environmental-science",
+      "moduleId": "unit-8",
+      "item": "extension-1",
+      "quantity": "one-hour mass",
+      "independentCalculation": "2*60",
+      "computed": 120,
+      "authoredValue": 120,
+      "units": "g",
+      "matches": true,
+      "tolerance": 1e-09,
+      "toleranceKind": "absolute; rounded claims use half a final-place unit"
+    }
+  ],
+  "conceptualChecks": [
+    {
+      "course": "calculus-ab",
+      "modules": [
+        "unit-3",
+        "unit-5",
+        "unit-8"
+      ],
+      "checks": [
+        "Implicit derivative denominator nonzero at the supplied point; points lie on their curves.",
+        "Closed-interval extrema compare endpoint and interior candidates; the open interval example correctly has no attained maximum.",
+        "Area splits where upper/lower order changes; rotation uses squared radius."
+      ]
+    },
+    {
+      "course": "calculus-bc",
+      "modules": [
+        "unit-3",
+        "unit-7",
+        "unit-10"
+      ],
+      "checks": [
+        "Local inverse derivative has explicit nonzero slope and differentiable inverse assumption.",
+        "Chain rule gives 2x/(1+x^4), defined for every real x.",
+        "Logistic derivative has correct capacity sign and maximum at half capacity.",
+        "Power-series endpoints are tested separately: alternating harmonic converges at -1, harmonic diverges at +1.",
+        "Alternating error bound uses decreasing magnitudes tending to zero."
+      ]
+    },
+    {
+      "course": "chemistry",
+      "modules": [
+        "unit-4",
+        "unit-7",
+        "unit-8"
+      ],
+      "checks": [
+        "Limiting reagent selected by amount/coefficient, not raw amount.",
+        "Equilibrium concentrations conserve the stated initial atom amounts and produce K=4.",
+        "Compression direction requires initial equilibrium; premise corrected.",
+        "Strong acid first consumes conjugate base before buffer ratio calculation; neither buffer component is exhausted.",
+        "Equal buffer ratios imply approximately equal pH, not equal capacity."
+      ]
+    },
+    {
+      "course": "biology",
+      "modules": [
+        "unit-3",
+        "unit-5",
+        "unit-7"
+      ],
+      "checks": [
+        "Competitive-inhibition pattern is described as consistent, not a unique mechanism.",
+        "Negative coupled free energy is not conflated with fast kinetics.",
+        "ATP gradient statement is explicitly immediate/initial, avoiding a long-time claim.",
+        "Independent offspring and unlinked loci justify the probability products.",
+        "Allele counts do not assume Hardy-Weinberg proportions; equilibrium is explicit when using p^2 and 2pq.",
+        "Drift is described as consistent with the pattern without declaring selection absent."
+      ]
+    },
+    {
+      "course": "physics-1-algebra-based",
+      "modules": [
+        "unit-1",
+        "unit-4",
+        "unit-8"
+      ],
+      "checks": [
+        "Distance uses absolute velocity areas across reversal; displacement retains sign.",
+        "At the highest point, velocity is zero while gravitational acceleration persists.",
+        "Sticking collision uses conserved momentum in the standard negligible-external-impulse model and reports kinetic energy loss.",
+        "Buoyancy equals displaced-fluid weight; gravitational/apparent-weight ambiguity corrected.",
+        "Continuity calculation uses incompressible steady flow."
+      ]
+    },
+    {
+      "course": "physics-2-algebra-based",
+      "modules": [
+        "unit-10",
+        "unit-12",
+        "unit-13"
+      ],
+      "checks": [
+        "Potential falls along the field; a negative charge then gains potential energy.",
+        "Zero field at a symmetry point does not imply zero scalar potential.",
+        "Decreasing into-page magnetic flux induces clockwise current to reinforce the into-page field.",
+        "Magnetic force alone does no work.",
+        "Lens sign conventions correctly distinguish virtual/upright and real/inverted images."
+      ]
+    },
+    {
+      "course": "physics-c-mechanics",
+      "modules": [
+        "unit-1",
+        "unit-2",
+        "unit-3"
+      ],
+      "checks": [
+        "Integration constants use the stated initial conditions.",
+        "Distance splits at the velocity sign change at t=2.",
+        "Linear-drag time constant m/b has seconds; stable terminal speed has restoring acceleration signs.",
+        "Force equals negative potential gradient and positive second derivative establishes stable equilibrium.",
+        "Accessible classical regions satisfy U<=E."
+      ]
+    },
+    {
+      "course": "physics-c-electricity-and-magnetism",
+      "modules": [
+        "unit-8",
+        "unit-10",
+        "unit-13"
+      ],
+      "checks": [
+        "Cylindrical Gauss surface has charge rho*pi*r^2*L and side flux E*2*pi*r*L; resulting interior radial field is rho*r/(2*epsilon0).",
+        "Flux depends on enclosed charge, not surface radius alone.",
+        "Battery-connected capacitance change holds voltage fixed; isolated capacitance change holds charge fixed.",
+        "Initially uncharged condition added for equal series charge assumption.",
+        "RL time constant L/R has seconds; steady inductor voltage is zero and current does not jump instantaneously."
+      ]
+    },
+    {
+      "course": "environmental-science",
+      "modules": [
+        "unit-1",
+        "unit-5",
+        "unit-8"
+      ],
+      "checks": [
+        "Transfer efficiency compares production over matching area and time boundaries.",
+        "Fixed delivery demand is distinguished from changing irrigated area.",
+        "Mass load uses concentration times flow; lower concentration can coexist with higher transported mass.",
+        "Oxygen depletion explanation proposes decomposition-related measurements and does not exclude temperature or mixing."
+      ]
+    }
+  ],
+  "corrections": [
+    {
+      "course": "chemistry",
+      "moduleId": "unit-7",
+      "questionId": "extension-2",
+      "field": "prompt",
+      "before": "For N₂+3H₂⇌2NH₃ at fixed temperature, volume is suddenly halved. Using Q, predict the net direction immediately after compression.",
+      "after": "For N₂(g)+3H₂(g)⇌2NH₃(g), a mixture is initially at equilibrium at fixed temperature. Its volume is suddenly halved. Using Q, predict the net direction immediately after compression.",
+      "issue": "The answer assumed Qinitial=K, but the prompt did not state initial equilibrium. Compression divides Q by four; without the initial Q/K ratio, a unique direction cannot be inferred. Gas states are explicit for the concentration-doubling model.",
+      "answerChanged": false
+    },
+    {
+      "course": "physics-1-algebra-based",
+      "moduleId": "unit-8",
+      "questionId": "extension-2",
+      "field": "prompt",
+      "before": "A fully submerged 0.002 m³ object weighs 30 N in water. Use water density 1000 kg/m³ and g=10 m/s². What upward support force holds it at rest?",
+      "after": "An object of volume 0.002 m³ has gravitational weight 30 N and is fully submerged in water. Use water density 1000 kg/m³ and g=10 m/s². What additional upward support force holds it at rest?",
+      "issue": "The old phrase weighs 30 N in water could denote apparent weight rather than gravitational weight. The intended 10 N support answer requires 30 N to be the gravitational force, before subtracting 20 N buoyancy.",
+      "answerChanged": false
+    },
+    {
+      "course": "physics-c-electricity-and-magnetism",
+      "moduleId": "unit-10",
+      "questionId": "extension-2",
+      "field": "prompt",
+      "before": "Two capacitors 2 μF and 6 μF are in series across 12 V. Find equivalent capacitance, charge magnitude and individual voltages.",
+      "after": "Two initially uncharged capacitors, 2 μF and 6 μF, are connected in series across an ideal 12 V source. Find equivalent capacitance, charge magnitude and individual voltages.",
+      "issue": "Equal series charges require a neutral floating junction. Explicit initially uncharged capacitors establish the initial condition used by the 18 μC answer; arbitrary pre-existing junction charge would make the individual charges underdetermined.",
+      "answerChanged": false
+    }
+  ],
+  "sourceHashes": [
+    {
+      "course": "calculus-ab",
+      "beforeSha256": "59168451d52f4432a307b1a858d66b486af3f4af4341a04409dbd56aae09610d",
+      "afterSha256": "59168451d52f4432a307b1a858d66b486af3f4af4341a04409dbd56aae09610d"
+    },
+    {
+      "course": "calculus-bc",
+      "beforeSha256": "95209e5b3dd76810462fcf18d8746cfb74d2be83abee0c7781b1ed62144363e9",
+      "afterSha256": "95209e5b3dd76810462fcf18d8746cfb74d2be83abee0c7781b1ed62144363e9"
+    },
+    {
+      "course": "chemistry",
+      "beforeSha256": "8c7ce497075203705fa91b6237fdee55f4d010dd67887a7343b77ba0252b77be",
+      "afterSha256": "ed2836e7edda4cdc2f2ef2ef94b10d185acc2896f64ff74330a218b055ba921f"
+    },
+    {
+      "course": "biology",
+      "beforeSha256": "542ad7f1a119eb3e4c9e9efbde11797d00d4bf79a442c15b56db536ae47129ad",
+      "afterSha256": "542ad7f1a119eb3e4c9e9efbde11797d00d4bf79a442c15b56db536ae47129ad"
+    },
+    {
+      "course": "physics-1-algebra-based",
+      "beforeSha256": "a86e1b1784457d42e0000425c6b4f748c6117d1caa6e43c963da6da86659b9d1",
+      "afterSha256": "b97cc695a615639a104b3bd3339aa882da8753819ee91bf258992fa84a637ea0"
+    },
+    {
+      "course": "physics-2-algebra-based",
+      "beforeSha256": "76528cc2b73912c852cb2e68364b4a847af5ec25b79874d3e161f87398c3a09d",
+      "afterSha256": "76528cc2b73912c852cb2e68364b4a847af5ec25b79874d3e161f87398c3a09d"
+    },
+    {
+      "course": "physics-c-mechanics",
+      "beforeSha256": "cb3935db0ca4914ccc3b5af7cbf51e054a4f576100886a5c87b15a60bba40a5b",
+      "afterSha256": "cb3935db0ca4914ccc3b5af7cbf51e054a4f576100886a5c87b15a60bba40a5b"
+    },
+    {
+      "course": "physics-c-electricity-and-magnetism",
+      "beforeSha256": "61fda4f1bc98ea2e1b5e0da4c05cf9d18e00e8a9bf4617427b4155bd0cb2b789",
+      "afterSha256": "0ec694b0f960fa6beb03581d351c1db9234fef1db16241cf0e548df5ecdb2fb7"
+    },
+    {
+      "course": "environmental-science",
+      "beforeSha256": "e22b57b5eb37f0991add7ecb5d879cdc3bc1087b080488b32224c54502b46053",
+      "afterSha256": "e22b57b5eb37f0991add7ecb5d879cdc3bc1087b080488b32224c54502b46053"
+    }
+  ],
+  "remainingLimits": [
+    "This is a targeted sample of 27 modules, not every AP module or every added note, card and diagram.",
+    "Worked examples and both extension questions were read in every sampled module; numeric checks are selected calculations, not a formal proof of every statement.",
+    "Standard stated or textbook idealisations remain, including negligible external impulse for the collision example and steady incompressible flow for continuity.",
+    "No live experiments, external subject-expert review or official AP endorsement are established.",
+    "No publication approval records were modified."
+  ],
+  "result": "Three new-question premises clarified; no sampled numerical answer required correction.",
+  "validation": {
+    "courseContracts": "passed for all nine courses",
+    "studyPackContracts": "passed for every module in the nine courses",
+    "originalModuleFieldsAndQuestions": "preserved against pre-expansion baseline",
+    "approvalsModified": false
+  }
+}

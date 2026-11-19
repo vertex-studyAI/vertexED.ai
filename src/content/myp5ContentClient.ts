@@ -1,3 +1,4 @@
+import { isStudyPack } from '../../contracts/studyPack.js';
 import type { MypContentSource, MypLesson, MypPracticeQuestion } from './myp5Lessons';
 import { MYP5_CONTENT_CATALOGUE } from './myp5Catalogue.ts';
 
@@ -33,7 +34,7 @@ function isSubjectContent(value: unknown, subjectSlug: string): value is MypSubj
     && payload.subjectSlug === subjectSlug
     && Array.isArray(payload.lessons)
     && payload.lessons.length === totals?.lessons
-    && payload.lessons.every((lesson) => lesson?.subjectSlug === subjectSlug && Array.isArray(lesson.practice))
+    && payload.lessons.every((lesson) => lesson?.subjectSlug === subjectSlug && Array.isArray(lesson.practice) && isStudyPack(lesson.studyPack))
     && payload.lessons.reduce((total, lesson) => total + lesson.practice.length, 0) === totals?.questions
     && Array.isArray(payload.sources)
     && Boolean(payload.prerequisites && typeof payload.prerequisites === 'object');

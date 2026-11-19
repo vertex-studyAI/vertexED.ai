@@ -1,0 +1,270 @@
+{
+  "schemaVersion": 1,
+  "id": "subject-business-cashflow",
+  "revision": "2026-10-21.4",
+  "subject": "Business",
+  "unit": "Finance and decisions",
+  "topic": "Cash-flow forecasts, working capital and profit distinctions",
+  "level": "secondary-foundation",
+  "editorialStatus": "unreviewed",
+  "origin": "original-authorship-review-pending",
+  "scope": "Original shared study module on cash-flow forecasts, working capital and profit distinctions. Numerical datasets and quoted passages are invented teaching examples. This is not a complete course, official examination material or verified board-specific alignment.",
+  "prerequisites": [
+    "Add and subtract monetary amounts.",
+    "Distinguish a revenue from a cost."
+  ],
+  "objectives": [
+    "Construct a closing cash balance from flows.",
+    "Distinguish profit from cash timing.",
+    "Evaluate a forecast and a short-term financing response."
+  ],
+  "notes": [
+    {
+      "heading": "A cash forecast follows timing",
+      "paragraphs": [
+        "A cash-flow forecast records expected receipts and payments in the periods when cash is expected to move. Opening balance plus receipts minus payments gives closing balance. The next period begins with the previous closing balance unless a separate adjustment is specified. A sale on credit can increase revenue before cash is received, and buying equipment can create a large cash payment even though its cost is recognised over time under an accounting policy. Identify whether each number is an amount owed, earned or actually paid before placing it in a cash schedule."
+      ]
+    },
+    {
+      "heading": "Profit is not cash availability",
+      "paragraphs": [
+        "Profit compares recognised revenue and expenses over an accounting period; cash flow tracks movements of cash. A profitable business can face a cash shortage if customers pay late while suppliers and employees must be paid earlier. A loan can improve cash availability without becoming sales revenue or profit. Conversely, repaying loan principal reduces cash but is not itself an operating expense. Keep interest separate from principal. These distinctions prevent a positive bank balance from being treated as proof that operations are profitable or a low balance from proving the opposite."
+      ]
+    },
+    {
+      "heading": "Evaluate responses and forecast uncertainty",
+      "paragraphs": [
+        "A projected shortage can be addressed through payment timing, borrowing, owner finance or operating changes, but each response has costs and constraints. Delaying suppliers may damage relationships; offering an early-payment discount reduces receipts; borrowing adds repayment obligations and possibly interest. Test the forecast under plausible changes in sales and payment dates rather than treating estimates as facts. Working capital commonly means current assets minus current liabilities, not cash alone. This lesson uses invented business cases for study and does not provide a financing recommendation for an actual business."
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "prompt": "An invented shop starts a month with 400 units of cash, receives 900 and pays 1,100. Find its closing balance.",
+      "steps": [
+        "Use opening+receipts-payments.",
+        "Calculate 400+900-1,100."
+      ],
+      "answer": "200 units."
+    },
+    {
+      "prompt": "A firm makes a 600-unit credit sale and receives a 1,000-unit loan today. No customer cash arrives today. Identify today's cash receipt and sales revenue.",
+      "steps": [
+        "The loan brings in 1,000 cash but is a liability, not sales revenue.",
+        "The completed credit sale creates 600 revenue under the stated recognition assumption, but no cash receipt yet."
+      ],
+      "answer": "Cash receipts 1,000; sales revenue 600."
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Positive profit guarantees enough cash to pay every bill.",
+      "correction": "Recognition and payment timing can differ."
+    },
+    {
+      "claim": "Borrowing improves operating profit by the loan amount.",
+      "correction": "It increases cash and liabilities, not sales revenue."
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "card-1",
+      "front": "How is closing cash balance calculated?",
+      "back": "Opening balance plus receipts minus payments."
+    },
+    {
+      "id": "card-2",
+      "front": "Does a credit sale necessarily bring cash immediately?",
+      "back": "No. Payment may arrive in a later period."
+    },
+    {
+      "id": "card-3",
+      "front": "Is a loan receipt sales revenue?",
+      "back": "No. It creates a repayment obligation."
+    },
+    {
+      "id": "card-4",
+      "front": "What is working capital in the common accounting definition?",
+      "back": "Current assets minus current liabilities."
+    },
+    {
+      "id": "card-5",
+      "front": "Why run a sensitivity check on a forecast?",
+      "back": "Receipts, costs and payment dates are uncertain estimates."
+    }
+  ],
+  "questions": [
+    {
+      "id": "balance",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "An invented firm opens with 250, receives 780 and pays 910. Find closing cash.",
+      "answer": "120 units.",
+      "solution": [
+        "Add opening balance to receipts.",
+        "Subtract payments: 250+780-910."
+      ],
+      "markingPoints": [
+        "Use all three amounts.",
+        "Find 120."
+      ],
+      "marks": 2,
+      "calculator": "not-required"
+    },
+    {
+      "id": "two-periods",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "Month one closes with 120. Month two receipts are 500 and payments 760, with no new finance. Find month two's closing balance.",
+      "answer": "-140 units, indicating a projected financing shortfall.",
+      "solution": [
+        "Carry 120 forward as the opening balance.",
+        "Calculate 120+500-760."
+      ],
+      "markingPoints": [
+        "Carry the balance correctly.",
+        "Find and interpret -140."
+      ],
+      "marks": 2,
+      "calculator": "not-required"
+    },
+    {
+      "id": "working-capital",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "Current assets are 4,200 and current liabilities are 3,100. Calculate working capital and explain whether it is necessarily all cash.",
+      "answer": "1,100 units; it may include inventory and receivables as well as cash.",
+      "solution": [
+        "Subtract current liabilities from current assets.",
+        "Distinguish the asset categories within the total."
+      ],
+      "markingPoints": [
+        "Find 1,100.",
+        "Explain why it is not cash alone."
+      ],
+      "marks": 2,
+      "calculator": "not-required"
+    },
+    {
+      "id": "late-payment",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "An otherwise unchanged forecast expected 300 from a customer this month, but payment moves to next month. Explain this month's closing-cash effect and whether sales revenue must change.",
+      "answer": "This month's closing cash is 300 lower. Revenue need not change solely because the collection date changes.",
+      "solution": [
+        "Move the receipt to the later period.",
+        "Separate receipt timing from the stated revenue-recognition basis."
+      ],
+      "markingPoints": [
+        "Identify the 300 cash reduction.",
+        "Separate cash timing from revenue."
+      ],
+      "marks": 2,
+      "calculator": "not-required"
+    }
+  ],
+  "revisionChecklist": [
+    "Check that you can construct a closing cash balance from flows without copying the worked solution.",
+    "Check that you can distinguish profit from cash timing without copying the worked solution.",
+    "Check that you can evaluate a forecast and a short-term financing response without copying the worked solution."
+  ],
+  "diagrams": [
+    {
+      "id": "reasoning-route",
+      "title": "Reasoning route: Finance and decisions",
+      "description": "Use the sequence to organise an explanation of cash-flow forecasts, working capital and profit distinctions; it is not a measured mastery score.",
+      "steps": [
+        {
+          "label": "Classify the amount",
+          "detail": "Identify whether it is revenue, an expense, a receipt or a payment."
+        },
+        {
+          "label": "Place it in time",
+          "detail": "Build opening, inflow, outflow and closing balances."
+        },
+        {
+          "label": "Stress-test decisions",
+          "detail": "Examine delayed receipts and the costs of financing responses."
+        }
+      ],
+      "links": [
+        "Use this definition to choose the method",
+        "Use the result to evaluate the conclusion"
+      ]
+    }
+  ],
+  "teachingSequence": [
+    {
+      "title": "A cash forecast follows timing",
+      "guidance": "Track opening cash, receipts and payments in order. Carry each closing balance into the next period.",
+      "noteHeadings": [
+        "A cash forecast follows timing"
+      ],
+      "workedExampleNumbers": [
+        1
+      ],
+      "questionIds": [
+        "balance",
+        "two-periods"
+      ]
+    },
+    {
+      "title": "Profit is not cash availability",
+      "guidance": "Contrast the timing of a credit sale with its accounting recognition; explain why working capital is not the bank balance.",
+      "noteHeadings": [
+        "Profit is not cash availability"
+      ],
+      "workedExampleNumbers": [
+        2
+      ],
+      "questionIds": [
+        "working-capital"
+      ]
+    },
+    {
+      "title": "Evaluate responses and forecast uncertainty",
+      "guidance": "Change the receipt timing in the forecast and assess the cash shortage before proposing a response.",
+      "noteHeadings": [
+        "Evaluate responses and forecast uncertainty"
+      ],
+      "workedExampleNumbers": [
+        1
+      ],
+      "questionIds": [
+        "late-payment"
+      ]
+    }
+  ],
+  "revisionGuide": {
+    "summary": "Review cash-flow forecasts, working capital and profit distinctions by connecting definitions, the two worked examples and the limits of each conclusion. These questions use editorial self-review points, not an official examination rubric.",
+    "keyIdeas": [
+      "How is closing cash balance calculated? Opening balance plus receipts minus payments.",
+      "Does a credit sale necessarily bring cash immediately? No. Payment may arrive in a later period.",
+      "Is a loan receipt sales revenue? No. It creates a repayment obligation."
+    ],
+    "formulas": [
+      {
+        "expression": "closing cash=opening cash+receipts−payments",
+        "meaning": "A cash forecast records movements in the period.",
+        "conditions": "Use cash actually received or paid, not all revenue and expenses recognised."
+      },
+      {
+        "expression": "working capital=current assets−current liabilities",
+        "meaning": "A balance-sheet measure of short-term resources.",
+        "conditions": "This is not identical to cash available in the bank."
+      }
+    ],
+    "recallPrompts": [
+      "How is closing cash balance calculated?",
+      "Does a credit sale necessarily bring cash immediately?",
+      "Is a loan receipt sales revenue?"
+    ],
+    "practiceQuestionIds": [
+      "balance",
+      "two-periods",
+      "working-capital",
+      "late-payment"
+    ],
+    "revisit": "Attempt the questions without the notes, compare your reasoning with the points, and retry any step you cannot yet explain. Self-review does not certify mastery."
+  }
+}

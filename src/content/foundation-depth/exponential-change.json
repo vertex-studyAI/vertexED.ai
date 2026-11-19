@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "lessonId": "exponential-change",
+  "revision": "2026-10-21.3",
+  "notes": [
+    {
+      "heading": "Compare factors over the same interval",
+      "paragraphs": [
+        "A growth factor belongs to a time interval. A two-year factor cannot be used once per year without changing the model. To recover a factor for a shorter interval, use a root under the assumption of uniform exponential change. A percentage decrease can also be reversed only relative to the reduced value; it does not have the same denominator as the original change. For inequalities, consider whether the factor is above or below one before interpreting logarithms or integer thresholds. Check the neighbouring integer to confirm the first or last qualifying interval."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "depth-two-year-factor",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "An idealised quantity rises from 200 to 242 in two years with a constant positive annual multiplier. Find that multiplier and the modelled year-one value.",
+      "answer": "Annual multiplier 1.1; year-one value 220.",
+      "solution": [
+        "Solve b²=242/200=1.21 and choose the positive root.",
+        "Multiply 200 by 1.1 for one year."
+      ],
+      "markingPoints": [
+        "Set up b²=1.21.",
+        "Find b=1.1.",
+        "Find year-one value 220."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-decay-threshold",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "A model has A_n=100(1/2)^n for integer n≥0. Find the first n for which A_n<4, checking the preceding value.",
+      "answer": "n=5: A_5=3.125, while A_4=6.25.",
+      "solution": [
+        "Evaluate the halving sequence near the threshold.",
+        "Use the strict inequality and monotonic decrease to establish the first qualifying index."
+      ],
+      "markingPoints": [
+        "Find n=5.",
+        "Check 3.125<4.",
+        "Check 6.25≥4 at n=4."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-two-factors",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "A fictional price increases by 10% in each of two years. A learner calls the overall increase 20%. Find the actual increase and explain the difference.",
+      "answer": "The overall increase is 21%, since 1.1²=1.21.",
+      "solution": [
+        "The second increase applies to the already increased value.",
+        "For an initial 100, the sequence is 100,110,121."
+      ],
+      "markingPoints": [
+        "Multiply the factors.",
+        "Find 21%.",
+        "Explain the changed base for year two."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    }
+  ]
+}

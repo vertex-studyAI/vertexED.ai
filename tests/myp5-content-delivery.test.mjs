@@ -8,7 +8,7 @@ test('generated MYP subject payloads preserve the complete curriculum inventory'
   assert.equal(manifest.version, 'vertexed-myp5-content-v1');
   assert.equal(manifest.subjects.length, 17);
   assert.equal(manifest.lessonCount, 205);
-  assert.equal(manifest.questionCount, 616);
+  assert.equal(manifest.questionCount, 1026);
 
   let lessonCount = 0;
   let questionCount = 0;

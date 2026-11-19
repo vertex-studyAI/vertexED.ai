@@ -47,8 +47,125 @@
             "Set the point value equal to it."
           ],
           "id": "unit-1-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Right value is 8.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "Find a for continuity of f(x)=ax+2 for x<3 and f(x)=x²−1 for x≥3.",
+          "answer": "a=2.",
+          "checkpoints": [
+            "Right value is 8.",
+            "Set 3a+2=8.",
+            "Solve a=2."
+          ],
+          "hints": [
+            "Right value is 8.",
+            "Set 3a+2=8."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Divide numerator and denominator by x³.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "Find the limit of (3x³−x)/(2x³+5) as x→−∞.",
+          "answer": "3/2.",
+          "checkpoints": [
+            "Divide numerator and denominator by x³.",
+            "Terms 1/x² and 5/x³ approach zero.",
+            "The remaining ratio is 3/2."
+          ],
+          "hints": [
+            "Divide numerator and denominator by x³.",
+            "Terms 1/x² and 5/x³ approach zero."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through continuity at a joining point",
+            "paragraphs": [
+              "Piecewise continuity requires comparing the formulas on the correct sides of the join. Evaluate each limiting expression independently before choosing parameters. Matching outputs makes a continuous join; matching derivatives is an additional condition for differentiability. A graph can join without a gap yet retain a corner. At infinity, rational-function limits depend on dominant powers, because lower powers become negligible after division by the largest denominator power. Neither a finite limit at infinity nor a cancelled factor automatically supplies a value at an excluded finite input."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Choose a and b so f(x)=ax+b for x<1 and f(x)=x² for x≥1 is differentiable at 1.",
+            "steps": [
+              "Continuity requires a+b=1.",
+              "The left derivative is a and the right derivative at 1 is 2, so a=2.",
+              "Substitute to find b=−1."
+            ],
+            "conclusion": "a=2 and b=−1 give a continuous join with matching slopes."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "Does continuity guarantee a matching slope?",
+            "back": "No; a corner is continuous but not differentiable."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What must match first at a piecewise join?",
+            "back": "The two limits and the assigned value."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "How are rational limits at infinity simplified?",
+            "back": "Divide by the dominant denominator power."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What extra condition makes a continuous join differentiable?",
+            "back": "The one-sided derivatives agree."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Continuity at a joining point: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Left branch",
+                "detail": "Compute its value and slope at the join."
+              },
+              {
+                "id": "n2",
+                "label": "Right branch",
+                "detail": "Compute its value and slope at the same input."
+              },
+              {
+                "id": "n3",
+                "label": "Differentiable join",
+                "detail": "Match both value and slope equations."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "compare limiting outputs"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "also compare limiting slopes"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-2",
@@ -90,8 +207,124 @@
             "Preserve the domain exclusion."
           ],
           "id": "unit-2-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Differentiate x to 1.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "Differentiate x ln x for x>0.",
+          "answer": "ln x+1.",
+          "checkpoints": [
+            "Differentiate x to 1.",
+            "Differentiate ln x to 1/x.",
+            "Add ln x+x(1/x)."
+          ],
+          "hints": [
+            "Differentiate x to 1.",
+            "Differentiate ln x to 1/x."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "f(0)=0.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "Find the tangent to f(x)=x/(x+2) at x=0.",
+          "answer": "y=x/2.",
+          "checkpoints": [
+            "f(0)=0.",
+            "The quotient rule gives f′=2/(x+2)².",
+            "At zero the slope is 1/2."
+          ],
+          "hints": [
+            "f(0)=0.",
+            "The quotient rule gives f′=2/(x+2)²."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through product and quotient derivatives",
+            "paragraphs": [
+              "A derivative of a product includes changes in both factors. Multiplying their derivatives misses these contributions. The quotient rule similarly accounts for numerator and denominator changes and retains the original domain restriction. Algebraic simplification before differentiation can reduce work, but any cancelled denominator still excludes its original zeros. Tangent problems require both the derivative and the function value at the specified input. A derivative formula alone is not a tangent line. Check special inputs or expand a polynomial product to independently confirm a complicated rule calculation."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Differentiate f(x)=(x²+1)e^(2x).",
+            "steps": [
+              "Use the product rule: f′=2xe^(2x)+(x²+1)2e^(2x).",
+              "Factor to obtain 2e^(2x)(x²+x+1)."
+            ],
+            "conclusion": "Both the product rule and chain rule contribute."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is (uv)′?",
+            "back": "u′v+uv′."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What is (u/v)′?",
+            "back": "(u′v−uv′)/v², where v≠0."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Why retain denominator exclusions?",
+            "back": "Differentiation does not change the original domain."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What determines a tangent line?",
+            "back": "A point and the derivative there."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Product and quotient derivatives: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Two changing factors",
+                "detail": "u and v can both vary."
+              },
+              {
+                "id": "n2",
+                "label": "Product derivative",
+                "detail": "u′v and uv′ capture their separate contributions."
+              },
+              {
+                "id": "n3",
+                "label": "Tangent slope",
+                "detail": "Evaluate the complete derivative at the chosen input."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "apply the product rule"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "substitute only after differentiation"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-3",
@@ -133,8 +366,125 @@
             "Retain its derivative."
           ],
           "id": "unit-3-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Match inverse input 8 with original input 3.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "If f(3)=8 and f′(3)=−2, find (f⁻¹)′(8), assuming a differentiable local inverse.",
+          "answer": "−1/2.",
+          "checkpoints": [
+            "Match inverse input 8 with original input 3.",
+            "Use the inverse derivative rule.",
+            "Take 1/(−2)."
+          ],
+          "hints": [
+            "Match inverse input 8 with original input 3.",
+            "Use the inverse derivative rule."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "The outer derivative is 1/(1+u²).",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "Differentiate arctan(x²).",
+          "answer": "2x/(1+x⁴).",
+          "checkpoints": [
+            "The outer derivative is 1/(1+u²).",
+            "Set u=x² and u′=2x.",
+            "Multiply and simplify the denominator."
+          ],
+          "hints": [
+            "The outer derivative is 1/(1+u²).",
+            "Set u=x² and u′=2x."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through differentiating inverse relationships",
+            "paragraphs": [
+              "An inverse function reverses the input and output of its original function. To differentiate the inverse at an output b, first locate the original input a satisfying f(a)=b. The reciprocal slope rule requires f′(a) to be nonzero and an appropriate differentiable inverse near the point. Confusing a and b evaluates the wrong derivative. Inverse trigonometric derivatives also require chain factors when their inputs are composite. The symbol f⁻¹ denotes an inverse function, whereas 1/f denotes a reciprocal; their derivatives are generally different."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "For f(x)=e^(2x), find (f⁻¹)′(e²).",
+            "steps": [
+              "Solve e^(2a)=e² to get a=1.",
+              "f′(1)=2e², which is nonzero.",
+              "Take its reciprocal."
+            ],
+            "conclusion": "(f⁻¹)′(e²)=1/(2e²)."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "Which input is used in the reciprocal derivative rule?",
+            "back": "The input a with f(a)=b."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "When can the reciprocal slope rule fail?",
+            "back": "When f′(a)=0 or a local differentiable inverse is absent."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Is f⁻¹ the same as 1/f?",
+            "back": "No; inverse and reciprocal are different operations."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Differentiate arcsin x in its interior domain.",
+            "back": "1/√(1−x²), for −1<x<1."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Differentiating inverse relationships: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Original point",
+                "detail": "f(a)=b locates paired coordinates."
+              },
+              {
+                "id": "n2",
+                "label": "Original slope",
+                "detail": "Find f′(a), checking that it is nonzero."
+              },
+              {
+                "id": "n3",
+                "label": "Inverse slope",
+                "detail": "At b, use 1/f′(a)."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "differentiate at the matching input"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "reciprocate the nonzero slope"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-4",
@@ -176,8 +526,125 @@
             "a=6t-12."
           ],
           "id": "unit-4-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Acceleration is 2t>0.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "For v(t)=t²−9 and t>0, when does speed decrease?",
+          "answer": "For 0<t<3.",
+          "checkpoints": [
+            "Acceleration is 2t>0.",
+            "Velocity is negative on (0,3).",
+            "Opposite signs imply decreasing speed."
+          ],
+          "hints": [
+            "Acceleration is 2t>0.",
+            "Velocity is negative on (0,3)."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Velocity 2t−4 changes sign at 2.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "A particle has s(t)=t²−4t metres on [0,3] seconds. Find its displacement and distance.",
+          "answer": "Displacement −3 m; distance 5 m.",
+          "checkpoints": [
+            "Velocity 2t−4 changes sign at 2.",
+            "Positions are s(0)=0, s(2)=−4, s(3)=−3.",
+            "Displacement is −3; distance is 4+1=5."
+          ],
+          "hints": [
+            "Velocity 2t−4 changes sign at 2.",
+            "Positions are s(0)=0, s(2)=−4, s(3)=−3."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through velocity signs and changing speed",
+            "paragraphs": [
+              "Velocity is signed while speed is its magnitude. Away from zero velocity, the speed derivative has the sign of the product va: matching velocity and acceleration signs increase speed, and opposite signs decrease it. A particle moving left can therefore speed up under negative acceleration. Analyse zeros of both velocity and acceleration to partition time into intervals. At a zero of velocity, use neighbouring signs rather than mechanically applying a formula that divides by speed. Position change and distance travelled also differ when the particle reverses direction."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "For v(t)=3−t on 0≤t≤5, find the intervals of decreasing and increasing speed.",
+            "steps": [
+              "Acceleration is −1 throughout.",
+              "Before t=3, velocity is positive, so speed decreases.",
+              "After t=3, velocity and acceleration are negative, so speed increases."
+            ],
+            "conclusion": "Speed decreases on (0,3) and increases on (3,5)."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "Can negative acceleration increase speed?",
+            "back": "Yes, when velocity is negative."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What determines direction of motion?",
+            "back": "The sign of velocity."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What determines concavity of position?",
+            "back": "The sign of acceleration."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Where should a speed sign chart be partitioned?",
+            "back": "At zeros or discontinuities of velocity and acceleration."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Velocity signs and changing speed: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Velocity sign",
+                "detail": "Determines direction of motion."
+              },
+              {
+                "id": "n2",
+                "label": "Acceleration sign",
+                "detail": "Determines how signed velocity changes."
+              },
+              {
+                "id": "n3",
+                "label": "Speed trend",
+                "detail": "Matching signs increase |v|; opposite signs decrease it."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "compare with the acceleration"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "interpret the product of signs"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-5",
@@ -219,8 +686,125 @@
             "Negative second derivative means slopes decrease."
           ],
           "id": "unit-5-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Write P=2x+72/x for x>0.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A rectangle has area 36 m². Find the smallest perimeter for positive side lengths.",
+          "answer": "24 m, achieved by a 6 m square.",
+          "checkpoints": [
+            "Write P=2x+72/x for x>0.",
+            "P′=2−72/x² vanishes at x=6.",
+            "P′ changes from negative to positive; the other side is 6."
+          ],
+          "hints": [
+            "Write P=2x+72/x for x>0.",
+            "P′=2−72/x² vanishes at x=6."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "f′=3x² is nonnegative.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "Maximise f(x)=x³ on [−1,2].",
+          "answer": "Maximum 8 at x=2.",
+          "checkpoints": [
+            "f′=3x² is nonnegative.",
+            "Check the critical point 0 and endpoints −1,2.",
+            "Compare outputs −1,0,8."
+          ],
+          "hints": [
+            "f′=3x² is nonnegative.",
+            "Check the critical point 0 and endpoints −1,2."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through optimising a constrained quantity",
+            "paragraphs": [
+              "Optimisation begins with a feasible model. Use the constraint to express the target quantity in one variable and state its physical domain before differentiating. A critical point outside the domain cannot solve the problem. Establish a maximum or minimum using a sign change, concavity or a complete endpoint comparison. Units in the objective and constraint usually differ, so identify whether the result requested is a length, area, volume or cost. If the endpoints describe degenerate objects, compare limiting behaviour and explain whether the physical optimum is attained."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A closed cylinder has fixed radius 2 cm and volume at most 40π cm³. What height maximises its volume?",
+            "steps": [
+              "V=π(2²)h=4πh with h>0.",
+              "The constraint gives h≤10.",
+              "Since V′=4π>0, the largest permitted height gives the maximum."
+            ],
+            "conclusion": "The maximum occurs at h=10 cm, with volume 40π cm³; no interior critical point is required."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is the feasible domain?",
+            "back": "Inputs satisfying all stated constraints."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Must every optimum have derivative zero?",
+            "back": "No; an endpoint may be optimal."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Why eliminate a variable first?",
+            "back": "To differentiate the objective subject to the constraint."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What does f″<0 establish at a stationary input?",
+            "back": "A strict local maximum under the usual differentiability conditions."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Optimising a constrained quantity: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Constraint",
+                "detail": "Restricts which designs are allowed."
+              },
+              {
+                "id": "n2",
+                "label": "Objective",
+                "detail": "Measures the quantity to maximise or minimise."
+              },
+              {
+                "id": "n3",
+                "label": "Candidate comparison",
+                "detail": "Select the best feasible critical or boundary value."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "substitute into the target quantity"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "test within the feasible domain"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-6",
@@ -262,8 +846,125 @@
             "Check the limit rather than substituting infinity."
           ],
           "id": "unit-6-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "An antiderivative is −1/(2x²).",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "Evaluate ∫ from 2 to infinity of x⁻³ dx.",
+          "answer": "1/8.",
+          "checkpoints": [
+            "An antiderivative is −1/(2x²).",
+            "The truncated integral is 1/8−1/(2b²).",
+            "The second term tends to zero as b→∞."
+          ],
+          "hints": [
+            "An antiderivative is −1/(2x²).",
+            "The truncated integral is 1/8−1/(2b²)."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Use u=ln x and dv=dx.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "Evaluate ∫ from 1 to e of ln x dx.",
+          "answer": "1.",
+          "checkpoints": [
+            "Use u=ln x and dv=dx.",
+            "An antiderivative is x ln x−x.",
+            "Its value at e is 0 and at 1 is −1."
+          ],
+          "hints": [
+            "Use u=ln x and dv=dx.",
+            "An antiderivative is x ln x−x."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through improper integrals and integration by parts",
+            "paragraphs": [
+              "Improper integrals replace an infinite boundary or unbounded integrand with an explicit limit. Evaluate the finite integral first and then determine whether that limit exists as a finite number. An antiderivative expression is not itself a convergence justification. Integration by parts comes from the product rule and transfers a derivative between factors; the boundary term must be retained. For an integral with two improper endpoints, each side must converge separately. Cancelling opposing infinities through a symmetric calculation does not establish convergence of the ordinary improper integral."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Evaluate ∫ from 0 to 1 of x cos x dx.",
+            "steps": [
+              "Choose u=x and dv=cos x dx, so du=dx and v=sin x.",
+              "Integration by parts gives [x sin x]₀¹−∫₀¹ sin x dx.",
+              "Evaluate the boundary and remaining integral."
+            ],
+            "conclusion": "The result is sin(1)+cos(1)−1."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What replaces an infinite integration boundary?",
+            "back": "A finite bound followed by a limit."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What is integration by parts?",
+            "back": "∫u dv=uv−∫v du."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "When does an improper integral converge?",
+            "back": "When each required defining limit is finite."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Can divergent pieces be cancelled to prove convergence?",
+            "back": "No; separate convergence is required."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Improper integrals and integration by parts: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Finite truncation",
+                "detail": "Integrate only to a finite boundary b."
+              },
+              {
+                "id": "n2",
+                "label": "Antiderivative evaluation",
+                "detail": "Keep boundary terms with the correct signs."
+              },
+              {
+                "id": "n3",
+                "label": "Limit b→∞",
+                "detail": "A finite limit establishes convergence."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "calculate an ordinary definite integral"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "test the boundary behaviour"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-7",
@@ -305,8 +1006,125 @@
             "Add h times the slope."
           ],
           "id": "unit-7-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "The rate is a downward-opening quadratic.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "For y′=0.6y(1−y/80), find the maximum growth rate.",
+          "answer": "12 units per time unit, at y=40.",
+          "checkpoints": [
+            "The rate is a downward-opening quadratic.",
+            "Its vertex is at K/2=40.",
+            "Evaluate 0.6(40)(0.5)=12."
+          ],
+          "hints": [
+            "The rate is a downward-opening quadratic.",
+            "Its vertex is at K/2=40."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Compute 1−100/80=−0.25.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "For the same logistic equation, determine the sign of y′ at y=100 and calculate it.",
+          "answer": "y′=−15; the population decreases.",
+          "checkpoints": [
+            "Compute 1−100/80=−0.25.",
+            "Multiply 0.6(100)(−0.25).",
+            "Interpret the negative rate relative to capacity 80."
+          ],
+          "hints": [
+            "Compute 1−100/80=−0.25.",
+            "Multiply 0.6(100)(−0.25)."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through logistic growth and Euler steps",
+            "paragraphs": [
+              "Logistic growth multiplies a proportional-growth term by a limiting factor. For y′=ry(1−y/K), positive r and K give equilibria at zero and K. Between them the population increases; above K it decreases in this model. The growth rate as a function of y is a downward-opening quadratic, maximal at K/2. This describes an assumed smooth population process rather than a guarantee about real ecosystems. Euler estimates use the current slope; after each step both time and population must be updated before computing the next slope."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Use two Euler steps of size 1 for y′=0.1y(1−y/20), y(0)=4.",
+            "steps": [
+              "The first slope is 0.1(4)(0.8)=0.32, giving y₁=4.32.",
+              "Recompute the slope: 0.1(4.32)(1−4.32/20)=0.338688.",
+              "Add it to 4.32."
+            ],
+            "conclusion": "y(2)≈4.658688."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What are the logistic equilibria?",
+            "back": "0 and K."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Where is positive logistic growth fastest?",
+            "back": "At y=K/2."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What happens above K when r>0?",
+            "back": "The model predicts a negative growth rate."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why recalculate every Euler slope?",
+            "back": "The rate depends on the updated point."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Logistic growth and Euler steps: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Small population",
+                "detail": "The limiting factor is near 1."
+              },
+              {
+                "id": "n2",
+                "label": "Half capacity",
+                "detail": "The growth-rate quadratic reaches its maximum."
+              },
+              {
+                "id": "n3",
+                "label": "Capacity",
+                "detail": "The limiting factor reaches zero at y=K."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "increasing population raises total growth initially"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "resource limitation eventually reduces growth"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-8",
@@ -348,8 +1166,125 @@
             "Use interval width 6."
           ],
           "id": "unit-8-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Differentiate to get 3x².",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "Set up the arc length of y=x³ on [0,1].",
+          "answer": "∫₀¹ √(1+9x⁴) dx.",
+          "checkpoints": [
+            "Differentiate to get 3x².",
+            "Square to obtain 9x⁴.",
+            "Use the bounds 0 and 1 in the length formula."
+          ],
+          "hints": [
+            "Differentiate to get 3x².",
+            "Square to obtain 9x⁴."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "The constant derivative is −3.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "Find the length of y=−3x+7 on [−1,1] and compare its endpoint distance.",
+          "answer": "2√10 units; it equals the endpoint distance.",
+          "checkpoints": [
+            "The constant derivative is −3.",
+            "Integrate √10 over width 2.",
+            "Endpoint changes are 2 and −6, giving √40=2√10."
+          ],
+          "hints": [
+            "The constant derivative is −3.",
+            "Integrate √10 over width 2."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through arc length as accumulated distance",
+            "paragraphs": [
+              "Arc length accumulates local distance rather than signed vertical change. A small horizontal change dx combines with the vertical change f′(x)dx through the Pythagorean theorem, giving the factor √(1+[f′(x)]²). The derivative is squared, so descending and ascending portions both contribute positively. Straight-line cases provide a useful check against the endpoint distance formula. Curved paths generally exceed straight endpoint separation. When an antiderivative is unavailable, a correct integral and justified numerical estimate remain meaningful; replacing the integrand with a constant slope changes the problem."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Find the length of y=4x−3 on 1≤x≤3.",
+            "steps": [
+              "The slope is 4, so the length integrand is √(1+16)=√17.",
+              "Integrate over an interval of width 2.",
+              "Check using endpoint changes Δx=2 and Δy=8."
+            ],
+            "conclusion": "The length is 2√17 units."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "Why is the derivative squared in arc length?",
+            "back": "Distance combines horizontal and vertical changes by Pythagoras."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Can decreasing y create negative length?",
+            "back": "No; the integrand is nonnegative."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What is length for a horizontal graph on [a,b]?",
+            "back": "b−a."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "How does curved length compare with endpoint distance?",
+            "back": "It is at least as large."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Arc length as accumulated distance: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Local displacement",
+                "detail": "dx and f′(x)dx form a small right triangle."
+              },
+              {
+                "id": "n2",
+                "label": "Local distance",
+                "detail": "ds=√(1+[f′(x)]²) dx."
+              },
+              {
+                "id": "n3",
+                "label": "Curve length",
+                "detail": "Integrate ds over the interval."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "apply the Pythagorean relation"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "sum positive distances"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-9",
@@ -391,8 +1326,125 @@
             "Multiply by 1/2 and angle width π/2."
           ],
           "id": "unit-9-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Compute x′=2 and y′=2t.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "For x=2t and y=t², find the tangent slope at t=3.",
+          "answer": "3.",
+          "checkpoints": [
+            "Compute x′=2 and y′=2t.",
+            "At t=3, y′=6.",
+            "Divide 6 by 2."
+          ],
+          "hints": [
+            "Compute x′=2 and y′=2t.",
+            "At t=3, y′=6."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Use A=(1/2)∫r² dθ.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "Find the area swept by r=3 for 0≤θ≤π/3.",
+          "answer": "3π/2 square units.",
+          "checkpoints": [
+            "Use A=(1/2)∫r² dθ.",
+            "The integrand r² is 9.",
+            "Multiply (1/2)(9)(π/3)."
+          ],
+          "hints": [
+            "Use A=(1/2)∫r² dθ.",
+            "The integrand r² is 9."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through parametric velocity and slope",
+            "paragraphs": [
+              "Parametric motion gives both coordinates as functions of a shared parameter. If that parameter is time, the derivatives form the velocity vector and its magnitude gives speed. Tangent slope is the ratio y′/x′ where x′ is nonzero; it is not the ratio y/x. A horizontal tangent needs y′=0 with x′≠0, while a vertical tangent needs appropriate analysis near x′=0. Polar area uses half the integral of r² over angle. Check whether the parameter retraces a path before interpreting an integral as the area or length of a single traversal."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "For x=t²+1 and y=t³ at t=2, find slope and speed.",
+            "steps": [
+              "The derivatives are x′=2t=4 and y′=3t²=12.",
+              "Slope is 12/4=3.",
+              "Speed is √(4²+12²)=4√10."
+            ],
+            "conclusion": "Slope is 3; speed is 4√10 coordinate units per time unit."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is parametric tangent slope?",
+            "back": "(dy/dt)/(dx/dt), when dx/dt≠0."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What is parametric speed?",
+            "back": "√[(dx/dt)²+(dy/dt)²]."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What characterises a horizontal tangent?",
+            "back": "dy/dt=0 while dx/dt≠0."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What is polar sector area?",
+            "back": "One half of ∫r² dθ over the relevant traversal."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Parametric velocity and slope: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Coordinate derivatives",
+                "detail": "x′ and y′ give velocity components."
+              },
+              {
+                "id": "n2",
+                "label": "Velocity vector",
+                "detail": "Combine components without losing signs."
+              },
+              {
+                "id": "n3",
+                "label": "Speed and slope",
+                "detail": "Magnitude gives speed; component ratio gives slope."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "assemble the vector"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "choose the quantity required"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "unit-10",
@@ -436,8 +1488,125 @@
             "At either endpoint the terms fail to approach zero."
           ],
           "id": "unit-10-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "The ratio is −1/3 with magnitude below 1.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "Find the sum of ∑ from n=0 to infinity of 2(−1/3)ⁿ.",
+          "answer": "3/2.",
+          "checkpoints": [
+            "The ratio is −1/3 with magnitude below 1.",
+            "Use a/(1−r).",
+            "Calculate 2/(1+1/3)=3/2."
+          ],
+          "hints": [
+            "The ratio is −1/3 with magnitude below 1.",
+            "Use a/(1−r)."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Compute 1−1/4=3/4.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "Approximate ∑ from n=1 to infinity of (−1)^(n+1)/n² using its first two terms and bound the error.",
+          "answer": "Approximation 3/4; absolute error at most 1/9.",
+          "checkpoints": [
+            "Compute 1−1/4=3/4.",
+            "Term magnitudes 1/n² decrease to zero.",
+            "The next term has magnitude 1/9."
+          ],
+          "hints": [
+            "Compute 1−1/4=3/4.",
+            "Term magnitudes 1/n² decrease to zero."
+          ]
         }
-      ]
+      ],
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through series convergence and error bounds",
+            "paragraphs": [
+              "Series convergence concerns the limit of partial sums, not merely whether individual terms become small. Terms tending to zero are necessary but insufficient for convergence, as the harmonic series shows. Select a test suited to the term structure and state its conditions. An alternating-series error bound needs decreasing positive term magnitudes tending to zero. Power-series ratio or root tests usually leave boundary inputs undecided; substitute each endpoint into the original series and test it separately. A finite partial sum is an approximation whose error should be justified, not guessed from decimal agreement."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Find the interval of convergence of ∑ from n=1 to infinity of xⁿ/n.",
+            "steps": [
+              "The ratio test gives absolute convergence for |x|<1 and divergence for |x|>1.",
+              "At x=1 the harmonic series diverges.",
+              "At x=−1 the alternating harmonic series converges."
+            ],
+            "conclusion": "The interval is [−1,1), with conditional convergence at −1."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "Does aₙ→0 prove ∑aₙ converges?",
+            "back": "No; it is only a necessary condition."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "When does a geometric series converge?",
+            "back": "When the common ratio has magnitude below 1."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What bounds a valid alternating-series remainder?",
+            "back": "The magnitude of the first omitted term."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why test power-series endpoints separately?",
+            "back": "The ratio test can be inconclusive there."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Series convergence and error bounds: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Interior ratio test",
+                "detail": "Find the region where the limiting ratio is below 1."
+              },
+              {
+                "id": "n2",
+                "label": "Endpoint substitution",
+                "detail": "Insert each boundary into the original series."
+              },
+              {
+                "id": "n3",
+                "label": "Final interval",
+                "detail": "Combine interior convergence with each endpoint decision."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "identify undecided boundary inputs"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "include only convergent endpoints"
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

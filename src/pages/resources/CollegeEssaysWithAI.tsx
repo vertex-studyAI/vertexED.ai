@@ -1,3 +1,4 @@
+import { APP_ORIGIN } from '@/lib/appOrigin';
 import React from "react";
 import Article from "@/components/Article";
 import SEO from "@/components/SEO";
@@ -9,7 +10,7 @@ export default function CollegeEssaysWithAI() {
       <SEO
         title="College essays with AI: Common App and Personal Statement | VertexED"
         description="Use AI to mine memories, spot clichés, and check structure - while keeping a voice admissions officers can tell is yours."
-        canonical="https://www.vertexed.app/resources/college-essays-with-ai"
+        canonical={`${APP_ORIGIN}/resources/college-essays-with-ai`}
         keywords="college essay AI, Common App essay AI, UCAS personal statement AI, university application help, AI for admissions essays, brainstorming college essays, VertexED, ethical AI for college prep"
         jsonLd={[
           {
@@ -20,14 +21,14 @@ export default function CollegeEssaysWithAI() {
             author: {
               "@type": "Organization",
               name: "VertexED Team",
-              url: "https://www.vertexed.app"
+              url: `${APP_ORIGIN}`
             },
             publisher: {
               "@type": "Organization",
               name: "VertexED",
               logo: {
                 "@type": "ImageObject",
-                url: "https://www.vertexed.app/logo.png"
+                url: `${APP_ORIGIN}/logo.png`
               }
             },
             datePublished: "2025-12-24",

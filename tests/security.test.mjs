@@ -32,11 +32,11 @@ test('enforceSameOriginCors allows requests without Origin header', () => {
 
 test('enforceSameOriginCors allows production origin', () => {
   const { req, res, getHeaders, getStatus } = createMocks({
-    headers: { origin: 'https://www.vertexed.app' },
+    headers: { origin: 'https://vertex-ed-ai.vercel.app' },
   });
 
   assert.equal(enforceSameOriginCors(req, res), true);
-  assert.equal(getHeaders()['Access-Control-Allow-Origin'], 'https://www.vertexed.app');
+  assert.equal(getHeaders()['Access-Control-Allow-Origin'], 'https://vertex-ed-ai.vercel.app');
   assert.equal(getStatus(), 200);
 });
 

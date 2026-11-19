@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "lessonId": "design-evaluation",
+  "revision": "2026-10-21.3",
+  "notes": [
+    {
+      "heading": "Turn conflicting requirements into explicit decisions",
+      "paragraphs": [
+        "Design tests should connect to measurable requirements and the context in which users will work. A strong overall preference score does not compensate for failing a mandatory constraint. When two desirable properties conflict, state the trade-off and propose a test that can discriminate between alternatives. Repeated trials with the same user are useful for consistency but do not automatically expand the range of users represented. Report failures alongside successful trials and separate what a prototype demonstrates from what a later production version is expected to do."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "depth-weighted-constraints",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "A fictional classroom organiser must fit a 30 cm shelf. A is 32 cm wide and scores 90 in preferences; B is 28 cm wide and scores 75. Explain which is currently feasible and what would justify reconsidering A.",
+      "answer": "B meets the width constraint; A is infeasible despite its higher preference score. A could be reconsidered after a verified redesign to 30 cm or less.",
+      "solution": [
+        "Apply the mandatory shelf constraint before preference ranking.",
+        "Retest a changed design instead of treating a proposed reduction as demonstrated."
+      ],
+      "markingPoints": [
+        "Identify B as feasible.",
+        "Explain why A's score cannot override width.",
+        "Require a measured redesign before reconsideration."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-independent-users",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "A fictional prototype is tested 20 times by the same person. Nineteen trials succeed. Can the designer report 95% success across 20 users? Explain and propose a better next test.",
+      "answer": "No: 95% describes trials from one user. Recruit several representative users and report participants and trials separately.",
+      "solution": [
+        "Compute 19/20 while identifying the correct unit of observation.",
+        "Repeated use can produce learning effects and does not measure differences between users."
+      ],
+      "markingPoints": [
+        "Accept 95% only as a trial rate.",
+        "Identify one participant and possible learning.",
+        "Propose representative users with separate counts."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-accessibility-test",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "A fictional route sign is readable in a bright room but has not been tested outdoors at dusk. Draft a testable visibility requirement and a relevant test.",
+      "answer": "Example: intended users should correctly identify the destination at 5 m under specified dusk lighting in at least 9 of 10 trials; test at that distance and lighting and record errors.",
+      "solution": [
+        "Specify distance, lighting, task and success criterion before testing.",
+        "Use representative users and retain the failed identifications."
+      ],
+      "markingPoints": [
+        "Provide a measurable task and condition.",
+        "Specify a success threshold.",
+        "Describe a matching test with recorded failures."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    }
+  ]
+}

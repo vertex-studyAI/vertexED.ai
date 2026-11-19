@@ -1,3 +1,4 @@
+import { APP_ORIGIN } from '@/lib/appOrigin';
 import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router";
@@ -48,6 +49,7 @@ import { deleteStudyArtifact, saveStudyArtifact, consumeArtifactRestore } from "
 import { getWeakestTopics, recordWeakness, type TopicHeat } from "@/lib/weaknessTracker";
 import { MEASURED_WEAKNESS_EVIDENCE } from "@/lib/weaknessEvidenceCore.mjs";
 import { toast } from "@/hooks/use-toast";
+import { appendRevisionEvent } from '@/lib/revisionHistory';
 
 function notifyStudy(description: string) { toast({ title: 'Study update', description }); }
 import AiFeedbackControls from "@/components/AiFeedbackControls";
@@ -665,6 +667,18 @@ export default function NotetakerQuiz(): React.JSX.Element {
       }
       recordStudySession();
       if (saved.ok) {
+        if (saved.id && !saved.localOnly) {
+          void appendRevisionEvent({
+            eventType: 'note',
+            occurredAt: new Date().toISOString(),
+            evidenceStatus: 'generated',
+            sourceType: 'study-artifact:note',
+            sourceKey: saved.id,
+            sourceRevision: `${safeText(data?.generation?.mode) || 'generated'}:${safeText(data?.generation?.model) || 'deterministic'}:${saved.id}`.slice(0, 180),
+            parentEventIds: [],
+            payload: { label: topic.trim() || 'Study notes', summary: 'Saved notes were linked by identity; private note content was not copied into the revision graph.', route: `/saved-work?item=${encodeURIComponent(saved.id)}`, artifactId: saved.id },
+          }).catch(() => undefined);
+        }
         toast({
           title: saved.localOnly ? "Saved on this device" : "Notes saved",
           description: saved.localOnly
@@ -1305,7 +1319,7 @@ export default function NotetakerQuiz(): React.JSX.Element {
       <Helmet>
         <title>AI Notes, Flashcards, and Quizzes - VertexED</title>
         <meta name="description" content="Turn notes into smart summaries, flashcards, quizzes, and audio-assisted study material." />
-        <link rel="canonical" href="https://www.vertexed.app/notetaker" />
+        <link rel="canonical" href={`${APP_ORIGIN}/notetaker`} />
       </Helmet>
 
       <PageSection>

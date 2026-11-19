@@ -1,6 +1,6 @@
 // Minimal IndexNow submission script for Bing
 // Docs: https://www.indexnow.org/ and https://learn.microsoft.com/bing/webmaster/indexnow
-// Usage: node scripts/indexnow.mjs --host=https://www.vertexed.app --key=YOUR_KEY --keyLocation=https://www.vertexed.app/YOUR_KEY.txt --urls=https://www.vertexed.app/
+// Usage: node scripts/indexnow.mjs --host=https://vertex-ed-ai.vercel.app --key=YOUR_KEY --keyLocation=https://vertex-ed-ai.vercel.app/YOUR_KEY.txt --urls=https://vertex-ed-ai.vercel.app/
 // Optionally: --fromSitemap=public/sitemap.xml to submit all URLs listed in sitemap
 
 import fs from 'fs'
@@ -72,7 +72,7 @@ async function main() {
   const root = process.cwd()
   const publicDir = path.join(root, 'public')
 
-  const host = args.host || 'https://www.vertexed.app'
+  const host = args.host || 'https://vertex-ed-ai.vercel.app'
   const key = args.key || process.env.INDEXNOW_KEY || 'REPLACE_WITH_INDEXNOW_KEY'
   const keyLocation = args.keyLocation || `${host}/${key}.txt`
 

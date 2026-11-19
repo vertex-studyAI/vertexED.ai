@@ -45,10 +45,126 @@
             "Includes the question particle"
           ],
           "id": "chinese-language-and-culture-1-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Interpret “最好带水，但必须穿运动鞋”.",
+          "hint": "Distinguish 最好 and 必须.",
+          "hints": [
+            "Distinguish 最好 and 必须.",
+            "Keep both instructions."
+          ],
+          "answer": "Bringing water is recommended. Sports shoes are required. The sentence does not make the water recommendation compulsory.",
+          "checkpoints": [
+            "Bringing water is recommended.",
+            "Sports shoes are required.",
+            "The sentence does not make the water recommendation compulsory."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "Ask politely in Chinese whether materials are provided.",
+          "hint": "Start with 请问.",
+          "hints": [
+            "Start with 请问.",
+            "Name the materials."
+          ],
+          "answer": "“请问，活动提供材料吗？” The question asks about materials. It clarifies what the participant may need to bring.",
+          "checkpoints": [
+            "“请问，活动提供材料吗？”",
+            "The question asks about materials.",
+            "It clarifies what the participant may need to bring."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "frameworkUnit": "Unit 1",
-      "id": "chinese-language-and-culture-1"
+      "id": "chinese-language-and-culture-1",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Read a neighbourhood invitation in depth",
+            "paragraphs": [
+              "An invitation may give an activity date and a separate registration deadline. 星期三以前 means before Wednesday, whereas 从星期三开始 marks a starting point. 必须 expresses necessity, 可以 permission or possibility, and 最好 a recommendation. A courteous reply should identify the intended activity and ask about a missing practical detail. 请问 introduces a question politely but does not itself answer the organiser's request. Reading these small expressions accurately prevents a learner from confusing advice with obligation or treating the registration day as the day of the event."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Original notice: “星期五下午举行手工活动，请在星期三以前报名，并带一把剪刀。” Reply.",
+            "steps": [
+              "The activity is Friday afternoon; registration is before Wednesday and scissors are requested.",
+              "“我想参加星期五的手工活动。请问，活动几点开始？我会带剪刀。”"
+            ],
+            "conclusion": "The reply confirms the activity and asks for the missing start time."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "必须是什么意思？",
+            "back": "Must."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "可以是什么意思？",
+            "back": "May or can, according to context."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "星期三以前是什么意思？",
+            "back": "Before Wednesday."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "请问有什么作用？",
+            "back": "礼貌地提出问题。"
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "活动和报名",
+            "description": "两个时间表达不同的安排。",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "星期三以前",
+                "detail": "完成报名。"
+              },
+              {
+                "id": "extension-node-2",
+                "label": "星期五下午",
+                "detail": "参加手工活动。"
+              },
+              {
+                "id": "extension-node-3",
+                "label": "回复",
+                "detail": "确认活动并询问时间。"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "先于"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "需要"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Connect contrast and language choice",
@@ -88,10 +204,126 @@
             "Does not make it universal"
           ],
           "id": "chinese-language-and-culture-2-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Interpret “有人觉得方便，我却觉得不够清楚”.",
+          "hint": "Identify 有人 and 我.",
+          "hints": [
+            "Identify 有人 and 我.",
+            "Track the contrast marker."
+          ],
+          "answer": "Some people find it convenient. The speaker finds it insufficiently clear. The sentence presents differing views without measuring their prevalence.",
+          "checkpoints": [
+            "Some people find it convenient.",
+            "The speaker finds it insufficiently clear.",
+            "The sentence presents differing views without measuring their prevalence."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "Write a Chinese observation about one student's language choice without generalising.",
+          "hint": "Use 在这个例子中.",
+          "hints": [
+            "Use 在这个例子中.",
+            "Name the situation."
+          ],
+          "answer": "“在这个例子中，学生给老师写信时用了比较正式的表达。” The claim concerns this example. It does not describe every student's language.",
+          "checkpoints": [
+            "“在这个例子中，学生给老师写信时用了比较正式的表达。”",
+            "The claim concerns this example.",
+            "It does not describe every student's language."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "frameworkUnit": "Unit 2",
-      "id": "chinese-language-and-culture-2"
+      "id": "chinese-language-and-culture-2",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Connect contrast and language choice in depth",
+            "paragraphs": [
+              "Attribution separates a source's opinion from the writer's judgement. 作者认为 introduces what the author thinks, while 我觉得 identifies the current speaker's view. 不一定 limits certainty and differs from 一定不, which can express a definite negative judgement in context. A concession with 虽然 recognises one point before another is introduced by 但是. Keep the scope attached to the evidence: a phrase may suit messages between friends while being unsuitable in a particular report. This is a contextual language choice, not proof that an entire generation speaks identically."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Original text: “虽然这个词很常见，但是小林觉得它不适合正式报告。”",
+            "steps": [
+              "The sentence accepts that the word is common.",
+              "小林觉得 attributes the judgement about formal reports to Xiaolin."
+            ],
+            "conclusion": "The objection concerns a context, not the word's use everywhere."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "作者认为表示什么？",
+            "back": "把观点归于作者。"
+          },
+          {
+            "id": "extension-card-2",
+            "front": "不一定是什么意思？",
+            "back": "Not necessarily."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "虽然和但是连接什么？",
+            "back": "让步与转折。"
+          },
+          {
+            "id": "extension-card-4",
+            "front": "正式报告是什么语境？",
+            "back": "A formal report."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "常见不等于适用",
+            "description": "语言选择取决于具体场合。",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "常见的词",
+                "detail": "使用较广的表达。"
+              },
+              {
+                "id": "extension-node-2",
+                "label": "正式报告",
+                "detail": "特定的交流场合。"
+              },
+              {
+                "id": "extension-node-3",
+                "label": "小林的判断",
+                "detail": "认为该词在这里不合适。"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "进入"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "引出"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Study a musical practice with evidence",
@@ -131,10 +363,126 @@
             "Does not invent a tradition"
           ],
           "id": "chinese-language-and-culture-3-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Paraphrase “我们改了节奏，但没有改歌词”.",
+          "hint": "Keep change and continuity.",
+          "hints": [
+            "Keep change and continuity.",
+            "Do not invent another change."
+          ],
+          "answer": "“节奏发生了变化。” “歌词保持不变。” The statement does not specify a new melody.",
+          "checkpoints": [
+            "“节奏发生了变化。”",
+            "“歌词保持不变。”",
+            "The statement does not specify a new melody."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "Explain in Chinese why a concert poster cannot alone establish listeners' feelings.",
+          "hint": "Identify what a poster usually records.",
+          "hints": [
+            "Identify what a poster usually records.",
+            "Name missing evidence."
+          ],
+          "answer": "“海报可以提供时间和演出者等信息。” “它不一定记录听众的感受。” “研究听众的看法还需要相关的采访或调查。”",
+          "checkpoints": [
+            "“海报可以提供时间和演出者等信息。”",
+            "“它不一定记录听众的感受。”",
+            "“研究听众的看法还需要相关的采访或调查。”"
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "frameworkUnit": "Unit 3",
-      "id": "chinese-language-and-culture-3"
+      "id": "chinese-language-and-culture-3",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Study a musical practice with evidence in depth",
+            "paragraphs": [
+              "A musical research note should preserve the difference between an action, a purpose and an observed outcome. 为了 introduces purpose; 已经 can mark that an event has already occurred, but a factual claim still needs a source. 每两周一次 means once every two weeks, unlike 每周两次, twice a week. Accurate frequency matters when describing a practice. A recording can support observations about musical sound, while an interview can support an attributed explanation of meaning. Neither alone shows what every listener or member of a community believes."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Original invented interview: “我们每两周排练一次，为了让新成员熟悉这些歌曲。”",
+            "steps": [
+              "The group rehearses once every two weeks.",
+              "Paraphrase: “排练的目的是帮助新成员熟悉歌曲。”"
+            ],
+            "conclusion": "The statement explains rehearsal frequency and purpose, not the number of successful performances."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "每两周一次是什么意思？",
+            "back": "Once every two weeks."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "每周两次是什么意思？",
+            "back": "Twice a week."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "为了表示什么？",
+            "back": "目的。"
+          },
+          {
+            "id": "extension-card-4",
+            "front": "采访能直接提供什么？",
+            "back": "受访者表达的观点和经历。"
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "排练与新成员",
+            "description": "虚构采访解释一种具体做法。",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "定期排练",
+                "detail": "每两周一次。"
+              },
+              {
+                "id": "extension-node-2",
+                "label": "熟悉歌曲",
+                "detail": "新成员学习曲目。"
+              },
+              {
+                "id": "extension-node-3",
+                "label": "参与目的",
+                "detail": "让新成员更容易加入。"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "帮助"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "服务于"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Interpret data and a technological limit",
@@ -174,10 +522,126 @@
             "Does not claim a measured improvement"
           ],
           "id": "chinese-language-and-culture-4-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Report 6 of 30 respondents having difficulty using an app in Chinese.",
+          "hint": "Compute one fifth.",
+          "hints": [
+            "Compute one fifth.",
+            "Retain 受访者."
+          ],
+          "answer": "“百分之二十的受访者使用这个应用时遇到困难。” 6/30 equals 20%. The finding applies to respondents, not automatically all residents.",
+          "checkpoints": [
+            "“百分之二十的受访者使用这个应用时遇到困难。”",
+            "6/30 equals 20%.",
+            "The finding applies to respondents, not automatically all residents."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "Explain why 100 downloads do not establish 100 satisfied users.",
+          "hint": "Separate events, people and satisfaction.",
+          "hints": [
+            "Separate events, people and satisfaction.",
+            "Identify a relevant measure."
+          ],
+          "answer": "“下载次数不等于不同用户的人数。” “下载也不能证明用户满意。” “需要询问实际使用者的体验，并说明调查范围。”",
+          "checkpoints": [
+            "“下载次数不等于不同用户的人数。”",
+            "“下载也不能证明用户满意。”",
+            "“需要询问实际使用者的体验，并说明调查范围。”"
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "frameworkUnit": "Unit 4",
-      "id": "chinese-language-and-culture-4"
+      "id": "chinese-language-and-culture-4",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Interpret data and a technological limit in depth",
+            "paragraphs": [
+              "A proportion compares a part with a stated whole. The expression 受访者中 identifies a surveyed group; it must not disappear when a statistic is paraphrased. 使用次数 counts uses, while 使用人数 counts people, so repeated activity by one person can affect the first without increasing the second. 从百分之二十增加到百分之三十 is an increase of ten percentage points and fifty percent relative to the original value. Keep prediction and measurement separate: 可能提高效率 proposes an effect, whereas a demonstrated efficiency claim needs an appropriate comparison."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Invented data: 10 of 25 respondents use a tool; later 10 of 20 do.",
+            "steps": [
+              "Calculate 40% and 50%, with ten users in both samples.",
+              "“使用者的比例提高了十个百分点，但人数仍然是十人。”"
+            ],
+            "conclusion": "A changing denominator explains the higher percentage."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "使用次数和使用人数相同吗？",
+            "back": "不同，次数可以包括重复使用。"
+          },
+          {
+            "id": "extension-card-2",
+            "front": "受访者中限制什么？",
+            "back": "数据所指的人群。"
+          },
+          {
+            "id": "extension-card-3",
+            "front": "20%到30%增加多少个百分点？",
+            "back": "十个百分点。"
+          },
+          {
+            "id": "extension-card-4",
+            "front": "可能表示什么？",
+            "back": "可能性，而不是已证实的结果。"
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "人数和比例",
+            "description": "分母变化会改变百分比。",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "第一次",
+                "detail": "25人中有10人使用。"
+              },
+              {
+                "id": "extension-node-2",
+                "label": "第二次",
+                "detail": "20人中有10人使用。"
+              },
+              {
+                "id": "extension-node-3",
+                "label": "解释",
+                "detail": "40%变成50%，人数没有增加。"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "比较于"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "说明"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Explain a routine that changed",
@@ -217,10 +681,126 @@
             "Uses a coherent sequence"
           ],
           "id": "chinese-language-and-culture-5-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Interpret “我以前坐公交车，现在走路上学”.",
+          "hint": "Identify both time frames.",
+          "hints": [
+            "Identify both time frames.",
+            "Do not reverse the commute."
+          ],
+          "answer": "The speaker used to take the bus. Now the speaker walks to school. This is the speaker's routine, not a claim about every pupil.",
+          "checkpoints": [
+            "The speaker used to take the bus.",
+            "Now the speaker walks to school.",
+            "This is the speaker's routine, not a claim about every pupil."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "Write a Chinese account with a move and its consequence.",
+          "hint": "Use 搬家 and 现在.",
+          "hints": [
+            "Use 搬家 and 现在.",
+            "Make the changed condition explicit."
+          ],
+          "answer": "“我去年搬家了。” “现在学校离家更近，我可以走路上学。” The consequence follows from the shorter distance.",
+          "checkpoints": [
+            "“我去年搬家了。”",
+            "“现在学校离家更近，我可以走路上学。”",
+            "The consequence follows from the shorter distance."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "frameworkUnit": "Unit 5",
-      "id": "chinese-language-and-culture-5"
+      "id": "chinese-language-and-culture-5",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Explain a routine that changed in depth",
+            "paragraphs": [
+              "Chinese time expressions and aspect markers do different work. 以前 sets an earlier situation, 后来 advances a sequence, and 现在 establishes the present. 过 often marks an experience, as in 我去过那家图书馆, while a sentence-final 了 can signal a changed situation, as in 我现在住得更近了. Neither is simply an English past-tense ending. Build an account by naming a prior routine, the change and its consequence. A learner should preserve the timeframe explicitly instead of attaching 了 mechanically to every verb describing the past."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Describe a fictional change after a new library opens.",
+            "steps": [
+              "“以前我在家看书。” gives the prior routine.",
+              "“附近开了一家图书馆。现在我每周去那里两次。” gives a change and present frequency."
+            ],
+            "conclusion": "The sequence explains the routine without making a claim about all residents."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "以前表示什么？",
+            "back": "An earlier time or situation."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "后来有什么作用？",
+            "back": "推进事件顺序。"
+          },
+          {
+            "id": "extension-card-3",
+            "front": "去过表示什么？",
+            "back": "曾经有过这种经历。"
+          },
+          {
+            "id": "extension-card-4",
+            "front": "了总等于过去时吗？",
+            "back": "不是，要看结构和语境。"
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "日常活动的改变",
+            "description": "时间词连接过去与现在。",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "以前",
+                "detail": "在家看书。"
+              },
+              {
+                "id": "extension-node-2",
+                "label": "新图书馆",
+                "detail": "附近出现了新的学习地点。"
+              },
+              {
+                "id": "extension-node-3",
+                "label": "现在",
+                "detail": "每周去两次。"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "改变于"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "使得"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "State a conditional proposal",
@@ -260,10 +840,126 @@
             "Uses a comparison"
           ],
           "id": "chinese-language-and-culture-6-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Write a conditional Chinese proposal for clearer recycling labels.",
+          "hint": "Use 如果 and 就.",
+          "hints": [
+            "Use 如果 and 就.",
+            "Keep the result as expected."
+          ],
+          "answer": "“如果标志更清楚，学生就更容易分类。” The condition concerns label clarity. Sorting accuracy still needs observation before success is claimed.",
+          "checkpoints": [
+            "“如果标志更清楚，学生就更容易分类。”",
+            "The condition concerns label clarity.",
+            "Sorting accuracy still needs observation before success is claimed."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "Explain one condition for a reusable-cup trial in Chinese.",
+          "hint": "Consider cleaning.",
+          "hints": [
+            "Consider cleaning.",
+            "Separate distribution from avoided waste."
+          ],
+          "answer": "“必须安排清洗和归还。” “发出多少杯子不等于少用了多少一次性杯子。” “应比较实际使用情况和废弃物数量。”",
+          "checkpoints": [
+            "“必须安排清洗和归还。”",
+            "“发出多少杯子不等于少用了多少一次性杯子。”",
+            "“应比较实际使用情况和废弃物数量。”"
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "frameworkUnit": "Unit 6",
-      "id": "chinese-language-and-culture-6"
+      "id": "chinese-language-and-culture-6",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "State a conditional proposal in depth",
+            "paragraphs": [
+              "A proposal becomes assessable when it identifies an action, the intermediate change it should produce and the result to measure. 如果 can introduce a condition, while 为了 states an aim and 建议 marks a recommendation. These expressions do not turn a predicted benefit into an observation. A repair activity may extend an object's life, but counting participants does not establish that replacement purchases fell. Include tools, supervision and access in the proposal, then distinguish successful repairs from objects that still need replacement. This keeps the argument specific enough to evaluate."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Propose a fictional school bag-repair activity.",
+            "steps": [
+              "“我建议学校组织修理书包的活动。”",
+              "“如果有合适的工具和指导，旧书包可能可以继续使用。”"
+            ],
+            "conclusion": "Record which repairs last before claiming reduced purchases."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "建议表示什么？",
+            "back": "A recommendation."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "为了表示什么？",
+            "back": "An intended purpose."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "如果引出什么？",
+            "back": "A condition."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "参加人数能证明少买书包吗？",
+            "back": "不能，需要了解修理和后续使用。"
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "修理与继续使用",
+            "description": "效果取决于中间步骤是否成功。",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "破损书包",
+                "detail": "仍可能修好的物品。"
+              },
+              {
+                "id": "extension-node-2",
+                "label": "合适的修理",
+                "detail": "工具和指导支持操作。"
+              },
+              {
+                "id": "extension-node-3",
+                "label": "继续使用",
+                "detail": "需要之后核实的结果。"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "接受"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "可能带来"
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

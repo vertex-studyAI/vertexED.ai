@@ -1,3 +1,4 @@
+import { APP_ORIGIN } from '@/lib/appOrigin';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router';
 import { Helmet } from 'react-helmet-async';
@@ -111,7 +112,7 @@ export default function ResourceLibrary() {
           name="description"
           content="Independent AI-drafted practice guides by exam board and topic. Check every board-specific detail against the current official specification."
         />
-        <link rel="canonical" href="https://www.vertexed.app/resource-library" />
+        <link rel="canonical" href={`${APP_ORIGIN}/resource-library`} />
         <meta name="robots" content="noindex, follow" />
       </Helmet>
 

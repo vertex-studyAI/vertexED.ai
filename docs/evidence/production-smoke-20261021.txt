@@ -1,0 +1,14 @@
+[smoke] Target: https://vertex-ed-ai.vercel.app
+[smoke] OK: /api/health returns ok (routes=?)
+[smoke] OK: /api/health serves expected revision 200c0b17f61a53de0dff5ae62e088d274d4b9ac3
+[smoke] OK: /api/health?readiness=1 reports ready with protected capability details redacted
+[smoke] OK: /api/health?readiness=1 serves expected revision 200c0b17f61a53de0dff5ae62e088d274d4b9ac3
+[smoke] OK: HEAD /api/health exposes the expected immutable revision
+[smoke] OK: /api router returns 404 for unknown routes
+[smoke] OK: GET / returns 200
+[smoke] OK: /api/waitlist rejects invalid email with 400
+[smoke] OK: /api/ask requires authentication (401)
+[smoke] OK: /api/user-content requires authentication (401)
+[smoke] OK: /api/admin-status requires authentication (401)
+[smoke] OK: /api blocks untrusted cross-origin requests (403)
+[smoke] All deployment smoke tests passed.

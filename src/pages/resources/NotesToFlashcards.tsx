@@ -1,3 +1,4 @@
+import { APP_ORIGIN } from '@/lib/appOrigin';
 import Article from '@/components/Article';
 import SEO from '@/components/SEO';
 import BreadcrumbsJsonLd from '@/components/BreadcrumbsJsonLd';
@@ -6,7 +7,7 @@ import { Link } from 'react-router';
 export default function NotesToFlashcards() {
   return (
     <>
-      <SEO title="From notes to flashcards and quizzes | VertexED" description="Check the source, write a focused question and answer before revealing." canonical="https://www.vertexed.app/resources/notes-to-flashcards" ogType="article" />
+      <SEO title="From notes to flashcards and quizzes | VertexED" description="Check the source, write a focused question and answer before revealing." canonical={`${APP_ORIGIN}/resources/notes-to-flashcards`} ogType="article" />
       <BreadcrumbsJsonLd />
       <Article title="From notes to flashcards and quizzes" subtitle="Check the source, write a focused question and answer before revealing." kicker="Study guide">
 

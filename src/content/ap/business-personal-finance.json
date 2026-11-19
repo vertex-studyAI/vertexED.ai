@@ -45,10 +45,126 @@
             "Preserves scope"
           ],
           "id": "business-personal-finance-1-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Define what each conversion counts.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A fictional pilot reaches 60 people, gets 18 bookings and completes 12 paid services. Calculate booking and completed-service conversion rates.",
+          "answer": "Booking conversion is 30%; completed-service conversion is 20%, using all 60 reached people as the denominator.",
+          "checkpoints": [
+            "Use the same reached-population denominator.",
+            "Calculate 18/60=30%.",
+            "Calculate 12/60=20% and distinguish the outcomes."
+          ],
+          "hints": [
+            "Define what each conversion counts.",
+            "A booking is not necessarily completed delivery."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Translate the assumption into observable behaviour.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "Ten friends praise a new service idea. What stronger test could examine willingness to pay without claiming the praise is worthless?",
+          "answer": "Offer a clearly described small pilot at a stated price to relevant potential customers and record voluntary completed purchases. Praise can inform the idea, but payment behaviour tests a different assumption.",
+          "checkpoints": [
+            "Recognise the limited information in praise.",
+            "Specify a real price and relevant audience.",
+            "Measure completed voluntary purchases or equivalent commitment."
+          ],
+          "hints": [
+            "Translate the assumption into observable behaviour.",
+            "Keep the test small and transparent."
+          ]
         }
       ],
       "frameworkUnit": "Unit 1",
-      "id": "business-personal-finance-1"
+      "id": "business-personal-finance-1",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through test an opportunity before launching",
+            "paragraphs": [
+              "An opportunity is a testable match between a customer problem, a proposed response and a way to deliver it sustainably. Start by identifying a specific customer and the alternative they currently use, including doing nothing. Expressions of interest can reveal language and concerns, but do not automatically establish willingness to pay. A small pilot should state an observable success criterion and include delivery costs, capacity and repeat use. Distinguish evidence collected before launch from assumptions that still need testing. A favourable result from a convenience sample supports a limited next experiment, not a claim that the whole market is ready."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A fictional school-event team tests locker-label printing. Of 40 invited students, 12 order at a stated price; 9 collect their orders and 3 cancel. Interpret conversion and identify a next test.",
+            "steps": [
+              "Order conversion is 12/40=30%, while completed-purchase conversion is 9/40=22.5%. These are different outcomes.",
+              "Investigate cancellation reasons and repeat the offer with another relevant group while tracking fulfilment cost and collection rate."
+            ],
+            "conclusion": "The pilot shows nine completed purchases, with cancellation and representativeness questions still open."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is a customer alternative?",
+            "back": "The current way a person addresses the problem, including doing nothing."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why distinguish interest from payment?",
+            "back": "They are different commitments and can produce different conversion rates."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What makes a pilot criterion useful?",
+            "back": "It names an observable outcome, threshold and time window."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What does a small pilot support?",
+            "back": "A bounded decision about the next test, not universal demand."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Test an opportunity before launching: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Customer problem",
+                "detail": "Define who has the need and their current alternative."
+              },
+              {
+                "id": "n2",
+                "label": "Testable offer",
+                "detail": "State price, delivery terms and the behaviour that would count as uptake."
+              },
+              {
+                "id": "n3",
+                "label": "Pilot evidence",
+                "detail": "Compare completed use and costs against the preselected criterion."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "shapes"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "produces"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Use market research without misleading customers",
@@ -88,10 +204,126 @@
             "Links to a user need"
           ],
           "id": "business-personal-finance-2-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Avoid embedding the desired answer.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "Rewrite “Would you agree our excellent app saves everyone time?” as a neutral question that allows no benefit.",
+          "answer": "For example: “Compared with your previous method, how did the app affect the time you spent on this task: less, about the same, more, or not sure?”",
+          "checkpoints": [
+            "Remove praise and the assumed agreement.",
+            "Specify a comparison and task.",
+            "Allow unchanged, worse or uncertain outcomes."
+          ],
+          "hints": [
+            "Avoid embedding the desired answer.",
+            "Offer response options covering both directions."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "The unreviewed purchasers’ views are unknown.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "A seller says “90% of customers recommend us” after 18 of 20 voluntary reviewers recommend it, from 200 purchasers. What correction makes the claim evidence-bound?",
+          "answer": "State that 18 of 20 voluntary reviewers recommended the product, out of a total of 200 purchasers. The views of the other purchasers are unknown, so the result is not 90% of all customers.",
+          "checkpoints": [
+            "Identify the reviewer denominator.",
+            "Distinguish reviewers from all purchasers.",
+            "Rewrite the claim with supported counts and sampling scope."
+          ],
+          "hints": [
+            "The unreviewed purchasers’ views are unknown.",
+            "Do not invent an invitation process if it was not recorded."
+          ]
         }
       ],
       "frameworkUnit": "Unit 2",
-      "id": "business-personal-finance-2"
+      "id": "business-personal-finance-2",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through use market research without misleading customers",
+            "paragraphs": [
+              "Market research becomes more useful when the question wording and sample match the decision. Leading language can push respondents towards a favourable answer; neutral questions allow disagreement and uncertainty. A convenience sample of current followers can overrepresent existing fans, so distinguish their views from those of the wider intended market. Features describe what an offering includes, while benefits explain a relevant customer outcome; both should be supported by what the product actually does. Report denominators, nonresponses and limitations alongside percentages. Ethical communication does not turn a selective survey result into a universal claim about all potential customers."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A fictional stationery survey has 80 invitations, 40 replies and 30 positive replies. Calculate positivity among respondents and among invitees, then write a bounded claim.",
+            "steps": [
+              "Positivity among respondents is 30/40=75%; positive replies represent 30/80=37.5% of invitees.",
+              "A bounded claim is: “30 of 40 respondents expressed interest; half of the 80 invited people responded.” Nonrespondents’ views remain unknown."
+            ],
+            "conclusion": "The survey supports a respondent-specific result with an explicit 50% response rate."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is a leading question?",
+            "back": "Wording that nudges respondents towards an answer."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why report response rate?",
+            "back": "Nonrespondents may differ from respondents."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "How does a benefit differ from a feature?",
+            "back": "A benefit describes the customer outcome a feature can provide."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What limits a follower-only sample?",
+            "back": "It may overrepresent people already favourable to the offering."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Use market research without misleading customers: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Research decision",
+                "detail": "Specify whose views and which uncertainty matter."
+              },
+              {
+                "id": "n2",
+                "label": "Neutral measurement",
+                "detail": "Ask balanced questions using a relevant sampling approach."
+              },
+              {
+                "id": "n3",
+                "label": "Bounded reporting",
+                "detail": "Present counts, denominators and limitations with the result."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "determines"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "supports"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Compare saving and borrowing costs",
@@ -131,10 +363,126 @@
             "States the comparison condition"
           ],
           "id": "business-personal-finance-3-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Check whether the fee is additional.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A hypothetical loan provides 600 and requires repayment of 660 plus a separate 15 fee. Find total repayment cost above principal.",
+          "answer": "Total paid is 675; cost above principal is 675−600=75.",
+          "checkpoints": [
+            "Include repayment and fee.",
+            "Find total outflow 675.",
+            "Subtract principal to obtain cost 75."
+          ],
+          "hints": [
+            "Check whether the fee is additional.",
+            "Do not count principal itself as borrowing cost."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Compare what the balance can buy.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "A hypothetical account grows from 500 to 525 while the price of a fixed basket grows from 100 to 110. Did purchasing power rise?",
+          "answer": "No. Money grows 5% while basket prices grow 10%; basket purchasing power changes from 5 baskets to 525/110≈4.77 baskets.",
+          "checkpoints": [
+            "Calculate or recognise 5% money growth.",
+            "Compare with 10% price growth.",
+            "Demonstrate lower purchasing power with a ratio or basket count."
+          ],
+          "hints": [
+            "Compare what the balance can buy.",
+            "A higher nominal balance is not sufficient for a real gain."
+          ]
         }
       ],
       "frameworkUnit": "Unit 3, part 1",
-      "id": "business-personal-finance-3"
+      "id": "business-personal-finance-3",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through compare saving and borrowing costs",
+            "paragraphs": [
+              "Saving and borrowing comparisons need a common time horizon, payment timing and set of included charges. Simple interest is calculated on the original principal, whereas compound interest adds interest to the balance on which later interest is calculated. A lower advertised rate does not by itself establish a lower total cost when fees or repayment schedules differ. Liquidity describes access to funds when needed and is separate from the nominal return. Inflation changes purchasing power, so a positive money balance increase can still be a negative real change. The examples here use invented fixed terms to practise calculation rather than select a real financial product."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "Compare two hypothetical two-year deposits of 1000 with no fees: 5% annual simple interest and 5% compounded annually.",
+            "steps": [
+              "Simple interest gives 1000(1+0.05×2)=1100.",
+              "Annual compounding gives 1000(1.05)²=1102.50; the extra 2.50 is interest earned on first-year interest."
+            ],
+            "conclusion": "The compound balance is 1102.50 compared with 1100 under simple interest."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What principal does simple interest use?",
+            "back": "The original principal."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What causes interest-on-interest?",
+            "back": "Compounding."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Why include fees in a borrowing comparison?",
+            "back": "They add to the total cost even when the rate looks lower."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What is liquidity?",
+            "back": "How readily funds can be accessed when needed without unacceptable delay or loss."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Compare saving and borrowing costs: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Stated terms",
+                "detail": "Record principal, rate, fees, timing and compounding."
+              },
+              {
+                "id": "n2",
+                "label": "Cash-flow calculation",
+                "detail": "Compute balances or total repayments on the same horizon."
+              },
+              {
+                "id": "n3",
+                "label": "Comparable interpretation",
+                "detail": "Separate cost, access and purchasing power under the stated assumptions."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "determine"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "supports"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Separate profit from cash flow",
@@ -174,10 +522,126 @@
             "Separates profit and cash"
           ],
           "id": "business-personal-finance-4-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Use contribution rather than selling price for break-even.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A fictional product sells for 12, costs 7 per unit and has fixed costs 125. Find break-even units and profit at 30 units.",
+          "answer": "Contribution is 5; break-even is 25 units; profit at 30 is 30×5−125=25.",
+          "checkpoints": [
+            "Calculate contribution 5.",
+            "Divide fixed costs to obtain 25 units.",
+            "Calculate profit 25 at 30 units."
+          ],
+          "hints": [
+            "Use contribution rather than selling price for break-even.",
+            "Check the resulting quantity against the profit formula."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Ask what has been delivered by the reporting date.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "A business receives cash in advance for a service it will provide next month. Why does the receipt alone not prove this month’s earned profit?",
+          "answer": "Cash has arrived, but the service obligation remains and the relevant revenue recognition and delivery costs still need accounting; cash timing and earned profit differ.",
+          "checkpoints": [
+            "Identify the cash receipt.",
+            "Identify the unfulfilled service obligation.",
+            "Distinguish timing of cash from revenue and cost recognition."
+          ],
+          "hints": [
+            "Ask what has been delivered by the reporting date.",
+            "A receipt can precede earning the related revenue."
+          ]
         }
       ],
       "frameworkUnit": "Unit 3, part 2",
-      "id": "business-personal-finance-4"
+      "id": "business-personal-finance-4",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through separate profit from cash flow",
+            "paragraphs": [
+              "Revenue, profit and cash flow answer different questions. Revenue records sales according to the accounting assumptions, profit subtracts relevant expenses, and cash flow tracks when money actually enters or leaves. A credit sale can create revenue before cash arrives, while buying equipment can consume cash before its full cost appears as one period’s expense. Contribution per unit is price minus variable cost and helps cover fixed costs. Break-even units equal fixed costs divided by contribution when the stated linear model applies. Capacity, unsold inventory, returns and payment delays can invalidate an otherwise tidy projection if they are omitted."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A fictional seller charges 15 per item, has variable cost 9 and fixed cost 180. It sells 40 items, but 10 customers pay next month. Assume all costs are paid now. Find profit and current cash change.",
+            "steps": [
+              "Contribution is 6 per item; profit is 40×6−180=60.",
+              "Cash received now is 30×15=450; cash paid is 40×9+180=540, so current cash change is −90."
+            ],
+            "conclusion": "The period is profitable by 60 under the stated accounting, but current cash falls by 90."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is contribution per unit?",
+            "back": "Price minus variable cost per unit."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What is break-even output in the simple model?",
+            "back": "Fixed costs divided by positive contribution per unit."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Can profit coexist with negative cash flow?",
+            "back": "Yes, for example when customers pay later."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why does capacity matter?",
+            "back": "A calculated sales target may exceed what can actually be delivered."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Separate profit from cash flow: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Sales and costs",
+                "detail": "Estimate revenue, variable costs and fixed costs."
+              },
+              {
+                "id": "n2",
+                "label": "Profit calculation",
+                "detail": "Use contribution minus fixed costs."
+              },
+              {
+                "id": "n3",
+                "label": "Cash timing",
+                "detail": "Separately schedule receipts and payments to assess available cash."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "determine"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "must be checked against"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Choose a strategy with measurable trade-offs",
@@ -217,10 +681,126 @@
             "Limits causal claims"
           ],
           "id": "business-personal-finance-5-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Percentage points are an absolute difference.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A service’s on-time rate rises from 70% to 84%. Find the percentage-point increase and relative percentage increase.",
+          "answer": "The rise is 14 percentage points and 14/70×100=20% relative increase.",
+          "checkpoints": [
+            "Subtract rates to obtain 14 points.",
+            "Use 70% as the relative denominator.",
+            "Distinguish the two labels."
+          ],
+          "hints": [
+            "Percentage points are an absolute difference.",
+            "Relative change divides by the baseline."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Ask how the original metric could be improved without real service improvement.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "Staff are rewarded only for closing support tickets. Suggest one additional measure and explain the incentive problem it addresses.",
+          "answer": "Track the proportion of issues resolved without reopening within a defined period; this discourages premature closure that improves ticket counts without helping customers.",
+          "checkpoints": [
+            "Identify a concrete resolution-quality measure.",
+            "Specify a meaningful follow-up window or reopening criterion.",
+            "Connect it to the premature-closure incentive."
+          ],
+          "hints": [
+            "Ask how the original metric could be improved without real service improvement.",
+            "Choose a measure that detects that behaviour."
+          ]
         }
       ],
       "frameworkUnit": "Unit 4",
-      "id": "business-personal-finance-5"
+      "id": "business-personal-finance-5",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through choose a strategy with measurable trade-offs",
+            "paragraphs": [
+              "A strategy links an objective to choices about customers, resources and trade-offs. A useful performance measure names the outcome, population, baseline and time window. One metric can create distorted incentives: rewarding only volume may encourage rushed work, while rewarding only satisfaction can discourage necessary difficult feedback. Use a small set of measures that expose trade-offs and include service quality or unintended effects. A pilot comparison should account for seasonality, customer mix and capacity differences. Improvement after a change is evidence to examine, but without a suitable comparison it may reflect conditions that would have changed anyway."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A fictional help desk reduces average response time from 10 to 6 minutes, but repeat-contact rate rises from 10% to 25%. Evaluate the pilot.",
+            "steps": [
+              "Response time falls 40%, but repeat contacts rise by 15 percentage points, suggesting faster first replies may not resolve issues well.",
+              "Compare resolution quality and total customer effort across similar case types before expanding the approach."
+            ],
+            "conclusion": "The pilot improves speed while showing a possible quality trade-off that needs further investigation."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What makes an objective measurable?",
+            "back": "A defined outcome, population, target and time window."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Why use more than one performance measure?",
+            "back": "To reveal trade-offs and unintended incentives."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "How do percentage points differ from percent change?",
+            "back": "They subtract percentage levels rather than divide by the initial level."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why compare similar case mixes?",
+            "back": "Different difficulty can confound performance differences."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Choose a strategy with measurable trade-offs: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Strategic objective",
+                "detail": "Specify the customer or operational outcome sought."
+              },
+              {
+                "id": "n2",
+                "label": "Balanced measures",
+                "detail": "Track performance and relevant quality or cost trade-offs."
+              },
+              {
+                "id": "n3",
+                "label": "Pilot decision",
+                "detail": "Compare evidence with criteria and investigate unintended effects."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "guides"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "informs"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Build a hypothetical household plan",
@@ -260,10 +840,126 @@
             "Recognises uncertainty"
           ],
           "id": "business-personal-finance-6-q2"
+        },
+        {
+          "id": "extension-1",
+          "hint": "Match every amount to the same time period.",
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required",
+          "prompt": "A fictional household has net income 2200, monthly costs 1700 and an annual insurance bill 360. If it reserves equally each month, what remains before other goals?",
+          "answer": "The monthly reserve is 30; remaining amount is 2200−1700−30=470.",
+          "checkpoints": [
+            "Convert the annual bill to 30 per month.",
+            "Include the reserve with monthly costs.",
+            "Calculate 470."
+          ],
+          "hints": [
+            "Match every amount to the same time period.",
+            "Do not subtract the full annual bill every month."
+          ]
+        },
+        {
+          "id": "extension-2",
+          "hint": "Quarterly means once every three months.",
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required",
+          "prompt": "A budget has an apparent surplus of 200 but omits a quarterly 450 payment. What is the adjusted monthly surplus after a regular reserve, and why is this useful?",
+          "answer": "The reserve is 450/3=150 monthly, leaving 50. Including irregular obligations avoids mistaking money needed soon for freely available spending.",
+          "checkpoints": [
+            "Calculate the monthly reserve 150.",
+            "Subtract from the apparent surplus.",
+            "Explain the timing and omitted-obligation issue."
+          ],
+          "hints": [
+            "Quarterly means once every three months.",
+            "A monthly plan still needs to fund less frequent bills."
+          ]
         }
       ],
       "frameworkUnit": "Unit 5",
-      "id": "business-personal-finance-6"
+      "id": "business-personal-finance-6",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Reasoning through build a hypothetical household plan",
+            "paragraphs": [
+              "A household cash plan compares expected net income with planned outflows over a stated period. Distinguish fixed commitments, variable essentials, discretionary spending and irregular costs that do not occur every month. Setting aside a monthly amount for an annual bill changes the timing of preparation, not the bill’s total cost. A plan should include uncertainty in income and expenses rather than treating every estimate as guaranteed. Near-term obligations require accessible funds; longer horizons permit different liquidity considerations, but this exercise does not select investments. Reconcile the plan with actual transactions and revise assumptions when evidence changes."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-example",
+            "prompt": "A fictional household receives 3000 monthly, pays 2100 regular costs and expects a 600 annual bill. It also plans 250 monthly saving. Find the unallocated monthly amount after reserving for the bill.",
+            "steps": [
+              "The annual bill requires a monthly reserve of 600/12=50.",
+              "Unallocated amount is 3000−2100−50−250=600."
+            ],
+            "conclusion": "The plan leaves 600 per month unallocated, before any omitted or unexpected costs."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is net income?",
+            "back": "Income remaining after stated deductions."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "How can an annual bill enter a monthly plan?",
+            "back": "Set aside its amount divided by twelve, if timing and starting funds allow."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Why distinguish a reserve from a new expense?",
+            "back": "The reserve prepares for the same future bill rather than adding another bill."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why reconcile actual transactions?",
+            "back": "To detect missing costs and inaccurate assumptions."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-concept-map",
+            "title": "Build a hypothetical household plan: relationships",
+            "description": "Read the labelled connections together with the conditions stated at each node.",
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Expected net income",
+                "detail": "Use money available after stated deductions."
+              },
+              {
+                "id": "n2",
+                "label": "Planned outflows and reserves",
+                "detail": "Include regular, irregular and goal-related amounts."
+              },
+              {
+                "id": "n3",
+                "label": "Remaining balance",
+                "detail": "Check feasibility and revise for uncertainty and actual results."
+              }
+            ],
+            "edges": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "label": "must cover"
+              },
+              {
+                "from": "n2",
+                "to": "n3",
+                "label": "determine"
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

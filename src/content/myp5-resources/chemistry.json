@@ -1,0 +1,1617 @@
+{
+  "subjectSlug": "chemistry",
+  "lessons": {
+    "myp5-chemistry-atomic-structure": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "From isotope abundance to average mass",
+            "paragraphs": [
+              "An ion’s charge compares proton and electron counts; neutrons do not contribute to the net electrical charge. A negative ion has more electrons than protons. Isotope notation identifies the proton number and total nucleon number, so neutron count follows by subtraction. An element sample may contain several isotopes, and its relative atomic mass is their abundance-weighted mean. That mean can be non-integer even though each individual nucleus contains whole numbers of particles. In school calculations, use the supplied isotope masses and fractions rather than rounding the mean to a mass number."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-atomic-structure-worked",
+            "prompt": "A sample has 60% X-20 and 40% X-22. All X atoms have atomic number 10. Find relative atomic mass and neutrons in each isotope.",
+            "steps": [
+              "Weighted mean = 0.60 × 20 + 0.40 × 22 = 20.8.",
+              "Neutron counts are 20 − 10 = 10 and 22 − 10 = 12."
+            ],
+            "conclusion": "Relative atomic mass 20.8 describes the sample average, not an individual nucleus."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-atomic-structure-card-1",
+            "front": "How many extra electrons does a 2− ion have?",
+            "back": "Two more electrons than protons."
+          },
+          {
+            "id": "extension-atomic-structure-card-2",
+            "front": "What changes between isotopes of one element?",
+            "back": "Neutron number."
+          },
+          {
+            "id": "extension-atomic-structure-card-3",
+            "front": "Why can relative atomic mass be non-integer?",
+            "back": "It is an abundance-weighted average."
+          },
+          {
+            "id": "extension-atomic-structure-card-4",
+            "front": "What does mass number count?",
+            "back": "Protons plus neutrons in one nucleus."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-atomic-structure-diagram",
+            "title": "From isotope abundance to average mass",
+            "description": "The contributions are combined rather than selecting the commonest mass.",
+            "nodes": [
+              {
+                "id": "extension-atomic-structure-node-1",
+                "label": "X-20 contribution",
+                "detail": "0.60 × 20 = 12"
+              },
+              {
+                "id": "extension-atomic-structure-node-2",
+                "label": "X-22 contribution",
+                "detail": "0.40 × 22 = 8.8"
+              },
+              {
+                "id": "extension-atomic-structure-node-3",
+                "label": "Sample average",
+                "detail": "12 + 8.8 = 20.8"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-atomic-structure-node-1",
+                "to": "extension-atomic-structure-node-2",
+                "label": "add the other isotope contribution"
+              },
+              {
+                "from": "extension-atomic-structure-node-2",
+                "to": "extension-atomic-structure-node-3",
+                "label": "sum weighted contributions"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-chemistry-atomic-structure-practice-1",
+          "difficulty": "Standard",
+          "command": "Determine",
+          "marks": 3,
+          "prompt": "Oxygen-18 has atomic number 8. Determine the particle counts in an O²⁻ ion.",
+          "hints": [
+            "Subtract atomic number from mass number.",
+            "A negative charge means extra electrons."
+          ],
+          "solution": [
+            "There are 8 protons and 18 − 8 = 10 neutrons.",
+            "A 2− charge gives 8 + 2 = 10 electrons."
+          ],
+          "successCriteria": [
+            "8 protons.",
+            "10 neutrons.",
+            "10 electrons."
+          ]
+        },
+        {
+          "id": "extension-myp5-chemistry-atomic-structure-practice-2",
+          "difficulty": "Advanced",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "An element sample contains 80% Y-24 and 20% Y-26. Calculate its relative atomic mass and explain whether every atom has that mass number.",
+          "hints": [
+            "Use fractional weights.",
+            "A mean need not equal either isotope mass."
+          ],
+          "solution": [
+            "Mean = 0.80 × 24 + 0.20 × 26 = 24.4.",
+            "Individual atoms have mass numbers 24 or 26; 24.4 is the sample average."
+          ],
+          "successCriteria": [
+            "Correct weighting.",
+            "24.4.",
+            "Distinguishes average from individual mass number."
+          ]
+        }
+      ]
+    },
+    "myp5-chemistry-bonding": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Graphite links structure to two properties",
+            "paragraphs": [
+              "Carbon shows why naming an element is insufficient to predict a material’s properties. In diamond, each carbon atom forms four covalent bonds in a three-dimensional network. Graphite has strong covalent bonds within layers and much weaker attractions between layers. One electron per carbon contributes to delocalised electrons within the layered structure, enabling electrical conduction. Sliding layers explain graphite’s softness without suggesting that all its bonds are weak. A property explanation should identify both the arrangement and the relevant interaction or mobile particle; the word strong alone does not identify the mechanism."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-bonding-worked",
+            "prompt": "Explain how graphite can conduct electricity yet feel soft, using its structure.",
+            "steps": [
+              "Delocalised electrons can move through the layered structure and carry charge.",
+              "Layers can slide because attractions between them are weaker than the covalent bonds within each layer."
+            ],
+            "conclusion": "Conductivity and softness arise from different structural features."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-bonding-card-1",
+            "front": "Why does diamond resist deformation?",
+            "back": "Its extended three-dimensional covalent network is rigid."
+          },
+          {
+            "id": "extension-bonding-card-2",
+            "front": "What carries charge in graphite?",
+            "back": "Delocalised electrons."
+          },
+          {
+            "id": "extension-bonding-card-3",
+            "front": "Are graphite’s in-layer bonds weak?",
+            "back": "No; the covalent bonds within layers are strong."
+          },
+          {
+            "id": "extension-bonding-card-4",
+            "front": "What explains graphite layers sliding?",
+            "back": "Relatively weak attractions between layers."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-bonding-diagram",
+            "title": "Graphite links structure to two properties",
+            "description": "Different structural features explain conduction and softness.",
+            "nodes": [
+              {
+                "id": "extension-bonding-node-1",
+                "label": "Covalent sheets",
+                "detail": "Strong bonds join carbon atoms within each layer"
+              },
+              {
+                "id": "extension-bonding-node-2",
+                "label": "Layered electron structure",
+                "detail": "Delocalised electrons carry charge"
+              },
+              {
+                "id": "extension-bonding-node-3",
+                "label": "Weak interlayer attraction",
+                "detail": "Sheets can slide; graphite is soft"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-bonding-node-1",
+                "to": "extension-bonding-node-2",
+                "label": "also provides mobile electrons"
+              },
+              {
+                "from": "extension-bonding-node-2",
+                "to": "extension-bonding-node-3",
+                "label": "contrast charge movement with layer movement"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-chemistry-bonding-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A simple molecular solid melts without decomposing. Explain what changes and what remains intact in its particles.",
+          "hints": [
+            "Distinguish within-molecule bonds from between-molecule attractions.",
+            "Melting is a change of state."
+          ],
+          "solution": [
+            "Molecules become able to move past each other as some intermolecular attractions are overcome.",
+            "The molecules retain their internal covalent bonds because no decomposition occurs."
+          ],
+          "successCriteria": [
+            "Intermolecular attractions identified.",
+            "Greater molecular mobility.",
+            "Internal covalent bonds retained."
+          ]
+        },
+        {
+          "id": "extension-myp5-chemistry-bonding-practice-2",
+          "difficulty": "Advanced",
+          "command": "Compare",
+          "marks": 3,
+          "prompt": "Compare charge carriers in molten sodium chloride and solid copper.",
+          "hints": [
+            "Name the mobile charged entities in each.",
+            "Do not call ions electrons."
+          ],
+          "solution": [
+            "Molten sodium chloride conducts through mobile positive and negative ions.",
+            "Copper conducts through mobile delocalised electrons while its positive ion lattice remains in place."
+          ],
+          "successCriteria": [
+            "Mobile ions in molten salt.",
+            "Delocalised electrons in copper.",
+            "Distinguishes lattice motion from charge motion."
+          ]
+        }
+      ]
+    },
+    "myp5-chemistry-periodic-trends": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Separate period from outer-shell pattern",
+            "paragraphs": [
+              "Main-group patterns connect shell structure to chemical behaviour, but individual properties require their own explanations. Across a period, proton number rises while outer electrons enter the same principal shell. Down a group, additional occupied shells increase the distance of outer electrons and the shielding by inner electrons. Noble gases have filled outer shells in the simple school model, which helps explain their low reactivity under ordinary conditions. Low reactivity is a qualified observation, not proof that an element can never form compounds. Electron arrangement is a model for explaining trends rather than a substitute for measured evidence."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-periodic-trends-worked",
+            "prompt": "Compare lithium, 2,1, with neon, 2,8, in the simple shell model.",
+            "steps": [
+              "Both have two occupied shells, placing them in period 2.",
+              "Lithium has one outer electron; neon has a filled outer shell."
+            ],
+            "conclusion": "Their different outer arrangements help explain contrasting ordinary chemical reactivity."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-periodic-trends-card-1",
+            "front": "What determines an element’s atomic number?",
+            "back": "Its proton count."
+          },
+          {
+            "id": "extension-periodic-trends-card-2",
+            "front": "What do occupied shells indicate in the simple main-group model?",
+            "back": "The period."
+          },
+          {
+            "id": "extension-periodic-trends-card-3",
+            "front": "Why are noble gases usually unreactive?",
+            "back": "Their outer shells are filled in the school model."
+          },
+          {
+            "id": "extension-periodic-trends-card-4",
+            "front": "What increases down a main group?",
+            "back": "Occupied shell count and generally shielding of outer electrons."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-periodic-trends-diagram",
+            "title": "Separate period from outer-shell pattern",
+            "description": "Two elements can share shell count without sharing outer electron arrangement.",
+            "nodes": [
+              {
+                "id": "extension-periodic-trends-node-1",
+                "label": "Lithium: 2,1",
+                "detail": "Two shells; one outer electron"
+              },
+              {
+                "id": "extension-periodic-trends-node-2",
+                "label": "Period 2 comparison",
+                "detail": "Both have two occupied shells"
+              },
+              {
+                "id": "extension-periodic-trends-node-3",
+                "label": "Neon: 2,8",
+                "detail": "Two shells; filled outer shell"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-periodic-trends-node-1",
+                "to": "extension-periodic-trends-node-2",
+                "label": "same number of occupied shells"
+              },
+              {
+                "from": "extension-periodic-trends-node-2",
+                "to": "extension-periodic-trends-node-3",
+                "label": "different number of outer electrons"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-chemistry-periodic-trends-practice-1",
+          "difficulty": "Standard",
+          "command": "Identify",
+          "marks": 3,
+          "prompt": "An atom has shell arrangement 2,8,2. State its period and predict its common simple ion charge.",
+          "hints": [
+            "Count occupied shells.",
+            "Consider losing the two outer electrons."
+          ],
+          "solution": [
+            "Three occupied shells place it in period 3.",
+            "Loss of two electrons leaves a filled shell and a 2+ ion in the simple model."
+          ],
+          "successCriteria": [
+            "Period 3.",
+            "Two outer electrons lost.",
+            "2+ charge."
+          ]
+        },
+        {
+          "id": "extension-myp5-chemistry-periodic-trends-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Why does more nuclear charge alone fail to predict the attraction on the outer electron when comparing atoms down a group?",
+          "hints": [
+            "Consider both distance and intervening electrons.",
+            "Several factors change simultaneously."
+          ],
+          "solution": [
+            "Extra shells place the outer electron farther from the nucleus and increase shielding.",
+            "These effects must be considered alongside nuclear charge, so proton count alone is insufficient."
+          ],
+          "successCriteria": [
+            "Greater distance.",
+            "Greater shielding.",
+            "Explicitly combines factors."
+          ]
+        }
+      ]
+    },
+    "myp5-chemistry-reactions": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Atom totals constrain coefficients",
+            "paragraphs": [
+              "A balanced equation records atom conservation during a specified reaction. Coefficients multiply whole formulas; subscripts belong to the substance identity and cannot be adjusted just to make totals match. Polyatomic groups may be counted together when they remain unchanged on both sides, although the final check should still count each element. State symbols add information about physical states, while an arrow states a chemical transformation rather than an equality of masses per molecule. The equation’s ratios connect numbers of particles or moles. Converting these ratios into masses requires the appropriate molar masses."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-reactions-worked",
+            "prompt": "Balance Al + O₂ → Al₂O₃ with the smallest whole-number coefficients.",
+            "steps": [
+              "Choose 2Al₂O₃ to give six oxygen atoms, requiring 3O₂.",
+              "The two product units contain four aluminium atoms, so use 4Al."
+            ],
+            "conclusion": "4Al + 3O₂ → 2Al₂O₃ conserves four Al and six O atoms."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-reactions-card-1",
+            "front": "What can be changed when balancing?",
+            "back": "Coefficients before formulas."
+          },
+          {
+            "id": "extension-reactions-card-2",
+            "front": "What does 3CO₂ contain?",
+            "back": "Three carbon atoms and six oxygen atoms."
+          },
+          {
+            "id": "extension-reactions-card-3",
+            "front": "What do balanced coefficients compare?",
+            "back": "Particle numbers or mole amounts."
+          },
+          {
+            "id": "extension-reactions-card-4",
+            "front": "What does changing a formula subscript do?",
+            "back": "It changes the specified substance or ion."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-reactions-diagram",
+            "title": "Atom totals constrain coefficients",
+            "description": "Oxygen and aluminium counts must agree simultaneously.",
+            "nodes": [
+              {
+                "id": "extension-reactions-node-1",
+                "label": "Product target",
+                "detail": "2Al₂O₃: 4 Al and 6 O"
+              },
+              {
+                "id": "extension-reactions-node-2",
+                "label": "Oxygen supply",
+                "detail": "3O₂ supplies 6 O"
+              },
+              {
+                "id": "extension-reactions-node-3",
+                "label": "Aluminium supply",
+                "detail": "4Al supplies 4 Al"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-reactions-node-1",
+                "to": "extension-reactions-node-2",
+                "label": "match oxygen count"
+              },
+              {
+                "from": "extension-reactions-node-2",
+                "to": "extension-reactions-node-3",
+                "label": "match aluminium count"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-chemistry-reactions-practice-1",
+          "difficulty": "Standard",
+          "command": "Balance",
+          "marks": 3,
+          "prompt": "Balance N₂ + H₂ → NH₃ and check both element totals.",
+          "hints": [
+            "Start with two nitrogen atoms.",
+            "Then count hydrogen in the product."
+          ],
+          "solution": [
+            "N₂ + 3H₂ → 2NH₃.",
+            "Both sides contain two nitrogen atoms and six hydrogen atoms."
+          ],
+          "successCriteria": [
+            "Coefficient 2 for ammonia.",
+            "Coefficient 3 for hydrogen.",
+            "Both atom totals checked."
+          ]
+        },
+        {
+          "id": "extension-myp5-chemistry-reactions-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A learner changes CO₂ into CO to balance C + O₂ → CO₂. Explain the error and give the balanced original equation.",
+          "hints": [
+            "The original product identity is fixed.",
+            "Count atoms before changing anything."
+          ],
+          "solution": [
+            "C + O₂ → CO₂ is already balanced: one C and two O atoms on each side.",
+            "Changing CO₂ to CO specifies a different product and therefore a different reaction."
+          ],
+          "successCriteria": [
+            "Recognises original balance.",
+            "Checks C and O totals.",
+            "Explains changed substance identity."
+          ]
+        }
+      ]
+    },
+    "myp5-chemistry-stoichiometry": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Dilution conserves solute",
+            "paragraphs": [
+              "A solution’s molar concentration relates amount of solute to solution volume: c = n/V. Volume must be expressed in units compatible with the concentration, commonly litres for mol/L. Dilution adds solvent while retaining the solute amount if none reacts or is lost. Consequently c₁V₁ = c₂V₂ for the same solute, but this relationship does not describe a reaction that consumes it. When reactions occur, first determine each reactant amount and use the balanced equation. A smaller solution volume is not automatically a smaller amount because concentrations may differ."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-stoichiometry-worked",
+            "prompt": "A 0.20 mol/L solution occupies 0.150 L. It is diluted to 0.600 L without loss. Find solute amount and final concentration.",
+            "steps": [
+              "Initial amount = 0.20 × 0.150 = 0.030 mol.",
+              "Final concentration = 0.030/0.600 = 0.050 mol/L."
+            ],
+            "conclusion": "Volume quadruples while concentration falls to one-quarter; solute amount is conserved."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-stoichiometry-card-1",
+            "front": "What is c = n/V?",
+            "back": "Concentration equals solute amount divided by solution volume."
+          },
+          {
+            "id": "extension-stoichiometry-card-2",
+            "front": "How many litres are 250 mL?",
+            "back": "0.250 L."
+          },
+          {
+            "id": "extension-stoichiometry-card-3",
+            "front": "What is conserved in ideal dilution?",
+            "back": "The amount of solute."
+          },
+          {
+            "id": "extension-stoichiometry-card-4",
+            "front": "Can dilution ratios replace reaction stoichiometry?",
+            "back": "No; reacting solutes require an amount balance."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-stoichiometry-diagram",
+            "title": "Dilution conserves solute",
+            "description": "The same amount is distributed through a larger solution volume.",
+            "nodes": [
+              {
+                "id": "extension-stoichiometry-node-1",
+                "label": "Initial solution",
+                "detail": "0.20 mol/L × 0.150 L"
+              },
+              {
+                "id": "extension-stoichiometry-node-2",
+                "label": "Solute amount",
+                "detail": "0.030 mol remains"
+              },
+              {
+                "id": "extension-stoichiometry-node-3",
+                "label": "Diluted solution",
+                "detail": "0.030 mol / 0.600 L = 0.050 mol/L"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-stoichiometry-node-1",
+                "to": "extension-stoichiometry-node-2",
+                "label": "multiply concentration by volume"
+              },
+              {
+                "from": "extension-stoichiometry-node-2",
+                "to": "extension-stoichiometry-node-3",
+                "label": "divide conserved amount by new volume"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-chemistry-stoichiometry-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "Find the solute amount in 250 mL of a 0.40 mol/L solution.",
+          "hints": [
+            "Convert mL to L.",
+            "Use n = cV."
+          ],
+          "solution": [
+            "250 mL = 0.250 L.",
+            "n = 0.40 × 0.250 = 0.100 mol."
+          ],
+          "successCriteria": [
+            "0.250 L.",
+            "Correct cV relationship.",
+            "0.100 mol."
+          ]
+        },
+        {
+          "id": "extension-myp5-chemistry-stoichiometry-practice-2",
+          "difficulty": "Advanced",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "A solution containing 0.060 mol solute has final volume 0.300 L. What volume would give 0.10 mol/L if diluted without loss?",
+          "hints": [
+            "Amount remains fixed.",
+            "Rearrange c = n/V."
+          ],
+          "solution": [
+            "Required final volume = 0.060/0.10 = 0.600 L.",
+            "The volume must increase by 0.300 L, assuming additive solution volumes for the classroom calculation."
+          ],
+          "successCriteria": [
+            "Conserved 0.060 mol.",
+            "Final volume 0.600 L.",
+            "Distinguishes final volume from added volume."
+          ]
+        }
+      ]
+    },
+    "myp5-chemistry-acids-bases": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Account for neutralisation and excess",
+            "paragraphs": [
+              "Neutralisation involves proton transfer, and the net ionic equation for a strong aqueous acid with hydroxide is H⁺ + OH⁻ → H₂O. The remaining ions must still be accounted for even when omitted from that equation. Equal volumes do not ensure complete neutralisation: concentrations and the number of protons or hydroxide ions involved determine the amount ratio. At introductory level, a strong monoprotic acid and a strong hydroxide base react in a one-to-one ion ratio. After reaction, excess acid or base controls the simple prediction; exact pH also requires volume and a stated solution model."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-acids-bases-worked",
+            "prompt": "An ideal mixture contains 0.015 mol H⁺ and 0.020 mol OH⁻. Determine the excess ion and water formed by neutralisation.",
+            "steps": [
+              "The 1:1 reaction consumes all 0.015 mol H⁺ and 0.015 mol OH⁻.",
+              "OH⁻ remaining = 0.020 − 0.015 = 0.005 mol; 0.015 mol water forms."
+            ],
+            "conclusion": "The model leaves excess hydroxide, so the mixture is basic."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-acids-bases-card-1",
+            "front": "What is the hydroxide neutralisation ratio?",
+            "back": "One H⁺ reacts with one OH⁻."
+          },
+          {
+            "id": "extension-acids-bases-card-2",
+            "front": "Do equal volumes imply equal reacting amounts?",
+            "back": "No; concentration and stoichiometry matter."
+          },
+          {
+            "id": "extension-acids-bases-card-3",
+            "front": "What are spectator ions?",
+            "back": "Ions unchanged by the net ionic reaction."
+          },
+          {
+            "id": "extension-acids-bases-card-4",
+            "front": "What does excess hydroxide suggest?",
+            "back": "A basic final solution in this simple aqueous model."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-acids-bases-diagram",
+            "title": "Account for neutralisation and excess",
+            "description": "The smaller reacting amount limits the one-to-one reaction.",
+            "nodes": [
+              {
+                "id": "extension-acids-bases-node-1",
+                "label": "Starting ions",
+                "detail": "0.015 mol H⁺; 0.020 mol OH⁻"
+              },
+              {
+                "id": "extension-acids-bases-node-2",
+                "label": "Reacting pairs",
+                "detail": "0.015 mol of each consumed"
+              },
+              {
+                "id": "extension-acids-bases-node-3",
+                "label": "After reaction",
+                "detail": "0.005 mol OH⁻ remains"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-acids-bases-node-1",
+                "to": "extension-acids-bases-node-2",
+                "label": "pair equal ion amounts"
+              },
+              {
+                "from": "extension-acids-bases-node-2",
+                "to": "extension-acids-bases-node-3",
+                "label": "subtract consumed hydroxide"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-chemistry-acids-bases-practice-1",
+          "difficulty": "Standard",
+          "command": "Determine",
+          "marks": 3,
+          "prompt": "A mixture has 0.008 mol H⁺ and 0.006 mol OH⁻. Find excess ions after complete neutralisation.",
+          "hints": [
+            "Use a 1:1 ratio.",
+            "Subtract the smaller amount."
+          ],
+          "solution": [
+            "0.006 mol of each ion reacts.",
+            "0.002 mol H⁺ remains, so the simple model predicts an acidic mixture."
+          ],
+          "successCriteria": [
+            "1:1 reaction.",
+            "0.002 mol H⁺ remains.",
+            "Acidic prediction."
+          ]
+        },
+        {
+          "id": "extension-myp5-chemistry-acids-bases-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Two acid solutions have the same pH. Does this alone prove they have the same total amount of acid available for neutralisation?",
+          "hints": [
+            "Volume is not supplied.",
+            "pH concerns hydrogen-ion activity, not total acid inventory."
+          ],
+          "solution": [
+            "The solutions could have different volumes, giving different total amounts even with equal concentration.",
+            "Acid dissociation and concentration also matter; equal pH alone does not establish equal neutralisation capacity."
+          ],
+          "successCriteria": [
+            "Identifies missing volume.",
+            "Distinguishes pH from total amount.",
+            "Qualified conclusion."
+          ]
+        }
+      ]
+    },
+    "myp5-chemistry-energetics": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Energy levels show barrier and net change",
+            "paragraphs": [
+              "A reaction energy diagram compares the energy of reactants and products while also showing an activation barrier. In an exothermic reaction, products have lower energy than reactants; the difference is transferred to the surroundings. The activation energy is measured upward from the reactant level to the transition-state peak, not from zero on the page. A catalyst offers an alternative pathway with a lower barrier. It does not change the reactant or product energy levels, so it changes rate rather than the net energy difference between the specified initial and final states."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-energetics-worked",
+            "prompt": "A diagram gives reactants at 40 kJ, peak at 130 kJ and products at 10 kJ for a stated reaction amount. Find activation energy and reaction energy change.",
+            "steps": [
+              "Forward activation energy = 130 − 40 = 90 kJ.",
+              "Reaction change = 10 − 40 = −30 kJ."
+            ],
+            "conclusion": "The reaction is exothermic; a 90 kJ barrier still separates reactants from the peak."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-energetics-card-1",
+            "front": "Where is forward activation energy measured from?",
+            "back": "Reactant energy to the pathway peak."
+          },
+          {
+            "id": "extension-energetics-card-2",
+            "front": "What sign describes exothermic reaction energy?",
+            "back": "Negative for the reacting system."
+          },
+          {
+            "id": "extension-energetics-card-3",
+            "front": "Does a catalyst change reaction energy difference?",
+            "back": "No, for the same initial and final states."
+          },
+          {
+            "id": "extension-energetics-card-4",
+            "front": "Why can an exothermic reaction need starting energy?",
+            "back": "It still has an activation barrier."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-energetics-diagram",
+            "title": "Energy levels show barrier and net change",
+            "description": "The rise to the peak differs from the overall fall.",
+            "nodes": [
+              {
+                "id": "extension-energetics-node-1",
+                "label": "Reactants",
+                "detail": "40 kJ"
+              },
+              {
+                "id": "extension-energetics-node-2",
+                "label": "Pathway peak",
+                "detail": "130 kJ: barrier 90 kJ"
+              },
+              {
+                "id": "extension-energetics-node-3",
+                "label": "Products",
+                "detail": "10 kJ: net change −30 kJ"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-energetics-node-1",
+                "to": "extension-energetics-node-2",
+                "label": "requires activation energy"
+              },
+              {
+                "from": "extension-energetics-node-2",
+                "to": "extension-energetics-node-3",
+                "label": "releases energy on product formation"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-chemistry-energetics-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "Reactants are at 25 kJ and products at 70 kJ for a stated amount. Find the reaction energy change and classify it.",
+          "hints": [
+            "Subtract initial from final energy.",
+            "Positive change means the system gains energy."
+          ],
+          "solution": [
+            "ΔE = 70 − 25 = +45 kJ.",
+            "The reaction is endothermic for this energy account."
+          ],
+          "successCriteria": [
+            "Correct subtraction.",
+            "+45 kJ.",
+            "Endothermic classification."
+          ]
+        },
+        {
+          "id": "extension-myp5-chemistry-energetics-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A catalyst lowers a pathway peak from 100 to 65 kJ while reactants remain at 20 kJ and products at 5 kJ. Find both activation energies and explain the unchanged net change.",
+          "hints": [
+            "Subtract the reactant level from each peak.",
+            "Compare product and reactant levels separately."
+          ],
+          "solution": [
+            "Activation energies are 80 kJ and 45 kJ.",
+            "Net change remains 5 − 20 = −15 kJ because the endpoint energies are unchanged."
+          ],
+          "successCriteria": [
+            "Original barrier 80 kJ.",
+            "New barrier 45 kJ.",
+            "Net −15 kJ with endpoint explanation."
+          ]
+        }
+      ]
+    },
+    "myp5-chemistry-rates": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Temperature affects successful collisions",
+            "paragraphs": [
+              "Temperature affects collision frequency and the distribution of particle energies. A higher temperature generally increases the fraction of collisions with enough energy to overcome the activation barrier, which can strongly increase reaction rate. A catalyst instead provides an alternative pathway with a lower barrier. Neither explanation requires claiming that particles acquire new chemical identities before they react. Rate data must distinguish an initial slope from an average over a long interval. Comparing total product after a short fixed time can reveal rate differences, but it does not necessarily establish different final yields after completion."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-rates-worked",
+            "prompt": "Two hypothetical reactions produce 18 cm³ and 30 cm³ gas during their first 10 s under matched collection conditions. Compare average initial-interval rates.",
+            "steps": [
+              "Rate A = 18/10 = 1.8 cm³/s; rate B = 30/10 = 3.0 cm³/s.",
+              "B/A = 3.0/1.8 ≈ 1.67."
+            ],
+            "conclusion": "B’s average rate is about 1.67 times A’s over this interval; final yields remain unknown."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-rates-card-1",
+            "front": "How can temperature increase reaction rate?",
+            "back": "It raises the fraction of collisions exceeding the activation barrier."
+          },
+          {
+            "id": "extension-rates-card-2",
+            "front": "How does a catalyst change the pathway?",
+            "back": "It provides a lower activation barrier."
+          },
+          {
+            "id": "extension-rates-card-3",
+            "front": "What does a graph tangent estimate?",
+            "back": "Instantaneous rate at that point."
+          },
+          {
+            "id": "extension-rates-card-4",
+            "front": "Does more product after 10 s prove a greater final yield?",
+            "back": "No; it may reflect a faster reaction."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-rates-diagram",
+            "title": "Temperature affects successful collisions",
+            "description": "Rate depends on more than counting collisions alone.",
+            "nodes": [
+              {
+                "id": "extension-rates-node-1",
+                "label": "Higher temperature",
+                "detail": "Particles have a changed energy distribution"
+              },
+              {
+                "id": "extension-rates-node-2",
+                "label": "More energetic collisions",
+                "detail": "Larger fraction exceeds the barrier"
+              },
+              {
+                "id": "extension-rates-node-3",
+                "label": "Faster reaction",
+                "detail": "More successful reactions per second"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-rates-node-1",
+                "to": "extension-rates-node-2",
+                "label": "increases fraction above threshold"
+              },
+              {
+                "from": "extension-rates-node-2",
+                "to": "extension-rates-node-3",
+                "label": "increases successful collision rate"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-chemistry-rates-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "Cumulative gas readings are 12 cm³ at 4 s and 42 cm³ at 19 s. Find average rate over that interval.",
+          "hints": [
+            "Use changes in both volume and time.",
+            "Do not divide final volume by final time."
+          ],
+          "solution": [
+            "ΔV = 30 cm³; Δt = 15 s.",
+            "Average rate = 30/15 = 2.0 cm³/s."
+          ],
+          "successCriteria": [
+            "30 cm³ change.",
+            "15 s interval.",
+            "2.0 cm³/s."
+          ]
+        },
+        {
+          "id": "extension-myp5-chemistry-rates-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Two reactions with equal initial reactant amounts reach the same final gas volume, but one reaches it sooner. Interpret rate and yield.",
+          "hints": [
+            "Compare the time needed for the same amount.",
+            "Separate completion amount from speed."
+          ],
+          "solution": [
+            "The faster reaction produces the same final gas amount in less time.",
+            "Its rate is greater over relevant intervals, but the equal final volumes give no evidence of a greater gas yield."
+          ],
+          "successCriteria": [
+            "Faster time interpretation.",
+            "Equal final amount.",
+            "Separates rate from yield."
+          ]
+        }
+      ]
+    },
+    "myp5-chemistry-equilibrium": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Compression can change gas composition",
+            "paragraphs": [
+              "Dynamic equilibrium requires opposing processes to continue at equal rates within a suitable closed system. Amounts can be constant even though particles keep reacting. For gas equilibria, compression may change the equilibrium composition when the two sides contain different total numbers of gas particles. In the school model, increased pressure favours the side with fewer gaseous particles at constant temperature. Count coefficients of gases only, and do not turn this into a rule that pressure always increases product yield. The equation, physical states and direction of the pressure change determine the prediction."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-equilibrium-worked",
+            "prompt": "For the ideal gas equilibrium A(g) + B(g) ⇌ C(g), predict the effect of compression at constant temperature.",
+            "steps": [
+              "The left side has two moles of gas per reaction unit; the right has one.",
+              "Higher pressure favours the side with fewer gas particles, giving a net shift towards C."
+            ],
+            "conclusion": "Both forward and reverse processes continue at the new equilibrium."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-equilibrium-card-1",
+            "front": "What is equal at dynamic equilibrium?",
+            "back": "Forward and reverse rates."
+          },
+          {
+            "id": "extension-equilibrium-card-2",
+            "front": "Must equilibrium amounts be equal?",
+            "back": "No; constant amounts need not be equal."
+          },
+          {
+            "id": "extension-equilibrium-card-3",
+            "front": "Which side is favoured by compression in the simple gas model?",
+            "back": "The side with fewer gaseous particles."
+          },
+          {
+            "id": "extension-equilibrium-card-4",
+            "front": "Does a catalyst move equilibrium at fixed temperature?",
+            "back": "No; it speeds approach to equilibrium."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-equilibrium-diagram",
+            "title": "Compression can change gas composition",
+            "description": "Particle counts determine this pressure response.",
+            "nodes": [
+              {
+                "id": "extension-equilibrium-node-1",
+                "label": "A(g) + B(g)",
+                "detail": "Two gas particles per reaction unit"
+              },
+              {
+                "id": "extension-equilibrium-node-2",
+                "label": "Compressed mixture",
+                "detail": "Pressure increases at fixed temperature"
+              },
+              {
+                "id": "extension-equilibrium-node-3",
+                "label": "C(g) favoured",
+                "detail": "One gas particle per reaction unit"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-equilibrium-node-1",
+                "to": "extension-equilibrium-node-2",
+                "label": "apply compression"
+              },
+              {
+                "from": "extension-equilibrium-node-2",
+                "to": "extension-equilibrium-node-3",
+                "label": "shift towards fewer gas particles"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-chemistry-equilibrium-practice-1",
+          "difficulty": "Standard",
+          "command": "Predict",
+          "marks": 3,
+          "prompt": "For X(g) ⇌ 2Y(g), predict the equilibrium shift on expansion at unchanged temperature.",
+          "hints": [
+            "Expansion lowers pressure.",
+            "Compare gas particle counts."
+          ],
+          "solution": [
+            "Lower pressure favours the side with more gas particles.",
+            "The net shift is towards Y, which has two particles per reaction unit rather than one."
+          ],
+          "successCriteria": [
+            "Pressure falls.",
+            "More-particle side identified.",
+            "Shift towards Y."
+          ]
+        },
+        {
+          "id": "extension-myp5-chemistry-equilibrium-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "For A(g) + B(g) ⇌ C(g) + D(g), explain why the simple particle-count rule predicts no pressure-driven composition shift on compression.",
+          "hints": [
+            "Count total gas coefficients on each side.",
+            "Both sides respond with the same particle-number factor."
+          ],
+          "solution": [
+            "Each side has two gas particles per reaction unit.",
+            "Neither side has fewer gas particles, so compression gives no preferred direction under this idealised rule."
+          ],
+          "successCriteria": [
+            "Two particles on left.",
+            "Two on right.",
+            "Qualified no-shift prediction."
+          ]
+        }
+      ]
+    },
+    "myp5-chemistry-organic": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Connectivity separates organic families",
+            "paragraphs": [
+              "A homologous series groups organic compounds with a shared functional group and a regular pattern of composition. Alkanes contain only single carbon–carbon bonds in the acyclic school examples, while alkenes contain a carbon–carbon double bond. Alcohols contain a hydroxyl group bonded to carbon. A structural formula shows connectivity that a molecular formula alone can hide. For example, compounds with the same atom totals can arrange those atoms differently and therefore have different properties. When naming a simple compound, count the carbon chain and identify the functional group before choosing the ending."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-organic-worked",
+            "prompt": "Compare CH₃CH₂CH₃ and CH₃CH=CH₂ using atom counts and bonding.",
+            "steps": [
+              "The first is C₃H₈ with only single carbon–carbon bonds: propane, an alkane.",
+              "The second is C₃H₆ with a carbon–carbon double bond: propene, an alkene."
+            ],
+            "conclusion": "The double bond changes the series and hydrogen count."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-organic-card-1",
+            "front": "What feature defines an alkene?",
+            "back": "A carbon–carbon double bond."
+          },
+          {
+            "id": "extension-organic-card-2",
+            "front": "What functional group characterises an alcohol?",
+            "back": "A hydroxyl group attached to carbon."
+          },
+          {
+            "id": "extension-organic-card-3",
+            "front": "What does a structural formula reveal?",
+            "back": "How atoms are connected."
+          },
+          {
+            "id": "extension-organic-card-4",
+            "front": "What is the acyclic alkane formula?",
+            "back": "CₙH₂ₙ₊₂."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-organic-diagram",
+            "title": "Connectivity separates organic families",
+            "description": "Carbon count alone does not determine the family.",
+            "nodes": [
+              {
+                "id": "extension-organic-node-1",
+                "label": "Three-carbon skeleton",
+                "detail": "A chain of three carbon atoms"
+              },
+              {
+                "id": "extension-organic-node-2",
+                "label": "All single C–C bonds",
+                "detail": "C₃H₈: propane"
+              },
+              {
+                "id": "extension-organic-node-3",
+                "label": "One C=C bond instead",
+                "detail": "C₃H₆: propene"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-organic-node-1",
+                "to": "extension-organic-node-2",
+                "label": "complete with hydrogen for an alkane"
+              },
+              {
+                "from": "extension-organic-node-2",
+                "to": "extension-organic-node-3",
+                "label": "introduce a double bond and two fewer hydrogens"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-chemistry-organic-practice-1",
+          "difficulty": "Standard",
+          "command": "Determine",
+          "marks": 3,
+          "prompt": "An acyclic alkane has seven carbon atoms. Give its molecular formula and explain the hydrogen count.",
+          "hints": [
+            "Use CₙH₂ₙ₊₂.",
+            "Substitute n = 7."
+          ],
+          "solution": [
+            "Hydrogen count = 2 × 7 + 2 = 16.",
+            "The molecular formula is C₇H₁₆ for the stated acyclic alkane."
+          ],
+          "successCriteria": [
+            "Correct general formula.",
+            "16 hydrogen atoms.",
+            "C₇H₁₆."
+          ]
+        },
+        {
+          "id": "extension-myp5-chemistry-organic-practice-2",
+          "difficulty": "Advanced",
+          "command": "Compare",
+          "marks": 3,
+          "prompt": "CH₃CH₂CH₂OH and CH₃CH(OH)CH₃ have the same formula. Identify their shared functional group and the structural difference.",
+          "hints": [
+            "Locate OH along the chain.",
+            "Same atom totals do not require identical connectivity."
+          ],
+          "solution": [
+            "Both contain an alcohol hydroxyl group and have formula C₃H₈O.",
+            "In the first OH is on an end carbon; in the second it is on the middle carbon, so they are structural isomers."
+          ],
+          "successCriteria": [
+            "Alcohol group.",
+            "End versus middle position.",
+            "Structural isomer explanation."
+          ]
+        }
+      ]
+    },
+    "myp5-chemistry-environment": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Concentration and flow determine load",
+            "paragraphs": [
+              "Water-quality comparisons should distinguish concentration from pollutant load. Concentration gives amount per water volume, while load is the total amount transported over an interval or its rate of transport. A river with lower concentration can carry a larger load if its flow is much greater. In a simple steady-flow model, mass transport rate equals concentration multiplied by volume flow rate, provided units match and the concentration represents the flowing water. Removing a fraction of a pollutant can reduce load, but an environmental judgement also needs the substance identity, exposure, persistence and relevant ecological context."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-environment-worked",
+            "prompt": "Stream A carries 2 mg/L solute at 30 L/s; stream B carries 5 mg/L at 8 L/s. Compare transport rates.",
+            "steps": [
+              "A: 2 × 30 = 60 mg/s.",
+              "B: 5 × 8 = 40 mg/s."
+            ],
+            "conclusion": "A has the lower concentration but the larger solute transport rate."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-environment-card-1",
+            "front": "What is concentration?",
+            "back": "Amount of substance per volume of solution."
+          },
+          {
+            "id": "extension-environment-card-2",
+            "front": "How is steady solute transport rate calculated?",
+            "back": "Concentration multiplied by volume flow rate."
+          },
+          {
+            "id": "extension-environment-card-3",
+            "front": "Can lower concentration mean greater load?",
+            "back": "Yes, when volume flow is sufficiently larger."
+          },
+          {
+            "id": "extension-environment-card-4",
+            "front": "What information is needed beyond solute amount?",
+            "back": "Substance identity and relevant exposure or ecological effects."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-environment-diagram",
+            "title": "Concentration and flow determine load",
+            "description": "A larger water flow can outweigh a lower concentration.",
+            "nodes": [
+              {
+                "id": "extension-environment-node-1",
+                "label": "Concentration",
+                "detail": "2 mg/L"
+              },
+              {
+                "id": "extension-environment-node-2",
+                "label": "Flow",
+                "detail": "30 L/s"
+              },
+              {
+                "id": "extension-environment-node-3",
+                "label": "Mass transport",
+                "detail": "2 × 30 = 60 mg/s"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-environment-node-1",
+                "to": "extension-environment-node-2",
+                "label": "combine with volume per second"
+              },
+              {
+                "from": "extension-environment-node-2",
+                "to": "extension-environment-node-3",
+                "label": "cancel litres to obtain mass per second"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-chemistry-environment-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "A steady stream has concentration 3 mg/L and flow 12 L/s. Find solute transport per second and over 10 s.",
+          "hints": [
+            "Multiply concentration by flow.",
+            "Then multiply the rate by time."
+          ],
+          "solution": [
+            "Rate = 3 × 12 = 36 mg/s.",
+            "Over 10 s, transported mass = 360 mg."
+          ],
+          "successCriteria": [
+            "36 mg/s.",
+            "Uses ten-second interval.",
+            "360 mg."
+          ]
+        },
+        {
+          "id": "extension-myp5-chemistry-environment-practice-2",
+          "difficulty": "Advanced",
+          "command": "Evaluate",
+          "marks": 3,
+          "prompt": "After rain, measured concentration halves while river flow triples. Assuming representative steady readings, does solute transport fall?",
+          "hints": [
+            "Compare products of concentration and flow.",
+            "Use the original transport rate as one unit."
+          ],
+          "solution": [
+            "New transport = 0.5 × 3 = 1.5 times the original.",
+            "The load rate rises by 50%, despite lower concentration."
+          ],
+          "successCriteria": [
+            "Combines both factors.",
+            "Ratio 1.5.",
+            "50% increase with correct interpretation."
+          ]
+        }
+      ]
+    },
+    "myp5-chemistry-experimental": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Endpoint definition controls measurement",
+            "paragraphs": [
+              "A useful chemical comparison defines both the changed condition and a reproducible endpoint. When a visible colour change marks an endpoint, lighting, observer judgement and the chosen threshold can add variation. A reference standard or consistent instrument criterion can reduce ambiguity. Randomising trial order helps prevent slow changes in room conditions or equipment from aligning with one treatment. Independent repeats estimate variation between preparations; repeated readings of one prepared sample address a different question. Record unexpected results and investigate documented causes rather than discarding inconvenient values solely because they differ from the expected pattern."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-experimental-worked",
+            "prompt": "A teacher-approved comparison measures colour-change time at two dilution levels. Plan how to reduce observer and order effects.",
+            "steps": [
+              "Use the same stated colour reference or instrument threshold for every trial.",
+              "Randomise the order of independently prepared dilution trials while holding lighting and measurement conditions constant."
+            ],
+            "conclusion": "These choices reduce interpretation and order biases without guaranteeing error-free data."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-experimental-card-1",
+            "front": "What is an operational endpoint?",
+            "back": "A specified observable criterion for deciding when measurement stops."
+          },
+          {
+            "id": "extension-experimental-card-2",
+            "front": "Why randomise trial order?",
+            "back": "To avoid aligning treatment with time-dependent changes."
+          },
+          {
+            "id": "extension-experimental-card-3",
+            "front": "What does an independent repeat require?",
+            "back": "A separately prepared experimental unit or trial."
+          },
+          {
+            "id": "extension-experimental-card-4",
+            "front": "Why retain unusual readings?",
+            "back": "They may reveal real variation or a documented procedural problem."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-experimental-diagram",
+            "title": "Endpoint definition controls measurement",
+            "description": "A colour observation becomes comparable only with a consistent criterion.",
+            "nodes": [
+              {
+                "id": "extension-experimental-node-1",
+                "label": "Visible colour",
+                "detail": "Intensity changes during the process"
+              },
+              {
+                "id": "extension-experimental-node-2",
+                "label": "Defined threshold",
+                "detail": "Same reference or instrument criterion"
+              },
+              {
+                "id": "extension-experimental-node-3",
+                "label": "Recorded time",
+                "detail": "Comparable endpoint time across trials"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-experimental-node-1",
+                "to": "extension-experimental-node-2",
+                "label": "apply a fixed observation rule"
+              },
+              {
+                "from": "extension-experimental-node-2",
+                "to": "extension-experimental-node-3",
+                "label": "record when threshold is reached"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-chemistry-experimental-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Trial A uses “first colour seen” while trial B uses “strong permanent colour”. Why can their times not directly isolate the treatment effect?",
+          "hints": [
+            "Compare the stopping rules.",
+            "A later threshold can itself produce a longer time."
+          ],
+          "solution": [
+            "Different endpoints measure different stages of colour development.",
+            "Use one shared criterion before interpreting time differences as treatment effects."
+          ],
+          "successCriteria": [
+            "Identifies different stages.",
+            "Explains time bias.",
+            "Proposes common endpoint."
+          ]
+        },
+        {
+          "id": "extension-myp5-chemistry-experimental-practice-2",
+          "difficulty": "Advanced",
+          "command": "Evaluate",
+          "marks": 3,
+          "prompt": "All low-concentration trials occur first and high-concentration trials later while room temperature rises. Identify the confound and an improved plan.",
+          "hints": [
+            "Temperature can affect the response.",
+            "Separate treatment order from warming."
+          ],
+          "solution": [
+            "Concentration and temperature change together, so the treatment effect is not isolated.",
+            "Control temperature and randomise trial order across independent preparations."
+          ],
+          "successCriteria": [
+            "Names temperature confound.",
+            "Controls temperature.",
+            "Randomises order."
+          ]
+        }
+      ]
+    },
+    "myp5-chemistry-data": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Convert instrument signal to concentration",
+            "paragraphs": [
+              "A calibration relationship connects an instrument response to known standards. Within a validated linear range, the slope represents response per unit concentration and an intercept may account for a background signal. Subtract that background before converting an unknown response into concentration. Do not extrapolate far beyond the standards without checking that the relationship still holds. Closely repeated readings demonstrate repeatability, but an incorrect standard concentration or uncorrected instrument offset can shift every result. Report calculated concentrations with precision consistent with the measurements and retain the original readings so the calculation can be checked."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-data-worked",
+            "prompt": "A supplied calibration is signal = 4c + 2 for c from 0 to 10 mg/L. An unknown has signal 22. Find c.",
+            "steps": [
+              "Subtract background: 22 − 2 = 20.",
+              "Divide by slope: c = 20/4 = 5 mg/L."
+            ],
+            "conclusion": "The result is within the stated calibration range."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-data-card-1",
+            "front": "What does a calibration intercept represent in this model?",
+            "back": "The signal when concentration is zero."
+          },
+          {
+            "id": "extension-data-card-2",
+            "front": "How is background corrected?",
+            "back": "Subtract the appropriate blank or intercept."
+          },
+          {
+            "id": "extension-data-card-3",
+            "front": "What is extrapolation?",
+            "back": "Using the fitted relation outside its measured range."
+          },
+          {
+            "id": "extension-data-card-4",
+            "front": "Can repeatable readings still be biased?",
+            "back": "Yes, a shared calibration error can shift them all."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-data-diagram",
+            "title": "Convert instrument signal to concentration",
+            "description": "Background and slope perform different roles.",
+            "nodes": [
+              {
+                "id": "extension-data-node-1",
+                "label": "Observed signal",
+                "detail": "22 units"
+              },
+              {
+                "id": "extension-data-node-2",
+                "label": "Background-corrected signal",
+                "detail": "22 − 2 = 20 units"
+              },
+              {
+                "id": "extension-data-node-3",
+                "label": "Concentration",
+                "detail": "20/4 = 5 mg/L"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-data-node-1",
+                "to": "extension-data-node-2",
+                "label": "subtract intercept"
+              },
+              {
+                "from": "extension-data-node-2",
+                "to": "extension-data-node-3",
+                "label": "divide by calibration slope"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-chemistry-data-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "Calibration signal = 3c + 1 is valid from 0 to 8 mg/L. Find c for signal 16 and check the range.",
+          "hints": [
+            "Subtract one first.",
+            "Divide the remainder by three."
+          ],
+          "solution": [
+            "c = (16 − 1)/3 = 5 mg/L.",
+            "Five lies between zero and eight, so this is interpolation within the stated range."
+          ],
+          "successCriteria": [
+            "Background subtraction.",
+            "5 mg/L.",
+            "Range check."
+          ]
+        },
+        {
+          "id": "extension-myp5-chemistry-data-practice-2",
+          "difficulty": "Advanced",
+          "command": "Evaluate",
+          "marks": 3,
+          "prompt": "Standards cover 0–5 mg/L, but an unknown response gives a fitted estimate of 20 mg/L. Is the line alone sufficient to validate that result?",
+          "hints": [
+            "Locate the estimate relative to standards.",
+            "Linearity was checked only over a limited range."
+          ],
+          "solution": [
+            "Twenty mg/L lies well outside the calibration range, so the estimate is extrapolation.",
+            "Use a validated extended range or an appropriate teacher-approved dilution and correction before accepting the concentration."
+          ],
+          "successCriteria": [
+            "Identifies extrapolation.",
+            "Explains unverified linearity.",
+            "Specific range-based improvement."
+          ]
+        }
+      ]
+    }
+  }
+}

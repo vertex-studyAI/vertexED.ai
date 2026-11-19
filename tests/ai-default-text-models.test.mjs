@@ -26,7 +26,8 @@ test('default note handler uses reviewed text model and settles its generated no
   const fixture = usageFixture();
   await fixture.run(() => handler(http.req, http.res));
   assert.equal(http.getStatus(), 200); assert.equal(http.getJson().generation.mode, 'model');
-  assert.equal(paid.length, 1); assert.equal(paid[0].model, 'gpt-4.1-mini-2025-04-14');
+  assert.equal(paid.length, 1); assert.equal(paid[0].model, 'gpt-6-luna');
+  assert.deepEqual(paid[0].reasoning, { effort: 'none' });
   assert.equal(fixture.calls.at(-1).args.p_outcome, 'succeeded');
 });
 
@@ -39,6 +40,7 @@ test('default paper handler uses reviewed text model while retaining question/ma
   await fixture.run(() => handler(http.req, http.res));
   assert.equal(http.getStatus(), 200); assert.equal(http.getJson().generation.mode, 'model');
   assert.equal(http.getJson().paper.metadata.totalMarks, 10); assert.equal(http.getJson().paper.sections[0].questions.length, 2);
-  assert.equal(paid.length, 1); assert.equal(paid[0].model, 'gpt-4.1-mini-2025-04-14');
+  assert.equal(paid.length, 1); assert.equal(paid[0].model, 'gpt-6-luna');
+  assert.equal(paid[0].reasoning_effort, 'none');
   assert.equal(fixture.calls.at(-1).args.p_outcome, 'succeeded');
 });

@@ -1,0 +1,10 @@
+{
+  "checkedAt": "2026-10-21T05:37:02.646Z",
+  "status": 200,
+  "googleEnabled": true,
+  "emailEnabled": true,
+  "signupDisabled": true,
+  "emailAutoConfirm": false,
+  "anonymousEnabled": false,
+  "boundary": "Public authentication settings only. No secret values, accounts, emails or sessions were requested."
+}

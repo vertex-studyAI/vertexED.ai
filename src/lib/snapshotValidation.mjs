@@ -1,5 +1,6 @@
 import { normalizePlannerTasks } from './plannerTasks.mjs';
 import { validateCoursework } from './coursework.mjs';
+import { validCurriculumPath, validGenerationRecord } from '../../contracts/notebookStudySet.js';
 
 const record = value => value !== null && typeof value === 'object' && !Array.isArray(value);
 const text = value => typeof value === 'string';
@@ -8,7 +9,7 @@ const time = value => text(value) && Number.isFinite(Date.parse(value));
 const texts = value => Array.isArray(value) && value.every(text);
 const unique = items => new Set(items.map(item => item.id)).size === items.length;
 const sourceKinds = new Set(['text', 'paste', 'artifact', 'transcript', 'file']);
-const outputKinds = new Set(['study-guide', 'briefing', 'faq', 'audio-script', 'audio-brief', 'audio-critique', 'audio-debate', 'timeline', 'flashcards', 'quiz', 'glossary', 'outline', 'mind-map', 'compare', 'suggested-questions', 'board-deep-dive']);
+const outputKinds = new Set(['lesson', 'study-guide', 'briefing', 'faq', 'audio-script', 'audio-brief', 'audio-critique', 'audio-debate', 'timeline', 'flashcards', 'quiz', 'glossary', 'outline', 'mind-map', 'compare', 'suggested-questions', 'board-deep-dive']);
 
 function validSource(value) {
   return record(value) && id(value.id) && sourceKinds.has(value.type) && text(value.title) && text(value.content)
@@ -17,6 +18,8 @@ function validSource(value) {
 
 function validOutput(value) {
   return record(value) && id(value.id) && outputKinds.has(value.kind) && text(value.title) && text(value.content) && time(value.generatedAt)
+    && (value.generation === undefined || validGenerationRecord(value.generation))
+    && (value.editedFrom === undefined || id(value.editedFrom))
     && (value.sourceIds === undefined || texts(value.sourceIds))
     && (value.quizResponses === undefined || value.kind === 'quiz' && Array.isArray(value.quiz) && Array.isArray(value.quizResponses)
       && new Set(value.quizResponses.map(response => response?.questionIndex)).size === value.quizResponses.length
@@ -39,6 +42,7 @@ function validOutput(value) {
 export function validateNotebooks(value) {
   if (!Array.isArray(value) || !value.every(notebook => record(notebook) && id(notebook.id) && text(notebook.title) && text(notebook.subject)
     && time(notebook.createdAt) && time(notebook.updatedAt)
+    && (notebook.curriculum === undefined || validCurriculumPath(notebook.curriculum))
     && Array.isArray(notebook.sources) && notebook.sources.every(validSource) && unique(notebook.sources)
     && Array.isArray(notebook.outputs) && notebook.outputs.every(validOutput) && unique(notebook.outputs)
     // Legacy notebooks legitimately lack suggestedQuestions.

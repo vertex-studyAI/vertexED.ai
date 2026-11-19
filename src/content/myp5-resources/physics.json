@@ -1,0 +1,1989 @@
+{
+  "subjectSlug": "physics",
+  "lessons": {
+    "myp5-physics-motion": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Uniform slowing",
+            "paragraphs": [
+              "Average speed uses total distance, whereas average velocity uses displacement. A return journey can therefore have a positive average speed and zero average velocity. The two quantities coincide only in suitable motion along one direction. For constant acceleration, velocity changes by equal amounts in equal time intervals, and the average velocity is (u + v)/2. Multiplying that average by the elapsed time gives displacement. This shortcut needs constant acceleration; knowing only the initial and final velocities does not determine the distance for an arbitrary journey."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-motion-worked",
+            "prompt": "A trolley slows uniformly from 9 m/s to 3 m/s over 4 s without reversing. Find acceleration and distance.",
+            "steps": [
+              "a = (3 − 9)/4 = −1.5 m/s².",
+              "Average velocity = (9 + 3)/2 = 6 m/s; distance = 6 × 4 = 24 m."
+            ],
+            "conclusion": "The negative acceleration reduces the positive velocity throughout the interval."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-motion-card-1",
+            "front": "What determines average velocity?",
+            "back": "Displacement divided by elapsed time."
+          },
+          {
+            "id": "extension-motion-card-2",
+            "front": "Can distance be non-zero when displacement is zero?",
+            "back": "Yes, on a return journey."
+          },
+          {
+            "id": "extension-motion-card-3",
+            "front": "When is (u + v)/2 the average velocity?",
+            "back": "During constant acceleration."
+          },
+          {
+            "id": "extension-motion-card-4",
+            "front": "Does negative acceleration always mean slowing?",
+            "back": "No; slowing depends on the acceleration and velocity directions."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-motion-diagram",
+            "title": "Uniform slowing",
+            "description": "Equal velocity changes produce a trapezium on a velocity–time graph.",
+            "nodes": [
+              {
+                "id": "extension-motion-node-1",
+                "label": "Initial velocity",
+                "detail": "+9 m/s"
+              },
+              {
+                "id": "extension-motion-node-2",
+                "label": "Change over 4 s",
+                "detail": "−6 m/s; acceleration −1.5 m/s²"
+              },
+              {
+                "id": "extension-motion-node-3",
+                "label": "Final velocity",
+                "detail": "+3 m/s; displacement 24 m"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-motion-node-1",
+                "to": "extension-motion-node-2",
+                "label": "apply constant negative acceleration"
+              },
+              {
+                "from": "extension-motion-node-2",
+                "to": "extension-motion-node-3",
+                "label": "retain positive motion"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-physics-motion-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "A pupil walks 30 m east then 10 m west in 20 s. Find average speed and velocity, taking east as positive.",
+          "hints": [
+            "Sum path lengths for distance.",
+            "Subtract opposite displacements."
+          ],
+          "solution": [
+            "Distance = 40 m, so average speed = 2 m/s.",
+            "Displacement = +20 m, so average velocity = +1 m/s."
+          ],
+          "successCriteria": [
+            "Distance 40 m.",
+            "Speed 2 m/s.",
+            "Velocity +1 m/s with direction."
+          ]
+        },
+        {
+          "id": "extension-myp5-physics-motion-practice-2",
+          "difficulty": "Advanced",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "A cart accelerates uniformly from 2 to 8 m/s in 5 s. Find its displacement and state the model assumption.",
+          "hints": [
+            "Use the average of endpoint velocities.",
+            "The shortcut needs uniform acceleration."
+          ],
+          "solution": [
+            "Average velocity = (2 + 8)/2 = 5 m/s.",
+            "Displacement = 5 × 5 = 25 m, assuming constant acceleration."
+          ],
+          "successCriteria": [
+            "Average velocity 5 m/s.",
+            "Displacement 25 m.",
+            "States constant acceleration."
+          ]
+        }
+      ]
+    },
+    "myp5-physics-forces": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Separate balance from interaction pairs",
+            "paragraphs": [
+              "Newton’s third-law forces act on different objects, so they do not cancel when calculating the resultant on one object. The gravitational force of Earth on a book and the force of the book on Earth are a third-law pair. The supporting force of a table on the same book is a different interaction. A free-body diagram includes forces acting on the chosen object only. Balanced forces imply zero acceleration, which permits rest or constant velocity. They do not imply that no interactions are present."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-forces-worked",
+            "prompt": "A 2 kg book rests on a horizontal table where g = 10 N/kg. Identify its forces and the partner of its weight.",
+            "steps": [
+              "Weight on the book = mg = 20 N downwards; the table exerts 20 N upwards in equilibrium.",
+              "The third-law partner of the weight is the book’s 20 N gravitational force on Earth."
+            ],
+            "conclusion": "The support and weight balance on the book but are not a third-law pair."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-forces-card-1",
+            "front": "Where do third-law partners act?",
+            "back": "On two different interacting objects."
+          },
+          {
+            "id": "extension-forces-card-2",
+            "front": "What does zero resultant force imply?",
+            "back": "Zero acceleration in an inertial frame."
+          },
+          {
+            "id": "extension-forces-card-3",
+            "front": "What belongs on a free-body diagram?",
+            "back": "Only forces acting on the selected object."
+          },
+          {
+            "id": "extension-forces-card-4",
+            "front": "Are weight and support a third-law pair?",
+            "back": "No; both act on the same supported object."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-forces-diagram",
+            "title": "Separate balance from interaction pairs",
+            "description": "The same book participates in distinct interactions.",
+            "nodes": [
+              {
+                "id": "extension-forces-node-1",
+                "label": "Earth attracts book",
+                "detail": "20 N down on book"
+              },
+              {
+                "id": "extension-forces-node-2",
+                "label": "Book is in equilibrium",
+                "detail": "Table supplies 20 N upwards"
+              },
+              {
+                "id": "extension-forces-node-3",
+                "label": "Book attracts Earth",
+                "detail": "20 N towards book on Earth"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-forces-node-1",
+                "to": "extension-forces-node-2",
+                "label": "support balances the book’s weight"
+              },
+              {
+                "from": "extension-forces-node-2",
+                "to": "extension-forces-node-3",
+                "label": "weight has its partner on Earth"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-physics-forces-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "A 3 kg cart accelerates at 2 m/s² rightwards while drag is 4 N leftwards. Find the driving force.",
+          "hints": [
+            "Find the resultant first.",
+            "Driving force minus drag equals the resultant."
+          ],
+          "solution": [
+            "Resultant = ma = 3 × 2 = 6 N rightwards.",
+            "Driving force = 6 + 4 = 10 N rightwards."
+          ],
+          "successCriteria": [
+            "Resultant 6 N.",
+            "Correct opposing-force equation.",
+            "Driving force 10 N rightwards."
+          ]
+        },
+        {
+          "id": "extension-myp5-physics-forces-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Two skaters push each other with equal forces. One has mass 40 kg and the other 80 kg. Compare their acceleration magnitudes.",
+          "hints": [
+            "Apply F = ma separately to each skater.",
+            "The interaction forces have equal magnitudes."
+          ],
+          "solution": [
+            "Acceleration is F/m, so the 40 kg skater has twice the acceleration magnitude.",
+            "The forces remain equal and opposite; different masses explain different accelerations."
+          ],
+          "successCriteria": [
+            "Equal opposing interaction forces.",
+            "Inverse mass relationship.",
+            "Acceleration ratio 2:1."
+          ]
+        }
+      ]
+    },
+    "myp5-physics-energy": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "A spring launches a cart",
+            "paragraphs": [
+              "Energy accounting starts by choosing a system and describing transfers across its boundary. A spring can store elastic energy when deformed within its elastic range. In an ideal spring, force increases linearly with extension, so the work done is the triangular area under the force–extension graph: E = ½kx². Extension is measured from the natural length. Doubling extension quadruples the stored energy within this model. Real systems may transfer energy to surroundings through friction or permanent deformation, so energy conservation does not imply all input becomes useful motion."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-energy-worked",
+            "prompt": "An ideal spring has k = 200 N/m and extension 0.10 m. Find stored energy and the speed of a 0.50 kg cart if all of it becomes kinetic energy.",
+            "steps": [
+              "Elastic energy = ½ × 200 × 0.10² = 1 J.",
+              "½mv² = 1 gives v² = 4 and v = 2 m/s."
+            ],
+            "conclusion": "The result neglects friction, spring mass and other energy transfers."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-energy-card-1",
+            "front": "What is spring extension?",
+            "back": "Change from the spring’s natural length."
+          },
+          {
+            "id": "extension-energy-card-2",
+            "front": "What is ideal elastic energy?",
+            "back": "½kx² within the linear elastic model."
+          },
+          {
+            "id": "extension-energy-card-3",
+            "front": "How does doubling extension affect elastic energy?",
+            "back": "It quadruples it."
+          },
+          {
+            "id": "extension-energy-card-4",
+            "front": "Does energy conservation guarantee 100% useful transfer?",
+            "back": "No; energy may transfer to other stores or surroundings."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-energy-diagram",
+            "title": "A spring launches a cart",
+            "description": "The idealised transfer connects elastic and kinetic stores.",
+            "nodes": [
+              {
+                "id": "extension-energy-node-1",
+                "label": "Stretched spring",
+                "detail": "½kx² = 1 J"
+              },
+              {
+                "id": "extension-energy-node-2",
+                "label": "Release",
+                "detail": "Spring force does work"
+              },
+              {
+                "id": "extension-energy-node-3",
+                "label": "Moving cart",
+                "detail": "½mv² = 1 J; v = 2 m/s"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-energy-node-1",
+                "to": "extension-energy-node-2",
+                "label": "transfer by mechanical work"
+              },
+              {
+                "from": "extension-energy-node-2",
+                "to": "extension-energy-node-3",
+                "label": "neglect dissipative transfers"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-physics-energy-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "An ideal spring with k = 80 N/m is extended 0.15 m. Calculate its elastic energy.",
+          "hints": [
+            "Square the extension in metres.",
+            "Use half the force–extension rectangle."
+          ],
+          "solution": [
+            "E = ½ × 80 × 0.15².",
+            "E = 0.90 J."
+          ],
+          "successCriteria": [
+            "Correct formula.",
+            "Uses extension squared in metres.",
+            "0.90 J."
+          ]
+        },
+        {
+          "id": "extension-myp5-physics-energy-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A cart receives 12 J from a spring but has only 9 J kinetic energy afterwards. Account for the difference and calculate the useful fraction.",
+          "hints": [
+            "Subtract final kinetic energy from input.",
+            "Divide useful output by input."
+          ],
+          "solution": [
+            "3 J transferred to other stores, such as thermal stores through friction.",
+            "Useful fraction = 9/12 = 0.75, or 75%; energy has not disappeared."
+          ],
+          "successCriteria": [
+            "3 J difference.",
+            "Plausible other transfer.",
+            "75% useful fraction."
+          ]
+        }
+      ]
+    },
+    "myp5-physics-work-power": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Input power splits into outputs",
+            "paragraphs": [
+              "Power describes how rapidly energy is transferred, not the amount transferred in total. For a constant force along the direction of motion, work is force multiplied by displacement. If a constant force is perpendicular to displacement, its work is zero even though it can change the direction of motion. An energy input and useful output may have different powers because of dissipative transfers. Compare motors over the same defined task and interval. Stating only that a motor is more powerful does not establish that it is more efficient."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-work-power-worked",
+            "prompt": "A machine uses 600 J in 4 s and delivers 420 J to a load. Find input power, useful power and efficiency.",
+            "steps": [
+              "Input power = 600/4 = 150 W; useful power = 420/4 = 105 W.",
+              "Efficiency = 420/600 = 0.70 = 70%."
+            ],
+            "conclusion": "The remaining average power, 45 W, transfers energy elsewhere."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-work-power-card-1",
+            "front": "What is one watt?",
+            "back": "One joule transferred per second."
+          },
+          {
+            "id": "extension-work-power-card-2",
+            "front": "Does greater power mean greater efficiency?",
+            "back": "No; efficiency compares useful output with input."
+          },
+          {
+            "id": "extension-work-power-card-3",
+            "front": "When does a perpendicular force do zero work?",
+            "back": "When displacement remains perpendicular to that force."
+          },
+          {
+            "id": "extension-work-power-card-4",
+            "front": "How is average power calculated?",
+            "back": "Energy transferred divided by elapsed time."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-work-power-diagram",
+            "title": "Input power splits into outputs",
+            "description": "Every transfer rate belongs in the energy account.",
+            "nodes": [
+              {
+                "id": "extension-work-power-node-1",
+                "label": "Input",
+                "detail": "150 W"
+              },
+              {
+                "id": "extension-work-power-node-2",
+                "label": "Useful lifting",
+                "detail": "105 W"
+              },
+              {
+                "id": "extension-work-power-node-3",
+                "label": "Other transfers",
+                "detail": "45 W to surroundings and machinery"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-work-power-node-1",
+                "to": "extension-work-power-node-2",
+                "label": "70% becomes useful output"
+              },
+              {
+                "from": "extension-work-power-node-2",
+                "to": "extension-work-power-node-3",
+                "label": "account for the remaining 30%"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-physics-work-power-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "A device transfers 2.4 kJ in 8 s. Find its average power in watts.",
+          "hints": [
+            "Convert kilojoules to joules.",
+            "Divide energy by time."
+          ],
+          "solution": [
+            "2.4 kJ = 2400 J.",
+            "P = 2400/8 = 300 W."
+          ],
+          "successCriteria": [
+            "Correct conversion.",
+            "Uses E/t.",
+            "300 W."
+          ]
+        },
+        {
+          "id": "extension-myp5-physics-work-power-practice-2",
+          "difficulty": "Advanced",
+          "command": "Evaluate",
+          "marks": 3,
+          "prompt": "A motor doubles its useful power while its efficiency remains 60%. Does its input power stay unchanged? Explain.",
+          "hints": [
+            "Efficiency equals useful power divided by input power.",
+            "Keep the ratio constant."
+          ],
+          "solution": [
+            "Input power equals useful power/0.60.",
+            "Doubling useful power therefore doubles input power; unchanged input would change the efficiency."
+          ],
+          "successCriteria": [
+            "Correct power-efficiency relation.",
+            "Input doubles.",
+            "Explains constant-ratio constraint."
+          ]
+        }
+      ]
+    },
+    "myp5-physics-momentum": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Stopping changes momentum",
+            "paragraphs": [
+              "An impulse is a change in momentum and can arise from a force acting over time. For a given momentum change, increasing the interaction time reduces the average force magnitude. This relationship does not mean that momentum is destroyed; the chosen object exchanges momentum with its surroundings. In collisions, identify the system before applying conservation. Momentum is conserved for the system when external impulse is negligible, even when kinetic energy changes into other forms. Signs matter because reversing direction produces a larger velocity change than merely coming to rest."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-momentum-worked",
+            "prompt": "A 0.10 kg ball moving at +12 m/s is brought to rest in 0.06 s. Find impulse and average force.",
+            "steps": [
+              "Initial momentum = 0.10 × 12 = +1.2 kg m/s; final momentum is zero.",
+              "Impulse = −1.2 N s; average force = −1.2/0.06 = −20 N."
+            ],
+            "conclusion": "The average force opposes the initial motion."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-momentum-card-1",
+            "front": "What does impulse equal?",
+            "back": "Change in momentum."
+          },
+          {
+            "id": "extension-momentum-card-2",
+            "front": "What units can impulse use?",
+            "back": "N s, equivalent to kg m/s."
+          },
+          {
+            "id": "extension-momentum-card-3",
+            "front": "What happens if the same impulse acts over twice the time?",
+            "back": "Average force magnitude halves."
+          },
+          {
+            "id": "extension-momentum-card-4",
+            "front": "Can momentum be conserved in an inelastic collision?",
+            "back": "Yes, if external impulse is negligible."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-momentum-diagram",
+            "title": "Stopping changes momentum",
+            "description": "A finite interaction time connects impulse to force.",
+            "nodes": [
+              {
+                "id": "extension-momentum-node-1",
+                "label": "Before stopping",
+                "detail": "p = +1.2 kg m/s"
+              },
+              {
+                "id": "extension-momentum-node-2",
+                "label": "Interaction",
+                "detail": "Δp = −1.2 N s over 0.06 s"
+              },
+              {
+                "id": "extension-momentum-node-3",
+                "label": "After stopping",
+                "detail": "p = 0; average force −20 N"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-momentum-node-1",
+                "to": "extension-momentum-node-2",
+                "label": "remove positive momentum"
+              },
+              {
+                "from": "extension-momentum-node-2",
+                "to": "extension-momentum-node-3",
+                "label": "divide impulse by time"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-physics-momentum-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "A 0.5 kg ball changes from −4 to +2 m/s. Find its change in momentum.",
+          "hints": [
+            "Subtract initial velocity including its sign.",
+            "Multiply the change by mass."
+          ],
+          "solution": [
+            "Δv = 2 − (−4) = +6 m/s.",
+            "Δp = 0.5 × 6 = +3 kg m/s."
+          ],
+          "successCriteria": [
+            "Signed velocity change +6 m/s.",
+            "Multiplies by mass.",
+            "Momentum change +3 kg m/s."
+          ]
+        },
+        {
+          "id": "extension-myp5-physics-momentum-practice-2",
+          "difficulty": "Advanced",
+          "command": "Compare",
+          "marks": 3,
+          "prompt": "The same ball is stopped with impulse magnitude 6 N s over either 0.02 s or 0.10 s. Compare average force magnitudes.",
+          "hints": [
+            "Use impulse divided by time.",
+            "Compare the two durations."
+          ],
+          "solution": [
+            "Forces are 6/0.02 = 300 N and 6/0.10 = 60 N.",
+            "The longer stopping interval gives one-fifth the average force for the same momentum change."
+          ],
+          "successCriteria": [
+            "300 N.",
+            "60 N.",
+            "Explains inverse duration relationship."
+          ]
+        }
+      ]
+    },
+    "myp5-physics-waves": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Connect space and time measurements",
+            "paragraphs": [
+              "A wave carries a disturbance, with particles in a mechanical medium oscillating about their equilibrium positions. In a transverse wave, displacement is perpendicular to propagation; in a longitudinal wave, it is parallel. A snapshot of displacement against position gives wavelength, while a record at one position against time gives period. Mixing those axes is a common source of error. Wave speed connects the two records through v = fλ. Amplitude measures maximum displacement from equilibrium, so the full crest-to-trough height is twice the amplitude for a symmetric wave."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-waves-worked",
+            "prompt": "A transverse-wave snapshot has crest-to-trough height 0.06 m and distance between adjacent crests 0.8 m. A point makes 5 cycles each second. Find amplitude and speed.",
+            "steps": [
+              "Amplitude = 0.06/2 = 0.03 m; wavelength = 0.8 m.",
+              "Speed = fλ = 5 × 0.8 = 4 m/s."
+            ],
+            "conclusion": "The snapshot gives spatial measurements; the cycle count supplies frequency."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-waves-card-1",
+            "front": "What separates adjacent crests?",
+            "back": "One wavelength."
+          },
+          {
+            "id": "extension-waves-card-2",
+            "front": "What separates successive crests passing a fixed point?",
+            "back": "One period in time."
+          },
+          {
+            "id": "extension-waves-card-3",
+            "front": "What is crest-to-trough height for a symmetric wave?",
+            "back": "Twice the amplitude."
+          },
+          {
+            "id": "extension-waves-card-4",
+            "front": "How do longitudinal particles move?",
+            "back": "Parallel to the direction of wave propagation."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-waves-diagram",
+            "title": "Connect space and time measurements",
+            "description": "Wavelength and period describe different axes.",
+            "nodes": [
+              {
+                "id": "extension-waves-node-1",
+                "label": "Spatial snapshot",
+                "detail": "λ = 0.8 m"
+              },
+              {
+                "id": "extension-waves-node-2",
+                "label": "Time record",
+                "detail": "f = 5 Hz; T = 0.2 s"
+              },
+              {
+                "id": "extension-waves-node-3",
+                "label": "Propagation",
+                "detail": "v = fλ = 4 m/s"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-waves-node-1",
+                "to": "extension-waves-node-2",
+                "label": "pair with cycles per second"
+              },
+              {
+                "from": "extension-waves-node-2",
+                "to": "extension-waves-node-3",
+                "label": "calculate distance per second"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-physics-waves-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "A fixed point on a string completes 8 cycles in 2 s. The wavelength is 0.5 m. Find frequency and wave speed.",
+          "hints": [
+            "Divide cycles by elapsed time.",
+            "Multiply frequency by wavelength."
+          ],
+          "solution": [
+            "f = 8/2 = 4 Hz.",
+            "v = 4 × 0.5 = 2 m/s."
+          ],
+          "successCriteria": [
+            "Frequency calculation.",
+            "4 Hz.",
+            "Speed 2 m/s."
+          ]
+        },
+        {
+          "id": "extension-myp5-physics-waves-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A displacement–time graph has adjacent crests 0.25 s apart. A learner calls this the wavelength. Correct the interpretation and find frequency.",
+          "hints": [
+            "Inspect the horizontal-axis unit.",
+            "Frequency is the reciprocal of period."
+          ],
+          "solution": [
+            "0.25 s is the period, because the axis measures time.",
+            "f = 1/0.25 = 4 Hz; wavelength needs spatial or speed information."
+          ],
+          "successCriteria": [
+            "Identifies period.",
+            "Frequency 4 Hz.",
+            "States missing spatial information."
+          ]
+        }
+      ]
+    },
+    "myp5-physics-light": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Refraction through parallel faces",
+            "paragraphs": [
+              "Refraction changes the direction of a ray when its speed changes across a boundary at oblique incidence. Measure every angle from the normal, an imaginary perpendicular to the surface. In the simple ray model, entering a slower medium bends the ray towards the normal; leaving it bends away. At normal incidence the speed changes without a change of direction. A parallel-sided transparent block produces an emerging ray parallel to the incoming ray when the external medium is the same on both sides, although the ray is laterally displaced."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-light-worked",
+            "prompt": "A ray enters a parallel glass block from air at 40° to the normal and travels inside at 25°. Describe its exit into air.",
+            "steps": [
+              "At entry it bends towards the normal because its speed decreases.",
+              "At the second parallel face it meets the normal at 25° and exits at 40° into the original medium."
+            ],
+            "conclusion": "The emergent ray is parallel to the original ray but laterally displaced in this ideal model."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-light-card-1",
+            "front": "From what line are refraction angles measured?",
+            "back": "The normal to the interface."
+          },
+          {
+            "id": "extension-light-card-2",
+            "front": "What happens at normal incidence?",
+            "back": "Speed changes but direction does not."
+          },
+          {
+            "id": "extension-light-card-3",
+            "front": "What remains unchanged at a stationary boundary?",
+            "back": "The wave frequency."
+          },
+          {
+            "id": "extension-light-card-4",
+            "front": "Why does a parallel block give a parallel emergent ray?",
+            "back": "Parallel faces reverse the angular change on returning to the same medium."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-light-diagram",
+            "title": "Refraction through parallel faces",
+            "description": "The two boundaries produce opposite angular changes.",
+            "nodes": [
+              {
+                "id": "extension-light-node-1",
+                "label": "Air before glass",
+                "detail": "40° to normal"
+              },
+              {
+                "id": "extension-light-node-2",
+                "label": "Inside glass",
+                "detail": "25° to normal"
+              },
+              {
+                "id": "extension-light-node-3",
+                "label": "Air after glass",
+                "detail": "40°; laterally displaced"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-light-node-1",
+                "to": "extension-light-node-2",
+                "label": "slower medium bends towards normal"
+              },
+              {
+                "from": "extension-light-node-2",
+                "to": "extension-light-node-3",
+                "label": "return to air bends away"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-physics-light-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A ray enters water normally from air. State what happens to its speed, direction and frequency.",
+          "hints": [
+            "Normal incidence means zero angle to the normal.",
+            "The source still sets the oscillation frequency."
+          ],
+          "solution": [
+            "Its speed decreases while its direction stays along the normal.",
+            "Its frequency stays unchanged; the lower speed implies a shorter wavelength."
+          ],
+          "successCriteria": [
+            "Speed decreases.",
+            "Direction unchanged.",
+            "Frequency unchanged."
+          ]
+        },
+        {
+          "id": "extension-myp5-physics-light-practice-2",
+          "difficulty": "Advanced",
+          "command": "Determine",
+          "marks": 3,
+          "prompt": "A ray in air meets a flat surface at 32° to the surface. Find its angle of incidence and explain the reference line.",
+          "hints": [
+            "Surface and normal are perpendicular.",
+            "Complement the given angle."
+          ],
+          "solution": [
+            "Incidence angle = 90° − 32° = 58°.",
+            "The angle is measured between the incoming ray and the normal, not the surface."
+          ],
+          "successCriteria": [
+            "Uses complementary angles.",
+            "58°.",
+            "Correct normal reference."
+          ]
+        }
+      ]
+    },
+    "myp5-physics-sound": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "A pressure trace reveals repetition rate",
+            "paragraphs": [
+              "Sound traces show pressure variation over time at a microphone. A shorter period indicates higher frequency and generally higher pitch, whereas a greater amplitude means larger pressure variations. Two sounds can share a fundamental frequency yet differ in waveform because their additional frequency components differ; this contributes to timbre. Do not infer the distance travelled by a wave from the width of a time trace without knowing its speed. A recording’s amplitude also depends on microphone gain and distance, so comparing sources requires controlled recording conditions."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-sound-worked",
+            "prompt": "Trace A repeats every 0.004 s and trace B every 0.002 s under the same time scale. Compare frequencies and pitches.",
+            "steps": [
+              "fA = 1/0.004 = 250 Hz; fB = 1/0.002 = 500 Hz.",
+              "B has twice the frequency and the higher pitch."
+            ],
+            "conclusion": "The periods alone do not establish which recording has greater amplitude or loudness."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-sound-card-1",
+            "front": "How does a shorter period affect frequency?",
+            "back": "Frequency increases because f = 1/T."
+          },
+          {
+            "id": "extension-sound-card-2",
+            "front": "What contributes to timbre?",
+            "back": "The mixture of frequency components and waveform."
+          },
+          {
+            "id": "extension-sound-card-3",
+            "front": "Why control microphone gain?",
+            "back": "Gain changes recorded amplitude independently of the source."
+          },
+          {
+            "id": "extension-sound-card-4",
+            "front": "Can equal pitch imply identical waveforms?",
+            "back": "No; sounds can have different timbres."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-sound-diagram",
+            "title": "A pressure trace reveals repetition rate",
+            "description": "Time between repeats determines frequency.",
+            "nodes": [
+              {
+                "id": "extension-sound-node-1",
+                "label": "Microphone trace",
+                "detail": "Repeats every 0.002 s"
+              },
+              {
+                "id": "extension-sound-node-2",
+                "label": "Period",
+                "detail": "T = 0.002 s"
+              },
+              {
+                "id": "extension-sound-node-3",
+                "label": "Frequency",
+                "detail": "500 Hz"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-sound-node-1",
+                "to": "extension-sound-node-2",
+                "label": "measure one complete cycle"
+              },
+              {
+                "from": "extension-sound-node-2",
+                "to": "extension-sound-node-3",
+                "label": "take the reciprocal"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-physics-sound-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "A microphone trace shows 6 complete cycles in 0.012 s. Find the frequency.",
+          "hints": [
+            "Use cycles divided by duration.",
+            "Keep the duration in seconds."
+          ],
+          "solution": [
+            "f = 6/0.012.",
+            "The frequency is 500 Hz."
+          ],
+          "successCriteria": [
+            "Uses six full cycles.",
+            "Correct division by seconds.",
+            "500 Hz."
+          ]
+        },
+        {
+          "id": "extension-myp5-physics-sound-practice-2",
+          "difficulty": "Advanced",
+          "command": "Evaluate",
+          "marks": 3,
+          "prompt": "Two recordings of the same source have different amplitudes, but microphone distances and gain settings differ. Can the source intensity change be established?",
+          "hints": [
+            "Identify recording factors that affect amplitude.",
+            "Separate a trace observation from a source conclusion."
+          ],
+          "solution": [
+            "The trace amplitude differs, but distance and gain could explain that difference.",
+            "Control both conditions before using amplitude to compare the source; the current records do not isolate a source change."
+          ],
+          "successCriteria": [
+            "Identifies gain confound.",
+            "Identifies distance confound.",
+            "Qualified conclusion and controlled comparison."
+          ]
+        }
+      ]
+    },
+    "myp5-physics-electricity": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "From current to energy transfer",
+            "paragraphs": [
+              "Electrical energy transfer can be tracked through charge and potential difference. A potential difference of one volt means one joule transferred per coulomb. Combining E = VQ with Q = It gives E = VIt for constant values, and power P = VI. Components in parallel have the same potential difference but need not carry the same current. An open branch interrupts that branch’s current; an ideal parallel branch can still operate. These statements concern ideal low-voltage circuit models with steady values, not practical instructions for household wiring."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-electricity-worked",
+            "prompt": "An ideal 9 V source drives 0.20 A through a component for 30 s. Find charge and energy transferred.",
+            "steps": [
+              "Charge Q = It = 0.20 × 30 = 6 C.",
+              "Energy E = VQ = 9 × 6 = 54 J."
+            ],
+            "conclusion": "The power is 1.8 W, and 1.8 × 30 = 54 J independently checks the result."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-electricity-card-1",
+            "front": "What does one volt mean?",
+            "back": "One joule of energy transferred per coulomb."
+          },
+          {
+            "id": "extension-electricity-card-2",
+            "front": "How is charge related to steady current?",
+            "back": "Q = It."
+          },
+          {
+            "id": "extension-electricity-card-3",
+            "front": "What is electrical power at constant V and I?",
+            "back": "P = VI."
+          },
+          {
+            "id": "extension-electricity-card-4",
+            "front": "Is current necessarily equal in parallel branches?",
+            "back": "No; it depends on each branch resistance."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-electricity-diagram",
+            "title": "From current to energy transfer",
+            "description": "Charge provides the link between current and voltage.",
+            "nodes": [
+              {
+                "id": "extension-electricity-node-1",
+                "label": "Current over time",
+                "detail": "0.20 A for 30 s"
+              },
+              {
+                "id": "extension-electricity-node-2",
+                "label": "Charge",
+                "detail": "6 C"
+              },
+              {
+                "id": "extension-electricity-node-3",
+                "label": "Energy at 9 V",
+                "detail": "54 J"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-electricity-node-1",
+                "to": "extension-electricity-node-2",
+                "label": "Q = It"
+              },
+              {
+                "from": "extension-electricity-node-2",
+                "to": "extension-electricity-node-3",
+                "label": "E = VQ"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-physics-electricity-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "A 5 V component transfers 150 J in 60 s. Find its power and steady current.",
+          "hints": [
+            "Divide energy by time.",
+            "Use I = P/V."
+          ],
+          "solution": [
+            "Power = 150/60 = 2.5 W.",
+            "Current = 2.5/5 = 0.5 A."
+          ],
+          "successCriteria": [
+            "Power 2.5 W.",
+            "Uses I = P/V.",
+            "Current 0.5 A."
+          ]
+        },
+        {
+          "id": "extension-myp5-physics-electricity-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Two ideal resistive branches share a 12 V supply. Branch A is opened while B remains connected. Under the ideal-source model, explain B’s potential difference and current.",
+          "hints": [
+            "Parallel branches connect across the same source.",
+            "Assume B’s resistance and supply voltage stay fixed."
+          ],
+          "solution": [
+            "B still has 12 V across it.",
+            "Its current remains 12/RB; total supply current falls by the former A-branch current."
+          ],
+          "successCriteria": [
+            "B remains connected across supply.",
+            "B current unchanged under assumptions.",
+            "Total current decreases."
+          ]
+        }
+      ]
+    },
+    "myp5-physics-magnetism": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Direction changes in motor action",
+            "paragraphs": [
+              "An electromagnet links electrical current to a magnetic field. Increasing current or adding coil turns can strengthen the field for the same geometry, although real cores can saturate and heating constrains equipment. A motor uses force on a current-carrying conductor in a magnetic field. Reversing either the current or the external field reverses that force; reversing both restores its original direction. An investigation must separate these variables. Field diagrams use arrows for direction and relative line density for strength, while remaining models rather than pictures of physical strands."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-magnetism-worked",
+            "prompt": "A conductor experiences an upward motor force. Predict the direction after reversing current only, then after reversing both current and magnetic field.",
+            "steps": [
+              "Reversing current alone changes the force to downward.",
+              "Reversing both changes the force direction twice, restoring upward force."
+            ],
+            "conclusion": "The comparison assumes the conductor remains perpendicular to the field and magnitudes are unchanged."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-magnetism-card-1",
+            "front": "What creates an electromagnet’s field?",
+            "back": "Electric current in its coil."
+          },
+          {
+            "id": "extension-magnetism-card-2",
+            "front": "What happens when only motor current reverses?",
+            "back": "The magnetic force reverses."
+          },
+          {
+            "id": "extension-magnetism-card-3",
+            "front": "What if current and external field both reverse?",
+            "back": "The force direction is restored."
+          },
+          {
+            "id": "extension-magnetism-card-4",
+            "front": "Why compare coils at controlled current?",
+            "back": "Different currents would confound the effect of turn count."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-magnetism-diagram",
+            "title": "Direction changes in motor action",
+            "description": "Each single reversal reverses the force.",
+            "nodes": [
+              {
+                "id": "extension-magnetism-node-1",
+                "label": "Original arrangement",
+                "detail": "Force upward"
+              },
+              {
+                "id": "extension-magnetism-node-2",
+                "label": "Reverse current only",
+                "detail": "Force downward"
+              },
+              {
+                "id": "extension-magnetism-node-3",
+                "label": "Also reverse field",
+                "detail": "Force upward again"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-magnetism-node-1",
+                "to": "extension-magnetism-node-2",
+                "label": "one reversal flips force"
+              },
+              {
+                "from": "extension-magnetism-node-2",
+                "to": "extension-magnetism-node-3",
+                "label": "a second reversal restores it"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-physics-magnetism-practice-1",
+          "difficulty": "Standard",
+          "command": "Predict",
+          "marks": 3,
+          "prompt": "A motor conductor feels a leftward force. The magnetic field reverses while current is unchanged. Predict and explain the new force direction.",
+          "hints": [
+            "One relevant direction changes.",
+            "Use the force-reversal relationship."
+          ],
+          "solution": [
+            "The force becomes rightward.",
+            "Reversing the field alone reverses the interaction force for the unchanged current."
+          ],
+          "successCriteria": [
+            "Identifies field-only reversal.",
+            "Rightward direction.",
+            "Connects reversal to motor force."
+          ]
+        },
+        {
+          "id": "extension-myp5-physics-magnetism-practice-2",
+          "difficulty": "Advanced",
+          "command": "Design",
+          "marks": 3,
+          "prompt": "Plan a fair classroom comparison of coil turn count and magnetic strength using teacher-approved equipment.",
+          "hints": [
+            "Change turns while controlling current.",
+            "Choose one measurable response at a fixed position."
+          ],
+          "solution": [
+            "Compare several turn counts at the same current and core geometry; measure field with the same sensor position.",
+            "Repeat each setting and monitor heating; different current or sensor distance would confound the comparison."
+          ],
+          "successCriteria": [
+            "Turns as independent variable.",
+            "Controlled current and geometry.",
+            "Defined repeated field measurement."
+          ]
+        }
+      ]
+    },
+    "myp5-physics-thermal": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Cooling has several pathways",
+            "paragraphs": [
+              "Thermal transfer can occur through conduction, convection and radiation. In conduction, energy passes through a material without a bulk flow of the material. Convection involves bulk movement of a fluid and often arises when density differences occur in a gravitational field. Radiation transfers energy through electromagnetic waves and does not need a material medium. Insulation slows transfers but does not generate energy or prevent every transfer indefinitely. A comparison should keep starting temperature, exposed area, time and surroundings consistent so that any observed cooling difference can reasonably be linked to the tested feature."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-thermal-worked",
+            "prompt": "Identical cups hold equal masses of water at the same initial temperature. One has a lid. Explain why it may cool more slowly.",
+            "steps": [
+              "The lid reduces evaporation and movement of warm moist air from the water surface.",
+              "Energy can still transfer through cup walls, the lid and radiation."
+            ],
+            "conclusion": "The lid changes transfer pathways; it does not create heat or guarantee constant temperature."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-thermal-card-1",
+            "front": "Which thermal transfer needs no material medium?",
+            "back": "Radiation."
+          },
+          {
+            "id": "extension-thermal-card-2",
+            "front": "What moves in convection?",
+            "back": "The fluid itself moves in bulk."
+          },
+          {
+            "id": "extension-thermal-card-3",
+            "front": "Does insulation create thermal energy?",
+            "back": "No; it reduces transfer rates."
+          },
+          {
+            "id": "extension-thermal-card-4",
+            "front": "Why use equal water masses in a cooling comparison?",
+            "back": "Different masses change energy needed for the same temperature change."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-thermal-diagram",
+            "title": "Cooling has several pathways",
+            "description": "Covering one route leaves others active.",
+            "nodes": [
+              {
+                "id": "extension-thermal-node-1",
+                "label": "Warm water",
+                "detail": "Higher temperature than surroundings"
+              },
+              {
+                "id": "extension-thermal-node-2",
+                "label": "Surface transfer",
+                "detail": "Evaporation and convection reduced by lid"
+              },
+              {
+                "id": "extension-thermal-node-3",
+                "label": "Other transfer",
+                "detail": "Walls and radiation still transfer energy"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-thermal-node-1",
+                "to": "extension-thermal-node-2",
+                "label": "cover the exposed surface"
+              },
+              {
+                "from": "extension-thermal-node-2",
+                "to": "extension-thermal-node-3",
+                "label": "remaining routes continue cooling"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-physics-thermal-practice-1",
+          "difficulty": "Standard",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "Explain why thermal radiation can transfer energy from the Sun across space while sound cannot propagate through the same vacuum.",
+          "hints": [
+            "Compare electromagnetic and mechanical waves.",
+            "Ask whether material particles are required."
+          ],
+          "solution": [
+            "Thermal radiation is electromagnetic and can propagate through vacuum.",
+            "Sound is a mechanical disturbance requiring a material medium, which vacuum lacks."
+          ],
+          "successCriteria": [
+            "Radiation is electromagnetic.",
+            "Radiation needs no medium.",
+            "Sound requires material particles."
+          ]
+        },
+        {
+          "id": "extension-myp5-physics-thermal-practice-2",
+          "difficulty": "Advanced",
+          "command": "Design",
+          "marks": 3,
+          "prompt": "Design a fair comparison of two insulating sleeves around identical cups of warm water.",
+          "hints": [
+            "Keep the stored thermal energy initially comparable.",
+            "Record temperature against time."
+          ],
+          "solution": [
+            "Use equal water masses and starting temperatures, identical cups and lids, and the same surroundings.",
+            "Measure temperature at the same intervals with calibrated sensors and repeat the comparison."
+          ],
+          "successCriteria": [
+            "Controls mass and initial temperature.",
+            "Controls cup and surroundings.",
+            "Consistent repeated temperature measurements."
+          ]
+        }
+      ]
+    },
+    "myp5-physics-atomic-nuclear": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Background-corrected decay",
+            "paragraphs": [
+              "Background radiation contributes to a detector reading even when the source being studied is absent. Subtract a measured background rate before comparing a source’s decay. Keep detector position, measurement duration and geometry consistent. Counts fluctuate because decay is random, so a longer counting interval can provide a more stable rate estimate. A half-life applies to the expected number of unstable nuclei, or to activity for a single unchanged radioactive population. It does not establish a precise decay time for each nucleus or measure the chemical mass of all material in the sample."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-atomic-nuclear-worked",
+            "prompt": "A detector records 210 counts/min near a source and 30 counts/min as background. After one half-life, predict the total measured rate under unchanged conditions.",
+            "steps": [
+              "Initial source-only rate = 210 − 30 = 180 counts/min.",
+              "After one half-life, source rate = 90 counts/min; adding background gives 120 counts/min."
+            ],
+            "conclusion": "Halving the raw total to 105 would incorrectly halve the background contribution too."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-atomic-nuclear-card-1",
+            "front": "Why subtract background?",
+            "back": "To isolate the rate attributable to the source."
+          },
+          {
+            "id": "extension-atomic-nuclear-card-2",
+            "front": "Does background halve with the studied source?",
+            "back": "Not under the unchanged-background assumption."
+          },
+          {
+            "id": "extension-atomic-nuclear-card-3",
+            "front": "Why do repeat counts vary?",
+            "back": "Radioactive decay is random."
+          },
+          {
+            "id": "extension-atomic-nuclear-card-4",
+            "front": "What remains unchanged in isotopes of one element?",
+            "back": "Proton number."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-atomic-nuclear-diagram",
+            "title": "Background-corrected decay",
+            "description": "Only the isolated source contribution is halved.",
+            "nodes": [
+              {
+                "id": "extension-atomic-nuclear-node-1",
+                "label": "Raw rate",
+                "detail": "210 counts/min"
+              },
+              {
+                "id": "extension-atomic-nuclear-node-2",
+                "label": "Source contribution",
+                "detail": "210 − 30 = 180 counts/min"
+              },
+              {
+                "id": "extension-atomic-nuclear-node-3",
+                "label": "One half-life later",
+                "detail": "90 + 30 = 120 counts/min raw"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-atomic-nuclear-node-1",
+                "to": "extension-atomic-nuclear-node-2",
+                "label": "subtract background"
+              },
+              {
+                "from": "extension-atomic-nuclear-node-2",
+                "to": "extension-atomic-nuclear-node-3",
+                "label": "halve source, then restore background"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-physics-atomic-nuclear-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "A raw rate is 140 counts/min and background is 20 counts/min. Find the expected raw rate after two half-lives with unchanged background.",
+          "hints": [
+            "Subtract background before halving.",
+            "Add it back after two halvings."
+          ],
+          "solution": [
+            "Source rate initially = 120 counts/min; after two half-lives it is 30.",
+            "Expected raw rate = 30 + 20 = 50 counts/min."
+          ],
+          "successCriteria": [
+            "Initial corrected rate 120.",
+            "Two-halving result 30.",
+            "Final raw rate 50 counts/min."
+          ]
+        },
+        {
+          "id": "extension-myp5-physics-atomic-nuclear-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A learner says every nucleus in a sample must decay exactly one half-life after the sample was obtained. Evaluate the claim.",
+          "hints": [
+            "Distinguish individual random events from population behaviour.",
+            "State what halves on average."
+          ],
+          "solution": [
+            "Individual decay times are random and are not scheduled at the half-life.",
+            "For a large population, the expected undecayed number halves over that interval; some nuclei remain afterwards."
+          ],
+          "successCriteria": [
+            "Rejects deterministic individual timing.",
+            "States population expectation.",
+            "Explains remaining undecayed nuclei."
+          ]
+        }
+      ]
+    },
+    "myp5-physics-experimental-design": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Temperature can confound a resistor test",
+            "paragraphs": [
+              "A fair comparison needs a measurement definition that another group could repeat. “Brightness” or “strength” is too vague unless an instrument, position and unit are specified. Randomising the order of settings can reduce confounding from gradual warming or battery depletion. Repeat measurements at each setting, not only at the beginning and end. Calibration checks address systematic offsets that repetition cannot remove. Record practical limits and preserve unexpected observations so that the conclusion describes the evidence actually collected, rather than only the measurements that fit an anticipated trend."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-experimental-design-worked",
+            "prompt": "Plan a low-voltage investigation of current against potential difference for a resistor.",
+            "steps": [
+              "Vary the supply across several teacher-approved values; measure current and voltage across the same resistor.",
+              "Repeat readings, control temperature or allow cooling, and vary the setting order to detect warming effects."
+            ],
+            "conclusion": "A V–I plot can test constant resistance within the measured range; a changing slope may reflect heating."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-experimental-design-card-1",
+            "front": "What is an operational definition?",
+            "back": "A precise statement of how a variable is measured."
+          },
+          {
+            "id": "extension-experimental-design-card-2",
+            "front": "Why randomise setting order?",
+            "back": "To reduce confounding by gradual changes over time."
+          },
+          {
+            "id": "extension-experimental-design-card-3",
+            "front": "Do repeats remove calibration bias?",
+            "back": "No; calibration needs a separate check."
+          },
+          {
+            "id": "extension-experimental-design-card-4",
+            "front": "Why retain unexpected readings?",
+            "back": "They may reveal variability or a genuine limitation."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-experimental-design-diagram",
+            "title": "Temperature can confound a resistor test",
+            "description": "An unwanted pathway can change the measured response.",
+            "nodes": [
+              {
+                "id": "extension-experimental-design-node-1",
+                "label": "Higher voltage",
+                "detail": "Raises electrical input"
+              },
+              {
+                "id": "extension-experimental-design-node-2",
+                "label": "Resistor warming",
+                "detail": "May change resistance"
+              },
+              {
+                "id": "extension-experimental-design-node-3",
+                "label": "Measured current",
+                "detail": "Reflects voltage and temperature"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-experimental-design-node-1",
+                "to": "extension-experimental-design-node-2",
+                "label": "more energy transfer can warm it"
+              },
+              {
+                "from": "extension-experimental-design-node-2",
+                "to": "extension-experimental-design-node-3",
+                "label": "resistance change alters current"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-physics-experimental-design-practice-1",
+          "difficulty": "Standard",
+          "command": "Design",
+          "marks": 3,
+          "prompt": "Plan an investigation of pendulum period against string length using small swings and teacher-approved apparatus.",
+          "hints": [
+            "Time several swings rather than one.",
+            "Keep release angle and bob properties controlled."
+          ],
+          "solution": [
+            "Use several lengths, measure pivot-to-bob-centre distance, and time ten complete swings at each length.",
+            "Repeat and divide total time by ten; keep small release angle and the same bob."
+          ],
+          "successCriteria": [
+            "Defined length and period measurements.",
+            "Range and repeated ten-cycle timing.",
+            "Controlled angle and bob."
+          ]
+        },
+        {
+          "id": "extension-myp5-physics-experimental-design-practice-2",
+          "difficulty": "Advanced",
+          "command": "Evaluate",
+          "marks": 3,
+          "prompt": "A lamp is tested at increasing settings as its battery steadily discharges. Explain a confound and one useful improvement.",
+          "hints": [
+            "Setting and time change together.",
+            "Measure the actual electrical quantity."
+          ],
+          "solution": [
+            "Later settings coincide with a weaker supply, so their effect is mixed with battery change.",
+            "Monitor actual voltage and use a stable supply or randomised repeated settings to assess drift."
+          ],
+          "successCriteria": [
+            "Identifies time-linked supply drift.",
+            "Explains confounding.",
+            "Targeted measurement or design improvement."
+          ]
+        }
+      ]
+    },
+    "myp5-physics-data-analysis": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Gradient connects graph and model",
+            "paragraphs": [
+              "A best-fit line represents an overall trend rather than joining every measured point. Its gradient should be calculated using well-separated points on the fitted line, which need not be original observations. The intercept has the units of the vertical axis and can reveal a baseline offset. Residuals show how each observation differs from a prediction. Random scatter around zero is different from a curved residual pattern, which can indicate a poor model choice. The data range and uncertainty determine how strongly the model is supported."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-data-analysis-worked",
+            "prompt": "A fitted force–extension relation passes through (0.02 m, 4 N) and (0.08 m, 16 N). Find its gradient and interpret it.",
+            "steps": [
+              "Gradient = (16 − 4)/(0.08 − 0.02) = 200 N/m.",
+              "For a linear spring model, this gradient is the spring constant."
+            ],
+            "conclusion": "The relation supports k ≈ 200 N/m over the measured range, not necessarily beyond the elastic limit."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-data-analysis-card-1",
+            "front": "Where should gradient points be chosen?",
+            "back": "Well apart on the fitted line."
+          },
+          {
+            "id": "extension-data-analysis-card-2",
+            "front": "What are force–extension gradient units?",
+            "back": "N/m."
+          },
+          {
+            "id": "extension-data-analysis-card-3",
+            "front": "What is a residual?",
+            "back": "Observed value minus predicted value."
+          },
+          {
+            "id": "extension-data-analysis-card-4",
+            "front": "What can curved residuals indicate?",
+            "back": "A straight-line model may miss the relationship’s shape."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-data-analysis-diagram",
+            "title": "Gradient connects graph and model",
+            "description": "Axis quantities determine the gradient’s meaning.",
+            "nodes": [
+              {
+                "id": "extension-data-analysis-node-1",
+                "label": "Force change",
+                "detail": "12 N"
+              },
+              {
+                "id": "extension-data-analysis-node-2",
+                "label": "Extension change",
+                "detail": "0.06 m"
+              },
+              {
+                "id": "extension-data-analysis-node-3",
+                "label": "Spring constant",
+                "detail": "12/0.06 = 200 N/m"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-data-analysis-node-1",
+                "to": "extension-data-analysis-node-2",
+                "label": "pair corresponding coordinate differences"
+              },
+              {
+                "from": "extension-data-analysis-node-2",
+                "to": "extension-data-analysis-node-3",
+                "label": "divide force change by extension change"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-physics-data-analysis-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "A model predicts 4.0, 6.0 and 8.0 cm. Measurements are 4.2, 5.8 and 8.1 cm. Find the three residuals.",
+          "hints": [
+            "Subtract prediction from observation.",
+            "Retain positive and negative signs."
+          ],
+          "solution": [
+            "Residuals are 4.2 − 4.0 = +0.2 cm and 5.8 − 6.0 = −0.2 cm.",
+            "The last residual is 8.1 − 8.0 = +0.1 cm."
+          ],
+          "successCriteria": [
+            "+0.2 cm.",
+            "−0.2 cm.",
+            "+0.1 cm."
+          ]
+        },
+        {
+          "id": "extension-myp5-physics-data-analysis-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A straight fitted graph of mass against volume has gradient 2.7 g/cm³ and non-zero intercept 5 g. Interpret both features.",
+          "hints": [
+            "Gradient uses mass change per volume change.",
+            "Ask what the model predicts at zero sample volume."
+          ],
+          "solution": [
+            "The gradient estimates density as 2.7 g/cm³ for the material.",
+            "The 5 g intercept could reflect an unremoved container mass or offset; it needs investigation rather than being called sample density."
+          ],
+          "successCriteria": [
+            "Density interpretation.",
+            "Intercept is mass, not density.",
+            "Plausible offset with qualification."
+          ]
+        }
+      ]
+    },
+    "myp5-physics-uncertainty": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Subtracting two uncertain readings",
+            "paragraphs": [
+              "An uncertainty in a difference can be larger than the uncertainty in either reading alone. Under a conservative classroom interval method, take the largest possible difference and the smallest possible difference from the endpoint intervals. A small measured change may therefore have a large percentage uncertainty even when the instrument readings look precise. State the rule being used; different statistical methods answer different questions. Repeating the same procedure can reduce random variability, but it cannot recover information lost through a coarse instrument scale or a shared calibration error."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-uncertainty-worked",
+            "prompt": "A ruler reading changes from 2.0 ± 0.1 cm to 7.0 ± 0.1 cm. Use conservative endpoint bounds to report the change.",
+            "steps": [
+              "Central change = 7.0 − 2.0 = 5.0 cm.",
+              "Minimum = 6.9 − 2.1 = 4.8 cm; maximum = 7.1 − 1.9 = 5.2 cm."
+            ],
+            "conclusion": "The difference is 5.0 ± 0.2 cm under the stated interval method."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-uncertainty-card-1",
+            "front": "Why can a difference have two uncertainty contributions?",
+            "back": "Both the initial and final readings have limits."
+          },
+          {
+            "id": "extension-uncertainty-card-2",
+            "front": "What is percentage uncertainty?",
+            "back": "Absolute uncertainty divided by magnitude, multiplied by 100%."
+          },
+          {
+            "id": "extension-uncertainty-card-3",
+            "front": "Does a narrow spread guarantee accuracy?",
+            "back": "No; a common systematic offset can remain."
+          },
+          {
+            "id": "extension-uncertainty-card-4",
+            "front": "Why state the uncertainty convention?",
+            "back": "Different methods produce different kinds of bounds or estimates."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-uncertainty-diagram",
+            "title": "Subtracting two uncertain readings",
+            "description": "Extreme combinations bound the difference.",
+            "nodes": [
+              {
+                "id": "extension-uncertainty-node-1",
+                "label": "Initial interval",
+                "detail": "1.9 to 2.1 cm"
+              },
+              {
+                "id": "extension-uncertainty-node-2",
+                "label": "Final interval",
+                "detail": "6.9 to 7.1 cm"
+              },
+              {
+                "id": "extension-uncertainty-node-3",
+                "label": "Difference interval",
+                "detail": "4.8 to 5.2 cm"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-uncertainty-node-1",
+                "to": "extension-uncertainty-node-2",
+                "label": "compare both endpoint ranges"
+              },
+              {
+                "from": "extension-uncertainty-node-2",
+                "to": "extension-uncertainty-node-3",
+                "label": "pair extremes for conservative bounds"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-physics-uncertainty-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "A measured change is 3.0 ± 0.3 cm. Calculate its percentage uncertainty.",
+          "hints": [
+            "Divide 0.3 by 3.0.",
+            "Multiply the fraction by 100%."
+          ],
+          "solution": [
+            "Fractional uncertainty = 0.3/3.0 = 0.1.",
+            "Percentage uncertainty = 10%."
+          ],
+          "successCriteria": [
+            "Correct ratio.",
+            "Fraction 0.1.",
+            "10%."
+          ]
+        },
+        {
+          "id": "extension-myp5-physics-uncertainty-practice-2",
+          "difficulty": "Advanced",
+          "command": "Compare",
+          "marks": 3,
+          "prompt": "Using interval bounds, A = 12.0 ± 0.2 s and B = 12.3 ± 0.2 s. Can their indicated intervals overlap? Explain.",
+          "hints": [
+            "Write each lower and upper endpoint.",
+            "Compare the intervals, not just their central values."
+          ],
+          "solution": [
+            "A spans 11.8–12.2 s and B spans 12.1–12.5 s.",
+            "They overlap from 12.1 to 12.2 s, so central values alone do not establish a resolved difference under this criterion."
+          ],
+          "successCriteria": [
+            "Correct A interval.",
+            "Correct B interval and overlap.",
+            "Qualified comparison."
+          ]
+        }
+      ]
+    },
+    "myp5-physics-graph-interpretation": {
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Axes determine the meaning of area",
+            "paragraphs": [
+              "Graph areas and gradients inherit units from their axes, so they cannot be interpreted by shape alone. An area under force against displacement has units N m and represents work when the plotted force is the component along motion. An area under force against time has units N s and represents impulse. A triangle is half its base times its height, but the physical meaning depends on what base and height measure. Negative regions contribute with signs, and the chosen positive direction must be stated before interpreting the result."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-graph-interpretation-worked",
+            "prompt": "A force–time graph forms a triangle from zero force at 0 s to 10 N at 2 s and back to zero at 4 s. Find impulse.",
+            "steps": [
+              "Area = ½ × 4 s × 10 N = 20 N s.",
+              "Impulse is the signed force–time area, so the momentum change is +20 kg m/s if the force is positive."
+            ],
+            "conclusion": "The graph gives momentum change, not work; displacement information is absent."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-graph-interpretation-card-1",
+            "front": "What is force–time area?",
+            "back": "Impulse, in N s."
+          },
+          {
+            "id": "extension-graph-interpretation-card-2",
+            "front": "What is force–displacement area?",
+            "back": "Work, in joules, for force along displacement."
+          },
+          {
+            "id": "extension-graph-interpretation-card-3",
+            "front": "What is velocity–time gradient?",
+            "back": "Acceleration."
+          },
+          {
+            "id": "extension-graph-interpretation-card-4",
+            "front": "Why attach units to graph area?",
+            "back": "Units identify which physical quantity the area represents."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-graph-interpretation-diagram",
+            "title": "Axes determine the meaning of area",
+            "description": "An identical triangle can represent different physics.",
+            "nodes": [
+              {
+                "id": "extension-graph-interpretation-node-1",
+                "label": "Force axis",
+                "detail": "Height in newtons"
+              },
+              {
+                "id": "extension-graph-interpretation-node-2",
+                "label": "Time axis",
+                "detail": "Base in seconds"
+              },
+              {
+                "id": "extension-graph-interpretation-node-3",
+                "label": "Area",
+                "detail": "N s: impulse"
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-graph-interpretation-node-1",
+                "to": "extension-graph-interpretation-node-2",
+                "label": "combine with duration"
+              },
+              {
+                "from": "extension-graph-interpretation-node-2",
+                "to": "extension-graph-interpretation-node-3",
+                "label": "multiply units to identify momentum change"
+              }
+            ]
+          }
+        ]
+      },
+      "additionalPractice": [
+        {
+          "id": "extension-myp5-physics-graph-interpretation-practice-1",
+          "difficulty": "Standard",
+          "command": "Calculate",
+          "marks": 3,
+          "prompt": "A constant +6 N force acts for 3 s. Calculate the force–time area and name its physical meaning.",
+          "hints": [
+            "Use the rectangular area.",
+            "Multiply axis units too."
+          ],
+          "solution": [
+            "Area = 6 × 3 = +18 N s.",
+            "This is an impulse of +18 N s, equal to the change in momentum."
+          ],
+          "successCriteria": [
+            "Correct rectangle area.",
+            "N s units.",
+            "Impulse interpretation."
+          ]
+        },
+        {
+          "id": "extension-myp5-physics-graph-interpretation-practice-2",
+          "difficulty": "Advanced",
+          "command": "Explain",
+          "marks": 3,
+          "prompt": "A triangular force–displacement graph has base 0.4 m and height 50 N, with force along displacement. Find its area and explain why it is not an impulse.",
+          "hints": [
+            "Calculate half base times height.",
+            "Compare N m with N s."
+          ],
+          "solution": [
+            "Area = ½ × 0.4 × 50 = 10 N m = 10 J.",
+            "It represents work because the horizontal axis is displacement; impulse requires a time axis."
+          ],
+          "successCriteria": [
+            "10 J.",
+            "Work interpretation.",
+            "Distinguishes displacement and time axes."
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,386 @@
+{
+  "schemaVersion": 1,
+  "id": "inheritance-probability",
+  "revision": "2026-10-21.2",
+  "subject": "Biology",
+  "unit": "Inheritance",
+  "topic": "Alleles, segregation and probability in monohybrid models",
+  "level": "secondary-foundation",
+  "editorialStatus": "unreviewed",
+  "origin": "original-authorship-review-pending",
+  "scope": "A simplified one-gene, two-allele diploid model with complete dominance and independent fertilisation events. Many real traits require more complex models.",
+  "prerequisites": [
+    "Use fractions as probabilities.",
+    "Recognise chromosomes, genes and gametes."
+  ],
+  "objectives": [
+    "Distinguish genotype from phenotype.",
+    "Construct gamete combinations and calculate probabilities.",
+    "Explain why expected ratios do not guarantee exact family counts."
+  ],
+  "notes": [
+    {
+      "heading": "What an allele represents",
+      "paragraphs": [
+        "A gene is a DNA sequence associated with a functional product, while alleles are alternative versions at a locus. In the simplified diploid model used here, an individual carries two alleles at the locus, one inherited from each parent. A homozygote has two matching alleles and a heterozygote has two different alleles. Genotype refers to the allele combination; phenotype is an observable characteristic influenced by genotype and often the environment. Complete dominance means the heterozygote has the same phenotype category as one homozygote for the trait being considered. Dominant does not mean more common, more beneficial or stronger in a general biological sense."
+      ]
+    },
+    {
+      "heading": "Segregation and combining gametes",
+      "paragraphs": [
+        "During gamete formation the two alleles separate, so each gamete receives one allele in this model. A heterozygote Aa produces A and a gametes in equal expected proportions, whereas AA produces only A gametes. A Punnett square combines possible gametes from the two parents. Its cells represent equally likely fertilisation combinations only when the row and column probabilities justify that assumption. For Aa crossed with Aa, the expected genotype probabilities are one quarter AA, one half Aa and one quarter aa. With complete dominance of A, those correspond to three quarters dominant phenotype and one quarter recessive phenotype."
+      ]
+    },
+    {
+      "heading": "Interpreting predictions responsibly",
+      "paragraphs": [
+        "An expected ratio summarises probabilities over many comparable events. Four offspring from an Aa by Aa cross are not guaranteed to include exactly one aa individual. Under independent fertilisation, the probability of two successive aa offspring is one quarter multiplied by one quarter, or one sixteenth. A previous offspring's genotype does not change the next event's probability in the stated model. To infer an unknown dominant-phenotype genotype, a test cross with aa can be informative: recessive offspring exclude AA under the simple assumptions. Small samples containing only dominant offspring cannot prove AA with certainty. Real inheritance may involve multiple genes, sex linkage, incomplete dominance, penetrance and environmental effects, so do not apply this model universally."
+      ]
+    },
+    {
+      "heading": "Model assumptions, sample size and inference",
+      "paragraphs": [
+        "A Punnett square describes possible allele combinations under a specified inheritance model; its boxes are not a guarantee that the next small family will contain each category once. Each independent offspring is another probability trial. The expected count in a sample is sample size multiplied by the relevant probability, but an observed count can differ through random variation. A larger sample often gives a more stable estimate of a proportion, although it does not repair a wrong biological model.",
+        "Simple single-gene models assume a defined relationship between genotype and phenotype, ordinary segregation and the stated parental genotypes. Real traits may involve multiple genes, environmental effects, linkage or other complications. Dominance describes phenotype expression in a heterozygote; it does not mean an allele is more common, stronger, beneficial or guaranteed to increase over generations. When using offspring data to infer a parent's genotype, compare the possible explanations and their probabilities. One observation incompatible with a model can be highly informative, while several observations compatible with it may still fail to prove it uniquely. State the model rather than presenting a simplified cross as a universal account of inheritance."
+      ]
+    },
+    {
+      "heading": "Using a test cross without treating a small sample as certainty",
+      "paragraphs": [
+        "Under a simple complete-dominance model, a dominant phenotype may correspond to either a homozygous or a heterozygous genotype. Crossing that individual with a homozygous recessive partner can distinguish the predictions. A heterozygous parent produces recessive-phenotype offspring with probability one half in this model; a homozygous dominant parent does not. However, observing only dominant offspring in a small sample is compatible with either parental genotype. Calculate the chance of the observation under each hypothesis and keep probability distinct from proof. The example assumes independent offspring, ordinary segregation and no viability differences; it is not a description of every inherited trait."
+      ]
+    }
+  ],
+  "workedExamples": [
+    {
+      "prompt": "Cross Aa with aa under complete dominance of A. Give genotype and phenotype probabilities.",
+      "steps": [
+        "Aa produces A or a gametes, each with probability 1/2.",
+        "aa produces only a gametes.",
+        "Combining gives Aa with probability 1/2 and aa with probability 1/2."
+      ],
+      "answer": "Half expected Aa with dominant phenotype and half aa with recessive phenotype."
+    },
+    {
+      "prompt": "For independent offspring of Aa×Aa, find the probability that neither of two offspring is aa.",
+      "steps": [
+        "For one offspring, probability of not aa is 3/4.",
+        "Multiply for two independent events: (3/4)².",
+        "Do not subtract 1/4 twice; those events can overlap."
+      ],
+      "answer": "9/16."
+    },
+    {
+      "prompt": "For an Aa×aa cross under complete dominance, find the expected number of recessive-phenotype offspring in 20 independent trials.",
+      "steps": [
+        "The recessive genotype aa has probability 1/2 per offspring.",
+        "Expected count is 20×1/2=10.",
+        "An actual sample need not contain exactly 10 recessive offspring."
+      ],
+      "answer": "Expected count 10, not a guaranteed outcome."
+    },
+    {
+      "prompt": "In a complete-dominance model, an Aa individual is crossed with aa. Give the offspring genotype probabilities and the probability that all three independent offspring show the dominant phenotype.",
+      "answer": "P(Aa) = 1/2 and P(aa) = 1/2; the probability all three show the dominant phenotype is 1/8.",
+      "steps": [
+        "The Aa parent supplies A or a with equal probability; the aa parent supplies only a.",
+        "The two equally likely offspring genotypes are Aa and aa.",
+        "Three independent dominant outcomes have probability (1/2)³ = 1/8."
+      ]
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Dominant alleles must be common in the population.",
+      "correction": "Dominance describes heterozygote phenotype, not allele frequency."
+    },
+    {
+      "claim": "A 3:1 expected ratio guarantees three dominant offspring in every four.",
+      "correction": "Actual small samples fluctuate; the ratio is probabilistic."
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "genotype",
+      "front": "How do genotype and phenotype differ?",
+      "back": "Genotype is the allele combination; phenotype is the observable characteristic influenced by genotype and other factors."
+    },
+    {
+      "id": "heterozygote",
+      "front": "What does heterozygous mean?",
+      "back": "Two different alleles at the locus in the diploid model."
+    },
+    {
+      "id": "segregation",
+      "front": "What allele does a gamete receive from an Aa parent?",
+      "back": "A or a, each with expected probability one half in this model."
+    },
+    {
+      "id": "dominance",
+      "front": "What does complete dominance describe?",
+      "back": "The heterozygote shares the phenotype category of one homozygote."
+    },
+    {
+      "id": "independence",
+      "front": "Does one aa offspring make another aa offspring less likely in an independent Aa×Aa cross?",
+      "back": "No. Each offspring still has probability one quarter of being aa."
+    },
+    {
+      "id": "deeper-recall",
+      "front": "What does an expected count describe?",
+      "back": "The probability-weighted average over repeated samples of the specified size, not a guaranteed count in one sample."
+    },
+    {
+      "id": "application-card-1",
+      "front": "What makes aa useful in a simple test cross?",
+      "back": "It supplies only recessive alleles, exposing the other parent’s possible gamete contributions."
+    },
+    {
+      "id": "application-card-2",
+      "front": "Do three dominant offspring prove a parent is homozygous dominant?",
+      "back": "No. A heterozygous parent can produce that finite outcome by chance."
+    }
+  ],
+  "questions": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "difficulty": "foundation",
+      "prompt": "Which genotype is heterozygous?",
+      "options": [
+        "aa",
+        "A alone in a gamete",
+        "Aa",
+        "AA"
+      ],
+      "answer": "Aa",
+      "solution": [
+        "Heterozygous requires two different alleles.",
+        "Aa contains one of each allele."
+      ],
+      "markingPoints": [
+        "Select Aa."
+      ],
+      "marks": 1,
+      "calculator": "not-applicable"
+    },
+    {
+      "id": "q2",
+      "type": "calculation",
+      "difficulty": "standard",
+      "prompt": "In Aa×Aa, what is the probability of genotype Aa? Express it as a decimal.",
+      "answer": "0.5.",
+      "solution": [
+        "The four equally likely combinations are AA, Aa, aA and aa.",
+        "Two represent the heterozygote, giving 2/4=0.5."
+      ],
+      "markingPoints": [
+        "Identify both heterozygous combinations.",
+        "Calculate 0.5."
+      ],
+      "marks": 2,
+      "calculator": "not-required",
+      "numericAnswer": {
+        "value": 0.5,
+        "tolerance": 0
+      }
+    },
+    {
+      "id": "q3",
+      "type": "calculation",
+      "difficulty": "standard",
+      "prompt": "For independent offspring from Aa×aa, find the probability that two successive offspring are both aa.",
+      "answer": "0.25, or 1/4.",
+      "solution": [
+        "Each offspring has probability 1/2 of aa.",
+        "Multiply independent probabilities: 1/2×1/2=1/4."
+      ],
+      "markingPoints": [
+        "Assign one-offspring probability 1/2.",
+        "Multiply to obtain 1/4."
+      ],
+      "marks": 2,
+      "calculator": "not-required",
+      "numericAnswer": {
+        "value": 0.25,
+        "tolerance": 0
+      }
+    },
+    {
+      "id": "q4",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "An unknown dominant-phenotype parent crossed with aa produces three dominant-phenotype offspring. Does this prove the unknown parent is AA? Explain using probabilities.",
+      "answer": "No. If the parent were Aa, three dominant-phenotype offspring would still occur with probability (1/2)³=1/8 under independence. The observations are compatible with AA but do not establish it uniquely.",
+      "solution": [
+        "Identify AA and Aa as possible dominant-phenotype genotypes.",
+        "Calculate the probability of the observed outcome under Aa×aa.",
+        "Distinguish evidence favouring a possibility from proof."
+      ],
+      "markingPoints": [
+        "Recognise both possible parental genotypes.",
+        "Calculate 1/8 under the heterozygous model.",
+        "Conclude that three dominant offspring do not prove AA."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "q5",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "A learner says a dominant allele must be the most common allele in a population. Explain why the claim does not follow.",
+      "answer": "Dominance concerns the phenotype of a heterozygote, while allele frequency concerns how common an allele is in a population. The genotype-to-phenotype relationship alone supplies no population count or frequency.",
+      "solution": [
+        "Define dominance in the specified single-gene model.",
+        "Distinguish population frequency from expression.",
+        "Explain the missing evidence needed to make a frequency claim."
+      ],
+      "markingPoints": [
+        "Define dominance in the specified single-gene model.",
+        "Distinguish population frequency from expression.",
+        "Explain the missing evidence needed to make a frequency claim."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "application-check",
+      "type": "short",
+      "difficulty": "standard",
+      "prompt": "In a complete-dominance model, an Aa individual is crossed with aa. Give the offspring genotype probabilities and the probability that all three independent offspring show the dominant phenotype.",
+      "answer": "P(Aa) = 1/2 and P(aa) = 1/2; the probability all three show the dominant phenotype is 1/8.",
+      "solution": [
+        "The Aa parent supplies A or a with equal probability; the aa parent supplies only a.",
+        "The two equally likely offspring genotypes are Aa and aa.",
+        "Three independent dominant outcomes have probability (1/2)³ = 1/8."
+      ],
+      "markingPoints": [
+        "The Aa parent supplies A or a with equal probability; the aa parent supplies only a.",
+        "The two equally likely offspring genotypes are Aa and aa.",
+        "Three independent dominant outcomes have probability (1/2)³ = 1/8."
+      ],
+      "marks": 3,
+      "calculator": "allowed"
+    },
+    {
+      "id": "error-analysis",
+      "type": "short",
+      "difficulty": "extension",
+      "prompt": "An unknown dominant-phenotype parent crossed with aa has three dominant-phenotype offspring. A learner says this proves the parent is AA. Explain the error using the alternative genotype.",
+      "answer": "Aa remains possible: it produces three dominant offspring with probability 1/8 under the stated model.",
+      "solution": [
+        "The dominant phenotype permits AA or Aa before the cross.",
+        "Three dominant outcomes are certain under AA but still possible under Aa.",
+        "An outcome compatible with both hypotheses does not prove one genotype."
+      ],
+      "markingPoints": [
+        "The dominant phenotype permits AA or Aa before the cross.",
+        "Three dominant outcomes are certain under AA but still possible under Aa.",
+        "An outcome compatible with both hypotheses does not prove one genotype."
+      ],
+      "marks": 3,
+      "calculator": "allowed"
+    }
+  ],
+  "revisionChecklist": [
+    "State the inheritance assumptions.",
+    "List gametes and probabilities before filling a cross.",
+    "Distinguish expected proportions from guaranteed outcomes.",
+    "Explain the reasoning in “Reason through a test cross” and correct the linked error-analysis response without copying its solution."
+  ],
+  "diagrams": [
+    {
+      "id": "application-trace",
+      "title": "Reason through a test cross",
+      "description": "Read the labelled relationships to follow this worked application. P(Aa) = 1/2 and P(aa) = 1/2; the probability all three show the dominant phenotype is 1/8. This is an explanatory process diagram, not a scale drawing or a record of a learner attempt.",
+      "steps": [
+        {
+          "label": "Parental gametes",
+          "detail": "Aa supplies A or a; aa supplies only a."
+        },
+        {
+          "label": "Single-offspring outcomes",
+          "detail": "Aa and aa each have probability 1/2."
+        },
+        {
+          "label": "Repeated outcomes",
+          "detail": "Three independent dominant outcomes have probability 1/8 if the unknown parent is Aa."
+        }
+      ],
+      "links": [
+        "combine one gamete from each",
+        "multiply independent probabilities"
+      ]
+    }
+  ],
+  "teachingSequence": [
+    {
+      "title": "Establish the idea",
+      "guidance": "Explain “What an allele represents” in your own words. Work through the first example, then answer the linked questions before revealing their solutions.",
+      "noteHeadings": [
+        "What an allele represents"
+      ],
+      "workedExampleNumbers": [
+        1
+      ],
+      "questionIds": [
+        "q1",
+        "q2"
+      ]
+    },
+    {
+      "title": "Apply the method",
+      "guidance": "Use the remaining teaching sections to explain each step of the worked examples. Compare your reasoning with the marking points and record the specific step you would change.",
+      "noteHeadings": [
+        "Segregation and combining gametes",
+        "Interpreting predictions responsibly",
+        "Model assumptions, sample size and inference"
+      ],
+      "workedExampleNumbers": [
+        2,
+        3
+      ],
+      "questionIds": [
+        "q3",
+        "q4"
+      ]
+    },
+    {
+      "title": "Using a test cross without treating a small sample as certainty",
+      "guidance": "Read the application diagram “Reason through a test cross”, then close the explanation and attempt both the application and error-analysis questions. Explain the correction aloud before retrying the mixed practice.",
+      "noteHeadings": [
+        "Using a test cross without treating a small sample as certainty"
+      ],
+      "workedExampleNumbers": [
+        4
+      ],
+      "questionIds": [
+        "q5",
+        "application-check",
+        "error-analysis"
+      ]
+    }
+  ],
+  "revisionGuide": {
+    "summary": "Under a simple complete-dominance model, a dominant phenotype may correspond to either a homozygous or a heterozygous genotype. Crossing that individual with a homozygous recessive partner can distinguish the predictions. A heterozygous parent produces recessive-phenotype offspring with probability one half in this model; a homozygous dominant parent does not. However, observing only dominant offspring in a small sample is compatible with either parental genotype. Calculate the chance of the observation under each hypothesis and keep probability distinct from proof. The example assumes independent offspring, ordinary segregation and no viability differences; it is not a description of every inherited trait.",
+    "keyIdeas": [
+      "Aa supplies A or a; aa supplies only a.",
+      "Aa and aa each have probability 1/2.",
+      "Three independent dominant outcomes have probability 1/8 if the unknown parent is Aa.",
+      "Dominance describes heterozygote phenotype, not allele frequency."
+    ],
+    "formulas": [],
+    "recallPrompts": [
+      "What makes aa useful in a simple test cross?",
+      "Do three dominant offspring prove a parent is homozygous dominant?",
+      "How do genotype and phenotype differ?"
+    ],
+    "practiceQuestionIds": [
+      "q1",
+      "application-check",
+      "error-analysis"
+    ],
+    "revisit": "After checking your answer, write the specific rule or assumption you missed. Retry the linked questions without the worked example in a later session. A checked answer or completed checklist is not a measurement of mastery."
+  }
+}

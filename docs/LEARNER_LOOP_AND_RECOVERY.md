@@ -4,7 +4,7 @@ VertexED's supported private-beta loop is:
 
 1. Generate or choose practice.
 2. Complete a deterministic quiz or submit an answer/mock for structured review.
-3. Update weakness history only from `measured-v2` evidence with a teacher, official mark scheme, or validated answer-key provenance. AI confidence alone must never affect mastery.
+3. Update weakness history only from `measured-v2` evidence with validated-answer-key provenance. Learner-reported teacher or mark-scheme checks remain `learner-attested-v1`; AI confidence and learner attestation alone must never affect mastery.
 4. Schedule a topic retry automatically from the measured percentage: below 40% in one day, below 70% in three days, otherwise in seven days.
 5. Replace the existing topic retry after another measured attempt instead of accumulating duplicates.
 6. Surface the next retry, weakest measured topic, pending mock review, and sync state on `/main`.
@@ -48,7 +48,7 @@ After deployment, run `npm run test:smoke` and the authenticated golden-path sui
 
 ## Evidence boundaries
 
-Learners can correct individual AI-suggested marks before confirming them. A teacher-confirmed or official-mark-scheme entry records the learner's attestation and optional reference; it does not authenticate a teacher. Weekly counts deduplicate measured attempt IDs within a real seven-day window. Subject trends compare repeated measurements of the same topic and board over time, never adjacent different topics.
+Learners can correct individual AI-suggested marks before saving them. A reported teacher check or official-mark-scheme check is stored as `learner-attested-v1`; it does not authenticate a teacher, update verified mastery, schedule or complete a measured retry. Weekly counts deduplicate independently validated attempt IDs within a real seven-day window. Subject trends compare repeated measurements of the same topic and board over time, never adjacent different topics.
 
 Guide retrieval uses only editorially approved ledger entries with source, reviewer, review date, license, and permitted-use metadata. The current ledger has no approved guides, so guide chat reports that no approved passage is available. This restriction does not certify AI-generated resources or learner-uploaded sources.
 

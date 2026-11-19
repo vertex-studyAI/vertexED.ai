@@ -2,7 +2,7 @@
 
 @layer components {
   .study-zone-page {
-    --zone-danger-text: 0 93.5% 81.8%;
+    --zone-danger-text: 0 74% 38%;
     --zone-calculator-action-text: 216 28% 12%;
   }
   .dark .study-zone-page {

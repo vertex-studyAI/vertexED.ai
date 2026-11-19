@@ -1,3 +1,4 @@
+import { APP_ORIGIN } from '@/lib/appOrigin';
 import SEO from "@/components/SEO";
 import PageSection from "@/components/PageSection";
 import Article from "@/components/Article";
@@ -9,7 +10,7 @@ export default function TermsOfService() {
       <SEO
         title="Terms of Service - VertexED"
         description="Terms governing use of VertexED study tools and AI features."
-        canonical="https://www.vertexed.app/terms"
+        canonical={`${APP_ORIGIN}/terms`}
       />
       <PageSection className="max-w-3xl mx-auto py-10">
         <Article title="Terms of Service">
@@ -56,8 +57,8 @@ export default function TermsOfService() {
           <h2>AI limitations</h2>
           <p>
             AI responses, generated papers, guide drafts, answer feedback, citations, and mark allocations may be incomplete,
-            outdated, or wrong. A score remains provisional unless you confirm it against a teacher, an official mark scheme,
-            or another trusted answer key. VertexED does not predict exam results or guarantee improvement.
+            outdated, or wrong. Your own teacher or mark-scheme check can be saved as learner-attested history, but it is not
+            authenticated teacher approval and does not update verified mastery. VertexED does not predict exam results or guarantee improvement.
           </p>
 
           <h2>Your content</h2>
@@ -95,7 +96,7 @@ export default function TermsOfService() {
 
           <h2>Contact</h2>
           <p>
-            Questions about these Terms: <a href="mailto:legal@vertexed.app">legal@vertexed.app</a>
+            Questions about these Terms: <a href="mailto:vertexed.25@gmail.com">vertexed.25@gmail.com</a>
           </p>
         </Article>
       </PageSection>

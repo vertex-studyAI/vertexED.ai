@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "lessonId": "geometric-sequences",
+  "revision": "2026-10-21.3",
+  "notes": [
+    {
+      "heading": "Derive a finite sum before taking any infinite limit",
+      "paragraphs": [
+        "A finite geometric sum is defined even when the ratio is negative or has magnitude greater than one. The familiar derivation subtracts r times the sum from the sum, leaving only the first and final unmatched terms. Division by 1-r needs r≠1; the constant sequence must be handled separately. An infinite sum is an additional limit, available for a nonzero first term only when |r|<1. A finite total should never be replaced by the infinite value without discussing the missing tail and the required precision."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "depth-infinite-tail",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "For 8+4+2+..., find the sum of the first five terms, the infinite sum, and the remaining tail after five terms.",
+      "answer": "S_5=15.5, S_∞=16, and the tail is 0.5.",
+      "solution": [
+        "The first five terms are 8,4,2,1,0.5.",
+        "Use ratio 1/2 for the infinite sum and subtract the finite total."
+      ],
+      "markingPoints": [
+        "Find finite sum 15.5.",
+        "Justify convergence and find 16.",
+        "Find tail 0.5."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-ratio-negative",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "A real geometric sequence has u_2=6 and u_5=-48. Find its ratio and first term.",
+      "answer": "r=-2 and a=-3.",
+      "solution": [
+        "Divide u_5 by u_2 to obtain r³=-8.",
+        "Take the real cube root, then use ar=6."
+      ],
+      "markingPoints": [
+        "Obtain r³=-8.",
+        "Find r=-2.",
+        "Find a=-3."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-constant-case",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "A learner substitutes r=1 into a(1-r^n)/(1-r) and says the sum is undefined. For a=9 and n=7, explain the issue and find the actual finite sum.",
+      "answer": "The formula's divided form assumes r≠1. The sequence has seven terms equal to 9, so the sum is 63.",
+      "solution": [
+        "Identify the invalid division by 1-r=0.",
+        "Return to the sum itself, which is well-defined."
+      ],
+      "markingPoints": [
+        "State the formula restriction.",
+        "Identify seven equal terms.",
+        "Find 63."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    }
+  ]
+}

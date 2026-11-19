@@ -45,10 +45,126 @@
             "Limit the inference"
           ],
           "id": "african-american-studies-unit-1-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Why is describing Africa before Atlantic slavery only as a source of enslaved labour historically inadequate?",
+          "hint": "Consider chronology and diverse institutions.",
+          "hints": [
+            "Consider chronology and diverse institutions.",
+            "Identify omitted activity."
+          ],
+          "answer": "It projects a later system backwards. It omits varied states, communities and exchange networks. African societies should be studied through their own institutions and historical changes.",
+          "checkpoints": [
+            "It projects a later system backwards.",
+            "It omits varied states, communities and exchange networks.",
+            "African societies should be studied through their own institutions and historical changes."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "A foreign traveller describes one African court as wealthy. What can and cannot be inferred?",
+          "hint": "Identify the observed setting.",
+          "hints": [
+            "Identify the observed setting.",
+            "Consider source position."
+          ],
+          "answer": "The account offers evidence about that court as the traveller represented it. Its purpose and access shape the description. It does not establish that every household or society had the same wealth.",
+          "checkpoints": [
+            "The account offers evidence about that court as the traveller represented it.",
+            "Its purpose and access shape the description.",
+            "It does not establish that every household or society had the same wealth."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "id": "african-american-studies-unit-1",
-      "frameworkUnit": "Unit 1"
+      "frameworkUnit": "Unit 1",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "African societies and connected worlds in depth",
+            "paragraphs": [
+              "Comparing Mali and Swahili coastal communities reveals different forms of African connection before the Atlantic slave trade. Mali participated in trans-Saharan networks linking gold-producing regions with northern markets, while Swahili ports connected eastern Africa to Indian Ocean exchange. Transport, political authority and urban institutions shaped who benefited. Islam circulated through these networks but did not erase local languages or practices. A trade map shows possible connections, not the complete experience of every resident. Combine it with archaeological evidence and carefully situated accounts to explain exchange without reducing societies to commodities alone."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Compare a hypothetical caravan town taxing gold traffic with a coastal port servicing seasonal shipping.",
+            "steps": [
+              "Both obtain resources from exchange, but their routes and transport constraints differ.",
+              "Caravan protection and water access matter inland; harbour facilities and sailing seasons matter at the coast."
+            ],
+            "conclusion": "A shared commercial role can coexist with distinct institutions and environments."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What connected Mali to northern markets?",
+            "back": "Trans-Saharan exchange networks."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What connected Swahili ports to distant regions?",
+            "back": "Indian Ocean routes."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Does religious diffusion erase local practices automatically?",
+            "back": "No."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What can a trade map not show alone?",
+            "back": "Every resident's experience or the full distribution of benefits."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Two routes of exchange",
+            "description": "The comparison identifies a shared function and different mechanisms.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Caravan town",
+                "detail": "Overland movement depends on routes and water."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Coastal port",
+                "detail": "Maritime movement depends on harbours and sailing conditions."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Commercial centres",
+                "detail": "Both can link local production to distant demand."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "contrasts with"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "shares the role of"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Enslavement, community and resistance",
@@ -88,10 +204,126 @@
             "Explain corroboration"
           ],
           "id": "african-american-studies-unit-2-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Why should a successful escape not be treated as evidence that escape was equally available to everyone?",
+          "hint": "Consider information and material conditions.",
+          "hints": [
+            "Consider information and material conditions.",
+            "Keep risk visible."
+          ],
+          "answer": "Routes, contacts and resources varied. Family responsibilities and surveillance affected options. One success cannot represent all people's opportunities or risks.",
+          "checkpoints": [
+            "Routes, contacts and resources varied.",
+            "Family responsibilities and surveillance affected options.",
+            "One success cannot represent all people's opportunities or risks."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "How can a freedom narrative and a sale record answer different historical questions?",
+          "hint": "Compare their purposes.",
+          "hints": [
+            "Compare their purposes.",
+            "Avoid letting administrative language define the person."
+          ],
+          "answer": "The narrative can describe experience and interpretation. The sale record can document transactions and imposed legal status. Reading them together reveals both institutional coercion and a person's account without treating either as complete.",
+          "checkpoints": [
+            "The narrative can describe experience and interpretation.",
+            "The sale record can document transactions and imposed legal status.",
+            "Reading them together reveals both institutional coercion and a person's account without treating either as complete."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "id": "african-american-studies-unit-2",
-      "frameworkUnit": "Unit 2"
+      "frameworkUnit": "Unit 2",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Enslavement, community and resistance in depth",
+            "paragraphs": [
+              "Enslavement depended on organised coercion, not a loss of the humanity or agency of the people enslaved. Law, violence, sale and forced labour constrained choices and threatened families. Resistance therefore took varied forms under unequal risks, including flight, collective revolt, negotiations over work and efforts to sustain relationships. Not every survival action should be labelled resistance without context, but apparently private acts can challenge control over daily life. Freedom narratives combine testimony with an audience and persuasive purpose. Those features call for careful interpretation and corroboration, not automatic dismissal of the speaker's experience."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Analyse a hypothetical record in which an enslaved parent negotiates time to visit a child sold to another household.",
+            "steps": [
+              "The separation shows the coercive power of sale over family life.",
+              "The request seeks to preserve a relationship within severe constraints."
+            ],
+            "conclusion": "It can show agency and a challenge to imposed separation without suggesting that negotiation made the system voluntary."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is chattel slavery?",
+            "back": "A system treating enslaved people as property under law."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Does agency mean freedom from coercion?",
+            "back": "No."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Why compare forms of resistance?",
+            "back": "Risks, resources and aims differed by circumstance."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Does a persuasive purpose invalidate testimony?",
+            "back": "No; analyse its evidence and context."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Family under coercion",
+            "description": "The relationship persists within imposed constraints.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Forced separation",
+                "detail": "Sale disrupts parent and child."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Negotiated contact",
+                "detail": "The parent seeks continued connection."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Preserved relationship",
+                "detail": "Agency challenges one effect of control."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "is answered by"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "aims to sustain"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Freedom after emancipation",
@@ -131,10 +363,126 @@
             "Name a pull factor"
           ],
           "id": "african-american-studies-unit-3-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Explain why a Black community's investment in a school after emancipation can be political as well as educational.",
+          "hint": "Consider autonomy and collective organisation.",
+          "hints": [
+            "Consider autonomy and collective organisation.",
+            "Connect the institution to freedom."
+          ],
+          "answer": "The school develops literacy and learning. Collective funding and governance assert community priorities. It can support broader participation and autonomy despite exclusion.",
+          "checkpoints": [
+            "The school develops literacy and learning.",
+            "Collective funding and governance assert community priorities.",
+            "It can support broader participation and autonomy despite exclusion."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "A migrant finds higher wages but faces housing exclusion. How should the move be evaluated?",
+          "hint": "Retain both outcomes.",
+          "hints": [
+            "Retain both outcomes.",
+            "Avoid all-success or all-failure framing."
+          ],
+          "answer": "Higher wages indicate an economic opportunity. Housing exclusion limits access and security. The experience shows uneven change across dimensions of freedom and well-being.",
+          "checkpoints": [
+            "Higher wages indicate an economic opportunity.",
+            "Housing exclusion limits access and security.",
+            "The experience shows uneven change across dimensions of freedom and well-being."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "id": "african-american-studies-unit-3",
-      "frameworkUnit": "Unit 3"
+      "frameworkUnit": "Unit 3",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Freedom after emancipation in depth",
+            "paragraphs": [
+              "The Reconstruction Amendments changed constitutional status but did not make enforcement automatic. The Thirteenth Amendment prohibited slavery and involuntary servitude while retaining an exception for punishment after conviction; the Fourteenth established citizenship rules and protections against state denial of due process and equal protection; the Fifteenth prohibited voting discrimination based on race, colour or previous servitude. Violence and exclusion still restricted practical rights. African Americans built institutions and pursued mobility. The Great Migration moved millions from the South towards northern and western cities, where new opportunities coexisted with discrimination and racial violence."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Analyse a hypothetical town where Black citizens register to vote but face threats at the polling place.",
+            "steps": [
+              "Registration shows a formal route to participation.",
+              "Threats obstruct the exercise of that right even without changing the written constitutional protection."
+            ],
+            "conclusion": "The case distinguishes legal status, enforcement and lived access."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What did the Thirteenth Amendment retain?",
+            "back": "A punishment exception following conviction."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What does equal protection concern in the Fourteenth?",
+            "back": "State treatment of persons under law."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What discrimination does the Fifteenth prohibit?",
+            "back": "Voting discrimination based on race, colour or previous servitude."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Did migration eliminate discrimination?",
+            "back": "No."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Rights and effective access",
+            "description": "A legal change needs conditions that permit its exercise.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Constitutional protection",
+                "detail": "A formal claim to rights."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Enforcement and safety",
+                "detail": "Institutions must counter obstruction."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Practical participation",
+                "detail": "People can exercise the protected right."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "depends in practice on"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "enables"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Movements, strategies and research claims",
@@ -174,10 +522,126 @@
             "Identify suitable evidence"
           ],
           "id": "african-american-studies-unit-4-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Turn 'Was the movement successful?' into a bounded research question about a local campaign.",
+          "hint": "Choose an outcome and period.",
+          "hints": [
+            "Choose an outcome and period.",
+            "Make evidence identifiable."
+          ],
+          "answer": "Ask how a named campaign changed access to a specified service during a defined period. Use implementation and participation evidence. Keep wider equality claims outside what that evidence alone can establish.",
+          "checkpoints": [
+            "Ask how a named campaign changed access to a specified service during a defined period.",
+            "Use implementation and participation evidence.",
+            "Keep wider equality claims outside what that evidence alone can establish."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "Why should a leader's speech not be used alone to estimate a movement's membership?",
+          "hint": "Compare aim and measure.",
+          "hints": [
+            "Compare aim and measure.",
+            "Name appropriate evidence."
+          ],
+          "answer": "A speech communicates argument and mobilisation. It does not count all participants reliably. Membership records, attendance evidence and their limitations are more relevant to reach.",
+          "checkpoints": [
+            "A speech communicates argument and mobilisation.",
+            "It does not count all participants reliably.",
+            "Membership records, attendance evidence and their limitations are more relevant to reach."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "id": "african-american-studies-unit-4",
-      "frameworkUnit": "Unit 4"
+      "frameworkUnit": "Unit 4",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Movements, strategies and research claims in depth",
+            "paragraphs": [
+              "Freedom movements combined organisational labour with visible public action. A boycott requires communication, alternative transport, fundraising and sustained participation; a court case requires evidence, plaintiffs and legal argument. These strategies can reinforce one another rather than compete as isolated choices. A movement's public speeches reveal aims and persuasion, while meeting minutes or participation records can show how work was coordinated. Distinguish legal desegregation from broader economic equality when judging outcomes. A research question should specify a place, period and mechanism so that success is assessed against evidence rather than assumed from a famous event."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Compare a hypothetical campaign's court challenge with its organised refusal to use a segregated service.",
+            "steps": [
+              "The legal challenge seeks an enforceable ruling.",
+              "The boycott applies economic and public pressure but depends on practical support for participants."
+            ],
+            "conclusion": "The strategies can interact, while their effects need separate evidence."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What sustains a boycott beyond a speech?",
+            "back": "Organisation, communication, resources and participation."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What does litigation seek?",
+            "back": "A legal determination and remedy."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Does desegregation alone establish economic equality?",
+            "back": "No."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What can meeting minutes illuminate?",
+            "back": "Decisions, responsibilities and coordination."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Coordinated pressure",
+            "description": "Different strategies can support a common campaign.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Community organisation",
+                "detail": "Resources make sustained action possible."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Boycott and litigation",
+                "detail": "Economic pressure and legal argument act through different mechanisms."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Institutional change",
+                "detail": "Outcomes must be assessed through implementation."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "supports"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "can contribute to"
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

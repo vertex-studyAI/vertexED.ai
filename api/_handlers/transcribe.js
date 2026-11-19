@@ -7,7 +7,7 @@ import { parseTranscriptionRequest, TranscriptionInputError } from '../_lib/tran
 import { VERTEX_AGENTS } from '../_lib/vertexAgents.js';
 
 const TRANSCRIPTION_MODEL = 'gpt-4o-mini-transcribe';
-const ENRICHMENT_MODEL = 'gpt-4o-mini';
+const ENRICHMENT_MODEL = 'gpt-6-luna';
 
 function parseFlashcards(raw, limit) {
   try {

@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "lessonId": "data-representation",
+  "revision": "2026-10-21.3",
+  "notes": [
+    {
+      "heading": "Interpret a bit pattern using an explicit encoding",
+      "paragraphs": [
+        "A bit pattern has no unique meaning without its encoding. The same eight bits can represent an unsigned number, a signed number, part of a character or a colour component. In an eight-bit two's-complement integer, the most significant bit has weight -128 and the remaining weights are positive powers of two. Fixed width also limits which arithmetic results fit. Character count and byte count differ for variable-length encodings, so storage calculations need the actual encoding and assumptions about overhead rather than a universal one-byte-per-character rule."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "depth-signed-pattern",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "Interpret 11111101 as both an 8-bit unsigned integer and an 8-bit two's-complement integer.",
+      "answer": "253 unsigned and -3 signed.",
+      "solution": [
+        "The unsigned weights sum to 253.",
+        "For two's complement, replace the leading 128 weight with -128, equivalently subtract 256."
+      ],
+      "markingPoints": [
+        "Find unsigned 253.",
+        "Use the signed leading-bit interpretation.",
+        "Find signed -3."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-overflow",
+      "type": "extended",
+      "difficulty": "standard",
+      "prompt": "An 8-bit unsigned counter uses wraparound arithmetic. It contains 250 and is increased by 12. Give the mathematical sum and the stored value.",
+      "answer": "The mathematical sum is 262; the stored value is 6.",
+      "solution": [
+        "Eight bits represent values 0 through 255.",
+        "Reduce 262 modulo 256 under the stated wraparound rule."
+      ],
+      "markingPoints": [
+        "Find sum 262.",
+        "State the representable range.",
+        "Find stored value 6."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    },
+    {
+      "id": "depth-utf8-length",
+      "type": "extended",
+      "difficulty": "extension",
+      "prompt": "A fictional message contains 40 ASCII characters encoded in UTF-8 plus 10 other characters, each specified to take 3 bytes. Ignoring overhead, calculate bytes and explain why counting 50 characters is insufficient.",
+      "answer": "70 bytes; variable byte lengths mean 50 characters need not mean 50 bytes.",
+      "solution": [
+        "ASCII characters take 40×1=40 bytes here.",
+        "Add 10×3=30 bytes, using the stated encoding lengths."
+      ],
+      "markingPoints": [
+        "Compute 40 bytes.",
+        "Compute and add 30 bytes.",
+        "Explain character count versus byte count."
+      ],
+      "marks": 3,
+      "calculator": "not-required"
+    }
+  ]
+}

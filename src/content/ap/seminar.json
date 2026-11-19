@@ -45,10 +45,126 @@
             "Avoids general authority"
           ],
           "id": "seminar-1-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Narrow 'Are cities good?' into a researchable transport question.",
+          "hint": "Choose a place and outcome.",
+          "hints": [
+            "Choose a place and outcome.",
+            "Allow alternatives to be compared."
+          ],
+          "answer": "Ask how two routes affect travel time in a specified district. Define the relevant users and period. Compare evidence without assuming one route superior.",
+          "checkpoints": [
+            "Ask how two routes affect travel time in a specified district.",
+            "Define the relevant users and period.",
+            "Compare evidence without assuming one route superior."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "Why would a student's experience alone not settle the route question?",
+          "hint": "Distinguish an account from a distribution.",
+          "hints": [
+            "Distinguish an account from a distribution.",
+            "Consider other travellers."
+          ],
+          "answer": "One experience can identify a barrier. It cannot establish how common that barrier is. Broader journey evidence is needed for population claims.",
+          "checkpoints": [
+            "One experience can identify a barrier.",
+            "It cannot establish how common that barrier is.",
+            "Broader journey evidence is needed for population claims."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "frameworkUnit": "Seminar skill 1",
-      "id": "seminar-1"
+      "id": "seminar-1",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Turn a topic into a researchable issue in depth",
+            "paragraphs": [
+              "A researchable issue contains a decision or uncertainty that evidence can address. Narrowing a topic requires specifying a setting, affected people and a meaningful outcome. A question that assumes a policy is beneficial restricts the search before evidence is examined. Different lenses can reveal different consequences, but they should remain connected to the same issue. Record terms used in searching and retain credible disagreement. The purpose of initial inquiry is to discover the shape of the problem, including whether the proposed question needs revision."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Narrow the invented topic 'school uniforms'.",
+            "steps": [
+              "Specify a setting and a contested outcome: uniform-cost assistance at one school.",
+              "Ask how alternative assistance schemes affect access and administrative cost."
+            ],
+            "conclusion": "The resulting comparison can use documented costs and participant experiences without assuming a preferred scheme."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What makes a question leading?",
+            "back": "It assumes the desired answer."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What does scope specify?",
+            "back": "The setting, population and issue."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Why use multiple lenses?",
+            "back": "They reveal connected but different consequences."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why preserve contrary evidence?",
+            "back": "It tests the proposed explanation."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Scoping uniform assistance",
+            "description": "A broad topic becomes an evidence-based comparison.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Uniform policy",
+                "detail": "A broad area of interest."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Cost barriers",
+                "detail": "A specific access issue."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Assistance options",
+                "detail": "A comparison of benefits and administration."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "is narrowed to"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "creates a decision about"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Map a line of reasoning",
@@ -88,10 +204,126 @@
             "Removes causal overreach"
           ],
           "id": "seminar-2-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Invented argument: 'The hall is full, so tickets are too cheap.' Identify the missing warrant.",
+          "hint": "Attendance alone does not measure price.",
+          "hints": [
+            "Attendance alone does not measure price.",
+            "Consider capacity and demand."
+          ],
+          "answer": "The claim assumes full attendance indicates underpricing. A small capacity or popular event could also fill the hall. Price evidence is needed to support the conclusion.",
+          "checkpoints": [
+            "The claim assumes full attendance indicates underpricing.",
+            "A small capacity or popular event could also fill the hall.",
+            "Price evidence is needed to support the conclusion."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "A report has accurate attendance figures but no learning data. How can you use it responsibly?",
+          "hint": "Match claim to measure.",
+          "hints": [
+            "Match claim to measure.",
+            "State the unsupported extension."
+          ],
+          "answer": "Use it to describe attendance. Do not treat attendance as demonstrated learning. Seek learning evidence for a claim about educational effects.",
+          "checkpoints": [
+            "Use it to describe attendance.",
+            "Do not treat attendance as demonstrated learning.",
+            "Seek learning evidence for a claim about educational effects."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "frameworkUnit": "Seminar skill 2",
-      "id": "seminar-2"
+      "id": "seminar-2",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Map a line of reasoning in depth",
+            "paragraphs": [
+              "A line of reasoning links claims through evidence and warrants. Map the argument by asking what each statement is doing: offering a conclusion, reporting information, supplying a connecting assumption or acknowledging a limit. A warrant may be unstated and still essential. For example, using survey satisfaction to justify a policy assumes satisfaction is a relevant measure of success. Evaluating reasoning therefore requires checking the evidence's quality and the relevance of that assumption. Accurate data can still support an invalid inference when the connection is weak."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Invented claim: 'The club has twice as many members, so its teaching must be better.'",
+            "steps": [
+              "Membership growth is the evidence; improved teaching is the conclusion.",
+              "The warrant assumes growth reflects teaching quality, overlooking publicity or lower fees."
+            ],
+            "conclusion": "The evidence establishes growth, while the quality claim needs additional measures."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is a warrant?",
+            "back": "The link explaining why evidence supports a claim."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "Can true evidence support a weak inference?",
+            "back": "Yes, when the connecting assumption fails."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What is a subclaim?",
+            "back": "An intermediate claim supporting a larger conclusion."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "What does an argument map reveal?",
+            "back": "Dependencies and unsupported leaps."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Membership inference",
+            "description": "The conclusion depends on an untested assumption.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "More members",
+                "detail": "The reported observation."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Quality assumption",
+                "detail": "Growth is attributed to teaching."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Better teaching",
+                "detail": "The conclusion requiring separate evidence."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "is interpreted through"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "is used to claim"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Compare perspectives through shared criteria",
@@ -131,10 +363,126 @@
             "Links it to evidence"
           ],
           "id": "seminar-3-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "Two fictional writers favour an arts grant for different reasons: jobs and cultural access. Explain their relationship.",
+          "hint": "Compare reasons as well as conclusions.",
+          "hints": [
+            "Compare reasons as well as conclusions.",
+            "Agreement can conceal different priorities."
+          ],
+          "answer": "They agree on funding. One prioritises employment while the other prioritises access. Different priorities may produce disagreement over which projects receive funds.",
+          "checkpoints": [
+            "They agree on funding.",
+            "One prioritises employment while the other prioritises access.",
+            "Different priorities may produce disagreement over which projects receive funds."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "How would you avoid false balance when one grant claim has audited costs and another has an unsupported estimate?",
+          "hint": "Represent both claims accurately.",
+          "hints": [
+            "Represent both claims accurately.",
+            "Evaluate the evidence quality."
+          ],
+          "answer": "Describe both estimates. Give greater weight to the transparent audited calculation. Explain the unsupported estimate's uncertainty rather than treating them as equivalent.",
+          "checkpoints": [
+            "Describe both estimates.",
+            "Give greater weight to the transparent audited calculation.",
+            "Explain the unsupported estimate's uncertainty rather than treating them as equivalent."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "frameworkUnit": "Seminar skill 3",
-      "id": "seminar-3"
+      "id": "seminar-3",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Compare perspectives through shared criteria in depth",
+            "paragraphs": [
+              "A perspective consists of a position supported by reasons and assumptions, not merely a person's identity. Two members of the same group may disagree, while people in different groups may share a criterion. Compare perspectives using the same question: who benefits, who bears a cost and which evidence supports each prediction? Do not manufacture equal credibility when one claim lacks support. A fair comparison represents the strongest relevant reasoning on each side and then explains why the evidence warrants different weights or a qualified judgement."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Compare invented proposals for a shared hall: a sports club wants evening practice; a residents' group wants quiet after nine.",
+            "steps": [
+              "Both concern the same space but prioritise access and disturbance respectively.",
+              "Compare schedules using participation, noise and feasible closing times."
+            ],
+            "conclusion": "A shared timetable can be evaluated against both concerns instead of treating the groups as mutually hostile."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "Is identity itself a perspective?",
+            "back": "No; identify the actual position and reasons."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What makes comparison fair?",
+            "back": "Shared criteria and accurate representation."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "Must all claims receive equal weight?",
+            "back": "No; evidential quality matters."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why examine within-group disagreement?",
+            "back": "Groups do not hold a single uniform view."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Hall scheduling perspectives",
+            "description": "Shared criteria connect competing concerns.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Practice access",
+                "detail": "The club needs usable evening time."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Neighbour disturbance",
+                "detail": "Residents need predictable quiet."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Schedule criteria",
+                "detail": "Compare participation and noise together."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "must be weighed with"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "informs"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Synthesize a qualified argument",
@@ -174,10 +522,126 @@
             "Keeps the logical distinction"
           ],
           "id": "seminar-4-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "One fictional study finds online access useful; another studies households without reliable internet. Synthesize them.",
+          "hint": "Check the populations.",
+          "hints": [
+            "Check the populations.",
+            "Do not average unlike experiences."
+          ],
+          "answer": "Online access can help connected households. Connectivity limits transfer to the second group. A recommendation should include equivalent access for households lacking reliable internet.",
+          "checkpoints": [
+            "Online access can help connected households.",
+            "Connectivity limits transfer to the second group.",
+            "A recommendation should include equivalent access for households lacking reliable internet."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "Why is quoting three sources consecutively not sufficient synthesis?",
+          "hint": "Look for an explicit relationship.",
+          "hints": [
+            "Look for an explicit relationship.",
+            "Ask what conclusion follows from their interaction."
+          ],
+          "answer": "Consecutive quotations may remain separate summaries. Synthesis explains agreement, tension or limitation. That relationship must support the writer's own conclusion.",
+          "checkpoints": [
+            "Consecutive quotations may remain separate summaries.",
+            "Synthesis explains agreement, tension or limitation.",
+            "That relationship must support the writer's own conclusion."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "frameworkUnit": "Seminar skill 4",
-      "id": "seminar-4"
+      "id": "seminar-4",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Synthesize a qualified argument in depth",
+            "paragraphs": [
+              "Synthesis involves a new argument built through relationships among sources. A source may provide a general pattern, another may reveal an exception, and a third may explain why the exception occurs. Keep their settings and methods visible so that apparent agreement is not manufactured by ignoring differences. Your conclusion should state how the combined evidence changes the answer to the question. Qualification is substantive when it identifies a condition that matters; adding 'sometimes' without explaining when or why does little analytical work."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "Invented findings: weekend classes attract workers, but interviews identify childcare as a barrier.",
+            "steps": [
+              "The attendance pattern supports weekend availability for some workers.",
+              "The interviews limit the inference that timing alone ensures access."
+            ],
+            "conclusion": "Recommend testing childcare support alongside weekend provision, with uptake assessed separately."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What is synthesis?",
+            "back": "Reasoned interaction among sources."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "How can an exception help?",
+            "back": "It reveals conditions limiting a general claim."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "What is empty qualification?",
+            "back": "Hedging without specifying a meaningful condition."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Who owns the final reasoning?",
+            "back": "The writer integrating the sources."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "Access beyond scheduling",
+            "description": "One finding limits the scope of another.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Weekend attendance",
+                "detail": "Timing helps some workers."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Childcare barrier",
+                "detail": "Timing does not remove every constraint."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Combined proposal",
+                "detail": "Test support for both scheduling and care."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "is qualified by"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "motivates"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "title": "Communicate and collaborate accountably",
@@ -217,10 +681,126 @@
             "Names a next evidential step"
           ],
           "id": "seminar-5-q2"
+        },
+        {
+          "id": "extension-practice-1",
+          "prompt": "A teammate changes the final recommendation after rehearsal. What should the group do?",
+          "hint": "Check effects across the argument.",
+          "hints": [
+            "Check effects across the argument.",
+            "Preserve the reason for revision."
+          ],
+          "answer": "Review whether evidence supports the new recommendation. Update connected slides and explanations. Record the change and agree responsibilities.",
+          "checkpoints": [
+            "Review whether evidence supports the new recommendation.",
+            "Update connected slides and explanations.",
+            "Record the change and agree responsibilities."
+          ],
+          "marks": 3,
+          "difficulty": "standard",
+          "calculatorPolicy": "not-required"
+        },
+        {
+          "id": "extension-practice-2",
+          "prompt": "An audience asks whether your trial will work nationally. Answer within a single-school design.",
+          "hint": "Name the study's setting.",
+          "hints": [
+            "Name the study's setting.",
+            "Separate local evidence from transfer."
+          ],
+          "answer": "The trial provides evidence in one school. National effectiveness remains untested. Replication in varied settings would help assess transfer.",
+          "checkpoints": [
+            "The trial provides evidence in one school.",
+            "National effectiveness remains untested.",
+            "Replication in varied settings would help assess transfer."
+          ],
+          "marks": 3,
+          "difficulty": "transfer",
+          "calculatorPolicy": "not-required"
         }
       ],
       "frameworkUnit": "Seminar skill 5",
-      "id": "seminar-5"
+      "id": "seminar-5",
+      "studyPack": {
+        "version": "2026-10-21.1",
+        "notes": [
+          {
+            "title": "Communicate and collaborate accountably in depth",
+            "paragraphs": [
+              "Communication should preserve the reasoning while making its structure easy to follow. A visual needs a clear claim, readable labels and enough context to interpret its evidence. Group collaboration requires more than dividing slides: members need to understand the shared argument and how their contributions connect. Record decisions and changes so that contributions remain traceable. During questions, distinguish an answer supported by evidence from a plausible extension. Acknowledging a limit and explaining the next evidence needed is more credible than inventing certainty under pressure."
+            ]
+          }
+        ],
+        "workedExamples": [
+          {
+            "id": "extension-worked-1",
+            "prompt": "An invented presentation shows a bar marked '80' and says participation improved. Repair the slide.",
+            "steps": [
+              "Label the measure as participants and show the comparison period or baseline.",
+              "Add the source and explain whether the increase represents new people or repeat visits."
+            ],
+            "conclusion": "The slide can support a participation claim only when its unit and comparison are visible."
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "extension-card-1",
+            "front": "What does a chart need?",
+            "back": "Measure, units, comparison context and source."
+          },
+          {
+            "id": "extension-card-2",
+            "front": "What should a group decision log preserve?",
+            "back": "Choices, reasons and contributions."
+          },
+          {
+            "id": "extension-card-3",
+            "front": "How answer beyond the evidence?",
+            "back": "State the limit and needed evidence."
+          },
+          {
+            "id": "extension-card-4",
+            "front": "Why rehearse across roles?",
+            "back": "Members must understand the shared argument."
+          }
+        ],
+        "diagrams": [
+          {
+            "id": "extension-diagram-1",
+            "title": "A defensible presentation claim",
+            "description": "Context turns a number into interpretable evidence.",
+            "nodes": [
+              {
+                "id": "extension-node-1",
+                "label": "Count of 80",
+                "detail": "A number without sufficient context."
+              },
+              {
+                "id": "extension-node-2",
+                "label": "Defined measure",
+                "detail": "Participants in a specified period."
+              },
+              {
+                "id": "extension-node-3",
+                "label": "Supported comparison",
+                "detail": "A clear change against a comparable baseline."
+              }
+            ],
+            "edges": [
+              {
+                "from": "extension-node-1",
+                "to": "extension-node-2",
+                "label": "requires"
+              },
+              {
+                "from": "extension-node-2",
+                "to": "extension-node-3",
+                "label": "enables"
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

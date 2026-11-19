@@ -163,7 +163,7 @@ export default function MypPracticeWorkspace({
             aria-pressed={index === questionIndex}
             onClick={() => setQuestionIndex(index)}
           >
-            {entry.difficulty}
+            {index + 1}. {entry.difficulty}
           </button>
         ))}
       </div>
