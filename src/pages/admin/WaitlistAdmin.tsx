@@ -4,6 +4,7 @@ import PageSection from '@/components/PageSection';
 import SEO from '@/components/SEO';
 import { authFetch } from '@/lib/apiAuth';
 import { waitlistAdminError } from '@/lib/waitlistAdminError.mjs';
+import PaymentReviewPanel from '@/components/admin/PaymentReviewPanel';
 
 type WaitlistEntry = {
   id: string;
@@ -158,6 +159,8 @@ export default function WaitlistAdmin() {
             ← Back to Main
           </Link>
         </div>
+
+        <PaymentReviewPanel />
 
         <div className="mb-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           <div className="rounded-xl border border-border bg-card/40 p-3">

@@ -1,5 +1,6 @@
 import { getSupabaseAdmin } from './supabaseAdmin.js';
 import { getAccountWaitlistEntry } from './waitlistAccess.js';
+import { getActiveSubscription } from './upiPayments.js';
 
 const MEMBERSHIP_STATUSES = new Set(['approved', 'pending', 'rejected', 'revoked']);
 
@@ -8,12 +9,20 @@ export async function getVertexAccess(user, supabase) {
   if (!user?.email || !user.email_confirmed_at || user.is_anonymous) {
     return { status: 'verification_required', method: null, access: false };
   }
-  const entry = await getAccountWaitlistEntry(supabase ?? getSupabaseAdmin(), user);
+  const client = supabase ?? getSupabaseAdmin();
+  const entry = await getAccountWaitlistEntry(client, user);
   const status = entry?.status ?? 'unregistered';
   if (entry && (entry.auth_user_id !== user.id || !MEMBERSHIP_STATUSES.has(status))) {
     throw new Error('Invalid VertexED membership record');
   }
-  return { status, method: entry?.signup_method ?? null, access: status === 'approved' };
+  const method = entry?.signup_method ?? null;
+  if (status === 'approved') return { status, method, access: true };
+  // A paid UPI subscription admits any account an administrator has not revoked.
+  if (status !== 'revoked') {
+    const subscription = await getActiveSubscription(client, user.id);
+    if (subscription) return { status: 'approved', method, access: true, subscription };
+  }
+  return { status, method, access: false, canSubscribe: status !== 'revoked' };
 }
 
 export function respondAccessUnavailable(res) {

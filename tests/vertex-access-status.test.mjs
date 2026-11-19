@@ -23,6 +23,7 @@ function setup(t, { status = 'approved', verified = true, outage = false, limite
     if (url.pathname === '/rest/v1/waitlist') return outage
       ? Response.json({ message: 'Fixture unavailable' }, { status: 503 })
       : Response.json(status === 'unregistered' ? [] : [{ id: 'row-a', auth_user_id: 'user-a', status, signup_method: 'email' }]);
+    if (url.pathname === '/rest/v1/upi_subscriptions') return Response.json([]);
     assert.fail(`Unexpected request ${url.pathname}`);
   });
   return calls;
