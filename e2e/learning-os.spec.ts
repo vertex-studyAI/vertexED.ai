@@ -12,6 +12,8 @@ const learnerId = 'f40db66b-1b55-4ab8-88d0-14a9ba476c16';
 const artifactId = '25734997-775e-473f-b415-897751b08497';
 
 async function activateWithKeyboard(locator: Locator) {
+  // Wait for asynchronously hydrated controls before testing keyboard focus.
+  await expect(locator).toBeEnabled();
   await locator.focus();
   await expect(locator).toBeFocused();
   await locator.press('Enter');

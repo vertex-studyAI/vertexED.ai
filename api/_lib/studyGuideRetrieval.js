@@ -29,17 +29,16 @@ export function resolvePublicGuidePath(root, relativePath) {
   return candidate;
 }
 
-async function loadGuideDocuments() {
-  const root = join(process.cwd(), 'public');
+export async function loadGuideDocuments({ root = join(process.cwd(), 'public'), approvalPath = join(root, '..', 'contracts/content-publication-approvals.json') } = {}) {
   const manifest = JSON.parse(await readFile(join(root, 'study-guides/myp/manifest.json'), 'utf8'));
-  const register = JSON.parse(await readFile(join(process.cwd(), 'contracts/content-publication-approvals.json'), 'utf8'));
+  const register = JSON.parse(await readFile(approvalPath, 'utf8'));
   if (register.schemaVersion !== 1 || !Array.isArray(register.entries)) throw new Error('Invalid content approval register.');
   const approved = new Map(register.entries.filter(isApprovedGuide).map(entry => [entry.path, entry]));
   const pages = await Promise.all(manifest.subjects.flatMap((subject) => subject.pages.filter(page => approved.has(page.path)).map(async (page) => {
     const content = await readFile(resolvePublicGuidePath(root, page.path), 'utf8');
     const hash = `sha256:${createHash('sha256').update(content).digest('hex')}`;
     if (!hasExactContentApproval(approved.get(page.path), hash)) return null;
-    return { subject: subject.name, title: page.title, relativePath: page.relativePath, sourcePath: page.path, content };
+    return { subject: subject.name, subjectSlug: subject.slug, title: page.title, relativePath: page.relativePath, sourcePath: page.path, content, contentHash: hash };
   })));
   return pages.filter(Boolean);
 }

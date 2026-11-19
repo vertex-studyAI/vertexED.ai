@@ -12,7 +12,11 @@ test('reservation uses full documented context, exact snapshot and explicit stan
   assert.equal(AI_USAGE_POLICY.projectLimit, 10_000_000);
 });
 test('pricing expires closed and rejects unknown provider/model/input charges', () => {
-  assert.throws(() => preparePaidRequest(request(), Date.parse(AI_USAGE_POLICY.expiresAt)), { code: 'AI_USAGE_UNAVAILABLE' });
+  const expires = Date.parse(AI_USAGE_POLICY.expiresAt);
+  assert.equal(preparePaidRequest(request(), expires - 1).reservedMicros, 420951);
+  for (const now of [expires, expires + 1]) {
+    assert.throws(() => preparePaidRequest(request(), now), { code: 'AI_USAGE_UNAVAILABLE' });
+  }
   const cases = [request({}, { provider: 'google' }), request({}, { model: 'gpt-5' }), request({}, { url: 'https://custom.invalid/v1/responses' }), request({ tools: [] }), request({ stream: true }), request({ reasoning: {} }), request({ input: [{ role: 'user', content: [{ type: 'input_image', image_url: 'data:fixture' }] }] }), request({ max_output_tokens: 4097 }), request({ max_output_tokens: null }), request({ conversation: 'conv_test' })];
   for (const value of cases) assert.throws(() => preparePaidRequest(value, AI_NOW), { code: 'AI_MODEL_UNSUPPORTED' });
 });
