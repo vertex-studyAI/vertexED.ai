@@ -29,7 +29,7 @@ test('review renewal admits the previous deadline with the same reservation and 
   const fixture = usageFixture(); let providerCalls = 0;
   await fixture.run(() => fetchPaidProviderResponse(request({ fetchImpl: async () => {
     providerCalls++; return paidResponse();
-  } })), { now: () => Date.parse('2026-11-16T00:00:00.000Z') });
+  } })), { now: () => Date.parse('2026-11-22T00:00:00.000Z') });
   assert.equal(providerCalls, 1);
   assert.deepEqual(fixture.calls.map(row => row.name), ['reserve_ai_usage', 'mark_ai_usage_dispatched', 'settle_ai_usage']);
   const reservation = fixture.calls[0].args;
