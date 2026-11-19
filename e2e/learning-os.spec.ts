@@ -3,7 +3,7 @@ import { fixturePdf } from '../tests/fixtures/pdf.mjs';
 import { extractPdf, decodePdfRequest } from '../api/_lib/pdfImport.js';
 import { selectTheme } from './theme-controls';
 import { expect, test, type Locator, type Page } from '@playwright/test';
-import { CONCEPT_GRAPH } from '../src/lib/learningModel.mjs';
+import { CONCEPT_GRAPH, parseLearningRecords } from '../src/lib/learningModel.mjs';
 
 const productionBundle = process.env.VERTEXED_REFERENCE_BUILT === '1';
 const heldPracticeReason = 'Seeded practice questions are held from production pending subject review.';
@@ -11,7 +11,98 @@ const heldPracticeReason = 'Seeded practice questions are held from production p
 const learnerId = 'f40db66b-1b55-4ab8-88d0-14a9ba476c16';
 const artifactId = '25734997-775e-473f-b415-897751b08497';
 
+for (const width of [1440, 1024, 390]) {
+  test(`progress resolves copied attempts while preserving raw history at ${width}`, async ({ page }, info) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    const errors: string[] = [];
+    page.on('pageerror', error => errors.push(error.message));
+    page.on('console', message => { if (message.type() === 'error' && message.text().includes('same key')) errors.push(message.text()); });
+    await installAccountHarness(page, true);
+    // Held synthetic history exercises the production Progress route without
+    // approving sample content or starting a practice session behind its gate.
+    const original = await page.evaluate(id => {
+      const key = `vertex_content:${id}:practice_attempts`;
+      const now = Date.now();
+      const base = { id: 'attempt:progress-copy-fixture', questionId: 'math-modulus-01',
+        contentRevision: 'sha256:' + '1'.repeat(64), answer: '5', confidence: 4,
+        hinted: false, seconds: 30, at: new Date(now - 86400000).toISOString(), mode: 'mixed' };
+      const conflict = { ...base, id: 'attempt:progress-conflicting' };
+      const rows = [base, { ...base }, conflict, { ...conflict, answer: '7' },
+        { ...base, id: 'attempt:progress-older-valid', seconds: 90, at: new Date(now - 20 * 86400000).toISOString() },
+        // Stay within the storage schema's one-day clock-skew allowance while
+        // remaining future-dated for the Progress summary's current-time view.
+        { ...base, id: 'attempt:progress-future-only', at: new Date(now + 3600000).toISOString() }];
+      const raw = JSON.stringify(rows);
+      localStorage.setItem(key, raw);
+      return raw;
+    }, learnerId);
+    expect(parseLearningRecords(original, 'practice_attempt')).toHaveLength(6);
+    // Use the app's route transition so dashboard requests finish in their
+    // original document instead of being cancelled by a synthetic hard reload.
+    const collapsedNavigation = width < 1280;
+    if (collapsedNavigation) {
+      const menu = page.getByRole('button', { name: /navigation menu/ });
+      await expect(menu).toBeEnabled();
+      await menu.focus();
+      await menu.press('Enter');
+      await expect(menu).toHaveAttribute('aria-expanded', 'true');
+    }
+    const navigation = page.getByRole('navigation', {
+      name: collapsedNavigation ? 'Mobile navigation' : 'Main navigation', exact: true,
+    });
+    const practiceLink = navigation.getByRole('link', { name: 'Practise', exact: true });
+    await expect(practiceLink).toBeVisible();
+    await practiceLink.focus();
+    await practiceLink.press('Enter');
+    await expect(page).toHaveURL(/\/learn$/);
+    await page.getByRole('button', { name: 'Progress', exact: true }).click();
+    const summary = page.locator('.learning-summary');
+    await expect(summary).toContainText('3 submitted attempts');
+    await expect(summary).toContainText('0 / 0 answer-key checks correct');
+    await expect(summary).toContainText('3 attempts awaiting review');
+    await expect(summary).toContainText('2 active-page minutes');
+    const dateRange = page.getByRole('combobox', { name: 'Date range', exact: true });
+    await expect(dateRange).toBeEnabled();
+    await dateRange.focus();
+    await expect(dateRange).toBeFocused();
+    await dateRange.press('ArrowUp');
+    await dateRange.press('Tab');
+    await expect(dateRange).not.toBeFocused();
+    await expect(dateRange).toHaveValue('7');
+    await expect(summary).toContainText('2 submitted attempts');
+    await expect(summary).toContainText('0 / 0 answer-key checks correct');
+    await expect(summary).toContainText('2 attempts awaiting review');
+    await expect(summary).toContainText('1 active-page minutes');
+    await expect(page.getByRole('cell', { name: 'Conflicting saved copies', exact: true })).toHaveCount(2);
+    await expect(page.locator('.learning-table tbody tr')).toHaveCount(4);
+    for (const theme of ['light', 'dark'] as const) {
+      await selectTheme(page, theme);
+      await page.locator('.learning-table').evaluate(element => { element.scrollLeft = 0; });
+      await page.evaluate(() => window.scrollTo(0, 0));
+      await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
+      await page.screenshot({ path: info.outputPath(`progress-identity-${width}-${theme}.png`), animations: 'disabled', fullPage: true });
+      if (width === 390) {
+        const conflict = page.getByRole('cell', { name: 'Conflicting saved copies', exact: true }).first();
+        await conflict.scrollIntoViewIfNeeded();
+        await page.evaluate(() => window.scrollTo(0, 0));
+        await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
+        const bounds = await conflict.boundingBox();
+        expect(bounds).not.toBeNull();
+        expect(bounds!.x).toBeGreaterThanOrEqual(0);
+        expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(width + 1);
+        await page.screenshot({ path: info.outputPath(`progress-identity-${width}-${theme}-results.png`), animations: 'disabled', fullPage: true });
+      }
+    }
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width + 1);
+    expect(await page.evaluate(id => localStorage.getItem(`vertex_content:${id}:practice_attempts`), learnerId)).toBe(original);
+    expect(errors).toEqual([]);
+  });
+}
+
 async function activateWithKeyboard(locator: Locator) {
+  // focus() does not wait for enabled state; a loading control ignores it.
+  await expect(locator).toBeEnabled();
   await locator.focus();
   await expect(locator).toBeFocused();
   await locator.press('Enter');
@@ -119,6 +210,8 @@ for (const width of [1440, 1024, 390]) {
     await activateWithKeyboard(dialog.getByRole('button', { name: 'Add task', exact: true }));
     await expect.poll(() => JSON.stringify(state.planner)).toContain('Leap day revision');
     await expect(page.getByRole('heading', { name: 'Leap day revision', exact: true })).toBeVisible();
+    await expect(addForSelectedDay).toHaveCount(0);
+    await expect(page.getByRole('button', { name: 'New Task', exact: true })).toBeFocused();
     if (width > 900) {
       await jump.fill('2028-12-29');
       await activateWithKeyboard(navigation.getByRole('button', { name: 'Go', exact: true }));
@@ -141,6 +234,10 @@ for (const width of [1440, 1024, 390]) {
       await activateWithKeyboard(page.getByRole('button', { name: 'Hide calendar', exact: true }));
     }
     for (const theme of ['light', 'dark'] as const) {
+      // A tiny transition duration still waits for a rendering frame and can
+      // leave inherited page colours behind the theme tokens in WebKit.
+      await expect(page.locator('html')).toHaveCSS('transition-property', 'none');
+      await expect(page.locator('body')).toHaveCSS('transition-property', 'none');
       await selectTheme(page, theme);
       await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
       await page.screenshot({ path: info.outputPath(`planner-navigation-${width}-${theme}.png`), animations: 'disabled' });
@@ -151,6 +248,112 @@ for (const width of [1440, 1024, 390]) {
     await expect(jump).toHaveValue(today);
   });
 }
+
+test('planner task dialogs preserve focus through cancellation, rescheduling and deletion', async ({ page }) => {
+  await installAccountHarness(page, true);
+  await page.goto('/planner');
+  const navigation = page.getByRole('group', { name: 'Browse your plan', exact: true });
+  const jump = navigation.getByLabel('Jump to date', { exact: true });
+  await jump.fill('2028-02-28');
+  await activateWithKeyboard(navigation.getByRole('button', { name: 'Go', exact: true }));
+  const addForDay = page.getByRole('button', { name: 'Add a task for this day', exact: true });
+  const newTask = page.getByRole('button', { name: 'New Task', exact: true });
+  await activateWithKeyboard(addForDay);
+  await page.keyboard.press('Escape');
+  await expect(addForDay).toBeFocused();
+
+  await activateWithKeyboard(addForDay);
+  const addDialog = page.getByRole('dialog', { name: 'Add a study task', exact: true });
+  await addDialog.getByLabel('Task name', { exact: true }).fill('Keyboard return check');
+  await activateWithKeyboard(addDialog.getByRole('button', { name: 'Add task', exact: true }));
+  await expect(addForDay).toHaveCount(0);
+  await expect(newTask).toBeFocused();
+
+  const edit = page.getByRole('button', { name: /^Edit Keyboard return check,/ });
+  await activateWithKeyboard(edit);
+  const editDialog = page.getByRole('dialog', { name: 'Edit task', exact: true });
+  await activateWithKeyboard(editDialog.getByRole('button', { name: 'Cancel', exact: true }));
+  await expect(edit).toBeFocused();
+
+  await activateWithKeyboard(edit);
+  await editDialog.getByLabel('Date', { exact: true }).fill('2028-02-29');
+  await activateWithKeyboard(editDialog.getByRole('button', { name: 'Save', exact: true }));
+  await expect(edit).toHaveCount(0);
+  await expect(newTask).toBeFocused();
+  await jump.fill('2028-02-29');
+  await activateWithKeyboard(navigation.getByRole('button', { name: 'Go', exact: true }));
+  await activateWithKeyboard(edit);
+  await activateWithKeyboard(editDialog.getByRole('button', { name: 'Delete', exact: true }));
+  await expect(edit).toHaveCount(0);
+  await expect(newTask).toBeFocused();
+});
+
+for (const width of [1440, 1024, 390]) {
+  test(`feedback opens without a deferred download or discarding an unfinished answer at ${width}`, async ({ page }, info) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.route(/^https?:\/\//, route => {
+      const hostname = new URL(route.request().url()).hostname;
+      return ['127.0.0.1', 'localhost'].includes(hostname) ? route.continue() : route.abort('blockedbyclient');
+    });
+    // A failed optional module used to permanently replace the launcher with
+    // an unavailable message. The signed-in app must already contain this UI.
+    await page.route(/\/assets\/(?:FeedbackLauncher|OptionalAppEnhancements)-[^/]+\.js(?:\?.*)?$/, route => route.abort('failed'));
+    await installAccountHarness(page, true);
+    await page.goto('/answer-reviewer');
+    await page.getByLabel('Question', { exact: true }).fill('Why can photosynthesis plateau at high light intensity?');
+    const answer = page.getByLabel('Your answer', { exact: true });
+    const draft = 'Carbon dioxide may become limiting while I finish this explanation.';
+    await answer.fill(draft);
+    // Once the learner has started work, even later script downloads may fail.
+    // Opening the reporting form must use code that is already available.
+    await page.route(/\/assets\/[^/]+\.js(?:\?.*)?$/, route => route.abort('failed'));
+    await page.evaluate(() => { (window as any).__feedbackRecoveryDocument = true; });
+    const launcher = page.getByRole('button', { name: 'Give VertexED feedback', exact: true });
+    await expect(launcher).toBeVisible();
+    await launcher.scrollIntoViewIfNeeded();
+    await expect(launcher).toBeInViewport();
+    await page.screenshot({ path: info.outputPath(`feedback-available-${width}.png`), animations: 'disabled' });
+    await activateWithKeyboard(launcher);
+    const dialog = page.getByRole('dialog', { name: 'Help improve VertexED' });
+    await expect(dialog).toBeVisible();
+    const feedback = dialog.getByRole('textbox', { name: /^Your feedback \d+\/1500$/ });
+    await expect(feedback).toBeFocused();
+    await feedback.fill('Feedback stays available while I finish my answer.');
+    await page.screenshot({ path: info.outputPath(`feedback-open-${width}.png`), animations: 'disabled' });
+    expect(await page.evaluate(() => (window as any).__feedbackRecoveryDocument)).toBe(true);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width + 1);
+    await page.keyboard.press('Escape');
+    await expect(launcher).toBeFocused();
+    await expect(answer).toHaveValue(draft);
+    await expect(page).toHaveURL(/\/answer-reviewer$/);
+  });
+}
+
+test('notetaker loads its control labels and keyboard dialog behavior with the page', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.route(/^https?:\/\//, route => {
+    const hostname = new URL(route.request().url()).hostname;
+    return ['127.0.0.1', 'localhost'].includes(hostname) ? route.continue() : route.abort('blockedbyclient');
+  });
+  await installAccountHarness(page, true);
+  await page.route('**/api/note', route => route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({
+    result: 'Impulse is the change in momentum.',
+    flashcards: [{ front: 'What does impulse measure?', back: 'The change in momentum.' }],
+  }) }));
+  await page.goto('/notetaker');
+  await page.getByRole('textbox', { name: 'Topic or source material', exact: true }).fill('Impulse and momentum');
+  await activateWithKeyboard(page.getByRole('button', { name: 'Build notes', exact: true }));
+  await expect(page.getByRole('textbox', { name: 'Editable study notes', exact: true })).toHaveValue('Impulse is the change in momentum.');
+  const enlarge = page.getByRole('button', { name: 'Enlarge', exact: true });
+  await activateWithKeyboard(enlarge);
+  const dialog = page.getByRole('dialog', { name: 'Fullscreen flashcard study', exact: true });
+  await expect(dialog).toBeVisible();
+  await expect(dialog.getByRole('button', { name: 'Close Fullscreen flashcard study', exact: true })).toBeFocused();
+  await page.keyboard.press('Escape');
+  await expect(dialog).toHaveCount(0);
+  await expect(enlarge).toBeFocused();
+});
 
 for (const width of [1440, 1024, 390]) {
   test(`learning loop improvements at ${width}`, async ({ page }, info) => {
@@ -689,6 +892,31 @@ test('planner calendar import keeps errors actionable and primary actions visibl
   await page.screenshot({ path: info.outputPath('calendar-import-390-error.png'), animations: 'disabled' });
   await page.keyboard.press('Escape');
   await expect(page.getByRole('button', { name: 'Import calendar', exact: true })).toBeFocused();
+});
+
+test('keyboard activation waits for planner hydration before focusing New Task', async ({ page }) => {
+  const state = await installAccountHarness(page, true);
+  let releaseHydration!: () => void;
+  state.holdReads = new Promise<void>(resolve => { releaseHydration = resolve; });
+  let releaseTimer: ReturnType<typeof setTimeout> | undefined;
+  try {
+    await page.goto('/planner');
+    const newTask = page.getByRole('button', { name: 'New Task', exact: true });
+    await expect(newTask).toBeDisabled();
+    // Deliberately delay the fixture response until activation has started.
+    // A focus request made while disabled is ignored, even after loading ends.
+    releaseTimer = setTimeout(() => {
+      state.holdReads = null;
+      releaseHydration();
+    }, 750);
+    await activateWithKeyboard(newTask);
+    await expect(page.getByRole('dialog', { name: 'Add a study task' })).toBeVisible();
+    await expect(page.getByLabel('Task name', { exact: true })).toBeFocused();
+  } finally {
+    clearTimeout(releaseTimer);
+    state.holdReads = null;
+    releaseHydration();
+  }
 });
 
 test('planner calendar cancellation discards an in-flight file', async ({ page }) => {

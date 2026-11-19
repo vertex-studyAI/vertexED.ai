@@ -67,6 +67,16 @@ jobs:
 
   browser-local-accessibility:
     runs-on: ubuntu-24.04
+    # Official image supplies the matching browser engines and OS libraries.
+    container:
+      image: mcr.microsoft.com/playwright:v1.63.0-noble@sha256:eff16c30e6f3f4af0a03fa4b706120d5e9b0891c344a27d64559aff5900a4a27
+      options: --user 1001 --init --ipc=host
+    defaults:
+      run:
+        shell: bash
+    env:
+      PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
+      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
     timeout-minutes: 30
     needs: build-and-test
 
@@ -92,8 +102,22 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Install browser engines
-        run: npx playwright install --with-deps chromium firefox webkit
+      - name: Verify pinned browser engines
+        shell: bash
+        run: |
+          node --input-type=module <<'NODE'
+          import assert from 'node:assert/strict';
+          import { createRequire } from 'node:module';
+          import { chromium, firefox, webkit } from '@playwright/test';
+          const require = createRequire(import.meta.url);
+          assert.equal(require('@playwright/test/package.json').version, '1.63.0',
+            'Keep the Playwright package and container image versions identical.');
+          for (const engine of [chromium, firefox, webkit]) {
+            const browser = await engine.launch();
+            console.log(`${engine.name()} ${browser.version()} at ${engine.executablePath()}`);
+            await browser.close();
+          }
+          NODE
 
       - name: Build current branch
         run: npm run build:ci
@@ -190,6 +214,16 @@ jobs:
 
   browser-authenticated-golden:
     runs-on: ubuntu-24.04
+    # Official image supplies the matching browser engines and OS libraries.
+    container:
+      image: mcr.microsoft.com/playwright:v1.63.0-noble@sha256:eff16c30e6f3f4af0a03fa4b706120d5e9b0891c344a27d64559aff5900a4a27
+      options: --user 1001 --init --ipc=host
+    defaults:
+      run:
+        shell: bash
+    env:
+      PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
+      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
     timeout-minutes: 20
     needs: build-and-test
 
@@ -215,8 +249,22 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Install Chromium
-        run: npx playwright install --with-deps chromium
+      - name: Verify pinned Chromium
+        shell: bash
+        run: |
+          node --input-type=module <<'NODE'
+          import assert from 'node:assert/strict';
+          import { createRequire } from 'node:module';
+          import { chromium } from '@playwright/test';
+          const require = createRequire(import.meta.url);
+          assert.equal(require('@playwright/test/package.json').version, '1.63.0',
+            'Keep the Playwright package and container image versions identical.');
+          for (const engine of [chromium]) {
+            const browser = await engine.launch();
+            console.log(`${engine.name()} ${browser.version()} at ${engine.executablePath()}`);
+            await browser.close();
+          }
+          NODE
 
       - name: Run authenticated candidate journey
         run: npm run test:e2e:authenticated-golden
@@ -248,6 +296,16 @@ jobs:
 
   browser-release-features:
     runs-on: ubuntu-24.04
+    # Official image supplies the matching browser engines and OS libraries.
+    container:
+      image: mcr.microsoft.com/playwright:v1.63.0-noble@sha256:eff16c30e6f3f4af0a03fa4b706120d5e9b0891c344a27d64559aff5900a4a27
+      options: --user 1001 --init --ipc=host
+    defaults:
+      run:
+        shell: bash
+    env:
+      PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
+      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
     timeout-minutes: 30
     needs: build-and-test
     strategy:
@@ -276,8 +334,22 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Install Chromium
-        run: npx playwright install --with-deps chromium
+      - name: Verify pinned Chromium
+        shell: bash
+        run: |
+          node --input-type=module <<'NODE'
+          import assert from 'node:assert/strict';
+          import { createRequire } from 'node:module';
+          import { chromium } from '@playwright/test';
+          const require = createRequire(import.meta.url);
+          assert.equal(require('@playwright/test/package.json').version, '1.63.0',
+            'Keep the Playwright package and container image versions identical.');
+          for (const engine of [chromium]) {
+            const browser = await engine.launch();
+            console.log(`${engine.name()} ${browser.version()} at ${engine.executablePath()}`);
+            await browser.close();
+          }
+          NODE
 
       - name: Build reference bundle
         if: matrix.suite == 'reference' || matrix.suite == 'offline' || matrix.suite == 'ap'
@@ -472,3 +544,4 @@ jobs:
           path: ci-evidence
           if-no-files-found: ignore
           retention-days: 14
+

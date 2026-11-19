@@ -52,3 +52,6 @@ body:has(.learning-workspace, .learning-today) .feedback-launcher{position:stati
 body:has(.learning-rail-overlay){overflow:hidden}
 .learning-rail>.learning-heading{position:sticky;top:-24px;z-index:2;background:hsl(var(--card));margin:-24px -24px 16px;padding:16px 24px;border-bottom:1px solid hsl(var(--border))}
 @media(max-width:700px){.learning-rail>.learning-heading{top:-20px;margin:-20px -16px 16px;padding:16px}}
+
+/* Both workspace palettes use dark paper; match the native select chrome. */
+.learning-paper .learning-progress-range{color-scheme:dark}

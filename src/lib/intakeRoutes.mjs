@@ -3,4 +3,6 @@ export const PUBLIC_INTAKE_ROUTES = Object.freeze({
   privacyRequest: "https://tally.so/r/b5P4E1?utm_source=footer",
   security: "https://tally.so/r/A7ZbOe?utm_source=footer",
   schoolPilot: "https://tally.so/r/WOypkk?utm_source=footer",
+  mypStudent: "https://forms.gle/JbkVEATVf3f3X4yF9",
+  mypMentor: "https://forms.gle/gisd6w65hb6L7keu9",
 });

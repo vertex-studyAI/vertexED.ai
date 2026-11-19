@@ -13,6 +13,7 @@ export default defineConfig({
     'authenticated-student-golden.spec.ts',
     'auth-return.spec.ts',
     'mobile-navigation.spec.ts',
+    'myp-mentorship.spec.ts',
     'google-login-return.spec.ts',
     'coursework.spec.ts',
     'focus-session.spec.ts',

@@ -141,12 +141,12 @@ export async function buildContentCoverage() {
   });
   const configs = await boardSubjects(courses);
   const mandatoryGaps = [];
-  for (const programme of ['IB_DP', 'GCSE', 'IGCSE']) {
+  for (const programme of ['IB_DP', 'GCSE', 'IGCSE', 'CBSE']) {
     const subjects = new Set(configs[programme].subjects);
     if (programme === 'IB_DP') subjects.add('Computer Science'); // Explicit CUR-03 scope even though onboarding omits it.
     for (const subject of subjects) mandatoryGaps.push({ id: `${programme}:${slug(subject)}`, programme, subject,
       status: 'OPEN', syllabusVersion: null, examBoardSpecification: null,
-      levelsRequired: programme === 'IB_DP' ? ['HL', 'SL (course applicability to verify)'] : programme === 'IGCSE' ? ['Core', 'Extended (specification applicability to verify)'] : ['Foundation', 'Higher (specification applicability to verify)'],
+      levelsRequired: programme === 'IB_DP' ? ['HL', 'SL (course applicability to verify)'] : programme === 'IGCSE' ? ['Core', 'Extended (specification applicability to verify)'] : programme === 'CBSE' ? ['Class and subject-specific syllabus (applicability to verify)'] : ['Foundation', 'Higher (specification applicability to verify)'],
       coverage: 'no-complete-versioned-reviewed-course-map',
       preparedDrills: EXAM_DRILLS.filter((item) => item.programme.replaceAll(' ', '_') === programme &&
         (item.subject === subject || (item.subject === 'Mathematics' && subject.startsWith('Math ')))).map((item) => item.id),
@@ -174,7 +174,7 @@ export async function buildContentCoverage() {
   }
   for (const item of legacy.sections) rows.push({ ...legacyRow(item, `teaching-section:${item.file}:${item.name}`, item.name),
     authoredEntries: typeof item.value === 'string' ? 1 : Array.isArray(item.value) ? item.value.length : Object.values(item.value).reduce((sum, value) => sum + (Array.isArray(value) ? value.length : 1), 0) });
-  return { schemaVersion: 1, generatedBy: 'scripts/generate-content-coverage.mjs', snapshotDate: '2026-10-16',
+  return { schemaVersion: 1, generatedBy: 'scripts/generate-content-coverage.mjs', snapshotDate: '2026-11-11',
     evidenceBoundary: 'Authored inventory and partial machine validation, not approval or full syllabus coverage. Null values remain unknown. Review records are never inferred from tests or source claims.',
     gates: ['CUR-01', 'CUR-02', 'CUR-03', 'CUR-04', 'CUR-05', 'CUR-06', 'CUR-07', 'CUR-08', 'PUB-02'],
     implementationProvenance: { relatedOpenPullRequest: 'https://github.com/vertex-studyAI/vertexED.ai/pull/1069', inspected: '2026-10-16',
@@ -198,8 +198,11 @@ export async function buildContentCoverage() {
       { url: 'https://www.cambridgeinternational.org/programmes-and-qualifications/cambridge-upper-secondary/cambridge-igcse/curriculum/', inspected: '2026-10-16', result: 'official-subject-directory-accessed', limitation: 'Individual course specifications and assessment years remain unresolved.' },
       { url: 'https://www.ibo.org/programmes/middle-years-programme/curriculum/', inspected: '2026-10-16', result: 'fetch-blocked-403' },
       { url: 'https://www.ibo.org/programmes/diploma-programme/curriculum/mathematics/', inspected: '2026-10-16', result: 'fetch-blocked-403' },
+      { url: 'https://www.ibo.org/globalassets/new-structure/university-admission/pdfs/subject-guides/physics-guide.pdf', inspected: '2026-11-11', result: 'first-assessment-2025-guide-accessed', limitation: 'Four original thermal/calorimetry drills and two formula references map to a subset of B.1; not all thermal topics, the full course, or subject approval.' },
+      { url: 'https://ibo.org/globalassets/new-structure/programmes/dp/pdfs/sl-economics-en.pdf', inspected: '2026-11-11', result: 'first-assessment-2022-SL-brief-accessed', limitation: 'Six original microeconomics drills relate to 2.7/2.8. The public overview does not establish exact question-level SL assessment requirements or full course coverage.' },
+      { url: 'https://ibo.org/globalassets/new-structure/programmes/dp/pdfs/hl-economics-en.pdf', inspected: '2026-11-11', result: 'first-assessment-2022-HL-brief-accessed', limitation: 'Confirms shared topic headings, not a complete HL course map. Numerical exercises are original extensions, not official exam questions or mark schemes.' },
     ],
-    optionalScope: { A_LEVELS: 'Optional under master checklist; no removal or completion decision inferred here.', CBSE: 'Offered by onboarding but not substituted for required curriculum scope.', ICSE: 'Offered by onboarding but not substituted for required curriculum scope.' },
+    optionalScope: { A_LEVELS: 'Optional under master checklist; no removal or completion decision inferred here.', ICSE: 'Offered by onboarding but not substituted for required curriculum scope.' },
     reviewPacket: { approvalRegister: 'contracts/content-publication-approvals.json', process: [
       'Use row IDs, source files and content hashes to review the exact prepared material.',
       'Confirm the specific course, level, specification year, exam component and rights; fill missing metadata.',

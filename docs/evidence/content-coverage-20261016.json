@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "generatedBy": "scripts/generate-content-coverage.mjs",
-  "snapshotDate": "2026-10-16",
+  "snapshotDate": "2026-11-11",
   "evidenceBoundary": "Authored inventory and partial machine validation, not approval or full syllabus coverage. Null values remain unknown. Review records are never inferred from tests or source claims.",
   "gates": [
     "CUR-01",
@@ -334,11 +334,11 @@
       "heldFromIndex": 245
     },
     "adaptiveQuestions": 35,
-    "formulaReferences": 30,
-    "examDrills": 25,
+    "formulaReferences": 32,
+    "examDrills": 35,
     "complexDefinitions": 5,
     "approvedStaticAssets": 0,
-    "mandatoryCourseGaps": 40,
+    "mandatoryCourseGaps": 50,
     "legacyEditorialArticles": 23,
     "archiveSamples": 21,
     "additionalTeachingModules": 5,
@@ -368,11 +368,28 @@
       "url": "https://www.ibo.org/programmes/diploma-programme/curriculum/mathematics/",
       "inspected": "2026-10-16",
       "result": "fetch-blocked-403"
+    },
+    {
+      "url": "https://www.ibo.org/globalassets/new-structure/university-admission/pdfs/subject-guides/physics-guide.pdf",
+      "inspected": "2026-11-11",
+      "result": "first-assessment-2025-guide-accessed",
+      "limitation": "Four original thermal/calorimetry drills and two formula references map to a subset of B.1; not all thermal topics, the full course, or subject approval."
+    },
+    {
+      "url": "https://ibo.org/globalassets/new-structure/programmes/dp/pdfs/sl-economics-en.pdf",
+      "inspected": "2026-11-11",
+      "result": "first-assessment-2022-SL-brief-accessed",
+      "limitation": "Six original microeconomics drills relate to 2.7/2.8. The public overview does not establish exact question-level SL assessment requirements or full course coverage."
+    },
+    {
+      "url": "https://ibo.org/globalassets/new-structure/programmes/dp/pdfs/hl-economics-en.pdf",
+      "inspected": "2026-11-11",
+      "result": "first-assessment-2022-HL-brief-accessed",
+      "limitation": "Confirms shared topic headings, not a complete HL course map. Numerical exercises are original extensions, not official exam questions or mark schemes."
     }
   ],
   "optionalScope": {
     "A_LEVELS": "Optional under master checklist; no removal or completion decision inferred here.",
-    "CBSE": "Offered by onboarding but not substituted for required curriculum scope.",
     "ICSE": "Offered by onboarding but not substituted for required curriculum scope."
   },
   "reviewPacket": {
@@ -1041,7 +1058,14 @@
         "SL (course applicability to verify)"
       ],
       "coverage": "no-complete-versioned-reviewed-course-map",
-      "preparedDrills": [],
+      "preparedDrills": [
+        "dp-econ-private-social",
+        "dp-econ-negative-production",
+        "dp-econ-positive-consumption",
+        "dp-econ-negative-consumption",
+        "dp-econ-carbon-policy",
+        "dp-econ-price-ceiling"
+      ],
       "generatedGuideTopics": [],
       "note": "Generic questions, formula references, AI prompt topics and a board label do not establish complete course or exam-component coverage."
     },
@@ -1159,7 +1183,11 @@
         "dp-physics-energy",
         "dp-physics-projectile",
         "dp-physics-momentum",
-        "dp-physics-circuit-power"
+        "dp-physics-circuit-power",
+        "dp-physics-thermal-energy",
+        "dp-physics-calorimetry-metal",
+        "dp-physics-calorimeter",
+        "dp-physics-latent-heat"
       ],
       "generatedGuideTopics": [],
       "note": "Generic questions, formula references, AI prompt topics and a board label do not establish complete course or exam-component coverage."
@@ -1577,6 +1605,158 @@
       "levelsRequired": [
         "Core",
         "Extended (specification applicability to verify)"
+      ],
+      "coverage": "no-complete-versioned-reviewed-course-map",
+      "preparedDrills": [],
+      "generatedGuideTopics": [],
+      "note": "Generic questions, formula references, AI prompt topics and a board label do not establish complete course or exam-component coverage."
+    },
+    {
+      "id": "CBSE:mathematics",
+      "programme": "CBSE",
+      "subject": "Mathematics",
+      "status": "OPEN",
+      "syllabusVersion": null,
+      "examBoardSpecification": null,
+      "levelsRequired": [
+        "Class and subject-specific syllabus (applicability to verify)"
+      ],
+      "coverage": "no-complete-versioned-reviewed-course-map",
+      "preparedDrills": [],
+      "generatedGuideTopics": [
+        "cbse-ncert-math"
+      ],
+      "note": "Generic questions, formula references, AI prompt topics and a board label do not establish complete course or exam-component coverage."
+    },
+    {
+      "id": "CBSE:physics",
+      "programme": "CBSE",
+      "subject": "Physics",
+      "status": "OPEN",
+      "syllabusVersion": null,
+      "examBoardSpecification": null,
+      "levelsRequired": [
+        "Class and subject-specific syllabus (applicability to verify)"
+      ],
+      "coverage": "no-complete-versioned-reviewed-course-map",
+      "preparedDrills": [],
+      "generatedGuideTopics": [],
+      "note": "Generic questions, formula references, AI prompt topics and a board label do not establish complete course or exam-component coverage."
+    },
+    {
+      "id": "CBSE:chemistry",
+      "programme": "CBSE",
+      "subject": "Chemistry",
+      "status": "OPEN",
+      "syllabusVersion": null,
+      "examBoardSpecification": null,
+      "levelsRequired": [
+        "Class and subject-specific syllabus (applicability to verify)"
+      ],
+      "coverage": "no-complete-versioned-reviewed-course-map",
+      "preparedDrills": [],
+      "generatedGuideTopics": [],
+      "note": "Generic questions, formula references, AI prompt topics and a board label do not establish complete course or exam-component coverage."
+    },
+    {
+      "id": "CBSE:biology",
+      "programme": "CBSE",
+      "subject": "Biology",
+      "status": "OPEN",
+      "syllabusVersion": null,
+      "examBoardSpecification": null,
+      "levelsRequired": [
+        "Class and subject-specific syllabus (applicability to verify)"
+      ],
+      "coverage": "no-complete-versioned-reviewed-course-map",
+      "preparedDrills": [],
+      "generatedGuideTopics": [],
+      "note": "Generic questions, formula references, AI prompt topics and a board label do not establish complete course or exam-component coverage."
+    },
+    {
+      "id": "CBSE:english",
+      "programme": "CBSE",
+      "subject": "English",
+      "status": "OPEN",
+      "syllabusVersion": null,
+      "examBoardSpecification": null,
+      "levelsRequired": [
+        "Class and subject-specific syllabus (applicability to verify)"
+      ],
+      "coverage": "no-complete-versioned-reviewed-course-map",
+      "preparedDrills": [],
+      "generatedGuideTopics": [],
+      "note": "Generic questions, formula references, AI prompt topics and a board label do not establish complete course or exam-component coverage."
+    },
+    {
+      "id": "CBSE:hindi",
+      "programme": "CBSE",
+      "subject": "Hindi",
+      "status": "OPEN",
+      "syllabusVersion": null,
+      "examBoardSpecification": null,
+      "levelsRequired": [
+        "Class and subject-specific syllabus (applicability to verify)"
+      ],
+      "coverage": "no-complete-versioned-reviewed-course-map",
+      "preparedDrills": [],
+      "generatedGuideTopics": [],
+      "note": "Generic questions, formula references, AI prompt topics and a board label do not establish complete course or exam-component coverage."
+    },
+    {
+      "id": "CBSE:social-science",
+      "programme": "CBSE",
+      "subject": "Social Science",
+      "status": "OPEN",
+      "syllabusVersion": null,
+      "examBoardSpecification": null,
+      "levelsRequired": [
+        "Class and subject-specific syllabus (applicability to verify)"
+      ],
+      "coverage": "no-complete-versioned-reviewed-course-map",
+      "preparedDrills": [],
+      "generatedGuideTopics": [],
+      "note": "Generic questions, formula references, AI prompt topics and a board label do not establish complete course or exam-component coverage."
+    },
+    {
+      "id": "CBSE:computer-science",
+      "programme": "CBSE",
+      "subject": "Computer Science",
+      "status": "OPEN",
+      "syllabusVersion": null,
+      "examBoardSpecification": null,
+      "levelsRequired": [
+        "Class and subject-specific syllabus (applicability to verify)"
+      ],
+      "coverage": "no-complete-versioned-reviewed-course-map",
+      "preparedDrills": [],
+      "generatedGuideTopics": [],
+      "note": "Generic questions, formula references, AI prompt topics and a board label do not establish complete course or exam-component coverage."
+    },
+    {
+      "id": "CBSE:economics",
+      "programme": "CBSE",
+      "subject": "Economics",
+      "status": "OPEN",
+      "syllabusVersion": null,
+      "examBoardSpecification": null,
+      "levelsRequired": [
+        "Class and subject-specific syllabus (applicability to verify)"
+      ],
+      "coverage": "no-complete-versioned-reviewed-course-map",
+      "preparedDrills": [],
+      "generatedGuideTopics": [],
+      "note": "Generic questions, formula references, AI prompt topics and a board label do not establish complete course or exam-component coverage."
+    },
+    {
+      "id": "CBSE:accountancy",
+      "programme": "CBSE",
+      "subject": "Accountancy",
+      "status": "OPEN",
+      "syllabusVersion": null,
+      "examBoardSpecification": null,
+      "levelsRequired": [
+        "Class and subject-specific syllabus (applicability to verify)"
       ],
       "coverage": "no-complete-versioned-reviewed-course-map",
       "preparedDrills": [],
@@ -38171,6 +38351,96 @@
       "deliveryAsset": "module:/src/content/formulaReference.ts#waves"
     },
     {
+      "id": "formula:specific-heat",
+      "programme": "SHARED_ORIGINAL",
+      "subject": "physics",
+      "unit": null,
+      "topic": "Specific heat capacity",
+      "syllabusVersion": null,
+      "level": null,
+      "courseVariant": null,
+      "examComponents": [],
+      "skills": [],
+      "prerequisites": [],
+      "contentTypes": [
+        "formula-reference",
+        "worked-example",
+        "practice"
+      ],
+      "difficulties": [],
+      "coverage": "partial-authored",
+      "reviewStatus": "unreviewed",
+      "publicationStatus": "held",
+      "sources": [
+        {
+          "label": "OpenStax: temperature change and heat capacity",
+          "url": "https://openstax.org/books/college-physics-2e/pages/14-2-temperature-change-and-heat-capacity"
+        }
+      ],
+      "rights": "original-authorship-claimed-review-pending",
+      "sourceFile": "src/content/formulaReference.ts",
+      "deliveryRoute": "/study-tools",
+      "contentVersion": "sha256:8ec1a3087431cf6d447743619af5e11f8c966bfa1f6d65032c366d26102ed289",
+      "answerVersion": "sha256:e20d7c62f0c032209e176eb0bdc43e25852dfde10b63f5bc8597d8a64e8da6e2",
+      "validation": {
+        "structural": "tests/formula-reference.test.mjs",
+        "objectiveKeys": "tests/formula-reference.test.mjs (bounded checks)",
+        "subjectReview": "not-run"
+      },
+      "gaps": [
+        "independent-subject-review",
+        "rights-and-attribution-review",
+        "complete-syllabus-topic-and-component-mapping"
+      ],
+      "questionCount": 1,
+      "deliveryAsset": "module:/src/content/formulaReference.ts#specific-heat"
+    },
+    {
+      "id": "formula:latent-heat",
+      "programme": "SHARED_ORIGINAL",
+      "subject": "physics",
+      "unit": null,
+      "topic": "Specific latent heat",
+      "syllabusVersion": null,
+      "level": null,
+      "courseVariant": null,
+      "examComponents": [],
+      "skills": [],
+      "prerequisites": [],
+      "contentTypes": [
+        "formula-reference",
+        "worked-example",
+        "practice"
+      ],
+      "difficulties": [],
+      "coverage": "partial-authored",
+      "reviewStatus": "unreviewed",
+      "publicationStatus": "held",
+      "sources": [
+        {
+          "label": "OpenStax: phase change and latent heat",
+          "url": "https://openstax.org/books/college-physics-2e/pages/14-3-phase-change-and-latent-heat"
+        }
+      ],
+      "rights": "original-authorship-claimed-review-pending",
+      "sourceFile": "src/content/formulaReference.ts",
+      "deliveryRoute": "/study-tools",
+      "contentVersion": "sha256:c0f5e22d4b3cdf670b7914d018e83135817b8811d56569f21b5e33b3803126bb",
+      "answerVersion": "sha256:62154c9482d06b2da6c7f4a738854dec4cb9cea6781efd8b3dbfefccaca192c3",
+      "validation": {
+        "structural": "tests/formula-reference.test.mjs",
+        "objectiveKeys": "tests/formula-reference.test.mjs (bounded checks)",
+        "subjectReview": "not-run"
+      },
+      "gaps": [
+        "independent-subject-review",
+        "rights-and-attribution-review",
+        "complete-syllabus-topic-and-component-mapping"
+      ],
+      "questionCount": 1,
+      "deliveryAsset": "module:/src/content/formulaReference.ts#latent-heat"
+    },
+    {
       "id": "formula:moles",
       "programme": "SHARED_ORIGINAL",
       "subject": "chemistry",
@@ -40029,6 +40299,446 @@
       ],
       "questionCount": 1,
       "deliveryAsset": "module:/src/content/examPractice.ts#dp-cs-stack-queue"
+    },
+    {
+      "id": "exam-drill:dp-econ-private-social",
+      "programme": "IB_DP",
+      "subject": "Economics",
+      "unit": null,
+      "topic": "Externalities",
+      "syllabusVersion": null,
+      "level": null,
+      "courseVariant": null,
+      "examComponents": [],
+      "skills": [],
+      "prerequisites": [],
+      "contentTypes": [
+        "exam-practice",
+        "marking-checklist",
+        "transfer-prompt"
+      ],
+      "difficulties": [
+        "foundation"
+      ],
+      "coverage": "partial-authored",
+      "reviewStatus": "unreviewed",
+      "publicationStatus": "held",
+      "sources": [
+        "https://ibo.org/globalassets/new-structure/programmes/dp/pdfs/sl-economics-en.pdf"
+      ],
+      "rights": "original-authorship-claimed-review-pending",
+      "sourceFile": "src/content/examPractice.ts",
+      "deliveryRoute": "/exam-prep",
+      "contentVersion": "sha256:f9ad3bfb57f25d9b860a8c7b7523448f6eed73aeefbdd9f006edf37ebc8eab0d",
+      "answerVersion": "sha256:a2033adb0f6b516c0c9cb148ed2034358906b9382e50b1da074ded3db6144910",
+      "validation": {
+        "structural": "tests/exam-practice-content.test.mjs",
+        "objectiveKeys": "not-independently-validated-in-this-pass",
+        "subjectReview": "not-run"
+      },
+      "gaps": [
+        "independent-subject-review",
+        "rights-and-attribution-review",
+        "complete-syllabus-topic-and-component-mapping"
+      ],
+      "questionCount": 1,
+      "deliveryAsset": "module:/src/content/examPractice.ts#dp-econ-private-social"
+    },
+    {
+      "id": "exam-drill:dp-econ-negative-production",
+      "programme": "IB_DP",
+      "subject": "Economics",
+      "unit": null,
+      "topic": "Negative production externalities",
+      "syllabusVersion": null,
+      "level": null,
+      "courseVariant": null,
+      "examComponents": [],
+      "skills": [],
+      "prerequisites": [],
+      "contentTypes": [
+        "exam-practice",
+        "marking-checklist",
+        "transfer-prompt"
+      ],
+      "difficulties": [
+        "extended"
+      ],
+      "coverage": "partial-authored",
+      "reviewStatus": "unreviewed",
+      "publicationStatus": "held",
+      "sources": [
+        "https://openstax.org/books/principles-economics-3e/pages/12-1-the-economics-of-pollution"
+      ],
+      "rights": "original-authorship-claimed-review-pending",
+      "sourceFile": "src/content/examPractice.ts",
+      "deliveryRoute": "/exam-prep",
+      "contentVersion": "sha256:c9c95acb38e25c4319ddbc14d062da04c1a425df9773d3215ebaa353b83bc263",
+      "answerVersion": "sha256:4d2b041d18e113821d225594dc1bde605b634ef43c5479a8775c62ef7317c3f4",
+      "validation": {
+        "structural": "tests/exam-practice-content.test.mjs",
+        "objectiveKeys": "not-independently-validated-in-this-pass",
+        "subjectReview": "not-run"
+      },
+      "gaps": [
+        "independent-subject-review",
+        "rights-and-attribution-review",
+        "complete-syllabus-topic-and-component-mapping"
+      ],
+      "questionCount": 1,
+      "deliveryAsset": "module:/src/content/examPractice.ts#dp-econ-negative-production"
+    },
+    {
+      "id": "exam-drill:dp-econ-positive-consumption",
+      "programme": "IB_DP",
+      "subject": "Economics",
+      "unit": null,
+      "topic": "Positive consumption externalities",
+      "syllabusVersion": null,
+      "level": null,
+      "courseVariant": null,
+      "examComponents": [],
+      "skills": [],
+      "prerequisites": [],
+      "contentTypes": [
+        "exam-practice",
+        "marking-checklist",
+        "transfer-prompt"
+      ],
+      "difficulties": [
+        "extended"
+      ],
+      "coverage": "partial-authored",
+      "reviewStatus": "unreviewed",
+      "publicationStatus": "held",
+      "sources": [
+        "https://ibo.org/globalassets/new-structure/programmes/dp/pdfs/hl-economics-en.pdf"
+      ],
+      "rights": "original-authorship-claimed-review-pending",
+      "sourceFile": "src/content/examPractice.ts",
+      "deliveryRoute": "/exam-prep",
+      "contentVersion": "sha256:7ff941e36f39511b4e5746dd0751e906d7f611cc57e638b94a68f7f50859c91b",
+      "answerVersion": "sha256:c233c8b3db8e791d2e179df584900cf2f4b70f2524cbc1d1896f00a01e1cfcdf",
+      "validation": {
+        "structural": "tests/exam-practice-content.test.mjs",
+        "objectiveKeys": "not-independently-validated-in-this-pass",
+        "subjectReview": "not-run"
+      },
+      "gaps": [
+        "independent-subject-review",
+        "rights-and-attribution-review",
+        "complete-syllabus-topic-and-component-mapping"
+      ],
+      "questionCount": 1,
+      "deliveryAsset": "module:/src/content/examPractice.ts#dp-econ-positive-consumption"
+    },
+    {
+      "id": "exam-drill:dp-econ-negative-consumption",
+      "programme": "IB_DP",
+      "subject": "Economics",
+      "unit": null,
+      "topic": "Negative consumption externalities",
+      "syllabusVersion": null,
+      "level": null,
+      "courseVariant": null,
+      "examComponents": [],
+      "skills": [],
+      "prerequisites": [],
+      "contentTypes": [
+        "exam-practice",
+        "marking-checklist",
+        "transfer-prompt"
+      ],
+      "difficulties": [
+        "application"
+      ],
+      "coverage": "partial-authored",
+      "reviewStatus": "unreviewed",
+      "publicationStatus": "held",
+      "sources": [
+        "https://ibo.org/globalassets/new-structure/programmes/dp/pdfs/sl-economics-en.pdf"
+      ],
+      "rights": "original-authorship-claimed-review-pending",
+      "sourceFile": "src/content/examPractice.ts",
+      "deliveryRoute": "/exam-prep",
+      "contentVersion": "sha256:87bc5fde0c7442decbf59776b7de8a6a7df57972478dd4d628a61640dd1a4372",
+      "answerVersion": "sha256:63d406827f98029aef6468daf62d46b541d23aea1afa16b07468bffca6c2a487",
+      "validation": {
+        "structural": "tests/exam-practice-content.test.mjs",
+        "objectiveKeys": "not-independently-validated-in-this-pass",
+        "subjectReview": "not-run"
+      },
+      "gaps": [
+        "independent-subject-review",
+        "rights-and-attribution-review",
+        "complete-syllabus-topic-and-component-mapping"
+      ],
+      "questionCount": 1,
+      "deliveryAsset": "module:/src/content/examPractice.ts#dp-econ-negative-consumption"
+    },
+    {
+      "id": "exam-drill:dp-econ-carbon-policy",
+      "programme": "IB_DP",
+      "subject": "Economics",
+      "unit": null,
+      "topic": "Environmental policy",
+      "syllabusVersion": null,
+      "level": null,
+      "courseVariant": null,
+      "examComponents": [],
+      "skills": [],
+      "prerequisites": [],
+      "contentTypes": [
+        "exam-practice",
+        "marking-checklist",
+        "transfer-prompt"
+      ],
+      "difficulties": [
+        "application"
+      ],
+      "coverage": "partial-authored",
+      "reviewStatus": "unreviewed",
+      "publicationStatus": "held",
+      "sources": [
+        "https://openstax.org/books/principles-economics-3e/pages/12-3-market-oriented-environmental-tools"
+      ],
+      "rights": "original-authorship-claimed-review-pending",
+      "sourceFile": "src/content/examPractice.ts",
+      "deliveryRoute": "/exam-prep",
+      "contentVersion": "sha256:6ae031e2ef889607cdf031f8d73c859211725033ddb92b0b8d774c9f868b8002",
+      "answerVersion": "sha256:79f8e6585367cd8ff049a5b34311330cb1795d6b7cd36688541594ed668da978",
+      "validation": {
+        "structural": "tests/exam-practice-content.test.mjs",
+        "objectiveKeys": "not-independently-validated-in-this-pass",
+        "subjectReview": "not-run"
+      },
+      "gaps": [
+        "independent-subject-review",
+        "rights-and-attribution-review",
+        "complete-syllabus-topic-and-component-mapping"
+      ],
+      "questionCount": 1,
+      "deliveryAsset": "module:/src/content/examPractice.ts#dp-econ-carbon-policy"
+    },
+    {
+      "id": "exam-drill:dp-econ-price-ceiling",
+      "programme": "IB_DP",
+      "subject": "Economics",
+      "unit": null,
+      "topic": "Price controls",
+      "syllabusVersion": null,
+      "level": null,
+      "courseVariant": null,
+      "examComponents": [],
+      "skills": [],
+      "prerequisites": [],
+      "contentTypes": [
+        "exam-practice",
+        "marking-checklist",
+        "transfer-prompt"
+      ],
+      "difficulties": [
+        "application"
+      ],
+      "coverage": "partial-authored",
+      "reviewStatus": "unreviewed",
+      "publicationStatus": "held",
+      "sources": [
+        "https://openstax.org/books/principles-economics-3e/pages/3-4-price-ceilings-and-price-floors"
+      ],
+      "rights": "original-authorship-claimed-review-pending",
+      "sourceFile": "src/content/examPractice.ts",
+      "deliveryRoute": "/exam-prep",
+      "contentVersion": "sha256:30ea0dff3bd0b11287196c5ff922d4d9ef95c0f077b41f4102cab24c2880aec1",
+      "answerVersion": "sha256:73a9ac249058bea5176cbed2cb180e32ce01878f1a1f544c25bc2daed577091b",
+      "validation": {
+        "structural": "tests/exam-practice-content.test.mjs",
+        "objectiveKeys": "not-independently-validated-in-this-pass",
+        "subjectReview": "not-run"
+      },
+      "gaps": [
+        "independent-subject-review",
+        "rights-and-attribution-review",
+        "complete-syllabus-topic-and-component-mapping"
+      ],
+      "questionCount": 1,
+      "deliveryAsset": "module:/src/content/examPractice.ts#dp-econ-price-ceiling"
+    },
+    {
+      "id": "exam-drill:dp-physics-thermal-energy",
+      "programme": "IB_DP",
+      "subject": "Physics",
+      "unit": null,
+      "topic": "Thermal energy transfers",
+      "syllabusVersion": null,
+      "level": null,
+      "courseVariant": null,
+      "examComponents": [],
+      "skills": [],
+      "prerequisites": [],
+      "contentTypes": [
+        "exam-practice",
+        "marking-checklist",
+        "transfer-prompt"
+      ],
+      "difficulties": [
+        "foundation"
+      ],
+      "coverage": "partial-authored",
+      "reviewStatus": "unreviewed",
+      "publicationStatus": "held",
+      "sources": [
+        "https://openstax.org/books/college-physics-2e/pages/14-2-temperature-change-and-heat-capacity"
+      ],
+      "rights": "original-authorship-claimed-review-pending",
+      "sourceFile": "src/content/examPractice.ts",
+      "deliveryRoute": "/exam-prep",
+      "contentVersion": "sha256:2bf9f33f6ce26175ebc10ac9562c352fa897bf483d2bf9ed31bb77b5dc8e5598",
+      "answerVersion": "sha256:8a7e6675d832170e7657f2bfbf51d048b7e84ec38d9b870cc5fbd29bf0af82ed",
+      "validation": {
+        "structural": "tests/exam-practice-content.test.mjs",
+        "objectiveKeys": "not-independently-validated-in-this-pass",
+        "subjectReview": "not-run"
+      },
+      "gaps": [
+        "independent-subject-review",
+        "rights-and-attribution-review",
+        "complete-syllabus-topic-and-component-mapping"
+      ],
+      "questionCount": 1,
+      "deliveryAsset": "module:/src/content/examPractice.ts#dp-physics-thermal-energy"
+    },
+    {
+      "id": "exam-drill:dp-physics-calorimetry-metal",
+      "programme": "IB_DP",
+      "subject": "Physics",
+      "unit": null,
+      "topic": "Calorimetry",
+      "syllabusVersion": null,
+      "level": null,
+      "courseVariant": null,
+      "examComponents": [],
+      "skills": [],
+      "prerequisites": [],
+      "contentTypes": [
+        "exam-practice",
+        "marking-checklist",
+        "transfer-prompt"
+      ],
+      "difficulties": [
+        "application"
+      ],
+      "coverage": "partial-authored",
+      "reviewStatus": "unreviewed",
+      "publicationStatus": "held",
+      "sources": [
+        "https://openstax.org/books/college-physics-2e/pages/14-2-temperature-change-and-heat-capacity"
+      ],
+      "rights": "original-authorship-claimed-review-pending",
+      "sourceFile": "src/content/examPractice.ts",
+      "deliveryRoute": "/exam-prep",
+      "contentVersion": "sha256:a23686e7b57aab53fe6c00fc9350c2709b9f8d0855e86907e97ec24d9ceb84a6",
+      "answerVersion": "sha256:80129ede006c467fbc460c4cf22874590de57908a96b0d79410be954e190f76e",
+      "validation": {
+        "structural": "tests/exam-practice-content.test.mjs",
+        "objectiveKeys": "not-independently-validated-in-this-pass",
+        "subjectReview": "not-run"
+      },
+      "gaps": [
+        "independent-subject-review",
+        "rights-and-attribution-review",
+        "complete-syllabus-topic-and-component-mapping"
+      ],
+      "questionCount": 1,
+      "deliveryAsset": "module:/src/content/examPractice.ts#dp-physics-calorimetry-metal"
+    },
+    {
+      "id": "exam-drill:dp-physics-calorimeter",
+      "programme": "IB_DP",
+      "subject": "Physics",
+      "unit": null,
+      "topic": "Calorimetry",
+      "syllabusVersion": null,
+      "level": null,
+      "courseVariant": null,
+      "examComponents": [],
+      "skills": [],
+      "prerequisites": [],
+      "contentTypes": [
+        "exam-practice",
+        "marking-checklist",
+        "transfer-prompt"
+      ],
+      "difficulties": [
+        "application"
+      ],
+      "coverage": "partial-authored",
+      "reviewStatus": "unreviewed",
+      "publicationStatus": "held",
+      "sources": [
+        "https://openstax.org/books/college-physics-2e/pages/14-2-temperature-change-and-heat-capacity"
+      ],
+      "rights": "original-authorship-claimed-review-pending",
+      "sourceFile": "src/content/examPractice.ts",
+      "deliveryRoute": "/exam-prep",
+      "contentVersion": "sha256:1118151e851c263546bd4b61fe5e37e1245e26025b0b5fb2aee5ad743a0d59c4",
+      "answerVersion": "sha256:6ed948b9856e257025a2810087328fcba48d41e100a0cb145673de95bb65e428",
+      "validation": {
+        "structural": "tests/exam-practice-content.test.mjs",
+        "objectiveKeys": "not-independently-validated-in-this-pass",
+        "subjectReview": "not-run"
+      },
+      "gaps": [
+        "independent-subject-review",
+        "rights-and-attribution-review",
+        "complete-syllabus-topic-and-component-mapping"
+      ],
+      "questionCount": 1,
+      "deliveryAsset": "module:/src/content/examPractice.ts#dp-physics-calorimeter"
+    },
+    {
+      "id": "exam-drill:dp-physics-latent-heat",
+      "programme": "IB_DP",
+      "subject": "Physics",
+      "unit": null,
+      "topic": "Phase change and latent heat",
+      "syllabusVersion": null,
+      "level": null,
+      "courseVariant": null,
+      "examComponents": [],
+      "skills": [],
+      "prerequisites": [],
+      "contentTypes": [
+        "exam-practice",
+        "marking-checklist",
+        "transfer-prompt"
+      ],
+      "difficulties": [
+        "application"
+      ],
+      "coverage": "partial-authored",
+      "reviewStatus": "unreviewed",
+      "publicationStatus": "held",
+      "sources": [
+        "https://openstax.org/books/college-physics-2e/pages/14-3-phase-change-and-latent-heat"
+      ],
+      "rights": "original-authorship-claimed-review-pending",
+      "sourceFile": "src/content/examPractice.ts",
+      "deliveryRoute": "/exam-prep",
+      "contentVersion": "sha256:a7ee65ea0c898c175dc2af112f1b099f65e5d397dc358668882ddee215d14b27",
+      "answerVersion": "sha256:93b71d713aa30b4431cdf516772a4e00244f262431f201def28b961f12426d92",
+      "validation": {
+        "structural": "tests/exam-practice-content.test.mjs",
+        "objectiveKeys": "not-independently-validated-in-this-pass",
+        "subjectReview": "not-run"
+      },
+      "gaps": [
+        "independent-subject-review",
+        "rights-and-attribution-review",
+        "complete-syllabus-topic-and-component-mapping"
+      ],
+      "questionCount": 1,
+      "deliveryAsset": "module:/src/content/examPractice.ts#dp-physics-latent-heat"
     },
     {
       "id": "myp:biology:command-terms",

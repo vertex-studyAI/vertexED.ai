@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { EventEmitter } from 'node:events';
 import { dispatchRoute, ROUTES } from '../api/_lib/routes.js';
 import { fetchPaidProviderResponse, readAccountAiUsage, readAiUsage } from '../api/_lib/aiUsage.js';
+import { AI_USAGE_POLICY } from '../api/_lib/aiUsagePolicy.js';
 import { createMocks } from './helpers/mock-http.mjs';
 import { AI_USER, AI_NOW } from './helpers/ai-usage-fixture.mjs';
 
@@ -85,7 +86,7 @@ test('complete owner export includes scoped audit rows and summary; missing ledg
   });
 });
 test('pricing expiry disables allowance claims but preserves read-only account export snapshot', async () => {
-  const expired = Date.parse('2026-10-24T12:00:00Z'); let calls = 0;
+  const expired = Date.parse(AI_USAGE_POLICY.expiresAt) + 12 * 60 * 60 * 1000; let calls = 0;
   const rpc = async () => { calls++; return snapshot; };
   await assert.rejects(readAiUsage(AI_USER, rpc, expired), { code: 'AI_USAGE_UNAVAILABLE' }); assert.equal(calls, 0);
   const result = await readAccountAiUsage(AI_USER, rpc, expired);

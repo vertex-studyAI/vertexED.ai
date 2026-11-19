@@ -23,7 +23,7 @@ export default function MYPHub() {
         <p className="myp-kicker">VertexED curriculum / IB MYP Year 5</p>
         <h1>Every subject.<br /><em>A stronger place to start.</em></h1>
         <p>{MYP5_CONTENT_TOTALS.lessons ? `Explore ${MYP5_CONTENT_TOTALS.lessons} available learning modules and the wider course outline. Check the selected topics against your school’s current course plan.` : 'Detailed lessons and practice questions are awaiting subject review. The subject directory shows the planned scope; use your school’s approved materials for current study.'}</p>
-        <div className="myp-actions"><Link to="/myp/eassessment">Open eAssessment hub <ArrowRight aria-hidden /></Link><Link to="/resources">Browse learning library</Link><Link to="/signup">Start learning</Link></div>
+        <div className="myp-actions"><Link to="/myp/eassessment">Open eAssessment hub <ArrowRight aria-hidden /></Link><Link to="/myp/mentorship">Free MYP mentoring <ArrowRight aria-hidden /></Link><Link to="/resources">Browse learning library</Link><Link to="/signup">Start learning</Link></div>
       </header>
       <section className="myp-coverage" aria-labelledby="myp-coverage-title">
         <div><p className="myp-kicker">Current curriculum coverage</p><h2 id="myp-coverage-title">Depth is labelled, not implied.</h2><p>{MYP5_CONTENT_TOTALS.lessons ? 'Available modules contain original teaching, misconceptions, worked reasoning, practice tasks, success criteria and a retrieval sequence.' : 'No detailed modules or practice questions are available until subject review is complete.'} {MYP5_CONTENT_TOTALS.lessons === totalTopics ? "Every topic in this local map now has a detailed module." : "Other mapped topics remain clearly labelled outlines."}</p></div>

@@ -2,6 +2,10 @@ import path from 'node:path';
 import { MAX_AUDIO_BYTES } from './auth.js';
 
 const MAX_MULTIPART_OVERHEAD = 512 * 1024;
+// Base64 uses four wire bytes for every three audio bytes. Keep the decoded
+// audio allowance identical for JSON and multipart uploads.
+const MAX_BASE64_BYTES = 4 * Math.ceil(MAX_AUDIO_BYTES / 3);
+const MAX_JSON_BYTES = MAX_BASE64_BYTES + MAX_MULTIPART_OVERHEAD;
 const ALLOWED_MIME_TYPES = new Set([
   'audio/webm', 'video/webm', 'audio/mpeg', 'audio/mp4',
   'audio/wav', 'audio/x-wav', 'audio/ogg', 'audio/aac', 'audio/flac',
@@ -21,29 +25,68 @@ export class TranscriptionInputError extends Error {
 }
 
 async function readRawBody(req, maxBytes) {
-  if (Buffer.isBuffer(req.body)) return req.body;
-  if (req.body instanceof Uint8Array) return Buffer.from(req.body);
-  if (typeof req.body === 'string') return Buffer.from(req.body, 'utf8');
+  const body = req?.body;
+  if (body instanceof Uint8Array || typeof body === 'string') {
+    const size = typeof body === 'string' ? Buffer.byteLength(body, 'utf8') : body.byteLength;
+    if (size > maxBytes) throw new TranscriptionInputError('Audio upload too large (max 15 MB).', 413);
+    return Buffer.from(body);
+  }
   if (!req || typeof req.on !== 'function') {
     throw new TranscriptionInputError('Request body is unavailable.');
   }
 
-  const chunks = [];
-  let total = 0;
-  await new Promise((resolve, reject) => {
-    req.on('data', (chunk) => {
-      const buffer = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk);
-      total += buffer.length;
-      if (total > maxBytes) {
-        reject(new TranscriptionInputError('Audio upload too large (max 15 MB).', 413));
-        return;
+  return new Promise((resolve, reject) => {
+    const chunks = [];
+    let total = 0, settled = false;
+    const unavailable = () => new TranscriptionInputError('Request body is unavailable.');
+    const cleanup = () => {
+      req.removeListener('data', onData);
+      req.removeListener('end', onEnd);
+      req.removeListener('error', onError);
+      req.removeListener('aborted', onAborted);
+      req.removeListener('close', onClose);
+    };
+    const finish = (error) => {
+      if (settled) return;
+      settled = true;
+      req.removeListener('data', onData);
+      req.removeListener('end', onEnd);
+      req.removeListener('aborted', onAborted);
+      if (error) {
+        req.pause?.();
+        // IncomingMessage can emit error after aborted. Retain only lifecycle
+        // handlers until close so that a disconnect cannot become unhandled.
+        if (req.closed) cleanup();
+        reject(error);
+      } else {
+        cleanup();
+        resolve(Buffer.concat(chunks, total));
       }
-      chunks.push(buffer);
-    });
-    req.on('end', resolve);
-    req.on('error', reject);
+      chunks.length = 0;
+    };
+    const onData = (chunk) => {
+      try {
+        const size = typeof chunk === 'string' ? Buffer.byteLength(chunk, 'utf8') : chunk.byteLength;
+        total += size;
+        if (total > maxBytes) {
+          finish(new TranscriptionInputError('Audio upload too large (max 15 MB).', 413));
+          return;
+        }
+        // Own each chunk: stream producers may reuse their backing buffer.
+        chunks.push(Buffer.from(chunk));
+      } catch { finish(unavailable()); }
+    };
+    const onEnd = () => finish();
+    const onError = () => finish(unavailable());
+    const onAborted = () => finish(unavailable());
+    const onClose = () => { finish(unavailable()); cleanup(); };
+    req.on('error', onError);
+    req.on('end', onEnd);
+    req.on('aborted', onAborted);
+    req.on('close', onClose);
+    req.on('data', onData);
+    if (req.aborted || req.destroyed || req.readableEnded) finish(unavailable());
   });
-  return Buffer.concat(chunks);
 }
 
 function exactBoolean(value) {
@@ -78,6 +121,9 @@ function normalizeMimeType(value, filename) {
 }
 
 function parseBase64(value) {
+  if (typeof value === 'string' && value.length > MAX_BASE64_BYTES) {
+    throw new TranscriptionInputError('Audio file too large (max 15 MB).', 413);
+  }
   if (typeof value !== 'string' || !value || value.length % 4 !== 0 || !/^[A-Za-z0-9+/]+={0,2}$/.test(value)) {
     throw new TranscriptionInputError('audioBase64 must be valid base64.');
   }
@@ -121,13 +167,15 @@ function assertAudioSize(audioBuffer) {
 
 export async function parseTranscriptionRequest(req) {
   const contentType = String(req.headers?.['content-type'] || '').toLowerCase();
+  const multipart = contentType.startsWith('multipart/form-data');
+  const maxBytes = multipart ? MAX_AUDIO_BYTES + MAX_MULTIPART_OVERHEAD : MAX_JSON_BYTES;
   const contentLength = Number(req.headers?.['content-length'] || 0);
-  if (Number.isFinite(contentLength) && contentLength > MAX_AUDIO_BYTES + MAX_MULTIPART_OVERHEAD) {
+  if (Number.isFinite(contentLength) && contentLength > maxBytes) {
     throw new TranscriptionInputError('Audio upload too large (max 15 MB).', 413);
   }
 
-  if (contentType.startsWith('multipart/form-data')) {
-    const raw = await readRawBody(req, MAX_AUDIO_BYTES + MAX_MULTIPART_OVERHEAD);
+  if (multipart) {
+    const raw = await readRawBody(req, maxBytes);
     let form;
     try {
       form = await new Request('http://localhost/upload', {
@@ -158,13 +206,16 @@ export async function parseTranscriptionRequest(req) {
   }
 
   let body = req.body;
-  if (!body || typeof body !== 'object' || Buffer.isBuffer(body)) {
-    const raw = await readRawBody(req, MAX_AUDIO_BYTES + MAX_MULTIPART_OVERHEAD);
+  if (!body || typeof body !== 'object' || body instanceof Uint8Array) {
+    const raw = await readRawBody(req, maxBytes);
     try {
       body = JSON.parse(raw.toString('utf8'));
     } catch {
       throw new TranscriptionInputError('Malformed JSON request body.');
     }
+  }
+  if (!body || typeof body !== 'object' || Array.isArray(body)) {
+    throw new TranscriptionInputError('Malformed JSON request body.');
   }
   const audioBuffer = parseBase64(body.audioBase64);
   assertAudioSize(audioBuffer);
