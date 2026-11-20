@@ -18,6 +18,8 @@ export async function requestAiConsent(signal?: AbortSignal | null): Promise<boo
   if (aiConsentEnabled()) return true;
   const scope = getUserContentStorageScope();
   const waitForRequest = (promise: Promise<boolean>) => new Promise<boolean>(resolve => {
+    // The synchronous dialog event can cancel this request before we subscribe.
+    if (signal?.aborted) { resolve(false); return; }
     const abort = () => resolve(false);
     signal?.addEventListener('abort', abort, { once: true });
     promise.then(resolve).finally(() => signal?.removeEventListener('abort', abort));
